@@ -11,7 +11,7 @@ namespace aDVanceERP.Actualizador {
         static IServicioActualizacion? _updateService;        
 
         const string PropietarioRepositorio = "cdavisong";
-        const string NombreRepositorio = "aDVance-ERP";
+        const string NombreRepositorio = "aDVanceERP";
 
         static void ShowUpdateDialog(InfoActualizacion updateInfo) {
             ApplicationConfiguration.Initialize();
