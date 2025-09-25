@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aDVanceERP.Core.Seguridad\aDVanceERP.Core.Seguridad.csproj" />
+    <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Vistas\Menu\VistaMenuTaller.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\OrdenProduccion\VistaRegistroOrdenProduccion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\OrdenProduccion\VistaTuplaOrdenActividadProduccion.cs" />
+    <Compile Update="Vistas\OrdenProduccion\VistaTuplaOrdenGastoIndirecto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\OrdenProduccion\VistaTuplaOrdenMateriaPrima.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+</Project>

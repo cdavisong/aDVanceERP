@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema 
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="formatoBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="fieldIcono.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAcNJREFUOE/V
+        VMtqFUEQHRfGrSIBX9w70/WcjAHh4koUuf+SD0gQ3biIOz9E3dxPCDGguEogZJFlSPIdQa6cnmnsHvIg
+        Oy04UH2q6sxUd1dX1X9lrcgbV/5kyp+BVui9qj5NcfjgUhy5a9q8LlUGQ8CFLpxp14V2Bhy50OlsNrvb
+        dd2KM50NXB9X+o4aM3o11qtM6KMJ/ci5tp0+dqGlWWOqtcPv6vpRkSP0E7U5F82Vt11oL/pCS5ewYOZV
+        +GvMHQC/58IC/pC7h9qx3kgwLFx560pB5S3kXC8o9M6FjlU1JJjRPLYZwqRtmmnfPs1TnJkJNfjAWC+e
+        oAud9+0W+JZy4F8SPzezJ6XaYDjJ/A+Z+VlVVXfyHHB5DmryeGEItkTPnWgGmFmTYsx8L+0lrhE4CGKN
+        fS2EhuAVLfNXxNOhRHhdg3Om/bi+7lDc/eH6ZPIAwIVFAQ7l9oI3XBu0CaEIpl+YGrPpHOsXdX1/rHfj
+        xS5y+xFcqoaXOV8YxgdjlHPl6GmILTLt488g5hy+RE5pI6+LNjwOv03CoSsdRAidpMfh1nsIw/PVcvjw
+        F7w53EVcG4zcNpD2DH8WOea3Y61/1/4A0bLISuDWxkkAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnCerrar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAJ1JREFUOE/l
+        lEEKwjAQRR+0RW9Wz1Vd9Bq6tWs9nvJhBoYhpka761uFzs8jmaGB3XMCZmDIhQLKKDvmQuQCvID7ilS1
+        xbLnXIx0wM2CD+CYA/btaZmr7alSkzbLnJL0Z5kT+6SexnWfw98SpX/LRLxmqadNbHplnUKnkUDD0QDy
+        oA550ydKMqdZWpM5TdLNfz09DtOKzFFG2erjsAPe6CA46xMjhLcAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="fieldPasosEscanearQr.Text" xml:space="preserve">
+    <value>&lt;ol style="padding-left: 1em; margin-left: 0; margin-top: 0;"&gt;
+    &lt;li&gt;&lt;b&gt;Abrir la Aplicación&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;Abre la aplicación Transfermóvil en tu dispositivo móvil.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Seleccionar el Banco Correspondiente&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;En el menú lateral, selecciona el banco con el que deseas&lt;br&gt; 
+            realizar la transferencia.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Ir al Apartado de Transferencias&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;Dentro del menú del banco seleccionado, busca y&lt;br&gt;
+            selecciona la opción de &lt;b&gt;Transferencias&lt;/b&gt;.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Presionar el Botón QR&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;En la esquina superior derecha de la pantalla de&lt;br&gt; 
+            transferencias,presiona el botón con el símbolo de un&lt;br&gt;
+            código QR.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Escanear el Código QR&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;Apunta la cámara de tu dispositivo hacia el código QR que&lt;br&gt;
+            deseas escanear. Asegúrate de que el código QR esté bien&lt;br&gt; 
+            enfocado y dentro del cuadro de escaneo.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Verificar los Datos de la Transferencia&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;Una vez escaneado el código QR, verifica que los datos de&lt;br&gt; 
+            la transferencia sean correctos (no. de tarjeta, importe, etc.).&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;b&gt;Confirmar y Realizar la Transferencia&lt;/b&gt;:
+        &lt;ul&gt;
+            &lt;li&gt;Si los datos son correctos, confirma la transferencia y sigue&lt;br&gt; 
+            las instrucciones adicionales que pueda proporcionar la&lt;br&gt; 
+            aplicación para completar la operación.&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ol&gt;</value>
+  </data>
+  <data name="fieldTituloMovil.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAANNJREFUOE/t
+        lDEKwmAMhV0UD6Cn0CsUFw8gSPc6NPmTUpsfL9ATeCFH0cnRcyhIcVWiFEraQkFw6gdvSfLeljcY/IM8
+        DEee4oUQppmDfVU6053eWF8jeRSNhfEsjIUQPITxVZVn1FnhGS96a/01MoLQM952AJOtc3Nhd6jKJ/Es
+        TTdTYbxnzq2tv4YQJMJ4tXOL3uitndfoA1vpA9vpA1vpHKgPr4+v5WB3JWU5CMHK7mp8upDdSRif2jpN
+        0p0wHgFgaP2NfAuWAk/xslkUdC7YX3kDWubHyH32vfAAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="fieldTituloAlias.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAT1JREFUOE/t
+        lLFKxEAQhg8b0d5asPIhbIRrLMRCLAQb8TKT/ffizlwKxca8hr34EJYKVpZqI9aCaCWChYWsJrqbC5Fw
+        aOUHA8vM7E8mOzO93l+SZdtzLk3XnaENb2qSfj2nE87wloDvBPzswPdq+TrLsul6XmcEfCWGbN3fSm7t
+        vICPBXRTftWnmWSlEhTwSRQDX4jhUVEUU5GYqs4I6FbApw7pUA3Tt5mFSlDBq1HM0oFYflLQfiQ4Ai0L
+        +JWIZqNASVvJCnb+30ZO/4KC9CFyBrQJNt5tdAb8C0Y03m10BnQWnKRtnKXdsbYJGvvMN6kzvFdZPqTF
+        YFI2w5iADn1j+3Mk6KlGT8GXkZmk/yVo+SiMCfhcQfnY6P1EW8mdKNfXo4DfBPziF8JE68sv2I+Szc5A
+        ebDmQEv1nF/nHQGmAeSmf3oWAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="fieldTituloCuenta.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAPhJREFUOE9j
+        YBi5ICsri6coM9OiMDPVhRScn51mXlISy41iWH5OhnthVvq7gqz0/2Th7PS3hVlpbmDDGhoaWAqyMl7l
+        Z2a0FhYWcqLYRAQA6SnMTu8oyEp/AzKLoSg7VQ1kS05OkhS6YmIBSC/IDJBZDIXZqdowZxdkpb8mC0P0
+        /geZBTcwPyvjaEFWxgFyMEQvmoG5uYmi6F4hFoD0DmMD8zPTY0BJBJRu87PSn+elp6uiGEhqsgFphuWS
+        vOx057S0NFZYsgEZjpKwwQmTRAAyEJqwX4SGhjKDBSnNeiC9IBej2AQqHAqyUg3yMjONScEgPRiFw8gC
+        APnqNUD80CVLAAAAAElFTkSuQmCC
+</value>
+  </data>
+</root>
