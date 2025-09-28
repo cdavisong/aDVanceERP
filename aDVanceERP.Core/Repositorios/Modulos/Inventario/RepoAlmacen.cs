@@ -75,14 +75,14 @@ public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> 
 
     protected override Almacen MapearEntidad(MySqlDataReader lectorDatos) {
         return new Almacen(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_almacen")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("nombre")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("notas")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("direccion")),
-            0,
-            TipoAlmacen.Principal,
-            true,
-            null
+            id: Convert.ToInt64(lectorDatos["id_almacen"]),
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            descripcion: Convert.ToString(lectorDatos["notas"]) ?? string.Empty,
+            direccion: Convert.ToString(lectorDatos["direccion"]) ?? "No disponible",
+            capacidad: 0,
+            tipo: TipoAlmacen.Principal,
+            estado: true,
+            coordenadas: null
         );
     }
 

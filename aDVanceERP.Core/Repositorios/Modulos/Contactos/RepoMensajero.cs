@@ -78,4 +78,10 @@ public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensa
             idContacto: lectorDatos["id_contacto"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_contacto"]) : 0
         );
     }
+
+    #region STATIC
+
+    public static RepoMensajero Instancia { get; } = new RepoMensajero();
+
+    #endregion
 }

@@ -5,8 +5,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 public class Inventario : IEntidadBaseDatos {
     public Inventario() { }
 
-    public Inventario(long idInventario, long idProducto, long idAlmacen, decimal cantidad, decimal costoPromedio, decimal valorTotal, DateTime ultimaActualizacion) {
-        Id = idInventario;
+    public Inventario(long id, long idProducto, long idAlmacen, decimal cantidad, decimal costoPromedio, decimal valorTotal, DateTime ultimaActualizacion) {
+        Id = id;
         IdProducto = idProducto;
         IdAlmacen = idAlmacen;
         Cantidad = cantidad;

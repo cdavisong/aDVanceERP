@@ -84,4 +84,10 @@ public class RepoCliente : RepoEntidadBaseDatos<Cliente, FiltroBusquedaCliente> 
             idContacto: lector["id_contacto"] != DBNull.Value ? Convert.ToInt64(lector["id_contacto"]) : 0
         );
     }
+
+    #region STATIC
+
+    public static RepoCliente Instancia { get; } = new RepoCliente();
+
+    #endregion
 }

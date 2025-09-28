@@ -5,12 +5,13 @@ using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Contactos {
-    public class RepoEmpresa : RepoEntidadBaseDatos<Empresa, FiltroBusquedaEmpresa> {
-        public RepoEmpresa() : base("adv__empresa", "id_empresa") { }
+namespace aDVanceERP.Core.Repositorios.Modulos.Contactos;
 
-        protected override string GenerarComandoAdicionar(Empresa objeto) {
-            return $"""
+public class RepoEmpresa : RepoEntidadBaseDatos<Empresa, FiltroBusquedaEmpresa> {
+    public RepoEmpresa() : base("adv__empresa", "id_empresa") { }
+
+    protected override string GenerarComandoAdicionar(Empresa objeto) {
+        return $"""
                 INSERT INTO adv__empresa (
                     nombre,
                     logotipo,
@@ -20,28 +21,28 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Contactos {
                     @logotipo,
                     @idContacto);
                 """;
-        }
+    }
 
-        public override long Adicionar(Empresa objeto) {
-            var logoBytes = objeto.ObtenerDatosDbLogotipo();
+    public override long Adicionar(Empresa objeto) {
+        var logoBytes = objeto.ObtenerDatosDbLogotipo();
 
-            using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
-                if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
+        using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
+            if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
 
-                using (var comando = new MySqlCommand(GenerarComandoAdicionar(objeto), conexion)) {
-                    comando.Parameters.AddWithValue("@nombre", objeto.Nombre);
-                    comando.Parameters.Add("@logotipo", MySqlDbType.LongBlob).Value = logoBytes.Length > 0 ? logoBytes : DBNull.Value;
-                    comando.Parameters.AddWithValue("@idContacto", objeto.IdContacto);
+            using (var comando = new MySqlCommand(GenerarComandoAdicionar(objeto), conexion)) {
+                comando.Parameters.AddWithValue("@nombre", objeto.Nombre);
+                comando.Parameters.Add("@logotipo", MySqlDbType.LongBlob).Value = logoBytes.Length > 0 ? logoBytes : DBNull.Value;
+                comando.Parameters.AddWithValue("@idContacto", objeto.IdContacto);
 
-                    comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
 
-                    return comando.LastInsertedId;
-                }
+                return comando.LastInsertedId;
             }
         }
+    }
 
-        protected override string GenerarComandoEditar(Empresa objeto) {
-            return $"""
+    protected override string GenerarComandoEditar(Empresa objeto) {
+        return $"""
                 UPDATE adv__empresa
                 SET
                     nombre = @nombre,
@@ -49,116 +50,121 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Contactos {
                     id_contacto = @idContacto
                 WHERE id_empresa = {objeto.Id};
                 """;
-        }
+    }
 
-        public override bool Editar(Empresa objeto, long nuevoId = 0) {
-            var logoBytes = objeto.ObtenerDatosDbLogotipo();
+    public override bool Editar(Empresa objeto, long nuevoId = 0) {
+        var logoBytes = objeto.ObtenerDatosDbLogotipo();
 
-            using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
-                if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
+        using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
+            if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
 
-                using (var comando = new MySqlCommand(GenerarComandoEditar(objeto), conexion)) {
-                    comando.Parameters.AddWithValue("@nombre", objeto.Nombre);
-                    comando.Parameters.Add("@logotipo", MySqlDbType.LongBlob).Value = logoBytes.Length > 0 ? logoBytes : DBNull.Value;
-                    comando.Parameters.AddWithValue("@idContacto", objeto.IdContacto);
+            using (var comando = new MySqlCommand(GenerarComandoEditar(objeto), conexion)) {
+                comando.Parameters.AddWithValue("@nombre", objeto.Nombre);
+                comando.Parameters.Add("@logotipo", MySqlDbType.LongBlob).Value = logoBytes.Length > 0 ? logoBytes : DBNull.Value;
+                comando.Parameters.AddWithValue("@idContacto", objeto.IdContacto);
 
-                    comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
 
-                    return true;
-                }
+                return true;
             }
         }
+    }
 
-        protected override string GenerarComandoEliminar(long id) {
-            return $"""
+    protected override string GenerarComandoEliminar(long id) {
+        return $"""
                 DELETE FROM adv__empresa 
                 WHERE id_empresa = @id;
                 """;
-        }
+    }
 
-        public override bool Eliminar(long id) {
-            using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
-                if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
+    public override bool Eliminar(long id) {
+        using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
+            if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
 
-                using (var comando = new MySqlCommand(GenerarComandoEliminar(id), conexion)) {
-                    comando.Parameters.AddWithValue("@id", id);
+            using (var comando = new MySqlCommand(GenerarComandoEliminar(id), conexion)) {
+                comando.Parameters.AddWithValue("@id", id);
 
-                    comando.ExecuteNonQuery();
+                comando.ExecuteNonQuery();
 
-                    return true;
-                }
+                return true;
             }
         }
+    }
 
-        protected override string GenerarComandoObtener(FiltroBusquedaEmpresa criterio, string dato) {
-            string? comando;
+    protected override string GenerarComandoObtener(FiltroBusquedaEmpresa criterio, string dato) {
+        string? comando;
 
-            switch (criterio) {
-                case FiltroBusquedaEmpresa.Id:
-                    comando = $"""
+        switch (criterio) {
+            case FiltroBusquedaEmpresa.Id:
+                comando = $"""
                         SELECT * 
                         FROM adv__empresa 
                         WHERE id_empresa = {dato};
                         """;
-                    break;
-                case FiltroBusquedaEmpresa.Nombre:
-                    comando = $"""
+                break;
+            case FiltroBusquedaEmpresa.Nombre:
+                comando = $"""
                         SELECT * 
                         FROM adv__empresa 
                         WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
                         """;
-                    break;
-                default:
-                    comando = """
+                break;
+            default:
+                comando = """
                         SELECT * 
                         FROM adv__empresa;
                         """;
-                    break;
-            }
-
-            return comando;
+                break;
         }
 
-        protected override Empresa MapearEntidad(MySqlDataReader lectorDatos) {
-            var empresa = new Empresa(
-                id: Convert.ToInt64(lectorDatos["id_empresa"]),
-                logotipo: null,
-                nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
-                idContacto: lectorDatos["id_contacto"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_contacto"]) : 0
-            );
+        return comando;
+    }
 
-            // Mapear logotipo si existe y es válido
-            if (!lectorDatos.IsDBNull(lectorDatos.GetOrdinal("logotipo"))) {
-                var bytesImagen = (byte[]) lectorDatos["logotipo"];
+    protected override Empresa MapearEntidad(MySqlDataReader lectorDatos) {
+        var empresa = new Empresa(
+            id: Convert.ToInt64(lectorDatos["id_empresa"]),
+            logotipo: null,
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            idContacto: lectorDatos["id_contacto"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_contacto"]) : 0
+        );
 
-                if (!EsImagenValida(bytesImagen)) {
-                    System.Diagnostics.Debug.WriteLine("Advertencia: Datos de imagen no válidos en BD");
-                    bytesImagen = Array.Empty<byte>();
-                }
+        // Mapear logotipo si existe y es válido
+        if (!lectorDatos.IsDBNull(lectorDatos.GetOrdinal("logotipo"))) {
+            var bytesImagen = (byte[]) lectorDatos["logotipo"];
 
-                empresa.EstablecerLogotipoDesdeBytes(bytesImagen);
+            if (!EsImagenValida(bytesImagen)) {
+                System.Diagnostics.Debug.WriteLine("Advertencia: Datos de imagen no válidos en BD");
+                bytesImagen = Array.Empty<byte>();
             }
 
-            return empresa;
+            empresa.EstablecerLogotipoDesdeBytes(bytesImagen);
         }
 
-        private bool EsImagenValida(byte[] bytes) {
-            try {
-                using (var ms = new MemoryStream(bytes)) {
-                    // Intenta leer solo los primeros bytes para verificar el formato
-                    var header = new byte[8];
-                    ms.Read(header, 0, 8);
+        return empresa;
+    }
 
-                    // Verificar firmas de formatos comunes
-                    if (header.Take(8).SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A })) // PNG
-                        return true;
-                    if (header.Take(2).SequenceEqual(new byte[] { 0xFF, 0xD8 })) // JPEG
-                        return true;
-                }
-                return false;
-            } catch {
-                return false;
+    private bool EsImagenValida(byte[] bytes) {
+        try {
+            using (var ms = new MemoryStream(bytes)) {
+                // Intenta leer solo los primeros bytes para verificar el formato
+                var header = new byte[8];
+                ms.Read(header, 0, 8);
+
+                // Verificar firmas de formatos comunes
+                if (header.Take(8).SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A })) // PNG
+                    return true;
+                if (header.Take(2).SequenceEqual(new byte[] { 0xFF, 0xD8 })) // JPEG
+                    return true;
             }
+            return false;
+        } catch {
+            return false;
         }
     }
+
+    #region STATIC
+
+    public static RepoEmpresa Instancia { get; } = new RepoEmpresa();
+
+    #endregion
 }

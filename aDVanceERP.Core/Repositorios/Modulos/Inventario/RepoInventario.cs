@@ -90,13 +90,13 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
 
     protected override Modelos.Modulos.Inventario.Inventario MapearEntidad(MySqlDataReader lectorDatos) {
         return new Modelos.Modulos.Inventario.Inventario(
-           lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_inventario")),
-           lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_producto")),
-           lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_almacen")),
-           lectorDatos.GetDecimal(lectorDatos.GetOrdinal("cantidad")),
-           lectorDatos.GetDecimal(lectorDatos.GetOrdinal("costo_promedio")),
-           lectorDatos.GetDecimal(lectorDatos.GetOrdinal("valor_total")),
-           lectorDatos.GetDateTime(lectorDatos.GetOrdinal("ultima_actualizacion"))
+           id: Convert.ToInt64(lectorDatos["id_inventario"]),
+           idProducto: Convert.ToInt64(lectorDatos["id_producto"]),
+           idAlmacen: Convert.ToInt64(lectorDatos["id_almacen"]!),
+           cantidad: Convert.ToDecimal(lectorDatos["cantidad"], CultureInfo.InvariantCulture),
+           costoPromedio: Convert.ToDecimal(lectorDatos["costo_promedio"], CultureInfo.InvariantCulture),
+           valorTotal: Convert.ToDecimal(lectorDatos["valor_total"], CultureInfo.InvariantCulture),
+           ultimaActualizacion: Convert.ToDateTime(lectorDatos["ultima_actualizacion"], CultureInfo.InvariantCulture)
        );
     }
 

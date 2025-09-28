@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.BD;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 
@@ -88,4 +89,10 @@ public class RepoTelefonoContacto : RepoEntidadBaseDatos<TelefonoContacto, Filtr
             idContacto: Convert.ToInt64(lector["id_contacto"])
         );
     }
+
+    #region STATIC
+
+    public static RepoTelefonoContacto Instancia { get; } = new RepoTelefonoContacto();
+
+    #endregion
 }

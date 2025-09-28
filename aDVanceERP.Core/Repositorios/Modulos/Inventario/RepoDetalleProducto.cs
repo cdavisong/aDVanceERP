@@ -69,9 +69,9 @@ public class RepoDetalleProducto : RepoEntidadBaseDatos<DetalleProducto, FiltroB
 
     protected override DetalleProducto MapearEntidad(MySqlDataReader lectorDatos) {
         return new DetalleProducto(
-            id: lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_detalle_producto")),
-            idUnidadMedida: lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_unidad_medida")),
-            descripcion: lectorDatos.GetString(lectorDatos.GetOrdinal("descripcion")) ?? "No hay descripción disponible"
+            id: Convert.ToInt64(lectorDatos["id_detalle_producto"]),
+            idUnidadMedida: Convert.ToInt64(lectorDatos["id_unidad_medida"]),
+            descripcion: lectorDatos["descripcion"]?.ToString() ?? "No disponible"
         );
     }
 

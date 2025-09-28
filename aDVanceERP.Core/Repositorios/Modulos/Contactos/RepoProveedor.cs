@@ -84,4 +84,10 @@ public class RepoProveedor : RepoEntidadBaseDatos<Proveedor, FiltroBusquedaProve
             idContacto: lector["id_contacto"] != DBNull.Value ? Convert.ToInt64(lector["id_contacto"]) : 0
         );
     }
+
+    #region STATIC
+
+    public static RepoProveedor Instancia { get; } = new RepoProveedor();
+
+    #endregion
 }

@@ -134,20 +134,20 @@ public class RepoMovimiento : RepoEntidadBaseDatos<Movimiento, FiltroBusquedaMov
 
     protected override Movimiento MapearEntidad(MySqlDataReader lectorDatos) {
         return new Movimiento(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_movimiento")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_producto")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("costo_unitario")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("costo_total")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_almacen_origen")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_almacen_destino")),
-            lectorDatos.GetDateTime(lectorDatos.GetOrdinal("fecha_creacion")),
-            (EstadoMovimiento)Enum.Parse(typeof(EstadoMovimiento), lectorDatos.GetValue(lectorDatos.GetOrdinal("estado")).ToString()),
-            lectorDatos.GetDateTime(lectorDatos.GetOrdinal("fecha")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("saldo_inicial")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("cantidad_movida")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("saldo_final")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_tipo_movimiento")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_cuenta_usuario"))
+            id: Convert.ToInt64(lectorDatos["id_movimiento"]),
+            idProducto: Convert.ToInt64(lectorDatos["id_producto"]),
+            costoUnitario: Convert.ToDecimal(lectorDatos["costo_unitario"], CultureInfo.InvariantCulture),
+            costoTotal: Convert.ToDecimal(lectorDatos["costo_total"], CultureInfo.InvariantCulture),
+            idAlmacenOrigen: Convert.ToInt64(lectorDatos["id_almacen_origen"]),
+            idAlmacenDestino: Convert.ToInt64(lectorDatos["id_almacen_destino"]),
+            fechaCreacion: Convert.ToDateTime(lectorDatos["fecha_creacion"]),
+            estado: Enum.TryParse<EstadoMovimiento>(lectorDatos["estado"].ToString(), out var estado) ? estado : EstadoMovimiento.Cancelado,
+            fecha: Convert.ToDateTime(lectorDatos["fecha"]),
+            saldoInicial: Convert.ToDecimal(lectorDatos["saldo_inicial"], CultureInfo.InvariantCulture),
+            cantidadMovida: Convert.ToDecimal(lectorDatos["cantidad_movida"], CultureInfo.InvariantCulture),
+            saldoFinal: Convert.ToDecimal(lectorDatos["saldo_final"], CultureInfo.InvariantCulture),
+            idTipoMovimiento: Convert.ToInt64(lectorDatos["id_tipo_movimiento"]),
+            idCuentaUsuario: Convert.ToInt64(lectorDatos["id_cuenta_usuario"])
         );
     }
 

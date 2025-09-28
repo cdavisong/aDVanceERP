@@ -64,15 +64,15 @@ public class RepoTipoMateriaPrima : RepoEntidadBaseDatos<TipoMateriaPrima, Filtr
 
     protected override TipoMateriaPrima MapearEntidad(MySqlDataReader lectorDatos) {
         return new TipoMateriaPrima(
-            lectorDatos.GetInt64("id_tipo_materia_prima"),
-            lectorDatos.GetString("nombre"),
-            lectorDatos.GetString("descripcion")
+            id: Convert.ToInt64(lectorDatos["id_tipo_materia_prima"]),
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            descripcion: Convert.ToString(lectorDatos["descripcion"]) ?? "No disponible"
         );
     }
 
     #region STATIC
 
-    public static RepoTipoMateriaPrima Instancia = new RepoTipoMateriaPrima();
+    public static RepoTipoMateriaPrima Instancia { get; } = new RepoTipoMateriaPrima();
 
     #endregion
 }

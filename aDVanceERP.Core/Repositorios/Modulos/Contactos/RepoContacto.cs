@@ -105,4 +105,10 @@ public class RepoContacto : RepoEntidadBaseDatos<Contacto, FiltroBusquedaContact
             notas: lector["notas"]?.ToString() ?? string.Empty
         );
     }
+
+    #region STATIC
+
+    public static RepoContacto Instancia { get; } = new RepoContacto();
+
+    #endregion
 }

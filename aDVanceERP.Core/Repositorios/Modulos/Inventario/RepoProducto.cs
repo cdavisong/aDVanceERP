@@ -162,17 +162,17 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
     protected override Producto MapearEntidad(MySqlDataReader lectorDatos) {
         return new Producto(
-            id: lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_producto")),
-            categoria: (CategoriaProducto)Enum.Parse(typeof(CategoriaProducto), lectorDatos.GetValue(lectorDatos.GetOrdinal("categoria")).ToString()),
-            nombre: lectorDatos.GetString(lectorDatos.GetOrdinal("nombre")),
-            codigo: lectorDatos.GetString(lectorDatos.GetOrdinal("codigo")),
-            idDetalleProducto: lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_detalle_producto")),
-            idTipoMateriaPrima: lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_tipo_materia_prima")),
-            idProveedor: lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_proveedor")),
-            esVendible: lectorDatos.GetBoolean(lectorDatos.GetOrdinal("es_vendible")),
-            precioCompra: lectorDatos.GetDecimal(lectorDatos.GetOrdinal("precio_compra")),
-            costoProduccionUnitario: lectorDatos.GetDecimal(lectorDatos.GetOrdinal("costo_produccion_unitario")),
-            precioVentaBase: lectorDatos.GetDecimal(lectorDatos.GetOrdinal("precio_venta_base"))
+            id: Convert.ToInt64(lectorDatos["id_producto"]),
+            categoria: Enum.TryParse<CategoriaProducto>(Convert.ToString(lectorDatos["categoria"]) ?? string.Empty, out var categoria) ? categoria : CategoriaProducto.Mercancia,
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            codigo: Convert.ToString(lectorDatos["codigo"]) ?? string.Empty,
+            idDetalleProducto: Convert.ToInt64(lectorDatos["id_detalle_producto"]),
+            idTipoMateriaPrima: Convert.ToInt64(lectorDatos["id_tipo_materia_prima"]),
+            idProveedor: Convert.ToInt64(lectorDatos["id_proveedor"]),
+            esVendible: Convert.ToBoolean(lectorDatos["es_vendible"]),
+            precioCompra: Convert.ToDecimal(lectorDatos["precio_compra"], CultureInfo.InvariantCulture),
+            costoProduccionUnitario: Convert.ToDecimal(lectorDatos["costo_produccion_unitario"], CultureInfo.InvariantCulture),
+            precioVentaBase: Convert.ToDecimal(lectorDatos["precio_venta_base"], CultureInfo.InvariantCulture)
         );
     }
 

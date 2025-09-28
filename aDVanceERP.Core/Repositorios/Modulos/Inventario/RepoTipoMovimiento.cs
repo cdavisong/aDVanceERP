@@ -16,7 +16,7 @@ public class RepoTipoMovimiento : RepoEntidadBaseDatos<TipoMovimiento, FiltroBus
             ) 
             VALUES (
                 '{objeto.Nombre}', 
-                '{(int)objeto.Efecto}'
+                '{objeto.Efecto}'
             );
             """;
     }
@@ -26,15 +26,15 @@ public class RepoTipoMovimiento : RepoEntidadBaseDatos<TipoMovimiento, FiltroBus
             UPDATE adv__tipo_movimiento 
             SET 
                 nombre = '{objeto.Nombre}', 
-                efecto = '{(int)objeto.Efecto}' 
-            WHERE id_tipo_movimiento = '{objeto.Id}';
+                efecto = '{objeto.Efecto}' 
+            WHERE id_tipo_movimiento = {objeto.Id};
             """;
     }
 
     protected override string GenerarComandoEliminar(long id) {
         return $"""
             DELETE FROM adv__tipo_movimiento 
-            WHERE id_tipo_movimiento = '{id}';
+            WHERE id_tipo_movimiento = {id};
             """;
     }
 
@@ -69,15 +69,15 @@ public class RepoTipoMovimiento : RepoEntidadBaseDatos<TipoMovimiento, FiltroBus
 
     protected override TipoMovimiento MapearEntidad(MySqlDataReader lectorDatos) {
         return new TipoMovimiento(
-            lectorDatos.GetInt64(lectorDatos.GetOrdinal("id_tipo_movimiento")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("nombre")),
-            (EfectoMovimiento)Enum.Parse(typeof(EfectoMovimiento), lectorDatos.GetValue(lectorDatos.GetOrdinal("efecto")).ToString())
+            id: Convert.ToInt64(lectorDatos["id_tipo_movimiento"]),
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            efecto: Enum.TryParse<EfectoMovimiento>(Convert.ToString(lectorDatos["efecto"]) ?? string.Empty, out var efecto) ? efecto : EfectoMovimiento.Ninguno
         );
     }
 
     #region STATIC
 
-    public static RepoTipoMovimiento Instancia = new RepoTipoMovimiento();
+    public static RepoTipoMovimiento Instancia { get; } = new RepoTipoMovimiento();
 
     #endregion
 }
