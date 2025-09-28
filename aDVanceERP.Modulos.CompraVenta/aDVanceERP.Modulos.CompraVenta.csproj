@@ -10,6 +10,7 @@
     <PackageReference Include="QRCoder" Version="1.6.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core.Seguridad\aDVanceERP.Core.Seguridad.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>

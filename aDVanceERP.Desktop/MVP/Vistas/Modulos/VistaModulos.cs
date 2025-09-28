@@ -16,7 +16,7 @@ public partial class VistaModulos : Form, IVistaModulos {
 
         NombreVista = nameof(VistaModulos);
         PanelCentral = new RepoVistaBase(panelCentral);
-        
+
         Inicializar();
     }
 
@@ -76,7 +76,7 @@ public partial class VistaModulos : Form, IVistaModulos {
     public event EventHandler? MostrarMenuVentas;
     public event EventHandler? MostrarMenuSeguridad;
     public event EventHandler? CambioModulo;
-    
+
 
     public void Inicializar() {
         btnInicio.PerformClick();
@@ -149,17 +149,14 @@ public partial class VistaModulos : Form, IVistaModulos {
     }
 
     public void Mostrar() {
+        var moduloCompraventa = new ModuloCompraventa();
+
         btnEstadisticas.Visible = false;//UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false;
-        btnModuloContactos.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) ||
-                                     (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloContactos.Nombre) ?? false);
-        btnModuloFinanzas.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) ||
-                                    (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloFinanzas.Nombre) ?? false);
-        btnModuloInventario.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) ||
-                                      (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloInventario.Nombre) ?? false);
-        btnModuloTaller.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) ||
-                                     (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloTaller.Nombre) ?? false);
-        btnModuloVentas.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) ||
-                                  (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloCompraventa.Nombre) ?? false);
+        btnModuloContactos.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) || (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloContactos.Nombre) ?? false);
+        btnModuloFinanzas.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) || (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloFinanzas.Nombre) ?? false);
+        btnModuloInventario.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) || (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloInventario.Nombre) ?? false);
+        btnModuloTaller.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) || (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(ModuloTaller.Nombre) ?? false);
+        btnModuloVentas.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false) || (UtilesCuentaUsuario.PermisosUsuario?.ContienePermisoParcial(moduloCompraventa.Nombre) ?? false);
         btnModuloSeguridad.Visible = UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false;
 
         BringToFront();
