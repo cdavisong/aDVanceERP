@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
+namespace aDVanceERP.Core.Modelos.Modulos.Compraventa;
 
 public class SeguimientoEntrega : IEntidadBaseDatos {
     public SeguimientoEntrega() { }

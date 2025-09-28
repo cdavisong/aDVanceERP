@@ -1,11 +1,13 @@
 ﻿using System.Globalization;
+
+using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios.Plantillas;
+
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios;
+namespace aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 
-public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProducto, CriterioDetalleVentaProducto>, IRepoDetalleVentaProducto {
+public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProducto, CriterioDetalleVentaProducto> {
     public RepoDetalleVentaProducto() : base("adv__detalle_venta_producto", "id_detalle_venta_producto") { }
 
     protected override string GenerarComandoAdicionar(DetalleVentaProducto objeto) {
@@ -22,7 +24,7 @@ public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProduct
                     {objeto.IdProducto},
                     {objeto.PrecioCompraVigente.ToString(CultureInfo.InvariantCulture)},
                     {objeto.PrecioVentaFinal.ToString(CultureInfo.InvariantCulture)},
-                    '{objeto.Cantidad.ToString(CultureInfo.InvariantCulture)}'
+                    {objeto.Cantidad.ToString(CultureInfo.InvariantCulture)}
                 );
                 """;
     }
@@ -31,12 +33,12 @@ public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProduct
         return $"""
                 UPDATE adv__detalle_venta_producto
                 SET
-                    id_venta={objeto.IdVenta},
-                    id_producto={objeto.IdProducto},
-                    precio_compra_vigente={objeto.PrecioCompraVigente.ToString(CultureInfo.InvariantCulture)},
-                    precio_venta_final={objeto.PrecioVentaFinal.ToString(CultureInfo.InvariantCulture)},
-                    cantidad='{objeto.Cantidad.ToString(CultureInfo.InvariantCulture)}'
-                WHERE id_detalle_venta_producto={objeto.Id};
+                    id_venta = {objeto.IdVenta},
+                    id_producto = {objeto.IdProducto},
+                    precio_compra_vigente = {objeto.PrecioCompraVigente.ToString(CultureInfo.InvariantCulture)},
+                    precio_venta_final = {objeto.PrecioVentaFinal.ToString(CultureInfo.InvariantCulture)},
+                    cantidad = {objeto.Cantidad.ToString(CultureInfo.InvariantCulture)}
+                WHERE id_detalle_venta_producto = {objeto.Id};
                 """;
     }
 
@@ -44,7 +46,7 @@ public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProduct
         return $"""
                 DELETE
                 FROM adv__detalle_venta_producto
-                WHERE id_detalle_venta_producto={id};
+                WHERE id_detalle_venta_producto = {id};
                 """;
     }
 
@@ -56,21 +58,21 @@ public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProduct
                 comando = $"""
                            SELECT *
                            FROM adv__detalle_venta_producto
-                           WHERE id_detalle_venta_producto={dato};
+                           WHERE id_detalle_venta_producto = {dato};
                            """;
                 break;
             case CriterioDetalleVentaProducto.IdVenta:
                 comando = $"""
                            SELECT *
                            FROM adv__detalle_venta_producto
-                           WHERE id_venta={dato};
+                           WHERE id_venta = {dato};
                            """;
                 break;
             case CriterioDetalleVentaProducto.IdProducto:
                 comando = $"""
                            SELECT *
                            FROM adv__detalle_venta_producto
-                           WHERE id_producto={dato};
+                           WHERE id_producto = {dato};
                            """;
                 break;
             default:
@@ -84,14 +86,20 @@ public class RepoDetalleVentaProducto : RepoEntidadBaseDatos<DetalleVentaProduct
         return comando;
     }
 
-    protected override DetalleVentaProducto MapearEntidad(MySqlDataReader lectorDatos) {
+    protected override DetalleVentaProducto MapearEntidad(MySqlDataReader lector) {
         return new DetalleVentaProducto(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_detalle_venta_producto")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_venta")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_producto")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("precio_compra_vigente")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("precio_venta_final")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("cantidad"))
+            id: Convert.ToInt64(lector["id_detalle_venta_producto"]),
+            idVenta: Convert.ToInt64(lector["id_venta"]),
+            idProducto: Convert.ToInt64(lector["id_producto"]),
+            precioCompraVigente: Convert.ToDecimal(lector["precio_compra_vigente"], CultureInfo.InvariantCulture),
+            precioVentaFinal: Convert.ToDecimal(lector["precio_venta_final"], CultureInfo.InvariantCulture),
+            cantidad: Convert.ToDecimal(lector["cantidad"], CultureInfo.InvariantCulture)
         );
     }
+
+    #region STATIC
+
+    public static RepoDetalleVentaProducto Instancia { get; } = new RepoDetalleVentaProducto();
+
+    #endregion
 }

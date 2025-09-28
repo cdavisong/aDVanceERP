@@ -150,8 +150,8 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
         // Determinar cuál regex usar
         var consultaModificada = regex.Replace(consultaOriginal, match => {
             return regex1.IsMatch(match.Value) 
-                ? "SELECT COUNT(*) AS total FROM" 
-                : "SELECT COUNT(*) AS total,";
+                ? "SELECT COUNT(*) AS total_filas FROM" 
+                : "SELECT COUNT(*) AS total_filas,";
         });
 
         return consultaModificada;

@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
 

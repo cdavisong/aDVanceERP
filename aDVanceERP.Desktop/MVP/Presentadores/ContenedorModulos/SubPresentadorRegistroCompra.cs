@@ -3,13 +3,13 @@
 using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Mensajes.MVP.Modelos;
 using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Desktop.Utiles;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios;
+using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra;
 
@@ -89,7 +89,7 @@ public partial class PresentadorModulos {
         var ultimoIdCompra = UtilesBD.ObtenerUltimoIdTabla("compra");
 
         foreach (var producto in ProductosCompra) {
-            var detalleCompraProducto = new DetalleCompraProducto(
+            var detalleCompraProducto = new DetalleCompra(
                 0,
                 ultimoIdCompra,
                 long.Parse(producto[0]),
@@ -113,7 +113,7 @@ public partial class PresentadorModulos {
         }
     }
 
-    private static void RegistrarMovimientoCompraProducto(DetalleCompraProducto detalleCompraProducto, IReadOnlyList<string> datosProducto) {
+    private static void RegistrarMovimientoCompraProducto(DetalleCompra detalleCompraProducto, IReadOnlyList<string> datosProducto) {
         var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompraProducto.IdProducto);
         var almacenDestino = RepoAlmacen.Instancia.ObtenerPorId(long.Parse(datosProducto[4]));
         var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(almacenDestino.Id));
@@ -140,7 +140,7 @@ public partial class PresentadorModulos {
         }
     }
 
-    private static void ModificarStockCompraProducto(DetalleCompraProducto detalleCompraProducto,
+    private static void ModificarStockCompraProducto(DetalleCompra detalleCompraProducto,
         IReadOnlyList<string> producto) {
         RepoInventario.Instancia.ModificarInventario(
             detalleCompraProducto.IdProducto,

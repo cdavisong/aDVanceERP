@@ -1,31 +1,29 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Compraventa;
 
 public class Venta : IEntidadBaseDatos {
-    public Venta() { }
+    public Venta() {
+        DireccionEntrega = "No disponible";
+    }
 
-    public Venta(long id, DateTime fecha, long idAlmacen, long idCliente, long idTipoEntrega, string? direccionEntrega,
-        string? estadoEntrega, decimal total) {
+    public Venta(long id, DateTime fecha, long idAlmacen, long idCliente, long idTipoEntrega, string? direccionEntrega, decimal total) {
         Id = id;
         Fecha = fecha;
         IdAlmacen = idAlmacen;
         IdCliente = idCliente;
         IdTipoEntrega = idTipoEntrega;
         DireccionEntrega = direccionEntrega;
-        EstadoEntrega = estadoEntrega;
         Total = total;
     }
 
+    public long Id { get; set; }
     public DateTime Fecha { get; set; }
     public long IdAlmacen { get; set; }
     public long IdCliente { get; set; }
     public long IdTipoEntrega { get; set; }
     public string? DireccionEntrega { get; set; }
-    public string? EstadoEntrega { get; set; }
-    public decimal Total { get; set; }
-
-    public long Id { get; set; }
+    public decimal Total { get; set; }    
 }
 
 public enum FiltroBusquedaVenta {

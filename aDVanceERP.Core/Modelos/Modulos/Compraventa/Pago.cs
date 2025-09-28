@@ -1,12 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
-
-public enum TipoMoneda {
-    CUP,
-    MLC,
-    USD
-}
+namespace aDVanceERP.Core.Modelos.Modulos.Compraventa;
 
 public class Pago : IEntidadBaseDatos {
     public Pago() { }

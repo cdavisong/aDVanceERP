@@ -1,7 +1,7 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Compraventa;
+using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Utiles.Datos;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios;
+using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.DetalleCompraventaProducto.Plantillas;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
 
@@ -12,17 +12,21 @@ public class
     public PresentadorRegistroVenta(IVistaRegistroVenta vista) : base(vista) { }
 
     public override void PopularVistaDesdeEntidad(Venta entidad) {
+        var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, entidad.Id.ToString()).resultados.FirstOrDefault();
+        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega?.Id.ToString()).resultados;
+        var repoEstadoEntrega = RepoEstadoEntrega.Instancia;
+
         Vista.ModoEdicion = true;
         Vista.Fecha = entidad.Fecha;
         Vista.RazonSocialCliente = UtilesCliente.ObtenerRazonSocialCliente(entidad.IdCliente) ?? string.Empty;
         Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacen) ?? string.Empty;
         Vista.Direccion = entidad.DireccionEntrega;
-        Vista.EstadoEntrega = entidad.EstadoEntrega;
+        Vista.EstadoEntrega = repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).resultados.FirstOrDefault()?.Nombre ?? "Desconocido";
 
         var productosVenta = UtilesVenta.ObtenerProductosPorVenta(entidad.Id);
 
         foreach (var productoSplit in productosVenta.Select(producto => producto.Split('|')))
-            ((IVistaGestionDetallesCompraventaProductos)Vista).AdicionarProducto(Vista.NombreAlmacen, productoSplit[0],
+            ((IVistaGestionDetallesCompraventaProductos) Vista).AdicionarProducto(Vista.NombreAlmacen, productoSplit[0],
                 productoSplit[1]);
 
         Vista.IdTipoEntrega = entidad.IdTipoEntrega;
@@ -38,7 +42,6 @@ public class
             UtilesCliente.ObtenerIdCliente(Vista.RazonSocialCliente),
             Vista.IdTipoEntrega,
             Vista.Direccion,
-            Vista.EstadoEntrega,
             Vista.Total
         );
     }

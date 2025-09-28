@@ -1,11 +1,11 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Compraventa;
 
-public class DetalleCompraProducto : IEntidadBaseDatos {
-    public DetalleCompraProducto() { }
+public class DetalleCompra : IEntidadBaseDatos {
+    public DetalleCompra() { }
 
-    public DetalleCompraProducto(long id, long idCompra, long idProducto, decimal cantidad, decimal precioCompra) {
+    public DetalleCompra(long id, long idCompra, long idProducto, decimal cantidad, decimal precioCompra) {
         Id = id;
         IdCompra = idCompra;
         IdProducto = idProducto;

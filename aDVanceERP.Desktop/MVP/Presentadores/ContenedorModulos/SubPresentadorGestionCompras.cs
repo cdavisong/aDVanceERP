@@ -1,8 +1,8 @@
-﻿using aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra;
 
-namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos; 
+namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos;
 
 public partial class PresentadorModulos {
     private PresentadorGestionCompras? _gestionCompras;

@@ -1,11 +1,13 @@
 ﻿using System.Globalization;
+
+using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios.Plantillas;
+
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios;
+namespace aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 
-public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta>, IRepoVenta {
+public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta> {
     public RepoVenta() : base("adv__venta", "id_venta") { }
 
     protected override string GenerarComandoAdicionar(Venta objeto) {
@@ -16,7 +18,6 @@ public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta>, IRepo
                     id_cliente,
                     id_tipo_entrega,
                     direccion_entrega,
-                    estado_entrega,
                     total
                 )
                 VALUES (
@@ -25,7 +26,6 @@ public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta>, IRepo
                     {objeto.IdCliente},
                     {objeto.IdTipoEntrega},
                     '{objeto.DireccionEntrega}',
-                    '{objeto.EstadoEntrega}',
                     {objeto.Total.ToString(CultureInfo.InvariantCulture)});
                 """;
     }
@@ -39,7 +39,6 @@ public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta>, IRepo
                     id_cliente = {objeto.IdCliente},
                     id_tipo_entrega = {objeto.IdTipoEntrega},
                     direccion_entrega = '{objeto.DireccionEntrega}',
-                    estado_entrega = '{objeto.EstadoEntrega}',
                     total = {objeto.Total.ToString(CultureInfo.InvariantCulture)}
                 WHERE id_venta = {objeto.Id};
                 """;
@@ -113,8 +112,13 @@ public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta>, IRepo
             lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_cliente")),
             lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_tipo_entrega")),
             lectorDatos.GetString(lectorDatos.GetOrdinal("direccion_entrega")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("estado_entrega")),
             lectorDatos.GetDecimal(lectorDatos.GetOrdinal("total"))
         );
     }
+
+    #region STATIC
+
+    public static RepoVenta Instancia { get; } = new RepoVenta();
+
+    #endregion
 }

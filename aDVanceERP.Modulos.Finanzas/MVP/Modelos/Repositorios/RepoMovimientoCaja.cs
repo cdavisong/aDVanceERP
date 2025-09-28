@@ -56,15 +56,15 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos.Repositorios {
 
         protected override MovimientoCaja MapearEntidad(MySqlDataReader lectorDatos) {
             return new MovimientoCaja(
-                lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_movimiento_caja")),
-                lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_caja")),
-                lectorDatos.GetDateTime(lectorDatos.GetOrdinal("fecha")),
-                lectorDatos.GetDecimal(lectorDatos.GetOrdinal("monto")),
-                (TipoMovimientoCaja) Enum.Parse(typeof(TipoMovimientoCaja), lectorDatos.GetString(lectorDatos.GetOrdinal("tipo"))),
-                lectorDatos.IsDBNull(lectorDatos.GetOrdinal("concepto")) ? null : lectorDatos.GetString(lectorDatos.GetOrdinal("concepto")),
-                lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_pago")) ? 0 : lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_pago")),
-                lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_usuario")) ? 0 : lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_usuario")),
-                lectorDatos.IsDBNull(lectorDatos.GetOrdinal("observaciones")) ? null : lectorDatos.GetString(lectorDatos.GetOrdinal("observaciones"))
+                id: Convert.ToInt64(lectorDatos["id_movimiento_caja"]),
+                idCaja: Convert.ToInt64(lectorDatos["id_caja"]),
+                fecha: Convert.ToDateTime(lectorDatos["fecha"]),
+                monto: Convert.ToDecimal(lectorDatos["monto"], CultureInfo.InvariantCulture),
+                tipo:(TipoMovimientoCaja) Enum.Parse(typeof(TipoMovimientoCaja), Convert.ToString(lectorDatos["tipo"])),
+                concepto: Convert.ToString(lectorDatos["concepto"]) ?? string.Empty,
+                idPago: lectorDatos["id_pago"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_pago"]) : 0,
+                idUsuario: Convert.ToInt64(lectorDatos["id_usuario"]),
+                observaciones: Convert.ToString(lectorDatos["observaciones"]) ?? string.Empty
             );
         }
     }

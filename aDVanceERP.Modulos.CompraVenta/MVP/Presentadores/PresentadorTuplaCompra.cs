@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Compraventa;
+using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra.Plantillas;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;

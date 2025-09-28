@@ -1,11 +1,13 @@
 ﻿using System.Globalization;
+
+using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios.Plantillas;
+
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Modulos.CompraVenta.MVP.Modelos.Repositorios;
+namespace aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 
-public class RepoCompra : RepoEntidadBaseDatos<Compra, FiltroBusquedaCompra>, IRepoCompra {
+public class RepoCompra : RepoEntidadBaseDatos<Compra, FiltroBusquedaCompra> {
     public RepoCompra() : base("adv__compra", "id_compra") { }
 
     protected override string GenerarComandoAdicionar(Compra objeto) {
@@ -13,9 +15,9 @@ public class RepoCompra : RepoEntidadBaseDatos<Compra, FiltroBusquedaCompra>, IR
                 INSERT INTO adv__compra (fecha, id_almacen, id_proveedor, total)
                 VALUES (
                     '{objeto.Fecha:yyyy-MM-dd HH:mm:ss}',
-                    '{objeto.IdAlmacen}',
-                    '{objeto.IdProveedor}',
-                    '{objeto.Total.ToString(CultureInfo.InvariantCulture)}'
+                    {objeto.IdAlmacen},
+                    {objeto.IdProveedor},
+                    {objeto.Total.ToString(CultureInfo.InvariantCulture)}
                 );
                 """;
     }
@@ -24,10 +26,10 @@ public class RepoCompra : RepoEntidadBaseDatos<Compra, FiltroBusquedaCompra>, IR
         return $"""
                 UPDATE adv__compra
                 SET
-                    fecha='{objeto.Fecha:yyyy-MM-dd HH:mm:ss}',
-                    id_almacen='{objeto.IdAlmacen}',
-                    id_proveedor='{objeto.IdProveedor}',
-                    total='{objeto.Total.ToString(CultureInfo.InvariantCulture)}'
+                    fecha = '{objeto.Fecha:yyyy-MM-dd HH:mm:ss}',
+                    id_almacen = {objeto.IdAlmacen},
+                    id_proveedor = {objeto.IdProveedor},
+                    total = {objeto.Total.ToString(CultureInfo.InvariantCulture)}
                 WHERE id_compra={objeto.Id};
                 """;
     }
@@ -106,11 +108,17 @@ public class RepoCompra : RepoEntidadBaseDatos<Compra, FiltroBusquedaCompra>, IR
 
     protected override Compra MapearEntidad(MySqlDataReader lectorDatos) {
         return new Compra(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_compra")),
-            lectorDatos.GetDateTime(lectorDatos.GetOrdinal("fecha")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_almacen")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_proveedor")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("total"))
+            id: Convert.ToInt64(lectorDatos["id_compra"]),
+            fecha: Convert.ToDateTime(lectorDatos["fecha"]),
+            idAlmacen: Convert.ToInt64(lectorDatos["id_almacen"]),
+            idProveedor: Convert.ToInt64(lectorDatos["id_proveedor"]),
+            total: Convert.ToDecimal(lectorDatos["total"], CultureInfo.InvariantCulture)
         );
     }
+
+    #region STATIC
+
+    public static RepoCompra Instancia { get; } = new RepoCompra();
+
+    #endregion
 }

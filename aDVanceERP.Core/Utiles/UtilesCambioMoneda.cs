@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using HtmlAgilityPack;
-using System.Globalization;
+using System.Globalization; 
 
 namespace aDVanceERP.Core.Utiles
 {
