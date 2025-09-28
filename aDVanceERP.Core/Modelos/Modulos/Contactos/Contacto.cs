@@ -1,12 +1,12 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
 public class Contacto : IEntidadBaseDatos {
     public Contacto() { }
 
-    public Contacto(long idContacto, string nombre, string direccionCorreoElectronico, string direccion, string notas) {
-        Id = idContacto;
+    public Contacto(long id, string nombre, string direccionCorreoElectronico, string direccion, string notas) {
+        Id = id;
         Nombre = nombre;
         DireccionCorreoElectronico = direccionCorreoElectronico;
         Direccion = direccion;
@@ -17,7 +17,7 @@ public class Contacto : IEntidadBaseDatos {
     public string? Nombre { get; set; }
     public string? DireccionCorreoElectronico { get; set; }
     public string? Direccion { get; set; }
-    public string? Notas { get; set; }    
+    public string? Notas { get; set; }
 }
 
 public enum FiltroBusquedaContacto {

@@ -1,6 +1,6 @@
-﻿using aDVanceERP.Core.Utiles.Datos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
+using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Desktop.Utiles;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos;
 using aDVanceERP.Modulos.Contactos.MVP.Presentadores;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero;
 

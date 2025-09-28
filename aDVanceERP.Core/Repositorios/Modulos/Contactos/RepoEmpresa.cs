@@ -1,13 +1,12 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios.Plantillas;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios
-{
-    public class RepoEmpresa : RepoEntidadBaseDatos<Empresa, FiltroBusquedaEmpresa>, IRepoEmpresa {
+namespace aDVanceERP.Core.Repositorios.Modulos.Contactos {
+    public class RepoEmpresa : RepoEntidadBaseDatos<Empresa, FiltroBusquedaEmpresa> {
         public RepoEmpresa() : base("adv__empresa", "id_empresa") { }
 
         protected override string GenerarComandoAdicionar(Empresa objeto) {
@@ -73,8 +72,22 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios
         protected override string GenerarComandoEliminar(long id) {
             return $"""
                 DELETE FROM adv__empresa 
-                WHERE id_empresa = {id};
+                WHERE id_empresa = @id;
                 """;
+        }
+
+        public override bool Eliminar(long id) {
+            using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
+                if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
+
+                using (var comando = new MySqlCommand(GenerarComandoEliminar(id), conexion)) {
+                    comando.Parameters.AddWithValue("@id", id);
+
+                    comando.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaEmpresa criterio, string dato) {
@@ -82,13 +95,24 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios
 
             switch (criterio) {
                 case FiltroBusquedaEmpresa.Id:
-                    comando = $"SELECT * FROM adv__empresa WHERE id_empresa='{dato}';";
+                    comando = $"""
+                        SELECT * 
+                        FROM adv__empresa 
+                        WHERE id_empresa = {dato};
+                        """;
                     break;
                 case FiltroBusquedaEmpresa.Nombre:
-                    comando = $"SELECT * FROM adv__empresa WHERE LOWER(nombre) LIKE LOWER('%{dato}%');";
+                    comando = $"""
+                        SELECT * 
+                        FROM adv__empresa 
+                        WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
+                        """;
                     break;
                 default:
-                    comando = "SELECT * FROM adv__empresa;";
+                    comando = """
+                        SELECT * 
+                        FROM adv__empresa;
+                        """;
                     break;
             }
 
@@ -97,14 +121,13 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios
 
         protected override Empresa MapearEntidad(MySqlDataReader lectorDatos) {
             var empresa = new Empresa(
-                lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_empresa")),
-                null,
-                lectorDatos.GetString(lectorDatos.GetOrdinal("nombre")),
-                long.TryParse(lectorDatos.GetValue(lectorDatos.GetOrdinal("id_contacto")).ToString(), out var idContacto)
-                    ? idContacto
-                    : 0
+                id: Convert.ToInt64(lectorDatos["id_empresa"]),
+                logotipo: null,
+                nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+                idContacto: lectorDatos["id_contacto"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_contacto"]) : 0
             );
 
+            // Mapear logotipo si existe y es válido
             if (!lectorDatos.IsDBNull(lectorDatos.GetOrdinal("logotipo"))) {
                 var bytesImagen = (byte[]) lectorDatos["logotipo"];
 

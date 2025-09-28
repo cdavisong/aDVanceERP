@@ -1,20 +1,20 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos;
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
 public class Proveedor : IEntidadBaseDatos {
     public Proveedor() { }
 
-    public Proveedor(long idProveedor, string razonSocial, string numeroIdentificacionTributaria,
+    public Proveedor(long id, string razonSocial, string numeroIdentificacionTributaria,
         long idContacto) {
-        Id = idProveedor;
+        Id = id;
         RazonSocial = razonSocial;
         NumeroIdentificacionTributaria = numeroIdentificacionTributaria;
         IdContacto = idContacto;
     }
 
     public long Id { get; set; }
-    public string? RazonSocial { get; }
+    public string RazonSocial { get; }
     public string? NumeroIdentificacionTributaria { get; }
     public long IdContacto { get; set; }
 }

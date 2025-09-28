@@ -1,11 +1,11 @@
-﻿using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios.Plantillas;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
+using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios;
+namespace aDVanceERP.Core.Repositorios.Modulos.Contactos;
 
-public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensajero>, IRepoMensajero {
+public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensajero> {
     public RepoMensajero() : base("adv__mensajero", "id_mensajero") { }
 
     protected override string GenerarComandoAdicionar(Mensajero objeto) {
@@ -18,7 +18,7 @@ public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensa
                 VALUES (
                     '{objeto.Nombre}',
                     '{(objeto.Activo ? 1 : 0)}',
-                    '{objeto.IdContacto}'
+                    {objeto.IdContacto}
                 );
                 """;
     }
@@ -27,17 +27,17 @@ public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensa
         return $"""
                 UPDATE adv__mensajero
                 SET
-                    nombre='{objeto.Nombre}',
-                    activo='{(objeto.Activo ? 1 : 0)}',
-                    id_contacto='{objeto.IdContacto}'
-                WHERE id_mensajero='{objeto.Id}';
+                    nombre = '{objeto.Nombre}',
+                    activo = '{(objeto.Activo ? 1 : 0)}',
+                    id_contacto = {objeto.IdContacto}
+                WHERE id_mensajero = {objeto.Id};
                 """;
     }
 
     protected override string GenerarComandoEliminar(long id) {
         return $"""
                 DELETE FROM adv__mensajero
-                WHERE id_mensajero={id};
+                WHERE id_mensajero = {id};
                 """;
     }
 
@@ -47,23 +47,23 @@ public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensa
         switch (criterio) {
             case FiltroBusquedaMensajero.Id:
                 comando = $"""
-                           SELECT *
-                           FROM adv__mensajero
-                           WHERE id_mensajero={dato};
-                           """;
+                    SELECT *
+                    FROM adv__mensajero
+                    WHERE id_mensajero={dato};
+                    """;
                 break;
             case FiltroBusquedaMensajero.Nombre:
                 comando = $"""
-                            SELECT *
-                            FROM adv__mensajero
-                            WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
-                           """;
+                    SELECT *
+                    FROM adv__mensajero
+                    WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
+                    """;
                 break;
             default:
                 comando = """
-                          SELECT *
-                          FROM adv__mensajero;
-                          """;
+                    SELECT *
+                    FROM adv__mensajero;
+                    """;
                 break;
         }
 
@@ -72,12 +72,10 @@ public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensa
 
     protected override Mensajero MapearEntidad(MySqlDataReader lectorDatos) {
         return new Mensajero(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_mensajero")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("nombre")),
-            lectorDatos.GetBoolean(lectorDatos.GetOrdinal("activo")),
-            long.TryParse(lectorDatos.GetValue(lectorDatos.GetOrdinal("id_contacto")).ToString(), out var idContacto)
-                ? idContacto
-                : 0
+            id: Convert.ToInt64(lectorDatos["id_mensajero"]),
+            nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
+            activo: Convert.ToBoolean(lectorDatos["activo"]),
+            idContacto: lectorDatos["id_contacto"] != DBNull.Value ? Convert.ToInt64(lectorDatos["id_contacto"]) : 0
         );
     }
 }

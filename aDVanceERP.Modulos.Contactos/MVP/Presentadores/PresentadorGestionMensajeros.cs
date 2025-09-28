@@ -1,6 +1,7 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Contactos;
+
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero.Plantillas;
 

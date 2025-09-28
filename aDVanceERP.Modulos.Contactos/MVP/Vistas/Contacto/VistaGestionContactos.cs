@@ -1,8 +1,7 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
+using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
-
-using aDVanceERP.Modulos.Contactos.MVP.Modelos;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Contacto.Plantillas;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Contacto;

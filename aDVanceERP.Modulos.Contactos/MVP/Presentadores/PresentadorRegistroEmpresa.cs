@@ -1,13 +1,14 @@
-﻿using aDVanceERP.Modulos.Contactos.MVP.Modelos.Repositorios;
-using aDVanceERP.Modulos.Contactos.MVP.Modelos;
-using aDVanceERP.Modulos.Contactos.MVP.Vistas.Empresa.Plantillas;
+﻿
 using aDVanceERP.Core.Utiles.Datos;
-using aDVanceERP.Modulos.Contactos.Properties;
 using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Contactos;
+using aDVanceERP.Core.Repositorios.Modulos.Contactos;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores
-{
+using aDVanceERP.Modulos.Contactos.MVP.Vistas.Empresa.Plantillas;
+using aDVanceERP.Modulos.Contactos.Properties;
+
+namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores {
     public class PresentadorRegistroEmpresa : PresentadorVistaRegistro<IVistaRegistroEmpresa, Empresa, RepoEmpresa, FiltroBusquedaEmpresa> {
         public PresentadorRegistroEmpresa(IVistaRegistroEmpresa vista) : base(vista) {
         }

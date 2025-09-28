@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
 public enum CategoriaTelefonoContacto {
     Otro,
@@ -9,23 +9,24 @@ public enum CategoriaTelefonoContacto {
 }
 
 public class TelefonoContacto : IEntidadBaseDatos {
-    public TelefonoContacto() { }
+    public TelefonoContacto() {
+        Prefijo = "+53";
+        Numero = "00000000";
+    }
 
-    public TelefonoContacto(long idTelefonoContacto, string prefijo, string numero, CategoriaTelefonoContacto categoria,
-        long idContacto) {
-        Id = idTelefonoContacto;
+    public TelefonoContacto(long id, string prefijo, string numero, CategoriaTelefonoContacto categoria, long idContacto) {
+        Id = id;
         Prefijo = prefijo;
         Numero = numero;
         Categoria = categoria;
         IdContacto = idContacto;
     }
 
-    public string? Prefijo { get; }
-    public string? Numero { get; set; }
+    public long Id { get; set; }
+    public string Prefijo { get; }
+    public string Numero { get; set; }
     public CategoriaTelefonoContacto Categoria { get; set; }
     public long IdContacto { get; }
-
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaTelefonoContacto {

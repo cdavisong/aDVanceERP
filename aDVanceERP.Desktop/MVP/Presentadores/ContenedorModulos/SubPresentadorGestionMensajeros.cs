@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Contactos.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Modulos.Contactos.MVP.Presentadores;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero;
 

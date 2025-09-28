@@ -1,22 +1,21 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
 public class Cliente : IEntidadBaseDatos {
     public Cliente() { }
 
-    public Cliente(long idCliente, string? numero, string? razonSocial, long idContacto) {
-        Id = idCliente;
+    public Cliente(long id, string? numero, string? razonSocial, long idContacto) {
+        Id = id;
         Numero = numero;
         RazonSocial = razonSocial;
         IdContacto = idContacto;
     }
 
+    public long Id { get; set; }
     public string? Numero { get; }
     public string? RazonSocial { get; }
     public long IdContacto { get; set; }
-
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaCliente {

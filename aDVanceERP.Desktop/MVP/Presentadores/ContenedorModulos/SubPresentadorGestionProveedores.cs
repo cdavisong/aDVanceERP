@@ -1,8 +1,8 @@
-﻿using aDVanceERP.Modulos.Contactos.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Modulos.Contactos.MVP.Presentadores;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Proveedor;
 
-namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos; 
+namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos;
 
 public partial class PresentadorModulos {
     private PresentadorGestionProveedores? _gestionProveedores;

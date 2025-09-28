@@ -2,7 +2,7 @@
 
 using System.Drawing.Imaging;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos {
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos {
     public class Empresa : IEntidadBaseDatos {
         private Image? _logotipo;
 
@@ -18,7 +18,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Modelos {
 
         public long Id { get; set; }
         public Image? Logotipo {
-            get => _logotipo; 
+            get => _logotipo;
             set => _logotipo = value;
         }
         public string? Nombre { get; set; }
@@ -83,7 +83,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Modelos {
     }
 
     public static class UtilesBusquedaEmpresa {
-            public static object[] FiltroBusquedaEmpresa = {
+        public static object[] FiltroBusquedaEmpresa = {
             "Todas las empresas",
             "Identificador de BD",
             "Nombre de la empresa"

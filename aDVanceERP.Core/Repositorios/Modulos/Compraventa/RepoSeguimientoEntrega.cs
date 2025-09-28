@@ -112,15 +112,15 @@ public class RepoSeguimientoEntrega : RepoEntidadBaseDatos<SeguimientoEntrega, F
     }
 
     protected override SeguimientoEntrega MapearEntidad(MySqlDataReader lectorDatos) {
-        return new SeguimientoEntrega {
-            Id = Convert.ToInt64(lectorDatos["id_seguimiento_entrega"]),
-            IdVenta = Convert.ToInt64(lectorDatos["id_venta"]),
-            IdMensajero = Convert.ToInt64(lectorDatos["id_mensajero"]),
-            FechaAsignacion = Convert.ToDateTime(lectorDatos["fecha_asignacion"]),
-            FechaEntrega = lectorDatos["fecha_entrega"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_entrega"]),
-            FechaPago = lectorDatos["fecha_pago"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_pago"]),
-            Observaciones = lectorDatos["observaciones"].ToString() ?? string.Empty
-        };
+        return new SeguimientoEntrega(
+            id: Convert.ToInt64(lectorDatos["id_seguimiento_entrega"]),
+            idVenta: Convert.ToInt64(lectorDatos["id_venta"]),
+            idMensajero: Convert.ToInt64(lectorDatos["id_mensajero"]),
+            fechaAsignacion: Convert.ToDateTime(lectorDatos["fecha_asignacion"]),
+            fechaEntrega: lectorDatos["fecha_entrega"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_entrega"]),
+            fechaPago: lectorDatos["fecha_pago"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_pago"]),
+            observaciones: lectorDatos["observaciones"].ToString() ?? string.Empty
+        );
     }
 
     #region STATIC

@@ -80,11 +80,11 @@ public class RepoDetallePagoTransferencia : RepoEntidadBaseDatos<DetallePagoTran
 
     protected override DetallePagoTransferencia MapearEntidad(MySqlDataReader lectorDatos) {
         return new DetallePagoTransferencia(
-            Convert.ToInt64(lectorDatos["id_detalle_pago_transferencia"]),
-            Convert.ToInt64(lectorDatos["id_venta"]),
-            Convert.ToInt64(lectorDatos["id_tarjeta"]),
-            Convert.ToString(lectorDatos["numero_confirmacion"]) ?? string.Empty,
-            Convert.ToString(lectorDatos["numero_transaccion"]) ?? string.Empty
+            id: Convert.ToInt64(lectorDatos["id_detalle_pago_transferencia"]),
+            idVenta: Convert.ToInt64(lectorDatos["id_venta"]),
+            idTarjeta: Convert.ToInt64(lectorDatos["id_tarjeta"]),
+            numeroConfirmacion: Convert.ToString(lectorDatos["numero_confirmacion"]) ?? string.Empty,
+            numeroTransaccion: Convert.ToString(lectorDatos["numero_transaccion"]) ?? string.Empty
         );
     }
 

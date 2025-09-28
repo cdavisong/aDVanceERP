@@ -104,15 +104,15 @@ public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta> {
         return comando;
     }
 
-    protected override Venta MapearEntidad(MySqlDataReader lectorDatos) {
+    protected override Venta MapearEntidad(MySqlDataReader lector) {
         return new Venta(
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_venta")),
-            lectorDatos.GetDateTime(lectorDatos.GetOrdinal("fecha")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_almacen")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_cliente")),
-            lectorDatos.GetInt32(lectorDatos.GetOrdinal("id_tipo_entrega")),
-            lectorDatos.GetString(lectorDatos.GetOrdinal("direccion_entrega")),
-            lectorDatos.GetDecimal(lectorDatos.GetOrdinal("total"))
+            id: Convert.ToInt64(lector["id_venta"]),
+            fecha: Convert.ToDateTime(lector["fecha"]),
+            idAlmacen: Convert.ToInt64(lector["id_almacen"]),
+            idCliente: Convert.ToInt64(lector["id_cliente"]),
+            idTipoEntrega: Convert.ToInt64(lector["id_tipo_entrega"]),
+            direccionEntrega: Convert.ToString(lector["direccion_entrega"]) ?? "No disonible",
+            total: Convert.ToDecimal(lector["total"], CultureInfo.InvariantCulture)
         );
     }
 

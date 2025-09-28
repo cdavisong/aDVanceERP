@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Contactos.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
 public class Mensajero : IEntidadBaseDatos {
     public Mensajero() { }
@@ -15,7 +15,7 @@ public class Mensajero : IEntidadBaseDatos {
     public long Id { get; set; }
     public string Nombre { get; set; }
     public bool Activo { get; set; }
-    public long IdContacto { get; set; }    
+    public long IdContacto { get; set; }
 }
 
 public enum FiltroBusquedaMensajero {
