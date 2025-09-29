@@ -36,7 +36,7 @@ public partial class PresentadorModulos {
     private async Task InicializarVistaRegistroMovimiento(string? signo, string? nombreAlmacen) {
         await InicializarVistaRegistroMovimiento();
 
-        var tiposMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).resultados;
+        var tiposMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).entidades;
 
         Signo = signo ?? string.Empty;
 

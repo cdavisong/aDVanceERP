@@ -16,7 +16,7 @@ public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegis
         Vista.NombreMensajero = objeto.Nombre;
 
         using (var datosContacto = new RepoContacto()) {
-            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).resultados.FirstOrDefault();
+            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).entidades.FirstOrDefault();
 
             if (contacto != null) {
                 Vista.TelefonoMovil = UtilesTelefonoContacto.ObtenerTelefonoContacto(contacto.Id, true) ?? string.Empty;
@@ -53,7 +53,7 @@ public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegis
     protected override void RegistroAuxiliar(RepoMensajero datosMensajero, long id) {
         using (var datosContacto = new RepoContacto()) {
             // Contacto
-            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).resultados.FirstOrDefault() ??
+            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??
                 new Contacto();
 
             contacto.Nombre = Vista.NombreMensajero;
@@ -71,7 +71,7 @@ public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegis
             }
 
             using (var datosTelefonoContacto = new RepoTelefonoContacto()) {
-                var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).resultados.ToList() ??
+                var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).entidades.ToList() ??
                     new List<TelefonoContacto>();
                 var indiceTelefonoMovil = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Movil);
                 var indiceTelefonoFijo = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Fijo);

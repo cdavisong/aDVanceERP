@@ -162,8 +162,8 @@ public partial class PresentadorModulos {
     private static void RegistrarMovimientoVentaProducto(DetalleVentaProducto detalleVentaProducto, IReadOnlyList<string> datosProducto) {
         var producto = RepoProducto.Instancia.ObtenerPorId(detalleVentaProducto.IdProducto);
         var almacenOrigen = RepoAlmacen.Instancia.ObtenerPorId(long.Parse(datosProducto[5]));
-        var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen.Id));
-        var tipoMovimientoProducto = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").resultados.FirstOrDefault();
+        var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen.Id));
+        var tipoMovimientoProducto = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").entidades.FirstOrDefault();
         var saldoFinalProducto = inventarioProducto.Cantidad + (detalleVentaProducto.Cantidad * (tipoMovimientoProducto?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
 
         using (var datosMovimiento = new RepoMovimiento()) {

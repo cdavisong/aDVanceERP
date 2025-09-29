@@ -16,7 +16,7 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
         Vista.Numero = objeto.Numero;
 
         using (var datosContacto = new RepoContacto()) {
-            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).resultados.FirstOrDefault();
+            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).entidades.FirstOrDefault();
 
             if (contacto != null) {
                 Vista.TelefonoMovil = UtilesTelefonoContacto.ObtenerTelefonoContacto(contacto.Id, true) ?? string.Empty;
@@ -57,7 +57,7 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
     protected override void RegistroAuxiliar(RepoCliente datosCliente, long id) {
         using (var datosContacto = new RepoContacto()) {
             // Contacto
-            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).resultados.FirstOrDefault() ??
+            var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??
                 new Contacto();
 
             contacto.Nombre = Vista.RazonSocial;
@@ -76,7 +76,7 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
             }
 
             using (var datosTelefonoContacto = new RepoTelefonoContacto()) {
-                var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).resultados.ToList() ??
+                var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).entidades.ToList() ??
                     new List<TelefonoContacto>();
                 var indiceTelefonoMovil = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Movil);
                 var indiceTelefonoFijo = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Fijo);

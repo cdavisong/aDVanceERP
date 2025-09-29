@@ -28,7 +28,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
 
             // Popular materias primas
             using (var repoMateriaPrima = new RepoOrdenMateriaPrima()) {
-                var materiasPrimas = repoMateriaPrima.Buscar(FiltroBusquedaOrdenMateriaPrima.OrdenProduccion, entidad.Id.ToString()).resultados;
+                var materiasPrimas = repoMateriaPrima.Buscar(FiltroBusquedaOrdenMateriaPrima.OrdenProduccion, entidad.Id.ToString()).entidades;
                 foreach (var materiaPrima in materiasPrimas) {
                     Vista.AdicionarMateriaPrima(
                         UtilesAlmacen.ObtenerNombreAlmacen(materiaPrima.IdAlmacen) ?? string.Empty,
@@ -38,7 +38,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             }
             // Popular actividades de producción
             using (var repoActividadProduccion = new RepoOrdenActividadProduccion()) {
-                var actividadesProduccion = repoActividadProduccion.Buscar(FiltroBusquedaOrdenActividadProduccion.OrdenProduccion, entidad.Id.ToString()).resultados;
+                var actividadesProduccion = repoActividadProduccion.Buscar(FiltroBusquedaOrdenActividadProduccion.OrdenProduccion, entidad.Id.ToString()).entidades;
                 foreach (var actividad in actividadesProduccion) {
                     Vista.AdicionarActividadProduccion(actividad.Nombre, actividad.Cantidad);
                 }
@@ -46,7 +46,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             //TODO: Popular gastos indirectos
             using (var repoGastoIndirecto = new RepoOrdenGastoIndirecto()) {
                 using (var repoGastoDinamico = new RepoOrdenGastoDinamico()) {
-                    var gastosIndirectos = repoGastoIndirecto.Buscar(FiltroBusquedaOrdenGastoIndirecto.OrdenProduccion, entidad.Id.ToString()).resultados;
+                    var gastosIndirectos = repoGastoIndirecto.Buscar(FiltroBusquedaOrdenGastoIndirecto.OrdenProduccion, entidad.Id.ToString()).entidades;
 
                     foreach (var gasto in gastosIndirectos) {
                         var tuplaGasto = new string[] {
@@ -56,7 +56,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
                     };
 
                     // Verificar si hay una fórmula asociada
-                    var gastoDinamico = repoGastoDinamico.Buscar(FiltroBusquedaOrdenGastoDinamico.IdOrdenGastoIndirecto, gasto.Id.ToString()).resultados.FirstOrDefault();
+                    var gastoDinamico = repoGastoDinamico.Buscar(FiltroBusquedaOrdenGastoDinamico.IdOrdenGastoIndirecto, gasto.Id.ToString()).entidades.FirstOrDefault();
 
                     if (gastoDinamico != null) {
                         tuplaGasto = tuplaGasto.Concat([gastoDinamico.Formula]).ToArray();
@@ -83,7 +83,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             using (var datosObjeto = new RepoOrdenMateriaPrima()) {
                 foreach (var tuplaMateriaPrima in Vista.MateriasPrimas) {
                     var criterioBusqueda = $"{idOrdenProduccion};{UtilesProducto.ObtenerIdProducto(tuplaMateriaPrima[1]).Result}";
-                    var materiaPrimaExistente = datosObjeto.Buscar(FiltroBusquedaOrdenMateriaPrima.Producto, criterioBusqueda).resultados.FirstOrDefault();
+                    var materiaPrimaExistente = datosObjeto.Buscar(FiltroBusquedaOrdenMateriaPrima.Producto, criterioBusqueda).entidades.FirstOrDefault();
                     var materiaPrima = materiaPrimaExistente ?? new OrdenMateriaPrima(0,
                         idOrdenProduccion,
                         UtilesAlmacen.ObtenerIdAlmacen(tuplaMateriaPrima[0]).Result,
@@ -108,7 +108,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             using (var datosObjeto = new RepoOrdenActividadProduccion()) {
                 foreach (var tuplaActividadProduccion in Vista.ActividadesProduccion) {
                     var criterioBusqueda = $"{idOrdenProduccion};{tuplaActividadProduccion[0]}";
-                    var actividadProduccionExistente = datosObjeto.Buscar(FiltroBusquedaOrdenActividadProduccion.Nombre, criterioBusqueda).resultados.FirstOrDefault();
+                    var actividadProduccionExistente = datosObjeto.Buscar(FiltroBusquedaOrdenActividadProduccion.Nombre, criterioBusqueda).entidades.FirstOrDefault();
                     var actividadProduccion = actividadProduccionExistente ?? new OrdenActividadProduccion(0,
                         idOrdenProduccion,
                         tuplaActividadProduccion[0],
@@ -133,7 +133,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
                 using (var entidadGastoDinamico = new RepoOrdenGastoDinamico()) {
                     foreach (var tuplaGastoIndirecto in Vista.GastosIndirectos) {
                         var criterioBusqueda = $"{idOrdenProduccion};{tuplaGastoIndirecto[0]}";
-                        var gastoIndirectoExistente = entidadGastoIndirecto.Buscar(FiltroBusquedaOrdenGastoIndirecto.Concepto, criterioBusqueda).resultados.FirstOrDefault();
+                        var gastoIndirectoExistente = entidadGastoIndirecto.Buscar(FiltroBusquedaOrdenGastoIndirecto.Concepto, criterioBusqueda).entidades.FirstOrDefault();
                         var gastoIndirecto = gastoIndirectoExistente ?? new OrdenGastoIndirecto(0,
                             idOrdenProduccion,
                             tuplaGastoIndirecto[0],
@@ -152,7 +152,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
 
                         // Verificar e insertar tambien los gastos dinamicos
                         if (tuplaGastoIndirecto.Length > 3) {
-                            var gastoDinamicoExistente = entidadGastoDinamico.Buscar(FiltroBusquedaOrdenGastoDinamico.IdOrdenGastoIndirecto, gastoIndirecto.Id.ToString()).resultados.FirstOrDefault();
+                            var gastoDinamicoExistente = entidadGastoDinamico.Buscar(FiltroBusquedaOrdenGastoDinamico.IdOrdenGastoIndirecto, gastoIndirecto.Id.ToString()).entidades.FirstOrDefault();
                             var gastoDinamico = gastoDinamicoExistente ?? new OrdenGastoDinamico(0,
                                 gastoIndirecto.Id,
                                 tuplaGastoIndirecto[3]

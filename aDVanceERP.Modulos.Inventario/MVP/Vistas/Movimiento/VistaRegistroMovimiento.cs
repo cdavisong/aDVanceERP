@@ -162,7 +162,7 @@ public partial class VistaRegistroMovimiento : Form, IVistaRegistroMovimiento {
     }
 
     public void ActualizarCamposAlmacenes() {
-        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, TipoMovimiento).resultados.FirstOrDefault(tm => tm.Nombre.Equals(TipoMovimiento));
+        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, TipoMovimiento).entidades.FirstOrDefault(tm => tm.Nombre.Equals(TipoMovimiento));
 
         if (tipoMovimiento?.Efecto == EfectoMovimiento.Carga) {
             fieldNombreAlmacenOrigen.SelectedIndex = 0;

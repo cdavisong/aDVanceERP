@@ -76,55 +76,79 @@ public class RepoMovimiento : RepoEntidadBaseDatos<Movimiento, FiltroBusquedaMov
         switch (criterio) {
             case FiltroBusquedaMovimiento.Id:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__movimiento
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
                     WHERE id_movimiento = {dato};
                     """;
                 break;
             case FiltroBusquedaMovimiento.Producto:
                 comando = $"""
-                    SELECT m.* 
-                    FROM adv__movimiento m 
-                    JOIN adv__producto p ON m.id_producto = p.id_producto 
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
                     WHERE LOWER(p.nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
             case FiltroBusquedaMovimiento.AlmacenOrigen:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__movimiento m 
-                    JOIN adv__almacen a ON m.id_almacen_origen = a.id_almacen 
-                    WHERE LOWER(a.nombre) LIKE LOWER('%{dato}%');
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
+                    WHERE LOWER(ao.nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
             case FiltroBusquedaMovimiento.AlmacenDestino:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__movimiento m 
-                    JOIN adv__almacen a ON m.id_almacen_destino = a.id_almacen 
-                    WHERE LOWER(a.nombre) LIKE LOWER('%{dato}%');
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
+                    WHERE LOWER(ad.nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
             case FiltroBusquedaMovimiento.Fecha:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__movimiento
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
                     WHERE DATE(fecha) = '{dato}';
                     """;
                 break;
             case FiltroBusquedaMovimiento.TipoMovimiento:
                 comando =
                     $"""
-                    SELECT *
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
                     FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
                     JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
                     WHERE LOWER(tm.nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
             default:
                 comando = """
-                    SELECT * 
-                    FROM adv__movimiento;
+                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                    FROM adv__movimiento m
+                    JOIN adv__producto p ON m.id_producto = p.id_producto
+                    LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
+                    LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
+                    JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento;
                     """;
                 break;
         }
@@ -147,8 +171,13 @@ public class RepoMovimiento : RepoEntidadBaseDatos<Movimiento, FiltroBusquedaMov
             cantidadMovida: Convert.ToDecimal(lectorDatos["cantidad_movida"], CultureInfo.InvariantCulture),
             saldoFinal: Convert.ToDecimal(lectorDatos["saldo_final"], CultureInfo.InvariantCulture),
             idTipoMovimiento: Convert.ToInt64(lectorDatos["id_tipo_movimiento"]),
-            idCuentaUsuario: Convert.ToInt64(lectorDatos["id_cuenta_usuario"])
-        );
+            idCuentaUsuario: Convert.ToInt64(lectorDatos["id_cuenta_usuario"])) {
+            NombreProducto = lectorDatos["nombre_producto"]?.ToString() ?? string.Empty,
+            NombreAlmacenOrigen = lectorDatos["nombre_almacen_origen"]?.ToString() ?? string.Empty,
+            NombreAlmacenDestino = lectorDatos["nombre_almacen_destino"]?.ToString() ?? string.Empty,
+            NombreTipoMovimiento = lectorDatos["nombre_tipo_movimiento"]?.ToString() ?? string.Empty,
+            EfectoMovimiento = Enum.TryParse<EfectoMovimiento>(lectorDatos["efecto"].ToString(), out var efecto) ? efecto : EfectoMovimiento.Ninguno
+        };
     }
 
     #region STATIC

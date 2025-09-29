@@ -242,7 +242,7 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
 
     private void ActualizarValorTotalInventario() {
         ValorTotalInventario = RepoProducto.Instancia.ObtenerValorTotalBruto(
-            RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacen).resultados.FirstOrDefault()?.Id ?? 0);
+            RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacen).entidades.FirstOrDefault()?.Id ?? 0);
     }
 
     private void VerificarPermisos() {

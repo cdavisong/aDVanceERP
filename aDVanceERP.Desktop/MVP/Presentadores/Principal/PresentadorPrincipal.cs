@@ -154,7 +154,7 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
 
     private void ActualizarRepoEmpresa() {
         using (var datosEmpresa = new RepoEmpresa()) {
-            _empresa = datosEmpresa.Buscar(FiltroBusquedaEmpresa.Todos, string.Empty).resultados.FirstOrDefault();
+            _empresa = datosEmpresa.Buscar(FiltroBusquedaEmpresa.Todos, string.Empty).entidades.FirstOrDefault();
 
             if (_menuUsuario != null && _empresa != null) {
                 _menuUsuario.Vista.LogotipoEmpresa = _empresa.Logotipo;

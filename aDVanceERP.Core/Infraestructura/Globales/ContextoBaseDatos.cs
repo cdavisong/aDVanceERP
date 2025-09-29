@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Modelos.BD;
 
 using MySql.Data.MySqlClient;

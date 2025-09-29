@@ -26,7 +26,7 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
 
         presentadorTupla.Vista.Id = entidad.Id.ToString();
         presentadorTupla.Vista.Codigo = entidad.Codigo ?? string.Empty;
-        presentadorTupla.Vista.FechaUltimoMovimiento = inventarioProducto.cantidad > 0 ? inventarioProducto.resultados.Min(inv => inv.UltimaActualizacion) : DateTime.MinValue;
+        presentadorTupla.Vista.FechaUltimoMovimiento = inventarioProducto.cantidad > 0 ? inventarioProducto.entidades.Min(inv => inv.UltimaActualizacion) : DateTime.MinValue;
         presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos")
             ? "-"
             : Vista.NombreAlmacen;
@@ -36,8 +36,8 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
         presentadorTupla.Vista.PrecioVentaBase = entidad.PrecioVentaBase;
         presentadorTupla.Vista.UnidadMedida = unidadMedidaProducto?.Abreviatura ?? "u";
         presentadorTupla.Vista.Stock = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos")
-            ? inventarioProducto.resultados.Sum(inv => inv.Cantidad)
-            : inventarioProducto.resultados.Find(inv => RepoAlmacen.Instancia.ObtenerPorId(inv.IdAlmacen)?.Nombre.Equals(Vista.NombreAlmacen) ?? false)?.Cantidad ?? 0;
+            ? inventarioProducto.entidades.Sum(inv => inv.Cantidad)
+            : inventarioProducto.entidades.Find(inv => RepoAlmacen.Instancia.ObtenerPorId(inv.IdAlmacen)?.Nombre.Equals(Vista.NombreAlmacen) ?? false)?.Cantidad ?? 0;
         presentadorTupla.Vista.MovimientoPositivoStock += delegate (object? sender, EventArgs args) {
             var nombreAlmacen = sender as string;
             var objetoPos = new object[] { "+", nombreAlmacen ?? string.Empty, entidad };

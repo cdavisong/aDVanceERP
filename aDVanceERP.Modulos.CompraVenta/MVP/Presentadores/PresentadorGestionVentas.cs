@@ -23,8 +23,8 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
     protected override PresentadorTuplaVenta ObtenerValoresTupla(Venta objeto) {
         var presentadorTupla = new PresentadorTuplaVenta(new VistaTuplaVenta(), objeto);
         var nombreCliente = UtilesCliente.ObtenerRazonSocialCliente(objeto.IdCliente) ?? string.Empty;
-        var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, objeto.Id.ToString()).resultados.FirstOrDefault();
-        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega?.Id.ToString() ?? "0").resultados;
+        var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, objeto.Id.ToString()).entidades.FirstOrDefault();
+        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega?.Id.ToString() ?? "0").entidades;
         var repoEstadoEntrega = RepoEstadoEntrega.Instancia;
 
         presentadorTupla.Vista.Id = objeto.Id.ToString();
@@ -34,7 +34,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
         presentadorTupla.Vista.CantidadProductos = UtilesVenta.ObtenerCantidadProductosVenta(objeto.Id).ToString("N2", CultureInfo.InvariantCulture);
         presentadorTupla.Vista.MontoTotal = objeto.Total.ToString("N2", CultureInfo.InvariantCulture);
         presentadorTupla.Vista.EstadoEntrega = historialEntrega.Count > 0 ?
-            repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).resultados.FirstOrDefault()?.Nombre ?? "Desconocido" :
+            repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).entidades.FirstOrDefault()?.Nombre ?? "Desconocido" :
             "Pendiente";
 
         var pagosVenta = UtilesVenta.ObtenerPagosPorVenta(objeto.Id);
@@ -65,16 +65,16 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
     private void OnConfirmarEntregaAriculos(object? sender, EventArgs e) {
         foreach (var tupla in _tuplasEntidades)
             if (tupla.EstadoSeleccion) {
-                var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, tupla.Entidad.Id.ToString()).resultados.FirstOrDefault();
+                var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, tupla.Entidad.Id.ToString()).entidades.FirstOrDefault();
 
                 if (seguimientoEntrega != null) {
-                    var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega.Id.ToString()).resultados;
+                    var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega.Id.ToString()).entidades;
                     var ultimoEstadoEntrega = historialEntrega.Count > 0
                         ? historialEntrega.OrderByDescending(h => h.FechaRegistro).FirstOrDefault()
                         : null;
 
                     if (ultimoEstadoEntrega != null) {
-                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).resultados;
+                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).entidades;
                         var estadoCompletado = estadosEntrega.FirstOrDefault(e => e.Nombre.Equals("Entregado"));
 
                         if (estadoCompletado != null && !ultimoEstadoEntrega.IdEstadoEntrega.Equals(estadoCompletado.Id)) {
@@ -89,7 +89,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
                             RepoHistorialEntrega.Instancia.Adicionar(nuevoHistorial);
                         }
                     } else {
-                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).resultados;
+                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).entidades;
                         var estadoCompletado = estadosEntrega.FirstOrDefault(e => e.Nombre.Equals("Entregado"));
 
                         if (estadoCompletado != null) {
@@ -121,7 +121,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
                         );
 
                     var idNuevoSeguimiento = RepoSeguimientoEntrega.Instancia.Adicionar(nuevoSeguimiento);
-                    var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).resultados;
+                    var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).entidades;
                     var estadoCompletado = estadosEntrega.FirstOrDefault(e => e.Nombre.Equals("Entregado"));
 
                     if (estadoCompletado != null) {
@@ -145,12 +145,12 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
         if (_tuplasEntidades.Any(t => t.EstadoSeleccion)) {
             foreach (var tupla in _tuplasEntidades)
                 if (tupla.EstadoSeleccion) {
-                    var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, tupla.Entidad.Id.ToString()).resultados.FirstOrDefault();
+                    var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, tupla.Entidad.Id.ToString()).entidades.FirstOrDefault();
 
                     if (seguimientoEntrega != null) {
-                        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega.Id.ToString()).resultados;
+                        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega.Id.ToString()).entidades;
                         var ultimoEstadoEntrega = historialEntrega.OrderByDescending(h => h.FechaRegistro).FirstOrDefault();
-                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).resultados;
+                        var estadosEntrega = RepoEstadoEntrega.Instancia.Buscar(FiltroBusquedaEstadoEntrega.Todos, string.Empty).entidades;
                         var estadoCompletado = estadosEntrega.FirstOrDefault(e => e.Nombre.Equals("Entregado"));
 
                         if (historialEntrega.Count == 0 || ultimoEstadoEntrega == null || estadoCompletado != null && !ultimoEstadoEntrega.IdEstadoEntrega.Equals(estadoCompletado.Id)) {

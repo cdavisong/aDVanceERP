@@ -14,8 +14,6 @@ using aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen.Plantillas;
 
 using ClosedXML.Excel;
 
-using Guna.UI2.WinForms;
-
 using System.Data;
 using System.Globalization;
 
@@ -178,7 +176,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
                 // Obtener la lista de productos que no se encuentran en el Excel y eliminarlos completamente del sistema
                 var productosEnExcel = new HashSet<string>(datosInventario.AsEnumerable().Select(r => r["Código"]?.ToString()).Where(c => !string.IsNullOrEmpty(c)));
-                var inventarioActual = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdAlmacen, idAlmacen.ToString()).resultados;
+                var inventarioActual = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdAlmacen, idAlmacen.ToString()).entidades;
                 var productosAEliminar = inventarioActual.Where(i => !productosEnExcel.Contains(RepoProducto.Instancia.ObtenerPorId(i.IdProducto).Codigo)).ToList();
 
                 if (productosAEliminar.Count > 0) {
@@ -236,7 +234,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 precioDec = 0;
 
             // Obtener el producto 
-            var productosPorCodigo = repoProducto.Buscar(FiltroBusquedaProducto.Codigo, codigo).resultados;
+            var productosPorCodigo = repoProducto.Buscar(FiltroBusquedaProducto.Codigo, codigo).entidades;
 
             // Verificar que no existan productos con código duplicado, en cuyo caso se eliminarán todos
             // para registrar como nuevo el producto entrante.
@@ -252,7 +250,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
             // Verificar coincidencias para productos con el mismo nombre pero códigos diferentes y
             // eliminar los demás códigos de la base de datos
-            var productosPorNombre = repoProducto.Buscar(FiltroBusquedaProducto.Nombre, descripcion).resultados;
+            var productosPorNombre = repoProducto.Buscar(FiltroBusquedaProducto.Nombre, descripcion).entidades;
 
             if (productosPorNombre != null && productosPorNombre.Count > 0)
                 productosPorNombre.FindAll(p => !p.Codigo?.Equals(codigo) ?? false).ForEach(p => {
@@ -269,7 +267,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 else producto.PrecioCompra = precioDec;
 
                 // Editar la descripción de producto
-                var detalleProducto = repoDetalleProducto.Buscar(FiltroBusquedaDetalleProducto.Id, producto.Id.ToString()).resultados.FirstOrDefault();
+                var detalleProducto = repoDetalleProducto.Buscar(FiltroBusquedaDetalleProducto.Id, producto.Id.ToString()).entidades.FirstOrDefault();
 
                 if (detalleProducto == null) {
                     detalleProducto = new DetalleProducto {
@@ -289,7 +287,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 repoProducto.Editar(producto);
 
                 // Modificar datos de inventario del producto
-                var inventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(almacen.Id));
+                var inventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacen.Id));
 
                 if (inventario == null) {
                     // Crear nuevo registro de inventario si no existe

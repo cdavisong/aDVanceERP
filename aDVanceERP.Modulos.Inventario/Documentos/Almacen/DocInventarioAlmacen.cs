@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
-using aDVanceERP.Core.Infraestructura.Extensiones;
 using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;
@@ -13,6 +12,7 @@ using ClosedXML.Excel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Data;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 
 namespace aDVanceERP.Modulos.Inventario.Documentos.Almacen;
 

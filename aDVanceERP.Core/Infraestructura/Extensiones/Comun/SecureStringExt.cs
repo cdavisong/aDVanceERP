@@ -3,8 +3,8 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace aDVanceERP.Core.Infraestructura.Extensiones {
-    public static class SecureStringExtension {
+namespace aDVanceERP.Core.Infraestructura.Extensiones.Comun {
+    public static class SecureStringExt {
         public static (string hash, string salt) HashPassword(this SecureString passwordSeguro) {
             var unmanagedString = nint.Zero;
 

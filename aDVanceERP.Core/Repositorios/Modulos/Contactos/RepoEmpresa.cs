@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.BD;

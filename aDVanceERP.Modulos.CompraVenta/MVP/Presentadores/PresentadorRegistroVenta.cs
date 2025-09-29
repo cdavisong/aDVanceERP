@@ -12,8 +12,8 @@ public class
     public PresentadorRegistroVenta(IVistaRegistroVenta vista) : base(vista) { }
 
     public override void PopularVistaDesdeEntidad(Venta entidad) {
-        var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, entidad.Id.ToString()).resultados.FirstOrDefault();
-        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega?.Id.ToString()).resultados;
+        var seguimientoEntrega = RepoSeguimientoEntrega.Instancia.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, entidad.Id.ToString()).entidades.FirstOrDefault();
+        var historialEntrega = RepoHistorialEntrega.Instancia.Buscar(FiltroBusquedaHistorialEntrega.IdSeguimientoEntrega, seguimientoEntrega?.Id.ToString()).entidades;
         var repoEstadoEntrega = RepoEstadoEntrega.Instancia;
 
         Vista.ModoEdicion = true;
@@ -21,7 +21,7 @@ public class
         Vista.RazonSocialCliente = UtilesCliente.ObtenerRazonSocialCliente(entidad.IdCliente) ?? string.Empty;
         Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacen) ?? string.Empty;
         Vista.Direccion = entidad.DireccionEntrega;
-        Vista.EstadoEntrega = repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).resultados.FirstOrDefault()?.Nombre ?? "Desconocido";
+        Vista.EstadoEntrega = repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).entidades.FirstOrDefault()?.Nombre ?? "Desconocido";
 
         var productosVenta = UtilesVenta.ObtenerProductosPorVenta(entidad.Id);
 

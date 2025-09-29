@@ -109,10 +109,10 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
     #region UTILES  
 
     public void ModificarInventario(string nombreProducto, string nombreAlmacenOrigen, string nombreAlmacenDestino, decimal cantidad) {
-        _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).resultados.FirstOrDefault(p => p.Nombre.Equals(nombreProducto));
+        _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).entidades.FirstOrDefault(p => p.Nombre.Equals(nombreProducto));
         
-        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenOrigen).resultados.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenOrigen));
-        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenDestino).resultados.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenDestino));
+        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenOrigen).entidades.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenOrigen));
+        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenDestino).entidades.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenDestino));
 
         ModificarInventario(_producto?.Id ?? 0, almacenOrigen?.Id ?? 0, almacenDestino?.Id ?? 0, cantidad);
     }

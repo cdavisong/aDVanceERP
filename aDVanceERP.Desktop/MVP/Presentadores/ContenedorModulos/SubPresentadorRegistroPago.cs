@@ -73,7 +73,7 @@ public partial class PresentadorModulos {
         using (var datosSeguimiento = new RepoSeguimientoEntrega()) {
             var objetoSeguimiento = datosSeguimiento
                 .Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, (idVenta != 0 ? idVenta : _registroPago?.Vista.IdVenta).ToString())
-                .resultados
+                .entidades
                 .FirstOrDefault();
 
             if (objetoSeguimiento == null)
@@ -92,7 +92,7 @@ public partial class PresentadorModulos {
 
                 var movimientoCaja = datos
                             .Buscar(FiltroBusquedaMovimientoCaja.IdPago, pago.Id.ToString())
-                            .resultados
+                            .entidades
                             .FirstOrDefault();
 
                 if (movimientoCaja == null) {

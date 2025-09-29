@@ -21,7 +21,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         Vista.TipoMateriaPrima = UtilesTipoMateriaPrima.ObtenerNombreTipoMateriaPrima(objeto.IdTipoMateriaPrima) ?? string.Empty;
 
         using (var datos = new RepoDetalleProducto()) {
-            var detalleProducto = datos.Buscar(FiltroBusquedaDetalleProducto.Id, objeto.IdDetalleProducto.ToString()).resultados.FirstOrDefault();
+            var detalleProducto = datos.Buscar(FiltroBusquedaDetalleProducto.Id, objeto.IdDetalleProducto.ToString()).entidades.FirstOrDefault();
 
             if (detalleProducto != null) {
                 Vista.UnidadMedida = UtilesUnidadMedida.ObtenerNombreUnidadMedida(detalleProducto.IdUnidadMedida) ?? string.Empty;

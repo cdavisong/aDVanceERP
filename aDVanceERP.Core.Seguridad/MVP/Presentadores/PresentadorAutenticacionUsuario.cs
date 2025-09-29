@@ -29,7 +29,7 @@ public class PresentadorAutenticacionUsuario : PresentadorVistaBase<IVistaAutent
 
         try {
             using (var datosUsuario = new RepoCuentaUsuario()) {
-                var usuario = datosUsuario.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario).resultados.FirstOrDefault();
+                var usuario = datosUsuario.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario).entidades.FirstOrDefault();
 
                 if (usuario == null) {
                     CentroNotificaciones.Mostrar(

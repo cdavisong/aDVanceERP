@@ -159,7 +159,7 @@ public partial class PresentadorModulos {
                 // 4. Actualizar seguimiento de entrega (una sola vez por tupla)
                 var objetoSeguimiento = datosSeguimiento.Buscar(
                     FiltroBusquedaSeguimientoEntrega.IdVenta,
-                    tupla.Vista.Id).resultados.FirstOrDefault();
+                    tupla.Vista.Id).entidades.FirstOrDefault();
 
                 if (objetoSeguimiento != null) {
                     objetoSeguimiento.FechaPago = ahora;

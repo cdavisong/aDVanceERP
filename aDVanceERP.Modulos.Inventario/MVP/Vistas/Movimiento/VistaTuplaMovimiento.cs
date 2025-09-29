@@ -169,8 +169,8 @@ public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
     }
 
     private Color ObtenerColorTupla() {
-        var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, NombreProducto).resultados.FirstOrDefault(p => p.Nombre.Equals(NombreProducto));
-        var inventarioProducto = producto != null ? RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados : null;
+        var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, NombreProducto).entidades.FirstOrDefault(p => p.Nombre.Equals(NombreProducto));
+        var inventarioProducto = producto != null ? RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades : null;
         var saldoRealProducto = inventarioProducto != null && inventarioProducto.Any() ? inventarioProducto.Sum(i => i.Cantidad) : 0.0m;
         var saldoFinalDecimal = decimal.TryParse(SaldoFinal, out var saldoFinal) ? saldoFinal : 0.0m;
 

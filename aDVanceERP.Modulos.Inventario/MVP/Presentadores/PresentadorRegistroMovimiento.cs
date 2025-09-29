@@ -32,7 +32,7 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         var nombreProductoOk = !string.IsNullOrEmpty(Vista.NombreProducto);
         var tipoMovimientoOk = !string.IsNullOrEmpty(Vista.TipoMovimiento);
         var noCompraventaOk = !(Vista.TipoMovimiento.Equals("Compra") || Vista.TipoMovimiento.Equals("Venta"));
-        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.TipoMovimiento).resultados.FirstOrDefault(tm => tm.Nombre.Equals(Vista.TipoMovimiento));
+        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.TipoMovimiento).entidades.FirstOrDefault(tm => tm.Nombre.Equals(Vista.TipoMovimiento));
         var transferenciaAlmacenesIguales = Vista.NombreAlmacenOrigen?.Equals(Vista?.NombreAlmacenDestino) ?? false;
 
         if (tipoMovimiento != null) {
@@ -102,12 +102,12 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
     }
 
     protected override Movimiento? ObtenerEntidadDesdeVista() {
-        var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).resultados.FirstOrDefault(p => p.Nombre.Equals(Vista.NombreProducto));
-        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultados.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenOrigen));
-        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).resultados.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenDestino));
-        var inventario = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen?.Id));
+        var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).entidades.FirstOrDefault(p => p.Nombre.Equals(Vista.NombreProducto));
+        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).entidades.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenOrigen));
+        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).entidades.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenDestino));
+        var inventario = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen?.Id));
         var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.PrecioCompra;
-        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.TipoMovimiento).resultados.FirstOrDefault(tm => tm.Nombre.Equals(Vista.TipoMovimiento));
+        var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.TipoMovimiento).entidades.FirstOrDefault(tm => tm.Nombre.Equals(Vista.TipoMovimiento));
         var saldoFinal = inventario?.Cantidad ?? 0 + (Vista.CantidadMovida * (tipoMovimiento?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
 
         return new Movimiento(

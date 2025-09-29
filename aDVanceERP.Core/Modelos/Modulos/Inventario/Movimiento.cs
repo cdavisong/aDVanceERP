@@ -38,6 +38,16 @@ public class Movimiento : IEntidadBaseDatos {
     public decimal SaldoFinal { get; set; }
     public long IdTipoMovimiento { get; set; }
     public long IdCuentaUsuario { get; set; }
+
+    #region Datos auxiliares de tupla
+
+    public string NombreProducto { get; set; }
+    public string NombreAlmacenOrigen { get; set; }
+    public string NombreAlmacenDestino { get; set; }
+    public string NombreTipoMovimiento { get; set; }
+    public EfectoMovimiento EfectoMovimiento { get; set; }
+
+    #endregion
 }
 
 public enum FiltroBusquedaMovimiento {

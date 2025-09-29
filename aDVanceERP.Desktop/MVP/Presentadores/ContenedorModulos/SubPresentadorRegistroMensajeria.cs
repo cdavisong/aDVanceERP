@@ -49,7 +49,7 @@ public partial class PresentadorModulos {
         if (sender is Venta venta) {
             if (_registroMensajeria != null && _registroVentaProducto != null) {
                 using (var datosSeguimientoEntrega = new RepoSeguimientoEntrega()) {
-                    var seguimientoEntrega = datosSeguimientoEntrega.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, venta.Id.ToString()).resultados.FirstOrDefault();
+                    var seguimientoEntrega = datosSeguimientoEntrega.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, venta.Id.ToString()).entidades.FirstOrDefault();
 
                     if (seguimientoEntrega != null) {
                         _registroMensajeria.PopularVistaDesdeEntidad(seguimientoEntrega);

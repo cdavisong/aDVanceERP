@@ -1,6 +1,6 @@
 ﻿
 using aDVanceERP.Core.Excepciones;
-using aDVanceERP.Core.Infraestructura.Extensiones;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;

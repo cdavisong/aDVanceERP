@@ -1,10 +1,10 @@
 ﻿using aDVanceERP.Core.Excepciones;
-using aDVanceERP.Core.Infraestructura.Extensiones;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Seguridad.Utiles; 
+namespace aDVanceERP.Core.Seguridad.Utiles;
 
 public static class UtilesSeguridadModulosAplicacion {
     public static void InicializarPermisosModulo(string nombreModulo, string[] nombresPermisos) {

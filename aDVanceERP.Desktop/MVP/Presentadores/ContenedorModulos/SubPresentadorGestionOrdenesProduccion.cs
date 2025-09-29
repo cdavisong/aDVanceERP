@@ -69,10 +69,10 @@ namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos {
         }
 
         private void RegistrarMovimientosOrdenProduccionCerrada(object? sender, OrdenProduccion e) {
-            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, e.NombreProducto).resultados.FirstOrDefault(p => p.Nombre.Equals(e.NombreProducto));
+            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, e.NombreProducto).entidades.FirstOrDefault(p => p.Nombre.Equals(e.NombreProducto));
             var almacenDestino = RepoAlmacen.Instancia.ObtenerPorId(e.IdAlmacen);
-            var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(e.IdAlmacen));
-            var tipoMovimientoProducto = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Gasto material").resultados.FirstOrDefault();
+            var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(e.IdAlmacen));
+            var tipoMovimientoProducto = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Gasto material").entidades.FirstOrDefault();
             var saldoFinalProducto = inventarioProducto.Cantidad + (e.Cantidad * (tipoMovimientoProducto?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
 
             // Actualizar el costo unitario de producción en el producto correspondiente
@@ -80,13 +80,13 @@ namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos {
 
             // Movimiento de materiales utilizados en la orden de producción
             using (var repoOrdenMateriaPrima = new RepoOrdenMateriaPrima()) {
-                var materiasPrimas = repoOrdenMateriaPrima.Buscar(FiltroBusquedaOrdenMateriaPrima.OrdenProduccion, e.Id.ToString()).resultados;
+                var materiasPrimas = repoOrdenMateriaPrima.Buscar(FiltroBusquedaOrdenMateriaPrima.OrdenProduccion, e.Id.ToString()).entidades;
 
                 if (materiasPrimas != null && materiasPrimas.Count() > 0) {
                     using (var repoMovimiento = new RepoMovimiento()) {
                         foreach (var materiaPrima in materiasPrimas) {
-                            var inventarioMateriaPrima = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, materiaPrima.IdProducto.ToString()).resultados.FirstOrDefault(i => i.IdAlmacen.Equals(materiaPrima.IdAlmacen));
-                            var tipoMovimientoMateriaPrima = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Gasto material").resultados.FirstOrDefault();
+                            var inventarioMateriaPrima = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, materiaPrima.IdProducto.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(materiaPrima.IdAlmacen));
+                            var tipoMovimientoMateriaPrima = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Gasto material").entidades.FirstOrDefault();
                             var saldoFinalMateriaPrima = inventarioMateriaPrima.Cantidad + (materiaPrima.Cantidad * (tipoMovimientoMateriaPrima?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
 
                             repoMovimiento.Adicionar(new Movimiento(

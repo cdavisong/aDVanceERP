@@ -81,7 +81,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             var datos = await Task.Run(() =>
                 Repositorio.Buscar(FiltroBusqueda, CriterioBusqueda, Vista.TuplasMaximasContenedor, incremento));
 
-            var entidades = datos.resultados.ToList();
+            var entidades = datos.entidades.ToList();
             var calculoPaginas = datos.cantidad / Vista.TuplasMaximasContenedor;
             var entero = datos.cantidad % Vista.TuplasMaximasContenedor == 0;
 
@@ -93,6 +93,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             await Task.Run(() => {
                 for (var i = 0; i < entidades.Count && i < Vista.TuplasMaximasContenedor; i++) {
                     var entidad = entidades[i];
+                    
                     (Vista as Control)?.Invoke(() => {
                         AdicionarTuplaEntidad(entidad);
                     });
@@ -109,9 +110,10 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         }
     }
 
-    protected virtual void AdicionarTuplaEntidad(En objeto) {
+    protected virtual void AdicionarTuplaEntidad(En entidad) {
         (Vista as Control)?.Invoke(() => {
-            var presentadorTupla = ObtenerValoresTupla(objeto);
+            var presentadorTupla = ObtenerValoresTupla(entidad);
+
             if (presentadorTupla == null) return;
 
             presentadorTupla.EntidadSeleccionada += OnEntidadSeleccionada;
@@ -141,7 +143,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
 
 
-    protected abstract Pt ObtenerValoresTupla(En objeto);
+    protected abstract Pt ObtenerValoresTupla(En entidad);
 
     protected virtual void OnEntidadSeleccionada(object? sender, EventArgs e) {
         DeseleccionarTuplas(sender as IVistaTupla);

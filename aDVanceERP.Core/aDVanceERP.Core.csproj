@@ -44,5 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Servicios\Interfaces\" />
+    <Folder Include="Vistas\Modulos\" />
   </ItemGroup>
 </Project>

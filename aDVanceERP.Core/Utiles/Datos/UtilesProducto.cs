@@ -1,10 +1,10 @@
 ﻿using aDVanceERP.Core.Excepciones;
-using aDVanceERP.Core.Infraestructura.Extensiones;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Utiles.Datos; 
+namespace aDVanceERP.Core.Utiles.Datos;
 
 public static class UtilesProducto {
     // Método auxiliar para ejecutar consultas y devolver un valor escalar

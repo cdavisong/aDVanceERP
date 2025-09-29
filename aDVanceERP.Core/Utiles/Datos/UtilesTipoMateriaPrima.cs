@@ -1,10 +1,11 @@
 ﻿using aDVanceERP.Core.Excepciones;
-using aDVanceERP.Core.Infraestructura.Extensiones;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Utiles.Datos {
+namespace aDVanceERP.Core.Utiles.Datos
+{
     public static class UtilesTipoMateriaPrima {
         private static async Task<T?> EjecutarConsultaAsync<T>(string query, Func<MySqlDataReader, T> procesarResultado, params MySqlParameter[] parametros) {
             using var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion());

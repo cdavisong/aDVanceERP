@@ -16,7 +16,7 @@ public class PresentadorRegistroMensajeria : PresentadorVistaRegistro<IVistaRegi
         Vista.NombreMensajero = await UtilesMensajero.ObtenerNombreMensajero(objeto.IdMensajero);
 
         using (var datosVenta = new RepoVenta()) {
-            var venta = datosVenta.Buscar(FiltroBusquedaVenta.Id, objeto.IdVenta.ToString()).resultados.FirstOrDefault();
+            var venta = datosVenta.Buscar(FiltroBusquedaVenta.Id, objeto.IdVenta.ToString()).entidades.FirstOrDefault();
 
             if (venta == null)
                 return;

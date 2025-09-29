@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -6,7 +6,8 @@ using MySql.Data.MySqlClient;
 
 using System.Windows.Forms;
 
-namespace aDVanceERP.PatchDB {
+namespace aDVanceERP.PatchDB
+{
     internal class Program {
         private static string workingDirectory = "C:\\advanceerp\\programa\\";
 

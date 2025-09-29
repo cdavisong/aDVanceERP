@@ -19,7 +19,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores {
             Vista.NombreEmpresa = objeto.Nombre ?? string.Empty;
 
             using (var datosContacto = new RepoContacto()) {
-                var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).resultados.FirstOrDefault();
+                var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, objeto.IdContacto.ToString()).entidades.FirstOrDefault();
 
                 if (contacto != null) {
                     Vista.TelefonoMovil = UtilesTelefonoContacto.ObtenerTelefonoContacto(contacto.Id, true) ?? string.Empty;
@@ -68,7 +68,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores {
         protected override void RegistroAuxiliar(RepoEmpresa datosEmpresa, long id) {
             using (var datosContacto = new RepoContacto()) {
                 // Contacto
-                var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).resultados.FirstOrDefault() ??
+                var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??
                     new Contacto();
 
                 contacto.Nombre = Vista.NombreEmpresa;
@@ -88,7 +88,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores {
                 }
 
                 using (var datosTelefonoContacto = new RepoTelefonoContacto()) {
-                    var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).resultados.ToList() ??
+                    var telefonos = datosTelefonoContacto.Buscar(FiltroBusquedaTelefonoContacto.IdContacto, (Entidad?.IdContacto ?? 0).ToString()).entidades.ToList() ??
                         new List<TelefonoContacto>();
                     var indiceTelefonoMovil = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Movil);
                     var indiceTelefonoFijo = telefonos.FindIndex(t => t.Categoria == CategoriaTelefonoContacto.Fijo);

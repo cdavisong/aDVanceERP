@@ -26,7 +26,7 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
     #region Obtención de datos y búsqueda de entidades
 
     public En? ObtenerPorId(object id) {
-        var cacheKey = $"{NombreTabla}_Id_{id.ToString()}";
+        var cacheKey = $"{NombreTabla}_Id_{id}";
 
         if (_cache.TryGetValue(cacheKey, out En? cachedEntity))
             return cachedEntity;
@@ -49,13 +49,14 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
         return resultados;
     }
 
-    public (int cantidad, List<En> resultados) Buscar(string? consulta = "", int limite = 0, int desplazamiento = 0) {
+    public (int cantidad, List<En> entidades) Buscar(string? consulta = "", int limite = 0, int desplazamiento = 0) {
         // Manejar consultas vacías o nulas
         if (string.IsNullOrEmpty(consulta))
             consulta = $"SELECT * FROM {NombreTabla}";
 
         var consultaCantidad = GenerarConsultaConteo(consulta);
         var consultaResultados = string.IsNullOrEmpty(consulta) ? GenerarComandoObtener(default, string.Empty) : consulta;
+
         var parametros = new Dictionary<string, object>();
 
         if (limite > 0) {
@@ -67,21 +68,21 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
         }
 
         int cantidad = 0;
-        List<En> resultados = new List<En>();
+        List<En> entidades = new List<En>();
 
         using (var conexion = ContextoBaseDatos.ObtenerConexionOptimizada()) {
             conexion.Open();
 
             cantidad = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consultaCantidad, null, conexion);
-            resultados.AddRange(ContextoBaseDatos.EjecutarConsulta(consultaResultados, parametros, MapearEntidad, conexion).ToList());
+            entidades.AddRange(ContextoBaseDatos.EjecutarConsulta(consultaResultados, parametros, MapearEntidad, conexion).ToList());
 
             conexion.Close();
         }         
 
-        return (cantidad, resultados);
+        return (cantidad, entidades);
     }
 
-    public (int cantidad, List<En> resultados) Buscar(Fb? filtroBusqueda, string? criterio, int limite = 0, int desplazamiento = 0) {
+    public (int cantidad, List<En> entidades) Buscar(Fb? filtroBusqueda, string? criterio, int limite = 0, int desplazamiento = 0) {
         var comando = GenerarComandoObtener(filtroBusqueda, criterio);
 
         return Buscar(comando, limite, desplazamiento);
@@ -140,19 +141,11 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
     #region Auxiliares
 
     private string GenerarConsultaConteo(string consultaOriginal) {
-        // Usar expresión regular para reemplazar "SELECT * FROM" por "SELECT COUNT(*) FROM"
-        var regex1 = new Regex(@"SELECT\s+\*\s+FROM", RegexOptions.IgnoreCase);
-        // Usar expresión regular para reemplazar "SELECT *" por "SELECT COUNT(*)" en caso de que el primer caso no genere coincidencias
-        var regex2 = new Regex(@"SELECT\s+\*,", RegexOptions.IgnoreCase);
+        // Regex para capturar toda la cláusula SELECT (desde SELECT hasta FROM)
+        var regex = new Regex(@"SELECT\s+.*?(?=\s+FROM)", RegexOptions.IgnoreCase);
 
-        var regex = regex1.IsMatch(consultaOriginal) ? regex1 : regex2;
-
-        // Determinar cuál regex usar
-        var consultaModificada = regex.Replace(consultaOriginal, match => {
-            return regex1.IsMatch(match.Value) 
-                ? "SELECT COUNT(*) AS total_filas FROM" 
-                : "SELECT COUNT(*) AS total_filas,";
-        });
+        // Reemplazar toda la cláusula SELECT por COUNT(*)
+        var consultaModificada = regex.Replace(consultaOriginal, "SELECT COUNT(*) AS total_filas");
 
         return consultaModificada;
     }

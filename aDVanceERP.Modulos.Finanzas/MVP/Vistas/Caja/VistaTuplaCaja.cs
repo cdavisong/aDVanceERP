@@ -133,7 +133,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
                 var datosMovimientosCaja = new List<string[]>();
 
                 using (var datos = new RepoMovimientoCaja()) {
-                    var movimientosCaja = datos.Buscar(FiltroBusquedaMovimientoCaja.IdCaja, Id).resultados;
+                    var movimientosCaja = datos.Buscar(FiltroBusquedaMovimientoCaja.IdCaja, Id).entidades;
 
                     foreach (var movimiento in movimientosCaja) {
                         datosMovimientosCaja.Add([

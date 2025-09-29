@@ -10,7 +10,7 @@ public partial class PresentadorModulos {
     private PresentadorRegistroTipoMovimiento? _registroTipoMovimiento;
 
     private Task InicializarVistaRegistroTipoMovimiento() {
-        var tiposMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).resultados;
+        var tiposMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).entidades;
 
         _registroTipoMovimiento = new PresentadorRegistroTipoMovimiento(new VistaRegistroTipoMovimiento());
         _registroTipoMovimiento.Vista.EstablecerCoordenadasVistaRegistro(Vista.Dimensiones);
@@ -31,7 +31,7 @@ public partial class PresentadorModulos {
 
     private void EliminarTipoMovimiento(object? sender, EventArgs e) {
         var repoTipoMovimiento = RepoTipoMovimiento.Instancia;
-        var tiposMovimiento = repoTipoMovimiento.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).resultados;
+        var tiposMovimiento = repoTipoMovimiento.Buscar(FiltroBusquedaTipoMovimiento.Todos, string.Empty).entidades;
 
         if (sender is string nombreTipoMovimiento) {
             var tipoMovimiento = tiposMovimiento.FirstOrDefault(tm => tm.Nombre.Equals(nombreTipoMovimiento));
