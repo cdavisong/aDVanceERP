@@ -77,7 +77,7 @@ public class RepoDetalleProducto : RepoEntidadBaseDatos<DetalleProducto, FiltroB
 
     #region STATIC
 
-    public static RepoDetalleProducto Instancia = new RepoDetalleProducto();
+    public static RepoDetalleProducto Instancia { get; } = new RepoDetalleProducto();
 
     public static void HabilitarDeshabilitarProducto(long idDetalleProducto) {
         var consulta = $"""

@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Taller.Modelos;
+namespace aDVanceERP.Core.Modelos.Modulos.Taller;
 
 public class OrdenGastoDinamico : IEntidadBaseDatos {
     public OrdenGastoDinamico() {

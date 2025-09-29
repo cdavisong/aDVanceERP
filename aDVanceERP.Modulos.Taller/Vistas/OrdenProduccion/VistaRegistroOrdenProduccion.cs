@@ -1,17 +1,17 @@
 ﻿using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
+
 using aDVanceERP.Modulos.Taller.Interfaces;
-using aDVanceERP.Modulos.Taller.Modelos;
-using aDVanceERP.Modulos.Taller.Repositorios;
 
 using System.Data;
 using System.Globalization;
 
-namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion
-{
+namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
     public partial class VistaRegistroOrdenProduccion : Form, IVistaRegistroOrdenProduccion {
         private bool _habilitada;
         private bool _modoEdicion;

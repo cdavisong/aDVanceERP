@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Utiles.Datos;
-using aDVanceERP.Modulos.Taller.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Taller;
+using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion;
 using aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion;
 

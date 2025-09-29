@@ -102,13 +102,11 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
 
     #region STATIC
 
-    public static RepoInventario Instancia = new RepoInventario();
+    public static RepoInventario Instancia { get; } = new RepoInventario();
 
     #endregion
 
     #region UTILES  
-
-
 
     public void ModificarInventario(string nombreProducto, string nombreAlmacenOrigen, string nombreAlmacenDestino, decimal cantidad) {
         _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).resultados.FirstOrDefault(p => p.Nombre.Equals(nombreProducto));
@@ -205,8 +203,6 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
             }
         }
     }
-
-    
 
     #endregion
 }

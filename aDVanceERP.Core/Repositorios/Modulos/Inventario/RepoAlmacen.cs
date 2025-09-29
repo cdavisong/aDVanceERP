@@ -88,7 +88,7 @@ public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> 
 
     #region STATIC
 
-    public static RepoAlmacen Instancia = new RepoAlmacen();
+    public static RepoAlmacen Instancia { get; } = new RepoAlmacen();
 
     #endregion
 }

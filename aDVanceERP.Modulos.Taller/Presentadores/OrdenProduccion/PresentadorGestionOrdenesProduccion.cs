@@ -1,15 +1,15 @@
 ﻿
 using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Modulos.Taller.Interfaces;
-using aDVanceERP.Modulos.Taller.Modelos;
-using aDVanceERP.Modulos.Taller.Repositorios;
 using aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion;
 
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
-    public class PresentadorGestionOrdenesProduccion : PresentadorVistaGestion<PresentadortuplaOrdenProduccion, IVistaGestionOrdenesProduccion, IVistaTuplaOrdenProduccion, Modelos.OrdenProduccion, RepoOrdenProduccion, FiltroBusquedaOrdenProduccion> {
+    public class PresentadorGestionOrdenesProduccion : PresentadorVistaGestion<PresentadortuplaOrdenProduccion, IVistaGestionOrdenesProduccion, IVistaTuplaOrdenProduccion, Core.Modelos.Modulos.Taller.OrdenProduccion, RepoOrdenProduccion, FiltroBusquedaOrdenProduccion> {
         public PresentadorGestionOrdenesProduccion(IVistaGestionOrdenesProduccion vista) : base(vista) {
             vista.CerrarOrdenProduccionSeleccionada += OnCerrarOrdenProduccionSeleccionada;
             vista.EditarEntidad += delegate {
@@ -17,9 +17,9 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             };
         }
 
-        public event EventHandler<Modelos.OrdenProduccion> OrdenProduccionCerrada;
+        public event EventHandler<Core.Modelos.Modulos.Taller.OrdenProduccion> OrdenProduccionCerrada;
 
-        protected override PresentadortuplaOrdenProduccion ObtenerValoresTupla(Modelos.OrdenProduccion entidad) {
+        protected override PresentadortuplaOrdenProduccion ObtenerValoresTupla(Core.Modelos.Modulos.Taller.OrdenProduccion entidad) {
             var presentadorTupla = new PresentadortuplaOrdenProduccion(new VistaTuplaOrdenProduccion(), entidad);
 
             presentadorTupla.Vista.Id = entidad.Id.ToString();

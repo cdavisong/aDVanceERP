@@ -1,11 +1,11 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 
-using aDVanceERP.Modulos.Taller.Modelos;
 using aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion;
-using aDVanceERP.Modulos.Taller.Repositorios;
 using aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos {

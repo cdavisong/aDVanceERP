@@ -1,12 +1,12 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Modulos.Taller.Modelos;
 
 using MySql.Data.MySqlClient;
+
 using System.Globalization;
 
-namespace aDVanceERP.Modulos.Taller.Repositorios
-{
+namespace aDVanceERP.Core.Repositorios.Modulos.Taller {
     public class RepoOrdenGastoIndirecto : RepoEntidadBaseDatos<OrdenGastoIndirecto, FiltroBusquedaOrdenGastoIndirecto> {
         public RepoOrdenGastoIndirecto() : base("adv__orden_gasto_indirecto", "id_orden_gasto_indirecto") { }
 
@@ -56,37 +56,74 @@ namespace aDVanceERP.Modulos.Taller.Repositorios
                 """;
         }
 
-        protected override string GenerarComandoObtener(FiltroBusquedaOrdenGastoIndirecto criterio, string dato) {
-            var datoSplit = dato.Split(';');
+        protected override string GenerarComandoObtener(FiltroBusquedaOrdenGastoIndirecto filtroBusqueda, string criterio) {
+            string? comando;
+            string[] datoSplit = criterio.Split(';');
 
-            return criterio switch {
-                FiltroBusquedaOrdenGastoIndirecto.Todos =>
-                    "SELECT * FROM adv__orden_gasto_indirecto;",
-                FiltroBusquedaOrdenGastoIndirecto.Id =>
-                    $"SELECT * FROM adv__orden_gasto_indirecto WHERE id_orden_gasto_indirecto = {dato};",
-                FiltroBusquedaOrdenGastoIndirecto.OrdenProduccion =>
-                    $"SELECT * FROM adv__orden_gasto_indirecto WHERE id_orden_produccion = {dato};",
-                FiltroBusquedaOrdenGastoIndirecto.Concepto =>
-                    datoSplit.Length > 1
-                        ? $"SELECT * FROM adv__orden_gasto_indirecto WHERE id_orden_produccion = {datoSplit[0]} AND concepto = '{datoSplit[1]}'"
-                        : $"SELECT * FROM adv__orden_gasto_indirecto WHERE concepto LIKE '%{dato}%';",
-                FiltroBusquedaOrdenGastoIndirecto.FechaRegistro =>
-                    $"SELECT * FROM adv__orden_gasto_indirecto WHERE DATE(fecha_registro) = '{dato}';",
-                _ => throw new ArgumentOutOfRangeException(nameof(criterio), criterio, null)
-            };
+            switch(filtroBusqueda) {
+                case FiltroBusquedaOrdenGastoIndirecto.Id:
+                    comando = $"""
+                        SELECT * 
+                        FROM adv__orden_gasto_indirecto 
+                        WHERE id_orden_gasto_indirecto = {criterio};
+                        """;
+                    break;
+                case FiltroBusquedaOrdenGastoIndirecto.OrdenProduccion:
+                    comando = $"""
+                        SELECT * 
+                        FROM adv__orden_gasto_indirecto 
+                        WHERE id_orden_produccion = {criterio};
+                        """;
+                    break;
+                case FiltroBusquedaOrdenGastoIndirecto.Concepto:
+                    if (datoSplit.Length > 1) {
+                        comando = $"""
+                            SELECT * 
+                            FROM adv__orden_gasto_indirecto 
+                            WHERE id_orden_produccion = {datoSplit[0]} 
+                              AND concepto = '{datoSplit[1]}';
+                            """;
+                    } else {
+                        comando = $"""
+                            SELECT * 
+                            FROM adv__orden_gasto_indirecto 
+                            WHERE concepto LIKE '%{criterio}%';
+                            """;
+                    }
+                    break;
+                case FiltroBusquedaOrdenGastoIndirecto.FechaRegistro:
+                    comando = $"""
+                        SELECT * 
+                        FROM adv__orden_gasto_indirecto 
+                        WHERE DATE(fecha_registro) = '{criterio}';
+                        """;
+                    break;
+                default:
+                    comando = """
+                        SELECT * 
+                        FROM adv__orden_gasto_indirecto;
+                        """;
+                    break;
+            }
+
+            return comando;
         }
 
         protected override OrdenGastoIndirecto MapearEntidad(MySqlDataReader lectorDatos) {
-            return new OrdenGastoIndirecto {
-                Id = lectorDatos.GetInt64("id_orden_gasto_indirecto"),
-                IdOrdenProduccion = lectorDatos.GetInt64("id_orden_produccion"),
-                Concepto = lectorDatos.GetString("concepto"),
-                Cantidad = lectorDatos.GetDecimal("cantidad"),
-                Monto = lectorDatos.GetDecimal("monto"),
-                Total = lectorDatos.GetDecimal("total"),
-                FechaRegistro = lectorDatos.GetDateTime("fecha_registro")
+            return new OrdenGastoIndirecto(
+                id: Convert.ToInt64(lectorDatos["id_orden_gasto_indirecto"]),
+                idOrdenProduccion: Convert.ToInt64(lectorDatos["id_orden_produccion"]),
+                concepto: Convert.ToString(lectorDatos["concepto"]) ?? string.Empty,
+                cantidad: Convert.ToDecimal(lectorDatos["cantidad"], CultureInfo.InvariantCulture),
+                monto: Convert.ToDecimal(lectorDatos["monto"], CultureInfo.InvariantCulture),
+                costoTotal: Convert.ToDecimal(lectorDatos["total"], CultureInfo.InvariantCulture)) {
+                FechaRegistro = Convert.ToDateTime(lectorDatos["fecha_registro"])
             };
         }
+
+        #region UTILES
+
+        #endregion
 
         public bool EsDinamico(OrdenGastoIndirecto gasto, out string formula) {
             var consulta = $"""
@@ -109,5 +146,11 @@ namespace aDVanceERP.Modulos.Taller.Repositorios
                 return false;
             }
         }
+
+        #region STATIC
+
+        public static RepoOrdenGastoIndirecto Instancia { get; } = new RepoOrdenGastoIndirecto();
+
+        #endregion
     }
 }

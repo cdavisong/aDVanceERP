@@ -153,7 +153,7 @@ public class RepoMovimiento : RepoEntidadBaseDatos<Movimiento, FiltroBusquedaMov
 
     #region STATIC
 
-    public static RepoMovimiento Instancia = new RepoMovimiento();
+    public static RepoMovimiento Instancia { get; } = new RepoMovimiento();
 
     #endregion
 }

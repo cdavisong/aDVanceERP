@@ -178,7 +178,7 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
     #region STATIC
 
-    public static RepoProducto Instancia = new RepoProducto();
+    public static RepoProducto Instancia { get; } = new RepoProducto();
 
     #endregion
 

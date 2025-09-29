@@ -1,10 +1,9 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Taller;
+using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Taller.Interfaces;
-using aDVanceERP.Modulos.Taller.Modelos;
 
-namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion
-{
+namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
     public partial class VistaGestionOrdenesProduccion : Form, IVistaGestionOrdenesProduccion {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;

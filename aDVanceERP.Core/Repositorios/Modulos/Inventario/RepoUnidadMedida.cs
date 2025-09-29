@@ -83,7 +83,7 @@ public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusqued
 
     #region STATIC
 
-    public static RepoUnidadMedida Instancia = new RepoUnidadMedida();
+    public static RepoUnidadMedida Instancia { get; } = new RepoUnidadMedida();
 
     #endregion
 }

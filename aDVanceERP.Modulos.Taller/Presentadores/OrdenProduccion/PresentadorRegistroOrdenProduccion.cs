@@ -1,18 +1,18 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Taller;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Core.Utiles.Datos;
+
 using aDVanceERP.Modulos.Taller.Interfaces;
-using aDVanceERP.Modulos.Taller.Modelos;
-using aDVanceERP.Modulos.Taller.Repositorios;
 
 using System.Globalization;
 
-namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion
-{
-    public class PresentadorRegistroOrdenProduccion : PresentadorVistaRegistro<IVistaRegistroOrdenProduccion, Modelos.OrdenProduccion, RepoOrdenProduccion, FiltroBusquedaOrdenProduccion> {
+namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
+    public class PresentadorRegistroOrdenProduccion : PresentadorVistaRegistro<IVistaRegistroOrdenProduccion, Core.Modelos.Modulos.Taller.OrdenProduccion, RepoOrdenProduccion, FiltroBusquedaOrdenProduccion> {
         public PresentadorRegistroOrdenProduccion(IVistaRegistroOrdenProduccion vista) : base(vista) {
         }
 
-        public override void PopularVistaDesdeEntidad(Modelos.OrdenProduccion entidad) {
+        public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Taller.OrdenProduccion entidad) {
             Vista.ModoEdicion = true;
             Vista.Id = entidad.Id;
             Vista.NombreProductoTerminado = entidad.NombreProducto ?? string.Empty;
@@ -170,8 +170,8 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion
             }
         }
 
-        protected override Modelos.OrdenProduccion? ObtenerEntidadDesdeVista() {
-            return new Modelos.OrdenProduccion(
+        protected override Core.Modelos.Modulos.Taller.OrdenProduccion? ObtenerEntidadDesdeVista() {
+            return new Core.Modelos.Modulos.Taller.OrdenProduccion(
                 Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
                 Vista.NumeroOrden,
                 Vista.FechaApertura,
