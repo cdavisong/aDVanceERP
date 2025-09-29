@@ -6,8 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Modelos\Interfaces\**" />
     <Compile Remove="Presentadores\Interfaces\**" />
+    <EmbeddedResource Remove="Modelos\Interfaces\**" />
     <EmbeddedResource Remove="Presentadores\Interfaces\**" />
+    <None Remove="Modelos\Interfaces\**" />
     <None Remove="Presentadores\Interfaces\**" />
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +43,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modelos\Interfaces\" />
     <Folder Include="Servicios\Interfaces\" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,7 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
-
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria.Plantillas;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria;

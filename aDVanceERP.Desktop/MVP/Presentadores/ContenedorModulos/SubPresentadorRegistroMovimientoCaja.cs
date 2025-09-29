@@ -1,6 +1,6 @@
-﻿using aDVanceERP.Core.Utiles.Datos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Desktop.Utiles;
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
 using aDVanceERP.Modulos.Finanzas.MVP.Presentadores;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 

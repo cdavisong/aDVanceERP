@@ -1,14 +1,14 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos.Repositorios;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
+
 using System.Globalization;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores
-{
+namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
     public class PresentadorGestionCajas : PresentadorVistaGestion<PresentadorTuplaCaja, IVistaGestionCajas, IVistaTuplaCaja, Caja, RepoCaja, FiltroBusquedaCaja> {
         public PresentadorGestionCajas(IVistaGestionCajas vista) 
             : base(vista) {

@@ -1,11 +1,9 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Utiles;
-
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja
-{
+namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
     public partial class VistaGestionCajas : Form, IVistaGestionCajas {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;

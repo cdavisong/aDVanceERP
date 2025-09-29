@@ -16,14 +16,13 @@ public class SeguimientoEntrega : IEntidadBaseDatos {
         Observaciones = observaciones;
     }
 
+    public long Id { get; set; }
     public long IdVenta { get; set; }
     public long IdMensajero { get; set; }
     public DateTime FechaAsignacion { get; set; }
     public DateTime FechaEntrega { get; set; }
     public DateTime FechaPago { get; set; }
     public string? Observaciones { get; set; }
-
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaSeguimientoEntrega {

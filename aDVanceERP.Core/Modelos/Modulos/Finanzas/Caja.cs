@@ -1,17 +1,13 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos {
-    public enum EstadoCaja {
-        Inactiva,
-        Abierta,
-        Cerrada
-    }
-
+namespace aDVanceERP.Core.Modelos.Modulos.Finanzas;
+    
     public class Caja : IEntidadBaseDatos {
         public Caja() { }
 
         public Caja(long id, DateTime fechaApertura, decimal saldoInicial, decimal saldoActual, DateTime fechaCierre, long idCuentaUsuario) {
             Id = id;
+            Estado = EstadoCaja.Abierta;
             FechaApertura = fechaApertura;
             SaldoInicial = saldoInicial;
             SaldoActual = saldoActual;
@@ -20,7 +16,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos {
         }
 
         public long Id { get; set; }
-        public EstadoCaja Estado { get; set; } = EstadoCaja.Abierta;
+        public EstadoCaja Estado { get; set; }
         public DateTime FechaApertura { get; set; }
         public decimal SaldoInicial { get; set; }
         public decimal SaldoActual { get; set; }
@@ -45,4 +41,3 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos {
             "Fecha de cierre"
         };
     }
-}

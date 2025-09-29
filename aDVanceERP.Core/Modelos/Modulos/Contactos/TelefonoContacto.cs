@@ -2,12 +2,6 @@
 
 namespace aDVanceERP.Core.Modelos.Modulos.Contactos;
 
-public enum CategoriaTelefonoContacto {
-    Otro,
-    Fijo,
-    Movil
-}
-
 public class TelefonoContacto : IEntidadBaseDatos {
     public TelefonoContacto() {
         Prefijo = "+53";

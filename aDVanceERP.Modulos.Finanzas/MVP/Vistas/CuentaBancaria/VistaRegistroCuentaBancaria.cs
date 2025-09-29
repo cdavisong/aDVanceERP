@@ -1,7 +1,7 @@
-﻿using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria.Plantillas;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria; 
+namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria;
 
 public partial class VistaRegistroCuentaBancaria : Form, IVistaRegistroCuentaBancaria {
     private bool _modoEdicion;

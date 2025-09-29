@@ -87,7 +87,7 @@ public class
                     ? monto
                     : 0.00m) {
                 FechaConfirmacion = DateTime.Now,
-                Estado = "Confirmado"
+                Estado = EstadoPago.Confirmado
             };
 
             pagos.Add(objetoPago);

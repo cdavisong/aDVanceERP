@@ -1,12 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos; 
-
-public enum TipoMoneda {
-    CUP,
-    MLC,
-    USD
-}
+namespace aDVanceERP.Core.Modelos.Modulos.Finanzas;
 
 public class CuentaBancaria : IEntidadBaseDatos {
     public CuentaBancaria() { }
@@ -23,7 +17,7 @@ public class CuentaBancaria : IEntidadBaseDatos {
     public string? Alias { get; }
     public string? NumeroTarjeta { get; }
     public TipoMoneda Moneda { get; }
-    public long IdContacto { get; set; }    
+    public long IdContacto { get; set; }
 }
 
 public enum FiltroBusquedaCuentaBancaria {

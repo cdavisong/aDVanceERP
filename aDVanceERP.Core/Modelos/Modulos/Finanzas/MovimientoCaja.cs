@@ -1,21 +1,18 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Finanzas.MVP.Modelos {
-    public enum TipoMovimientoCaja {
-        Ingreso,
-        Egreso
-    }
-
+namespace aDVanceERP.Core.Modelos.Modulos.Finanzas {
     public class MovimientoCaja : IEntidadBaseDatos {
-        public MovimientoCaja() { }
+        public MovimientoCaja() {
+            Concepto = "Transacción genérica";
+        }
 
-        public MovimientoCaja(long id, long idCaja, DateTime fecha, decimal monto, TipoMovimientoCaja tipo, string? concepto, long idPago, long idUsuario, string? observaciones) {
+        public MovimientoCaja(long id, long idCaja, DateTime fecha, decimal monto, TipoMovimientoCaja tipo, string concepto, long idPago, long idUsuario, string? observaciones) {
             Id = id;
             IdCaja = idCaja;
             Fecha = fecha;
             Monto = monto;
             Tipo = tipo;
-            Concepto = concepto;
+            Concepto = string.IsNullOrEmpty(concepto) ? "Transacción genérica" : concepto;
             IdPago = idPago;
             IdUsuario = idUsuario;
             Observaciones = observaciones;

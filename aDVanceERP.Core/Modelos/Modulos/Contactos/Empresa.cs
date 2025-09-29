@@ -6,8 +6,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Contactos {
     public class Empresa : IEntidadBaseDatos {
         private Image? _logotipo;
 
-        public Empresa() {
-        }
+        public Empresa() { }
 
         public Empresa(long id, Image? logotipo, string nombre, long idContacto) {
             Id = id;

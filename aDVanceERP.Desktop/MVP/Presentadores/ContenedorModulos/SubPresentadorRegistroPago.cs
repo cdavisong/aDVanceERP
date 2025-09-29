@@ -5,8 +5,8 @@ using aDVanceERP.Desktop.Utiles;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Pago;
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
-using aDVanceERP.Modulos.Finanzas.MVP.Modelos.Repositorios;
+using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos;
 

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Finanzas.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Modulos.Finanzas.MVP.Presentadores;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 

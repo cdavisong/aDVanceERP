@@ -11,16 +11,15 @@ public class Pago : IEntidadBaseDatos {
         MetodoPago = metodoPago;
         Monto = monto;
         FechaConfirmacion = DateTime.Now;
-        Estado = "Confirmado";
+        Estado = EstadoPago.Pendiente;
     }
 
+    public long Id { get; set; }
     public long IdVenta { get; set; }
     public string? MetodoPago { get; set; }
     public decimal Monto { get; set; }
     public DateTime FechaConfirmacion { get; set; }
-    public string? Estado { get; set; }
-
-    public long Id { get; set; }
+    public EstadoPago Estado { get; set; }
 }
 
 public enum FiltroBusquedaPago {

@@ -31,12 +31,12 @@ public class RepoPago : RepoEntidadBaseDatos<Pago, FiltroBusquedaPago> {
     protected override string GenerarComandoEditar(Pago objeto) {
         return $"""
             UPDATE adv__pago SET 
-                id_venta={objeto.IdVenta}, 
-                metodo_pago='{objeto.MetodoPago}', 
-                monto={objeto.Monto.ToString(CultureInfo.InvariantCulture)}, 
-                fecha_confirmacion='{objeto.FechaConfirmacion:yyyy-MM-dd HH:mm:ss}', 
-                estado='{objeto.Estado}' 
-            WHERE id_pago={objeto.Id};
+                id_venta = {objeto.IdVenta}, 
+                metodo_pago = '{objeto.MetodoPago}', 
+                monto = {objeto.Monto.ToString(CultureInfo.InvariantCulture)}, 
+                fecha_confirmacion = '{objeto.FechaConfirmacion:yyyy-MM-dd HH:mm:ss}', 
+                estado = '{objeto.Estado}' 
+            WHERE id_pago = {objeto.Id};
             """;
     }
 
@@ -81,11 +81,10 @@ public class RepoPago : RepoEntidadBaseDatos<Pago, FiltroBusquedaPago> {
             id: Convert.ToInt64(lectorDatos["id_pago"]),
             idVenta: Convert.ToInt64(lectorDatos["id_venta"]),
             metodoPago: Convert.ToString(lectorDatos["metodo_pago"]) ?? string.Empty,
-            monto: Convert.ToDecimal(lectorDatos["monto"], CultureInfo.InvariantCulture)) 
-            {
-                FechaConfirmacion = Convert.ToDateTime(lectorDatos["fecha_confirmacion"]),
-                Estado = Convert.ToString(lectorDatos["estado"]) ?? string.Empty
-            };
+            monto: Convert.ToDecimal(lectorDatos["monto"], CultureInfo.InvariantCulture)) {
+            FechaConfirmacion = Convert.ToDateTime(lectorDatos["fecha_confirmacion"]),
+            Estado = Enum.TryParse<EstadoPago>(Convert.ToString(lectorDatos["estado"]), out var estado) ? estado : EstadoPago.Pendiente
+        };
     }
 
     #region STATIC

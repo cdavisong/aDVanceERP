@@ -130,7 +130,7 @@ public partial class PresentadorModulos {
                         ventaId,
                         "Efectivo",
                         montoTotal) {
-                        Estado = "Confirmado",
+                        Estado = EstadoPago.Confirmado,
                         FechaConfirmacion = ahora
                     };
 
@@ -146,7 +146,7 @@ public partial class PresentadorModulos {
                             ventaId,
                             pagoSplit[2],
                             decimal.Parse(pagoSplit[3], CultureInfo.InvariantCulture)) {
-                            Estado = "Confirmado",
+                            Estado = EstadoPago.Confirmado,
                             FechaConfirmacion = ahora
                         };
 
