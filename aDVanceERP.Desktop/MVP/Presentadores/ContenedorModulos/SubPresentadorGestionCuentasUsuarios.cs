@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Seguridad.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Seguridad.MVP.Presentadores;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.CuentaUsuario;
 

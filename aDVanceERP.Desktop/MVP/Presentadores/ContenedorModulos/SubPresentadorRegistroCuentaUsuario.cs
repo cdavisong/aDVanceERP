@@ -1,10 +1,10 @@
-﻿using aDVanceERP.Core.Seguridad.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Seguridad.MVP.Presentadores;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.CuentaUsuario;
 using aDVanceERP.Core.Seguridad.Utiles;
 using aDVanceERP.Desktop.Utiles;
 
-namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos; 
+namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos;
 
 public partial class PresentadorModulos {
     private PresentadorRegistroCuentaUsuario? _registroCuentaUsuario;

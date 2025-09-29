@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Seguridad.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
 public class RolUsuario : IEntidadBaseDatos {
     public RolUsuario() { }
@@ -10,9 +10,9 @@ public class RolUsuario : IEntidadBaseDatos {
         Nombre = nombre;
     }
 
+    public long Id { get; set; }
     public string? Nombre { get; }
 
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaRolUsuario {

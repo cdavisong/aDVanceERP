@@ -3,11 +3,11 @@
 using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Infraestructura.Extensiones;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Seguridad.MVP.Modelos;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Seguridad.Utiles; 
+namespace aDVanceERP.Core.Seguridad.Utiles;
 
 public static class UtilesCuentaUsuario {
     public static CuentaUsuario? UsuarioAutenticado { get; set; } = new();

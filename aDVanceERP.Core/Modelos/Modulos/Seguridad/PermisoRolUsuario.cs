@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Seguridad.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
 public class PermisoRolUsuario : IEntidadBaseDatos {
     public PermisoRolUsuario() { }
@@ -11,10 +11,9 @@ public class PermisoRolUsuario : IEntidadBaseDatos {
         IdPermiso = idPermiso;
     }
 
+    public long Id { get; set; }
     public long IdRolUsuario { get; }
     public long IdPermiso { get; }
-
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaPermisoRolUsuario {

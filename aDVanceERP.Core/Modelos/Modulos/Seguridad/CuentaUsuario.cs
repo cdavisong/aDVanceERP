@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Seguridad.MVP.Modelos; 
+namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
 public class CuentaUsuario : IEntidadBaseDatos {
     public CuentaUsuario() { }
@@ -15,14 +15,13 @@ public class CuentaUsuario : IEntidadBaseDatos {
         Aprobado = false;
     }
 
+    public long Id { get; set; }
     public string? Nombre { get; }
     public string? PasswordHash { get; private set; }
     public string? PasswordSalt { get; private set; }
     public long IdRolUsuario { get; set; }
     public bool Administrador { get; set; }
     public bool Aprobado { get; set; }
-
-    public long Id { get; set; }
 }
 
 public enum FiltroBusquedaCuentaUsuario {

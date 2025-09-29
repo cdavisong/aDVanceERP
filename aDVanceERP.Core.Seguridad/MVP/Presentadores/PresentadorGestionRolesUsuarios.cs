@@ -1,6 +1,6 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Seguridad.MVP.Modelos;
-using aDVanceERP.Core.Seguridad.MVP.Modelos.Repositorios;
+﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.RolUsuario;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.RolUsuario.Plantillas;
 using aDVanceERP.Core.Seguridad.Utiles;

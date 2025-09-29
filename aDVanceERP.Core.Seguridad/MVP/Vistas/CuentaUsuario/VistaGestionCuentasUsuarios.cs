@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Seguridad.MVP.Modelos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.CuentaUsuario.Plantillas;
 using aDVanceERP.Core.Utiles;
 

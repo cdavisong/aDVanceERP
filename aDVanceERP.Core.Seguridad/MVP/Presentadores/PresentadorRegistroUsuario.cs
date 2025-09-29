@@ -1,9 +1,9 @@
 ﻿using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Mensajes.MVP.Modelos;
 using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Seguridad.MVP.Modelos;
-using aDVanceERP.Core.Seguridad.MVP.Modelos.Repositorios;
+using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Core.Seguridad.MVP.Vistas.Autenticacion.Plantillas;
 using aDVanceERP.Core.Seguridad.Utiles;
 
