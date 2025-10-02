@@ -14,7 +14,7 @@
     <PackageReference Include="QRCoder" Version="1.6.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\aDVanceERP.Core.Seguridad\aDVanceERP.Core.Seguridad.csproj" />
+    <ProjectReference Include="..\aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

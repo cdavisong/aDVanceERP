@@ -3,9 +3,9 @@ using aDVanceERP.Core.Mensajes.MVP.Modelos;
 using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
-using aDVanceERP.Core.Seguridad.MVP.Presentadores;
-using aDVanceERP.Core.Seguridad.MVP.Vistas.RolUsuario;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.MVP.Presentadores;
+using aDVanceERP.Modulos.Seguridad.MVP.Vistas.RolUsuario;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Desktop.Utiles;
 

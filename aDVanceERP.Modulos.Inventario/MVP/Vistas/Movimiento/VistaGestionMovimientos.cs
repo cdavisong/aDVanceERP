@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
 
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Movimiento.Plantillas;

@@ -6,7 +6,7 @@ using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Desktop.Utiles;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Seguridad.Utiles;
+﻿using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra.Plantillas;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra; 

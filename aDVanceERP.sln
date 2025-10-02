@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Modulos.Finanzas
 		{F5BED43A-FB31-48E9-96A3-0DCDDA1C853A} = {F5BED43A-FB31-48E9-96A3-0DCDDA1C853A}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Core.Seguridad", "aDVanceERP.Core.Seguridad\aDVanceERP.Core.Seguridad.csproj", "{E7377C2E-E0D1-4FEA-818E-9AF73EF7833C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Modulos.Seguridad", "aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj", "{E7377C2E-E0D1-4FEA-818E-9AF73EF7833C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Core.Extension", "aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj", "{FBA847F8-56DC-4ED2-909B-ACA70530424A}"
 EndProject
@@ -41,9 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Modulos.Taller",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVancePOS.Mobile", "aDVancePOS.Mobile\aDVancePOS.Mobile.csproj", "{8094AAAF-B0A2-64F1-AC88-546B518FD7ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Actualizador", "aDVanceERP.Actualizador\aDVanceERP.Actualizador.csproj", "{46C6104E-764A-4C58-A929-09C10BC960D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Actualizador", "aDVanceERP.Actualizador\aDVanceERP.Actualizador.csproj", "{46C6104E-764A-4C58-A929-09C10BC960D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.PatchDB", "aDVanceERP.PatchDB\aDVanceERP.PatchDB.csproj", "{C5A0BA96-5811-4F8A-B025-2486660D0A0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.PatchDB", "aDVanceERP.PatchDB\aDVanceERP.PatchDB.csproj", "{C5A0BA96-5811-4F8A-B025-2486660D0A0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

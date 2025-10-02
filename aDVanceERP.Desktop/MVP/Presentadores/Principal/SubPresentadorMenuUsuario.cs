@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Seguridad.MVP.Presentadores;
-using aDVanceERP.Core.Seguridad.MVP.Vistas.Menu;
+using aDVanceERP.Modulos.Seguridad.MVP.Presentadores;
+using aDVanceERP.Modulos.Seguridad.MVP.Vistas.Menu;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.Principal {
     public partial class PresentadorPrincipal {

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Seguridad.Utiles;
+﻿using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Menu;

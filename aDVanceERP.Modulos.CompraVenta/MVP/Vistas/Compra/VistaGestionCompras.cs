@@ -2,7 +2,7 @@
 
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;

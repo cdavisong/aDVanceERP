@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Seguridad.MVP.Presentadores;
-using aDVanceERP.Core.Seguridad.MVP.Vistas.Autenticacion;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.MVP.Presentadores;
+using aDVanceERP.Modulos.Seguridad.MVP.Vistas.Autenticacion;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorSeguridad; 
 

@@ -1,5 +1,5 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen.Plantillas;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen;

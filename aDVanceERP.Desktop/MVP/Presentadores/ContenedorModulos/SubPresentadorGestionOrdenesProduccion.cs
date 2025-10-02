@@ -2,7 +2,7 @@
 using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Taller;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 
 using aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion;

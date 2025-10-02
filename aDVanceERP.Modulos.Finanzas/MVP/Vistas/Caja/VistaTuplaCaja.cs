@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 using aDVanceERP.Modulos.Finanzas.Properties;

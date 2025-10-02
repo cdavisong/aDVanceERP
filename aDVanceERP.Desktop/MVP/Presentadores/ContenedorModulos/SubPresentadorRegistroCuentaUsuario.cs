@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
-using aDVanceERP.Core.Seguridad.MVP.Presentadores;
-using aDVanceERP.Core.Seguridad.MVP.Vistas.CuentaUsuario;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.MVP.Presentadores;
+using aDVanceERP.Modulos.Seguridad.MVP.Vistas.CuentaUsuario;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Desktop.Utiles;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorModulos;

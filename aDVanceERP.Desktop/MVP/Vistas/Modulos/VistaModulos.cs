@@ -1,5 +1,5 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.CompraVenta;

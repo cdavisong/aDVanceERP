@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Seguridad.MVP.Presentadores;
-using aDVanceERP.Core.Seguridad.MVP.Vistas.Autenticacion;
+﻿using aDVanceERP.Modulos.Seguridad.MVP.Presentadores;
+using aDVanceERP.Modulos.Seguridad.MVP.Vistas.Autenticacion;
 
 namespace aDVanceERP.Desktop.MVP.Presentadores.ContenedorSeguridad; 
 

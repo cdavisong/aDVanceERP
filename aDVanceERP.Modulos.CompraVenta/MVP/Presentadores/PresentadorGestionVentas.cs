@@ -6,7 +6,7 @@ using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
-using aDVanceERP.Core.Seguridad.Utiles;
+using aDVanceERP.Modulos.Seguridad.Utiles;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 
