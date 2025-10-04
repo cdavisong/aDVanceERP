@@ -26,9 +26,7 @@ public partial class VistaPrincipal : Form, IVistaPrincipal {
     #region Barra de título
 
     public RepoVistaBase BarraTitulo { get; private set; }
-    public Guna2Button BtnNotificaciones => btnNotificaciones;
-    public Guna2Button BtnMensajes => btnMensajes;
-    public Guna2CirclePictureBox BtnMenuUsuario => btnMenuUsuario;
+    public FlowLayoutPanel BotonesTitulo => layoutBotones;
 
     #endregion
 
@@ -65,18 +63,12 @@ public partial class VistaPrincipal : Form, IVistaPrincipal {
         };
 
         // Eventos        
-        btnNotificaciones.Click += (sender, e) => VerNotificaciones?.Invoke(this, EventArgs.Empty);
-        btnMensajes.Click += (sender, e) => VerMensajes?.Invoke(this, EventArgs.Empty);
-        btnMenuUsuario.Click += (sender, e) => VerMenuUsuario?.Invoke(this, EventArgs.Empty);
         btnMinimizar.Click += (sender, e) => Ocultar();
         btnCerrar.Click += (sender, e) => Close();
     }
 
     public void ModificarVisibilidadBotonesBarraTitulo(bool visible) {
-        //TODO: Implementar botones de notificaaciones y mensajes en la barra de título
-        btnNotificaciones.Visible = false;
-        btnMensajes.Visible = false;
-        btnMenuUsuario.Visible = visible;
+        BotonesTitulo.Controls.OfType<Guna2Button>().ToList().ForEach(b => b.Visible = visible);
     }
 
     public void Mostrar() {

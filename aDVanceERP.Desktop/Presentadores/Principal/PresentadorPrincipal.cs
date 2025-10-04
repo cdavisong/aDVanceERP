@@ -1,8 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Extension.Controladores;
-using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -13,6 +10,8 @@ using aDVanceERP.Desktop.Vistas.Principal;
 using aDVanceERP.Desktop.Vistas.Seguridad;
 using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Core.Infraestructura.Globales;
+using Guna.UI2.WinForms.Suite;
+using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Desktop.Presentadores.Principal;
 
@@ -78,6 +77,28 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
         Vista.PanelCentral.Mostrar(nameof(VistaSeguridad));
 
         AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+    }
+
+    public void AdicionarBotonBarraTitulo(Guna2Button btnTitulo) {
+        Vista.BotonesTitulo.SuspendLayout();
+
+        CustomizableEdges customizableEdges = new CustomizableEdges();
+
+        btnTitulo.Animated = true;
+        btnTitulo.Cursor = Cursors.Hand;
+        btnTitulo.CustomImages.ImageAlign = HorizontalAlignment.Center;
+        btnTitulo.CustomImages.ImageSize = new Size(20, 20);
+        btnTitulo.CustomizableEdges = customizableEdges;
+        btnTitulo.FillColor = Color.WhiteSmoke;
+        btnTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+        btnTitulo.ForeColor = Color.White;
+        btnTitulo.ImageSize = new Size(20, 20);
+        btnTitulo.ShadowDecoration.CustomizableEdges = customizableEdges;
+        btnTitulo.Size = new Size(50, 50);
+        btnTitulo.TabIndex = Vista.BotonesTitulo.Controls.Count + 1;
+
+        Vista.BotonesTitulo.Controls.Add(btnTitulo);
+        Vista.BotonesTitulo.ResumeLayout(false);
     }
 
     public void Dispose() {

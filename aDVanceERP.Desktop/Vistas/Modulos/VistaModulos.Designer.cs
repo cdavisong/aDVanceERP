@@ -116,6 +116,7 @@ namespace aDVanceERP.Desktop.Vistas.Modulos {
             layoutModulos.BackColor = Color.White;
             layoutModulos.Controls.Add(btnInicio);
             layoutModulos.Dock = DockStyle.Fill;
+            layoutModulos.FlowDirection = FlowDirection.TopDown;
             layoutModulos.Location = new Point(0, 0);
             layoutModulos.Margin = new Padding(0);
             layoutModulos.Name = "layoutModulos";

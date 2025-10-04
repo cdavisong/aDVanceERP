@@ -73,6 +73,16 @@ namespace aDVanceERP.Desktop.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap administrative_tools_20px {
+            get {
+                object obj = ResourceManager.GetObject("administrative_tools_20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bar_chartF_96px {
             get {
                 object obj = ResourceManager.GetObject("bar_chartF_96px", resourceCulture);

@@ -16,6 +16,8 @@ public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos
 
         CustomizableEdges customizableEdges = new CustomizableEdges();
 
+        btnModulo.Animated = true;
+        btnModulo.Cursor = Cursors.Hand;
         btnModulo.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
         btnModulo.CheckedState.FillColor = Color.PeachPuff;
         btnModulo.CustomImages.ImageAlign = HorizontalAlignment.Center;
