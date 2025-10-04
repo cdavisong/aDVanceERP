@@ -85,6 +85,7 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
         CustomizableEdges customizableEdges = new CustomizableEdges();
 
         btnTitulo.Animated = true;
+        btnTitulo.BorderRadius = 5;
         btnTitulo.Cursor = Cursors.Hand;
         btnTitulo.CustomImages.ImageAlign = HorizontalAlignment.Center;
         btnTitulo.CustomImages.ImageSize = new Size(20, 20);
