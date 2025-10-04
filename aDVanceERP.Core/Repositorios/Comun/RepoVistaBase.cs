@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -22,6 +23,8 @@ public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
     }
 
     public Dictionary<string, IVistaBase> Vistas { get; private set; }
+
+    public Size Dimensiones => _contenedorVistas.Size;
 
     public IVistaBase? VistaActual { get; private set; }
 
@@ -131,13 +134,13 @@ public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
             foreach (var vista in Vistas.Values)
                 vista.Cerrar();
 
+            Vistas.Clear();
+
             foreach (var form in _contenedorVistas.Controls.OfType<IVistaBase>().OfType<Form>()) {
                 form.Dispose();
-
-                _contenedorVistas.Controls.Remove(form);
             }
 
-            Vistas.Clear();
+            _contenedorVistas.Controls.Clear();
         }
         finally {
             ResumeRedraw();

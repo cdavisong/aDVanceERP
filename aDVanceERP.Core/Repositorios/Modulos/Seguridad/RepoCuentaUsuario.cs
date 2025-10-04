@@ -61,7 +61,7 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
                     WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
-            case FiltroBusquedaCuentaUsuario.Rol:
+            case FiltroBusquedaCuentaUsuario.IdRol:
                 comando = $"""
                     SELECT * 
                     FROM adv__cuenta_usuario 

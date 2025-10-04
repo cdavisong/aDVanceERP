@@ -3,7 +3,6 @@ using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 
@@ -46,15 +45,25 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
         switch (filtroBusqueda) {
             case FiltroBusquedaPermisoRolUsuario.Id:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__rol_permiso
+                    SELECT rp.*, p.id_modulo, p.nombre
+                    FROM adv__rol_permiso rp
+                    LEFT JOIN adv__permiso p ON rp.id_permiso = p.id_permiso
                     WHERE id_rol_permiso = {criterio};
+                    """;
+                break;
+            case FiltroBusquedaPermisoRolUsuario.IdRolUsuario:
+                comando = $"""
+                    SELECT rp.*, p.id_modulo, p.nombre
+                    FROM adv__rol_permiso rp
+                    LEFT JOIN adv__permiso p ON rp.id_permiso = p.id_permiso
+                    WHERE id_rol_usuario = {criterio};
                     """;
                 break;
             default:
                 comando = """
-                    SELECT * 
-                    FROM adv__rol_usuario;
+                    SELECT rp.*, p.id_modulo, p.nombre
+                    FROM adv__rol_permiso rp
+                    LEFT JOIN adv__permiso p ON rp.id_permiso = p.id_permiso;
                     """;
                 break;
         }
@@ -66,7 +75,10 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
         return new PermisoRolUsuario(
             id: Convert.ToInt64(lector["id_rol_permiso"]),
             idRolUsuario: Convert.ToInt64(lector["id_rol_usuario"]),
-            idPermiso: Convert.ToInt64(lector["id_permiso"]));
+            idPermiso: Convert.ToInt64(lector["id_permiso"])) {
+            IdModulo = Convert.ToInt64(lector["id_modulo"]),
+            NombrePermiso = Convert.ToString(lector["nombre"]) ?? string.Empty
+        };
     }
 
     #region STATIC

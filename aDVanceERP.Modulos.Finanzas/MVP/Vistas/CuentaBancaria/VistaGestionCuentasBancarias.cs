@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.CuentaBancaria.Plantillas;
 
@@ -175,12 +175,12 @@ public partial class VistaGestionCuentasBancarias : Form, IVistaGestionCuentasBa
     public event EventHandler? CambioAlmacenOrigen;
 
     private void VerificarPermisos() {
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_FINANZAS_CUENTAS_BANCARIAS_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_FINANZAS_CUENTAS_BANCARIAS_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

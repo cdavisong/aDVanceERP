@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Menu;
@@ -45,7 +45,7 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
         btnAlmacenes.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(3, e); };
     }
 
-    public void MostrarCaracteristicaInicial() {
+    public void SeleccionarVistaInicial() {
         if (btnProductos.Visible)
             btnProductos.PerformClick();
         else if (btnMovimientos.Visible)
@@ -101,14 +101,14 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
     }
 
     private void VerificarPermisos() {
-        btnProductos.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_PRODUCTOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        btnMovimientos.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_MOVIMIENTOS")
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        btnAlmacenes.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_ALMACENES")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+        btnProductos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_PRODUCTOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+        btnMovimientos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_MOVIMIENTOS")
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+        btnAlmacenes.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_ALMACENES")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
     }
 }

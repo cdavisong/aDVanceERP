@@ -1,7 +1,10 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.Text.Json.Serialization;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
+[JsonSerializable(typeof(CuentaUsuario), TypeInfoPropertyName = "CuentaUsuarioJsonContext")]
 public class CuentaUsuario : IEntidadBaseDatos {
     public CuentaUsuario() { }
 
@@ -16,9 +19,9 @@ public class CuentaUsuario : IEntidadBaseDatos {
     }
 
     public long Id { get; set; }
-    public string? Nombre { get; }
-    public string? PasswordHash { get; private set; }
-    public string? PasswordSalt { get; private set; }
+    public string? Nombre { get; set; }
+    public string? PasswordHash { get; set; }
+    public string? PasswordSalt { get; set; }
     public long IdRolUsuario { get; set; }
     public bool Administrador { get; set; }
     public bool Aprobado { get; set; }
@@ -27,11 +30,11 @@ public class CuentaUsuario : IEntidadBaseDatos {
 public enum FiltroBusquedaCuentaUsuario {
     Todos,
     Nombre,
-    Rol
+    IdRol
 }
 
 public static class UtilesBusquedaCuentaUsuario {
-    public static string[] FiltroBusquedaBusquedaCuentaUsuario = {
+    public static string[] FiltroBusquedaCuentaUsuario = {
         "Todos los usuarios",
         "Identificador de BD",
         "Nombre del usuario",

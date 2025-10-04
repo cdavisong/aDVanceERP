@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen.Plantillas;
@@ -208,12 +208,12 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
     }
 
     private void VerificarPermisos() {
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_INVENTARIO_ALMACENES_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_INVENTARIO_ALMACENES_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

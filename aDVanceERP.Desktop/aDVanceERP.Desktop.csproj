@@ -14,13 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core.Mensajes\aDVanceERP.Core.Mensajes.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Contactos\aDVanceERP.Modulos.Contactos.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Finanzas\aDVanceERP.Modulos.Finanzas.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Inventario\aDVanceERP.Modulos.Inventario.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.CompraVenta\aDVanceERP.Modulos.CompraVenta.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Taller\aDVanceERP.Modulos.Taller.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

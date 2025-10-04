@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
@@ -29,7 +29,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
             presentadorTupla.Vista.SaldoActual = objeto.SaldoActual.ToString("N2", CultureInfo.InvariantCulture);
             presentadorTupla.Vista.FechaCierre = objeto.FechaCierre != DateTime.MinValue ? objeto.FechaCierre.ToString("yyyy-MM-dd HH:mm") : "-";
             presentadorTupla.Vista.Estado = (int) objeto.Estado;
-            presentadorTupla.Vista.NombreUsuario = UtilesCuentaUsuario.ObtenerNombreCuentaUsuario(objeto.IdCuentaUsuario) ?? string.Empty;
+            presentadorTupla.Vista.NombreUsuario = ContextoSeguridad.ObtenerNombreCuentaUsuario(objeto.IdCuentaUsuario) ?? string.Empty;
             presentadorTupla.EntidadSeleccionada += CambiarVisibilidadBotones;
             presentadorTupla.EntidadDeseleccionada += CambiarVisibilidadBotones;
             
@@ -59,7 +59,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
             ActualizarResultadosBusqueda();
         }
 
-        private void CambiarVisibilidadBotones(object? sender, EventArgs e) {
+        private void CambiarVisibilidadBotones(object? sender, Caja e) {
             // 1. Filtrar primero las tuplas seleccionadas para evitar procesamiento innecesario
             var tuplaSeleccionada = _tuplasEntidades.Where(t => t.EstadoSeleccion).FirstOrDefault();
 

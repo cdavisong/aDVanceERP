@@ -31,6 +31,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
         Vista.Habilitada = false;
         Vista.BuscarEntidades += OnBuscarEntidad;
+        Vista.RegistrarEntidad += OnRegistrarEntidad;
         Vista.AlturaContenedorTuplasModificada += OnAlturaContenedorTuplasModificada;
         Vista.SincronizarDatos += OnSincronizarDatos;
 
@@ -42,7 +43,8 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
     public string? CriterioBusqueda { get; protected set; }
     public IEnumerable<Pt> TuplasSeleccionadas => _tuplasEntidades.Where(t => t.EstadoSeleccion);
 
-    public event EventHandler? EditarEntidad;
+    public event EventHandler? RegistrarEntidad;
+    public event EventHandler<En>? EditarEntidad;
     public event EventHandler<bool>? CargaDatosCompletada;
 
     public void Buscar(Fb filtroBusqueda, string? criterioBusqueda) {
@@ -141,22 +143,20 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         });
     }
 
-
-
     protected abstract Pt ObtenerValoresTupla(En entidad);
 
-    protected virtual void OnEntidadSeleccionada(object? sender, EventArgs e) {
+    protected virtual void OnEntidadSeleccionada(object? sender, En entidad) {
         DeseleccionarTuplas(sender as IVistaTupla);
     }
 
-    protected virtual void OnEditarEntidad(object? sender, EventArgs e) {
-        EditarEntidad?.Invoke(sender, e);
+    protected virtual void OnEditarEntidad(object? sender, En entidad) {
+        EditarEntidad?.Invoke(sender, entidad);
     }
 
-    protected virtual void OnEliminarEntidad(object? sender, EventArgs e) {
-        if (sender is En objeto)
+    protected virtual void OnEliminarEntidad(object? sender, En entidad) {
+        if (entidad != null)
             try {
-                Repositorio.Eliminar(objeto.Id);
+                Repositorio.Eliminar(entidad.Id);
                 Vista.PaginaActual = 1;
 
                 ActualizarResultadosBusqueda();
@@ -168,6 +168,10 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
     private void OnBuscarEntidad(object? sender, (Fb filtro, string? criterio) e) {
         Buscar(e.filtro, e.criterio);
+    }
+
+    private void OnRegistrarEntidad(object? sender, EventArgs e) {
+        RegistrarEntidad?.Invoke(sender, e);
     }
 
     private void OnAlturaContenedorTuplasModificada(object? sender, EventArgs e) {

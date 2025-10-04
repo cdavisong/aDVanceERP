@@ -6,6 +6,7 @@ namespace aDVanceERP.Core.Repositorios.Comun.Interfaces;
 public interface IRepoVistaBase<Vb> : IRepoBase<IVistaBase>
     where Vb : IVistaBase {
     Dictionary<string, Vb>? Vistas { get; }
+    Size Dimensiones { get; }
     Vb? VistaActual { get; }
 
     void Registrar(Vb vista);

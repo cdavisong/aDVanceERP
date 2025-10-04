@@ -87,7 +87,7 @@ public class PresentadorGestionMensajeros : PresentadorVistaGestion<PresentadorT
         ActualizarResultadosBusqueda();
     }
 
-    private void CambiarVisibilidadBtnHabilitacionMensajero(object? sender, EventArgs e) {
+    private void CambiarVisibilidadBtnHabilitacionMensajero(object? sender, Mensajero e) {
         Vista.MostrarBtnHabilitarDeshabilitarMensajero = _tuplasEntidades.Any(t => t.EstadoSeleccion);
     }
 }

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Contacto.Plantillas;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Contacto; 
@@ -101,22 +101,22 @@ public partial class VistaTuplaContacto : Form, IVistaTuplaContacto {
     }
 
     private void VerificarPermisos() {
-        if (UtilesCuentaUsuario.UsuarioAutenticado == null || UtilesCuentaUsuario.PermisosUsuario == null) {
+        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
             btnEditar.Enabled = false;
             btnEliminar.Enabled = false;
             return;
         }
 
-        btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_CONTACTO_CONTACTOS_EDITAR")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_CONTACTOS_TODOS")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
-        btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_CONTACTOS_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_CONTACTO_CONTACTOS_ELIMINAR")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_CONTACTO_CONTACTOS_TODOS")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
     }
 }

@@ -2,10 +2,11 @@
 
 using aDVanceERP.Core.Mensajes.MVP.Modelos;
 using aDVanceERP.Core.Mensajes.Utiles;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Producto.Plantillas;
 using Guna.UI2.WinForms;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Producto;
 
@@ -173,32 +174,32 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
     }
 
     private void VerificarPermisos() {
-        if (UtilesCuentaUsuario.UsuarioAutenticado == null || UtilesCuentaUsuario.PermisosUsuario == null) {
+        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
             btnMovimientoPositivo.Enabled = false;
             btnMovimientoNegativo.Enabled = false;
             btnEditar.Enabled = false;
             return;
         }
 
-        btnMovimientoPositivo.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnMovimientoPositivo.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR")
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_TODOS");
-        btnMovimientoNegativo.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnMovimientoNegativo.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR")
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                        || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                        || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                             "MOD_INVENTARIO_TODOS");
-        btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_INVENTARIO_PRODUCTOS_EDITAR")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_INVENTARIO_PRODUCTOS_TODOS")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
     }
 }

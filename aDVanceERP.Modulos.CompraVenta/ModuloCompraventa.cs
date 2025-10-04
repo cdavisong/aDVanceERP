@@ -33,7 +33,7 @@ public class ModuloCompraventa : IModuloExtension {
     };
 
     public void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void Apagar() {

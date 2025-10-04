@@ -7,7 +7,7 @@ public static class AgregadorEventos {
         new Dictionary<string, List<Action<string>>>();
 
     // Suscribe un manejador a un tipo de evento
-    public static void Subscribir(string eventType, Action<string> handler) {
+    public static void Suscribir(string eventType, Action<string> handler) {
         if (!_suscriptores.ContainsKey(eventType)) {
             _suscriptores[eventType] = new List<Action<string>>();
         }

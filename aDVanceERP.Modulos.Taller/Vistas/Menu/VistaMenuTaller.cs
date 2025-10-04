@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Taller.Interfaces;
 
 namespace aDVanceERP.Modulos.Taller.Vistas.Menu;
@@ -41,7 +42,7 @@ public partial class VistaMenuTaller : Form, IVistaMenuTaller {
         btnOrdenesProduccion.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(1, e); };
     }
 
-    public void MostrarCaracteristicaInicial() {
+    public void SeleccionarVistaInicial() {
         if (btnOrdenesProduccion.Visible)
             btnOrdenesProduccion.PerformClick();
     }
@@ -82,8 +83,8 @@ public partial class VistaMenuTaller : Form, IVistaMenuTaller {
     }
 
     private void VerificarPermisos() {
-        btnOrdenesProduccion.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_TALLER_ORDENES_PRODUCCION")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_ORDENES_PRODUCCION_TODOS");
+        btnOrdenesProduccion.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_TALLER_ORDENES_PRODUCCION")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_ORDENES_PRODUCCION_TODOS");
     }
 }

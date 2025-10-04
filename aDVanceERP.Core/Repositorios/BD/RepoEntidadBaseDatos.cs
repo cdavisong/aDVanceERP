@@ -130,11 +130,11 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
 
     #region Métodos abstractos para heredar
 
-    protected abstract string GenerarComandoAdicionar(En objeto);
-    protected abstract string GenerarComandoEditar(En objeto);
+    protected abstract string GenerarComandoAdicionar(En entidad);
+    protected abstract string GenerarComandoEditar(En entidad);
     protected abstract string GenerarComandoEliminar(long id);
     protected abstract string GenerarComandoObtener(Fb filtroBusqueda, string criterio);
-    protected abstract En MapearEntidad(MySqlDataReader lectorDatos);
+    protected abstract En MapearEntidad(MySqlDataReader lector);
 
     #endregion
 

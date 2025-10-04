@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
@@ -195,16 +195,16 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
     }
 
     private void VerificarPermisos() {
-        btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_EDITAR")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
-        btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_EDITAR")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_COMPRAVENTA_VENTA_ELIMINAR")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_COMPRAVENTA_VENTA_TODOS")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
     }
 
     private Color ObtenerColorTupla() {

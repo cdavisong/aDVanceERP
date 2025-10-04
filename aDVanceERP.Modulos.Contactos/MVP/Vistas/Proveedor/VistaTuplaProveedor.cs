@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Proveedor.Plantillas;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Proveedor; 
@@ -102,17 +102,17 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
     }
 
     private void VerificarPermisos() {
-        btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_CONTACTO_PROVEEDORES_EDITAR")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_CONTACTO_PROVEEDORES_TODOS")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
-        btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_CONTACTO_PROVEEDORES_ELIMINAR")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_CONTACTO_PROVEEDORES_TODOS")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
     }
 }

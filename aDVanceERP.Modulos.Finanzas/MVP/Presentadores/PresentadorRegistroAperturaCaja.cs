@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
@@ -24,7 +24,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
                 Vista.SaldoInicial,
                 Vista.SaldoInicial,
                 DateTime.MinValue,
-                UtilesCuentaUsuario.UsuarioAutenticado?.Id ?? 0
+                ContextoSeguridad.UsuarioAutenticado?.Id ?? 0
             ) {
                 Estado = EstadoCaja.Abierta
             };

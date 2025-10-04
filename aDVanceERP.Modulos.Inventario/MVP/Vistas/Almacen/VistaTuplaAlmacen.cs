@@ -1,5 +1,5 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen.Plantillas;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen;
@@ -109,17 +109,17 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
     }
 
     private void VerificarPermisos() {
-        btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_INVENTARIO_ALMACENES_EDITAR")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                 "MOD_INVENTARIO_ALMACENES_TODOS")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_INVENTARIO_ALMACENES_ELIMINAR")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                   "MOD_INVENTARIO_ALMACENES_TODOS")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
     }
 }

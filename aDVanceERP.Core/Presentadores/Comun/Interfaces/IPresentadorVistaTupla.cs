@@ -11,8 +11,8 @@ public interface IPresentadorVistaTupla<Vt, En> : IPresentadorVistaBase<Vt>
 
     bool EstadoSeleccion { get; set; }
 
-    event EventHandler? EntidadSeleccionada;
-    event EventHandler? EntidadDeseleccionada;
-    event EventHandler? EditarEntidad;
-    event EventHandler? EliminarEntidad;
+    event EventHandler<En>? EntidadSeleccionada;
+    event EventHandler<En>? EntidadDeseleccionada;
+    event EventHandler<En>? EditarEntidad;
+    event EventHandler<En>? EliminarEntidad;
 }

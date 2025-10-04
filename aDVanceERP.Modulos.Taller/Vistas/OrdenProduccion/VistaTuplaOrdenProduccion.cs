@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Taller.Interfaces;
 using aDVanceERP.Modulos.Taller.Properties;
 
@@ -138,24 +139,24 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
         }
 
         private void VerificarPermisos() {
-            if (UtilesCuentaUsuario.UsuarioAutenticado == null || UtilesCuentaUsuario.PermisosUsuario == null) {
+            if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
                 btnEditar.Enabled = false;
                 btnEliminar.Enabled = false;
                 return;
             }
 
-            btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                     "MOD_TALLER_ORDENES_PRODUCCION_EDITAR")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                     "MOD_TALLER_ORDENES_PRODUCCION_TODOS")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_TODOS");
-            btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_TODOS");
+            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                     "MOD_TALLER_ORDENES_PRODUCCION_ELIMINAR")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                     "MOD_TALLER_ORDENES_PRODUCCION_TODOS")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_TODOS");
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_TALLER_TODOS");
         }
     }
 }

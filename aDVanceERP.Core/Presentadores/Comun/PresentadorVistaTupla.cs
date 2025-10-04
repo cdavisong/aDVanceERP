@@ -28,30 +28,30 @@ public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, 
         set {
             if (value) {
                 Vista.ColorFondoTupla = VariablesGlobales.ColorResaltadoTupla;
-                EntidadSeleccionada?.Invoke(Vista, EventArgs.Empty);
+                EntidadSeleccionada?.Invoke(Vista, Entidad);
             }
             else {
                 Vista.Restaurar();
-                EntidadDeseleccionada?.Invoke(Vista, EventArgs.Empty);
+                EntidadDeseleccionada?.Invoke(Vista, Entidad);
             }
         }
     }
 
-    public event EventHandler? EntidadSeleccionada;
-    public event EventHandler? EntidadDeseleccionada;
-    public event EventHandler? EditarEntidad;
-    public event EventHandler? EliminarEntidad;
+    public event EventHandler<En>? EntidadSeleccionada;
+    public event EventHandler<En>? EntidadDeseleccionada;
+    public event EventHandler<En>? EditarEntidad;
+    public event EventHandler<En>? EliminarEntidad;
 
     private void OnTuplaSeleccionada(object? sender, EventArgs e) {
         EstadoSeleccion = !EstadoSeleccion;
     }
 
     private void OnEditarDatosTupla(object? sender, EventArgs e) {
-        EditarEntidad?.Invoke(Entidad, e);
+        EditarEntidad?.Invoke(sender, Entidad);
     }
 
     private void OnEliminarDatosTupla(object? sender, EventArgs e) {
-        EliminarEntidad?.Invoke(Entidad, e);
+        EliminarEntidad?.Invoke(sender, Entidad);
     }
 
     protected virtual void Dispose(bool disposing) {

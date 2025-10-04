@@ -6,7 +6,7 @@ using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 
@@ -82,7 +82,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
                                 seguimientoEntrega.Id,
                                 estadoCompletado.Id,
                                 DateTime.Now,
-                                UtilesCuentaUsuario.UsuarioAutenticado?.Id ?? 0,
+                                ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                                 "Entrega confirmada desde la gestión de ventas."
                                 );
 
@@ -97,7 +97,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
                                 seguimientoEntrega.Id,
                                 estadoCompletado.Id,
                                 DateTime.Now,
-                                UtilesCuentaUsuario.UsuarioAutenticado?.Id ?? 0,
+                                ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                                 "Entrega confirmada desde la gestión de ventas."
                                 );
 
@@ -129,7 +129,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
                             idNuevoSeguimiento,
                             estadoCompletado.Id,
                             DateTime.Now,
-                            UtilesCuentaUsuario.UsuarioAutenticado?.Id ?? 0,
+                            ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                             "Entrega confirmada desde la gestión de ventas."
                             );
 
@@ -141,7 +141,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
         ActualizarResultadosBusqueda();
     }
 
-    private void CambiarVisibilidadBtnConfirmarEntrega(object? sender, EventArgs e) {
+    private void CambiarVisibilidadBtnConfirmarEntrega(object? sender, Venta e) {
         if (_tuplasEntidades.Any(t => t.EstadoSeleccion)) {
             foreach (var tupla in _tuplasEntidades)
                 if (tupla.EstadoSeleccion) {
@@ -169,7 +169,7 @@ public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTupla
         }
     }
 
-    private void CambiarVisibilidadBtnConfirmarPagos(object? sender, EventArgs e) {
+    private void CambiarVisibilidadBtnConfirmarPagos(object? sender, Venta e) {
         if (_tuplasEntidades.Any(t => t.EstadoSeleccion)) {
             foreach (var tupla in _tuplasEntidades)
                 if (tupla.EstadoSeleccion) {

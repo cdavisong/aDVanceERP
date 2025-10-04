@@ -2,11 +2,12 @@
 
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra.Plantillas;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra;
 
@@ -250,12 +251,12 @@ public partial class VistaGestionCompras : Form, IVistaGestionCompras {
     }
 
     private void VerificarPermisos() {
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_COMPRAVENTA_COMPRA_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_COMPRAVENTA_COMPRA_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

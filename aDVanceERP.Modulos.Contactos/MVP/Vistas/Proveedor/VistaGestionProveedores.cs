@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Proveedor.Plantillas;
 
@@ -174,12 +174,12 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
     }
 
     private void VerificarPermisos() {
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_CONTACTO_PROVEEDORES_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_CONTACTO_PROVEEDORES_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

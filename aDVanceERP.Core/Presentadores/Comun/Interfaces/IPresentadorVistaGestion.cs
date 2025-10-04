@@ -8,13 +8,13 @@ public interface IPresentadorVistaGestion<Vg, Re, En, Fb> : IPresentadorVistaBas
     where Vg : class, IVistaContenedor, IGestorEntidades, IBuscadorEntidades<Fb>, INavegadorTuplasEntidades
     where Re : class, IRepoEntidadBaseDatos<En, Fb>, new()
     where En : class, IEntidadBaseDatos, new()
-    where Fb : Enum
-{
+    where Fb : Enum {
     Re Repositorio { get; }
     Fb FiltroBusqueda { get; }
     string? CriterioBusqueda { get; }
 
-    event EventHandler? EditarEntidad;
+    event EventHandler? RegistrarEntidad;
+    event EventHandler<En>? EditarEntidad;
 
     void Buscar(Fb filtroBusqueda, string? criterioBusqueda);
     void ActualizarResultadosBusqueda();

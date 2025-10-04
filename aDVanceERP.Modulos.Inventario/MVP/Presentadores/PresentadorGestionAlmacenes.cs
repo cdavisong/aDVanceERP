@@ -409,7 +409,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
         return conexionOk;
     }
 
-    private void CambiarVisibilidadBtnImportarInvntarioVersat(object? sender, EventArgs e) {
+    private void CambiarVisibilidadBtnImportarInvntarioVersat(object? sender, Almacen e) {
         Vista.MostrarBtnImportarInventarioVersat = _tuplasEntidades.Any(t => t.EstadoSeleccion);
     }
 }

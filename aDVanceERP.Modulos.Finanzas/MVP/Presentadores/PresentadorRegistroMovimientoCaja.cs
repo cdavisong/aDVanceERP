@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 
@@ -30,7 +30,7 @@ public class PresentadorRegistroMovimientoCaja : PresentadorVistaRegistro<IVIsta
             Enum.Parse<TipoMovimientoCaja>(Vista.TipoMovimiento),
             Vista.Concepto,
             0,
-            UtilesCuentaUsuario.UsuarioAutenticado?.Id ?? 0,
+            ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
             Vista.Observaciones
         );
     }

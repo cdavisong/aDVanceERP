@@ -3,9 +3,10 @@
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Producto.Plantillas;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Producto;
 
@@ -246,17 +247,17 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     }
 
     private void VerificarPermisos() {
-        if (UtilesCuentaUsuario.UsuarioAutenticado == null || UtilesCuentaUsuario.PermisosUsuario == null) {
+        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
             btnRegistrar.Enabled = false;
             return;
         }
 
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_INVENTARIO_PRODUCTOS_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_INVENTARIO_PRODUCTOS_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

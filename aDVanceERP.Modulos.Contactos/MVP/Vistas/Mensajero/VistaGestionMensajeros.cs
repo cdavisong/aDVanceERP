@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero.Plantillas;
 
@@ -188,17 +188,17 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
     }
 
     private void VerificarPermisos() {
-        if (UtilesCuentaUsuario.UsuarioAutenticado == null || UtilesCuentaUsuario.PermisosUsuario == null) {
+        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
             btnRegistrar.Enabled = false;
             return;
         }
 
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_CONTACTO_MENSAJEROS_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_CONTACTO_MENSAJEROS_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

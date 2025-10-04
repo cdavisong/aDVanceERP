@@ -14,9 +14,12 @@ public class PermisoRolUsuario : IEntidadBaseDatos {
     public long Id { get; set; }
     public long IdRolUsuario { get; }
     public long IdPermiso { get; }
+    public long IdModulo { get; set; }
+    public string NombrePermiso { get; set; }
 }
 
 public enum FiltroBusquedaPermisoRolUsuario {
     Todos,
-    Id
+    Id,
+    IdRolUsuario
 }

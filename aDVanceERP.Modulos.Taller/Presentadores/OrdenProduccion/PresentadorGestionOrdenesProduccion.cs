@@ -67,7 +67,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             base.ActualizarResultadosBusqueda();
         }
 
-        private void CambiarVisibilidadBtnCierreOrdenProduccion(object? sender, EventArgs e) {
+        private void CambiarVisibilidadBtnCierreOrdenProduccion(object? sender, Core.Modelos.Modulos.Taller.OrdenProduccion e) {
             if (_tuplasEntidades.Any(t => t.EstadoSeleccion)) {
                 foreach (var tupla in _tuplasEntidades) {
                     if (tupla.EstadoSeleccion) {

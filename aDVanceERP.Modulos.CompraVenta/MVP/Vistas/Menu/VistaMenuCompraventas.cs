@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Menu; 
@@ -44,7 +45,7 @@ public partial class VistaMenuCompraventas : Form, IVistaMenuVentas {
         btnCompra.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(2, e); };
     }
 
-    public void MostrarCaracteristicaInicial() {
+    public void SeleccionarVistaInicial() {
         if (btnVenta.Visible)
             btnVenta.PerformClick();
         else if (btnCompra.Visible)
@@ -92,11 +93,11 @@ public partial class VistaMenuCompraventas : Form, IVistaMenuVentas {
     }
 
     private void VerificarPermisos() {
-        btnCompra.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_COMPRAVENTA_COMPRA")
-                            || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_COMPRA");
-        btnVenta.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                           || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_COMPRAVENTA_VENTA")
-                           || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+        btnCompra.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_COMPRAVENTA_COMPRA")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_COMPRA");
+        btnVenta.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                           || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_COMPRAVENTA_VENTA")
+                           || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
     }
 }

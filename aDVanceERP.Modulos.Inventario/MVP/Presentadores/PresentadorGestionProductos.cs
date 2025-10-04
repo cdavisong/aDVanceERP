@@ -84,7 +84,7 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
         ActualizarResultadosBusqueda();
     }
 
-    private void CambiarVisibilidadBtnHabilitacionProducto(object? sender, EventArgs e) {
+    private void CambiarVisibilidadBtnHabilitacionProducto(object? sender, Producto e) {
         Vista.MostrarBtnHabilitarDeshabilitarProducto = _tuplasEntidades.Any(t => t.EstadoSeleccion);
     }
 }

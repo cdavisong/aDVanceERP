@@ -26,7 +26,7 @@ public enum FiltroBusquedaSesionUsuario {
 }
 
 public static class UtilesBusquedaSesionUsuario {
-    public static string[] FiltroBusquedaBusquedaSesionUsuario = {
+    public static string[] FiltroBusquedaSesionUsuario = {
         "Todas las sesiones",
         "Identificador de BD",
         "Nombre del usuario",

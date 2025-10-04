@@ -8,10 +8,13 @@
   <ItemGroup>
     <Compile Remove="Modelos\Interfaces\**" />
     <Compile Remove="Presentadores\Interfaces\**" />
+    <Compile Remove="Servicios\Interfaces\**" />
     <EmbeddedResource Remove="Modelos\Interfaces\**" />
     <EmbeddedResource Remove="Presentadores\Interfaces\**" />
+    <EmbeddedResource Remove="Servicios\Interfaces\**" />
     <None Remove="Modelos\Interfaces\**" />
     <None Remove="Presentadores\Interfaces\**" />
+    <None Remove="Servicios\Interfaces\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
@@ -43,7 +46,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Servicios\Interfaces\" />
     <Folder Include="Vistas\Modulos\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Menu;
@@ -43,7 +43,7 @@ public partial class VistaMenuFinanzas : Form, IVistaMenuFinanzas {
         btnCajas.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(2, e); };
     }
 
-    public void MostrarCaracteristicaInicial() {
+    public void SeleccionarVistaInicial() {
         if (btnCuentasBancarias.Visible)
             btnCuentasBancarias.PerformClick();
         else if (btnCajas.Visible)
@@ -91,11 +91,11 @@ public partial class VistaMenuFinanzas : Form, IVistaMenuFinanzas {
     }
 
     private void VerificarPermisos() {
-        btnCuentasBancarias.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                      || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_FINANZAS_CUENTAS_BANCARIAS")
-                                      || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
-        btnCajas.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_FINANZAS_CAJA")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
+        btnCuentasBancarias.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                      || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_FINANZAS_CUENTAS_BANCARIAS")
+                                      || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
+        btnCajas.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_FINANZAS_CAJA")
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
     }
 }

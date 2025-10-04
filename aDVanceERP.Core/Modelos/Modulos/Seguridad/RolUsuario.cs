@@ -22,7 +22,7 @@ public enum FiltroBusquedaRolUsuario {
 }
 
 public static class UtilesBusquedaRolUsuario {
-    public static string[] FiltroBusquedaBusquedaRolUsuario = {
+    public static string[] FiltroBusquedaRolUsuario = {
         "Todos los roles",
         "Identificador de BD",
         "Nombre del rol"

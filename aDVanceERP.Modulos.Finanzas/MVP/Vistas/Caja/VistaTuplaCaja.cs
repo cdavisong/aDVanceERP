@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 using aDVanceERP.Modulos.Finanzas.Properties;
@@ -186,14 +186,14 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
         }
 
         private void VerificarPermisos() {
-            btnEditar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_EDITAR")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_TODOS")
-                                || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
-            btnEliminar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                  || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_ELIMINAR")
-                                  || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_TODOS")
-                                  || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
+            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_EDITAR")
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_TODOS")
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
+            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_ELIMINAR")
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_CAJA_TODOS")
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_FINANZAS_TODOS");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Modulos.Seguridad.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Menu;
@@ -47,7 +48,7 @@ public partial class VistaMenuContacto : Form, IVistaMenuContacto {
         btnContactos.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(4, e); };
     }
 
-    public void MostrarCaracteristicaInicial() {
+    public void SeleccionarVistaInicial() {
         if (btnProveedores.Visible)
             btnProveedores.PerformClick();
         else if (btnMensajeros.Visible)
@@ -112,17 +113,17 @@ public partial class VistaMenuContacto : Form, IVistaMenuContacto {
     }
 
     private void VerificarPermisos() {
-        btnProveedores.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_PROVEEDORES")
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
-        btnMensajeros.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_MENSAJEROS")
-                                 || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
-        btnClientes.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CLIENTES")
-                              || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
-        btnContactos.Visible = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CONTACTOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnProveedores.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_PROVEEDORES")
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnMensajeros.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_MENSAJEROS")
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnClientes.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CLIENTES")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnContactos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CONTACTOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
     }
 }

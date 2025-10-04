@@ -5,11 +5,12 @@ using aDVanceERP.Core.Mensajes.MVP.Modelos;
 using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Modulos.Seguridad.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 
@@ -349,12 +350,12 @@ public partial class VistaGestionVentas : Form, IVistaGestionVentas {
     }
 
     private void VerificarPermisos() {
-        btnRegistrar.Enabled = (UtilesCuentaUsuario.UsuarioAutenticado?.Administrador ?? false)
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+        btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_COMPRAVENTA_VENTA_ADICIONAR")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto(
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
                                    "MOD_COMPRAVENTA_VENTA_TODOS")
-                               || UtilesCuentaUsuario.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {
