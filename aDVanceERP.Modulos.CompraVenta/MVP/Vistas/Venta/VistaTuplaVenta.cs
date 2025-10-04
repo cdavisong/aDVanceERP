@@ -7,6 +7,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
 using DocumentFormat.OpenXml.Packaging;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 

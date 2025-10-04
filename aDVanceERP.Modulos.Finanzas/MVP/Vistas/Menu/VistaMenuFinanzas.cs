@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Menu;

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Menu.Plantillas;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Menu;
@@ -98,7 +99,7 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
 
     public void Cerrar() {
         Dispose();
-    }
+    } 
 
     private void VerificarPermisos() {
         btnProductos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)

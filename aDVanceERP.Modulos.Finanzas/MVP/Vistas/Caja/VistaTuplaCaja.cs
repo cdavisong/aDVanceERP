@@ -7,6 +7,7 @@ using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 using aDVanceERP.Modulos.Finanzas.Properties;
 
 using System.Globalization;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
     public partial class VistaTuplaCaja : Form, IVistaTuplaCaja {

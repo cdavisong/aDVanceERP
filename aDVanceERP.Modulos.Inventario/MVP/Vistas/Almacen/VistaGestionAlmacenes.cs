@@ -5,6 +5,7 @@ using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 
 using aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen.Plantillas;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Almacen;
 

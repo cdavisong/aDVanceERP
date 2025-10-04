@@ -7,6 +7,7 @@ using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;
 
 using System.Globalization;
+using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
     public class PresentadorGestionCajas : PresentadorVistaGestion<PresentadorTuplaCaja, IVistaGestionCajas, IVistaTuplaCaja, Caja, RepoCaja, FiltroBusquedaCaja> {
@@ -21,6 +22,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
 
         protected override PresentadorTuplaCaja ObtenerValoresTupla(Caja objeto) {
             var presentadorTupla = new PresentadorTuplaCaja(new VistaTuplaCaja(), objeto);
+            var cuentaUsuario = RepoCuentaUsuario.Instancia.ObtenerPorId(objeto.IdCuentaUsuario);
 
             presentadorTupla.Vista.Id = objeto.Id.ToString();
             presentadorTupla.Vista.FechaApertura = objeto.FechaApertura.ToString("yyyy-MM-dd HH:mm");
@@ -29,7 +31,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Presentadores {
             presentadorTupla.Vista.SaldoActual = objeto.SaldoActual.ToString("N2", CultureInfo.InvariantCulture);
             presentadorTupla.Vista.FechaCierre = objeto.FechaCierre != DateTime.MinValue ? objeto.FechaCierre.ToString("yyyy-MM-dd HH:mm") : "-";
             presentadorTupla.Vista.Estado = (int) objeto.Estado;
-            presentadorTupla.Vista.NombreUsuario = ContextoSeguridad.ObtenerNombreCuentaUsuario(objeto.IdCuentaUsuario) ?? string.Empty;
+            presentadorTupla.Vista.NombreUsuario = cuentaUsuario?.Nombre ?? string.Empty;
             presentadorTupla.EntidadSeleccionada += CambiarVisibilidadBotones;
             presentadorTupla.EntidadDeseleccionada += CambiarVisibilidadBotones;
             

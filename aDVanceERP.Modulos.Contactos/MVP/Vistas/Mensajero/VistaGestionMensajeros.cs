@@ -3,6 +3,7 @@ using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero.Plantillas;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 
 namespace aDVanceERP.Modulos.Contactos.MVP.Vistas.Mensajero;
 
