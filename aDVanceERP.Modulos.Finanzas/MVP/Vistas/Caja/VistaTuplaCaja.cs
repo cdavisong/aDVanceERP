@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
-using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
@@ -8,6 +7,7 @@ using aDVanceERP.Modulos.Finanzas.Properties;
 
 using System.Globalization;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Modelos.Comun;
 
 namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
     public partial class VistaTuplaCaja : Form, IVistaTuplaCaja {
@@ -158,7 +158,7 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
                         ((EstadoCaja) Estado).ToString()
                     );
                 else
-                    CentroNotificaciones.Mostrar("No se puede generar un reporte de una caja cerrada con 0 movimientos.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                    CentroNotificaciones.Mostrar("No se puede generar un reporte de una caja cerrada con 0 movimientos.", TipoNotificacion.Advertencia);
             };
             btnEditar.Click += delegate (object? sender, EventArgs e) {
                 EditarDatosTupla?.Invoke(this, e);

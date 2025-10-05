@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
@@ -19,11 +20,11 @@ public class PresentadorRegistroDetallePagoTransferencia : PresentadorVistaRegis
         var numeroTransaccionOk = !string.IsNullOrEmpty(Vista.NumeroTransaccion);
 
         if (!aliasOk)
-            CentroNotificaciones.Mostrar("El campo de alias es obligatorio para registro de una transferencia bancaria, por favor, corrija los datos entrados", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("El campo de alias es obligatorio para registro de una transferencia bancaria, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
         if (!numeroTelefonoOk)
-            CentroNotificaciones.Mostrar("Debe especificar un número de teléfono de confirmación para la transferencia bancaria, el campo no puede estar vacío ni contener caracteres incorrectos", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificar un número de teléfono de confirmación para la transferencia bancaria, el campo no puede estar vacío ni contener caracteres incorrectos", TipoNotificacion.Advertencia);
         if (!numeroTransaccionOk)
-            CentroNotificaciones.Mostrar("Debe especificar un número de transacción al recibir el SMS de confirmación para la transferencia bancaria, el campo no puede estar vacío", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificar un número de transacción al recibir el SMS de confirmación para la transferencia bancaria, el campo no puede estar vacío", TipoNotificacion.Advertencia);
 
         return aliasOk && numeroTelefonoOk && numeroTransaccionOk;
     }

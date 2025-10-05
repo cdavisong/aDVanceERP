@@ -1,7 +1,6 @@
-﻿using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Vistas.Comun.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Comun;
 
-namespace aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion.Plantillas;
+namespace aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 public interface IVistaNotificacion : IVistaBase {
     string? Mensaje { get; set; }

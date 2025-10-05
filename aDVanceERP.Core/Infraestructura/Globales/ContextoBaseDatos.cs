@@ -21,7 +21,7 @@ public static class ContextoBaseDatos {
 
     public static bool AbrirConexion(MySqlConnection conexion) {
         if (!EsConfiguracionCargada)
-            throw new InvalidOperationException("La configuración de la base de datos no ha sido cargada.");
+            CentroNotificaciones.Mostrar("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
 
         if (conexion.State == ConnectionState.Open)
             return true;
@@ -31,7 +31,8 @@ public static class ContextoBaseDatos {
             return true;
         }
         catch (MySqlException ex) {
-            throw new InvalidOperationException("Error al abrir la conexión a la base de datos.", ex);
+            CentroNotificaciones.Mostrar($"Error al abrir la conexión a la base de datos: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+            return false;
         }
     }
 
@@ -127,8 +128,10 @@ public static class ContextoBaseDatos {
     #endregion
 
     public static void ActualizarConfiguracion(ConfiguracionBaseDatos configuracion) {
-        if (configuracion == null)
-            throw new ArgumentNullException(nameof(configuracion), "La configuración de la base de datos no puede ser nula.");
+        if (configuracion == null) {
+            CentroNotificaciones.Mostrar("La configuración de la base de datos no puede ser nula.", Modelos.Comun.TipoNotificacion.Advertencia);
+            return;
+        }
 
         lock (_lockObject) {
             _configuracion.Servidor = configuracion.Servidor;
@@ -146,7 +149,7 @@ public static class ContextoBaseDatos {
 
     private static void ValidarConfiguracionCargada() {
         if (!EsConfiguracionCargada)
-            throw new InvalidOperationException("La configuración de la base de datos no ha sido cargada.");
+            CentroNotificaciones.Mostrar("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
     }
 
     private static void ValidarConexion() {
@@ -155,7 +158,8 @@ public static class ContextoBaseDatos {
             connection.Open();
         }
         catch (MySqlException ex) {
-            throw new InvalidOperationException("Error al conectar a la base de datos con la nueva configuración.", ex);
+            CentroNotificaciones.Mostrar($"Error al conectar a la base de datos con la nueva configuración: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+            throw new InvalidOperationException("No se pudo establecer la conexión con la base de datos utilizando la configuración proporcionada.", ex);
         }
     }
 

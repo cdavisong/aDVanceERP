@@ -1,11 +1,11 @@
-﻿using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
 using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
-using aDVanceERP.Core.Eventos;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.CuentaUsuario;
 

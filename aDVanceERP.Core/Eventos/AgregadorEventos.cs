@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+
+using System.Text.Json;
 
 namespace aDVanceERP.Core.Eventos;
 
@@ -29,7 +31,7 @@ public static class AgregadorEventos {
                     handler(jsonPayload);
                 }
                 catch (Exception ex) {
-                    Console.WriteLine($"Error manejando el evento {eventType}: {ex.Message}");
+                    CentroNotificaciones.Mostrar($"Error manejando el evento {eventType}: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 }
             }
         }

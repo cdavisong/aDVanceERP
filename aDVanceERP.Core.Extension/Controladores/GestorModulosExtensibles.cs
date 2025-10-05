@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Extension.Atributos;
 using aDVanceERP.Core.Extension.Interfaces;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -66,15 +67,15 @@ public sealed class GestorModulosExtensibles {
                 m.Nombre.Equals(dependencia.NombreModulo, StringComparison.OrdinalIgnoreCase));
 
             if (moduloDependiente == null) {
-                Console.WriteLine($"Dependency not met for {modulo.Nombre}: " +
-                                $"Required module {dependencia.NombreModulo} not loaded");
+                CentroNotificaciones.Mostrar($"Faltan dependencias para el módulo {modulo.Nombre}: " +
+                                $"El módulo requerido {dependencia.NombreModulo} no ha sido cargado", Modelos.Comun.TipoNotificacion.Error);
                 return false;
             }
 
             if (CompararVersiones(moduloDependiente.Version, dependencia.VersionMinima) < 0) {
-                Console.WriteLine($"Dependency version not met for {modulo.Nombre}: " +
-                                $"Required {dependencia.NombreModulo} v{dependencia.VersionMinima}, " +
-                                $"found v{moduloDependiente.Version}");
+                CentroNotificaciones.Mostrar($"La versión de dependencia requerida no coincide para el módulo {modulo.Nombre}: " +
+                                $"Se requiere {dependencia.NombreModulo} v{dependencia.VersionMinima}, " +
+                                $"Encontrado v{moduloDependiente.Version}", Modelos.Comun.TipoNotificacion.Error);
                 return false;
             }
         }

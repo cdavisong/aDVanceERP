@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -21,7 +22,7 @@ public class PresentadorRegistroTipoMateriaPrima : PresentadorVistaRegistro<IVis
         var nombreOk = !string.IsNullOrEmpty(Vista.NombreTipoMateriaPrima);
 
         if (!nombreOk)
-            CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el tipo de materia prima, por favor, corrija los datos entrados", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el tipo de materia prima, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
         return nombreOk;
     }

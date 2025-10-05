@@ -57,7 +57,7 @@ public class DocInventarioAlmacen : IGeneradorDocumento {
 
         // Si no hay datos, salir
         if (almacenes.Count == 0 || inventario.Count == 0) {
-            Console.WriteLine("No se encontraron datos para el reporte.");
+            CentroNotificaciones.Mostrar("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
             return;
         }
 
@@ -226,7 +226,7 @@ public class DocInventarioAlmacen : IGeneradorDocumento {
                 });
             }
             catch (Exception ex) {
-                Console.WriteLine($"Error al abrir el archivo: {ex.Message}");
+                CentroNotificaciones.Mostrar($"Error al abrir el archivo: {ex.Message}", Core.Modelos.Comun.TipoNotificacion.Error);
             }
         }
     }
@@ -241,7 +241,7 @@ public class DocInventarioAlmacen : IGeneradorDocumento {
 
         // Si no hay datos, salir
         if (almacenes.Count == 0 || inventario.Count == 0) {
-            Console.WriteLine("No se encontraron datos para el reporte.");
+            CentroNotificaciones.Mostrar("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
             return;
         }
 

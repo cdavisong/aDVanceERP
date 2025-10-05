@@ -1,6 +1,6 @@
 ﻿
 
-using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 
 using System.Data;
 using System.Text.RegularExpressions;

@@ -1,7 +1,6 @@
 ﻿using aDVanceERP.Core.Controladores;
 using aDVanceERP.Core.Documentos.Interfaces;
-using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -391,7 +390,8 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 return dt;
             }
         } catch (Exception ex) {
-            throw new Exception($"Error al leer el archivo Excel: {ex.Message}");
+            CentroNotificaciones.Mostrar($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacion.Error);
+            return null;
         }
     }
 

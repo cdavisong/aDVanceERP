@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using HtmlAgilityPack;
 using System.Globalization; 
 
@@ -80,15 +81,15 @@ namespace aDVanceERP.Core.Utiles
                 throw; // Relanzar para manejo superior si es necesario
             }
             catch (TaskCanceledException) {
-                Console.WriteLine("La solicitud fue cancelada por timeout.");
+                CentroNotificaciones.Mostrar("La solicitud fue cancelada por timeout.", Modelos.Comun.TipoNotificacion.Advertencia);
                 throw;
             }
             catch (InvalidOperationException invOpEx) {
-                Console.WriteLine($"Error de operación: {invOpEx.Message}");
+                CentroNotificaciones.Mostrar($"Error de operación: {invOpEx.Message}", Modelos.Comun.TipoNotificacion.Error);
                 throw;
             }
             catch (Exception ex) {
-                Console.WriteLine($"Error inesperado: {ex.Message}");
+                CentroNotificaciones.Mostrar($"Error inesperado: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 throw;
             }
 

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Modelos.Modulos.Finanzas;
@@ -151,7 +151,7 @@ public partial class VistaRegistroPago : Form, IVistaRegistroPago, IVistaGestion
             try {
                 _tasaCambio = await UtilesCambioMoneda.ObtenerTasaPorDivisa(fieldTipoMoneda.Text);
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"ERROR al consultar las tasas de cambio vigentes. {ex.Message}", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                CentroNotificaciones.Mostrar($"ERROR al consultar las tasas de cambio vigentes. {ex.Message}", TipoNotificacion.Error);
                 fieldTipoMoneda.SelectedIndex = 0;
                 return;
             }

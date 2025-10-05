@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -26,16 +27,16 @@ public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistr
         var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
 
         if (nombreRepetido)
-            CentroNotificaciones.Mostrar("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacion.Advertencia);
         if (!nombreOk)
-            CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
         return nombreOk;
     }
 
     protected override Almacen? ObtenerEntidadDesdeVista() {
         if (Vista == null) {
-            CentroNotificaciones.Mostrar("La vista no está inicializada.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+            CentroNotificaciones.Mostrar("La vista no está inicializada.", TipoNotificacion.Error);
             return null;
         }
 

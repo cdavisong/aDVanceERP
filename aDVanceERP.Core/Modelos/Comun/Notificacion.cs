@@ -1,10 +1,4 @@
-﻿namespace aDVanceERP.Core.Mensajes.MVP.Modelos; 
-
-public enum TipoNotificacion {
-    Info,
-    Advertencia,
-    Error
-}
+﻿namespace aDVanceERP.Core.Modelos.Comun;
 
 public class Notificacion {
     public Notificacion() { }

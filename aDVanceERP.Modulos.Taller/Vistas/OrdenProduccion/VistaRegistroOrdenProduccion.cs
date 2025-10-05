@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -393,7 +393,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 var idProducto = UtilesProducto.ObtenerIdProducto(adNombre).Result;
 
                 if (idProducto <= 0) {
-                    CentroNotificaciones.Mostrar($"No se encontró la materia prima '{adNombre}'.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                    CentroNotificaciones.Mostrar($"No se encontró la materia prima '{adNombre}'.", TipoNotificacion.Error);
                     return;
                 }
 
@@ -405,7 +405,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 var adCantidadTotal = adCantidad + cantidadAcumulada;
 
                 if (!ModoEdicion && stockProducto < adCantidadTotal) {
-                    CentroNotificaciones.Mostrar($"No hay suficiente cantidad de la materia prima '{adNombre}' para satisfacer la demanda de fabricación especificada. Stock actual: {stockProducto}.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                    CentroNotificaciones.Mostrar($"No hay suficiente cantidad de la materia prima '{adNombre}' para satisfacer la demanda de fabricación especificada. Stock actual: {stockProducto}.", TipoNotificacion.Error);
                     return;
                 }
 
@@ -425,7 +425,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
 
                 fieldNombreMateriaPrima.Focus();
             } else
-                CentroNotificaciones.Mostrar("Debe ingresar un nombre válido para la materia prima.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                CentroNotificaciones.Mostrar("Debe ingresar un nombre válido para la materia prima.", TipoNotificacion.Error);
         }
 
         public void AdicionarActividadProduccion(string nombre = "", decimal cantidad = 0) {
@@ -439,7 +439,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 var adCantidadTotal = adCantidad + cantidadAcumulada;
 
                 if (adCantidad <= 0) {
-                    CentroNotificaciones.Mostrar("La cantidad de la actividades de producción debe ser mayor a cero.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                    CentroNotificaciones.Mostrar("La cantidad de la actividades de producción debe ser mayor a cero.", TipoNotificacion.Error);
                     return;
                 }
 
@@ -459,7 +459,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
 
                 fieldNombreActividadProduccion.Focus();
             } else
-                CentroNotificaciones.Mostrar("Debe ingresar un nombre válido para la actividad de producción.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                CentroNotificaciones.Mostrar("Debe ingresar un nombre válido para la actividad de producción.", TipoNotificacion.Error);
         }
 
         public void InsertarGastoIndirectoNormal(string concepto = "", decimal cantidad = 0) {
@@ -473,7 +473,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 var adCantidadTotal = adCantidad + cantidadAcumulada;
 
                 if (adCantidad <= 0) {
-                    CentroNotificaciones.Mostrar("La cantidad del gasto indirecto debe ser mayor a cero.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                    CentroNotificaciones.Mostrar("La cantidad del gasto indirecto debe ser mayor a cero.", TipoNotificacion.Error);
                     return;
                 }
 
@@ -493,7 +493,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
 
                 fieldConceptoGastoIndirecto.Focus();
             } else
-                CentroNotificaciones.Mostrar("Debe ingresar un concepto válido para el gasto indirecto.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                CentroNotificaciones.Mostrar("Debe ingresar un concepto válido para el gasto indirecto.", TipoNotificacion.Error);
         }
 
         public void InsertarGastoIndirectoDinamico(string concepto = "", decimal cantidad = 0, string ecuacion = "") {
@@ -527,7 +527,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 var adCantidadTotal = adCantidad + cantidadAcumulada;
 
                 if (adCantidad <= 0) {
-                    CentroNotificaciones.Mostrar("La cantidad del gasto indirecto debe ser mayor a cero.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                    CentroNotificaciones.Mostrar("La cantidad del gasto indirecto debe ser mayor a cero.", TipoNotificacion.Error);
                     return;
                 }
 
@@ -548,7 +548,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
 
                 fieldConceptoGastoIndirecto.Focus();
             } else
-                CentroNotificaciones.Mostrar("Debe ingresar un concepto válido para el gasto indirecto.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Error);
+                CentroNotificaciones.Mostrar("Debe ingresar un concepto válido para el gasto indirecto.", TipoNotificacion.Error);
         }
 
         public void Mostrar() {

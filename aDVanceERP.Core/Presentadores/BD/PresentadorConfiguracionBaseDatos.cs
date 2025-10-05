@@ -43,7 +43,7 @@ namespace aDVanceERP.Core.Presentadores.BD
 
         private void OnAlmacenarConfiguracion(object? sender, ConfiguracionBaseDatos e) {
             if (e == null) {
-                throw new ArgumentNullException(nameof(e), "La configuración del servidor MySQL no puede ser nula.");
+                CentroNotificaciones.Mostrar("La configuración del servidor MySQL no puede ser nula.", Modelos.Comun.TipoNotificacion.Error);
             }
             try {
                 // Actualizar el contexto global
@@ -60,7 +60,7 @@ namespace aDVanceERP.Core.Presentadores.BD
                 ConfiguracionCargada?.Invoke(this, EventArgs.Empty);
             } catch (Exception ex) {
                 // Manejo de excepciones, por ejemplo, registrar el error o mostrar un mensaje al usuario
-                throw new InvalidOperationException("Error al guardar la configuración del servidor MySQL.", ex);
+                CentroNotificaciones.Mostrar("Error al guardar la configuración del servidor MySQL.", Modelos.Comun.TipoNotificacion.Error);
             }
         }
 

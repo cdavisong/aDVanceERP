@@ -1,11 +1,11 @@
 ﻿using System.Globalization;
-
-using aDVanceERP.Core.Mensajes.Utiles;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Pago.Plantillas;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 
@@ -38,7 +38,7 @@ public class
             var montoOk = (decimal.TryParse(pago[3], NumberStyles.Any, CultureInfo.InvariantCulture, out var monto) ? monto : 0.00m) > 0;
 
             if (!montoOk) {
-                CentroNotificaciones.Mostrar($"El pago registrado en el índice {indice} tiene un monto menor o igual a cero, corrija los datos para registrar los pagos de forma correcta", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                CentroNotificaciones.Mostrar($"El pago registrado en el índice {indice} tiene un monto menor o igual a cero, corrija los datos para registrar los pagos de forma correcta", TipoNotificacion.Advertencia);
                 return false;
             }
 

@@ -1,26 +1,24 @@
-﻿using aDVanceERP.Core.Modelos.BD;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.BD;
 
-namespace aDVanceERP.Core.Infraestructura.Extensiones.BD
-{
-    public static class ConfiguracionBaseDatosExt
-    {
-        public static string ToStringConexion(this ConfiguracionBaseDatos conf)
-        {
-            if (conf == null)
-            {
-                throw new ArgumentNullException(nameof(conf), "La configuración del servidor MySQL no puede ser nula.");
+namespace aDVanceERP.Core.Infraestructura.Extensiones.BD {
+    public static class ConfiguracionBaseDatosExt {
+        public static string ToStringConexion(this ConfiguracionBaseDatos conf) {
+            if (conf == null) {
+                CentroNotificaciones.Mostrar("La configuración del servidor MySQL no puede ser nula.", Modelos.Comun.TipoNotificacion.Advertencia);
+                return string.Empty;
             }
-            if (string.IsNullOrWhiteSpace(conf.Servidor))
-            {
-                throw new ArgumentException("El nombre o dirección del servidor no puede estar vacío.", nameof(conf.Servidor));
+            if (string.IsNullOrWhiteSpace(conf.Servidor)) {
+                CentroNotificaciones.Mostrar("El nombre o dirección del servidor no puede estar vacío.", Modelos.Comun.TipoNotificacion.Advertencia);
+                return string.Empty;
             }
-            if (string.IsNullOrWhiteSpace(conf.BaseDatos))
-            {
-                throw new ArgumentException("El nombre de la base de datos no puede estar vacío.", nameof(conf.BaseDatos));
+            if (string.IsNullOrWhiteSpace(conf.BaseDatos)) {
+                CentroNotificaciones.Mostrar("El nombre de la base de datos no puede estar vacío.", Modelos.Comun.TipoNotificacion.Advertencia);
+                return string.Empty;
             }
-            if (string.IsNullOrWhiteSpace(conf.Usuario))
-            {
-                throw new ArgumentException("El nombre de usuario no puede estar vacío.", nameof(conf.Usuario));
+            if (string.IsNullOrWhiteSpace(conf.Usuario)) {
+                CentroNotificaciones.Mostrar("El nombre de usuario no puede estar vacío.", Modelos.Comun.TipoNotificacion.Advertencia);
+                return string.Empty;
             }
 
             // Password can be empty, depending on the server configuration

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Contactos;
@@ -40,7 +41,7 @@ public class PresentadorRegistroProveedor : PresentadorVistaRegistro<IVistaRegis
             var numeroDijitosOk = numeroDijitos == 8;
 
             if (!noLetrasTelefonosOk || !numeroDijitosOk) {
-                CentroNotificaciones.Mostrar("El campo del teléfono móvil tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                CentroNotificaciones.Mostrar("El campo del teléfono móvil tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", TipoNotificacion.Advertencia);
                 return false;
             }
         }
@@ -51,13 +52,13 @@ public class PresentadorRegistroProveedor : PresentadorVistaRegistro<IVistaRegis
             var numeroDijitosOk = numeroDijitos == 8;
 
             if (!noLetrasTelefonosOk || !numeroDijitosOk) {
-                CentroNotificaciones.Mostrar("El campo del teléfono fijo tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                CentroNotificaciones.Mostrar("El campo del teléfono fijo tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", TipoNotificacion.Advertencia);
                 return false;
             }
         }
 
         if (!nombreOk)
-            CentroNotificaciones.Mostrar("Existe un contacto con el mismo nombre registrado o el campo de razón social se encuentra vacío, corrija los datos por favor", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Existe un contacto con el mismo nombre registrado o el campo de razón social se encuentra vacío, corrija los datos por favor", TipoNotificacion.Advertencia);
 
 
         return nombreOk;

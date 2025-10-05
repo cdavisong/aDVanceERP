@@ -85,6 +85,7 @@ public partial class VistaConfiguracionBaseDatos : Form, IVistaConfServidorMySQL
                     Password = Password ?? "admin",
                     RecordarConfiguracion = RecordarConfiguracion
                 });
+            Ocultar();
         };
     }
 

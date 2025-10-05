@@ -1,5 +1,6 @@
 ﻿
-using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Taller;
@@ -56,7 +57,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
 
                 ActualizarResultadosBusqueda();
             } else {
-                CentroNotificaciones.Mostrar("Debe seleccionar una orden de producción para cerrar.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                CentroNotificaciones.Mostrar("Debe seleccionar una orden de producción para cerrar.", TipoNotificacion.Advertencia);
             }
         }
 

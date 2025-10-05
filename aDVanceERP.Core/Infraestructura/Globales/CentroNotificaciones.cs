@@ -1,9 +1,9 @@
-﻿using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.MVP.Presentadores;
-using aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion;
-using aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion.Plantillas;
+﻿using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Vistas.Comun;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Mensajes.Utiles; 
+namespace aDVanceERP.Core.Infraestructura.Globales;
 
 public static class CentroNotificaciones {
     private static readonly List<IVistaNotificacion> _notificacionesActivas = new();
@@ -37,7 +37,7 @@ public static class CentroNotificaciones {
 
         _notificacionesActivas.Add(vista);
 
-        var presentador = new PresentadorNotificacion(vista, modelo);
+        var presentador = new PresentadorVistaNotificacion(vista, modelo);
 
         presentador.Vista.EstablecerPosicionObjetivo(new Point(xFinal, yFinal));
         presentador.Vista.Mostrar();

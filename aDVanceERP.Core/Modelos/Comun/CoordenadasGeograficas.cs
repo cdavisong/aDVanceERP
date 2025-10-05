@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+
+using System.ComponentModel;
 using System.Globalization;
 
 namespace aDVanceERP.Core.Modelos.Comun;
@@ -26,8 +28,9 @@ public class CoordenadasGeograficas : ICloneable, INotifyPropertyChanged, IDataE
     public double Latitud {
         get => _latitud;
         set {
-            if (value < -90 || value > 90)
-                throw new ArgumentOutOfRangeException(nameof(Latitud), "La latitud debe estar entre -90 y 90 grados");
+            if (value < -90 || value > 90) {
+                CentroNotificaciones.Mostrar("La latitud debe estar entre -90 y 90 grados", TipoNotificacion.Advertencia);
+            }
 
             if (_latitud != value) {
                 _latitud = value;
@@ -42,8 +45,9 @@ public class CoordenadasGeograficas : ICloneable, INotifyPropertyChanged, IDataE
     public double Longitud {
         get => _longitud;
         set {
-            if (value < -180 || value > 180)
-                throw new ArgumentOutOfRangeException(nameof(Longitud), "La longitud debe estar entre -180 y 180 grados");
+            if (value < -180 || value > 180) {
+                CentroNotificaciones.Mostrar("La longitud debe estar entre -180 y 180 grados", TipoNotificacion.Advertencia);
+            }
 
             if (_longitud != value) {
                 _longitud = value;
@@ -123,17 +127,21 @@ public class CoordenadasGeograficas : ICloneable, INotifyPropertyChanged, IDataE
     /// Parsea un string en formato lat,long,alt a CoordenadasGeograficas
     /// </summary>
     public static CoordenadasGeograficas Parse(string coordenadasString) {
-        if (string.IsNullOrWhiteSpace(coordenadasString))
-            throw new ArgumentException("El string de coordenadas no puede estar vacío");
+        if (string.IsNullOrWhiteSpace(coordenadasString)) {
+            CentroNotificaciones.Mostrar("El string de coordenadas no puede estar vacío", TipoNotificacion.Advertencia);
+            throw new ArgumentNullException(nameof(coordenadasString));
+        }
 
         var partes = coordenadasString.Split(',');
 
-        if (partes.Length < 2)
-            throw new FormatException("Formato de coordenadas inválido");
+        if (partes.Length < 2) {
+            CentroNotificaciones.Mostrar("Formato de coordenadas inválido", TipoNotificacion.Error);
+            throw new FormatException("Formato de coordenadas inválido. Se espera 'latitud,longitud[,altitud]'");
+        }
 
         var latitud = double.Parse(partes[0].Trim(), CultureInfo.InvariantCulture);
         var longitud = double.Parse(partes[1].Trim(), CultureInfo.InvariantCulture);
-        double? altitud = partes.Length > 2 ? double.Parse(partes[2].Trim(), CultureInfo.InvariantCulture) : (double?)null;
+        double? altitud = partes.Length > 2 ? double.Parse(partes[2].Trim(), CultureInfo.InvariantCulture) : (double?) null;
 
         return new CoordenadasGeograficas(latitud, longitud, altitud);
     }

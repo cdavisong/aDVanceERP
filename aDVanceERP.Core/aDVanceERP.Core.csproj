@@ -33,6 +33,9 @@
     <Compile Update="Vistas\BD\VistaConfiguracionBaseDatos.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\Comun\VistaNotificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

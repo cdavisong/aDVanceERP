@@ -1,7 +1,7 @@
 ﻿using System.Security;
 
-using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.Utiles;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Seguridad.Properties;
 using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
 

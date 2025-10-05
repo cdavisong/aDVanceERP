@@ -1,9 +1,10 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
-using aDVanceERP.Core.Modelos.Modulos.Compraventa;
+﻿using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Mensajeria.Plantillas;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Presentadores;
 
@@ -37,13 +38,13 @@ public class PresentadorRegistroMensajeria : PresentadorVistaRegistro<IVistaRegi
         var direccionOk = !string.IsNullOrEmpty(Vista.Direccion);
 
         if (!nombreMensajeroOk)
-            CentroNotificaciones.Mostrar("El nombre del mensajero es obligatorio para registro de una orden de mensajería, elija un mensajero desde la lista correspondiente", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("El nombre del mensajero es obligatorio para registro de una orden de mensajería, elija un mensajero desde la lista correspondiente", TipoNotificacion.Advertencia);
         if (!tipoEntregaOk)
-            CentroNotificaciones.Mostrar("Debe especificarse el tipo de entrega (no presencial) para la orden de mensajería, elija un tipo entrega desde la lista correspondiente", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificarse el tipo de entrega (no presencial) para la orden de mensajería, elija un tipo entrega desde la lista correspondiente", TipoNotificacion.Advertencia);
         if (!razonSocialClienteOk)
-            CentroNotificaciones.Mostrar("Debe especificarse un nombre de cliente válido para el envío, si no existe el cliente que busca, regístrelo haciendo click en el botón a la derecha del campo cliente", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificarse un nombre de cliente válido para el envío, si no existe el cliente que busca, regístrelo haciendo click en el botón a la derecha del campo cliente", TipoNotificacion.Advertencia);
         if (!direccionOk)
-            CentroNotificaciones.Mostrar("Debe especificarse una dirección válida de envío para la orden de mensajería, rellene el campo dirección correctamente", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificarse una dirección válida de envío para la orden de mensajería, rellene el campo dirección correctamente", TipoNotificacion.Advertencia);
 
         return nombreMensajeroOk && tipoEntregaOk && direccionOk;
     }

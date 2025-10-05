@@ -9,7 +9,6 @@
     <None Remove="MVP\Vistas\Empresa\VistaRegistroEmpresa.Designer.cs~RFef695e.TMP" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\aDVanceERP.Core.Mensajes\aDVanceERP.Core.Mensajes.csproj" />
     <ProjectReference Include="..\aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>

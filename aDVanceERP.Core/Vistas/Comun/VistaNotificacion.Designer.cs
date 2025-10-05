@@ -1,4 +1,4 @@
-﻿namespace aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion {
+﻿namespace aDVanceERP.Core.Vistas.Comun {
     partial class VistaNotificacion {
         /// <summary>
         /// Required designer variable.

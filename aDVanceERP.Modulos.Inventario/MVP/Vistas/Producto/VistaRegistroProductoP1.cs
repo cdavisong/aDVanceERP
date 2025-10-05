@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Utiles.Datos;
 
@@ -82,7 +83,7 @@ namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.Producto {
             };
             btnGenerarCodigo.Click += delegate (object? sender, EventArgs args) {
                 if (string.IsNullOrEmpty(Nombre))
-                    CentroNotificaciones.Mostrar("Debe especificar un nombre único para el producto antes de generar un nuevo código de barras. Llene los campos correspondientes y presione nuevaente el botón.", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                    CentroNotificaciones.Mostrar("Debe especificar un nombre único para el producto antes de generar un nuevo código de barras. Llene los campos correspondientes y presione nuevaente el botón.", TipoNotificacion.Advertencia);
                 else
                     Codigo = UtilesCodigoBarras.GenerarEan13(Nombre);
             };

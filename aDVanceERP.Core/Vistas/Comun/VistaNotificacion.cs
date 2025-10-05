@@ -1,13 +1,14 @@
-﻿using aDVanceERP.Core.Mensajes.MVP.Modelos;
-using aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion.Plantillas;
-using aDVanceERP.Core.Mensajes.Properties;
+﻿using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Properties;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
+
 using Timer = System.Windows.Forms.Timer;
 
-namespace aDVanceERP.Core.Mensajes.MVP.Vistas.Notificacion; 
+namespace aDVanceERP.Core.Vistas.Comun;
 
 public partial class VistaNotificacion : Form, IVistaNotificacion {
     private bool _estaCerrando;
-    private readonly Modelos.Notificacion _notificacion;
+    private readonly Notificacion _notificacion;
     private readonly int _pasoAnimacion = 10;
 
     // Animaciones
@@ -21,7 +22,7 @@ public partial class VistaNotificacion : Form, IVistaNotificacion {
     // Notificacion.
     private TipoNotificacion _tipo;
 
-    public VistaNotificacion(Modelos.Notificacion notificacion) {
+    public VistaNotificacion(Notificacion notificacion) {
         _notificacion = notificacion;
 
         InitializeComponent();

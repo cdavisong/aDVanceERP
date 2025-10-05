@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Contactos;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Contactos;
@@ -39,17 +40,17 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
             var numeroDijitosOk = numeroDijitos == 8;
 
             if (!noLetrasTelefonosOk || !numeroDijitosOk) {
-                CentroNotificaciones.Mostrar("El campo del teléfono móvil tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+                CentroNotificaciones.Mostrar("El campo del teléfono móvil tiene caracteres no permitidos o no tiene la cantidad de dígitos correcta, corrija los datos por favor", TipoNotificacion.Advertencia);
                 return false;
             }
         }
 
         if (!nombreOk)
-            CentroNotificaciones.Mostrar("Existe un contacto con el mismo nombre registrado o el campo de razón social se encuentra vacío, corrija los datos por favor", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Existe un contacto con el mismo nombre registrado o el campo de razón social se encuentra vacío, corrija los datos por favor", TipoNotificacion.Advertencia);
         if (!telefonoOk)
-            CentroNotificaciones.Mostrar("EL campo del teléfono móvil es obligatorio para el cliente, rellene los datos necesarios de forma correcta y proceda al registro", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("EL campo del teléfono móvil es obligatorio para el cliente, rellene los datos necesarios de forma correcta y proceda al registro", TipoNotificacion.Advertencia);
         if (!direccionOk)
-            CentroNotificaciones.Mostrar("EL campo del dirección particular es obligatorio para el cliente por los casos de registros a mensajerías, rellene los datos faltantes de forma correcta", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("EL campo del dirección particular es obligatorio para el cliente por los casos de registros a mensajerías, rellene los datos faltantes de forma correcta", TipoNotificacion.Advertencia);
 
         return nombreOk && telefonoOk && direccionOk;
     }

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Mensajes.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
@@ -29,9 +30,9 @@ public class PresentadorRegistroCuentaBancaria : PresentadorVistaRegistro<IVista
         var numeroTarjetaOk = !string.IsNullOrEmpty(Vista.NumeroTarjeta) && noLetrasNumeroTarjetaOk && numeroDijitosTarjetaOk;
         
         if (!aliasOk)
-            CentroNotificaciones.Mostrar("El campo de alias es obligatorio para registro de cuenta bancaria, por favor, corrija los datos entrados", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("El campo de alias es obligatorio para registro de cuenta bancaria, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
         if (!numeroTarjetaOk)
-            CentroNotificaciones.Mostrar("Debe especificar un número de tarjeta válido, el campo no puede estar vacío ni contener caracteres incorrectos", Core.Mensajes.MVP.Modelos.TipoNotificacion.Advertencia);
+            CentroNotificaciones.Mostrar("Debe especificar un número de tarjeta válido, el campo no puede estar vacío ni contener caracteres incorrectos", TipoNotificacion.Advertencia);
 
         return aliasOk && numeroTarjetaOk;
     }

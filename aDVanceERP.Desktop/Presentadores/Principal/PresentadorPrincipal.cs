@@ -12,12 +12,14 @@ using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Core.Infraestructura.Globales;
 using Guna.UI2.WinForms.Suite;
 using Guna.UI2.WinForms;
+using aDVanceERP.Core.Vistas.BD;
+using aDVanceERP.Core.Modelos.BD;
 
 namespace aDVanceERP.Desktop.Presentadores.Principal;
 
 public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
     private readonly GestorModulosExtensibles _gestorModulos = new GestorModulosExtensibles();
-
+    
     public PresentadorPrincipal() {
         Vista = new VistaPrincipal();
         Seguridad = new PresentadorSeguridad(Vista, new VistaSeguridad());
@@ -55,8 +57,10 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
         Vista.BarraEstado.OcultarTodos();
 
         // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
-        if (_gestorModulos.ObtenerModulosExtension().FirstOrDefault(m => m.Nombre.Equals("MOD_SEGURIDAD")) == null)
-            AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
+        Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += (s, args) => {
+            if (_gestorModulos.ObtenerModulosExtension().FirstOrDefault(m => m.Nombre.Equals("MOD_SEGURIDAD")) == null)
+                AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
+        };
     }
 
     private void OnUsuarioAutenticado(string obj) {
