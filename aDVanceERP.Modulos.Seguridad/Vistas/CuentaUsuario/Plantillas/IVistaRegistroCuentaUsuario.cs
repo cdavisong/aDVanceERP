@@ -9,5 +9,5 @@ public interface IVistaRegistroCuentaUsuario : IVistaRegistro
     SecureString? Password { get; }
     string? NombreRolUsuario { get; set; }
 
-    void CargarRolesUsuarios(string[] rolesUsuarios);
+    void CargarRolesUsuarios(string?[] rolesUsuarios);
 }

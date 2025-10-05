@@ -16,6 +16,7 @@ public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos
 
         CustomizableEdges customizableEdges = new CustomizableEdges();
 
+        // Propiedades comunes
         btnModulo.Animated = true;
         btnModulo.Cursor = Cursors.Hand;
         btnModulo.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
@@ -31,7 +32,9 @@ public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos
         btnModulo.Size = new Size(44, 44);
         btnModulo.TabIndex = Vista.PanelMenuLateral.Controls.Count + 1;
 
+        // Agregar al panel lateral
         Vista.PanelMenuLateral.Controls.Add(btnModulo);
+
         Vista.PanelMenuLateral.ResumeLayout(false);
     }
 

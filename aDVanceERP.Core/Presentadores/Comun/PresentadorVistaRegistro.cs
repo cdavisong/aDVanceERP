@@ -30,7 +30,11 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
     public event EventHandler? EntidadRegistradaActualizada;
     public event EventHandler? Salir;
 
-    public abstract void PopularVistaDesdeEntidad(En entidad);
+    public virtual void PopularVistaDesdeEntidad(En entidad) {
+        _entidad = entidad;
+
+        Vista.ModoEdicion = true;
+    }
 
     protected abstract En? ObtenerEntidadDesdeVista();
 

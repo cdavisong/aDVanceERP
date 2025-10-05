@@ -40,7 +40,8 @@ public sealed class ModuloSeguridad : ModuloExtensionBase {
         _btnAccesoModulo.ImageSize = new Size(24, 24);
         _btnAccesoModulo.CustomImages.ImageSize = new Size(24, 24);
         _btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
-        _btnAccesoModulo.Click += delegate { 
+        _btnAccesoModulo.Click += delegate {
+            AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
             AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
         };
 
@@ -57,9 +58,11 @@ public sealed class ModuloSeguridad : ModuloExtensionBase {
         // Cuentas de usuario
         _cuentasUsuarios = new PresentadorGestionCuentasUsuarios(new VistaGestionCuentasUsuarios());
         _registroCuentaUsuario = new PresentadorRegistroCuentaUsuario(new VistaRegistroCuentaUsuario());
+        _registroCuentaUsuario.EntidadRegistradaActualizada += (s, e) => _cuentasUsuarios.ActualizarResultadosBusqueda();
         // Roles de usuario
         _rolesUsuarios = new PresentadorGestionRolesUsuarios(new VistaGestionRolesUsuarios());
         _registroRolUsuario = new PresentadorRegistroRolUsuario(new VistaRegistroRolUsuario());
+        _registroRolUsuario.EntidadRegistradaActualizada += (s, e) => _rolesUsuarios.ActualizarResultadosBusqueda();
 
         base.Inicializar(principal);
     }

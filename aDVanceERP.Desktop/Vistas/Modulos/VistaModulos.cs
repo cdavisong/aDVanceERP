@@ -53,7 +53,10 @@ public partial class VistaModulos : Form, IVistaModulos {
 
         // Eventos
         btnInicio.Click += delegate { PanelCentral.OcultarTodos(); };
-        btnInicio.Click += (s, e) => AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+        btnInicio.Click += (s, e) => {
+            AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+            AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+        };
 
         AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);
     }

@@ -10,7 +10,18 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores.RolUsuario;
 public class PresentadorGestionRolesUsuarios : PresentadorVistaGestion<PresentadorTuplaRolUsuario,
     IVistaGestionRolesUsuarios, IVistaTuplaRolUsuario, Core.Modelos.Modulos.Seguridad.RolUsuario, RepoRolUsuario, FiltroBusquedaRolUsuario> {
     public PresentadorGestionRolesUsuarios(IVistaGestionRolesUsuarios vista) : base(vista) {
+        RegistrarEntidad += OnRegistrarRolUsuario;
+        EditarEntidad += OnEditarRolUsuario;
+
         AgregadorEventos.Suscribir("MostrarVistaGestionRolesUsuarios", OnMostrarVistaGestionRolesUsuarios);
+    }
+
+    private void OnRegistrarRolUsuario(object? sender, EventArgs e) {
+        AgregadorEventos.Publicar("MostrarVistaRegistroRolUsuario", string.Empty);
+    }
+
+    private void OnEditarRolUsuario(object? sender, Core.Modelos.Modulos.Seguridad.RolUsuario e) {
+        AgregadorEventos.Publicar("MostrarVistaEdicionRolUsuario", AgregadorEventos.SerializarPayload(e));
     }
 
     private void OnMostrarVistaGestionRolesUsuarios(string obj) {

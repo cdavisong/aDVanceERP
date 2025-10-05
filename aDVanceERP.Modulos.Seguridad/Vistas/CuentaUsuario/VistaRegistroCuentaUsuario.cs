@@ -1,7 +1,10 @@
 ﻿using System.Security;
 
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Infraestructura.Helpers;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Properties;
 using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
 
@@ -83,10 +86,9 @@ public partial class VistaRegistroCuentaUsuario : Form, IVistaRegistroCuentaUsua
     public event EventHandler? RegistrarEntidad;
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
-    
+
     public void Inicializar() {
         // Eventos
-        btnCerrar.Click += delegate (object? sender, EventArgs args) { Close(); };
         fieldPassword.IconRightClick += delegate {
             if (ModoEdicion)
                 return;
@@ -95,25 +97,36 @@ public partial class VistaRegistroCuentaUsuario : Form, IVistaRegistroCuentaUsua
             fieldPassword.UseSystemPasswordChar = !fieldPassword.UseSystemPasswordChar;
             fieldPassword.PasswordChar = fieldPassword.UseSystemPasswordChar ? '●' : char.MinValue;
             fieldPassword.IconRight = fieldPassword.UseSystemPasswordChar ? Resources.closed_eye_20px : Resources.eye_20px;
-            
+
             // fieldConfirmarPassword
             fieldConfirmarPassword.UseSystemPasswordChar = fieldPassword.UseSystemPasswordChar;
             fieldConfirmarPassword.PasswordChar = fieldPassword.UseSystemPasswordChar ? '●' : char.MinValue;
         };
         btnRegistrar.Click += delegate (object? sender, EventArgs args) {
-            if (ModoEdicion && fieldPassword.Text.Equals("test-password1"))
-                Close();
-            else if (ModoEdicion)
+            if (ModoEdicion && fieldPassword.Text != "test-password1") {
+                if (!fieldPassword.Text.Equals(fieldConfirmarPassword.Text)) {
+                    CentroNotificaciones.Mostrar($"Las contraseñas no coinciden, rectifique los datos y presiones al botón \"{btnRegistrar.Text}\"", TipoNotificacion.Advertencia);
+                    return;
+                }
+                
+                var usuario = RepoCuentaUsuario.Instancia.Buscar(FiltroBusquedaCuentaUsuario.Nombre, NombreUsuario).entidades.FirstOrDefault();
+
+                if (usuario != null)
+                    RepoCuentaUsuario.Instancia.CambiarPassword(usuario.Id, SecureStringHelper.HashPassword(Password));
+            }
+
+            if (ModoEdicion)
                 EditarEntidad?.Invoke(sender, args);
             else
                 RegistrarEntidad?.Invoke(sender, args);
         };
-        btnSalir.Click += delegate (object? sender, EventArgs args) { Close(); };
+        btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
     }
 
     public void CargarRolesUsuarios(string[] rolesUsuarios) {
         var rolesFiltrados = rolesUsuarios.Where(rol => rol != "Administrador").ToArray();
 
+        fieldNombreRolUsuario.Items.Clear();
         fieldNombreRolUsuario.Items.Add("Ninguno");
         fieldNombreRolUsuario.Items.AddRange(rolesFiltrados);
         fieldNombreRolUsuario.SelectedIndex = rolesUsuarios.Length > 0 ? 0 : -1;
@@ -128,7 +141,6 @@ public partial class VistaRegistroCuentaUsuario : Form, IVistaRegistroCuentaUsua
         NombreUsuario = string.Empty;
         fieldPassword.Text = string.Empty;
         fieldConfirmarPassword.Text = string.Empty;
-        ModoEdicion = false;
     }
 
     public void Ocultar() {

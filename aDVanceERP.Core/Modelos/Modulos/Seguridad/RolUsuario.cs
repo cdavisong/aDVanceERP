@@ -11,7 +11,7 @@ public class RolUsuario : IEntidadBaseDatos {
     }
 
     public long Id { get; set; }
-    public string? Nombre { get; }
+    public string? Nombre { get; set; }
 
 }
 

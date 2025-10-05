@@ -79,11 +79,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             VariablesGlobales.CoordenadaYUltimaTupla = 0;
 
             var incremento = (Vista.PaginaActual - 1) * Vista.TuplasMaximasContenedor;
-
-            // Ejecutar la búsqueda en un hilo separado
-            var datos = await Task.Run(() =>
-                Repositorio.Buscar(FiltroBusqueda, CriterioBusqueda, Vista.TuplasMaximasContenedor, incremento));
-
+            var datos = Repositorio.Buscar(FiltroBusqueda, CriterioBusqueda, Vista.TuplasMaximasContenedor, incremento);
             var entidades = datos.entidades.ToList();
             var calculoPaginas = datos.cantidad / Vista.TuplasMaximasContenedor;
             var entero = datos.cantidad % Vista.TuplasMaximasContenedor == 0;
@@ -93,7 +89,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             _cargaDatos.Mostrar();
 
             // Procesar las tuplas de forma asíncrona
-            await Task.Run(() => {
+            //await Task.Run(() => {
                 for (var i = 0; i < entidades.Count && i < Vista.TuplasMaximasContenedor; i++) {
                     var entidad = entidades[i];
                     
@@ -106,7 +102,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
                 }
 
                 CargaDatosCompletada?.Invoke(this, true);
-            });            
+            //});            
         }
         catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacion.Error);

@@ -41,8 +41,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
@@ -50,7 +48,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldSubtitulo = new Label();
             fieldNombreUsuario = new Guna2TextBox();
             layoutTitulo = new TableLayoutPanel();
-            btnCerrar = new Guna2Button();
             fieldTitulo = new Label();
             fieldPassword = new Guna2TextBox();
             fieldConfirmarPassword = new Guna2TextBox();
@@ -192,7 +189,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             layoutTitulo.ColumnCount = 2;
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            layoutTitulo.Controls.Add(btnCerrar, 1, 0);
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
             layoutTitulo.Location = new Point(50, 20);
@@ -202,25 +198,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             layoutTitulo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulo.Size = new Size(417, 45);
             layoutTitulo.TabIndex = 14;
-            // 
-            // btnCerrar
-            // 
-            btnCerrar.Animated = true;
-            btnCerrar.AutoRoundedCorners = true;
-            btnCerrar.BorderColor = Color.Gray;
-            btnCerrar.BorderRadius = 18;
-            btnCerrar.CustomizableEdges = customizableEdges3;
-            btnCerrar.Dock = DockStyle.Fill;
-            btnCerrar.FillColor = Color.White;
-            btnCerrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            btnCerrar.ForeColor = Color.Black;
-            btnCerrar.HoverState.FillColor = Color.White;
-            btnCerrar.Image = (Image) resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(370, 3);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnCerrar.Size = new Size(44, 39);
-            btnCerrar.TabIndex = 1;
             // 
             // fieldTitulo
             // 
@@ -241,7 +218,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldPassword.BorderColor = Color.Gainsboro;
             fieldPassword.BorderRadius = 16;
             fieldPassword.Cursor = Cursors.IBeam;
-            fieldPassword.CustomizableEdges = customizableEdges5;
+            fieldPassword.CustomizableEdges = customizableEdges3;
             fieldPassword.DefaultText = "";
             fieldPassword.DisabledState.BorderColor = Color.White;
             fieldPassword.DisabledState.ForeColor = Color.DimGray;
@@ -262,7 +239,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldPassword.PlaceholderForeColor = Color.DimGray;
             fieldPassword.PlaceholderText = "Contraseña";
             fieldPassword.SelectedText = "";
-            fieldPassword.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
             fieldPassword.Size = new Size(407, 35);
             fieldPassword.TabIndex = 15;
             fieldPassword.TextOffset = new Point(5, 0);
@@ -274,7 +251,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldConfirmarPassword.BorderColor = Color.Gainsboro;
             fieldConfirmarPassword.BorderRadius = 16;
             fieldConfirmarPassword.Cursor = Cursors.IBeam;
-            fieldConfirmarPassword.CustomizableEdges = customizableEdges7;
+            fieldConfirmarPassword.CustomizableEdges = customizableEdges5;
             fieldConfirmarPassword.DefaultText = "";
             fieldConfirmarPassword.DisabledState.BorderColor = Color.White;
             fieldConfirmarPassword.DisabledState.ForeColor = Color.DimGray;
@@ -294,7 +271,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldConfirmarPassword.PlaceholderForeColor = Color.DimGray;
             fieldConfirmarPassword.PlaceholderText = "Confirme la contraseña";
             fieldConfirmarPassword.SelectedText = "";
-            fieldConfirmarPassword.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldConfirmarPassword.ShadowDecoration.CustomizableEdges = customizableEdges6;
             fieldConfirmarPassword.Size = new Size(407, 35);
             fieldConfirmarPassword.TabIndex = 16;
             fieldConfirmarPassword.TextOffset = new Point(5, 0);
@@ -322,7 +299,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldNombreRolUsuario.BackColor = Color.Transparent;
             fieldNombreRolUsuario.BorderColor = Color.Gainsboro;
             fieldNombreRolUsuario.BorderRadius = 16;
-            fieldNombreRolUsuario.CustomizableEdges = customizableEdges9;
+            fieldNombreRolUsuario.CustomizableEdges = customizableEdges7;
             fieldNombreRolUsuario.Dock = DockStyle.Fill;
             fieldNombreRolUsuario.DrawMode = DrawMode.OwnerDrawFixed;
             fieldNombreRolUsuario.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -334,7 +311,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldNombreRolUsuario.Location = new Point(55, 335);
             fieldNombreRolUsuario.Margin = new Padding(5);
             fieldNombreRolUsuario.Name = "fieldNombreRolUsuario";
-            fieldNombreRolUsuario.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            fieldNombreRolUsuario.ShadowDecoration.CustomizableEdges = customizableEdges8;
             fieldNombreRolUsuario.Size = new Size(407, 35);
             fieldNombreRolUsuario.TabIndex = 26;
             fieldNombreRolUsuario.TextOffset = new Point(10, 0);
@@ -365,7 +342,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges11;
+            btnSalir.CustomizableEdges = customizableEdges9;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -375,7 +352,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(302, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnSalir.Size = new Size(160, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -384,14 +361,14 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // 
             btnRegistrar.Animated = true;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges13;
+            btnRegistrar.CustomizableEdges = customizableEdges11;
             btnRegistrar.Dock = DockStyle.Fill;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Location = new Point(53, 3);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnRegistrar.Size = new Size(243, 39);
             btnRegistrar.TabIndex = 15;
             btnRegistrar.Text = "Registrar usuario";
@@ -426,7 +403,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
         private Label fieldSubtitulo;
         private Guna2TextBox fieldNombreUsuario;
         private TableLayoutPanel layoutTitulo;
-        private Guna2Button btnCerrar;
         private Label fieldTitulo;
         private TableLayoutPanel layoutBotones;
         private Guna2Button btnSalir;

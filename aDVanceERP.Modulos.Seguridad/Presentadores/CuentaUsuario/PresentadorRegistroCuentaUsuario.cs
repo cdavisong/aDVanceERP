@@ -36,13 +36,14 @@ public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaR
     }
 
     public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Seguridad.CuentaUsuario entidad) {
+        base.PopularVistaDesdeEntidad(entidad);
+
+        var rolesUsuarios = RepoRolUsuario.Instancia.ObtenerTodos();
         var rolUsuario = RepoRolUsuario.Instancia.ObtenerPorId(entidad.IdRolUsuario);
 
         Vista.NombreUsuario = entidad.Nombre;
-        Vista.NombreRolUsuario = rolUsuario?.Nombre ?? "No asignado";
-        Vista.ModoEdicion = true;
-
-        _entidad = entidad;
+        Vista.CargarRolesUsuarios(rolesUsuarios.Select(r => r.Nombre).ToArray());
+        Vista.NombreRolUsuario = rolUsuario?.Nombre ?? string.Empty;
     }
 
     protected override Core.Modelos.Modulos.Seguridad.CuentaUsuario? ObtenerEntidadDesdeVista() {

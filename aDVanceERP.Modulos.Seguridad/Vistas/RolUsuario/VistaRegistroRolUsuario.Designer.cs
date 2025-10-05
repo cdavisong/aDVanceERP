@@ -41,8 +41,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
@@ -52,7 +50,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldSubtitulo = new Label();
             fieldNombreRolUsuario = new Guna2TextBox();
             layoutTitulo = new TableLayoutPanel();
-            btnCerrar = new Guna2Button();
             fieldTitulo = new Label();
             fieldTituloGestionPermisos = new Label();
             layoutEncabezadosTabla = new TableLayoutPanel();
@@ -247,7 +244,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             layoutTitulo.ColumnCount = 2;
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            layoutTitulo.Controls.Add(btnCerrar, 1, 0);
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
             layoutTitulo.Location = new Point(50, 20);
@@ -257,25 +253,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             layoutTitulo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulo.Size = new Size(417, 45);
             layoutTitulo.TabIndex = 14;
-            // 
-            // btnCerrar
-            // 
-            btnCerrar.Animated = true;
-            btnCerrar.AutoRoundedCorners = true;
-            btnCerrar.BorderColor = Color.Gray;
-            btnCerrar.BorderRadius = 18;
-            btnCerrar.CustomizableEdges = customizableEdges5;
-            btnCerrar.Dock = DockStyle.Fill;
-            btnCerrar.FillColor = Color.White;
-            btnCerrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            btnCerrar.ForeColor = Color.Black;
-            btnCerrar.HoverState.FillColor = Color.White;
-            btnCerrar.Image = (Image) resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(370, 3);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnCerrar.Size = new Size(44, 39);
-            btnCerrar.TabIndex = 1;
             // 
             // fieldTitulo
             // 
@@ -372,7 +349,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombrePermiso.BackColor = Color.Transparent;
             fieldNombrePermiso.BorderColor = Color.Gainsboro;
             fieldNombrePermiso.BorderRadius = 16;
-            fieldNombrePermiso.CustomizableEdges = customizableEdges7;
+            fieldNombrePermiso.CustomizableEdges = customizableEdges5;
             fieldNombrePermiso.Dock = DockStyle.Fill;
             fieldNombrePermiso.DrawMode = DrawMode.OwnerDrawFixed;
             fieldNombrePermiso.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -384,7 +361,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombrePermiso.Location = new Point(5, 5);
             fieldNombrePermiso.Margin = new Padding(5);
             fieldNombrePermiso.Name = "fieldNombrePermiso";
-            fieldNombrePermiso.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldNombrePermiso.ShadowDecoration.CustomizableEdges = customizableEdges6;
             fieldNombrePermiso.Size = new Size(357, 35);
             fieldNombrePermiso.TabIndex = 1;
             fieldNombrePermiso.TextOffset = new Point(10, 0);
@@ -395,7 +372,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnAdicionarPermiso.BorderRadius = 18;
             btnAdicionarPermiso.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnAdicionarPermiso.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAdicionarPermiso.CustomizableEdges = customizableEdges9;
+            btnAdicionarPermiso.CustomizableEdges = customizableEdges7;
             btnAdicionarPermiso.DialogResult = DialogResult.Cancel;
             btnAdicionarPermiso.Dock = DockStyle.Fill;
             btnAdicionarPermiso.FillColor = Color.PeachPuff;
@@ -404,7 +381,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnAdicionarPermiso.Location = new Point(372, 5);
             btnAdicionarPermiso.Margin = new Padding(5);
             btnAdicionarPermiso.Name = "btnAdicionarPermiso";
-            btnAdicionarPermiso.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnAdicionarPermiso.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnAdicionarPermiso.Size = new Size(40, 35);
             btnAdicionarPermiso.TabIndex = 3;
             // 
@@ -459,7 +436,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges11;
+            btnSalir.CustomizableEdges = customizableEdges9;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -469,7 +446,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(302, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnSalir.Size = new Size(160, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -478,14 +455,14 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             // 
             btnRegistrar.Animated = true;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges13;
+            btnRegistrar.CustomizableEdges = customizableEdges11;
             btnRegistrar.Dock = DockStyle.Fill;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Location = new Point(53, 3);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnRegistrar.Size = new Size(243, 39);
             btnRegistrar.TabIndex = 15;
             btnRegistrar.Text = "Registrar rol";
@@ -522,7 +499,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
         private Label fieldSubtitulo;
         private Guna2TextBox fieldNombreRolUsuario;
         private TableLayoutPanel layoutTitulo;
-        private Guna2Button btnCerrar;
         private Label fieldTitulo;
         private TableLayoutPanel layoutBotones;
         private Guna2Button btnSalir;

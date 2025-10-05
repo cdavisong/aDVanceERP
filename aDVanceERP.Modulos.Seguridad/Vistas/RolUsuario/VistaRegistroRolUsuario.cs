@@ -2,7 +2,6 @@
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Seguridad.Vistas.Permiso;
 using aDVanceERP.Core.Utiles;
-using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Seguridad.Vistas.Permiso.Plantillas;
 using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario.Plantillas;
 using aDVanceERP.Core.Repositorios.Modulos;
@@ -91,9 +90,6 @@ public partial class VistaRegistroRolUsuario : Form, IVistaRegistroRolUsuario, I
 
     public void Inicializar() {
         // Eventos
-        btnCerrar.Click += delegate (object? sender, EventArgs args) {
-            Close();
-        };
         fieldNombreModulo.SelectedIndexChanged += delegate {
             var modulo = RepoModulo.Instancia.Buscar(FiltroBusquedaModulo.Nombre, NombreModulo).entidades.FirstOrDefault();
 
@@ -118,10 +114,11 @@ public partial class VistaRegistroRolUsuario : Form, IVistaRegistroRolUsuario, I
             else
                 RegistrarEntidad?.Invoke(sender, args);
         };
-        btnSalir.Click += delegate (object? sender, EventArgs args) { Close(); };
+        btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
     }
 
     public void CargarNombresModulos(string[] nombresModulos) {
+        fieldNombreModulo.Items.Clear();
         fieldNombreModulo.Items.AddRange(nombresModulos);
         fieldNombreModulo.SelectedIndex = -1;
     }
@@ -198,9 +195,11 @@ public partial class VistaRegistroRolUsuario : Form, IVistaRegistroRolUsuario, I
 
     public void Restaurar() {
         NombreRolUsuario = string.Empty;
-        fieldNombreModulo.SelectedIndex = 0;
-        fieldNombrePermiso.SelectedIndex = 0;
-        ModoEdicion = false;
+
+        if (fieldNombreModulo.Items.Count > 0)
+            fieldNombreModulo.SelectedIndex = 0;
+        if (fieldNombrePermiso.Items.Count > 0)
+            fieldNombrePermiso.SelectedIndex = 0;
     }
 
     public void Ocultar() {

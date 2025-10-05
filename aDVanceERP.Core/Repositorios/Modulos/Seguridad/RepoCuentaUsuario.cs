@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
@@ -33,11 +34,8 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
         return $"""
             UPDATE adv__cuenta_usuario 
             SET 
-                nombre = '{objeto.Nombre}', 
-                password_hash = '{objeto.PasswordHash}', 
-                password_salt = '{objeto.PasswordSalt}', 
-                id_rol_usuario = {objeto.IdRolUsuario}, 
-                administrador = {Convert.ToInt32(objeto.Administrador)}, 
+                nombre = '{objeto.Nombre}',
+                id_rol_usuario = {objeto.IdRolUsuario},
                 aprobado = {Convert.ToInt32(objeto.Aprobado)} 
             WHERE id_cuenta_usuario = {objeto.Id};
             """;
@@ -94,6 +92,27 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
     #region STATIC
 
     public static RepoCuentaUsuario Instancia { get; } = new RepoCuentaUsuario();
+
+    #endregion
+
+    #region UTILES 
+
+    public void CambiarPassword(long idCuentaUsuario, (string hash, string salt) passwordSeguro) {
+        var consulta = $"""
+            UPDATE adv__cuenta_usuario 
+            SET 
+                password_hash = @password_hash,
+                password_salt = @password_salt, 
+            WHERE id_cuenta_usuario = @id;
+            """;
+        var parametros = new Dictionary<string, object> {
+            { "@password_hash", passwordSeguro.hash },
+            { "@password_salt", passwordSeguro.salt },
+            { "@id", idCuentaUsuario }
+        };
+
+        ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+    }
 
     #endregion
 }
