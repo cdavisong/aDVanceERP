@@ -66,7 +66,7 @@ namespace aDVanceERP.Modulos.Contactos.MVP.Presentadores {
             return nombreOk;
         }
 
-        protected override void RegistroAuxiliar(RepoEmpresa datosEmpresa, long id) {
+        protected override void RegistroEdicionAuxiliar(RepoEmpresa datosEmpresa, long id) {
             using (var datosContacto = new RepoContacto()) {
                 // Contacto
                 var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??

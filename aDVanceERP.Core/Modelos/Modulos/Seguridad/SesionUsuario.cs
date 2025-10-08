@@ -1,9 +1,18 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.Text.Json.Serialization;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
+[JsonSerializable(typeof(SesionUsuario), TypeInfoPropertyName = "SesionUsuarioJsonContext")]
 public class SesionUsuario : IEntidadBaseDatos {
-    public SesionUsuario() { }
+    public SesionUsuario() {
+        Id = 0;
+        IdCuentaUsuario = 0;
+        Token = string.Empty;
+        FechaInicio = DateTime.MinValue;
+        FechaFin = null;
+    }
 
     public SesionUsuario(long id, long idCuentaUsuario, string? token, DateTime fechaInicio) {
         Id = id;

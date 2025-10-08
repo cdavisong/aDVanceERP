@@ -1,19 +1,26 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.Text.Json.Serialization;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Seguridad;
 
+[JsonSerializable(typeof(Permiso), TypeInfoPropertyName = "PermisoJsonContext")]
 public class Permiso : IEntidadBaseDatos {
-    public Permiso() { }
+    public Permiso() {
+        Id = 0;
+        IdModulo = 0;
+        Nombre = string.Empty;
+    }
 
-    public Permiso(long id, long idModuloAplicacion, string? nombre) {
+    public Permiso(long id, long idModulo, string nombre) {
         Id = id;
-        IdModuloAplicacion = idModuloAplicacion;
+        IdModulo = idModulo;
         Nombre = nombre;
     }
 
     public long Id { get; set; }
-    public long IdModuloAplicacion { get; }
-    public string? Nombre { get; }
+    public long IdModulo { get; }
+    public string Nombre { get; }
 }
 
 public enum FiltroBusquedaPermiso {

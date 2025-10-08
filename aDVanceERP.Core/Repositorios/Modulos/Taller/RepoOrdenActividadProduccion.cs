@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 

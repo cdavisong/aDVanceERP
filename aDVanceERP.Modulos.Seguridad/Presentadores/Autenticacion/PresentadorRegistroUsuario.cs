@@ -6,7 +6,7 @@ using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
-using aDVanceERP.Modulos.Seguridad.Vistas.Autenticacion.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.Autenticacion;
 

@@ -2,11 +2,9 @@
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
+namespace aDVanceERP.Modulos.Seguridad.Interfaces;
 
-public interface IVistaGestionCuentasUsuarios : IVistaContenedor, IGestorEntidades,
-    IBuscadorEntidades<FiltroBusquedaCuentaUsuario>, INavegadorTuplasEntidades
-{
+public interface IVistaGestionCuentasUsuarios : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaCuentaUsuario>, INavegadorTuplasEntidades {
     bool HabilitarBtnAprobacionSolicitudCuenta { get; set; }
 
     event EventHandler? AprobarSolicitudCuenta;

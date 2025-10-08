@@ -51,7 +51,7 @@ public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegis
         return nombreOk && telefonoOk;
     }
 
-    protected override void RegistroAuxiliar(RepoMensajero datosMensajero, long id) {
+    protected override void RegistroEdicionAuxiliar(RepoMensajero datosMensajero, long id) {
         using (var datosContacto = new RepoContacto()) {
             // Contacto
             var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
+﻿using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
 

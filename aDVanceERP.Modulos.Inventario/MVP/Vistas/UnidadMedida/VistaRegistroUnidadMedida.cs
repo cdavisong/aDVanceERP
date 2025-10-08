@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Modulos.Inventario.MVP.Vistas.UnidadMedida.Plantillas;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.UnidadMedida {
     public partial class VistaRegistroUnidadMedida : Form, IVistaRegistroUnidadMedida {

@@ -1,6 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
-using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario.Plantillas;
+﻿using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.RolUsuario;
 

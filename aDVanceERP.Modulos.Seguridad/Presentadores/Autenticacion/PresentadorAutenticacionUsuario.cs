@@ -6,7 +6,7 @@ using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
-using aDVanceERP.Modulos.Seguridad.Vistas.Autenticacion.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.Autenticacion;
 
@@ -45,7 +45,7 @@ public class PresentadorAutenticacionUsuario : PresentadorVistaBase<IVistaAutent
                 if (Vista.Password.VerificarPassword(usuario.PasswordHash, usuario.PasswordSalt)) {
                     if (usuario.Aprobado) {
                         var rolUsuario = RepoRolUsuario.Instancia.ObtenerPorId(usuario.IdRolUsuario);
-                        var permisosRolUsuario = RepoPermisoRolUsuario.Instancia.Buscar(FiltroBusquedaPermisoRolUsuario.IdRolUsuario, rolUsuario?.Id.ToString()).entidades;
+                        var permisosRolUsuario = RepoRolPermisoUsuario.Instancia.Buscar(FiltroBusquedaPermisoRolUsuario.IdRolUsuario, rolUsuario?.Id.ToString()).entidades;
                         
                         ContextoSeguridad.UsuarioAutenticado = usuario;
                         ContextoSeguridad.PermisosUsuario = permisosRolUsuario.Select(p => p.NombrePermiso).ToArray();

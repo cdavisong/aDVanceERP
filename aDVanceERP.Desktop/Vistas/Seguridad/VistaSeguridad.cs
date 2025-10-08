@@ -35,12 +35,8 @@ public partial class VistaSeguridad : Form, IVistaSeguridad {
         set => Size = value;
     }
 
-    public int AlturaContenedorVistas {
-        get => contenedorVistas.Height;
-    }
-
     public int TuplasMaximasContenedor {
-        get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
     }
 
     public RepoVistaBase PanelCentral { get; private set; }

@@ -2,7 +2,6 @@
 
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Utiles;
@@ -30,12 +29,8 @@ public partial class VistaRegistroPago : Form, IVistaRegistroPago, IVistaGestion
         private set => Name = value;
     }
 
-    public int AlturaContenedorVistas {
-        get => contenedorVistas.Height;
-    }
-
     public int TuplasMaximasContenedor {
-        get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
     }
 
     public RepoVistaBase PanelCentral { get; private set; }

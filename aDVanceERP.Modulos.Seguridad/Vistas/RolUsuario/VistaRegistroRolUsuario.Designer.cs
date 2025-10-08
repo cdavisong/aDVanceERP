@@ -28,19 +28,19 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaRegistroRolUsuario));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
@@ -54,7 +54,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldTituloGestionPermisos = new Label();
             layoutEncabezadosTabla = new TableLayoutPanel();
             fieldTituloProducto = new Label();
-            contenedorVistas = new Panel();
+            panelPermisos = new Panel();
             layoutPermiso = new TableLayoutPanel();
             fieldNombrePermiso = new Guna2ComboBox();
             btnAdicionarPermiso = new Guna2Button();
@@ -116,7 +116,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(fieldTituloGestionPermisos, 2, 6);
             layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 14);
-            layoutVista.Controls.Add(contenedorVistas, 2, 15);
+            layoutVista.Controls.Add(panelPermisos, 2, 15);
             layoutVista.Controls.Add(layoutPermiso, 2, 12);
             layoutVista.Controls.Add(fieldTituloNombreModulo, 2, 8);
             layoutVista.Controls.Add(separador1, 2, 7);
@@ -151,7 +151,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombreModulo.BackColor = Color.Transparent;
             fieldNombreModulo.BorderColor = Color.Gainsboro;
             fieldNombreModulo.BorderRadius = 16;
-            fieldNombreModulo.CustomizableEdges = customizableEdges1;
+            fieldNombreModulo.CustomizableEdges = customizableEdges13;
             fieldNombreModulo.Dock = DockStyle.Fill;
             fieldNombreModulo.DrawMode = DrawMode.OwnerDrawFixed;
             fieldNombreModulo.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -163,7 +163,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombreModulo.Location = new Point(55, 280);
             fieldNombreModulo.Margin = new Padding(5);
             fieldNombreModulo.Name = "fieldNombreModulo";
-            fieldNombreModulo.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldNombreModulo.ShadowDecoration.CustomizableEdges = customizableEdges14;
             fieldNombreModulo.Size = new Size(407, 35);
             fieldNombreModulo.TabIndex = 0;
             fieldNombreModulo.TextOffset = new Point(10, 0);
@@ -215,7 +215,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombreRolUsuario.BorderColor = Color.Gainsboro;
             fieldNombreRolUsuario.BorderRadius = 16;
             fieldNombreRolUsuario.Cursor = Cursors.IBeam;
-            fieldNombreRolUsuario.CustomizableEdges = customizableEdges3;
+            fieldNombreRolUsuario.CustomizableEdges = customizableEdges15;
             fieldNombreRolUsuario.DefaultText = "";
             fieldNombreRolUsuario.DisabledState.BorderColor = Color.White;
             fieldNombreRolUsuario.DisabledState.ForeColor = Color.DimGray;
@@ -234,7 +234,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombreRolUsuario.PlaceholderForeColor = Color.DimGray;
             fieldNombreRolUsuario.PlaceholderText = "Nombre del rol";
             fieldNombreRolUsuario.SelectedText = "";
-            fieldNombreRolUsuario.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            fieldNombreRolUsuario.ShadowDecoration.CustomizableEdges = customizableEdges16;
             fieldNombreRolUsuario.Size = new Size(407, 35);
             fieldNombreRolUsuario.TabIndex = 1;
             fieldNombreRolUsuario.TextOffset = new Point(5, 0);
@@ -316,15 +316,15 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldTituloProducto.Text = "Nombre o denominación";
             fieldTituloProducto.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // contenedorVistas
+            // panelPermisos
             // 
-            contenedorVistas.AutoScroll = true;
-            contenedorVistas.Dock = DockStyle.Fill;
-            contenedorVistas.Location = new Point(50, 465);
-            contenedorVistas.Margin = new Padding(0);
-            contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(417, 135);
-            contenedorVistas.TabIndex = 20;
+            panelPermisos.AutoScroll = true;
+            panelPermisos.Dock = DockStyle.Fill;
+            panelPermisos.Location = new Point(50, 465);
+            panelPermisos.Margin = new Padding(0);
+            panelPermisos.Name = "panelPermisos";
+            panelPermisos.Size = new Size(417, 135);
+            panelPermisos.TabIndex = 20;
             // 
             // layoutPermiso
             // 
@@ -349,7 +349,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombrePermiso.BackColor = Color.Transparent;
             fieldNombrePermiso.BorderColor = Color.Gainsboro;
             fieldNombrePermiso.BorderRadius = 16;
-            fieldNombrePermiso.CustomizableEdges = customizableEdges5;
+            fieldNombrePermiso.CustomizableEdges = customizableEdges17;
             fieldNombrePermiso.Dock = DockStyle.Fill;
             fieldNombrePermiso.DrawMode = DrawMode.OwnerDrawFixed;
             fieldNombrePermiso.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -361,7 +361,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             fieldNombrePermiso.Location = new Point(5, 5);
             fieldNombrePermiso.Margin = new Padding(5);
             fieldNombrePermiso.Name = "fieldNombrePermiso";
-            fieldNombrePermiso.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldNombrePermiso.ShadowDecoration.CustomizableEdges = customizableEdges18;
             fieldNombrePermiso.Size = new Size(357, 35);
             fieldNombrePermiso.TabIndex = 1;
             fieldNombrePermiso.TextOffset = new Point(10, 0);
@@ -372,7 +372,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnAdicionarPermiso.BorderRadius = 18;
             btnAdicionarPermiso.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnAdicionarPermiso.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAdicionarPermiso.CustomizableEdges = customizableEdges7;
+            btnAdicionarPermiso.CustomizableEdges = customizableEdges19;
             btnAdicionarPermiso.DialogResult = DialogResult.Cancel;
             btnAdicionarPermiso.Dock = DockStyle.Fill;
             btnAdicionarPermiso.FillColor = Color.PeachPuff;
@@ -381,7 +381,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnAdicionarPermiso.Location = new Point(372, 5);
             btnAdicionarPermiso.Margin = new Padding(5);
             btnAdicionarPermiso.Name = "btnAdicionarPermiso";
-            btnAdicionarPermiso.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnAdicionarPermiso.ShadowDecoration.CustomizableEdges = customizableEdges20;
             btnAdicionarPermiso.Size = new Size(40, 35);
             btnAdicionarPermiso.TabIndex = 3;
             // 
@@ -436,7 +436,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges9;
+            btnSalir.CustomizableEdges = customizableEdges21;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -446,7 +446,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(302, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges22;
             btnSalir.Size = new Size(160, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -455,14 +455,14 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
             // 
             btnRegistrar.Animated = true;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges11;
+            btnRegistrar.CustomizableEdges = customizableEdges23;
             btnRegistrar.Dock = DockStyle.Fill;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Location = new Point(53, 3);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges24;
             btnRegistrar.Size = new Size(243, 39);
             btnRegistrar.TabIndex = 15;
             btnRegistrar.Text = "Registrar rol";
@@ -514,6 +514,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario {
         private Guna2Button btnAdicionarPermiso;
         private TableLayoutPanel layoutEncabezadosTabla;
         private Label fieldTituloProducto;
-        private Panel contenedorVistas;
+        private Panel panelPermisos;
     }
 }

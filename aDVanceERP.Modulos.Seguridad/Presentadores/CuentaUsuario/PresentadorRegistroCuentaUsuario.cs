@@ -3,12 +3,11 @@ using aDVanceERP.Core.Infraestructura.Helpers;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
-using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.CuentaUsuario;
 
-public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaRegistroCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario,
-    RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
+public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaRegistroCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
     public PresentadorRegistroCuentaUsuario(IVistaRegistroCuentaUsuario vista) : base(vista) {
         AgregadorEventos.Suscribir("MostrarVistaRegistroCuentaUsuario", OnMostrarVistaRegistroCuentaUsuario);
         AgregadorEventos.Suscribir("MostrarVistaEdicionCuentaUsuario", OnMostrarVistaEdicionCuentaUsuario);
@@ -38,12 +37,11 @@ public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaR
     public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Seguridad.CuentaUsuario entidad) {
         base.PopularVistaDesdeEntidad(entidad);
 
-        var rolesUsuarios = RepoRolUsuario.Instancia.ObtenerTodos();
-        var rolUsuario = RepoRolUsuario.Instancia.ObtenerPorId(entidad.IdRolUsuario);
+        // Carga inicial de datos
+        Vista.CargarRolesUsuarios(RepoRolUsuario.Instancia.ObtenerTodos().Select(r => r.Nombre).ToArray());
 
-        Vista.NombreUsuario = entidad.Nombre;
-        Vista.CargarRolesUsuarios(rolesUsuarios.Select(r => r.Nombre).ToArray());
-        Vista.NombreRolUsuario = rolUsuario?.Nombre ?? string.Empty;
+        Vista.NombreUsuario = entidad.Nombre;        
+        Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? string.Empty;
     }
 
     protected override Core.Modelos.Modulos.Seguridad.CuentaUsuario? ObtenerEntidadDesdeVista() {

@@ -56,7 +56,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         return nombreOk && codigoOk && unidadMedidaOk;
     }
 
-    protected override void RegistroAuxiliar(RepoProducto datosProducto, long id) {
+    protected override void RegistroEdicionAuxiliar(RepoProducto datosProducto, long id) {
         var detalleProducto = new DetalleProducto(Entidad?.IdDetalleProducto ?? 0,
             UtilesUnidadMedida.ObtenerIdUnidadMedida(Vista.UnidadMedida).Result,
             Vista.Descripcion ?? "No hay una descripción disponible para el producto actual"

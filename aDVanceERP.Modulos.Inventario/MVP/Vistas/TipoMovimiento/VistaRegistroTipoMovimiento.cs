@@ -1,7 +1,6 @@
 ﻿using aDVanceERP.Modulos.Inventario.MVP.Vistas.TipoMovimiento.Plantillas;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
-namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.TipoMovimiento; 
+namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.TipoMovimiento;
 
 public partial class VistaRegistroTipoMovimiento : Form, IVistaRegistroTipoMovimiento {
     private bool _modoEdicion;

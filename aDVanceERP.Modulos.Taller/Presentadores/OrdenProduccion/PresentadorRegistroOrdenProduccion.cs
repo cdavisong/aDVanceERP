@@ -71,12 +71,12 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             _entidad = entidad;
         }
 
-        protected override void RegistroAuxiliar(RepoOrdenProduccion repoEntidad, long id) {
+        protected override void RegistroEdicionAuxiliar(RepoOrdenProduccion repoEntidad, long id) {
             RegistrarEditarMateriasPrimasOrden(id);
             RegistrarEditarActividadesProduccionOrden(id);
             RegistrarEditarGastosIndirectos(id);
 
-            base.RegistroAuxiliar(repoEntidad, id);
+            base.RegistroEdicionAuxiliar(repoEntidad, id);
         }
 
         public void RegistrarEditarMateriasPrimasOrden(long idOrdenProduccion) {

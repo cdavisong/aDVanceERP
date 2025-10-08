@@ -1,7 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 
@@ -54,22 +53,25 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
         switch (criterio) {
             case FiltroBusquedaCuentaUsuario.Nombre:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__cuenta_usuario 
-                    WHERE LOWER(nombre) LIKE LOWER('%{dato}%');
+                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
+                    FROM adv__cuenta_usuario cu
+                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
+                    WHERE LOWER(cu.nombre) LIKE LOWER('%{dato}%');
                     """;
                 break;
             case FiltroBusquedaCuentaUsuario.IdRol:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__cuenta_usuario 
-                    WHERE id_rol_usuario = {dato};
+                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
+                    FROM adv__cuenta_usuario cu
+                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
+                    WHERE cu.id_rol_usuario = {dato};
                     """;
                 break;
             default:
                 comando = """
-                    SELECT * 
-                    FROM adv__cuenta_usuario;
+                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
+                    FROM adv__cuenta_usuario cu
+                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario;
                     """;
                 break;
         }
@@ -85,7 +87,8 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
             passwordSalt: Convert.ToString(lectorDatos["password_salt"]),
             idRolUsuario: Convert.ToInt64(lectorDatos["id_rol_usuario"])) {
             Administrador = Convert.ToBoolean(lectorDatos["administrador"]),
-            Aprobado = Convert.ToBoolean(lectorDatos["aprobado"])
+            Aprobado = Convert.ToBoolean(lectorDatos["aprobado"]),
+            NombreRolUsuario = Convert.ToString(lectorDatos["nombre_rol_usuario"])
         };
     }
 

@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Contactos;
 
 using MySql.Data.MySqlClient;
 

@@ -4,10 +4,7 @@ using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
-using System.Windows.Forms;
-
-namespace aDVanceERP.PatchDB
-{
+namespace aDVanceERP.PatchDB {
     internal class Program {
         private static string workingDirectory = "C:\\advanceerp\\programa\\";
 

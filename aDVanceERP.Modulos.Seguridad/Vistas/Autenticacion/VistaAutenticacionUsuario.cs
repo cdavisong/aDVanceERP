@@ -1,8 +1,8 @@
 ﻿using System.Security;
 
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Properties;
-using aDVanceERP.Modulos.Seguridad.Vistas.Autenticacion.Plantillas;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.Autenticacion;
 

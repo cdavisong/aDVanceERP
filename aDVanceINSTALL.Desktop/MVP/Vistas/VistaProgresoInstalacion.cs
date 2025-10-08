@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;

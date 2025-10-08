@@ -5,13 +5,11 @@ using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
-using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.CuentaUsuario;
 
-public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<PresentadorTuplaCuentaUsuario,
-    IVistaGestionCuentasUsuarios, IVistaTuplaCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario,
-    FiltroBusquedaCuentaUsuario> {
+public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<PresentadorTuplaCuentaUsuario, IVistaGestionCuentasUsuarios, IVistaTuplaCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
     public PresentadorGestionCuentasUsuarios(IVistaGestionCuentasUsuarios vista) : base(vista) {
         vista.AprobarSolicitudCuenta += OnAprobarSolicitudCuentaUsuario;
 
@@ -41,58 +39,44 @@ public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<Present
 
     protected override PresentadorTuplaCuentaUsuario ObtenerValoresTupla(Core.Modelos.Modulos.Seguridad.CuentaUsuario entidad) {
         var presentadorTupla = new PresentadorTuplaCuentaUsuario(new VistaTuplaCuentaUsuario(), entidad);
-        var rolUsuario = RepoRolUsuario.Instancia.ObtenerPorId(entidad.IdRolUsuario);
 
         presentadorTupla.Vista.Id = entidad.Id.ToString();
         presentadorTupla.Vista.NombreUsuario = entidad.Nombre;
-        presentadorTupla.Vista.NombreRolUsuario = rolUsuario?.Nombre ?? "No asignado";
+        presentadorTupla.Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? "No asignado";
         presentadorTupla.Vista.EstadoCuentaUsuario = entidad.Aprobado ? "Activa" : "Esperando aprobación";
-        presentadorTupla.EntidadSeleccionada += OnCambioSeleccionObjeto;
-        presentadorTupla.EntidadDeseleccionada += OnCambioSeleccionObjeto;
+        presentadorTupla.EntidadSeleccionada += OnCambioSeleccionEntidad;
+        presentadorTupla.EntidadDeseleccionada += OnCambioSeleccionEntidad;
 
         return presentadorTupla;
     }
 
     private void OnAprobarSolicitudCuentaUsuario(object? sender, EventArgs e) {
-        var usuariosRol0 = 0;
+        var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
 
-        foreach (var tupla in _tuplasEntidades)
-            if (tupla.EstadoSeleccion) {
-                if (tupla.Entidad.IdRolUsuario != 0) {
-                    tupla.Entidad.Aprobado = true;
-
-                    // Editar la cuenta de usuario
-                    Repositorio.Editar(tupla.Entidad);
-                } else {
-                    usuariosRol0++;
-                }
-
-                break;
-            }
-
-        if (usuariosRol0 > 0) {
-            CentroNotificaciones.Mostrar(
-                $"{(usuariosRol0 <= 1 ? "El usuario" : "Existen usuarios")} seleccionado{(usuariosRol0 == 1 ? "" : "s")} {(usuariosRol0 == 1 ? "no tiene" : "sin")} un rolUsuario asignado, por lo que no se puede aprobar la solicitud de cuenta. Por favor, edite el usuario para asignarle un rol.",
-                TipoNotificacion.Advertencia);
+        if (tuplaSeleccionada == null) {
+            CentroNotificaciones.Mostrar("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacion.Advertencia);
             return;
         }
 
+        if (tuplaSeleccionada.Entidad.IdRolUsuario == 0) {
+            CentroNotificaciones.Mostrar("El usuario seleccionado no tiene un rolUsuario asignado, por lo que no se puede aprobar la solicitud de cuenta. Por favor, edite el usuario para asignarle un rol.", TipoNotificacion.Advertencia);
+            return;
+        }
+
+        tuplaSeleccionada.Entidad.Aprobado = true;
+        Repositorio.Editar(tuplaSeleccionada.Entidad);
         Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
 
         ActualizarResultadosBusqueda();
+
+        CentroNotificaciones.Mostrar("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacion.Info);
     }
 
-    private void OnCambioSeleccionObjeto(object? sender, Core.Modelos.Modulos.Seguridad.CuentaUsuario e) {
-        if (_tuplasEntidades.Any(t => t.EstadoSeleccion)) {
-            foreach (var tupla in _tuplasEntidades)
-                if (tupla.EstadoSeleccion) {
-                    if (!tupla.Entidad.Aprobado) {
-                        Vista.HabilitarBtnAprobacionSolicitudCuenta = true;
-                    } else {
-                        Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
-                        return;
-                    }
-                }
+    private void OnCambioSeleccionEntidad(object? sender, Core.Modelos.Modulos.Seguridad.CuentaUsuario e) {
+        var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
+
+        if (tuplaSeleccionada != null && !tuplaSeleccionada.Entidad.Aprobado) {
+            Vista.HabilitarBtnAprobacionSolicitudCuenta = true;
         } else {
             Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
         }

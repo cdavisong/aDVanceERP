@@ -12,8 +12,6 @@ using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Core.Infraestructura.Globales;
 using Guna.UI2.WinForms.Suite;
 using Guna.UI2.WinForms;
-using aDVanceERP.Core.Vistas.BD;
-using aDVanceERP.Core.Modelos.BD;
 
 namespace aDVanceERP.Desktop.Presentadores.Principal;
 

@@ -53,7 +53,7 @@ namespace aDVanceERP.Core.Utiles.Datos
                 new MySqlParameter("@IdProducto", idProducto)
             };
 
-            return await EjecutarConsultaAsync<string>(query,
+            return await EjecutarConsultaAsync(query,
                 lector => lector.GetString(lector.GetOrdinal("unidad")),
                 parametros);
         }

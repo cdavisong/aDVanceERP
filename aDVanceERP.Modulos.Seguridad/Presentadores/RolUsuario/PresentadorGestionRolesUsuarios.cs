@@ -2,13 +2,12 @@
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario;
-using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario.Plantillas;
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores.RolUsuario;
 
-public class PresentadorGestionRolesUsuarios : PresentadorVistaGestion<PresentadorTuplaRolUsuario,
-    IVistaGestionRolesUsuarios, IVistaTuplaRolUsuario, Core.Modelos.Modulos.Seguridad.RolUsuario, RepoRolUsuario, FiltroBusquedaRolUsuario> {
+public class PresentadorGestionRolesUsuarios : PresentadorVistaGestion<PresentadorTuplaRolUsuario, IVistaGestionRolesUsuarios, IVistaTuplaRolUsuario, Core.Modelos.Modulos.Seguridad.RolUsuario, RepoRolUsuario, FiltroBusquedaRolUsuario> {
     public PresentadorGestionRolesUsuarios(IVistaGestionRolesUsuarios vista) : base(vista) {
         RegistrarEntidad += OnRegistrarRolUsuario;
         EditarEntidad += OnEditarRolUsuario;
@@ -34,15 +33,13 @@ public class PresentadorGestionRolesUsuarios : PresentadorVistaGestion<Presentad
 
     protected override PresentadorTuplaRolUsuario ObtenerValoresTupla(Core.Modelos.Modulos.Seguridad.RolUsuario entidad) {
         var presentadorTupla = new PresentadorTuplaRolUsuario(new VistaTuplaRolUsuario(), entidad);
-        var permisosRolUsuario = RepoPermisoRolUsuario.Instancia.Buscar(FiltroBusquedaPermisoRolUsuario.IdRolUsuario, entidad.Id.ToString()).entidades;
-        var cuentasUsuario = RepoCuentaUsuario.Instancia.Buscar(FiltroBusquedaCuentaUsuario.IdRol, entidad.Id.ToString()).entidades;
-
+        
         presentadorTupla.Vista.Id = entidad.Id.ToString();
         presentadorTupla.Vista.NombreRolUsuario = entidad.Nombre;
         presentadorTupla.Vista.CantidadPermisos = entidad.Nombre?.Equals("Administrador") ?? false
             ? "TODOS"
-            : permisosRolUsuario.Count.ToString();
-        presentadorTupla.Vista.CantidadUsuarios = cuentasUsuario.Count.ToString();
+            : entidad.CantidadPermisos.ToString();
+        presentadorTupla.Vista.CantidadUsuarios = entidad.CantidadUsuariosAsignados.ToString();
 
         return presentadorTupla;
     }

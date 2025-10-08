@@ -51,12 +51,8 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         set => fieldDatoBusqueda.Text = value;
     }
 
-    public int AlturaContenedorVistas {
-        get => contenedorVistas.Height;
-    }
-
     public int TuplasMaximasContenedor {
-        get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
     }
 
     public int PaginaActual {

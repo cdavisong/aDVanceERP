@@ -40,7 +40,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
     }
 
     public Re Repositorio => _repositorio;
-    public Fb FiltroBusqueda { get; protected set; }
+    public Fb FiltroBusqueda { get; protected set; } = default!;
     public string? CriterioBusqueda { get; protected set; }
     public IEnumerable<Pt> TuplasSeleccionadas => _tuplasEntidades.Where(t => t.EstadoSeleccion);
 
@@ -57,7 +57,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         Vista.PaginaActual = 1;
     }
 
-    public async virtual void ActualizarResultadosBusqueda() {
+    public virtual void ActualizarResultadosBusqueda() {
         if (!Vista.Habilitada)
             return;
 
@@ -88,23 +88,18 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
             _cargaDatos.Mostrar();
 
-            // Procesar las tuplas de forma asíncrona
-            //await Task.Run(() => {
-                for (var i = 0; i < entidades.Count && i < Vista.TuplasMaximasContenedor; i++) {
-                    var entidad = entidades[i];
-                    
-                    (Vista as Control)?.Invoke(() => {
-                        AdicionarTuplaEntidad(entidad);
-                    });
+            for (var i = 0; i < entidades.Count && i < Vista.TuplasMaximasContenedor; i++) {
+                var entidad = entidades[i];
 
-                    // Pequeña pausa para permitir que la UI se actualice
-                    Thread.Sleep(10);
-                }
+                (Vista as Control)?.Invoke(() => {
+                    AdicionarTuplaEntidad(entidad);
+                });
 
-                CargaDatosCompletada?.Invoke(this, true);
-            //});            
-        }
-        catch (Exception ex) {
+                Application.DoEvents();
+            }
+
+            CargaDatosCompletada?.Invoke(this, true);
+        } catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacion.Error);
         }
     }
@@ -157,8 +152,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
                 Vista.PaginaActual = 1;
 
                 ActualizarResultadosBusqueda();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new Exception($"Error al eliminar el objeto: {ex.Message}");
             }
     }

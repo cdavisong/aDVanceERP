@@ -90,7 +90,7 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         return nombreProductoOk && tipoMovimientoOk && noCompraventaOk && cantidadOk;
     }
 
-    protected override void RegistroAuxiliar(RepoMovimiento repoMovimiento, long id) {
+    protected override void RegistroEdicionAuxiliar(RepoMovimiento repoMovimiento, long id) {
         if (Entidad != null)
             RepoInventario.Instancia.ModificarInventario(
                 Vista.NombreProducto,

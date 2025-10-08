@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Modulos.Seguridad.Vistas.Permiso.Plantillas;
+﻿using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.Permiso;
 
@@ -33,12 +33,12 @@ public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
         set => Size = value;
     }
 
-    public string? Id {
+    public string Id {
         get => _idPermiso;
         set => _idPermiso = value ?? string.Empty;
     }
 
-    public string? NombrePermiso {
+    public string NombrePermiso {
         get => fieldNombrePermiso.Text;
         set => fieldNombrePermiso.Text = value;
     }

@@ -29,8 +29,8 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.Permiso {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPermiso));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
@@ -91,24 +91,24 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.Permiso {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges3;
+            btnEliminar.CustomizableEdges = customizableEdges1;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
-            btnEliminar.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            btnEliminar.Font = new Font("Segoe UI", 9.75F);
             btnEliminar.ForeColor = Color.White;
             btnEliminar.HoverState.BorderColor = Color.PeachPuff;
             btnEliminar.HoverState.FillColor = Color.PeachPuff;
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(380, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnEliminar.Size = new Size(34, 35);
             btnEliminar.TabIndex = 0;
             // 
             // fieldNombrePermiso
             // 
             fieldNombrePermiso.Dock = DockStyle.Fill;
-            fieldNombrePermiso.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldNombrePermiso.Font = new Font("Segoe UI", 11.25F);
             fieldNombrePermiso.ForeColor = Color.DimGray;
             fieldNombrePermiso.ImeMode = ImeMode.NoControl;
             fieldNombrePermiso.Location = new Point(1, 1);
@@ -116,7 +116,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.Permiso {
             fieldNombrePermiso.Name = "fieldNombrePermiso";
             fieldNombrePermiso.Size = new Size(375, 39);
             fieldNombrePermiso.TabIndex = 1;
-            fieldNombrePermiso.Text = "nombreProducto";
+            fieldNombrePermiso.Text = "nombrePermiso";
             fieldNombrePermiso.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaTuplaPermiso
@@ -125,7 +125,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.Permiso {
             BackColor = Color.White;
             ClientSize = new Size(417, 42);
             Controls.Add(layoutBase);
-            Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
             Name = "VistaTuplaPermiso";

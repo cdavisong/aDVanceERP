@@ -42,7 +42,7 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
         return true;
     }
 
-    protected virtual void RegistroAuxiliar(Re repositorio, long id) { }
+    protected virtual void RegistroEdicionAuxiliar(Re repositorio, long id) { }
 
     protected virtual void OnRegistrarEntidad(object? sender, EventArgs e) {
         RegistrarEditarEntidad(sender, e);
@@ -68,7 +68,7 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
         else
             _entidad.Id = Repositorio.Adicionar(_entidad);
 
-        RegistroAuxiliar(_repositorio, _entidad.Id);
+        RegistroEdicionAuxiliar(_repositorio, _entidad.Id);
 
         EntidadRegistradaActualizada?.Invoke(sender, e);
         Salir?.Invoke(sender, e);

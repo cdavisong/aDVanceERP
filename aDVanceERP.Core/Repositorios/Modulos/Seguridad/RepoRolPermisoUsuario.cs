@@ -1,6 +1,4 @@
-﻿using aDVanceERP.Core.Excepciones;
-using aDVanceERP.Core.Infraestructura.Extensiones.BD;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -8,10 +6,10 @@ using MySql.Data.MySqlClient;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 
-public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, FiltroBusquedaPermisoRolUsuario> {
-    public RepoPermisoRolUsuario() : base("adv__rol_permiso", "id_rol_permiso") { }
+public class RepoRolPermisoUsuario : RepoEntidadBaseDatos<RolPermisoUsuario, FiltroBusquedaPermisoRolUsuario> {
+    public RepoRolPermisoUsuario() : base("adv__rol_permiso", "id_rol_permiso") { }
 
-    protected override string GenerarComandoAdicionar(PermisoRolUsuario objeto) {
+    protected override string GenerarComandoAdicionar(RolPermisoUsuario objeto) {
         return $"""
             INSERT INTO adv__rol_permiso (
                 id_rol_usuario, 
@@ -22,7 +20,7 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
             """;
     }
 
-    protected override string GenerarComandoEditar(PermisoRolUsuario objeto) {
+    protected override string GenerarComandoEditar(RolPermisoUsuario objeto) {
         return $"""
             UPDATE adv__rol_permiso 
             SET 
@@ -41,14 +39,14 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
 
     protected override string GenerarComandoObtener(FiltroBusquedaPermisoRolUsuario filtroBusqueda, string criterio) {
         string comando;
-        
+
         switch (filtroBusqueda) {
             case FiltroBusquedaPermisoRolUsuario.Id:
                 comando = $"""
                     SELECT rp.*, p.id_modulo, p.nombre
                     FROM adv__rol_permiso rp
                     LEFT JOIN adv__permiso p ON rp.id_permiso = p.id_permiso
-                    WHERE id_rol_permiso = {criterio};
+                    WHERE rp.id_rol_permiso = {criterio};
                     """;
                 break;
             case FiltroBusquedaPermisoRolUsuario.IdRolUsuario:
@@ -56,7 +54,7 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
                     SELECT rp.*, p.id_modulo, p.nombre
                     FROM adv__rol_permiso rp
                     LEFT JOIN adv__permiso p ON rp.id_permiso = p.id_permiso
-                    WHERE id_rol_usuario = {criterio};
+                    WHERE rp.id_rol_usuario = {criterio};
                     """;
                 break;
             default:
@@ -71,8 +69,8 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
         return comando;
     }
 
-    protected override PermisoRolUsuario MapearEntidad(MySqlDataReader lector) {
-        return new PermisoRolUsuario(
+    protected override RolPermisoUsuario MapearEntidad(MySqlDataReader lector) {
+        return new RolPermisoUsuario(
             id: Convert.ToInt64(lector["id_rol_permiso"]),
             idRolUsuario: Convert.ToInt64(lector["id_rol_usuario"]),
             idPermiso: Convert.ToInt64(lector["id_permiso"])) {
@@ -83,26 +81,22 @@ public class RepoPermisoRolUsuario : RepoEntidadBaseDatos<PermisoRolUsuario, Fil
 
     #region STATIC
 
-    public static RepoPermisoRolUsuario Instancia { get; } = new RepoPermisoRolUsuario();
+    public static RepoRolPermisoUsuario Instancia { get; } = new RepoRolPermisoUsuario();
 
     #endregion
 
     #region UTILES
 
-    public void EliminarPorRol(long idRolUsuario) {
-        using (var conexion = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
-            try {
-                if (conexion.State != System.Data.ConnectionState.Open) conexion.Open();
-            } catch (Exception) {
-                throw new ExcepcionConexionServidorMySQL();
-            }
+    public void EliminarPorRolUsuario(long idRolUsuario) {
+        var consulta = """
+            DELETE FROM adv__rol_permiso 
+            WHERE id_rol_usuario = @idRolUsuario
+            """;
+        var parametros = new Dictionary<string, object> {
+            { "@idRolUsuario", idRolUsuario }
+        };
 
-            using (var comando = conexion.CreateCommand()) {
-                comando.CommandText = "DELETE FROM adv__rol_permiso WHERE id_rol_usuario = @idRolUsuario";
-                comando.Parameters.AddWithValue("@idRolUsuario", idRolUsuario);
-                comando.ExecuteNonQuery();
-            }
-        }
+        ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
     }
 
     #endregion

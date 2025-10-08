@@ -1,7 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Finanzas;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Finanzas;
-using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja;
 using aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja.Plantillas;

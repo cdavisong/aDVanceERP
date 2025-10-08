@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 

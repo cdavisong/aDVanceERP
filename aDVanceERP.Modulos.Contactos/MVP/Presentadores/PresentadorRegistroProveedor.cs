@@ -64,7 +64,7 @@ public class PresentadorRegistroProveedor : PresentadorVistaRegistro<IVistaRegis
         return nombreOk;
     }
 
-    protected override void RegistroAuxiliar(RepoProveedor datosProveedor, long id) {
+    protected override void RegistroEdicionAuxiliar(RepoProveedor datosProveedor, long id) {
         using (var datosContacto = new RepoContacto()) {
             // Contacto
             var contacto = datosContacto.Buscar(FiltroBusquedaContacto.Id, (Entidad?.IdContacto ?? 0).ToString()).entidades.FirstOrDefault() ??

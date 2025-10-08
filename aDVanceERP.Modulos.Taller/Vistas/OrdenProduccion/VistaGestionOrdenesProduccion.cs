@@ -51,12 +51,8 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
             set => btnCerrarOrdenProduccion.Visible = value;
         }
 
-        public int AlturaContenedorVistas {
-            get => contenedorVistas.Height;
-        }
-
         public int TuplasMaximasContenedor {
-            get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+            get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
         }
 
         public int PaginaActual {

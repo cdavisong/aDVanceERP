@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Modulos.Inventario.MVP.Vistas.TipoMateriaPrima.Plantillas;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace aDVanceERP.Modulos.Inventario.MVP.Vistas.TipoMateriaPrima {
     public partial class VistaRegistroTipoMateriaPrima : Form, IVistaRegistroTipoMateriaPrima {

@@ -1,5 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Modulos.Seguridad.Vistas.Menu.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.Menu;
 

@@ -5,8 +5,8 @@ using aDVanceERP.Core.Infraestructura.Helpers;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Properties;
-using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario.Plantillas;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
 

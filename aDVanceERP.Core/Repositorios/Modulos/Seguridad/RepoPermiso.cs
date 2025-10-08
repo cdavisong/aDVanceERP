@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
@@ -15,7 +16,7 @@ public class RepoPermiso : RepoEntidadBaseDatos<Permiso, FiltroBusquedaPermiso> 
                 id_modulo, 
                 nombre
             ) VALUES (
-                {objeto.IdModuloAplicacion}, 
+                {objeto.IdModulo}, 
                 '{objeto.Nombre}'
             );
             """;
@@ -25,7 +26,7 @@ public class RepoPermiso : RepoEntidadBaseDatos<Permiso, FiltroBusquedaPermiso> 
         return $"""
             UPDATE adv__permiso 
             SET 
-                id_modulo = {objeto.IdModuloAplicacion}, 
+                id_modulo = {objeto.IdModulo}, 
                 nombre = '{objeto.Nombre}' 
             WHERE id_permiso = {objeto.Id};
             """;
@@ -77,13 +78,45 @@ public class RepoPermiso : RepoEntidadBaseDatos<Permiso, FiltroBusquedaPermiso> 
     protected override Permiso MapearEntidad(MySqlDataReader lector) {
         return new Permiso(
             id: Convert.ToInt64(lector["id_permiso"]),
-            idModuloAplicacion: Convert.ToInt64(lector["id_modulo"]),
+            idModulo: Convert.ToInt64(lector["id_modulo"]),
             nombre: lector["nombre"].ToString());
     }
 
     #region STATIC
 
     public static RepoPermiso Instancia { get; } = new RepoPermiso();
+
+    #endregion
+
+    #region UTILES
+
+    public List<Permiso> ObtenerPorNombreModulo(string nombreModulo) {
+        var comando = $"""
+            SELECT p.* 
+            FROM adv__permiso p
+            JOIN adv__modulo m ON p.id_modulo = m.id_modulo
+            WHERE m.nombre = @nombreModulo;
+            """;
+        var parametros = new Dictionary<string, object> {
+            { "@nombreModulo", nombreModulo }
+        };
+
+        return ContextoBaseDatos.EjecutarConsulta(comando, parametros, MapearEntidad).ToList();
+    }
+
+    public List<Permiso> ObtenerPorIdRolUsuario(long idRolUsuario) {
+        var comando = $"""
+            SELECT p.* 
+            FROM adv__permiso p
+            JOIN adv__rol_permiso rp ON p.id_permiso = rp.id_permiso
+            WHERE rp.id_rol_usuario = @idRolUsuario;
+            """;
+        var parametros = new Dictionary<string, object> {
+            { "@idRolUsuario", idRolUsuario }
+        };
+
+        return ContextoBaseDatos.EjecutarConsulta(comando, parametros, MapearEntidad).ToList();
+    }
 
     #endregion
 }

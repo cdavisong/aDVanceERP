@@ -68,12 +68,8 @@ public partial class VistaGestionCompras : Form, IVistaGestionCompras {
         }
     }
 
-    public int AlturaContenedorVistas {
-        get => contenedorVistas.Height;
-    }
-
     public int TuplasMaximasContenedor {
-        get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
     }
 
     public int PaginaActual {

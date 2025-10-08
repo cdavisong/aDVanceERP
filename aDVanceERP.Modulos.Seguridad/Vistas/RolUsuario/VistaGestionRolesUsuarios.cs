@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Utiles;
-using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario.Plantillas;
+using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario;
 
@@ -49,12 +49,8 @@ public partial class VistaGestionRolesUsuarios : Form, IVistaGestionRolesUsuario
         set => fieldDatoBusqueda.Text = value;
     }
 
-    public int AlturaContenedorVistas {
-        get => contenedorVistas.Height;
-    }
-
     public int TuplasMaximasContenedor {
-        get => AlturaContenedorVistas / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
     }
 
     public int PaginaActual {

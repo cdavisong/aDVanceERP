@@ -1,6 +1,6 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.BD;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 using MySql.Data.MySqlClient;
 
@@ -40,22 +40,34 @@ public class RepoRolUsuario : RepoEntidadBaseDatos<RolUsuario, FiltroBusquedaRol
         switch (filtroBusqueda) {
             case FiltroBusquedaRolUsuario.Id:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__rol_usuario 
-                    WHERE id_rol_usuario = {criterio};
+                    SELECT ru.*, COUNT(DISTINCT rp.id_permiso) AS cantidad_permisos, COUNT(DISTINCT cu.id_cuenta_usuario) AS cantidad_usuarios_asignados
+                    FROM adv__rol_usuario ru
+                    LEFT JOIN adv__rol_permiso rp ON ru.id_rol_usuario = rp.id_rol_usuario
+                    LEFT JOIN adv__cuenta_usuario cu ON ru.id_rol_usuario = cu.id_rol_usuario
+                    WHERE ru.id_rol_usuario = ru.{criterio}
+                    GROUP BY ru.id_rol_usuario, ru.nombre
+                    ORDER BY ru.id_rol_usuario;
                     """;
                 break;
             case FiltroBusquedaRolUsuario.Nombre:
                 comando = $"""
-                    SELECT * 
-                    FROM adv__rol_usuario 
-                    WHERE LOWER(nombre) LIKE LOWER('%{criterio}%');
+                    SELECT ru.*, COUNT(DISTINCT rp.id_permiso) AS cantidad_permisos, COUNT(DISTINCT cu.id_cuenta_usuario) AS cantidad_usuarios_asignados
+                    FROM adv__rol_usuario ru
+                    LEFT JOIN adv__rol_permiso rp ON ru.id_rol_usuario = rp.id_rol_usuario
+                    LEFT JOIN adv__cuenta_usuario cu ON ru.id_rol_usuario = cu.id_rol_usuario
+                    WHERE LOWER(ru.nombre) LIKE LOWER('%{criterio}%')
+                    GROUP BY ru.id_rol_usuario, ru.nombre
+                    ORDER BY ru.id_rol_usuario;
                     """;
                 break;
             default:
                 comando = """
-                    SELECT * 
-                    FROM adv__rol_usuario;
+                    SELECT ru.*, COUNT(DISTINCT rp.id_permiso) AS cantidad_permisos, COUNT(DISTINCT cu.id_cuenta_usuario) AS cantidad_usuarios_asignados
+                    FROM adv__rol_usuario ru
+                    LEFT JOIN adv__rol_permiso rp ON ru.id_rol_usuario = rp.id_rol_usuario
+                    LEFT JOIN adv__cuenta_usuario cu ON ru.id_rol_usuario = cu.id_rol_usuario
+                    GROUP BY ru.id_rol_usuario, ru.nombre
+                    ORDER BY ru.id_rol_usuario;
                     """;
                 break;
         }
@@ -63,15 +75,24 @@ public class RepoRolUsuario : RepoEntidadBaseDatos<RolUsuario, FiltroBusquedaRol
         return comando;
     }
 
-    protected override RolUsuario MapearEntidad(MySqlDataReader lectorDatos) {
+    protected override RolUsuario MapearEntidad(MySqlDataReader lector) {
         return new RolUsuario(
-            id: Convert.ToInt64(lectorDatos["id_rol_usuario"]),
-            nombre: Convert.ToString(lectorDatos["nombre"]));
+            id: Convert.ToInt64(lector["id_rol_usuario"]),
+            nombre: Convert.ToString(lector["nombre"])) {
+            CantidadPermisos = lector.HasColumn("cantidad_permisos") ? Convert.ToInt32(lector["cantidad_permisos"]) : 0,
+            CantidadUsuariosAsignados = lector.HasColumn("cantidad_usuarios_asignados") ? Convert.ToInt32(lector["cantidad_usuarios_asignados"]) : 0
+        };
     }
 
     #region STATIC
 
     public static RepoRolUsuario Instancia { get; } = new RepoRolUsuario();
+
+    #endregion
+
+    #region UTILES
+
+
 
     #endregion
 }
