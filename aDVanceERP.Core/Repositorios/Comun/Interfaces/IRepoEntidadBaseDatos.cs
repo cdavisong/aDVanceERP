@@ -4,8 +4,7 @@ namespace aDVanceERP.Core.Repositorios.Comun.Interfaces;
 
 public interface IRepoEntidadBaseDatos<En, Fb> : IRepoBase<En>
     where En : class, IEntidadBaseDatos, new()
-    where Fb : Enum
-{
+    where Fb : Enum {
     #region Obtención de datos y búsqueda de entidades
 
     (int cantidad, List<En> entidades) Buscar(string? consulta = "", int limite = 0, int desplazamiento = 0);

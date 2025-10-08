@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Utiles.Datos;
+﻿using aDVanceERP.Core.Infraestructura.Helpers.BD;
+using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Mensajeria.Plantillas;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Mensajeria;
@@ -224,7 +225,7 @@ public partial class VistaRegistroMensajeria : Form, IVistaRegistroMensajeria {
     private void ActualizarResumenEntrega() {
         var resumenHtml = $@"
 <div class='resumen-entrega'>
-    <h3>Entrega #{UtilesBD.ObtenerUltimoIdTabla("seguimiento_entrega") + 1:000}</h3>
+    <h3>Entrega #{TablaHelper.ObtenerUltimoId("seguimiento_entrega") + 1:000}</h3>
     <p><strong>Fecha:</strong> {DateTime.Now:yyyy-MM-dd}</p>
     
     <div class='seccion-cliente' style='margin-bottom: 10px;'>
