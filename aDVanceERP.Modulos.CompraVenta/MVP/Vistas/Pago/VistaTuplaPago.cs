@@ -52,17 +52,12 @@ public partial class VistaTuplaPago : Form, IVistaTuplaPago {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos
-        fieldMetodoPago.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldMonto.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEliminar.Click += delegate(object? sender, EventArgs e) {
             EliminarDatosTupla?.Invoke(new[] { MetodoPago, Monto }, e);
         };

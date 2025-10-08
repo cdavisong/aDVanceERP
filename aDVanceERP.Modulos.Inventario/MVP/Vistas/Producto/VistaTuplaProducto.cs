@@ -115,22 +115,14 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-    
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? MovimientoPositivoStock;
     public event EventHandler? MovimientoNegativoStock;
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
-        // Eventos
-        foreach (var control in layoutVista.Controls) {
-            if (control is Guna2CircleButton || control is Guna2Button)
-                continue;
-
-            ((Control)control).Click += OnSeleccionTupla;
-        }
+        // Eventos        
         btnMovimientoPositivo.Click += delegate (object? sender, EventArgs e) {
             MovimientoPositivoStock?.Invoke(NombreAlmacen, e);
         };
@@ -148,10 +140,6 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
                     $"No se puede eliminar el producto {NombreProducto}, existen registros de movimientos asociados al mismo y podría dañar la integridad y trazabilidad de los datos.",
                     TipoNotificacion.Advertencia);
         };
-    }
-
-    private void OnSeleccionTupla(object? sender, EventArgs e) {
-        TuplaSeleccionada?.Invoke(this, e);
     }
 
     public void Mostrar() {

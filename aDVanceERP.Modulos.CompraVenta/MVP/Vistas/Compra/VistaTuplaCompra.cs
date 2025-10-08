@@ -70,21 +70,13 @@ public partial class VistaTuplaCompra : Form, IVistaTuplaCompra {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
 
     public void Inicializar() {
         // Eventos
-        fieldId.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldFecha.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreAlmacen.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreProveedor.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldCantidadProductos.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldMontoTotal.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
         btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
     }

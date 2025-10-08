@@ -99,24 +99,12 @@ public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos
-        fieldId.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreProducto.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreAlmacenOrigen.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreAlmacenDestino.Click += delegate(object? sender, EventArgs e) {
-            TuplaSeleccionada?.Invoke(this, e);
-        };
-        fieldCantidadMovida.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldTipoMovimiento.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldFecha.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
         btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
     }

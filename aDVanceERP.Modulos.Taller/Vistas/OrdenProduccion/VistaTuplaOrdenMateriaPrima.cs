@@ -67,16 +67,12 @@ public partial class VistaTuplaOrdenMateriaPrima : Form, IVistaTuplaOrdenMateria
     }
 
     public event EventHandler? PrecioUnitarioModificado;
-    public event EventHandler? TuplaSeleccionada;
     public event EventHandler? EditarDatosTupla;
-    public event EventHandler? EliminarDatosTupla;
-    
+    public event EventHandler? EliminarDatosTupla;    
 
     public void Inicializar() {
         // Eventos
-        fieldNombreProducto.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldPrecioUnitario.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldPrecioUnitario.LostFocus += delegate { FormatearMontoModificado(); };
+       fieldPrecioUnitario.LostFocus += delegate { FormatearMontoModificado(); };
         fieldPrecioUnitario.KeyDown += delegate(object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
@@ -85,8 +81,6 @@ public partial class VistaTuplaOrdenMateriaPrima : Form, IVistaTuplaOrdenMateria
 
             args.SuppressKeyPress = true;
         };
-        fieldCantidad.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEliminar.Click += delegate(object? sender, EventArgs e) {
             EliminarDatosTupla?.Invoke(new[] { NombreAlmacen, NombreMateriaPrima, Cantidad, PrecioUnitario }, e);
         };

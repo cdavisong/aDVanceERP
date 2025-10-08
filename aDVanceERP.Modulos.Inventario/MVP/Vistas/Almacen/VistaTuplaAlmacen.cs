@@ -67,7 +67,6 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
         set => layoutVista.BackColor = value;
     }
 
-    public event EventHandler? TuplaSeleccionada;
     public event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
     public event EventHandler? DescargarProductos;
     public event EventHandler? EditarDatosTupla;
@@ -76,14 +75,7 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
 
     public void Inicializar() {
         // Eventos
-        fieldId.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombre.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldDireccion.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldDescripcion.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
-        btnExportarDocumentoInventario.Click += delegate {
-            btnExportarDocumentoInventario.ContextMenuStrip?.Show(btnExportarDocumentoInventario, new Point(0, 40));
-        };
+        btnExportarDocumentoInventario.Click += delegate { btnExportarDocumentoInventario.ContextMenuStrip?.Show(btnExportarDocumentoInventario, new Point(0, 40)); };
         btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.PDF)); };
         btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.Excel)); };
         btnExportarProductos.Click += delegate (object? sender, EventArgs e) { DescargarProductos?.Invoke(Id, e); };

@@ -93,21 +93,12 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
             get => fieldFechaCierre.Text;
             set => fieldFechaCierre.Text = value;
         }
-
-        public event EventHandler? TuplaSeleccionada;
+                
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
         
-
         public void Inicializar() {
             // Eventos
-            foreach (var control in layoutVista.Controls) {
-                if (control is Guna2CircleButton || control is Guna2Button)
-                    continue;
-
-                ((Control) control).Click += OnSeleccionTupla;
-            }
-
             btnEditar.Click += delegate (object? sender, EventArgs e) {
                 EditarDatosTupla?.Invoke(this, e);
             };
@@ -115,11 +106,6 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                 EliminarDatosTupla?.Invoke(this, e);
             };
         }
-
-        private void OnSeleccionTupla(object? sender, EventArgs e) {
-            TuplaSeleccionada?.Invoke(this, e);
-        }
-
         public void Mostrar() {
             VerificarPermisos();
             BringToFront();

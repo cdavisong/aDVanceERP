@@ -31,17 +31,17 @@ public partial class VistaTuplaCuentaUsuario : Form, IVistaTuplaCuentaUsuario {
         set => Size = value;
     }
 
-    public string? Id {
+    public string Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
     }
 
-    public string? NombreUsuario {
+    public string NombreUsuario {
         get => fieldNombreUsuario.Text;
         set => fieldNombreUsuario.Text = value;
     }
 
-    public string? NombreRolUsuario {
+    public string NombreRolUsuario {
         get => fieldNombreRolUsuario.Text;
         set {
             fieldNombreRolUsuario.Text = value;
@@ -53,7 +53,7 @@ public partial class VistaTuplaCuentaUsuario : Form, IVistaTuplaCuentaUsuario {
         }
     }
 
-    public string? EstadoCuentaUsuario {
+    public string EstadoCuentaUsuario {
         get => fieldEstadoCuentaUsuario.Text;
         set => fieldEstadoCuentaUsuario.Text = value;
     }
@@ -63,18 +63,12 @@ public partial class VistaTuplaCuentaUsuario : Form, IVistaTuplaCuentaUsuario {
         set => layoutVista.BackColor = value;
     }
 
-    public event EventHandler? TuplaSeleccionada;
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
 
     public void Inicializar() {
         // Eventos
-        fieldId.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreUsuario.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreRolUsuario.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldEstadoCuentaUsuario.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
         btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
     }

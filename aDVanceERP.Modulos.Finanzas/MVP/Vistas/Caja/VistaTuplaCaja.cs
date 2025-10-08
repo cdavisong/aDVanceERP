@@ -97,35 +97,11 @@ namespace aDVanceERP.Modulos.Finanzas.MVP.Vistas.Caja {
             set => layoutVista.BackColor = value;
         }
 
-        public event EventHandler? TuplaSeleccionada;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
         
-
         public void Inicializar() {
             // Eventos
-            fieldId.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldFechaApertura.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldSaldoInicial.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldSaldoActual.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldFechaCierre.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldEstado.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-            fieldNombreUsuario.Click += delegate (object? sender, EventArgs e) {
-                TuplaSeleccionada?.Invoke(this, e);
-            };
-
             btnDescargarInforme.Click += delegate (object? sender, EventArgs e) {
                 var fechaApertura = DateTime.ParseExact(fieldFechaApertura.Text, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
                 var fechaCierre = DateTime.ParseExact(fieldFechaCierre.Text, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);

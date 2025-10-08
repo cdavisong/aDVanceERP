@@ -66,16 +66,13 @@ public partial class VistaTuplaDetalleCompraventaProducto : Form, IVistaTuplaDet
         set => layoutVista.BackColor = value;
     }
 
-    public event EventHandler? PrecioCompraventaModificado;
-    public event EventHandler? TuplaSeleccionada;
+    public event EventHandler? PrecioCompraventaModificado;    
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
 
     public void Inicializar() {
         // Eventos
-        fieldNombreProducto.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldPrecioCompraventa.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
         fieldPrecioCompraventa.LostFocus += delegate { FormatearMontoModificado(); };
         fieldPrecioCompraventa.KeyDown += delegate(object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
@@ -85,8 +82,6 @@ public partial class VistaTuplaDetalleCompraventaProducto : Form, IVistaTuplaDet
 
             args.SuppressKeyPress = true;
         };
-        fieldCantidad.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEliminar.Click += delegate(object? sender, EventArgs e) {
             EliminarDatosTupla?.Invoke(new[] { IdProducto, NombreProducto, PrecioCompraventaFinal, Cantidad }, e);
         };

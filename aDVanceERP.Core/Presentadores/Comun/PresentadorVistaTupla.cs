@@ -1,7 +1,10 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+
+using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Core.Presentadores.Comun;
 
@@ -16,9 +19,20 @@ public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, 
         _entidad = entidad ?? throw new ArgumentNullException(nameof(entidad));
 
         // Suscribir a eventos de la vista
-        Vista.TuplaSeleccionada += OnTuplaSeleccionada;
-        Vista.EditarDatosTupla += OnEditarDatosTupla;
-        Vista.EliminarDatosTupla += OnEliminarDatosTupla;
+        vista.EditarDatosTupla += OnEditarDatosTupla;
+        vista.EliminarDatosTupla += OnEliminarDatosTupla;
+
+        // Manejar el evento de selección de la tupla en la vista. Para ello:
+        // - Todos los controles registrados en la vista, exceptuando los botones modifican el estado de selección de la tupla.
+        var vistaForm = vista as Form;
+        var controlesVista = vistaForm?.GetAllControls();
+
+        if (controlesVista != null) {
+            foreach (Control control in controlesVista) {
+                if (control is not Button && control is not Guna2Button && control is not Guna2CircleButton)
+                    control.Click += OnTuplaSeleccionada;
+            }
+        }
     }
 
     public En Entidad => _entidad;
@@ -62,9 +76,20 @@ public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, 
             // Liberar recursos administrados
         }
 
-        Vista.TuplaSeleccionada -= OnTuplaSeleccionada;
+        // Desuscribir de eventos de la vista
         Vista.EditarDatosTupla -= OnEditarDatosTupla;
         Vista.EliminarDatosTupla -= OnEliminarDatosTupla;
+
+        // Desuscribir del evento de selección de la tupla en la vista
+        var vistaForm = Vista as Form;
+        var controlesVista = vistaForm?.GetAllControls();
+
+        if (controlesVista != null) {
+            foreach (Control control in controlesVista) {
+                if (control is not Button && control is not Guna2Button && control is not Guna2CircleButton)
+                    control.Click -= OnTuplaSeleccionada;
+            }
+        }
 
         _disposed = true;
     }

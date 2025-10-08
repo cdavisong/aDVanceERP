@@ -31,17 +31,11 @@ public partial class VistaMenuSeguridad : Form, IVistaMenuSeguridad {
         get => Size;
         set => Size = value;
     }
-    
+
     public void Inicializar() {
         // Eventos
-        btnUsuarios.Click += delegate {
-            //AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-            AgregadorEventos.Publicar("MostrarVistaGestionCuentasUsuarios", string.Empty); 
-        };
-        btnRolesUsuarios.Click += delegate {
-            //AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-            AgregadorEventos.Publicar("MostrarVistaGestionRolesUsuarios", string.Empty); 
-        };
+        btnUsuarios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCuentasUsuarios", string.Empty); };
+        btnRolesUsuarios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionRolesUsuarios", string.Empty); };
     }
 
     public void SeleccionarVistaInicial() {

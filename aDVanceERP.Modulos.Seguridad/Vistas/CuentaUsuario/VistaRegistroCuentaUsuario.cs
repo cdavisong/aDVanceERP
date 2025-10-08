@@ -123,7 +123,10 @@ public partial class VistaRegistroCuentaUsuario : Form, IVistaRegistroCuentaUsua
         btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
     }
 
-    public void CargarRolesUsuarios(string[] rolesUsuarios) {
+    public void CargarRolesUsuarios(string?[] rolesUsuarios) {
+        if (rolesUsuarios == null || rolesUsuarios.Length == 0)
+            return;
+
         var rolesFiltrados = rolesUsuarios.Where(rol => rol != "Administrador").ToArray();
 
         fieldNombreRolUsuario.Items.Clear();

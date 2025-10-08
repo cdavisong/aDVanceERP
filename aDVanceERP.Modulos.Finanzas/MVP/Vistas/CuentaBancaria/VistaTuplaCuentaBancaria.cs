@@ -63,20 +63,13 @@ public partial class VistaTuplaCuentaBancaria : Form, IVistaTuplaCuentaBancaria 
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? MostrarQR;
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos
-        fieldId.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldAlias.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNumeroTarjeta.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldTipoMoneda.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombrePropietario.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
         btnQR.Click += delegate(object? sender, EventArgs e) {
             var numeroTarjeta = NumeroTarjeta.Replace(" ", string.Empty);
             var idContacto = UtilesContacto.ObtenerIdContacto(NombrePropietario).Result;

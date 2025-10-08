@@ -94,26 +94,16 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? DescargarFactura;
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // VAriables
         ColorFondoTupla = ObtenerColorTupla();
 
         // Eventos
-        fieldId.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldFecha.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreAlmacen.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldNombreCliente.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldCantidadProductos.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldMontoTotal.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldEstadoEntrega.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-        fieldEstadoPago.Click += delegate (object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
         btnDescargarFactura.Click += delegate (object? sender, EventArgs e) {
             var datosCliente = new string[3];
             var datosVentaProductos = new List<string[]>();

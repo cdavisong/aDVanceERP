@@ -47,16 +47,13 @@ public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-
-    public event EventHandler? TuplaSeleccionada;
+        
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
 
     public void Inicializar() {
         // Eventos            
-        fieldNombrePermiso.Click += delegate(object? sender, EventArgs e) { TuplaSeleccionada?.Invoke(this, e); };
-
         btnEliminar.Click += delegate(object? sender, EventArgs e) {
             EliminarDatosTupla?.Invoke(new[] { Id ?? string.Empty, NombrePermiso ?? string.Empty }, e);
         };
