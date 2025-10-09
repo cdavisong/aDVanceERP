@@ -63,6 +63,16 @@ namespace aDVanceERP.Modulos.Inventario.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap inventory_24px {
+            get {
+                object obj = ResourceManager.GetObject("inventory_24px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap load_cargo_20px {
             get {
                 object obj = ResourceManager.GetObject("load_cargo_20px", resourceCulture);

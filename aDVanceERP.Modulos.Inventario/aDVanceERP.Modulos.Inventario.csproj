@@ -10,8 +10,8 @@
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MVP\Vistas\Menu\VistaMenuInventario.cs" />
-    <Compile Update="MVP\Vistas\UnidadMedida\VistaRegistroUnidadMedida.cs">
+    <Compile Update="Vistas\Menu\VistaMenuInventario.cs" />
+    <Compile Update="Vistas\UnidadMedida\VistaRegistroUnidadMedida.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
