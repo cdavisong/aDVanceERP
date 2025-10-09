@@ -5,7 +5,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Modulos.Seguridad.Interfaces;
 
 public interface IVistaGestionCuentasUsuarios : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaCuentaUsuario>, INavegadorTuplasEntidades {
-    bool HabilitarBtnAprobacionSolicitudCuenta { get; set; }
+    bool MostrarBtnAprobacionSolicitudCuenta { get; set; }
 
     event EventHandler? AprobarSolicitudCuenta;
 }

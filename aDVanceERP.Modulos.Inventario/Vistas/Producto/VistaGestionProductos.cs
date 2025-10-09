@@ -6,6 +6,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas.Producto;
@@ -18,6 +19,7 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
         InitializeComponent();
 
         NombreVista = nameof(VistaGestionProductos);
+        PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
     }
@@ -43,13 +45,13 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     }
 
     public string? NombreAlmacen {
-        get => fieldNombreAlmacen.Text;
-        set => fieldNombreAlmacen.Text = value;
+        get => fieldFiltroAlmacen.Text;
+        set => fieldFiltroAlmacen.Text = value;
     }
 
     public int Categoria {
-        get => fieldCriterioCategoriaProducto.SelectedIndex - 1;
-        set => fieldCriterioCategoriaProducto.SelectedIndex = value + 1;
+        get => fieldFiltroCategoriaProducto.SelectedIndex - 1;
+        set => fieldFiltroCategoriaProducto.SelectedIndex = value + 1;
     }
 
     public FiltroBusquedaProducto FiltroBusqueda {
@@ -62,19 +64,6 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     public string? CriterioBusqueda {
         get => fieldDatoBusqueda.Text;
         set => fieldDatoBusqueda.Text = value;
-    }
-
-    public decimal ValorTotalInventario {
-        get => decimal.TryParse(fieldValorTotalInventario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorTotal) ? valorTotal : 0m;
-        set {
-            layoutValorBrutoInversion.Visible = value > 0;
-            fieldValorTotalInventario.Text = value.ToString("N2", CultureInfo.InvariantCulture);
-        }
-    }
-
-    public bool MostrarBtnHabilitarDeshabilitarProducto {
-        get => btnHabilitarDeshabilitarProducto.Visible;
-        set => btnHabilitarDeshabilitarProducto.Visible = value;
     }
 
     public int TuplasMaximasContenedor {
@@ -98,52 +87,42 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
         }
     }
 
-    public RepoVistaBase? PanelCentral { get; private set; }
-    
+    public bool MostrarBtnHabilitarDeshabilitarProducto {
+        get => btnHabilitarDeshabilitarProducto.Visible;
+        set => btnHabilitarDeshabilitarProducto.Visible = value;
+    }
+
+    public decimal ValorTotalInventario {
+        get => decimal.TryParse(fieldValorTotalInventario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorTotal) ? valorTotal : 0m;
+        set {
+            layoutValorBrutoInversion.Visible = value > 0;
+            fieldValorTotalInventario.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+        }
+    }
+
+    public RepoVistaBase PanelCentral { get; private set; }
+
     public event EventHandler? AlturaContenedorTuplasModificada;
     public event EventHandler? MostrarPrimeraPagina;
     public event EventHandler? MostrarPaginaAnterior;
     public event EventHandler? MostrarPaginaSiguiente;
     public event EventHandler? MostrarUltimaPagina;
     public event EventHandler? SincronizarDatos;
-    
+
     public event EventHandler? RegistrarEntidad;
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
     public event EventHandler<(FiltroBusquedaProducto, string?)>? BuscarEntidades;
+
     public event EventHandler? HabilitarDeshabilitarProducto;
 
+
     public void Inicializar() {
-        // Variables locales
-        PanelCentral = new RepoVistaBase(contenedorVistas);
-
         // Eventos
-        fieldNombreAlmacen.SelectedIndexChanged += delegate (object? sender, EventArgs e) {
-            if (!string.IsNullOrEmpty(NombreAlmacen))
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
-            else SincronizarDatos?.Invoke(sender, e);
-
-            ActualizarValorTotalInventario();
-        };
-        fieldCriterioCategoriaProducto.SelectedIndexChanged += delegate (object? sender, EventArgs e) {
-            if (Categoria > -1)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
-            else SincronizarDatos?.Invoke(sender, e);
-
-            ActualizarValorTotalInventario();
-        };
-        fieldFiltroBusqueda.SelectedIndexChanged += delegate {
-            fieldDatoBusqueda.Text = string.Empty;
-            fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0 && fieldFiltroBusqueda.SelectedIndex != 5;
-            fieldDatoBusqueda.Focus();
-
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
-
-            // Ir a la primera página al cambiar el criterio de búsqueda
-            PaginaActual = 1;
-            HabilitarBotonesPaginacion();
-        };
-        fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+        fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
+        fieldFiltroCategoriaProducto.SelectedIndexChanged += OnCambioIndiceCategoriaProducto;
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
+        fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
 
@@ -152,9 +131,6 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
             else SincronizarDatos?.Invoke(sender, args);
 
             args.SuppressKeyPress = true;
-        };
-        btnCerrar.Click += delegate (object? sender, EventArgs e) {
-            Ocultar();
         };
         btnRegistrar.Click += delegate (object? sender, EventArgs e) {
             RegistrarEntidad?.Invoke(sender, e);
@@ -193,22 +169,69 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
 
             ActualizarValorTotalInventario();
         };
-        contenedorVistas.Resize += delegate {
-            AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty);
-        };
+        contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
     }
 
-    public void CargarNombresAlmacenes(object[] nombresAlmacenes) {
-        fieldNombreAlmacen.Items.Clear();
-        fieldNombreAlmacen.Items.Add("Todos los almacenes");
-        fieldNombreAlmacen.Items.AddRange(nombresAlmacenes);
-        fieldNombreAlmacen.SelectedIndex = fieldNombreAlmacen.Items.Count > 0 ? 0 : -1;
+    private void OnCambioIndiceFiltroAlmacen(object? sender, EventArgs e) {
+        if (!string.IsNullOrEmpty(NombreAlmacen))
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
+        else SincronizarDatos?.Invoke(sender, e);
+
+        ActualizarValorTotalInventario();
+    }
+
+    private void OnCambioIndiceCategoriaProducto(object? sender, EventArgs e) {
+        if (Categoria > -1)
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
+        else SincronizarDatos?.Invoke(sender, e);
+
+        ActualizarValorTotalInventario();
+    }
+
+    private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
+        fieldDatoBusqueda.Text = string.Empty;
+        fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0 && fieldFiltroBusqueda.SelectedIndex != 5;
+
+        if (fieldDatoBusqueda.Visible)
+            fieldDatoBusqueda.Focus();
+
+        BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Join(';', NombreAlmacen, Categoria.ToString(), CriterioBusqueda)));
+
+        // Ir a la primera página al cambiar el criterio de búsqueda
+        PaginaActual = 1;
+        HabilitarBotonesPaginacion();
+    }
+
+    public void CargarFiltroAlmacenes(object[] nombresAlmacenes) {
+        // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
+        fieldFiltroAlmacen.SelectedIndexChanged -= OnCambioIndiceFiltroAlmacen;
+
+        fieldFiltroAlmacen.Items.Clear();
+        fieldFiltroAlmacen.Items.AddRange(nombresAlmacenes);
+
+        if (fieldFiltroAlmacen.Items.Count > 0)
+            fieldFiltroAlmacen.SelectedIndex = 0;
+
+        // Reasignar el evento SelectedIndexChanged
+        fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
+
+        ActualizarValorTotalInventario();
     }
 
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
+        fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
+
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
-        fieldFiltroBusqueda.SelectedIndex = 0;
+
+        if (fieldFiltroBusqueda.Items.Count > 0)
+            fieldFiltroBusqueda.SelectedIndex = 0;
+
+        // Reasignar el evento SelectedIndexChanged
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
+
+        btnHabilitarDeshabilitarProducto.Hide();
     }
 
     public void Mostrar() {
@@ -224,8 +247,10 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
         PaginasTotales = 1;
         MostrarBtnHabilitarDeshabilitarProducto = false;
 
-        fieldNombreAlmacen.SelectedIndex = 0;
-        fieldFiltroBusqueda.SelectedIndex = 0;
+        if (fieldFiltroAlmacen.Items.Count > 0)
+            fieldFiltroAlmacen.SelectedIndex = 0;
+        if (fieldFiltroBusqueda.Items.Count > 0)
+            fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
     public void Ocultar() {

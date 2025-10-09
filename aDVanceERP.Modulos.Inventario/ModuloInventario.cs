@@ -4,8 +4,10 @@ using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 using aDVanceERP.Modulos.Inventario.Presentadores.Menu;
+using aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas.Menu;
+using aDVanceERP.Modulos.Inventario.Vistas.Producto;
 
 using Guna.UI2.WinForms;
 
@@ -14,6 +16,7 @@ namespace aDVanceERP.Modulos.Inventario;
 public sealed class ModuloInventario : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuInventario _menuInventario = null!;
+    private PresentadorGestionProductos _productos = null!;
 
     public ModuloInventario() {
         Nombre = "MOD_INVENTARIO";
@@ -35,6 +38,10 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         // Menu
         _menuInventario = new PresentadorMenuInventario(new VistaMenuInventario());
 
+        // Contenedor de módulos
+        // Productos
+        _productos = new PresentadorGestionProductos(new VistaGestionProductos());
+
         base.Inicializar(principal);
     }
 
@@ -44,6 +51,10 @@ public sealed class ModuloInventario : ModuloExtensionBase {
 
         // Agregar menú del módulo
         _principal.Vista.BarraTitulo.Registrar(_menuInventario.Vista);
+
+        // Contenedor de módulos
+        // Productos
+        _principal.Modulos.Vista.PanelCentral.Registrar(_productos.Vista);
     }
 
     public override void Apagar() {

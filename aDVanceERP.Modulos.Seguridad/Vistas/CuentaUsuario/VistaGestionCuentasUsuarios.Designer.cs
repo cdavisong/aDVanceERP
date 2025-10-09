@@ -47,8 +47,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHerramientas = new TableLayoutPanel();
@@ -58,7 +56,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldTituloFiltrosBusqueda = new Label();
             separador1 = new Guna2Separator();
             layoutTitulo = new TableLayoutPanel();
-            btnCerrar = new Guna2Button();
             fieldTitulo = new Label();
             fieldIcono = new PictureBox();
             fieldSubtitulo = new Label();
@@ -77,7 +74,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldPaginaActual = new Label();
             fieldPaginasTotales = new Label();
             panelBotonesGestion = new Panel();
-            btnAprobarCuentaUsuario = new Guna2Button();
+            btnAprobarSolicitudCuenta = new Guna2Button();
             btnRegistrar = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
@@ -167,7 +164,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldDatoBusqueda.DisabledState.PlaceholderForeColor = Color.DimGray;
             fieldDatoBusqueda.Dock = DockStyle.Fill;
             fieldDatoBusqueda.FocusedState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldDatoBusqueda.ForeColor = Color.Black;
             fieldDatoBusqueda.HoverState.BorderColor = Color.SandyBrown;
             fieldDatoBusqueda.IconLeft = (Image) resources.GetObject("fieldDatoBusqueda.IconLeft");
@@ -198,7 +195,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             fieldFiltroBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
             fieldFiltroBusqueda.FocusedColor = Color.Gainsboro;
             fieldFiltroBusqueda.FocusedState.BorderColor = Color.Gainsboro;
-            fieldFiltroBusqueda.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldFiltroBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldFiltroBusqueda.ForeColor = Color.Black;
             fieldFiltroBusqueda.ItemHeight = 29;
             fieldFiltroBusqueda.Location = new Point(5, 5);
@@ -228,7 +225,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldTituloFiltrosBusqueda
             // 
             fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
-            fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
             fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
             fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
@@ -255,7 +252,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             layoutTitulo.ColumnCount = 2;
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            layoutTitulo.Controls.Add(btnCerrar, 1, 0);
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
             layoutTitulo.Location = new Point(50, 0);
@@ -266,29 +262,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             layoutTitulo.Size = new Size(1286, 45);
             layoutTitulo.TabIndex = 14;
             // 
-            // btnCerrar
-            // 
-            btnCerrar.Animated = true;
-            btnCerrar.AutoRoundedCorners = true;
-            btnCerrar.BorderColor = Color.Gray;
-            btnCerrar.BorderRadius = 18;
-            btnCerrar.CustomizableEdges = customizableEdges5;
-            btnCerrar.Dock = DockStyle.Fill;
-            btnCerrar.FillColor = Color.White;
-            btnCerrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            btnCerrar.ForeColor = Color.Black;
-            btnCerrar.HoverState.FillColor = Color.White;
-            btnCerrar.Image = (Image) resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(1239, 3);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnCerrar.Size = new Size(44, 39);
-            btnCerrar.TabIndex = 8;
-            // 
             // fieldTitulo
             // 
             fieldTitulo.Dock = DockStyle.Fill;
-            fieldTitulo.Font = new Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldTitulo.Font = new Font("Segoe UI", 20.25F);
             fieldTitulo.ForeColor = Color.Black;
             fieldTitulo.ImeMode = ImeMode.NoControl;
             fieldTitulo.Location = new Point(3, 0);
@@ -313,7 +290,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldSubtitulo
             // 
             fieldSubtitulo.Dock = DockStyle.Fill;
-            fieldSubtitulo.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            fieldSubtitulo.Font = new Font("Segoe UI", 11.25F);
             fieldSubtitulo.ForeColor = Color.Gray;
             fieldSubtitulo.ImeMode = ImeMode.NoControl;
             fieldSubtitulo.Location = new Point(55, 50);
@@ -352,7 +329,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldTituloNombre
             // 
             fieldTituloNombre.Dock = DockStyle.Fill;
-            fieldTituloNombre.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldTituloNombre.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldTituloNombre.ForeColor = Color.Black;
             fieldTituloNombre.ImeMode = ImeMode.NoControl;
             fieldTituloNombre.Location = new Point(61, 1);
@@ -366,7 +343,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldTituloId
             // 
             fieldTituloId.Dock = DockStyle.Fill;
-            fieldTituloId.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldTituloId.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldTituloId.ForeColor = Color.Black;
             fieldTituloId.ImeMode = ImeMode.NoControl;
             fieldTituloId.Location = new Point(1, 1);
@@ -380,7 +357,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldTituloTelefonos
             // 
             fieldTituloTelefonos.Dock = DockStyle.Fill;
-            fieldTituloTelefonos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldTituloTelefonos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldTituloTelefonos.ForeColor = Color.Black;
             fieldTituloTelefonos.ImeMode = ImeMode.NoControl;
             fieldTituloTelefonos.Location = new Point(211, 1);
@@ -394,7 +371,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldTiuloCorreoElectronico
             // 
             fieldTiuloCorreoElectronico.Dock = DockStyle.Fill;
-            fieldTiuloCorreoElectronico.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldTiuloCorreoElectronico.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldTiuloCorreoElectronico.ForeColor = Color.Black;
             fieldTiuloCorreoElectronico.ImeMode = ImeMode.NoControl;
             fieldTiuloCorreoElectronico.Location = new Point(361, 1);
@@ -456,10 +433,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaAnterior.CustomizableEdges = customizableEdges7;
+            btnPaginaAnterior.CustomizableEdges = customizableEdges5;
             btnPaginaAnterior.Dock = DockStyle.Fill;
             btnPaginaAnterior.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
             btnPaginaAnterior.ForeColor = Color.White;
             btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
@@ -467,7 +444,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPaginaAnterior.Location = new Point(36, 1);
             btnPaginaAnterior.Margin = new Padding(1);
             btnPaginaAnterior.Name = "btnPaginaAnterior";
-            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnPaginaAnterior.Size = new Size(33, 33);
             btnPaginaAnterior.TabIndex = 1;
             // 
@@ -480,10 +457,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnPrimeraPagina.CustomizableEdges = customizableEdges9;
+            btnPrimeraPagina.CustomizableEdges = customizableEdges7;
             btnPrimeraPagina.Dock = DockStyle.Fill;
             btnPrimeraPagina.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
             btnPrimeraPagina.ForeColor = Color.White;
             btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
@@ -491,7 +468,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPrimeraPagina.Location = new Point(1, 1);
             btnPrimeraPagina.Margin = new Padding(1);
             btnPrimeraPagina.Name = "btnPrimeraPagina";
-            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnPrimeraPagina.Size = new Size(33, 33);
             btnPrimeraPagina.TabIndex = 0;
             // 
@@ -504,10 +481,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
             btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaSiguiente.CustomizableEdges = customizableEdges11;
+            btnPaginaSiguiente.CustomizableEdges = customizableEdges9;
             btnPaginaSiguiente.Dock = DockStyle.Fill;
             btnPaginaSiguiente.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
             btnPaginaSiguiente.ForeColor = Color.White;
             btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
@@ -515,7 +492,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnPaginaSiguiente.Location = new Point(311, 1);
             btnPaginaSiguiente.Margin = new Padding(1);
             btnPaginaSiguiente.Name = "btnPaginaSiguiente";
-            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnPaginaSiguiente.Size = new Size(33, 33);
             btnPaginaSiguiente.TabIndex = 2;
             // 
@@ -528,10 +505,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnUltimaPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
             btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnUltimaPagina.CustomizableEdges = customizableEdges13;
+            btnUltimaPagina.CustomizableEdges = customizableEdges11;
             btnUltimaPagina.Dock = DockStyle.Fill;
             btnUltimaPagina.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnUltimaPagina.Font = new Font("Segoe UI", 9F);
             btnUltimaPagina.ForeColor = Color.White;
             btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
@@ -539,7 +516,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnUltimaPagina.Location = new Point(346, 1);
             btnUltimaPagina.Margin = new Padding(1);
             btnUltimaPagina.Name = "btnUltimaPagina";
-            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnUltimaPagina.Size = new Size(33, 33);
             btnUltimaPagina.TabIndex = 3;
             // 
@@ -552,10 +529,10 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image4");
             btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
-            btnSincronizarDatos.CustomizableEdges = customizableEdges15;
+            btnSincronizarDatos.CustomizableEdges = customizableEdges13;
             btnSincronizarDatos.Dock = DockStyle.Fill;
             btnSincronizarDatos.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSincronizarDatos.Font = new Font("Segoe UI", 9F);
             btnSincronizarDatos.ForeColor = Color.White;
             btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnSincronizarDatos.HoverState.FillColor = Color.WhiteSmoke;
@@ -563,14 +540,14 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             btnSincronizarDatos.Location = new Point(391, 1);
             btnSincronizarDatos.Margin = new Padding(1);
             btnSincronizarDatos.Name = "btnSincronizarDatos";
-            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges14;
             btnSincronizarDatos.Size = new Size(33, 33);
             btnSincronizarDatos.TabIndex = 4;
             // 
             // fieldPaginaActual
             // 
             fieldPaginaActual.Dock = DockStyle.Fill;
-            fieldPaginaActual.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldPaginaActual.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldPaginaActual.ForeColor = Color.Black;
             fieldPaginaActual.ImeMode = ImeMode.NoControl;
             fieldPaginaActual.Location = new Point(81, 1);
@@ -584,7 +561,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // fieldPaginasTotales
             // 
             fieldPaginasTotales.Dock = DockStyle.Fill;
-            fieldPaginasTotales.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            fieldPaginasTotales.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldPaginasTotales.ForeColor = Color.Black;
             fieldPaginasTotales.ImeMode = ImeMode.NoControl;
             fieldPaginasTotales.Location = new Point(200, 1);
@@ -597,7 +574,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             // 
             // panelBotonesGestion
             // 
-            panelBotonesGestion.Controls.Add(btnAprobarCuentaUsuario);
+            panelBotonesGestion.Controls.Add(btnAprobarSolicitudCuenta);
             panelBotonesGestion.Controls.Add(btnRegistrar);
             panelBotonesGestion.Dock = DockStyle.Fill;
             panelBotonesGestion.Location = new Point(50, 210);
@@ -607,43 +584,43 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             panelBotonesGestion.Size = new Size(1286, 45);
             panelBotonesGestion.TabIndex = 36;
             // 
-            // btnAprobarCuentaUsuario
+            // btnAprobarSolicitudCuenta
             // 
-            btnAprobarCuentaUsuario.Animated = true;
-            btnAprobarCuentaUsuario.BackColor = Color.White;
-            btnAprobarCuentaUsuario.BorderRadius = 18;
-            btnAprobarCuentaUsuario.CustomizableEdges = customizableEdges17;
-            btnAprobarCuentaUsuario.Dock = DockStyle.Left;
-            btnAprobarCuentaUsuario.FillColor = Color.PeachPuff;
-            btnAprobarCuentaUsuario.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            btnAprobarCuentaUsuario.ForeColor = Color.Black;
-            btnAprobarCuentaUsuario.Image = (Image) resources.GetObject("btnAprobarCuentaUsuario.Image");
-            btnAprobarCuentaUsuario.ImageOffset = new Point(-5, 0);
-            btnAprobarCuentaUsuario.Location = new Point(323, 3);
-            btnAprobarCuentaUsuario.Margin = new Padding(0);
-            btnAprobarCuentaUsuario.Name = "btnAprobarCuentaUsuario";
-            btnAprobarCuentaUsuario.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnAprobarCuentaUsuario.Size = new Size(320, 39);
-            btnAprobarCuentaUsuario.TabIndex = 8;
-            btnAprobarCuentaUsuario.Text = "Aprobar solicitud de cuenta";
-            btnAprobarCuentaUsuario.Visible = false;
+            btnAprobarSolicitudCuenta.Animated = true;
+            btnAprobarSolicitudCuenta.BackColor = Color.White;
+            btnAprobarSolicitudCuenta.BorderRadius = 18;
+            btnAprobarSolicitudCuenta.CustomizableEdges = customizableEdges15;
+            btnAprobarSolicitudCuenta.Dock = DockStyle.Left;
+            btnAprobarSolicitudCuenta.FillColor = Color.PeachPuff;
+            btnAprobarSolicitudCuenta.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnAprobarSolicitudCuenta.ForeColor = Color.Black;
+            btnAprobarSolicitudCuenta.Image = (Image) resources.GetObject("btnAprobarSolicitudCuenta.Image");
+            btnAprobarSolicitudCuenta.ImageOffset = new Point(-5, 0);
+            btnAprobarSolicitudCuenta.Location = new Point(323, 3);
+            btnAprobarSolicitudCuenta.Margin = new Padding(0);
+            btnAprobarSolicitudCuenta.Name = "btnAprobarSolicitudCuenta";
+            btnAprobarSolicitudCuenta.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnAprobarSolicitudCuenta.Size = new Size(320, 39);
+            btnAprobarSolicitudCuenta.TabIndex = 8;
+            btnAprobarSolicitudCuenta.Text = "Aprobar solicitud de cuenta";
+            btnAprobarSolicitudCuenta.Visible = false;
             // 
             // btnRegistrar
             // 
             btnRegistrar.Animated = true;
             btnRegistrar.BackColor = Color.White;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges19;
+            btnRegistrar.CustomizableEdges = customizableEdges17;
             btnRegistrar.Dock = DockStyle.Left;
             btnRegistrar.FillColor = Color.PeachPuff;
-            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
             btnRegistrar.ImageOffset = new Point(-5, 0);
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnRegistrar.Size = new Size(320, 39);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Registrar una nueva cuenta";
@@ -653,7 +630,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1356, 608);
             Controls.Add(layoutVista);
-            Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
             Name = "VistaGestionCuentasUsuarios";
@@ -677,7 +654,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
         private Guna2BorderlessForm formatoBase;
         private TableLayoutPanel layoutVista;
         private TableLayoutPanel layoutTitulo;
-        private Guna2Button btnCerrar;
         private Label fieldTitulo;
         private PictureBox fieldIcono;
         private Label fieldSubtitulo;
@@ -703,6 +679,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario {
         private TableLayoutPanel layoutHerramientas;
         private Guna2TextBox fieldDatoBusqueda;
         private Guna2ComboBox fieldFiltroBusqueda;
-        private Guna2Button btnAprobarCuentaUsuario;
+        private Guna2Button btnAprobarSolicitudCuenta;
     }
 }

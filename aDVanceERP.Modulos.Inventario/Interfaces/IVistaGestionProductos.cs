@@ -13,5 +13,5 @@ public interface IVistaGestionProductos : IVistaContenedor, IGestorEntidades, IB
 
     event EventHandler? HabilitarDeshabilitarProducto;
 
-    void CargarNombresAlmacenes(object[] nombresAlmacenes);
+    void CargarFiltroAlmacenes(object[] nombresAlmacenes);
 }

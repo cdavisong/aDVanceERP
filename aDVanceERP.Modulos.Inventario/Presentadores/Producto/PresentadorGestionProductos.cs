@@ -1,4 +1,7 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -6,17 +9,38 @@ using aDVanceERP.Modulos.Inventario.Vistas.Producto;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 
-public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTuplaProducto, IVistaGestionProductos,
-    IVistaTuplaProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto, FiltroBusquedaProducto> {
+public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTuplaProducto, IVistaGestionProductos, IVistaTuplaProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto, FiltroBusquedaProducto> {
     public PresentadorGestionProductos(IVistaGestionProductos vista) : base(vista) {
-        vista.HabilitarDeshabilitarProducto += IntercambiarHabilitacionProducto;
-        vista.EditarEntidad += delegate {
-            Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-        };
+        vista.HabilitarDeshabilitarProducto += OnIntercambiarHabilitacionProducto;
+
+        RegistrarEntidad += OnRegistrarProducto;
+        EditarEntidad += OnEditarProducto;
+
+        AgregadorEventos.Suscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
     }
+
 
     public event EventHandler? MovimientoPositivoStock;
     public event EventHandler? MovimientoNegativoStock;
+
+    private void OnRegistrarProducto(object? sender, EventArgs e) {
+        AgregadorEventos.Publicar("MostrarVistaRegistroProducto", string.Empty);
+        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
+    }
+
+    private void OnEditarProducto(object? sender, Core.Modelos.Modulos.Inventario.Producto e) {
+        AgregadorEventos.Publicar("MostrarVistaEdicionProducto", AgregadorEventos.SerializarPayload(e));
+        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
+    }
+
+    private void OnMostrarVistaGestionProductos(string obj) {
+        Vista.CargarFiltroAlmacenes(RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.Nombre).Prepend("Todos los almacenes").ToArray());
+        Vista.CargarFiltrosBusqueda(UtilesBusquedaProducto.FiltroBusquedaProducto);
+        Vista.Restaurar();
+        Vista.Mostrar();
+
+        ActualizarResultadosBusqueda();
+    }
 
     protected override PresentadorTuplaProducto ObtenerValoresTupla(Core.Modelos.Modulos.Inventario.Producto entidad) {
         var presentadorTupla = new PresentadorTuplaProducto(new VistaTuplaProducto(), entidad);
@@ -56,32 +80,28 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
         return presentadorTupla;
     }
 
+    private void OnIntercambiarHabilitacionProducto(object? sender, EventArgs e) {
+        var tuplaSeleccionada = _tuplasEntidades.Where(t => t.EstadoSeleccion).FirstOrDefault();
+
+        if (tuplaSeleccionada == null) {
+            Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
+            return;
+        }
+
+        var estadoActualProducto = RepoDetalleProducto.HabilitarDeshabilitarProducto(tuplaSeleccionada.Entidad.IdDetalleProducto);
+
+        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
+
+        ActualizarResultadosBusqueda();
+
+        CentroNotificaciones.Mostrar($"El producto '{tuplaSeleccionada.Entidad.Nombre}' ha sido {(estadoActualProducto ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
+    }
+
     public override void ActualizarResultadosBusqueda() {
         // Cambiar la visibilidad de los botones
         Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
 
         base.ActualizarResultadosBusqueda();
-    }
-
-    private void IntercambiarHabilitacionProducto(object? sender, EventArgs e) {
-        // 1. Filtrar primero las tuplas seleccionadas para evitar procesamiento innecesario
-        var tuplasSeleccionadas = _tuplasEntidades.Where(t => t.EstadoSeleccion).ToList();
-
-        if (!tuplasSeleccionadas.Any()) {
-            Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-            return;
-        }
-
-        // 2. Mover la instancia de RepoDetalleProducto fuera del bucle
-        using (var repoDetalleProducto = new RepoDetalleProducto()) {
-            foreach (var tupla in tuplasSeleccionadas) {
-                // 3. Actualizar el producto 1 vez por tupla
-                RepoDetalleProducto.HabilitarDeshabilitarProducto(tupla.Entidad.Id);
-            }
-        }
-
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-        ActualizarResultadosBusqueda();
     }
 
     private void CambiarVisibilidadBtnHabilitacionProducto(object? sender, Core.Modelos.Modulos.Inventario.Producto e) {

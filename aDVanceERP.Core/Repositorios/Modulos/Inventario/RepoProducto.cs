@@ -89,8 +89,8 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         var aplicarFiltroCategoria = criterioMultiple.Length > 2 && !todasLasCategorias;
 
         // Partes adicionales de la consulta
-        const string comandoAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
-        const string comandoAdicionalJoin = "JOIN adv__inventario i ON p.id_producto = i.id_producto JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
+        const string consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
+        const string consultaAdicionalJoin = "JOIN adv__inventario i ON p.id_producto = i.id_producto JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
 
         // Construcción de condiciones WHERE
         var condiciones = new List<string> {
@@ -108,19 +108,19 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         switch (filtroBusqueda) {
             case FiltroBusquedaProducto.Id:
                 comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? comandoAdicionalSelect : string.Empty)}
+                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? comandoAdicionalJoin : string.Empty)}
+                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
                          JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         p.id_producto = '{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}';
+                         p.id_producto = {(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)};
                          """;
                 break;
             case FiltroBusquedaProducto.Codigo:
                 comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? comandoAdicionalSelect : string.Empty)}
+                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? comandoAdicionalJoin : string.Empty)}
+                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
                          JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          LOWER(p.codigo) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
@@ -128,9 +128,9 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 break;
             case FiltroBusquedaProducto.Nombre:
                 comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? comandoAdicionalSelect : string.Empty)}
+                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? comandoAdicionalJoin : string.Empty)}
+                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
                          JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          LOWER(p.nombre) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
@@ -138,9 +138,9 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 break;
             case FiltroBusquedaProducto.Descripcion:
                 comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? comandoAdicionalSelect : string.Empty)}
+                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? comandoAdicionalJoin : string.Empty)}
+                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
                          JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          LOWER(dp.descripcion) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
@@ -148,9 +148,9 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 break;
             default:
                 comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? comandoAdicionalSelect : string.Empty)}
+                         SELECT *{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? comandoAdicionalJoin : string.Empty)}
+                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
                          JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {whereClause};
                          """;

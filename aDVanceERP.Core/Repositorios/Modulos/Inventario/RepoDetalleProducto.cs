@@ -79,22 +79,40 @@ public class RepoDetalleProducto : RepoEntidadBaseDatos<DetalleProducto, FiltroB
 
     public static RepoDetalleProducto Instancia { get; } = new RepoDetalleProducto();
 
-    public static void HabilitarDeshabilitarProducto(long idDetalleProducto) {
-        var consulta = $"""
-            UPDATE adv__detalle_producto
-            SET
-                activo = CASE
-                    WHEN activo = 0 THEN 1
-                    WHEN activo = 1 THEN 0
-                    ELSE 0
-                END
-            WHERE id_detalle_producto = @IdDetalleProducto;
-            """;
-        var parametros = new Dictionary<string, object>() {
-            { "@IdDetalleProducto", idDetalleProducto }
-        };
+    public static bool HabilitarDeshabilitarProducto(long idDetalleProducto) {
+        var nuevoEstado = false;
 
-        ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+        using (var conexion = ContextoBaseDatos.ObtenerConexionOptimizada()) {
+            conexion.Open();
+
+            // 1. Ejecutar primero la actualización para el estado de actividad del producto
+            var consulta = $"""
+                UPDATE adv__detalle_producto
+                SET
+                    activo = CASE
+                        WHEN activo = 0 THEN 1
+                        WHEN activo = 1 THEN 0
+                        ELSE 0
+                    END
+                WHERE id_detalle_producto = @IdDetalleProducto;
+                """;
+            var parametros = new Dictionary<string, object>() {
+                { "@IdDetalleProducto", idDetalleProducto }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros, conexion);
+
+            // 2. Luego, obtener el nuevo estado del producto
+            consulta = $"""
+                SELECT activo
+                FROM adv__detalle_producto
+                WHERE id_detalle_producto = @IdDetalleProducto;
+                """;
+
+            nuevoEstado = ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros, conexion);
+        }
+
+        return nuevoEstado;
     }
 
     #endregion

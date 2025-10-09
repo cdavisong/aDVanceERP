@@ -21,12 +21,12 @@ public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<Present
 
     private void OnRegistrarCuentaUsuario(object? sender, EventArgs e) {
         AgregadorEventos.Publicar("MostrarVistaRegistroCuentaUsuario", string.Empty);
-        Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
+        Vista.MostrarBtnAprobacionSolicitudCuenta = false;
     }
 
     private void OnEditarCuentaUsuario(object? sender, Core.Modelos.Modulos.Seguridad.CuentaUsuario e) {
         AgregadorEventos.Publicar("MostrarVistaEdicionCuentaUsuario", AgregadorEventos.SerializarPayload(e));
-        Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
+        Vista.MostrarBtnAprobacionSolicitudCuenta = false;
     }
 
     private void OnMostrarVistaGestionCuentasUsuarios(string obj) {
@@ -65,7 +65,7 @@ public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<Present
 
         tuplaSeleccionada.Entidad.Aprobado = true;
         Repositorio.Editar(tuplaSeleccionada.Entidad);
-        Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
+        Vista.MostrarBtnAprobacionSolicitudCuenta = false;
 
         ActualizarResultadosBusqueda();
 
@@ -76,9 +76,9 @@ public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<Present
         var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
 
         if (tuplaSeleccionada != null && !tuplaSeleccionada.Entidad.Aprobado) {
-            Vista.HabilitarBtnAprobacionSolicitudCuenta = true;
+            Vista.MostrarBtnAprobacionSolicitudCuenta = true;
         } else {
-            Vista.HabilitarBtnAprobacionSolicitudCuenta = false;
+            Vista.MostrarBtnAprobacionSolicitudCuenta = false;
         }
     }
 

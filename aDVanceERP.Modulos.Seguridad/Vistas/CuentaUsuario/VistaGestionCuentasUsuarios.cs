@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Utiles;
+
 using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
@@ -13,6 +14,7 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
         InitializeComponent();
 
         NombreVista = nameof(VistaGestionCuentasUsuarios);
+        PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
     }
@@ -35,11 +37,6 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
     public Size Dimensiones {
         get => Size;
         set => Size = value;
-    }
-
-    public bool HabilitarBtnAprobacionSolicitudCuenta {
-        get => btnAprobarCuentaUsuario.Visible;
-        set => btnAprobarCuentaUsuario.Visible = value;
     }
 
     public FiltroBusquedaCuentaUsuario FiltroBusqueda {
@@ -75,6 +72,11 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
         }
     }
 
+    public bool MostrarBtnAprobacionSolicitudCuenta {
+        get => btnAprobarSolicitudCuenta.Visible;
+        set => btnAprobarSolicitudCuenta.Visible = value;
+    }
+
     public RepoVistaBase? PanelCentral { get; private set; }
 
     public event EventHandler? AlturaContenedorTuplasModificada;
@@ -84,16 +86,14 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
     public event EventHandler? MostrarUltimaPagina;
     public event EventHandler? SincronizarDatos;
 
-    public event EventHandler? RegistrarEntidad;
-    public event EventHandler? AprobarSolicitudCuenta;
+    public event EventHandler? RegistrarEntidad;    
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
     public event EventHandler<(FiltroBusquedaCuentaUsuario, string?)>? BuscarEntidades;
 
-    public void Inicializar() {
-        // Variables locales
-        PanelCentral = new RepoVistaBase(contenedorVistas);
+    public event EventHandler? AprobarSolicitudCuenta;
 
+    public void Inicializar() {
         // Eventos
         fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
         fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
@@ -106,12 +106,9 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
 
             args.SuppressKeyPress = true;
         };
-        btnCerrar.Click += delegate (object? sender, EventArgs e) {
-            Ocultar();
-        };
         btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
-        btnAprobarCuentaUsuario.Click += delegate (object? sender, EventArgs e) {
-            btnAprobarCuentaUsuario.Hide();
+        btnAprobarSolicitudCuenta.Click += delegate (object? sender, EventArgs e) {
+            btnAprobarSolicitudCuenta.Hide();
             AprobarSolicitudCuenta?.Invoke(sender, e);
         };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
@@ -169,7 +166,7 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
         // Reasignar el evento SelectedIndexChanged
         fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
 
-        btnAprobarCuentaUsuario.Hide();
+        btnAprobarSolicitudCuenta.Hide();
     }
 
     public void Mostrar() {
@@ -182,7 +179,7 @@ public partial class VistaGestionCuentasUsuarios : Form, IVistaGestionCuentasUsu
         Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
-        HabilitarBtnAprobacionSolicitudCuenta = false;
+        MostrarBtnAprobacionSolicitudCuenta = false;
 
         if (fieldFiltroBusqueda.Items.Count > 0)
             fieldFiltroBusqueda.SelectedIndex = 0;

@@ -1,7 +1,10 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.Text.Json.Serialization;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 
+[JsonSerializable(typeof(Producto), TypeInfoPropertyName = "ProductoJsonContext")]
 public class Producto : IEntidadBaseDatos {
     public Producto() {
         Categoria = CategoriaProducto.Mercancia;
