@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
@@ -32,18 +33,13 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
         get => Size;
         set => Size = value;
     }
-
-    public event EventHandler? VerProductos;
-    public event EventHandler? VerMovimientos;
-    public event EventHandler? VerAlmacenes;
-    public event EventHandler? CambioMenu;
     
 
     public void Inicializar() {
         // Eventos
-        btnProductos.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(1, e); };
-        btnMovimientos.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(2, e); };
-        btnAlmacenes.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(3, e); };
+        btnProductos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionProductos", string.Empty); };
+        btnMovimientos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMovimientos", string.Empty); };
+        btnAlmacenes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionAlmacenes", string.Empty); };
     }
 
     public void SeleccionarVistaInicial() {
@@ -53,33 +49,6 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
             btnMovimientos.PerformClick();
         else if (btnAlmacenes.Visible)
             btnAlmacenes.PerformClick();
-    }
-
-    public void PresionarBotonSeleccion(object? sender, EventArgs e) {
-        var indiceValido = int.TryParse(sender?.ToString() ?? string.Empty, out var indice);
-
-        if (!indiceValido)
-            return;
-
-        CambioMenu?.Invoke(sender, e);
-
-        switch (indice) {
-            case 1:
-                VerProductos?.Invoke(btnProductos, e);
-                if (!btnProductos.Checked)
-                    btnProductos.Checked = true;
-                break;
-            case 2:
-                VerMovimientos?.Invoke(btnMovimientos, e);
-                if (!btnMovimientos.Checked)
-                    btnMovimientos.Checked = true;
-                break;
-            case 3:
-                VerAlmacenes?.Invoke(btnAlmacenes, e);
-                if (!btnAlmacenes.Checked)
-                    btnAlmacenes.Checked = true;
-                break;
-        }
     }
 
     public void Mostrar() {

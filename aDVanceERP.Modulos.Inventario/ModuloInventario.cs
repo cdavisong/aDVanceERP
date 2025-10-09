@@ -2,7 +2,10 @@
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+
+using aDVanceERP.Modulos.Inventario.Presentadores.Menu;
 using aDVanceERP.Modulos.Inventario.Properties;
+using aDVanceERP.Modulos.Inventario.Vistas.Menu;
 
 using Guna.UI2.WinForms;
 
@@ -10,6 +13,7 @@ namespace aDVanceERP.Modulos.Inventario;
 
 public sealed class ModuloInventario : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+    private PresentadorMenuInventario _menuInventario = null!;
 
     public ModuloInventario() {
         Nombre = "MOD_INVENTARIO";
@@ -28,12 +32,18 @@ public sealed class ModuloInventario : ModuloExtensionBase {
             AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty);
         };
 
+        // Menu
+        _menuInventario = new PresentadorMenuInventario(new VistaMenuInventario());
+
         base.Inicializar(principal);
     }
 
     protected override void InicializarVistas() {
         // Agregar botón de acceso al módulo
         _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+
+        // Agregar menú del módulo
+        _principal.Vista.BarraTitulo.Registrar(_menuInventario.Vista);
     }
 
     public override void Apagar() {
