@@ -131,14 +131,13 @@ public static class UtilesProducto {
             """;
 
         if (incluirDescripcion) {
-            query += ", dp.descripcion";
+            query += ", p.descripcion";
         }
 
         query += """
 
             FROM adv__producto p
             JOIN adv__inventario pa ON p.id_producto = pa.id_producto
-            LEFT JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
             """;
 
         if (idAlmacen != 0) {
@@ -227,8 +226,7 @@ public static class UtilesProducto {
             um.abreviatura
         FROM adv__inventario pa
         JOIN adv__producto p ON pa.id_producto = p.id_producto
-        JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-        JOIN adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+        JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
         WHERE pa.id_producto = @IdProducto;
         """;
 

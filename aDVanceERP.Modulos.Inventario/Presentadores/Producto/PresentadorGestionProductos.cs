@@ -44,24 +44,19 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
 
     protected override PresentadorTuplaProducto ObtenerValoresTupla(Core.Modelos.Modulos.Inventario.Producto entidad) {
         var presentadorTupla = new PresentadorTuplaProducto(new VistaTuplaProducto(), entidad);
-        var detalleProducto = RepoDetalleProducto.Instancia.ObtenerPorId(entidad.IdDetalleProducto);
-        var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(detalleProducto?.IdUnidadMedida ?? 0);
+        var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(entidad.IdUnidadMedida);
         var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, entidad.Id.ToString());
 
         presentadorTupla.Vista.Id = entidad.Id.ToString();
         presentadorTupla.Vista.Codigo = entidad.Codigo ?? string.Empty;
         presentadorTupla.Vista.FechaUltimoMovimiento = inventarioProducto.cantidad > 0 ? inventarioProducto.entidades.Min(inv => inv.UltimaActualizacion) : DateTime.MinValue;
-        presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos")
-            ? "-"
-            : Vista.NombreAlmacen;
+        presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos") ? "-" : Vista.NombreAlmacen;
         presentadorTupla.Vista.NombreProducto = entidad.Nombre ?? string.Empty;
-        presentadorTupla.Vista.Descripcion = detalleProducto?.Descripcion ?? "No hay descripción disponible";
-        presentadorTupla.Vista.CostoUnitario = entidad.Categoria == CategoriaProducto.ProductoTerminado ? entidad.CostoProduccionUnitario : entidad.PrecioCompra;
+        presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
+        presentadorTupla.Vista.CostoUnitario = entidad.Categoria == CategoriaProducto.ProductoTerminado ? entidad.CostoProduccionUnitario : entidad.CostoAdquisicionUnitario;
         presentadorTupla.Vista.PrecioVentaBase = entidad.PrecioVentaBase;
         presentadorTupla.Vista.UnidadMedida = unidadMedidaProducto?.Abreviatura ?? "u";
-        presentadorTupla.Vista.Stock = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos")
-            ? inventarioProducto.entidades.Sum(inv => inv.Cantidad)
-            : inventarioProducto.entidades.Find(inv => RepoAlmacen.Instancia.ObtenerPorId(inv.IdAlmacen)?.Nombre.Equals(Vista.NombreAlmacen) ?? false)?.Cantidad ?? 0;
+        presentadorTupla.Vista.Stock = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos") ? inventarioProducto.entidades.Sum(inv => inv.Cantidad) : inventarioProducto.entidades.Find(inv => RepoAlmacen.Instancia.ObtenerPorId(inv.IdAlmacen)?.Nombre.Equals(Vista.NombreAlmacen) ?? false)?.Cantidad ?? 0;
         presentadorTupla.Vista.MovimientoPositivoStock += delegate (object? sender, EventArgs args) {
             var nombreAlmacen = sender as string;
             var objetoPos = new object[] { "+", nombreAlmacen ?? string.Empty, entidad };
@@ -88,7 +83,7 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
             return;
         }
 
-        var estadoActualProducto = RepoDetalleProducto.HabilitarDeshabilitarProducto(tuplaSeleccionada.Entidad.IdDetalleProducto);
+        var estadoActualProducto = RepoProducto.Instancia.HabilitarDeshabilitarProducto(tuplaSeleccionada.Entidad.Id);
 
         Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
 
@@ -106,5 +101,16 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
 
     private void CambiarVisibilidadBtnHabilitacionProducto(object? sender, Core.Modelos.Modulos.Inventario.Producto e) {
         Vista.MostrarBtnHabilitarDeshabilitarProducto = _tuplasEntidades.Any(t => t.EstadoSeleccion);
+    }
+
+    protected override void Dispose(bool disposing) {
+        Vista.HabilitarDeshabilitarProducto += OnIntercambiarHabilitacionProducto;
+
+        RegistrarEntidad += OnRegistrarProducto;
+        EditarEntidad += OnEditarProducto;
+
+        AgregadorEventos.Desuscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
+
+        base.Dispose(disposing);
     }
 }

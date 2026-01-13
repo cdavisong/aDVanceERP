@@ -105,7 +105,7 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).entidades.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenOrigen));
         var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).entidades.FirstOrDefault(a => a.Nombre.Equals(Vista.NombreAlmacenDestino));
         var inventario = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen?.Id));
-        var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.PrecioCompra;
+        var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario;
         var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.TipoMovimiento).entidades.FirstOrDefault(tm => tm.Nombre.Equals(Vista.TipoMovimiento));
         var saldoFinal = inventario?.Cantidad ?? 0 + Vista.CantidadMovida * (tipoMovimiento?.Efecto == EfectoMovimiento.Carga ? 1 : -1);
 

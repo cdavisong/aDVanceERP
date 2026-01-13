@@ -113,9 +113,7 @@ public static class UtilesAlmacen {
         JOIN 
             adv__almacen a ON pa.id_almacen = a.id_almacen
         LEFT JOIN
-            adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-        LEFT JOIN
-            adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+            adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
         WHERE 
             pa.id_almacen = @IdAlmacen;";
 

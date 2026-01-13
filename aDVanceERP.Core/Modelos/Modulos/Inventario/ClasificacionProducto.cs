@@ -2,13 +2,13 @@
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 
-public class TipoMateriaPrima : IEntidadBaseDatos {
-    public TipoMateriaPrima() {
+public class ClasificacionProducto : IEntidadBaseDatos {
+    public ClasificacionProducto() {
         Nombre = string.Empty;
         Descripcion = string.Empty;
     }
 
-    public TipoMateriaPrima(long id, string nombre, string descripcion) {
+    public ClasificacionProducto(long id, string nombre, string descripcion) {
         Id = id;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -19,16 +19,16 @@ public class TipoMateriaPrima : IEntidadBaseDatos {
     public string Descripcion { get; set; }
 }
 
-public enum FiltroBusquedaTipoMateriaPrima {
+public enum FiltroBusquedaClasificacionProducto {
     Todos,
     Id,
     Nombre
 }
 
-public static class UtilesBusquedaTiposMateriasPrimas {
+public static class UtilesBusquedaClasificacionProducto {
     public static object[] FiltroBusquedaTiposProducto = {
-        "Todos los tipos de materias primas",
+        "Todas las clasificaciones de producto",
         "Identificador de BD",
-        "Nombre del tipo de materia prima"
+        "Nombre de la clasificación de producto"
     };
 }

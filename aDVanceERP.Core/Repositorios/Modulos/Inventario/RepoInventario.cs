@@ -122,7 +122,7 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
 
         var costoUnitario = (producto?.Categoria == CategoriaProducto.ProductoTerminado 
             ? (producto?.CostoProduccionUnitario ?? 0) 
-            : (producto?.PrecioCompra ?? 0)).ToString(CultureInfo.InvariantCulture);
+            : (producto?.CostoAdquisicionUnitario ?? 0)).ToString(CultureInfo.InvariantCulture);
 
         var consulta = string.Empty;
         var parametros = new Dictionary<string, object>();

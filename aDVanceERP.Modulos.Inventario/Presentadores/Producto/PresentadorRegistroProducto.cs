@@ -1,7 +1,9 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -10,39 +12,99 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 
 public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto,
     FiltroBusquedaProducto> {
-    public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) { }
+    public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
+        AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
+        AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+    }
+
+    private void OnMostrarVistaRegistroProducto(string obj) {
+        Vista.ModoEdicion = false;
+
+        // Carga inicial de datos
+        Vista.CargarNombresProveedores(RepoProveedor.Instancia.ObtenerTodos().Select(p => p.RazonSocial).ToArray());
+        Vista.CargarUnidadesMedida(RepoUnidadMedida.Instancia.ObtenerTodos().ToArray());
+        Vista.CargarNombresClasificaciones(RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.Nombre).ToArray());
+        Vista.CargarNombresAlmacenes(RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.Nombre).ToArray());
+
+        Vista.Restaurar();
+        Vista.Mostrar();
+    }
+
+    private void OnMostrarVistaEdicionProducto(string obj) {
+        Vista.ModoEdicion = true;
+
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        var producto = AgregadorEventos.DeserializarPayload<Core.Modelos.Modulos.Inventario.Producto>(obj);
+
+        if (producto == null)
+            return;
+
+        // Carga inicial de datos
+        Vista.CargarNombresProveedores(RepoProveedor.Instancia.ObtenerTodos().Select(p => p.RazonSocial).ToArray());
+        Vista.CargarUnidadesMedida(RepoUnidadMedida.Instancia.ObtenerTodos().ToArray());
+        Vista.CargarNombresClasificaciones(RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.Nombre).ToArray());
+        Vista.CargarNombresAlmacenes(RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.Nombre).ToArray());
+
+        Vista.Restaurar();
+
+        PopularVistaDesdeEntidad(producto);
+
+        Vista.Mostrar();
+    }
 
     public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.Producto objeto) {
-        Vista.ModoEdicion = true;
-        Vista.CategoriaProducto = objeto.Categoria;
-        Vista.NombreProducto = objeto.Nombre ?? string.Empty;
-        Vista.Codigo = objeto.Codigo ?? string.Empty;
-        Vista.RazonSocialProveedor = UtilesProveedor.ObtenerRazonSocialProveedor(objeto.IdProveedor) ?? string.Empty;
+        base.PopularVistaDesdeEntidad(objeto);
+
+        // Variables auxiliares
+        var proveedor = RepoProveedor.Instancia.ObtenerPorId(objeto.IdProveedor);
+        var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(objeto.IdUnidadMedida);
+
+        Vista.Categoria = objeto.Categoria;
+        Vista.Nombre = objeto.Nombre;
+        Vista.Codigo = objeto.Codigo;
+        Vista.Descripcion = objeto.Descripcion;
+        Vista.NombreProveedor = proveedor?.RazonSocial ?? string.Empty;
+        Vista.NombreUnidadMedida = unidadMedida?.Nombre ?? string.Empty;
         Vista.EsVendible = objeto.EsVendible;
-        Vista.TipoMateriaPrima = UtilesTipoMateriaPrima.ObtenerNombreTipoMateriaPrima(objeto.IdTipoMateriaPrima) ?? string.Empty;
-
-        using (var datos = new RepoDetalleProducto()) {
-            var detalleProducto = datos.Buscar(FiltroBusquedaDetalleProducto.Id, objeto.IdDetalleProducto.ToString()).entidades.FirstOrDefault();
-
-            if (detalleProducto != null) {
-                Vista.UnidadMedida = UtilesUnidadMedida.ObtenerNombreUnidadMedida(detalleProducto.IdUnidadMedida) ?? string.Empty;
-                Vista.Descripcion = detalleProducto.Descripcion ?? "No hay una descripción disponible para el producto actual";
-            }
-        }
-
-        Vista.CostoProduccionUnitario = objeto.CostoProduccionUnitario;
-        Vista.PrecioCompra = objeto.PrecioCompra;
+        Vista.CostoUnitario = objeto.Categoria == CategoriaProducto.Mercancia || objeto.Categoria == CategoriaProducto.MateriaPrima
+                ? objeto.CostoAdquisicionUnitario
+                : objeto.Categoria == CategoriaProducto.ProductoTerminado
+                    ? objeto.CostoProduccionUnitario
+                    : 0m;
+        Vista.ImpuestoVentaPorcentaje = objeto.ImpuestoVentaPorcentaje;
+        Vista.MargenGananciaDeseado = objeto.MargenGananciaDeseado;
         Vista.PrecioVentaBase = objeto.PrecioVentaBase;
-        Vista.ModoEdicion = true;
+    }
 
-        _entidad = objeto;
+    protected override Core.Modelos.Modulos.Inventario.Producto? ObtenerEntidadDesdeVista() {
+        var proveedor = RepoProveedor.Instancia.Buscar(Core.Modelos.Modulos.Contactos.FiltroBusquedaProveedor.RazonSocial, Vista.NombreProveedor).entidades.FirstOrDefault();
+        var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Nombre, Vista.NombreUnidadMedida).entidades.FirstOrDefault();
+
+        return new Core.Modelos.Modulos.Inventario.Producto {
+            Id = _entidad?.Id ?? 0,
+            Categoria = Vista.Categoria,
+            Nombre = Vista.Nombre,
+            Codigo = Vista.Codigo,
+            Descripcion = Vista.Descripcion,
+            IdProveedor = proveedor?.Id ?? 0,
+            IdUnidadMedida = unidadMedida?.Id ?? 0,
+            EsVendible = Vista.EsVendible,
+            CostoAdquisicionUnitario = Vista.CostoAdquisicionUnitario,
+            CostoProduccionUnitario = Vista.CostoProduccionUnitario,
+            ImpuestoVentaPorcentaje = Vista.ImpuestoVentaPorcentaje,
+            MargenGananciaDeseado = Vista.MargenGananciaDeseado,
+            PrecioVentaBase = Vista.PrecioVentaBase,
+            Activo = true
+        };
     }
 
     protected override bool EntidadCorrecta() {
-        var nombreRepetido = !Vista.ModoEdicion && UtilesProducto.ObtenerIdProducto(Vista.NombreProducto).Result > 0;
-        var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
+        var nombreRepetido = !Vista.ModoEdicion && UtilesProducto.ObtenerIdProducto(Vista.Nombre).Result > 0;
+        var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
         var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
-        var unidadMedidaOk = !string.IsNullOrEmpty(Vista.UnidadMedida);
+        var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
 
         if (nombreRepetido)
             CentroNotificaciones.Mostrar("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacion.Advertencia);
@@ -54,49 +116,5 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
             CentroNotificaciones.Mostrar("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
         return nombreOk && codigoOk && unidadMedidaOk;
-    }
-
-    protected override void RegistroEdicionAuxiliar(RepoProducto datosProducto, long id) {
-        var detalleProducto = new DetalleProducto(Entidad?.IdDetalleProducto ?? 0,
-            UtilesUnidadMedida.ObtenerIdUnidadMedida(Vista.UnidadMedida).Result,
-            Vista.Descripcion ?? "No hay una descripción disponible para el producto actual"
-        );
-
-        // Registrar detalles del producto
-        using (var datos = new RepoDetalleProducto()) {
-            if (Vista.ModoEdicion && Entidad?.IdDetalleProducto != 0)
-                datos.Editar(detalleProducto);
-            else if (Entidad?.IdDetalleProducto != 0)
-                datos.Editar(detalleProducto);
-            else {
-                // Editar producto para modificar Id de los detalles
-                Entidad.IdDetalleProducto = datos.Adicionar(detalleProducto);
-                datosProducto.Editar(Entidad);
-
-                // Cantidad inicial del producto
-                RepoInventario.Instancia.ModificarInventario(
-                    Entidad.Nombre,
-                    string.Empty,
-                    Vista.NombreAlmacen,
-                    Vista.CantidadInicial
-                );
-            }
-        }
-    }
-
-    protected override Core.Modelos.Modulos.Inventario.Producto? ObtenerEntidadDesdeVista() {
-        return new Core.Modelos.Modulos.Inventario.Producto(
-            Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-            Vista.CategoriaProducto,
-            Vista.NombreProducto,
-            Vista.Codigo,
-            Entidad?.IdDetalleProducto ?? 0,
-            UtilesProveedor.ObtenerIdProveedor(Vista.RazonSocialProveedor).Result,
-            UtilesTipoMateriaPrima.ObtenerIdTipoMateriaPrima(Vista.TipoMateriaPrima).Result,
-            Vista.EsVendible,
-            Vista.PrecioCompra,
-            Vista.CostoProduccionUnitario,
-            Vista.PrecioVentaBase
-        );
-    }
+    }    
 }

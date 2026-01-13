@@ -7,10 +7,10 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores.TipoMateriaPrima;
 
-public class PresentadorRegistroTipoMateriaPrima : PresentadorVistaRegistro<IVistaRegistroTipoMateriaPrima, Core.Modelos.Modulos.Inventario.TipoMateriaPrima, RepoTipoMateriaPrima, FiltroBusquedaTipoMateriaPrima> {
+public class PresentadorRegistroTipoMateriaPrima : PresentadorVistaRegistro<IVistaRegistroTipoMateriaPrima, Core.Modelos.Modulos.Inventario.ClasificacionProducto, RepoClasificacionProducto, FiltroBusquedaClasificacionProducto> {
     public PresentadorRegistroTipoMateriaPrima(IVistaRegistroTipoMateriaPrima vista) : base(vista) { }
 
-    public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.TipoMateriaPrima objeto) {
+    public override void PopularVistaDesdeEntidad(ClasificacionProducto objeto) {
         Vista.ModoEdicion = true;
         Vista.NombreTipoMateriaPrima = objeto.Nombre;
         Vista.Descripcion = objeto.Descripcion ?? string.Empty;
@@ -27,8 +27,8 @@ public class PresentadorRegistroTipoMateriaPrima : PresentadorVistaRegistro<IVis
         return nombreOk;
     }
 
-    protected override Core.Modelos.Modulos.Inventario.TipoMateriaPrima? ObtenerEntidadDesdeVista() {
-        return new Core.Modelos.Modulos.Inventario.TipoMateriaPrima(
+    protected override Core.Modelos.Modulos.Inventario.ClasificacionProducto? ObtenerEntidadDesdeVista() {
+        return new Core.Modelos.Modulos.Inventario.ClasificacionProducto(
             Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
             Vista.NombreTipoMateriaPrima,
             string.IsNullOrEmpty(Vista.Descripcion) ? null : Vista.Descripcion

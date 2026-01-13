@@ -3,36 +3,29 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces;
 
-public interface IVistaRegistroProducto : IVistaRegistro
-{
-    // P1 : Datos generales
-    CategoriaProducto CategoriaProducto { get; set; }
-    string NombreProducto { get; set; }
-    string Codigo { get; set; }
+public interface IVistaRegistroProducto : IVistaRegistro {
+    Image? Imagen { get; set; }
+    CategoriaProducto Categoria { get; set; }
+    string Nombre { get; set; }
+    string? Codigo { get; set; }
+    string NombreProveedor { get; set; }
     string Descripcion { get; set; }
-
-    // P1_1 : Datos del roveedor y disponibilidad de venta directa de materias primas
-    string RazonSocialProveedor { get; set; }
+    string NombreUnidadMedida { get; set; }
+    string NombreClasificacionProducto { get; set; }
     bool EsVendible { get; set; }
-
-    // P2 : Unidad de medida, precios de compraventa y cantidad inicial
-    string UnidadMedida { get; set; }
-    string TipoMateriaPrima { get; set; }
-    decimal PrecioCompra { get; set; }
-    decimal CostoProduccionUnitario { get; set; }
+    decimal CostoUnitario { get; set; }
+    decimal CostoAdquisicionUnitario { get; }
+    decimal CostoProduccionUnitario { get; }
+    decimal ImpuestoVentaPorcentaje { get; set; }
+    decimal MargenGananciaDeseado { get; set; }
     decimal PrecioVentaBase { get; set; }
-    string? NombreAlmacen { get; set; }
+    string NombreAlmacen { get; set; }
     decimal CantidadInicial { get; set; }
+    decimal CantidadMinima { get; set; }
+    bool HabilitarNotificacionesStockBajo { get; set; }
 
-    event EventHandler? RegistrarUnidadMedida;
-    event EventHandler? RegistrarTipoMateriaPrima;
-    event EventHandler? EliminarUnidadMedida;
-    event EventHandler? EliminarTipoMateriaPrima;
-
-    void CargarNombresProductos(string[] nombresProductos);
-    void CargarRazonesSocialesProveedores(object[] nombresProveedores);
-    void CargarUnidadesMedida((string[] nombres, string[] abreviaturas, string[] descripciones) unidadesMedida);
-    void CargarTiposMateriaPrima(object[] nombresTiposMateriaPrima);
-    void CargarDescripcionesTiposMateriaPrima(string[] descripcionesTiposMateriaPrima);
-    void CargarNombresAlmacenes(object[] nombresAlmacenes);
+    void CargarNombresProveedores(string[] nombresProvedores);
+    void CargarUnidadesMedida(UnidadMedida[] unidadesMedida);
+    void CargarNombresClasificaciones(string[] nombresClasificaciones);
+    void CargarNombresAlmacenes(string[] nombresAlmacenes);
 }

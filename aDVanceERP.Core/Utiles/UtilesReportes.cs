@@ -400,8 +400,7 @@ public static class UtilesReportes {
                 um.abreviatura as unidad_medida
             FROM adv__inventario pa
             JOIN adv__producto p ON pa.id_producto = p.id_producto
-            JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-            JOIN adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+            JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
             WHERE pa.cantidad > 0
             ORDER BY pa.id_almacen, p.nombre
             """;
@@ -1205,8 +1204,7 @@ public static class UtilesReportes {
                 END as costo_unitario
                 FROM adv__producto p
                 JOIN adv__inventario pa ON p.id_producto = pa.id_producto
-                JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-                JOIN adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+                JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
                 """;
 
             if (idAlmacen > 0) {

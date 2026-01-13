@@ -16,6 +16,8 @@ public class PresentadorRegistroUsuario : PresentadorVistaRegistro<IVistaRegistr
     }
 
     private void OnMostrarVistaRegistroUsuario(string obj) {
+        Vista.ModoEdicion = false;
+
         Vista.Restaurar();
         Vista.Mostrar();
     }

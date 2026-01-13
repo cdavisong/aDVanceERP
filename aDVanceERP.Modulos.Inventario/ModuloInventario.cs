@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -8,6 +9,7 @@ using aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas.Menu;
 using aDVanceERP.Modulos.Inventario.Vistas.Producto;
+using aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion;
 
 using Guna.UI2.WinForms;
 
@@ -17,6 +19,7 @@ public sealed class ModuloInventario : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuInventario _menuInventario = null!;
     private PresentadorGestionProductos _productos = null!;
+    private PresentadorRegistroProducto _registroProducto = null!;
 
     public ModuloInventario() {
         Nombre = "MOD_INVENTARIO";
@@ -41,6 +44,8 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         // Contenedor de módulos
         // Productos
         _productos = new PresentadorGestionProductos(new VistaGestionProductos());
+        _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());
+        _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
 
         base.Inicializar(principal);
     }
@@ -55,6 +60,11 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         // Contenedor de módulos
         // Productos
         _principal.Modulos.Vista.PanelCentral.Registrar(_productos.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(
+            _registroProducto.Vista,
+            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroProducto.Vista.Dimensiones.Width, -10),
+            _registroProducto.Vista.Dimensiones,
+            TipoRedimensionadoVista.Vertical);
     }
 
     public override void Apagar() {

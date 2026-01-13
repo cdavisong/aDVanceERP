@@ -646,15 +646,14 @@ public class DocInventarioAlmacen : IGeneradorDocumento {
                     p.categoria,
                     CASE 
                         WHEN p.categoria = 'ProductoTerminado' THEN p.costo_produccion_unitario
-                        ELSE p.precio_compra
+                        ELSE p.costo_adquisicion_unitario
                     END as precio_costo,
                     p.precio_venta_base as precio_venta,
                     COALESCE(pa.cantidad, 0) as cantidad,  -- Mostrar 0 si no hay inventario
                     COALESCE(um.abreviatura, 'N/A') as unidad_medida  -- Valor por defecto
                 FROM adv__producto p
                 LEFT JOIN adv__inventario pa ON p.id_producto = pa.id_producto
-                LEFT JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-                LEFT JOIN adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+                LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
                 WHERE 1=1  -- Condición siempre verdadera para facilitar filtros
                 """;
 

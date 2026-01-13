@@ -32,8 +32,6 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
 
     public virtual void PopularVistaDesdeEntidad(En entidad) {
         _entidad = entidad;
-
-        Vista.ModoEdicion = true;
     }
 
     protected abstract En? ObtenerEntidadDesdeVista();
@@ -73,12 +71,14 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
         EntidadRegistradaActualizada?.Invoke(sender, e);
         Salir?.Invoke(sender, e);
 
+        Vista.ModoEdicion = false;
         Vista.Ocultar();
     }
 
     private void OnSalir(object? sender, EventArgs e) {
         Salir?.Invoke(sender, e);
 
+        Vista.ModoEdicion = false;
         Vista.Ocultar();
     }
 

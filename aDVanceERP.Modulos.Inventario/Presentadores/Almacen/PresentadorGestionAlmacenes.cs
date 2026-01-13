@@ -19,27 +19,23 @@ using System.Globalization;
 namespace aDVanceERP.Modulos.Inventario.Presentadores.Almacen;
 
 public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes,
-    IVistaTuplaAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen>
-{
+    IVistaTuplaAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
     private ControladorArchivosAndroid _androidFileManager;
     private DocInventarioAlmacen _docInventarioAlmacen;
     private bool _dispositivoConectado;
 
-    public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista)
-    {
+    public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
         _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
         _docInventarioAlmacen = new DocInventarioAlmacen();
 
         vista.ImportarInventarioVersat += OnImportarInventarioVersat;
         vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacenes;
-        vista.EditarEntidad += delegate
-        {
+        vista.EditarEntidad += delegate {
             Vista.MostrarBtnImportarInventarioVersat = false;
         };
     }
 
-    protected override PresentadorTuplaAlmacen ObtenerValoresTupla(Core.Modelos.Modulos.Inventario.Almacen entidad)
-    {
+    protected override PresentadorTuplaAlmacen ObtenerValoresTupla(Core.Modelos.Modulos.Inventario.Almacen entidad) {
         var presentadorTupla = new PresentadorTuplaAlmacen(new VistaTuplaAlmacen(), entidad);
 
         presentadorTupla.Vista.Id = entidad.Id.ToString();
@@ -55,95 +51,76 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
         return presentadorTupla;
     }
 
-    public override void ActualizarResultadosBusqueda()
-    {
+    public override void ActualizarResultadosBusqueda() {
         _dispositivoConectado = VerificarConexionDispositivo();
 
         base.ActualizarResultadosBusqueda();
     }
 
-    private async void OnImportarInventarioVersat(object? sender, string rutaArchivo)
-    {
+    private async void OnImportarInventarioVersat(object? sender, string rutaArchivo) {
         // Mostrar mensaje de advertencia antes de la importación
         if (VistaMensaje.Instancia.Mostrar(
             "La importación desde Excel actualizará los datos existentes y agregará nuevos productos si no existen. ¿Desea continuar?",
             TipoMensaje.Info,
-            BotonesMensaje.ContinuarAbortar) != DialogResult.Yes)
-        {
+            BotonesMensaje.ContinuarAbortar) != DialogResult.Yes) {
             return;
         }
 
         // Filtrar primero las tuplas seleccionadas para evitar procesamiento innecesario
-        if (!TuplasSeleccionadas.Any())
-        {
+        if (!TuplasSeleccionadas.Any()) {
             Vista.MostrarBtnImportarInventarioVersat = false;
             return;
         }
 
         var idAlmacen = TuplasSeleccionadas.FirstOrDefault()?.Entidad.Id ?? 0;
 
-        if (idAlmacen != 0)
-        {
+        if (idAlmacen != 0) {
             _cargaDatos.TextoProgreso = "Importando y actualizando inventario...";
             _cargaDatos.Mostrar();
 
             var resultado = await Task.Run(() => ImportarDesdeExcel(rutaArchivo, idAlmacen));
 
-            if (resultado.exito)
-            {
+            if (resultado.exito) {
                 CentroNotificaciones.Mostrar($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.");
 
                 Vista.MostrarBtnImportarInventarioVersat = false;
                 ActualizarResultadosBusqueda();
-            }
-            else
-            {
+            } else {
                 CentroNotificaciones.Mostrar($"Error al importar el archivo: {resultado.mensaje}", TipoNotificacion.Error);
             }
         }
     }
 
-    private void OnExportarDocumentoInventarioAlmacen(object? sender, (int id, FormatoDocumento formato) e)
-    {
+    private void OnExportarDocumentoInventarioAlmacen(object? sender, (int id, FormatoDocumento formato) e) {
         _docInventarioAlmacen.GenerarDocumentoConParametros(e.formato, e.id);
     }
 
-    private void OnExportarDocumentoInventarioAlmacenes(object? sender, FormatoDocumento e)
-    {
+    private void OnExportarDocumentoInventarioAlmacenes(object? sender, FormatoDocumento e) {
         _docInventarioAlmacen.GenerarDocumento(true, e);
     }
 
-    private void OnDescargarProductos(object? sender, EventArgs e)
-    {
+    private void OnDescargarProductos(object? sender, EventArgs e) {
         var existeDirectorio = false;
 
-        try
-        {
+        try {
             // Verificar conexión del dispositivo
-            if (!VerificarConexionDispositivo())
-            {
+            if (!VerificarConexionDispositivo()) {
                 CentroNotificaciones.Mostrar("Conecte un dispositivo Android con depuración USB activada", TipoNotificacion.Advertencia);
-            }
-            else
-            {
+            } else {
                 existeDirectorio = _androidFileManager.EnsureDirectoryExists();
 
-                if (!existeDirectorio)
-                {
+                if (!existeDirectorio) {
                     CentroNotificaciones.Mostrar("No se pudo crear el directorio en el dispositivo Android", TipoNotificacion.Error);
                     return;
                 }
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             MessageBox.Show(ex.Message);
         }
 
         var id = sender as string;
 
-        if (string.IsNullOrEmpty(id))
-        {
+        if (string.IsNullOrEmpty(id)) {
             CentroNotificaciones.Mostrar("ID del almacén no proporcionado", TipoNotificacion.Error);
             return;
         }
@@ -152,17 +129,13 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
         var rutaArchivoProductos = Path.Combine(Application.StartupPath, "productos_almacen.json");
 
         using (var fileStream = new FileStream(rutaArchivoProductos, FileMode.Create))
-        using (var writer = new StreamWriter(fileStream))
-        {
+        using (var writer = new StreamWriter(fileStream)) {
             writer.Write(productos);
         }
 
-        if (_androidFileManager.PushFileToDevice(rutaArchivoProductos, "productos_almacen.json"))
-        {
+        if (_androidFileManager.PushFileToDevice(rutaArchivoProductos, "productos_almacen.json")) {
             CentroNotificaciones.Mostrar($"Productos del almacén {id} descargados correctamente", TipoNotificacion.Info);
-        }
-        else
-        {
+        } else {
             CentroNotificaciones.Mostrar($"Error al descargar productos del almacén {id}", TipoNotificacion.Error);
         }
 
@@ -170,10 +143,8 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
         try { File.Delete(rutaArchivoProductos); } catch { }
     }
 
-    public (bool exito, string mensaje, int registrosProcesados) ImportarDesdeExcel(string rutaArchivo, long idAlmacen)
-    {
-        try
-        {
+    public (bool exito, string mensaje, int registrosProcesados) ImportarDesdeExcel(string rutaArchivo, long idAlmacen) {
+        try {
             // 1. Leer archivo Excel con ClosedXML
             var datosInventario = LeerExcel(rutaArchivo);
 
@@ -181,15 +152,13 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 return (false, "El archivo Excel no contiene datos válidos.", 0);
 
             // 2. Procesar datos
-            try
-            {
+            try {
                 int registrosProcesados = 0;
 
                 var repoAlmacen = RepoAlmacen.Instancia;
                 var almacen = repoAlmacen.ObtenerPorId(idAlmacen);
 
-                foreach (DataRow fila in datosInventario.Rows)
-                {
+                foreach (DataRow fila in datosInventario.Rows) {
                     // Renombrar el almacén con el nombre del archivo
                     var infoArchivo = new FileInfo(rutaArchivo);
 
@@ -209,17 +178,14 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 var inventarioActual = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdAlmacen, idAlmacen.ToString()).entidades;
                 var productosAEliminar = inventarioActual.Where(i => !productosEnExcel.Contains(RepoProducto.Instancia.ObtenerPorId(i.IdProducto).Codigo)).ToList();
 
-                if (productosAEliminar.Count > 0)
-                {
+                if (productosAEliminar.Count > 0) {
                     if (VistaMensaje.Instancia.Mostrar(
                         $"Se encontraron {productosAEliminar.Count} productos en el inventario actual que no están presentes en el archivo Excel. ¿Desea eliminarlos del sistema?",
                         TipoMensaje.Info,
-                        BotonesMensaje.SiNo) == DialogResult.Yes)
-                    {
+                        BotonesMensaje.SiNo) == DialogResult.Yes) {
                         _cargaDatos.Mostrar();
 
-                        foreach (var inventario in productosAEliminar)
-                        {
+                        foreach (var inventario in productosAEliminar) {
                             _cargaDatos.TextoProgreso = $"Eliminando el producto ID:{inventario.IdProducto}";
                             Thread.Sleep(100);
 
@@ -229,30 +195,21 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 }
 
                 return (true, $"Importación completada exitosamente. {registrosProcesados} registros procesados.", registrosProcesados);
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 return (false, $"Error durante la importación: {ex.Message}", 0);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return (false, $"Error general: {ex.Message}", 0);
-        }
-        finally
-        {
+        } finally {
             _cargaDatos.Ocultar();
         }
     }
 
-    private bool ProcesarFilaInventario(DataRow fila, Core.Modelos.Modulos.Inventario.Almacen almacen)
-    {
+    private bool ProcesarFilaInventario(DataRow fila, Core.Modelos.Modulos.Inventario.Almacen almacen) {
         var repoProducto = RepoProducto.Instancia;
-        var repoDetalleProducto = RepoDetalleProducto.Instancia;
         var repoInventario = RepoInventario.Instancia;
 
-        try
-        {
+        try {
             // Extraer datos de la fila
             string codigo = fila["Código"]?.ToString();
             string descripcion = fila["Descripción"]?.ToString();
@@ -263,8 +220,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
             _cargaDatos.TextoProgreso = $"Procesando el producto COD:{codigo}";
             Thread.Sleep(100);
 
-            if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(","))
-            {
+            if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Equals(",")) {
                 cantidad = cantidad.Replace('.', ' ').Replace(',', '.');
                 precio = precio.Replace('.', ' ').Replace(',', '.');
             }
@@ -280,10 +236,8 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
             // Verificar que no existan productos con código duplicado, en cuyo caso se eliminarán todos
             // para registrar como nuevo el producto entrante.
-            if (productosPorCodigo.Count > 1)
-            {
-                productosPorCodigo.ForEach(p =>
-                {
+            if (productosPorCodigo.Count > 1) {
+                productosPorCodigo.ForEach(p => {
                     repoProducto.Eliminar(p.Id);
                 });
 
@@ -297,54 +251,27 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
             var productosPorNombre = repoProducto.Buscar(FiltroBusquedaProducto.Nombre, descripcion).entidades;
 
             if (productosPorNombre != null && productosPorNombre.Count > 0)
-                productosPorNombre.FindAll(p => !p.Codigo?.Equals(codigo) ?? false).ForEach(p =>
-                {
+                productosPorNombre.FindAll(p => !p.Codigo?.Equals(codigo) ?? false).ForEach(p => {
                     repoProducto.Eliminar(p.Id);
                 });
 
-            if (producto != null)
-            {
+            if (producto != null) {
                 // Editar nombre y precio del producto o costo unitario segun categoria
-                if (!string.IsNullOrEmpty(descripcion))
-                {
+                if (!string.IsNullOrEmpty(descripcion)) {
                     producto.Nombre = descripcion;
                 }
                 if (producto.Categoria == CategoriaProducto.ProductoTerminado)
                     producto.CostoProduccionUnitario = precioDec;
-                else producto.PrecioCompra = precioDec;
-
-                // Editar la descripción de producto
-                var detalleProducto = repoDetalleProducto.Buscar(FiltroBusquedaDetalleProducto.Id, producto.Id.ToString()).entidades.FirstOrDefault();
-
-                if (detalleProducto == null)
-                {
-                    detalleProducto = new DetalleProducto
-                    {
-                        Descripcion = descripcion ?? "Producto sin descripción",
-                        IdUnidadMedida = 1 // Unidad predeterminada
-                    };
-
-                    detalleProducto.Id = repoDetalleProducto.Adicionar(detalleProducto);
-                    producto.IdDetalleProducto = detalleProducto.Id;
-                }
-                else
-                {
-
-                    detalleProducto.Descripcion = descripcion;
-
-                    repoDetalleProducto.Editar(detalleProducto);
-                }
+                else producto.CostoAdquisicionUnitario = precioDec;
 
                 repoProducto.Editar(producto);
 
                 // Modificar datos de inventario del producto
                 var inventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacen.Id));
 
-                if (inventario == null)
-                {
+                if (inventario == null) {
                     // Crear nuevo registro de inventario si no existe
-                    inventario = new Core.Modelos.Modulos.Inventario.Inventario
-                    {
+                    inventario = new Core.Modelos.Modulos.Inventario.Inventario {
                         IdAlmacen = almacen.Id,
                         IdProducto = producto.Id,
                         Cantidad = cantidadDec,
@@ -364,34 +291,26 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 repoInventario.Editar(inventario);
 
                 return true;
-            }
-            else
-            {
-                // Crear nuevo producto y detalle de producto
-                var detalleProducto = new DetalleProducto
-                {
-                    Descripcion = descripcion ?? "Producto sin descripción",
-                    IdUnidadMedida = 1 // Unidad predeterminada
-                };
-
-                detalleProducto.Id = repoDetalleProducto.Adicionar(detalleProducto);
-
-                producto = new Core.Modelos.Modulos.Inventario.Producto
-                {
+            } else {
+                // Crear nuevo producto
+                producto = new Core.Modelos.Modulos.Inventario.Producto {
                     Categoria = CategoriaProducto.Mercancia,
                     Nombre = descripcion ?? "Producto sin descripción",
                     Codigo = codigo ?? UtilesCodigoBarras.GenerarEan13(descripcion),
-                    IdDetalleProducto = detalleProducto.Id,
+                    Descripcion = descripcion ?? "Producto sin descripción",
+                    IdProveedor = 0,
+                    IdUnidadMedida = 1, // Unidad
                     EsVendible = true,
-                    PrecioCompra = precioDec,
-                    PrecioVentaBase = precioDec * 1.25m // Margen de ganancia del 25%
+                    ImpuestoVentaPorcentaje = 10,
+                    MargenGananciaDeseado = 25,
+                    CostoAdquisicionUnitario = precioDec,
+                    PrecioVentaBase = precioDec + (precioDec * 0.1m) + (precioDec * 0.25m),
                 };
 
                 producto.Id = repoProducto.Adicionar(producto);
 
                 // Crear registro de inventario
-                var inventario = new Core.Modelos.Modulos.Inventario.Inventario
-                {
+                var inventario = new Core.Modelos.Modulos.Inventario.Inventario {
                     IdAlmacen = almacen.Id,
                     IdProducto = producto.Id,
                     Cantidad = cantidadDec,
@@ -403,22 +322,17 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
                 return true;
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al procesar fila: {ex.Message}", TipoNotificacion.Error);
 
             return false;
         }
     }
 
-    private DataTable LeerExcel(string rutaArchivo)
-    {
-        try
-        {
+    private DataTable LeerExcel(string rutaArchivo) {
+        try {
             // Usar ClosedXML para leer el archivo Excel
-            using (var workbook = new XLWorkbook(rutaArchivo))
-            {
+            using (var workbook = new XLWorkbook(rutaArchivo)) {
                 // Obtener la primera hoja de cálculo
                 var worksheet = workbook.Worksheet(1);
 
@@ -431,22 +345,18 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 var range = worksheet.RangeUsed();
 
                 // Leer encabezados (primera fila)
-                foreach (var cell in range.Row(1).Cells())
-                {
+                foreach (var cell in range.Row(1).Cells()) {
                     string nombreColumna = cell.GetString().Trim();
                     if (!string.IsNullOrEmpty(nombreColumna))
                         dt.Columns.Add(nombreColumna);
                 }
 
                 // Leer filas de datos (omitir la primera fila que son los encabezados)
-                foreach (var row in range.Rows().Skip(1))
-                {
+                foreach (var row in range.Rows().Skip(1)) {
                     DataRow dr = dt.NewRow();
 
-                    for (int i = 0; i < dt.Columns.Count; i++)
-                    {
-                        if (i < row.CellCount())
-                        {
+                    for (int i = 0; i < dt.Columns.Count; i++) {
+                        if (i < row.CellCount()) {
                             var cell = row.Cell(i + 1);
                             dr[i] = cell.GetString(); // GetString maneja valores nulos correctamente
                         }
@@ -457,34 +367,27 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
                 return dt;
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacion.Error);
             return null;
         }
     }
 
-    public bool VerificarConexionDispositivo()
-    {
+    public bool VerificarConexionDispositivo() {
         var conexionOk = true;
 
-        try
-        {
+        try {
             // Verificar conexión del dispositivo
             if (!_androidFileManager.CheckDeviceConnection())
                 conexionOk = false;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacion.Error);
         }
 
         return conexionOk;
     }
 
-    private void CambiarVisibilidadBtnImportarInvntarioVersat(object? sender, Core.Modelos.Modulos.Inventario.Almacen e)
-    {
+    private void CambiarVisibilidadBtnImportarInvntarioVersat(object? sender, Core.Modelos.Modulos.Inventario.Almacen e) {
         Vista.MostrarBtnImportarInventarioVersat = _tuplasEntidades.Any(t => t.EstadoSeleccion);
     }
 }

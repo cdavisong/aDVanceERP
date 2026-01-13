@@ -191,8 +191,7 @@ public static class UtilesVenta {
                 END AS tipo_producto
             FROM adv__detalle_venta_producto dva
             JOIN adv__producto p ON dva.id_producto = p.id_producto
-            LEFT JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
-            LEFT JOIN adv__unidad_medida um ON dp.id_unidad_medida = um.id_unidad_medida
+            LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
             WHERE dva.id_venta = @IdVenta;
             """;
 

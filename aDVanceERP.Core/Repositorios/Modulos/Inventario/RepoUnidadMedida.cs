@@ -36,7 +36,7 @@ public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusqued
 
     protected override string GenerarComandoEliminar(long id) {
         return $"""
-                UPDATE adv__detalle_producto
+                UPDATE adv__producto
                 SET id_unidad_medida = 0
                 WHERE id_unidad_medida = {id};
 

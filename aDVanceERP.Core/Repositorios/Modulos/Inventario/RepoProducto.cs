@@ -14,28 +14,38 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
     protected override string GenerarComandoAdicionar(Producto objeto) {
         return $"""
                 INSERT INTO adv__producto (
-                    codigo,
+                    ruta_imagen,
                     categoria,
                     nombre,
-                    id_detalle_producto,
+                    codigo,
                     id_proveedor,
-                    id_tipo_materia_prima,
+                    descripcion,
+                    id_unidad_medida,
+                    id_clasificacion_producto,
                     es_vendible,
-                    precio_compra,
+                    costo_adquisicion_unitario,
                     costo_produccion_unitario,
-                    precio_venta_base
+                    impuesto_venta_porcentaje,
+                    margen_ganancia_deseado,
+                    precio_venta_base,
+                    activo
                 )
                 VALUES (
-                    '{objeto.Codigo}',
+                    '{objeto.RutaImagen}',
                     '{objeto.Categoria}',
                     '{objeto.Nombre}',
-                    {objeto.IdDetalleProducto},
+                    '{objeto.Codigo}',
                     {objeto.IdProveedor},
-                    {objeto.IdTipoMateriaPrima},
-                    '{(objeto.EsVendible ? 1 : 0)}',
-                    {objeto.PrecioCompra.ToString(CultureInfo.InvariantCulture)},
-                    {objeto.CostoProduccionUnitario.ToString(CultureInfo.InvariantCulture)},
-                    {objeto.PrecioVentaBase.ToString(CultureInfo.InvariantCulture)}
+                    '{objeto.Descripcion}',
+                    {objeto.IdUnidadMedida},
+                    {objeto.IdClasificacionProducto},
+                    {(objeto.EsVendible ? 1 : 0)},
+                    {objeto.CostoAdquisicionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
+                    {objeto.CostoProduccionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
+                    {objeto.ImpuestoVentaPorcentaje.ToString("N2",CultureInfo.InvariantCulture)},
+                    {objeto.MargenGananciaDeseado.ToString("N2",CultureInfo.InvariantCulture)},
+                    {objeto.PrecioVentaBase.ToString("N2",CultureInfo.InvariantCulture)},
+                    {(objeto.Activo ? 1 : 0)}
                 );
                 """;
     }
@@ -44,16 +54,21 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         return $"""
                 UPDATE adv__producto
                 SET
-                    codigo = '{objeto.Codigo}',
+                    ruta_imagen = '{objeto.RutaImagen}',
                     categoria = '{objeto.Categoria}',
                     nombre = '{objeto.Nombre}',
-                    id_detalle_producto = {objeto.IdDetalleProducto},
+                    codigo = '{objeto.Codigo}',
                     id_proveedor = {objeto.IdProveedor},
-                    id_tipo_materia_prima = {objeto.IdTipoMateriaPrima},
-                    es_vendible = '{(objeto.EsVendible ? 1 : 0)}',
-                    precio_compra = {objeto.PrecioCompra.ToString(CultureInfo.InvariantCulture)},
-                    costo_produccion_unitario = {objeto.CostoProduccionUnitario.ToString(CultureInfo.InvariantCulture)},
-                    precio_venta_base = {objeto.PrecioVentaBase.ToString(CultureInfo.InvariantCulture)}
+                    descripcion = '{objeto.Descripcion}',
+                    id_unidad_medida = {objeto.IdUnidadMedida},
+                    id_clasificacion_producto = {objeto.IdClasificacionProducto},
+                    es_vendible = {(objeto.EsVendible ? 1 : 0)},
+                    costo_adquisicion_unitario = {objeto.CostoAdquisicionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
+                    costo_produccion_unitario = {objeto.CostoProduccionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
+                    impuesto_venta_porcentaje = {objeto.ImpuestoVentaPorcentaje.ToString("N2",CultureInfo.InvariantCulture)},
+                    margen_ganancia_deseado = {objeto.MargenGananciaDeseado.ToString("N2",CultureInfo.InvariantCulture)},
+                    precio_venta_base = {objeto.PrecioVentaBase.ToString("N2",CultureInfo.InvariantCulture)},
+                    activo = {(objeto.Activo ? 1 : 0)}
                 WHERE id_producto = {objeto.Id};
                 """;
     }
@@ -62,13 +77,6 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         return $"""
             DELETE FROM adv__inventario
             WHERE id_producto = {id};
-
-            DELETE FROM adv__detalle_producto
-            WHERE id_detalle_producto = (
-                SELECT id_detalle_producto 
-                FROM adv__producto 
-                WHERE id_producto = {id}
-            );
 
             DELETE FROM adv__producto 
             WHERE id_producto = {id};
@@ -94,7 +102,7 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
         // Construcción de condiciones WHERE
         var condiciones = new List<string> {
-            $"dp.activo = {(filtroBusqueda == FiltroBusquedaProducto.Inactivos ? 0 : 1)}"
+            $"p.activo = {(filtroBusqueda == FiltroBusquedaProducto.Inactivos ? 0 : 1)}"
         };
 
         if (aplicarFiltroAlmacen)
@@ -111,7 +119,6 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                          SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
                          {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          p.id_producto = {(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)};
                          """;
@@ -121,7 +128,6 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                          SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
                          {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          LOWER(p.codigo) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
                          """;
@@ -131,7 +137,6 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                          SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
                          {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
                          LOWER(p.nombre) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
                          """;
@@ -141,9 +146,8 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                          SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
                          {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         LOWER(dp.descripcion) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
+                         LOWER(p.descripcion) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
                          """;
                 break;
             default:
@@ -151,7 +155,6 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                          SELECT *{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
                          FROM adv__producto p
                          {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
                          {whereClause};
                          """;
                 break;
@@ -160,19 +163,33 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         return comando;
     }
 
+    /// <summary>
+    /// Maps the current record from the specified data reader to a new instance of the Producto entity.
+    /// </summary>
+    /// <remarks>The data reader must include all columns required to construct a Producto. Field values are
+    /// converted to the appropriate types; missing or invalid values may result in default values being used for some
+    /// properties.</remarks>
+    /// <param name="lectorDatos">A MySqlDataReader positioned at the record to map. Must not be null and must contain all required fields for
+    /// Producto.</param>
+    /// <returns>A Producto instance populated with values from the current record of the data reader.</returns>
     protected override Producto MapearEntidad(MySqlDataReader lectorDatos) {
         return new Producto(
             id: Convert.ToInt64(lectorDatos["id_producto"]),
+            rutaImagen: Convert.ToString(lectorDatos["ruta_imagen"]) ?? string.Empty,
             categoria: Enum.TryParse<CategoriaProducto>(Convert.ToString(lectorDatos["categoria"]) ?? string.Empty, out var categoria) ? categoria : CategoriaProducto.Mercancia,
             nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
             codigo: Convert.ToString(lectorDatos["codigo"]) ?? string.Empty,
-            idDetalleProducto: Convert.ToInt64(lectorDatos["id_detalle_producto"]),
-            idTipoMateriaPrima: Convert.ToInt64(lectorDatos["id_tipo_materia_prima"]),
             idProveedor: Convert.ToInt64(lectorDatos["id_proveedor"]),
+            descripcion: Convert.ToString(lectorDatos["descripcion"]) ?? string.Empty,
+            idUnidadMedida: Convert.ToInt64(lectorDatos["id_unidad_medida"]),
+            idClasificacionProducto: Convert.ToInt64(lectorDatos["id_clasificacion_producto"]),
             esVendible: Convert.ToBoolean(lectorDatos["es_vendible"]),
-            precioCompra: Convert.ToDecimal(lectorDatos["precio_compra"], CultureInfo.InvariantCulture),
+            costoAdquisicionUnitario: Convert.ToDecimal(lectorDatos["costo_adquisicion_unitario"], CultureInfo.InvariantCulture),
             costoProduccionUnitario: Convert.ToDecimal(lectorDatos["costo_produccion_unitario"], CultureInfo.InvariantCulture),
-            precioVentaBase: Convert.ToDecimal(lectorDatos["precio_venta_base"], CultureInfo.InvariantCulture)
+            impuestoVentaPorcentaje: Convert.ToDecimal(lectorDatos["impuesto_venta_porcentaje"], CultureInfo.InvariantCulture),
+            margenGananciaDeseado: Convert.ToDecimal(lectorDatos["margen_ganancia_deseado"], CultureInfo.InvariantCulture),
+            precioVentaBase: Convert.ToDecimal(lectorDatos["precio_venta_base"], CultureInfo.InvariantCulture),
+            activo: Convert.ToBoolean(lectorDatos["activo"])
         );
     }
 
@@ -184,15 +201,24 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
     #region UTILES
 
+    /// <summary>
+    /// Obtiene el valor total bruto de los productos en inventario, opcionalmente filtrado por almacén.
+    /// </summary>
+    /// <param name="idAlmacen"></param>
+    /// <returns></returns>
     public decimal ObtenerValorTotalBruto(long idAlmacen = 0) {
         var consulta = $"""
-            SELECT SUM((p.precio_compra + p.costo_produccion_unitario) * i.cantidad) as valor_total
-            FROM adv__producto p 
-            JOIN adv__detalle_producto dp ON p.id_detalle_producto = dp.id_detalle_producto
+            SELECT SUM(
+                CASE 
+                    WHEN p.categoria = 'ProductoTerminado' THEN (p.costo_produccion_unitario * i.cantidad)
+                    ELSE (p.costo_adquisicion_unitario * i.cantidad)
+                END
+            ) AS valor_total_bruto
+            FROM adv__producto p
             JOIN adv__inventario i ON p.id_producto = i.id_producto
             {(idAlmacen != 0
-                ? "WHERE dp.activo = 1 AND i.id_almacen = @IdAlmacen"
-                : "WHERE dp.activo = 1")};
+                ? "WHERE p.activo = 1 AND i.id_almacen = @IdAlmacen"
+                : "WHERE p.activo = 1")};
             """;
         var parametros = idAlmacen != 0
             ? new Dictionary<string, object> {
@@ -200,6 +226,27 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
             } : null;
 
         return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+    }
+
+    public bool HabilitarDeshabilitarProducto(long id) {
+        var consulta = $"""
+            UPDATE adv__producto
+            SET activo = NOT activo
+            WHERE id_producto = @IdProducto;
+            """;
+        var parametros = new Dictionary<string, object> {
+                { "@IdProducto", id }
+            };
+
+        ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+        consulta = $"""
+            SELECT activo
+            FROM adv__producto
+            WHERE id_producto = @IdProducto;
+            """;
+
+        return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
     }
 
     #endregion

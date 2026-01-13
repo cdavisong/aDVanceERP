@@ -24,11 +24,18 @@ public class PresentadorRegistroRolUsuario : PresentadorVistaRegistro<IVistaRegi
     }
 
     private void OnMostrarVistaRegistroRolUsuario(string obj) {
+        Vista.ModoEdicion = false;
+
+        // Cargar inicial de datos
+        Vista.NombresModulos = RepoModulo.Instancia.ObtenerTodos().Select(m => m.Nombre).ToArray();
+
         Vista.Restaurar();
         Vista.Mostrar();
     }
 
     private void OnMostrarVistaEdicionRolUsuario(string obj) {
+        Vista.ModoEdicion = true;
+
         if (string.IsNullOrEmpty(obj))
             return;
 
@@ -36,6 +43,9 @@ public class PresentadorRegistroRolUsuario : PresentadorVistaRegistro<IVistaRegi
 
         if (rolUsuario == null)
             return;
+
+        // Cargar inicial de datos
+        Vista.NombresModulos = RepoModulo.Instancia.ObtenerTodos().Select(m => m.Nombre).ToArray();
 
         Vista.Restaurar();
 
@@ -78,9 +88,6 @@ public class PresentadorRegistroRolUsuario : PresentadorVistaRegistro<IVistaRegi
 
     public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Seguridad.RolUsuario entidad) {
         base.PopularVistaDesdeEntidad(entidad);
-
-        // Cargar inicial de datos
-        Vista.NombresModulos = RepoModulo.Instancia.ObtenerTodos().Select(m => m.Nombre).ToArray();
 
         Vista.NombreRolUsuario = entidad.Nombre;
         Vista.Permisos.Clear();
