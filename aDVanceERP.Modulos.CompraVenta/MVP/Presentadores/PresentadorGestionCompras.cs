@@ -18,7 +18,7 @@ public class PresentadorGestionCompras : PresentadorVistaGestion<PresentadorTupl
 
         presentadorTupla.Vista.Id = objeto.Id.ToString();
         presentadorTupla.Vista.Fecha = objeto.Fecha.ToString("yyyy-MM-dd");
-        presentadorTupla.Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(objeto.IdAlmacen) ?? string.Empty;
+        //presentadorTupla.Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(objeto.IdAlmacen) ?? string.Empty;
         presentadorTupla.Vista.NombreProveedor = string.IsNullOrEmpty(nombreProveedor) ? "Anónimo" : nombreProveedor;
         presentadorTupla.Vista.CantidadProductos = UtilesCompra.ObtenerCantidadProductosCompra(objeto.Id).ToString("N2", CultureInfo.InvariantCulture);
         presentadorTupla.Vista.MontoTotal = objeto.Total.ToString("N2", CultureInfo.InvariantCulture);

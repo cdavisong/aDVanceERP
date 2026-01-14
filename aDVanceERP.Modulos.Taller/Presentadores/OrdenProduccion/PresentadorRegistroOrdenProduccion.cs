@@ -1,5 +1,7 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Taller;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Core.Utiles.Datos;
 
@@ -16,7 +18,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
             Vista.ModoEdicion = true;
             Vista.Id = entidad.Id;
             Vista.NombreProductoTerminado = entidad.NombreProducto ?? string.Empty;
-            Vista.NombreAlmacenDestino = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacen) ?? string.Empty;
+            Vista.NombreAlmacenDestino = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacen)?.Nombre ?? string.Empty;
             Vista.NumeroOrden = entidad.NumeroOrden;
             Vista.FechaApertura = entidad.FechaApertura;
             Vista.Cantidad = entidad.Cantidad;
@@ -31,8 +33,8 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
                 var materiasPrimas = repoMateriaPrima.Buscar(FiltroBusquedaOrdenMateriaPrima.OrdenProduccion, entidad.Id.ToString()).entidades;
                 foreach (var materiaPrima in materiasPrimas) {
                     Vista.AdicionarMateriaPrima(
-                        UtilesAlmacen.ObtenerNombreAlmacen(materiaPrima.IdAlmacen) ?? string.Empty,
-                        UtilesProducto.ObtenerNombreProducto(materiaPrima.IdProducto).Result ?? string.Empty,
+                        RepoAlmacen.Instancia.ObtenerPorId(materiaPrima.IdAlmacen)?.Nombre ?? string.Empty,
+                        RepoProducto.Instancia.ObtenerPorId(materiaPrima.IdProducto)?.Nombre ?? string.Empty,
                         materiaPrima.Cantidad);
                 }
             }
@@ -78,16 +80,16 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
 
             base.RegistroEdicionAuxiliar(repoEntidad, id);
         }
-
+        
         public void RegistrarEditarMateriasPrimasOrden(long idOrdenProduccion) {
             using (var datosObjeto = new RepoOrdenMateriaPrima()) {
                 foreach (var tuplaMateriaPrima in Vista.MateriasPrimas) {
-                    var criterioBusqueda = $"{idOrdenProduccion};{UtilesProducto.ObtenerIdProducto(tuplaMateriaPrima[1]).Result}";
+                    var criterioBusqueda = $"{idOrdenProduccion};{RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, tuplaMateriaPrima[1]).entidades.FirstOrDefault()?.Id ?? 0}";
                     var materiaPrimaExistente = datosObjeto.Buscar(FiltroBusquedaOrdenMateriaPrima.Producto, criterioBusqueda).entidades.FirstOrDefault();
                     var materiaPrima = materiaPrimaExistente ?? new OrdenMateriaPrima(0,
                         idOrdenProduccion,
-                        UtilesAlmacen.ObtenerIdAlmacen(tuplaMateriaPrima[0]).Result,
-                        UtilesProducto.ObtenerIdProducto(tuplaMateriaPrima[1]).Result,
+                        RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, tuplaMateriaPrima[0]).entidades.FirstOrDefault()?.Id ?? 0,
+                        RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, tuplaMateriaPrima[1]).entidades.FirstOrDefault()?.Id ?? 0,
                         decimal.TryParse(tuplaMateriaPrima[2], NumberStyles.Any, CultureInfo.InvariantCulture, out var cantidad) ? cantidad : 0m,
                         decimal.TryParse(tuplaMateriaPrima[3], NumberStyles.Any, CultureInfo.InvariantCulture, out var costoUnitario) ? costoUnitario : 0m,
                         costoUnitario * cantidad
@@ -176,7 +178,7 @@ namespace aDVanceERP.Modulos.Taller.Presentadores.OrdenProduccion {
                 Vista.NumeroOrden,
                 Vista.FechaApertura,
                 DateTime.MinValue,
-                UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacenDestino).Result,
+                RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).entidades.FirstOrDefault()?.Id ?? 0,
                 Vista.NombreProductoTerminado,
                 Vista.Cantidad,
                 EstadoOrdenProduccion.Abierta,

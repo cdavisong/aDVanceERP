@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Controladores;
 using aDVanceERP.Core.Documentos.Interfaces;
+using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -18,21 +19,37 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores.Almacen;
 
-public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes,
-    IVistaTuplaAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-    private ControladorArchivosAndroid _androidFileManager;
-    private DocInventarioAlmacen _docInventarioAlmacen;
+public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes, IVistaTuplaAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
+    private ControladorArchivosAndroid _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
+    private DocInventarioAlmacen _docInventarioAlmacen = new DocInventarioAlmacen();
     private bool _dispositivoConectado;
 
     public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
-        _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
-        _docInventarioAlmacen = new DocInventarioAlmacen();
-
         vista.ImportarInventarioVersat += OnImportarInventarioVersat;
         vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacenes;
-        vista.EditarEntidad += delegate {
-            Vista.MostrarBtnImportarInventarioVersat = false;
-        };
+
+        RegistrarEntidad += OnRegistrarAlmacen;
+        EditarEntidad += OnEditarAlmacen;
+
+        AgregadorEventos.Suscribir("MostrarVistaGestionAlmacenes", OnMostrarVistaGestionAlmacenes);
+    }
+
+    private void OnRegistrarAlmacen(object? sender, EventArgs e) {
+        AgregadorEventos.Publicar("MostrarVistaRegistroAlmacen", string.Empty);
+        Vista.MostrarBtnImportarInventarioVersat = false;
+    }
+
+    private void OnEditarAlmacen(object? sender, Core.Modelos.Modulos.Inventario.Almacen e) {
+        AgregadorEventos.Publicar("MostrarVistaEdicionAlmacen", AgregadorEventos.SerializarPayload(e));
+        Vista.MostrarBtnImportarInventarioVersat = false;
+    }
+
+    private void OnMostrarVistaGestionAlmacenes(string obj) {
+        Vista.CargarFiltrosBusqueda(UtilesBusquedaAlmacen.FiltroBusquedaAlmacen);
+        Vista.Restaurar();
+        Vista.Mostrar();
+
+        ActualizarResultadosBusqueda();
     }
 
     protected override PresentadorTuplaAlmacen ObtenerValoresTupla(Core.Modelos.Modulos.Inventario.Almacen entidad) {
@@ -40,8 +57,11 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
 
         presentadorTupla.Vista.Id = entidad.Id.ToString();
         presentadorTupla.Vista.NombreAlmacen = entidad.Nombre;
-        presentadorTupla.Vista.Direccion = entidad.Direccion;
-        presentadorTupla.Vista.Descripcion = entidad.Descripcion;
+        presentadorTupla.Vista.Tipo = entidad.Tipo.ToString();
+        presentadorTupla.Vista.Direccion = entidad.Direccion ?? "No hay dirección disponible";
+        presentadorTupla.Vista.CoordenadasGeograficas = entidad.Coordenadas ?? new CoordenadasGeograficas { Latitud = 0, Longitud = 0 };
+        presentadorTupla.Vista.Estado = entidad.Estado;
+        presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
         presentadorTupla.Vista.MostrarBotonExportarProductos = _dispositivoConectado;
         presentadorTupla.Vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacen;
         presentadorTupla.Vista.DescargarProductos += OnDescargarProductos;
@@ -125,7 +145,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
             return;
         }
 
-        var productos = UtilesAlmacen.ObtenerProductosAlmacenJson(long.Parse(id));
+        var productos = RepoProducto.Instancia.ObtenerProductosAlmacenJson(long.Parse(id));
         var rutaArchivoProductos = Path.Combine(Application.StartupPath, "productos_almacen.json");
 
         using (var fileStream = new FileStream(rutaArchivoProductos, FileMode.Create))

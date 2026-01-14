@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra.Plantillas;
@@ -108,9 +110,7 @@ public partial class VistaRegistroCompra : Form, IVistaRegistroCompra, IVistaGes
             Close();
         };
         fieldNombreAlmacen.SelectedIndexChanged += async delegate {
-            var idAlmacen = UtilesAlmacen.ObtenerIdAlmacen(NombreAlmacen).Result;
-
-            CargarNombresProductos(await UtilesProducto.ObtenerNombresProductos(idAlmacen));
+            CargarNombresProductos([.. RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Todos, string.Join(';', NombreAlmacen, "-1", string.Empty)).entidades.Select(p => p.Nombre)]);
 
             fieldNombreProducto.Focus();
         };
@@ -176,9 +176,11 @@ public partial class VistaRegistroCompra : Form, IVistaRegistroCompra, IVistaGes
 
     public async void AdicionarProducto(string nombreAlmacen = "", string nombreProducto = "", string cantidad = "") {
         var adNombreAlmacen = string.IsNullOrEmpty(nombreAlmacen) ? NombreAlmacen : nombreAlmacen;
-        var idAlmacen = await UtilesAlmacen.ObtenerIdAlmacen(adNombreAlmacen);
+        var almacen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, adNombreAlmacen).entidades.FirstOrDefault();
+        var idAlmacen = almacen?.Id ?? 0;
         var adNombreProducto = string.IsNullOrEmpty(nombreProducto) ? NombreProducto : nombreProducto;
-        var idProducto = await UtilesProducto.ObtenerIdProducto(adNombreProducto);
+        var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, adNombreProducto).entidades.FirstOrDefault();
+        var idProducto = producto?.Id ?? 0;
         var adCantidad = string.IsNullOrEmpty(cantidad) ? Cantidad.ToString("N2", CultureInfo.InvariantCulture) : cantidad;
 
         if (!ModoEdicion) {
@@ -196,7 +198,7 @@ public partial class VistaRegistroCompra : Form, IVistaRegistroCompra, IVistaGes
             fieldCantidad.ReadOnly = true;
         }
 
-        var precioCompraBaseProducto = await UtilesProducto.ObtenerPrecioCompra(idProducto);
+        var precioCompraBaseProducto = producto?.CostoAdquisicionUnitario ?? 0;
         var tuplaProducto = new[] {
             idProducto.ToString(),
             adNombreProducto,

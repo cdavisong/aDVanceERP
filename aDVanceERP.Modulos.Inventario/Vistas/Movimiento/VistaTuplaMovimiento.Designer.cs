@@ -36,6 +36,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas.Movimiento {
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
+            fieldSaldoFinal = new Label();
             fieldSaldoInicial = new Label();
             btnEliminar = new Guna2Button();
             fieldNombreAlmacenDestino = new Label();
@@ -47,7 +48,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas.Movimiento {
             fieldIcono = new PictureBox();
             fieldNombreAlmacenOrigen = new Label();
             fieldNombreProducto = new Label();
-            fieldSaldoFinal = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
@@ -112,6 +112,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas.Movimiento {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 18;
+            // 
+            // fieldSaldoFinal
+            // 
+            fieldSaldoFinal.AutoEllipsis = true;
+            fieldSaldoFinal.Dock = DockStyle.Fill;
+            fieldSaldoFinal.Font = new Font("Segoe UI", 11.25F);
+            fieldSaldoFinal.ForeColor = Color.DimGray;
+            fieldSaldoFinal.ImeMode = ImeMode.NoControl;
+            fieldSaldoFinal.Location = new Point(732, 1);
+            fieldSaldoFinal.Margin = new Padding(1);
+            fieldSaldoFinal.Name = "fieldSaldoFinal";
+            fieldSaldoFinal.Size = new Size(108, 39);
+            fieldSaldoFinal.TabIndex = 22;
+            fieldSaldoFinal.Text = "saldoFinal";
+            fieldSaldoFinal.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldSaldoInicial
             // 
@@ -286,21 +301,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas.Movimiento {
             fieldNombreProducto.TabIndex = 20;
             fieldNombreProducto.Text = "nombreProducto";
             fieldNombreProducto.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldSaldoFinal
-            // 
-            fieldSaldoFinal.AutoEllipsis = true;
-            fieldSaldoFinal.Dock = DockStyle.Fill;
-            fieldSaldoFinal.Font = new Font("Segoe UI", 11.25F);
-            fieldSaldoFinal.ForeColor = Color.DimGray;
-            fieldSaldoFinal.ImeMode = ImeMode.NoControl;
-            fieldSaldoFinal.Location = new Point(732, 1);
-            fieldSaldoFinal.Margin = new Padding(1);
-            fieldSaldoFinal.Name = "fieldSaldoFinal";
-            fieldSaldoFinal.Size = new Size(108, 39);
-            fieldSaldoFinal.TabIndex = 22;
-            fieldSaldoFinal.Text = "saldoFinal";
-            fieldSaldoFinal.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaTuplaMovimiento
             // 

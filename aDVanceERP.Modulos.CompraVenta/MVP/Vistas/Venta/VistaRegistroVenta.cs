@@ -1,13 +1,15 @@
-﻿using System.Globalization;
-
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.DetalleCompraventaProducto;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.DetalleCompraventaProducto.Plantillas;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 
@@ -170,9 +172,7 @@ public partial class VistaRegistroVenta : Form, IVistaRegistroVenta, IVistaGesti
             Close();
         };
         fieldNombreAlmacen.SelectedIndexChanged += async delegate {
-            var idAlmacen = UtilesAlmacen.ObtenerIdAlmacen(NombreAlmacen).Result;
-
-            CargarNombresProductos(await UtilesProducto.ObtenerNombresProductos(idAlmacen, "Todas", true));
+            CargarNombresProductos([.. RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Todos, string.Join(';', NombreAlmacen, "-1", string.Empty)).entidades.Select(p => p.Nombre)]);
 
             fieldNombreProducto.Focus();
         };
@@ -237,17 +237,20 @@ public partial class VistaRegistroVenta : Form, IVistaRegistroVenta, IVistaGesti
 
     public async void AdicionarProducto(string nombreAlmacen = "", string nombreProducto = "", string cantidad = "") {
         var adNombreAlmacen = string.IsNullOrEmpty(nombreAlmacen) ? NombreAlmacen : nombreAlmacen;
-        var idAlmacen = await UtilesAlmacen.ObtenerIdAlmacen(adNombreAlmacen);
+        var almacen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, adNombreAlmacen).entidades.FirstOrDefault();
+        var idAlmacen = almacen?.Id ?? 0;
         var adNombreProducto = string.IsNullOrEmpty(nombreProducto) ? NombreProducto : nombreProducto;
         
         if (adNombreProducto != null) {
-            var idProducto = await UtilesProducto.ObtenerIdProducto(adNombreProducto);
+            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, adNombreProducto).entidades.FirstOrDefault();
+            var idProducto =producto?.Id ?? 0;
             var adCantidad = string.IsNullOrEmpty(cantidad) ? Cantidad.ToString("N2", CultureInfo.InvariantCulture) : cantidad;
-            var stockProducto = await UtilesProducto.ObtenerStockProducto(adNombreProducto, adNombreAlmacen);
+            var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, idProducto.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(idAlmacen));
+            var cantidadOriginal = inventarioProducto?.Cantidad;
 
             if (!ModoEdicion) {
                 // Verificar ID y cantidad del producto
-                if (idProducto == 0 || stockProducto == 0) {
+                if (idProducto == 0 || cantidadOriginal == 0) {
                     CentroNotificaciones.Mostrar($"El producto {adNombreProducto} no existe o no tiene cantidad disponible en el almacén {adNombreAlmacen}. Rectifique los datos.", TipoNotificacion.Advertencia);
 
                     NombreProducto = string.Empty;
@@ -260,15 +263,15 @@ public partial class VistaRegistroVenta : Form, IVistaRegistroVenta, IVistaGesti
 
                 // Verificar que la cantidad no exceda el cantidad del producto
                 if (Productos != null) {
-                    var stockComprometido = Productos
+                    var cantidadComprometida = Productos
                         .Where(a => a[0].Equals(idProducto.ToString()) && a[5].Equals(idAlmacen.ToString()))
                         .Sum(a => decimal.Parse(a[4], NumberStyles.Any, CultureInfo.InvariantCulture));
-                    if (decimal.Parse(adCantidad, NumberStyles.Any, CultureInfo.InvariantCulture) + stockComprometido > stockProducto) {
+                    if (decimal.Parse(adCantidad, NumberStyles.Any, CultureInfo.InvariantCulture) + cantidadComprometida > cantidadOriginal) {
                         fieldCantidad.ForeColor = Color.Firebrick;
                         fieldCantidad.Font = new Font(fieldCantidad.Font, FontStyle.Bold);
                         fieldCantidad.Margin = new Padding(3);
 
-                        CentroNotificaciones.Mostrar($"La cantidad del producto {adNombreProducto} excede el cantidad disponible ({stockProducto}). Rectifique los datos o aumente la cantidad disponible en almacén.", TipoNotificacion.Advertencia);
+                        CentroNotificaciones.Mostrar($"La cantidad del producto {adNombreProducto} excede el cantidad disponible ({cantidadOriginal}). Rectifique los datos o aumente la cantidad disponible en almacén.", TipoNotificacion.Advertencia);
                         return;
                     }
 
@@ -281,16 +284,16 @@ public partial class VistaRegistroVenta : Form, IVistaRegistroVenta, IVistaGesti
                 fieldCantidad.ReadOnly = true;
             }
 
-            var categoriaProducto = await UtilesProducto.ObtenerCategoriaProducto(idProducto);
-            var precioCompraVigenteProducto = categoriaProducto.Equals("ProductoTerminado") 
-                ? await UtilesProducto.ObtenerCostoProduccionUnitario(idProducto) 
-                : await UtilesProducto.ObtenerPrecioCompra(idProducto);
-            var precioVentaBaseProducto = await UtilesProducto.ObtenerPrecioVentaBase(idProducto);
+            var categoriaProducto = producto?.Categoria;
+            var costoUnitario = categoriaProducto == CategoriaProducto.ProductoTerminado
+                ? producto?.CostoProduccionUnitario ?? 0m
+                : producto?.CostoAdquisicionUnitario ?? 0m;
+            var precioVentaBase = producto?.PrecioVentaBase ?? 0;
             var tuplaProducto = new[] {
                 idProducto.ToString(),
                 adNombreProducto,
-                precioCompraVigenteProducto.ToString("N2", CultureInfo.InvariantCulture),
-                precioVentaBaseProducto.ToString("N2", CultureInfo.InvariantCulture),
+                costoUnitario.ToString("N2", CultureInfo.InvariantCulture),
+                precioVentaBase.ToString("N2", CultureInfo.InvariantCulture),
                 adCantidad,
                 idAlmacen.ToString()
             };

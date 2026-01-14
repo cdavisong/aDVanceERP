@@ -3,13 +3,12 @@ using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-
+using aDVanceERP.Modulos.Inventario.Presentadores.Almacen;
 using aDVanceERP.Modulos.Inventario.Presentadores.Menu;
 using aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas.Menu;
 using aDVanceERP.Modulos.Inventario.Vistas.Producto;
-using aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion;
 
 using Guna.UI2.WinForms;
 
@@ -20,6 +19,8 @@ public sealed class ModuloInventario : ModuloExtensionBase {
     private PresentadorMenuInventario _menuInventario = null!;
     private PresentadorGestionProductos _productos = null!;
     private PresentadorRegistroProducto _registroProducto = null!;
+    private PresentadorGestionAlmacenes _almacenes = null!;
+    private PresentadorRegistroAlmacen _registroAlmacen = null!;
 
     public ModuloInventario() {
         Nombre = "MOD_INVENTARIO";
@@ -46,6 +47,10 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         _productos = new PresentadorGestionProductos(new VistaGestionProductos());
         _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());
         _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
+        // Almacenes
+        _almacenes = new PresentadorGestionAlmacenes(new Vistas.Almacen.VistaGestionAlmacenes());
+        _registroAlmacen = new PresentadorRegistroAlmacen(new Vistas.Almacen.VistaRegistroAlmacen());
+        _registroAlmacen.EntidadRegistradaActualizada += (s, e) => _almacenes.ActualizarResultadosBusqueda();
 
         base.Inicializar(principal);
     }
@@ -64,6 +69,13 @@ public sealed class ModuloInventario : ModuloExtensionBase {
             _registroProducto.Vista,
             new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroProducto.Vista.Dimensiones.Width, -10),
             _registroProducto.Vista.Dimensiones,
+            TipoRedimensionadoVista.Vertical);
+        // Almacenes
+        _principal.Modulos.Vista.PanelCentral.Registrar(_almacenes.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(
+            _registroAlmacen.Vista,
+            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroAlmacen.Vista.Dimensiones.Width, -10),
+            _registroAlmacen.Vista.Dimensiones,
             TipoRedimensionadoVista.Vertical);
     }
 

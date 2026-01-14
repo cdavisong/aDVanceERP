@@ -1,11 +1,14 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas.Almacen;
 
 public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
+    private CoordenadasGeograficas _coordenadasGeograficas;
+
     public VistaTuplaAlmacen() {
         InitializeComponent();
         Inicializar();
@@ -31,6 +34,11 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
         set => Size = value;
     }
 
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
     public string Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
@@ -39,6 +47,27 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
     public string NombreAlmacen {
         get => fieldNombre.Text;
         set => fieldNombre.Text = value;
+    }
+
+    public string Tipo { 
+        get => fieldTipo.Text;
+        set => fieldTipo.Text = value;
+    }
+
+    public CoordenadasGeograficas CoordenadasGeograficas { 
+        get => _coordenadasGeograficas;
+        set {
+            _coordenadasGeograficas = value;
+
+            var coordenadasInvalidas = _coordenadasGeograficas is null || (_coordenadasGeograficas.Latitud == 0 && _coordenadasGeograficas.Longitud == 0);
+
+            fieldCoordenadasGeograficas.BackgroundImage = coordenadasInvalidas
+                ? Properties.Resources.markerF_off_20px
+                : Properties.Resources.locationG_20px;
+            fieldCoordenadasGeograficas.Cursor = coordenadasInvalidas
+                ? Cursors.Default
+                : Cursors.Hand;
+        }
     }
 
     public string Direccion {
@@ -57,14 +86,17 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
         }
     }
 
+    public bool Estado { 
+        get => fieldEstado.Text.Equals("Activo");
+        set {
+            fieldEstado.Text = value ? "Activo" : "Inactivo";
+            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+        }
+    }
+
     public bool MostrarBotonExportarProductos {
         get => btnExportarProductos.Visible;
         set => btnExportarProductos.Visible = value;
-    }
-
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
     }
 
     public event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;

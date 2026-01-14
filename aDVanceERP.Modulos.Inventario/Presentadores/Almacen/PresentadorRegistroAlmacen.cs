@@ -1,29 +1,71 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores.Almacen;
 
 public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-    public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) { }
+    public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) {
+        AgregadorEventos.Suscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
+        AgregadorEventos.Suscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
+    }
 
-    public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.Almacen entidad) {
-        Vista.ModoEdicion = true;
-        Vista.NombreAlmacen = entidad.Nombre ?? string.Empty;
-        Vista.Direccion = entidad.Direccion ?? string.Empty;
-        Vista.AutorizoVenta = true;
-        Vista.Descripcion = entidad.Descripcion ?? string.Empty;
+    private void OnMostrarVistaRegistroAlmacen(string obj) {
+        Vista.ModoEdicion = false;
+
+        Vista.Restaurar();
+        Vista.Mostrar();
+    }
+
+    private void OnMostrarVistaEdicionAlmacen(string obj) {
         Vista.ModoEdicion = true;
 
-        _entidad = entidad;
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        var almacen = AgregadorEventos.DeserializarPayload<Core.Modelos.Modulos.Inventario.Almacen>(obj);
+
+        if (almacen == null)
+            return;
+
+        Vista.Restaurar();
+
+        PopularVistaDesdeEntidad(almacen);
+
+        Vista.Mostrar();
+    }
+
+    public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.Almacen objeto) {
+        base.PopularVistaDesdeEntidad(objeto);
+
+        Vista.NombreAlmacen = objeto.Nombre;
+        Vista.Direccion = objeto.Direccion;
+        Vista.Descripcion = objeto.Descripcion;
+        Vista.Capacidad = objeto.Capacidad;
+        Vista.Tipo = objeto.Tipo;
+        Vista.Estado = objeto.Estado;
+        Vista.CoordenadasGeograficas = objeto.Coordenadas;
+    }
+
+    protected override Core.Modelos.Modulos.Inventario.Almacen? ObtenerEntidadDesdeVista() {
+        return new Core.Modelos.Modulos.Inventario.Almacen {
+            Id = _entidad?.Id ?? 0,
+            Nombre = Vista.NombreAlmacen,
+            Descripcion = Vista.Descripcion,
+            Direccion = Vista.Direccion,
+            Capacidad = Vista.Capacidad,
+            Tipo = Vista.Tipo,
+            Estado = Vista.Estado,
+            Coordenadas = Vista.CoordenadasGeograficas
+        }; 
     }
 
     protected override bool EntidadCorrecta() {
-        var nombreRepetido = !Vista.ModoEdicion && UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacen).Result > 0;
+        var nombreRepetido = !Vista.ModoEdicion && RepoAlmacen.Instancia.Buscar(Vista.NombreAlmacen).cantidad > 0;
         var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
 
         if (nombreRepetido)
@@ -32,24 +74,5 @@ public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistr
             CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
         return nombreOk;
-    }
-
-    protected override Core.Modelos.Modulos.Inventario.Almacen? ObtenerEntidadDesdeVista() {
-        if (Vista == null) {
-            CentroNotificaciones.Mostrar("La vista no está inicializada.", TipoNotificacion.Error);
-            return null;
-        }
-
-        //TODO: Trabajar en los campos que faltan para adicionar en el almacen
-        return new Core.Modelos.Modulos.Inventario.Almacen(
-            Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-            Vista.NombreAlmacen ?? string.Empty,
-            Vista.Descripcion ?? string.Empty,
-            Vista.Direccion ?? string.Empty,
-            0,
-            TipoAlmacen.Principal,
-            true,
-            null
-        );
     }
 }

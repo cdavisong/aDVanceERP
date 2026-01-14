@@ -201,6 +201,70 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
     #region UTILES
 
+    public string ObtenerProductosAlmacenJson(long idAlmacen) {
+        var consulta = """
+            SELECT 
+                p.id_producto,
+                p.codigo,
+                p.nombre,
+                p.categoria,
+                p.precio_compra,
+                p.costo_produccion_unitario,
+                p.precio_venta_base,
+                pa.cantidad,
+                a.nombre AS nombre_almacen,
+                IFNULL(um.nombre, '') AS unidad_medida,
+                IFNULL(um.abreviatura, '') AS abreviatura_medida
+            FROM 
+                adv__producto p
+            JOIN 
+                adv__inventario pa ON p.id_producto = pa.id_producto
+            JOIN 
+                adv__almacen a ON pa.id_almacen = a.id_almacen
+            LEFT JOIN
+                adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
+            WHERE 
+                pa.id_almacen = @IdAlmacen;
+        """;
+        var parametros = idAlmacen != 0
+            ? new Dictionary<string, object> {
+                { "@IdAlmacen", idAlmacen }
+            } : null;
+
+        try {
+            var productos = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, lector => {
+                var listaProductos = new List<Dictionary<string, object>>();
+
+                do {
+                    var producto = new Dictionary<string, object> {
+                        ["id_producto"] = lector.GetInt32("id_producto"),
+                        ["codigo"] = lector.GetString("codigo"),
+                        ["nombre"] = lector.GetString("nombre"),
+                        ["categoria"] = lector.GetString("categoria"),
+                        ["precio_compra"] = lector.GetDecimal("precio_compra"),
+                        ["costo_produccion_unitario"] = lector.GetDecimal("costo_produccion_unitario"),
+                        ["precio_venta_base"] = lector.GetDecimal("precio_venta_base"),
+                        ["cantidad"] = lector.GetInt32("cantidad"),
+                        ["nombre_almacen"] = lector.GetString("nombre_almacen"),
+                        ["unidad_medida"] = lector.GetString("unidad_medida"),
+                        ["abreviatura_medida"] = lector.GetString("abreviatura_medida")
+                    };
+
+                    listaProductos.Add(producto);
+                } while (lector.Read());
+
+                return listaProductos;
+            });
+
+            return System.Text.Json.JsonSerializer.Serialize(productos, new System.Text.Json.JsonSerializerOptions {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            });
+        } catch (Exception ex) {
+            throw new Exception($"Error al exportar productos del almacén: {ex.Message}", ex);
+        }
+    }
+
     /// <summary>
     /// Obtiene el valor total bruto de los productos en inventario, opcionalmente filtrado por almacén.
     /// </summary>

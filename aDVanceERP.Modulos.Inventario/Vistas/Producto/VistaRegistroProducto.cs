@@ -5,10 +5,10 @@ using aDVanceERP.Modulos.Inventario.Properties;
 
 using System.Globalization;
 
-namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
+namespace aDVanceERP.Modulos.Inventario.Vistas.Producto {
     public partial class VistaRegistroProducto : Form, IVistaRegistroProducto {
         private bool _modoEdicion = false;
-        private UnidadMedida[] _unidadesMedida = Array.Empty<UnidadMedida>();
+        private Core.Modelos.Modulos.Inventario.UnidadMedida[] _unidadesMedida = Array.Empty<Core.Modelos.Modulos.Inventario.UnidadMedida>();
 
         public VistaRegistroProducto() {
             InitializeComponent();
@@ -244,7 +244,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
             fieldNombreProveedor.SelectedIndex = -1;
         }
 
-        public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
+        public void CargarUnidadesMedida(Core.Modelos.Modulos.Inventario.UnidadMedida[] unidadesMedida) {
             _unidadesMedida = unidadesMedida;
 
             fieldUnidadMedida.Items.Clear();

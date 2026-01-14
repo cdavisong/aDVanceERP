@@ -15,7 +15,7 @@ public class
     public override void PopularVistaDesdeEntidad(Compra objeto) {
         Vista.ModoEdicion = true;
         Vista.RazonSocialProveedor = UtilesProveedor.ObtenerRazonSocialProveedor(objeto.IdProveedor) ?? string.Empty;
-        Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(objeto.IdAlmacen) ?? string.Empty;        
+        //Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(objeto.IdAlmacen) ?? string.Empty;        
 
         var productosCompra = UtilesCompra.ObtenerProductosPorCompra(objeto.Id);
 
@@ -30,7 +30,7 @@ public class
         return new Compra(
             Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
             DateTime.Now,
-            UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacen).Result,
+            0, //UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacen).Result,
             UtilesProveedor.ObtenerIdProveedor(Vista.RazonSocialProveedor).Result,
             Vista.Total
         );

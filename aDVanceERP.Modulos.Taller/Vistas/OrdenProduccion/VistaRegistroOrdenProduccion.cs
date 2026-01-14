@@ -1,8 +1,10 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Helpers.BD;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Taller;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Taller;
 using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Utiles.Datos;
@@ -284,13 +286,10 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
             #endregion
 
             fieldNombreAlmacenMateriales.SelectedIndexChanged += delegate (object? sender, EventArgs args) {
-                CargarNombresMateriasPrimas(UtilesProducto.ObtenerNombresProductos(
-                    UtilesAlmacen.ObtenerIdAlmacen(NombreAlmacenMateriales).Result,
-                    "MateriaPrima").Result);
+                CargarNombresMateriasPrimas([.. RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Todos, string.Join(';', NombreAlmacenMateriales, "MateriaPrima", string.Empty)).entidades.Select(p => p.Nombre)]);
             };
             fieldNombreAlmacenDestino.SelectedIndexChanged += delegate (object? sender, EventArgs args) {
-                CargarNombresProductosTerminados(UtilesProducto.ObtenerNombresProductos(0,
-                    "ProductoTerminado").Result);
+                CargarNombresProductosTerminados([.. RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Todos, string.Join(';', "Todos", "ProductoTerminado", string.Empty)).entidades.Select(p => p.Nombre)]);
             };
             fieldCantidadProducir.KeyPress += delegate (object? sender, KeyPressEventArgs args) {
                 if (!char.IsControl(args.KeyChar) && !char.IsDigit(args.KeyChar) && (args.KeyChar != '.')) {
@@ -387,30 +386,36 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
         #endregion
 
         public void AdicionarMateriaPrima(string nombreAlmacen = "", string nombre = "", decimal cantidad = 0) {
-            var adNombreAlmacen = string.IsNullOrEmpty(nombreAlmacen) ? NombreAlmacenMateriales : nombreAlmacen;
             var adNombre = string.IsNullOrEmpty(nombre) ? fieldNombreMateriaPrima.Text : nombre;
 
             if (!string.IsNullOrEmpty(adNombre)) {
-                var idProducto = UtilesProducto.ObtenerIdProducto(adNombre).Result;
+                var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, adNombre).entidades.FirstOrDefault();
+                var idProducto = producto?.Id ?? 0;
 
-                if (idProducto <= 0) {
+                if (producto == null || idProducto <= 0) {
                     CentroNotificaciones.Mostrar($"No se encontró la materia prima '{adNombre}'.", TipoNotificacion.Error);
                     return;
                 }
 
-                var stockProducto = UtilesProducto.ObtenerStockProducto(adNombre, adNombreAlmacen).Result;
+                var adNombreAlmacen = string.IsNullOrEmpty(nombreAlmacen) ? NombreAlmacenMateriales : nombreAlmacen;
+                var almacen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, adNombreAlmacen).entidades.FirstOrDefault();
+                var idAlmacen = almacen?.Id ?? 0;
+                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, idProducto.ToString()).entidades.FirstOrDefault(i => i.IdAlmacen.Equals(idAlmacen));
+                var cantidadOriginal = inventarioProducto?.Cantidad ?? 0m;
                 var cantidadAcumulada = MateriasPrimas
                     .Where(p => p[1].Equals(adNombre))
                     .Sum(p => decimal.TryParse(p[2], NumberStyles.Any, CultureInfo.InvariantCulture, out var cant) ? cant : 0m);
                 var adCantidad = cantidad > 0 ? cantidad : decimal.TryParse(fieldCantidadMateriaPrima.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var cant) ? cant : 0m;
                 var adCantidadTotal = adCantidad + cantidadAcumulada;
 
-                if (!ModoEdicion && stockProducto < adCantidadTotal) {
-                    CentroNotificaciones.Mostrar($"No hay suficiente cantidad de la materia prima '{adNombre}' para satisfacer la demanda de fabricación especificada. Stock actual: {stockProducto}.", TipoNotificacion.Error);
+                if (!ModoEdicion && cantidadOriginal < adCantidadTotal) {
+                    CentroNotificaciones.Mostrar($"No hay suficiente cantidad de la materia prima '{adNombre}' para satisfacer la demanda de fabricación especificada. Stock actual: {cantidadOriginal}.", TipoNotificacion.Error);
                     return;
                 }
 
-                var adPrecio = UtilesProducto.ObtenerPrecioCompra(idProducto).Result;
+                var adPrecio = producto.Categoria == CategoriaProducto.ProductoTerminado 
+                    ? producto.CostoProduccionUnitario
+                    : producto.CostoAdquisicionUnitario;
                 var tuplaMateriaPrimaExistente = MateriasPrimas.FirstOrDefault(p => p[1].Equals(adNombre));
                 var tuplaMateriaPrima = tuplaMateriaPrimaExistente
                     ?? [adNombreAlmacen, adNombre, "0", adPrecio.ToString("N2", CultureInfo.InvariantCulture)];
@@ -634,7 +639,7 @@ namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
                     using (var datosObjeto = new RepoOrdenMateriaPrima()) {
                         var materiaPrimaExistente = datosObjeto.Buscar(
                             FiltroBusquedaOrdenMateriaPrima.Producto,
-                            $"{(Id == 0 ? TablaHelper.ObtenerUltimoId("orden_produccion") + 1 : Id)};{UtilesProducto.ObtenerIdProducto(materiaPrima?[0]).Result}").entidades.FirstOrDefault();
+                            $"{(Id == 0 ? TablaHelper.ObtenerUltimoId("orden_produccion") + 1 : Id)};{RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, materiaPrima?[0]).entidades.FirstOrDefault()?.Id ?? 0}").entidades.FirstOrDefault();
 
                         if (materiaPrimaExistente != null)
                             datosObjeto.Eliminar(materiaPrimaExistente.Id);

@@ -121,16 +121,22 @@
   <data name="transfer_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\transfer_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="picture_170px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\picture_170px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="load_cargo_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\load_cargo_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="unload_cargo_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\unload_cargo_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="picture_170px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\picture_170px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="inventory_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\inventory_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="markerF_off_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\markerF_off_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="locationG_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\locationG_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

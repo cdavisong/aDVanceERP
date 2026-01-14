@@ -10,6 +10,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 
@@ -139,14 +140,17 @@ public partial class VistaGestionVentas : Form, IVistaGestionVentas {
                         var detalleVentaProducto = datosVentaProducto.Buscar(CriterioDetalleVentaProducto.IdVenta, venta.Id.ToString()).entidades;
 
                         foreach (var ventaProducto in detalleVentaProducto) {
+                            var producto = RepoProducto.Instancia.ObtenerPorId(ventaProducto.IdProducto);
+                            var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(producto?.IdUnidadMedida ?? 0);
                             var fila = new string[6];
 
+
                             fila[0] = ventaProducto.Id.ToString();
-                            fila[1] = UtilesProducto.ObtenerNombreProducto(ventaProducto.IdProducto).Result ?? string.Empty;
-                            fila[2] = "U";
+                            fila[1] = producto?.Nombre ?? string.Empty;
+                            fila[2] = unidadMedidaProducto?.Abreviatura ?? "u";
                             fila[3] = ventaProducto.PrecioVentaFinal.ToString("N2", CultureInfo.InvariantCulture);
                             fila[4] = ventaProducto.Cantidad.ToString("N2", CultureInfo.InvariantCulture);
-                            fila[5] = (ventaProducto.PrecioVentaFinal * (decimal) ventaProducto.Cantidad).ToString("N2", CultureInfo.InvariantCulture);
+                            fila[5] = (ventaProducto.PrecioVentaFinal * ventaProducto.Cantidad).ToString("N2", CultureInfo.InvariantCulture);
 
                             filas.Add(fila);
                         }

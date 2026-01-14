@@ -1,8 +1,8 @@
 ﻿namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 
 public enum TipoAlmacen {
-    Principal,
+    Primario,
     Secundario,
-    Temporal,
-    Virtual
+    Transito,
+    Especial
 }

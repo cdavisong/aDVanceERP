@@ -21,7 +21,7 @@ public sealed class Almacen : IEntidadBaseDatos {
         Coordenadas = coordenadas;
     }
 
-    public long Id { get; set; }
+    public long Id { get; set; }    
     public string Nombre { get; set; }
     public string? Descripcion { get; set; }
     public string? Direccion { get; set; } // Dirección física o ubicación geográfica para envíos y logística.

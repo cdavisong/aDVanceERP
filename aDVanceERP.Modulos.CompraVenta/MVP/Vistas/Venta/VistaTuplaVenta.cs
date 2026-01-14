@@ -7,6 +7,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta.Plantillas;
 using aDVanceERP.Core.Modelos.Modulos.Compraventa;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Venta;
 
@@ -130,7 +131,7 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
                         var fila = new string[7];
 
                         fila[0] = ventaProducto.Id.ToString();
-                        fila[1] = UtilesProducto.ObtenerNombreProducto(ventaProducto.IdProducto).Result ?? string.Empty;
+                        fila[1] = RepoProducto.Instancia.ObtenerPorId(ventaProducto.IdProducto)?.Nombre ?? string.Empty;
                         fila[2] = ventaProducto.Cantidad.ToString("N2", CultureInfo.InvariantCulture);
                         fila[3] = ventaProducto.PrecioVentaFinal.ToString("N2", CultureInfo.InvariantCulture);
                         fila[4] = "-";

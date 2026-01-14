@@ -3,6 +3,8 @@ using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
+using System.Globalization;
+
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> {
@@ -12,15 +14,23 @@ public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> 
         return $"""
             INSERT INTO adv__almacen (
                 nombre, 
+                descripcion,
                 direccion, 
-                autorizo_venta, 
-                notas
+                capacidad,
+                tipo,
+                estado,
+                coordenadas_latitud,
+                coordenadas_longitud
             ) 
             VALUES (
                 '{objeto.Nombre}', 
+                '{objeto.Descripcion}', 
                 '{objeto.Direccion}', 
-                '1', 
-                '{objeto.Descripcion}'
+                {(objeto.Capacidad.HasValue ? objeto.Capacidad.Value.ToString("0,00", CultureInfo.InvariantCulture) : 0)}, 
+                '{objeto.Tipo}', 
+                {(objeto.Estado ? 1 : 0)}, 
+                {objeto.Coordenadas?.Latitud.ToString(CultureInfo.InvariantCulture)}, 
+                {objeto.Coordenadas?.Longitud.ToString(CultureInfo.InvariantCulture)}
             );
             """;
     }
@@ -29,10 +39,14 @@ public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> 
         return $"""
             UPDATE adv__almacen 
             SET 
-                nombre = '{objeto.Nombre}', 
-                direccion = '{objeto.Direccion}', 
-                autorizo_venta = '1', 
-                notas = '{objeto.Descripcion}' 
+               nombre = '{objeto.Nombre}', 
+               descripcion = '{objeto.Descripcion}', 
+               direccion = '{objeto.Direccion}', 
+               capacidad = {(objeto.Capacidad.HasValue ? objeto.Capacidad.Value.ToString("0,00", CultureInfo.InvariantCulture) : 0)}, 
+               tipo = '{objeto.Tipo}', 
+               estado = {(objeto.Estado ? 1 : 0)}, 
+               coordenadas_latitud = {objeto.Coordenadas?.Latitud.ToString(CultureInfo.InvariantCulture)}, 
+               coordenadas_longitud = {objeto.Coordenadas?.Longitud.ToString(CultureInfo.InvariantCulture)}
             WHERE id_almacen = {objeto.Id};
             """;
     }
@@ -77,18 +91,26 @@ public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> 
         return new Almacen(
             id: Convert.ToInt64(lectorDatos["id_almacen"]),
             nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
-            descripcion: Convert.ToString(lectorDatos["notas"]) ?? string.Empty,
-            direccion: Convert.ToString(lectorDatos["direccion"]) ?? "No disponible",
-            capacidad: 0,
-            tipo: TipoAlmacen.Principal,
-            estado: true,
-            coordenadas: null
+            descripcion: lectorDatos["descripcion"] != DBNull.Value ? Convert.ToString(lectorDatos["descripcion"]) : string.Empty,
+            direccion: Convert.ToString(lectorDatos["direccion"]) ?? string.Empty,
+            capacidad: lectorDatos["capacidad"] != DBNull.Value ? Convert.ToSingle(lectorDatos["capacidad"], CultureInfo.InvariantCulture) : 0,
+            tipo: Enum.TryParse<TipoAlmacen>(Convert.ToString(lectorDatos["tipo"]) ?? string.Empty, out var categoria) ? categoria : TipoAlmacen.Secundario,
+            estado: Convert.ToBoolean(lectorDatos["estado"]),
+            coordenadas: new Modelos.Comun.CoordenadasGeograficas(
+                latitud: lectorDatos["coordenadas_latitud"] != DBNull.Value ? Convert.ToDouble(lectorDatos["coordenadas_latitud"]) : 0,
+                longitud: lectorDatos["coordenadas_longitud"] != DBNull.Value ? Convert.ToDouble(lectorDatos["coordenadas_longitud"]) : 0)
         );
     }
 
     #region STATIC
 
     public static RepoAlmacen Instancia { get; } = new RepoAlmacen();
+
+    #endregion
+
+    #region UTILES
+
+    
 
     #endregion
 }

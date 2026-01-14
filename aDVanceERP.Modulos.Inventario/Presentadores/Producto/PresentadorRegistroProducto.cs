@@ -5,13 +5,11 @@ using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Contactos;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Utiles.Datos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores.Producto;
 
-public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto,
-    FiltroBusquedaProducto> {
+public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto, FiltroBusquedaProducto> {
     public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
         AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
         AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
@@ -101,7 +99,8 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
     }
 
     protected override bool EntidadCorrecta() {
-        var nombreRepetido = !Vista.ModoEdicion && UtilesProducto.ObtenerIdProducto(Vista.Nombre).Result > 0;
+        var productosConNombreRepetido = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.Nombre).cantidad;
+        var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
         var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
         var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
         var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
@@ -116,5 +115,5 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
             CentroNotificaciones.Mostrar("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
         return nombreOk && codigoOk && unidadMedidaOk;
-    }    
+    }
 }

@@ -17,9 +17,9 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         var tipoMovimiento = RepoTipoMovimiento.Instancia.ObtenerPorId(entidad.IdTipoMovimiento);
 
         Vista.ModoEdicion = true;
-        Vista.NombreProducto = UtilesProducto.ObtenerNombreProducto(entidad.IdProducto).Result ?? string.Empty;
-        Vista.NombreAlmacenOrigen = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacenOrigen) ?? string.Empty;
-        Vista.NombreAlmacenDestino = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacenDestino) ?? string.Empty;
+        Vista.NombreProducto = RepoProducto.Instancia.ObtenerPorId(entidad.IdProducto)?.Nombre ?? string.Empty;
+        Vista.NombreAlmacenOrigen = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenOrigen)?.Nombre ?? string.Empty;
+        Vista.NombreAlmacenDestino = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenDestino)?.Nombre ?? string.Empty;
         Vista.Fecha = entidad.Fecha;
         Vista.CantidadMovida = entidad.CantidadMovida;
         Vista.TipoMovimiento = tipoMovimiento?.Nombre ?? string.Empty;
@@ -68,7 +68,10 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
 
         if (tipoMovimiento?.Efecto == EfectoMovimiento.Descarga || tipoMovimiento?.Efecto == EfectoMovimiento.Transferencia) {
             if (!string.IsNullOrEmpty(Vista.NombreAlmacenOrigen)) {
-                var cantidadInicialOrigen = UtilesProducto.ObtenerStockProducto(Vista.NombreProducto, Vista.NombreAlmacenOrigen).Result;
+                var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).entidades.FirstOrDefault();
+                var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).entidades.FirstOrDefault();
+                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString() ?? "0").entidades.FirstOrDefault(i => i.IdAlmacen.Equals(almacenOrigen?.Id ?? 0m));
+                var cantidadInicialOrigen = inventarioProducto?.Cantidad;
 
                 if (cantidadInicialOrigen - Vista.CantidadMovida < 0) {
                     CentroNotificaciones.Mostrar($"No se puede mover una cantidad de productos hacia el destino menor que la cantidad orígen ({cantidadInicialOrigen} unidades) en el almacén {Vista.NombreAlmacenOrigen}", TipoNotificacion.Advertencia);

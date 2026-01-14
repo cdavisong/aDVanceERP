@@ -6,6 +6,7 @@ using Guna.UI2.WinForms;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas.Producto;
 
@@ -133,7 +134,7 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
             EditarDatosTupla?.Invoke(this, e);
         };
         btnEliminar.Click += async delegate (object? sender, EventArgs e) {
-            if (await UtilesProducto.PuedeEliminarProducto(long.Parse(Id)))
+            if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.Producto, NombreProducto).cantidad > 0)
                 EliminarDatosTupla?.Invoke(this, e);
             else
                 CentroNotificaciones.Mostrar(

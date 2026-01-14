@@ -43,9 +43,9 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
 
     public FiltroBusquedaAlmacen FiltroBusqueda {
         get => fieldFiltroBusqueda.SelectedIndex >= 0
-            ? (FiltroBusquedaAlmacen)fieldFiltroBusqueda.SelectedIndex
+            ? (FiltroBusquedaAlmacen) fieldFiltroBusqueda.SelectedIndex
             : default;
-        set => fieldFiltroBusqueda.SelectedIndex = (int)value;
+        set => fieldFiltroBusqueda.SelectedIndex = (int) value;
     }
 
     public string? CriterioBusqueda {
@@ -92,7 +92,7 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
     public event EventHandler? MostrarPaginaSiguiente;
     public event EventHandler? MostrarUltimaPagina;
     public event EventHandler? SincronizarDatos;
-    
+
     public event EventHandler? RegistrarEntidad;
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
@@ -105,13 +105,13 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
             fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
             fieldDatoBusqueda.Focus();
 
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Empty));            
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, string.Empty));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;
             HabilitarBotonesPaginacion();
         };
-        fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+        fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
 
@@ -128,7 +128,7 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
             btnExportarInventarioAlmacenes.ContextMenuStrip?.Show(btnExportarInventarioAlmacenes, new Point(0, 40));
         };
         btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.PDF); };
-        btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this,FormatoDocumento.Excel); };
+        btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.Excel); };
         btnImportarInventarioVersat.Click += delegate {
             var resultado = fieldImportarArchivo.ShowDialog(this);
 
@@ -164,10 +164,10 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
             HabilitarBotonesPaginacion();
         };
         btnSincronizarDatos.Click += delegate (object? sender, EventArgs e) {
-            SincronizarDatos?.Invoke(sender, e);            
+            SincronizarDatos?.Invoke(sender, e);
         };
-        contenedorVistas.Resize += delegate { 
-            AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); 
+        contenedorVistas.Resize += delegate {
+            AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty);
         };
     }
 

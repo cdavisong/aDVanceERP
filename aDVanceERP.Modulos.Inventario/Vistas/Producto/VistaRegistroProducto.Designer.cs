@@ -1,4 +1,4 @@
-﻿namespace aDVanceERP.Modulos.Taller.Vistas.OrdenProduccion {
+﻿namespace aDVanceERP.Modulos.Inventario.Vistas.Producto {
     partial class VistaRegistroProducto {
         /// <summary>
         /// Required designer variable.

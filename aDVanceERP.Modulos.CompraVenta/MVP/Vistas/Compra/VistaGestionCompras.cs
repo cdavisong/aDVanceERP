@@ -8,6 +8,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Compraventa;
 using aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra.Plantillas;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 
 namespace aDVanceERP.Modulos.CompraVenta.MVP.Vistas.Compra;
 
@@ -124,7 +125,7 @@ public partial class VistaGestionCompras : Form, IVistaGestionCompras {
                             var fila = new string[7];
 
                             fila[0] = ventaProducto.Id.ToString();
-                            fila[1] = UtilesProducto.ObtenerNombreProducto(ventaProducto.IdProducto).Result ?? string.Empty;
+                            fila[1] = RepoProducto.Instancia.ObtenerPorId(ventaProducto.IdProducto)?.Nombre ?? string.Empty;
                             fila[2] = ventaProducto.Cantidad.ToString("N2", CultureInfo.InvariantCulture);
                             fila[3] = ventaProducto.PrecioCompra.ToString("N2", CultureInfo.InvariantCulture);
                             fila[4] = "0";

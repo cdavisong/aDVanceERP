@@ -19,7 +19,7 @@ public class
         Vista.ModoEdicion = true;
         Vista.Fecha = entidad.Fecha;
         Vista.RazonSocialCliente = UtilesCliente.ObtenerRazonSocialCliente(entidad.IdCliente) ?? string.Empty;
-        Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacen) ?? string.Empty;
+        //Vista.NombreAlmacen = UtilesAlmacen.ObtenerNombreAlmacen(entidad.IdAlmacen) ?? string.Empty;
         Vista.Direccion = entidad.DireccionEntrega;
         Vista.EstadoEntrega = repoEstadoEntrega.Buscar(FiltroBusquedaEstadoEntrega.Id, historialEntrega.OrderByDescending(h => h.FechaRegistro).First().IdEstadoEntrega.ToString()).entidades.FirstOrDefault()?.Nombre ?? "Desconocido";
 
@@ -38,7 +38,7 @@ public class
         return new Venta(
             Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
             Vista.Fecha,
-            UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacen).Result,
+            0, //UtilesAlmacen.ObtenerIdAlmacen(Vista.NombreAlmacen).Result,
             UtilesCliente.ObtenerIdCliente(Vista.RazonSocialCliente),
             Vista.IdTipoEntrega,
             Vista.Direccion,
