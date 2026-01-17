@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -9,8 +10,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusquedaCuentaUsuario> {
     public RepoCuentaUsuario() : base("adv__cuenta_usuario", "id_cuenta_usuario") { }
 
-    protected override string GenerarComandoAdicionar(CuentaUsuario objeto) {
-        return $"""
+    protected override string GenerarComandoAdicionar(CuentaUsuario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
+        var consulta = $"""
             INSERT INTO adv__cuenta_usuario (
                 nombre, 
                 password_hash, 
@@ -19,68 +20,94 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
                 administrador, 
                 aprobado
             ) VALUES (
-                '{objeto.Nombre}', 
-                '{objeto.PasswordHash}', 
-                '{objeto.PasswordSalt}', 
-                {objeto.IdRolUsuario}, 
-                {Convert.ToInt32(objeto.Administrador)}, 
-                {Convert.ToInt32(objeto.Aprobado)}
+                @nombre, 
+                @password_hash, 
+                @password_salt, 
+                @id_rol_usuario, 
+                @administrador, 
+                @aprobado
             );
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@nombre", objeto.Nombre },
+            { "@password_hash", objeto.PasswordHash },
+            { "@password_salt", objeto.PasswordSalt },
+            { "@id_rol_usuario", objeto.IdRolUsuario },
+            { "@administrador", Convert.ToInt32(objeto.Administrador) },
+            { "@aprobado", Convert.ToInt32(objeto.Aprobado) }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEditar(CuentaUsuario objeto) {
-        return $"""
+    protected override string GenerarComandoEditar(CuentaUsuario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
+        var consulta = $"""
             UPDATE adv__cuenta_usuario 
             SET 
-                nombre = '{objeto.Nombre}',
-                id_rol_usuario = {objeto.IdRolUsuario},
-                aprobado = {Convert.ToInt32(objeto.Aprobado)} 
-            WHERE id_cuenta_usuario = {objeto.Id};
+                nombre = @nombre,
+                id_rol_usuario = @id_rol_usuario,
+                aprobado = @aprobado 
+            WHERE id_cuenta_usuario = @id;
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@nombre", objeto.Nombre },
+            { "@id_rol_usuario", objeto.IdRolUsuario },
+            { "@aprobado", Convert.ToInt32(objeto.Aprobado) },
+            { "@id", objeto.Id }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEliminar(long id) {
-        return $"""
+    protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
+        var consulta = $"""
             DELETE FROM adv__cuenta_usuario 
-            WHERE id_cuenta_usuario = {id};
+            WHERE id_cuenta_usuario = @id;
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@id", id }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoObtener(FiltroBusquedaCuentaUsuario criterio, string dato) {
-        string comando;
-        
-        switch (criterio) {
-            case FiltroBusquedaCuentaUsuario.Nombre:
-                comando = $"""
-                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
-                    FROM adv__cuenta_usuario cu
-                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
-                    WHERE LOWER(cu.nombre) LIKE LOWER('%{dato}%');
-                    """;
-                break;
-            case FiltroBusquedaCuentaUsuario.IdRol:
-                comando = $"""
-                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
-                    FROM adv__cuenta_usuario cu
-                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
-                    WHERE cu.id_rol_usuario = {dato};
-                    """;
-                break;
-            default:
-                comando = """
-                    SELECT cu.*, ru.nombre AS nombre_rol_usuario
-                    FROM adv__cuenta_usuario cu
-                    LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario;
-                    """;
-                break;
-        }
+    protected override string GenerarComandoObtener(FiltroBusquedaCuentaUsuario filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
+        var critero = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+        var consultaComun = $"""
+            SELECT cu.*, ru.nombre AS nombre_rol_usuario
+            FROM adv__cuenta_usuario cu
+            LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
+            """;
+        var consulta = filtroBusqueda switch {
+            FiltroBusquedaCuentaUsuario.Nombre => $"""
+                {consultaComun} 
+                WHERE LOWER(cu.nombre) LIKE LOWER(@nombre);
+            """,
+            FiltroBusquedaCuentaUsuario.IdRol => $"""
+                {consultaComun} 
+                WHERE cu.id_rol_usuario = @id_rol_usuario;
+            """,
+            _ => consultaComun
+        };
 
-        return comando;
+        parametros = filtroBusqueda switch {
+            FiltroBusquedaCuentaUsuario.Nombre => new Dictionary<string, object> {
+                { "@nombre", $"%{critero}%" }
+            },
+            FiltroBusquedaCuentaUsuario.IdRol => new Dictionary<string, object> {
+                { "@id_rol_usuario", Convert.ToInt64(critero) }
+            },
+            _ => new Dictionary<string, object>()
+        };
+
+        return consulta;
     }
 
-    protected override CuentaUsuario MapearEntidad(MySqlDataReader lectorDatos) {
-        return new CuentaUsuario(
+    protected override (CuentaUsuario, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
+        return (new CuentaUsuario(
             id: Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),
             nombre: Convert.ToString(lectorDatos["nombre"]),
             passwordHash: Convert.ToString(lectorDatos["password_hash"]),
@@ -89,7 +116,7 @@ public class RepoCuentaUsuario : RepoEntidadBaseDatos<CuentaUsuario, FiltroBusqu
             Administrador = Convert.ToBoolean(lectorDatos["administrador"]),
             Aprobado = Convert.ToBoolean(lectorDatos["aprobado"]),
             NombreRolUsuario = Convert.ToString(lectorDatos["nombre_rol_usuario"])
-        };
+        }, new List<IEntidadBaseDatos>());
     }
 
     #region STATIC

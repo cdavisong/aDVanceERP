@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
-using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 using Guna.UI2.WinForms;
@@ -38,10 +38,10 @@ public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, 
     public En Entidad => _entidad;
 
     public bool EstadoSeleccion {
-        get => Vista.ColorFondoTupla.Equals(VariablesGlobales.ColorResaltadoTupla);
+        get => Vista.ColorFondoTupla.Equals(ContextoAplicacion.ColorResaltadoTupla);
         set {
             if (value) {
-                Vista.ColorFondoTupla = VariablesGlobales.ColorResaltadoTupla;
+                Vista.ColorFondoTupla = ContextoAplicacion.ColorResaltadoTupla;
                 EntidadSeleccionada?.Invoke(Vista, Entidad);
             }
             else {

@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.BD;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 
 namespace aDVanceERP.Core.Repositorios.BD
@@ -44,18 +45,24 @@ namespace aDVanceERP.Core.Repositorios.BD
             return _configuraciones.FirstOrDefault() ?? new ConfiguracionBaseDatos();
         }
 
-        public List<ConfiguracionBaseDatos> ObtenerTodos() {
+        public List<(ConfiguracionBaseDatos entidadBase, List<IEntidadBase> entidadesExtra)> ObtenerTodos() {
             var rutaArchivo = Path.Combine(_directorioRaiz, NombreArchivo);
 
             if (File.Exists(rutaArchivo)) {
                 var contenido = File.ReadAllText(rutaArchivo);
+
                 _configuraciones = System.Text.Json.JsonSerializer.Deserialize<List<ConfiguracionBaseDatos>>(contenido) ?? new List<ConfiguracionBaseDatos>();
             } else {
                 // Si el archivo no existe, retornar una lista vacía
                 _configuraciones = new List<ConfiguracionBaseDatos>();
             }
 
-            return _configuraciones;
+            // Convertir la lista de ConfiguracionBaseDatos a la lista de tuplas requerida
+            var resultado = _configuraciones
+                .Select(c => (c, new List<IEntidadBase>()))
+                .ToList();
+
+            return resultado;
         }
 
         public void Salvar(string directorio, ConfiguracionBaseDatos entidad) {

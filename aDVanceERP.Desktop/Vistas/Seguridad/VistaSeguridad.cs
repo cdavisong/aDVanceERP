@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Desktop.Vistas.Seguridad;
@@ -36,7 +35,7 @@ public partial class VistaSeguridad : Form, IVistaSeguridad {
     }
 
     public int TuplasMaximasContenedor {
-        get => contenedorVistas.Height / VariablesGlobales.AlturaTuplaPredeterminada;
+        get => contenedorVistas.Height / ContextoAplicacion.AlturaTuplaPredeterminada;
     }
 
     public RepoVistaBase PanelCentral { get; private set; }

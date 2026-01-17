@@ -25,6 +25,10 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
 
     #region Obtención de datos y búsqueda de entidades
 
+    public int Limite { get; set; }
+
+    public int Desplazamiento { get; set; }
+
     public En? ObtenerPorId(object id) {
         var cacheKey = $"{NombreTabla}_Id_{id}";
 
@@ -32,9 +36,11 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
             return cachedEntity;
 
         var consulta = $"SELECT * FROM {NombreTabla} WHERE {ColumnaId} = @id LIMIT 1";
-        var parametros = new Dictionary<string, object> { { "@id", id } };
+        var parametros = new Dictionary<string, object> { 
+            { "@id", id } 
+        };
 
-        var entidad = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidad).FirstOrDefault();
+        var entidad = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidad).FirstOrDefault().entidadBase;
 
         if (entidad != null)
             _cache.Set(cacheKey, entidad, _cacheDuration);
@@ -42,67 +48,70 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
         return entidad;
     }
 
-    public List<En> ObtenerTodos() {
+    List<(En entidadBase, List<IEntidadBase> entidadesExtra)> IRepoBase<En>.ObtenerTodos() {
+        return new List<(En entidadBase, List<IEntidadBase> entidadesExtra)>();
+    }
+
+    public List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> ObtenerTodos() {
         var consulta = $"SELECT * FROM {NombreTabla}";
         var resultados = ContextoBaseDatos.EjecutarConsulta(consulta, null, MapearEntidad).ToList();
 
         return resultados;
     }
 
-    public (int cantidad, List<En> entidades) Buscar(string? consulta = "", int limite = 0, int desplazamiento = 0) {
+    public (int cantidad, List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> resultadosBusqueda) Buscar(Fb? filtroBusqueda, params string[] criteriosBusqueda  ) {
+        var comando = GenerarComandoObtener(filtroBusqueda, out var parametros, criteriosBusqueda);
+
+        return Buscar(comando, parametros);
+    }
+
+    private (int cantidad, List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> resultadosBusqueda) Buscar(string? consulta = "", Dictionary<string, object> parametros = null) {
         // Manejar consultas vacías o nulas
         if (string.IsNullOrEmpty(consulta))
             consulta = $"SELECT * FROM {NombreTabla}";
 
+        var parametrosConsulta = parametros ?? new Dictionary<string, object>();
         var consultaCantidad = GenerarConsultaConteo(consulta);
-        var consultaResultados = string.IsNullOrEmpty(consulta) ? GenerarComandoObtener(default, string.Empty) : consulta;
-
-        var parametros = new Dictionary<string, object>();
-
-        if (limite > 0) {
+        var consultaResultados = string.IsNullOrEmpty(consulta) ? GenerarComandoObtener(default, out parametrosConsulta, string.Empty) : consulta;
+               
+        if (Limite > 0) {
             consultaResultados = consultaResultados.TrimEnd(';');
             consultaResultados += " LIMIT @limite OFFSET @desplazamiento;";
 
-            parametros.Add("@limite", limite);
-            parametros.Add("@desplazamiento", desplazamiento);
+            parametrosConsulta.Add("@limite", Limite);
+            parametrosConsulta.Add("@desplazamiento", Desplazamiento);
         }
 
         int cantidad = 0;
-        List<En> entidades = new List<En>();
+        List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> entidades = new List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)>();
 
         using (var conexion = ContextoBaseDatos.ObtenerConexionOptimizada()) {
             conexion.Open();
 
-            cantidad = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consultaCantidad, null, conexion);
-            entidades.AddRange(ContextoBaseDatos.EjecutarConsulta(consultaResultados, parametros, MapearEntidad, conexion).ToList());
+            cantidad = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consultaCantidad, parametrosConsulta, conexion);
+            entidades.AddRange(ContextoBaseDatos.EjecutarConsulta(consultaResultados, parametrosConsulta, MapearEntidad, conexion).ToList());
 
             conexion.Close();
-        }         
+        }
 
         return (cantidad, entidades);
-    }
-
-    public (int cantidad, List<En> entidades) Buscar(Fb? filtroBusqueda, string? criterio, int limite = 0, int desplazamiento = 0) {
-        var comando = GenerarComandoObtener(filtroBusqueda, criterio);
-
-        return Buscar(comando, limite, desplazamiento);
     }
 
     #endregion
 
     #region CRUD
 
-    public virtual long Adicionar(En objeto) {
-        return ContextoBaseDatos.EjecutarComandoInsert(GenerarComandoAdicionar(objeto), new Dictionary<string, object>());
+    public virtual long Adicionar(En objeto, params IEntidadBaseDatos[] entidadesExtra) {
+        return ContextoBaseDatos.EjecutarComandoInsert(GenerarComandoAdicionar(objeto, out var parametros, entidadesExtra), parametros);
     }
 
-    public virtual bool Editar(En objeto, long nuevoId = 0) {
-        ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEditar(objeto), new Dictionary<string, object>());
+    public virtual bool Editar(En objeto, params IEntidadBaseDatos[] entidadesExtra) {
+        ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEditar(objeto, out var parametros, entidadesExtra), parametros);
         return true;
     }
 
     public virtual bool Eliminar(long id) {
-        ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEliminar(id), new Dictionary<string, object>());
+        ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEliminar(id, out var parametros), parametros );
         return true;
     }
 
@@ -130,11 +139,11 @@ public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, F
 
     #region Métodos abstractos para heredar
 
-    protected abstract string GenerarComandoAdicionar(En entidad);
-    protected abstract string GenerarComandoEditar(En entidad);
-    protected abstract string GenerarComandoEliminar(long id);
-    protected abstract string GenerarComandoObtener(Fb filtroBusqueda, string criterio);
-    protected abstract En MapearEntidad(MySqlDataReader lector);
+    protected abstract string GenerarComandoAdicionar(En entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra);
+    protected abstract string GenerarComandoEditar(En entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra);
+    protected abstract string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros);
+    protected abstract string GenerarComandoObtener(Fb filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda);
+    protected abstract (En, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector);
 
     #endregion
 

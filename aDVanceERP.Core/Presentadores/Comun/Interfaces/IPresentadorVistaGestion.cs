@@ -11,11 +11,11 @@ public interface IPresentadorVistaGestion<Vg, Re, En, Fb> : IPresentadorVistaBas
     where Fb : Enum {
     Re Repositorio { get; }
     Fb FiltroBusqueda { get; }
-    string? CriterioBusqueda { get; }
+    string[] CriteriosBusqueda { get; }
 
     event EventHandler? RegistrarEntidad;
     event EventHandler<En>? EditarEntidad;
 
-    void Buscar(Fb filtroBusqueda, string? criterioBusqueda);
+    void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda);
     void ActualizarResultadosBusqueda();
 }

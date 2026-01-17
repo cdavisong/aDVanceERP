@@ -26,6 +26,6 @@ public interface IVistaRegistroProducto : IVistaRegistro {
 
     void CargarNombresProveedores(string[] nombresProvedores);
     void CargarUnidadesMedida(UnidadMedida[] unidadesMedida);
-    void CargarNombresClasificaciones(string[] nombresClasificaciones);
+    void CargarClasificaciones(ClasificacionProducto[] nombresClasificaciones);
     void CargarNombresAlmacenes(string[] nombresAlmacenes);
 }

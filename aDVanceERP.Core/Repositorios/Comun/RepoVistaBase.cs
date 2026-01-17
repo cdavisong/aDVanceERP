@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -41,8 +42,16 @@ public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
         return Vistas[name];
     }
 
-    public List<IVistaBase> ObtenerTodos() {
-        return Vistas?.Values.ToList() ?? new List<IVistaBase>();
+    public List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)> ObtenerTodos() {
+        if (Vistas == null)
+            return new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
+
+        var resultado = new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
+
+        foreach (var vista in Vistas.Values)
+            resultado.Add((vista, new List<IEntidadBase>()));
+        
+        return resultado;
     }
 
     public void Registrar(IVistaBase vista) {
@@ -221,6 +230,4 @@ public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
-
-
 }

@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -13,8 +14,8 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
 
     public RepoInventario() : base("adv__inventario", "id_inventario") { }
 
-    protected override string GenerarComandoAdicionar(Modelos.Modulos.Inventario.Inventario entidad) {
-        return $"""
+    protected override string GenerarComandoAdicionar(Modelos.Modulos.Inventario.Inventario entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        var consulta = $"""
             INSERT INTO adv__inventario (
                 id_producto, 
                 id_almacen, 
@@ -23,73 +24,104 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
                 valor_total
             ) 
             VALUES (
-                {entidad.IdProducto}, 
-                {entidad.IdAlmacen}, 
-                {entidad.Cantidad.ToString(CultureInfo.InvariantCulture)},
-                {entidad.CostoPromedio.ToString(CultureInfo.InvariantCulture)},
-                {entidad.ValorTotal.ToString(CultureInfo.InvariantCulture)}
+                @id_producto,
+                @id_almacen,
+                @cantidad,
+                @costo_promedio,
+                @valor_total
             );
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@id_producto", entidad.IdProducto },
+            { "@id_almacen", entidad.IdAlmacen },
+            { "@cantidad", entidad.Cantidad },
+            { "@costo_promedio", entidad.CostoPromedio },
+            { "@valor_total", entidad.ValorTotal }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEditar(Modelos.Modulos.Inventario.Inventario objeto) {
-        return $"""
+    protected override string GenerarComandoEditar(Modelos.Modulos.Inventario.Inventario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        var consulta = $"""
             UPDATE adv__inventario 
             SET 
-                id_producto = {objeto.IdProducto}, 
-                id_almacen = {objeto.IdAlmacen}, 
-                cantidad = {objeto.Cantidad.ToString(CultureInfo.InvariantCulture)},
-                costo_promedio = {objeto.CostoPromedio.ToString(CultureInfo.InvariantCulture)},
-                valor_total = {objeto.ValorTotal.ToString(CultureInfo.InvariantCulture)}
-            WHERE id_inventario = {objeto.Id};
+                id_producto = @id_producto, 
+                id_almacen = @id_almacen, 
+                cantidad = @cantidad,
+                costo_promedio = @costo_promedio,
+                valor_total = @valor_total
+            WHERE id_inventario = @id_inventario;
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@id_producto", objeto.IdProducto },
+            { "@id_almacen", objeto.IdAlmacen },
+            { "@cantidad", objeto.Cantidad },
+            { "@costo_promedio", objeto.CostoPromedio },
+            { "@valor_total", objeto.ValorTotal },
+            { "@id_inventario", objeto.Id }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEliminar(long id) {
-        return $"""
+    protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
+        var consulta = $"""
             DELETE FROM adv__inventario 
-            WHERE id_inventario = {id};
+            WHERE id_inventario = @id_inventario;
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@id_inventario", id }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoObtener(FiltroBusquedaInventario criterio, string dato) {
-        var comando = string.Empty;
+    protected override string GenerarComandoObtener(FiltroBusquedaInventario filtroBusqueda, out Dictionary<string, object> parametros, string[] criteriosBusqueda) {
+        var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+        var consulta = filtroBusqueda switch {
+            FiltroBusquedaInventario.Id => $"""
+                SELECT * 
+                FROM adv__inventario 
+                WHERE id_inventario = @id;
+                """,
+            FiltroBusquedaInventario.IdProducto => $"""
+                SELECT * 
+                FROM adv__inventario 
+                WHERE id_producto = @id_producto;
+                """,
+            FiltroBusquedaInventario.IdAlmacen => $"""
+                SELECT * 
+                FROM adv__inventario 
+                WHERE id_almacen = @id_almacen;
+                """,
+            _ => """
+                SELECT * 
+                FROM adv__inventario;
+                """
+        };
 
-        switch (criterio) {
-            case FiltroBusquedaInventario.Id:
-                comando = $"""
-                    SELECT * 
-                    FROM adv__inventario 
-                    WHERE id_inventario = {dato};
-                    """;
-                break;
-            case FiltroBusquedaInventario.IdProducto:
-                comando = $"""
-                    SELECT * 
-                    FROM adv__inventario 
-                    WHERE id_producto = {dato};
-                    """;
-                break;
-            case FiltroBusquedaInventario.IdAlmacen:
-                comando = $"""
-                    SELECT * 
-                    FROM adv__inventario 
-                    WHERE id_almacen = {dato};
-                    """;
-                break;
-            default:
-                comando = """
-                    SELECT * 
-                    FROM adv__inventario;
-                    """;
-                break;
-        }
+        parametros = filtroBusqueda switch {
+            FiltroBusquedaInventario.Id => new Dictionary<string, object> {
+                { "@id", Convert.ToInt64(criterio) }
+            },
+            FiltroBusquedaInventario.IdProducto => new Dictionary<string, object> {
+                { "@id_producto", Convert.ToInt64(criterio) }
+            },
+            FiltroBusquedaInventario.IdAlmacen => new Dictionary<string, object> {
+                { "@id_almacen", Convert.ToInt64(criterio) }
+            },
+            _ => new Dictionary<string, object>()
+        };
 
-        return comando;
+        return consulta;
     }
 
-    protected override Modelos.Modulos.Inventario.Inventario MapearEntidad(MySqlDataReader lectorDatos) {
-        return new Modelos.Modulos.Inventario.Inventario(
+    protected override (Modelos.Modulos.Inventario.Inventario, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
+        return (new Modelos.Modulos.Inventario.Inventario(
            id: Convert.ToInt64(lectorDatos["id_inventario"]),
            idProducto: Convert.ToInt64(lectorDatos["id_producto"]),
            idAlmacen: Convert.ToInt64(lectorDatos["id_almacen"]!),
@@ -97,7 +129,7 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
            costoPromedio: Convert.ToDecimal(lectorDatos["costo_promedio"], CultureInfo.InvariantCulture),
            valorTotal: Convert.ToDecimal(lectorDatos["valor_total"], CultureInfo.InvariantCulture),
            ultimaActualizacion: Convert.ToDateTime(lectorDatos["ultima_actualizacion"], CultureInfo.InvariantCulture)
-       );
+       ), new List<IEntidadBaseDatos>());
     }
 
     #region STATIC
@@ -109,10 +141,10 @@ public class RepoInventario : RepoEntidadBaseDatos<Modelos.Modulos.Inventario.In
     #region UTILES  
 
     public void ModificarInventario(string nombreProducto, string nombreAlmacenOrigen, string nombreAlmacenDestino, decimal cantidad) {
-        _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).entidades.FirstOrDefault(p => p.Nombre.Equals(nombreProducto));
+        _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(nombreProducto)).entidadBase;
         
-        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenOrigen).entidades.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenOrigen));
-        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenDestino).entidades.FirstOrDefault(a => a.Nombre.Equals(nombreAlmacenDestino));
+        var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(nombreAlmacenOrigen)).entidadBase;
+        var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenDestino).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(nombreAlmacenDestino)).entidadBase;
 
         ModificarInventario(_producto?.Id ?? 0, almacenOrigen?.Id ?? 0, almacenDestino?.Id ?? 0, cantidad);
     }

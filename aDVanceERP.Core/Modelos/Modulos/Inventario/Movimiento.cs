@@ -3,11 +3,14 @@
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 
 public class Movimiento : IEntidadBaseDatos {
-    public Movimiento() { }
+    public Movimiento() {
+        NombreProducto = string.Empty;
+        NombreAlmacenOrigen = string.Empty;
+        NombreAlmacenDestino = string.Empty;
+        NombreTipoMovimiento = string.Empty;
+    }
 
-    public Movimiento(long id, long idProducto, decimal costoUnitario, decimal costoTotal, long idAlmacenOrigen, 
-        long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimiento estado, DateTime fecha, decimal saldoInicial, 
-        decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario) {
+    public Movimiento(long id, long idProducto, decimal costoUnitario, decimal costoTotal, long idAlmacenOrigen, long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimiento estado, DateTime fecha, decimal saldoInicial, decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario, string notas) {
         Id = id;
         IdProducto = idProducto;
         CostoUnitario = costoUnitario;
@@ -16,12 +19,18 @@ public class Movimiento : IEntidadBaseDatos {
         IdAlmacenDestino = idAlmacenDestino;
         FechaCreacion = fechaCreacion;
         Estado = estado;
-        Fecha = fecha;
+        FechaTermino = fecha;
         SaldoInicial = saldoInicial;
         CantidadMovida = cantidadMovida;
         SaldoFinal = saldoFinal;
         IdTipoMovimiento = idTipoMovimiento;
         IdCuentaUsuario = idCuentaUsuario;
+        Notas = notas;
+
+        NombreProducto = string.Empty;
+        NombreAlmacenOrigen = string.Empty;
+        NombreAlmacenDestino = string.Empty;
+        NombreTipoMovimiento = string.Empty;
     }
 
     public long Id { get; set; }
@@ -32,12 +41,13 @@ public class Movimiento : IEntidadBaseDatos {
     public long IdAlmacenDestino { get; set; }
     public DateTime FechaCreacion { get; set; }
     public EstadoMovimiento Estado { get; set; }
-    public DateTime Fecha { get; set; }
+    public DateTime FechaTermino { get; set; }
     public decimal SaldoInicial { get; set; }
     public decimal CantidadMovida { get; set; }
     public decimal SaldoFinal { get; set; }
     public long IdTipoMovimiento { get; set; }
     public long IdCuentaUsuario { get; set; }
+    public string? Notas { get; set; }
 
     #region Datos auxiliares de tupla
 

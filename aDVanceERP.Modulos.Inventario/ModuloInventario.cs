@@ -3,12 +3,9 @@ using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using aDVanceERP.Modulos.Inventario.Presentadores.Almacen;
-using aDVanceERP.Modulos.Inventario.Presentadores.Menu;
-using aDVanceERP.Modulos.Inventario.Presentadores.Producto;
+using aDVanceERP.Modulos.Inventario.Presentadores;
 using aDVanceERP.Modulos.Inventario.Properties;
-using aDVanceERP.Modulos.Inventario.Vistas.Menu;
-using aDVanceERP.Modulos.Inventario.Vistas.Producto;
+using aDVanceERP.Modulos.Inventario.Vistas;
 
 using Guna.UI2.WinForms;
 
@@ -19,6 +16,8 @@ public sealed class ModuloInventario : ModuloExtensionBase {
     private PresentadorMenuInventario _menuInventario = null!;
     private PresentadorGestionProductos _productos = null!;
     private PresentadorRegistroProducto _registroProducto = null!;
+    private PresentadorGestionMovimientos _movimientos = null!;
+    private PresentadorRegistroMovimiento _registroMovimiento = null!;
     private PresentadorGestionAlmacenes _almacenes = null!;
     private PresentadorRegistroAlmacen _registroAlmacen = null!;
 
@@ -47,9 +46,13 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         _productos = new PresentadorGestionProductos(new VistaGestionProductos());
         _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());
         _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
+        // Movimientos
+        _movimientos = new PresentadorGestionMovimientos(new VistaGestionMovimientos());
+        _registroMovimiento = new PresentadorRegistroMovimiento(new VistaRegistroMovimiento());
+        _registroMovimiento.EntidadRegistradaActualizada += (s, e) => _movimientos.ActualizarResultadosBusqueda();
         // Almacenes
-        _almacenes = new PresentadorGestionAlmacenes(new Vistas.Almacen.VistaGestionAlmacenes());
-        _registroAlmacen = new PresentadorRegistroAlmacen(new Vistas.Almacen.VistaRegistroAlmacen());
+        _almacenes = new PresentadorGestionAlmacenes(new VistaGestionAlmacenes());
+        _registroAlmacen = new PresentadorRegistroAlmacen(new VistaRegistroAlmacen());
         _registroAlmacen.EntidadRegistradaActualizada += (s, e) => _almacenes.ActualizarResultadosBusqueda();
 
         base.Inicializar(principal);
@@ -69,6 +72,13 @@ public sealed class ModuloInventario : ModuloExtensionBase {
             _registroProducto.Vista,
             new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroProducto.Vista.Dimensiones.Width, -10),
             _registroProducto.Vista.Dimensiones,
+            TipoRedimensionadoVista.Vertical);
+        // Movimientos
+        _principal.Modulos.Vista.PanelCentral.Registrar(_movimientos.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(
+            _registroMovimiento.Vista,
+            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroMovimiento.Vista.Dimensiones.Width, -10),
+            _registroMovimiento.Vista.Dimensiones,
             TipoRedimensionadoVista.Vertical);
         // Almacenes
         _principal.Modulos.Vista.PanelCentral.Registrar(_almacenes.Vista);

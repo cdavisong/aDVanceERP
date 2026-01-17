@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -11,8 +12,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario;
 public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProducto> {
     public RepoProducto() : base("adv__producto", "id_producto") { }
 
-    protected override string GenerarComandoAdicionar(Producto objeto) {
-        return $"""
+    protected override string GenerarComandoAdicionar(Producto objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        var consulta = $"""
                 INSERT INTO adv__producto (
                     ruta_imagen,
                     categoria,
@@ -31,70 +32,116 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                     activo
                 )
                 VALUES (
-                    '{objeto.RutaImagen}',
-                    '{objeto.Categoria}',
-                    '{objeto.Nombre}',
-                    '{objeto.Codigo}',
-                    {objeto.IdProveedor},
-                    '{objeto.Descripcion}',
-                    {objeto.IdUnidadMedida},
-                    {objeto.IdClasificacionProducto},
-                    {(objeto.EsVendible ? 1 : 0)},
-                    {objeto.CostoAdquisicionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
-                    {objeto.CostoProduccionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
-                    {objeto.ImpuestoVentaPorcentaje.ToString("N2",CultureInfo.InvariantCulture)},
-                    {objeto.MargenGananciaDeseado.ToString("N2",CultureInfo.InvariantCulture)},
-                    {objeto.PrecioVentaBase.ToString("N2",CultureInfo.InvariantCulture)},
-                    {(objeto.Activo ? 1 : 0)}
+                    @RutaImagen,
+                    @Categoria,
+                    @Nombre,
+                    @Codigo,
+                    @IdProveedor,
+                    @Descripcion,
+                    @IdUnidadMedida,
+                    @IdClasificacionProducto,
+                    @EsVendible,
+                    @CostoAdquisicionUnitario,
+                    @CostoProduccionUnitario,
+                    @ImpuestoVentaPorcentaje,
+                    @MargenGananciaDeseado,
+                    @PrecioVentaBase,
+                    @Activo
                 );
                 """;
+
+        parametros = new Dictionary<string, object> {
+            {  "@RutaImagen", objeto.RutaImagen  },
+            { "@Categoria", objeto.Categoria.ToString() },
+            { "@Nombre", objeto.Nombre },
+            { "@Codigo", objeto.Codigo },
+            { "@IdProveedor", objeto.IdProveedor },
+            { "@Descripcion", objeto.Descripcion },
+            { "@IdUnidadMedida", objeto.IdUnidadMedida },
+            { "@IdClasificacionProducto", objeto.IdClasificacionProducto },
+            { "@EsVendible", objeto.EsVendible },
+            { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@PrecioVentaBase", objeto.PrecioVentaBase.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@Activo", objeto.Activo }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEditar(Producto objeto) {
-        return $"""
+    protected override string GenerarComandoEditar(Producto objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        var consulta = $"""
                 UPDATE adv__producto
                 SET
-                    ruta_imagen = '{objeto.RutaImagen}',
-                    categoria = '{objeto.Categoria}',
-                    nombre = '{objeto.Nombre}',
-                    codigo = '{objeto.Codigo}',
-                    id_proveedor = {objeto.IdProveedor},
-                    descripcion = '{objeto.Descripcion}',
-                    id_unidad_medida = {objeto.IdUnidadMedida},
-                    id_clasificacion_producto = {objeto.IdClasificacionProducto},
-                    es_vendible = {(objeto.EsVendible ? 1 : 0)},
-                    costo_adquisicion_unitario = {objeto.CostoAdquisicionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
-                    costo_produccion_unitario = {objeto.CostoProduccionUnitario.ToString("N2",CultureInfo.InvariantCulture)},
-                    impuesto_venta_porcentaje = {objeto.ImpuestoVentaPorcentaje.ToString("N2",CultureInfo.InvariantCulture)},
-                    margen_ganancia_deseado = {objeto.MargenGananciaDeseado.ToString("N2",CultureInfo.InvariantCulture)},
-                    precio_venta_base = {objeto.PrecioVentaBase.ToString("N2",CultureInfo.InvariantCulture)},
-                    activo = {(objeto.Activo ? 1 : 0)}
-                WHERE id_producto = {objeto.Id};
+                    ruta_imagen = @RutaImagen,
+                    categoria = @Categoria,
+                    nombre = @Nombre,
+                    codigo = @Codigo,
+                    id_proveedor = @IdProveedor,
+                    descripcion = @Descripcion,
+                    id_unidad_medida = @IdUnidadMedida,
+                    id_clasificacion_producto = @IdClasificacionProducto,
+                    es_vendible = @EsVendible,
+                    costo_adquisicion_unitario = @CostoAdquisicionUnitario,
+                    costo_produccion_unitario = @CostoProduccionUnitario,
+                    impuesto_venta_porcentaje = @ImpuestoVentaPorcentaje,
+                    margen_ganancia_deseado = @MargenGananciaDeseado,
+                    precio_venta_base = @PrecioVentaBase,
+                    activo = @Activo
+                WHERE id_producto = @Id;
                 """;
+
+        parametros = new Dictionary<string, object> {
+            {  "@Id", objeto.Id  },
+            {  "@RutaImagen", objeto.RutaImagen  },
+            { "@Categoria", objeto.Categoria.ToString() },
+            { "@Nombre", objeto.Nombre },
+            { "@Codigo", objeto.Codigo },
+            { "@IdProveedor", objeto.IdProveedor },
+            { "@Descripcion", objeto.Descripcion },
+            { "@IdUnidadMedida", objeto.IdUnidadMedida },
+            { "@IdClasificacionProducto", objeto.IdClasificacionProducto },
+            { "@EsVendible", objeto.EsVendible },
+            { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@PrecioVentaBase", objeto.PrecioVentaBase.ToString("N2", CultureInfo.InvariantCulture) },
+            { "@Activo", objeto.Activo }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoEliminar(long id) {
-        return $"""
+    protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
+        var consulta = $"""
             DELETE FROM adv__inventario
-            WHERE id_producto = {id};
+            WHERE id_producto = @id;
 
             DELETE FROM adv__producto 
-            WHERE id_producto = {id};
+            WHERE id_producto = @id;
             """;
+
+        parametros = new Dictionary<string, object> {
+            { "@id", id }
+        };
+
+        return consulta;
     }
 
-    protected override string GenerarComandoObtener(FiltroBusquedaProducto filtroBusqueda, string criterio) {
-        if (string.IsNullOrEmpty(criterio))
-            criterio = "Todos";
+    protected override string GenerarComandoObtener(FiltroBusquedaProducto filtroBusqueda, out Dictionary<string, object> parametros, params string[]? criteriosBusqueda) {
+        var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
 
-        string? comando;
-        var criterioMultiple = criterio.Split(';');
+        if (criteriosBusqueda == null || criteriosBusqueda.Length == 0 || string.IsNullOrEmpty(criteriosBusqueda[0]))
+            criterio = string.Empty;
 
         // Procesamiento de parámetros
-        var todosLosAlmacenes = criterioMultiple.Length > 1 && criterioMultiple[0].Contains("Todos");
-        var todasLasCategorias = criterioMultiple.Length > 2 && criterioMultiple[1].Equals("-1");
-        var aplicarFiltroAlmacen = criterioMultiple.Length > 1 && !todosLosAlmacenes;
-        var aplicarFiltroCategoria = criterioMultiple.Length > 2 && !todasLasCategorias;
+        var todosLosAlmacenes = criteriosBusqueda.Length > 1 && criteriosBusqueda[0].Contains("Todos");
+        var todasLasCategorias = criteriosBusqueda.Length > 2 && criteriosBusqueda[1].Equals("-1");
+        var aplicarFiltroAlmacen = criteriosBusqueda.Length > 1 && !todosLosAlmacenes;
+        var aplicarFiltroCategoria = criteriosBusqueda.Length > 2 && !todasLasCategorias;
 
         // Partes adicionales de la consulta
         const string consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
@@ -102,65 +149,79 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
         // Construcción de condiciones WHERE
         var condiciones = new List<string> {
-            $"p.activo = {(filtroBusqueda == FiltroBusquedaProducto.Inactivos ? 0 : 1)}"
+            $"p.activo = @activo"
         };
 
         if (aplicarFiltroAlmacen)
-            condiciones.Add($"a.nombre = '{criterioMultiple[0]}'");
+            condiciones.Add($"a.nombre = @nombre_almacen");
 
         if (aplicarFiltroCategoria)
-            condiciones.Add($"p.categoria = '{(CategoriaProducto)int.Parse(criterioMultiple[1])}'");
+            condiciones.Add($"p.categoria = @categoria");
 
-        string whereClause = condiciones.Count > 0 ? $"WHERE {string.Join(" AND ", condiciones)}" : "";
+        var whereClause = condiciones.Count > 0 ? $"WHERE {string.Join(" AND ", condiciones)}" : "";
+        var consultaComun = $"""
+            SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
+            FROM adv__producto p
+            {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
+            """;
+        var consulta = filtroBusqueda switch {
+            FiltroBusquedaProducto.Id => $"""
+                {consultaComun}
+                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                p.id_producto = @id;
+                """,
+            FiltroBusquedaProducto.Codigo => $"""
+                {consultaComun}
+                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                LOWER(p.codigo) LIKE LOWER(@codigo);
+                """,
+            FiltroBusquedaProducto.Nombre => $"""
+                {consultaComun}
+                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                LOWER(p.nombre) LIKE LOWER(@nombre);
+                """,
+            FiltroBusquedaProducto.Descripcion => $"""
+                {consultaComun}
+                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                LOWER(p.descripcion) LIKE LOWER(@descripcion);
+                """,
+            _ => $"""
+                {consultaComun}
+                {whereClause};
+                """
+        };
 
-        switch (filtroBusqueda) {
-            case FiltroBusquedaProducto.Id:
-                comando = $"""
-                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                         FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         p.id_producto = {(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)};
-                         """;
-                break;
-            case FiltroBusquedaProducto.Codigo:
-                comando = $"""
-                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                         FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         LOWER(p.codigo) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
-                         """;
-                break;
-            case FiltroBusquedaProducto.Nombre:
-                comando = $"""
-                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                         FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         LOWER(p.nombre) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
-                         """;
-                break;
-            case FiltroBusquedaProducto.Descripcion:
-                comando = $"""
-                         SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                         FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                         LOWER(p.descripcion) LIKE LOWER('%{(criterioMultiple.Length > (aplicarFiltroCategoria ? 2 : 1) ? criterioMultiple[2] : criterio)}%');
-                         """;
-                break;
-            default:
-                comando = $"""
-                         SELECT *{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                         FROM adv__producto p
-                         {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                         {whereClause};
-                         """;
-                break;
+        parametros = filtroBusqueda switch {
+            FiltroBusquedaProducto.Id => new Dictionary<string, object> {
+                { "@id", Convert.ToInt64(criterio) },
+                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+            },
+            FiltroBusquedaProducto.Codigo => new Dictionary<string, object> {
+                { "@codigo", $"%{criterio}%" },
+                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+            },
+            FiltroBusquedaProducto.Nombre => new Dictionary<string, object> {
+                { "@nombre", $"%{criterio}%" },
+                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+            },
+            FiltroBusquedaProducto.Descripcion => new Dictionary<string, object> {
+                { "@descripcion", $"%{criterio}%" },
+                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+            },
+            _ => new Dictionary<string, object> {
+                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+            }
+        };
+
+        if (aplicarFiltroAlmacen) {
+            parametros.Add("@nombre_almacen", criteriosBusqueda[0]);
         }
 
-        return comando;
+        if (aplicarFiltroCategoria) {
+            parametros.Add("@categoria", criteriosBusqueda[1]);
+        }
+
+        return consulta;
     }
 
     /// <summary>
@@ -172,8 +233,8 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
     /// <param name="lectorDatos">A MySqlDataReader positioned at the record to map. Must not be null and must contain all required fields for
     /// Producto.</param>
     /// <returns>A Producto instance populated with values from the current record of the data reader.</returns>
-    protected override Producto MapearEntidad(MySqlDataReader lectorDatos) {
-        return new Producto(
+    protected override (Producto, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
+        return (new Producto(
             id: Convert.ToInt64(lectorDatos["id_producto"]),
             rutaImagen: Convert.ToString(lectorDatos["ruta_imagen"]) ?? string.Empty,
             categoria: Enum.TryParse<CategoriaProducto>(Convert.ToString(lectorDatos["categoria"]) ?? string.Empty, out var categoria) ? categoria : CategoriaProducto.Mercancia,
@@ -190,7 +251,7 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
             margenGananciaDeseado: Convert.ToDecimal(lectorDatos["margen_ganancia_deseado"], CultureInfo.InvariantCulture),
             precioVentaBase: Convert.ToDecimal(lectorDatos["precio_venta_base"], CultureInfo.InvariantCulture),
             activo: Convert.ToBoolean(lectorDatos["activo"])
-        );
+        ), new List<IEntidadBaseDatos>());
     }
 
     #region STATIC
@@ -200,6 +261,30 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
     #endregion
 
     #region UTILES
+
+    private (object, List<IEntidadBaseDatos>) MapearEntidadJson(MySqlDataReader lector) {
+        var listaProductos = new List<Dictionary<string, object>>();
+
+        do {
+            var producto = new Dictionary<string, object> {
+                ["id_producto"] = lector.GetInt32("id_producto"),
+                ["codigo"] = lector.GetString("codigo"),
+                ["nombre"] = lector.GetString("nombre"),
+                ["categoria"] = lector.GetString("categoria"),
+                ["precio_compra"] = lector.GetDecimal("precio_compra"),
+                ["costo_produccion_unitario"] = lector.GetDecimal("costo_produccion_unitario"),
+                ["precio_venta_base"] = lector.GetDecimal("precio_venta_base"),
+                ["cantidad"] = lector.GetInt32("cantidad"),
+                ["nombre_almacen"] = lector.GetString("nombre_almacen"),
+                ["unidad_medida"] = lector.GetString("unidad_medida"),
+                ["abreviatura_medida"] = lector.GetString("abreviatura_medida")
+            };
+
+            listaProductos.Add(producto);
+        } while (lector.Read());
+
+        return (listaProductos, new List<IEntidadBaseDatos>()); ;
+    }
 
     public string ObtenerProductosAlmacenJson(long idAlmacen) {
         var consulta = """
@@ -215,16 +300,11 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 a.nombre AS nombre_almacen,
                 IFNULL(um.nombre, '') AS unidad_medida,
                 IFNULL(um.abreviatura, '') AS abreviatura_medida
-            FROM 
-                adv__producto p
-            JOIN 
-                adv__inventario pa ON p.id_producto = pa.id_producto
-            JOIN 
-                adv__almacen a ON pa.id_almacen = a.id_almacen
-            LEFT JOIN
-                adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
-            WHERE 
-                pa.id_almacen = @IdAlmacen;
+            FROM adv__producto p
+            JOIN adv__inventario pa ON p.id_producto = pa.id_producto
+            JOIN adv__almacen a ON pa.id_almacen = a.id_almacen
+            LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
+            WHERE pa.id_almacen = @IdAlmacen;
         """;
         var parametros = idAlmacen != 0
             ? new Dictionary<string, object> {
@@ -232,31 +312,9 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
             } : null;
 
         try {
-            var productos = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, lector => {
-                var listaProductos = new List<Dictionary<string, object>>();
+            var productos = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidadJson);
 
-                do {
-                    var producto = new Dictionary<string, object> {
-                        ["id_producto"] = lector.GetInt32("id_producto"),
-                        ["codigo"] = lector.GetString("codigo"),
-                        ["nombre"] = lector.GetString("nombre"),
-                        ["categoria"] = lector.GetString("categoria"),
-                        ["precio_compra"] = lector.GetDecimal("precio_compra"),
-                        ["costo_produccion_unitario"] = lector.GetDecimal("costo_produccion_unitario"),
-                        ["precio_venta_base"] = lector.GetDecimal("precio_venta_base"),
-                        ["cantidad"] = lector.GetInt32("cantidad"),
-                        ["nombre_almacen"] = lector.GetString("nombre_almacen"),
-                        ["unidad_medida"] = lector.GetString("unidad_medida"),
-                        ["abreviatura_medida"] = lector.GetString("abreviatura_medida")
-                    };
-
-                    listaProductos.Add(producto);
-                } while (lector.Read());
-
-                return listaProductos;
-            });
-
-            return System.Text.Json.JsonSerializer.Serialize(productos, new System.Text.Json.JsonSerializerOptions {
+            return System.Text.Json.JsonSerializer.Serialize(productos.Select(p => p.entidadBase), new System.Text.Json.JsonSerializerOptions {
                 WriteIndented = true,
                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             });

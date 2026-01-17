@@ -3,16 +3,12 @@ using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-
-using aDVanceERP.Modulos.Seguridad.Presentadores.Autenticacion;
-using aDVanceERP.Modulos.Seguridad.Presentadores.CuentaUsuario;
-using aDVanceERP.Modulos.Seguridad.Presentadores.Menu;
-using aDVanceERP.Modulos.Seguridad.Presentadores.RolUsuario;
+using aDVanceERP.Modulos.Seguridad.Presentadores;
 using aDVanceERP.Modulos.Seguridad.Properties;
-using aDVanceERP.Modulos.Seguridad.Vistas.Autenticacion;
-using aDVanceERP.Modulos.Seguridad.Vistas.CuentaUsuario;
-using aDVanceERP.Modulos.Seguridad.Vistas.Menu;
-using aDVanceERP.Modulos.Seguridad.Vistas.RolUsuario;
+using aDVanceERP.Modulos.Seguridad.Vistas;
+using aDVanceERP.Modulos.Seguridad.Vistas;
+using aDVanceERP.Modulos.Seguridad.Vistas;
+using aDVanceERP.Modulos.Seguridad.Vistas;
 
 using Guna.UI2.WinForms;
 

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Utiles;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Desktop.Utiles;
@@ -7,13 +7,13 @@ public static class Extensiones {
     public static void EstablecerCoordenadasVistaRegistro(this IVistaBase vista, Size dimensionesContenedorVistas, bool centrar = false, bool dock = false) {
         vista.Coordenadas = new Point(
             centrar ? dimensionesContenedorVistas.Width / 2 - vista.Dimensiones.Width / 2 : dimensionesContenedorVistas.Width - vista.Dimensiones.Width,
-            centrar ? (Screen.PrimaryScreen?.WorkingArea.Height ?? VariablesGlobales.AlturaBarraTituloPredeterminada) / 2 - vista.Dimensiones.Height / 2 : VariablesGlobales.AlturaBarraTituloPredeterminada
+            centrar ? (Screen.PrimaryScreen?.WorkingArea.Height ?? ContextoAplicacion.AlturaBarraTituloPredeterminada) / 2 - vista.Dimensiones.Height / 2 : ContextoAplicacion.AlturaBarraTituloPredeterminada
         );
     }
 
     public static void EstablecerDimensionesVistaRegistro(this IVistaBase vista, int alturaContenedorVistas, bool dimensionesOriginales = false) {
         vista.Dimensiones = dimensionesOriginales ? vista.Dimensiones : vista.Dimensiones with {
-            Height = alturaContenedorVistas + VariablesGlobales.AlturaBarraPiePagina
+            Height = alturaContenedorVistas + ContextoAplicacion.AlturaBarraPiePagina
         };
     }
 

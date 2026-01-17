@@ -1,0 +1,129 @@
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
+
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
+
+public partial class VistaMenuRecursosHumanos : Form, IVistaMenuRecursosHumanos {
+    public VistaMenuRecursosHumanos() {
+        InitializeComponent();
+
+        NombreVista = nameof(VistaMenuRecursosHumanos);
+
+        Inicializar();
+    }
+
+    public string NombreVista {
+        get => Name;
+        private set => Name = value;
+    }
+
+    public bool Habilitada {
+        get => Enabled;
+        set => Enabled = value;
+    }
+
+    public Point Coordenadas {
+        get => Location;
+        set => Location = value;
+    }
+
+    public Size Dimensiones {
+        get => Size;
+        set => Size = value;
+    }
+
+    public event EventHandler? VerProveedores;
+    public event EventHandler? VerMensajeros;
+    public event EventHandler? VerClientes;
+    public event EventHandler? VerContactos;
+    public event EventHandler? CambioMenu;
+    
+
+    public void Inicializar() {
+        // Eventos
+        btnProveedores.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(1, e); };
+        btnMensajeros.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(2, e); };
+        btnClientes.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(3, e); };
+        btnPersonas.Click += delegate (object? sender, EventArgs e) { PresionarBotonSeleccion(4, e); };
+    }
+
+    public void SeleccionarVistaInicial() {
+        if (btnProveedores.Visible)
+            btnProveedores.PerformClick();
+        else if (btnMensajeros.Visible)
+            btnMensajeros.PerformClick();
+        else if (btnClientes.Visible)
+            btnClientes.PerformClick();
+        else if (btnPersonas.Visible)
+            btnPersonas.PerformClick();
+    }
+
+    public void PresionarBotonSeleccion(object? sender, EventArgs e) {
+        var indiceValido = int.TryParse(sender?.ToString() ?? string.Empty, out var indice);
+
+        if (!indiceValido)
+            return;
+
+        CambioMenu?.Invoke(sender, e);
+
+        switch (indice) {
+            case 1:
+                VerProveedores?.Invoke(btnProveedores, e);
+                if (!btnProveedores.Checked)
+                    btnProveedores.Checked = true;
+                break;
+            case 2:
+                VerMensajeros?.Invoke(btnMensajeros, e);
+                if (!btnMensajeros.Checked)
+                    btnMensajeros.Checked = true;
+                break;
+            case 3:
+                VerClientes?.Invoke(btnClientes, e);
+                if (!btnClientes.Checked)
+                    btnClientes.Checked = true;
+                break;
+            case 4:
+                VerContactos?.Invoke(btnPersonas, e);
+                if (!btnPersonas.Checked)
+                    btnPersonas.Checked = true;
+                break;
+        }
+    }
+
+    public void Mostrar() {
+        VerificarPermisos();
+        BringToFront();
+        Show();
+    }
+
+    public void Restaurar() {
+        btnProveedores.Checked = false;
+        btnMensajeros.Checked = false;
+        btnClientes.Checked = false;
+        btnPersonas.Checked = false;
+    }
+
+    public void Ocultar() {
+        Hide();
+    }
+
+    public void Cerrar() {
+        Dispose();
+    }
+
+    private void VerificarPermisos() {
+        btnProveedores.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_PROVEEDORES")
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnMensajeros.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_MENSAJEROS")
+                                 || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnClientes.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CLIENTES")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+        btnPersonas.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_CONTACTO_CONTACTOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+    }
+}

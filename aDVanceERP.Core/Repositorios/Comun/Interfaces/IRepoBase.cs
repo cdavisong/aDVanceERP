@@ -4,6 +4,6 @@ namespace aDVanceERP.Core.Repositorios.Comun.Interfaces {
     public interface IRepoBase<En> : IDisposable
         where En : class, IEntidadBase {
         En? ObtenerPorId(object id);
-        List<En> ObtenerTodos();
+        List<(En entidadBase, List<IEntidadBase> entidadesExtra)> ObtenerTodos();
     }
 }

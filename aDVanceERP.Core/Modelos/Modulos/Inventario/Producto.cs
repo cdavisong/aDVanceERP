@@ -1,15 +1,13 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-using System.Text.Json.Serialization;
-
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario;
 
-[JsonSerializable(typeof(Producto), TypeInfoPropertyName = "ProductoJsonContext")]
 public class Producto : IEntidadBaseDatos {
     public Producto() {
         Categoria = CategoriaProducto.Mercancia;
-        Nombre = "Producto genérico";
-        Descripcion = "";
+        Nombre = "N/A";
+        Codigo = "N/A";
+        Descripcion = "N/A";
         IdUnidadMedida = 0;
         IdClasificacionProducto = 1; // Valor por defecto acorde a la BD
         EsVendible = true;
@@ -50,7 +48,7 @@ public class Producto : IEntidadBaseDatos {
     public string? RutaImagen { get; set; }
     public CategoriaProducto Categoria { get; set; }
     public string Nombre { get; set; }
-    public string? Codigo { get; set; }
+    public string Codigo { get; set; }
     public long IdProveedor { get; set; }
     public string Descripcion { get; set; } = "";
     public long IdUnidadMedida { get; set; } = 0;
@@ -61,9 +59,8 @@ public class Producto : IEntidadBaseDatos {
     public decimal ImpuestoVentaPorcentaje { get; set; } = 10.00m;
     public decimal MargenGananciaDeseado { get; set; } = 0.00m;
     public decimal PrecioVentaBase { get; set; }
-    public bool Activo { get; set; } = true;    
+    public bool Activo { get; set; } = true;
 }
-
 
 public enum FiltroBusquedaProducto {
     Todos,

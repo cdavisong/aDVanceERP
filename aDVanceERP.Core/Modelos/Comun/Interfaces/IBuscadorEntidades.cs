@@ -3,10 +3,10 @@
 public interface IBuscadorEntidades<Fb>
     where Fb : Enum {
     Fb FiltroBusqueda { get; }
-    string? CriterioBusqueda { get; }
+    string[] CriteriosBusqueda { get; }
 
 
-    event EventHandler<(Fb, string?)>? BuscarEntidades;
+    event EventHandler<(Fb, string[])>? BuscarEntidades;
 
     void CargarFiltrosBusqueda(object[] filtrosBusqueda);
 }

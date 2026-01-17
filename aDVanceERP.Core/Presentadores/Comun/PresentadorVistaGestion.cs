@@ -3,7 +3,6 @@ using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
-using aDVanceERP.Core.Utiles;
 using aDVanceERP.Core.Vistas.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -41,16 +40,16 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
     public Re Repositorio => _repositorio;
     public Fb FiltroBusqueda { get; protected set; } = default!;
-    public string? CriterioBusqueda { get; protected set; }
+    public string[] CriteriosBusqueda { get; protected set; } = Array.Empty<string>();
     public IEnumerable<Pt> TuplasSeleccionadas => _tuplasEntidades.Where(t => t.EstadoSeleccion);
 
     public event EventHandler? RegistrarEntidad;
     public event EventHandler<En>? EditarEntidad;
     public event EventHandler<bool>? CargaDatosCompletada;
 
-    public void Buscar(Fb filtroBusqueda, string? criterioBusqueda) {
+    public void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda) {
         FiltroBusqueda = filtroBusqueda;
-        CriterioBusqueda = criterioBusqueda;
+        CriteriosBusqueda = criteriosBusqueda;
 
         ActualizarResultadosBusqueda();
 
@@ -76,11 +75,15 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
             _tuplasEntidades.Clear();
 
-            VariablesGlobales.CoordenadaYUltimaTupla = 0;
+            ContextoAplicacion.CoordenadaYUltimaTupla = 0;
 
             var incremento = (Vista.PaginaActual - 1) * Vista.TuplasMaximasContenedor;
-            var datos = Repositorio.Buscar(FiltroBusqueda, CriterioBusqueda, Vista.TuplasMaximasContenedor, incremento);
-            var entidades = datos.entidades.ToList();
+
+            Repositorio.Limite = Vista.TuplasMaximasContenedor;
+            Repositorio.Desplazamiento = incremento;
+
+            var datos = Repositorio.Buscar(FiltroBusqueda, CriteriosBusqueda);
+            var resultados = datos.resultadosBusqueda.ToList();
             var calculoPaginas = datos.cantidad / Vista.TuplasMaximasContenedor;
             var entero = datos.cantidad % Vista.TuplasMaximasContenedor == 0;
 
@@ -88,11 +91,11 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
             _cargaDatos.Mostrar();
 
-            for (var i = 0; i < entidades.Count && i < Vista.TuplasMaximasContenedor; i++) {
-                var entidad = entidades[i];
+            for (var i = 0; i < resultados.Count && i < Vista.TuplasMaximasContenedor; i++) {
+                var entidad = resultados[i];
 
                 (Vista as Control)?.Invoke(() => {
-                    AdicionarTuplaEntidad(entidad);
+                    AdicionarTuplaEntidad(entidad.entidadBase, entidad.entidadesExtra);
                 });
 
                 Application.DoEvents();
@@ -104,9 +107,9 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         }
     }
 
-    protected virtual void AdicionarTuplaEntidad(En entidad) {
+    protected virtual void AdicionarTuplaEntidad(En entidad, List<IEntidadBaseDatos> entidadesExtra) {
         (Vista as Control)?.Invoke(() => {
-            var presentadorTupla = ObtenerValoresTupla(entidad);
+            var presentadorTupla = ObtenerValoresTupla(entidad, entidadesExtra);
 
             if (presentadorTupla == null) return;
 
@@ -118,14 +121,14 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
             Vista.PanelCentral.Registrar(
                 presentadorTupla.Vista,
-                new Point(0, VariablesGlobales.CoordenadaYUltimaTupla),
-                new Size(0, VariablesGlobales.AlturaTuplaPredeterminada),
+                new Point(0, ContextoAplicacion.CoordenadaYUltimaTupla),
+                new Size(0, ContextoAplicacion.AlturaTuplaPredeterminada),
                 TipoRedimensionadoVista.Horizontal);
 
             presentadorTupla.Vista.Mostrar();
         });
 
-        VariablesGlobales.CoordenadaYUltimaTupla += VariablesGlobales.AlturaTuplaPredeterminada;
+        ContextoAplicacion.CoordenadaYUltimaTupla += ContextoAplicacion.AlturaTuplaPredeterminada;
     }
 
     private void DeseleccionarTuplas(IVistaTupla vista) {
@@ -135,7 +138,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         });
     }
 
-    protected abstract Pt ObtenerValoresTupla(En entidad);
+    protected abstract Pt ObtenerValoresTupla(En entidad, List<IEntidadBaseDatos> entidadesExtra);
 
     protected virtual void OnEntidadSeleccionada(object? sender, En entidad) {
         DeseleccionarTuplas(sender as IVistaTupla);
@@ -157,8 +160,8 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             }
     }
 
-    private void OnBuscarEntidad(object? sender, (Fb filtro, string? criterio) e) {
-        Buscar(e.filtro, e.criterio);
+    private void OnBuscarEntidad(object? sender, (Fb filtro, string[] criterios) e) {
+        Buscar(e.filtro, e.criterios);
     }
 
     private void OnRegistrarEntidad(object? sender, EventArgs e) {

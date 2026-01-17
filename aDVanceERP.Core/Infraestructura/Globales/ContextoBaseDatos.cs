@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Modelos.BD;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
 using MySql.Data.MySqlClient;
 
@@ -62,7 +63,7 @@ public static class ContextoBaseDatos {
         return comando;
     }
 
-    public static IEnumerable<T> EjecutarConsulta<T>(string consulta, Dictionary<string, object>? parametros, Func<MySqlDataReader, T> mapeador, MySqlConnection? conexion = null) {
+    public static IEnumerable<(T entidadBase, List<IEntidadBaseDatos> entidadesExtra)> EjecutarConsulta<T>(string consulta, Dictionary<string, object>? parametros, Func<MySqlDataReader, (T, List<IEntidadBaseDatos>)> mapeador, MySqlConnection? conexion = null) {
         ValidarConfiguracionCargada();
 
         var conexionLocal = conexion == null; // Determinar si es una conexión local

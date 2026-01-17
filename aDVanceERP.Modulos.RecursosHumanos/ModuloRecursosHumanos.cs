@@ -1,0 +1,66 @@
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Presentadores.Comun.Interfaces;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.RecursosHumanos.Properties;
+
+using Guna.UI2.WinForms;
+
+namespace aDVanceERP.Modulos.RecursosHumanos; 
+
+public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
+    private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+
+    public ModuloRecursosHumanos() {
+        Nombre = "MOD_RRHH";
+        Descripcion = "Proporciona funcionalidades de gestión de recursos humanos.";
+        Version = new Version(1, 0, 0, 0);
+    }
+
+    public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
+        // Boton de acceso al módulo
+        _btnAccesoModulo.Name = "btnModuloRecursosHumanos";
+        _btnAccesoModulo.ImageSize = new Size(24, 24);
+        _btnAccesoModulo.CustomImages.ImageSize = new Size(24, 24);
+        _btnAccesoModulo.Image = Resources.businessmanB_24px;
+        _btnAccesoModulo.Click += delegate {
+            AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+            AgregadorEventos.Publicar("MostrarVistaMenuRecursosHumanos", string.Empty);
+        };
+
+        base.Inicializar(principal);
+    }
+
+    protected override void InicializarVistas() {
+        // Agregar botón de acceso al módulo
+        _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+    }
+
+    public override void Apagar() {
+        throw new NotImplementedException();
+    }
+
+    public static readonly string[] Permisos = {
+        "MOD_RRHH_TODOS",
+        "MOD_RRHH_EMPLEADOS_TODOS",
+        "MOD_RRHH_EMPLEADOS_ADICIONAR",
+        "MOD_RRHH_EMPLEADOS_EDITAR",
+        "MOD_RRHH_EMPLEADOS_ELIMINAR",
+        "MOD_RRHH_CLIENTES_TODOS",
+        "MOD_RRHH_CLIENTES_ADICIONAR",
+        "MOD_RRHH_CLIENTES_EDITAR",
+        "MOD_RRHH_CLIENTES_ELIMINAR",
+        "MOD_RRHH_PROVEEDORES_TODOS",
+        "MOD_RRHH_PROVEEDORES_ADICIONAR",
+        "MOD_RRHH_PROVEEDORES_EDITAR",
+        "MOD_RRHH_PROVEEDORES_ELIMINAR",
+        "MOD_RRHH_MENSAJEROS_TODOS",
+        "MOD_RRHH_MENSAJEROS_ADICIONAR",
+        "MOD_RRHH_MENSAJEROS_EDITAR",
+        "MOD_RRHH_MENSAJEROS_ELIMINAR",
+        "MOD_RRHH_PERSONAS_TODOS",
+        "MOD_RRHH_PERSONAS_ADICIONAR",
+        "MOD_RRHH_PERSONAS_EDITAR",
+        "MOD_RRHH_PERSONAS_ELIMINAR"
+    };
+}
