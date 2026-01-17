@@ -8,7 +8,7 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 namespace aDVanceERP.Modulos.Inventario.Vistas;
 
 public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
-    private CoordenadasGeograficas _coordenadasGeograficas;
+    private CoordenadasGeograficas _coordenadasGeograficas = null!;
 
     public VistaTuplaAlmacen() {
         InitializeComponent();

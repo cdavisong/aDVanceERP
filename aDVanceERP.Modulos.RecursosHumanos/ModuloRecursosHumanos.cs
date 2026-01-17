@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.RecursosHumanos.Presentadores;
@@ -13,7 +14,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos;
 public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuRecursosHumanos _menuRecursosHumanos = null!;
-
+    private PresentadorGestionEmpleados _empleados = null!;
     public ModuloRecursosHumanos() {
         Nombre = "MOD_RRHH";
         Descripcion = "Proporciona funcionalidades de gestión de recursos humanos.";
@@ -35,6 +36,8 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _menuRecursosHumanos = new PresentadorMenuRecursosHumanos(new VistaMenuRecursosHumanos());
 
         // Contenedor de módulos
+        // Empleados
+        _empleados = new PresentadorGestionEmpleados(new VistaGestionEmpleados());
 
         base.Inicializar(principal);
     }
@@ -45,6 +48,10 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
 
         // Agregar menú del módulo
         _principal.Vista.BarraTitulo.Registrar(_menuRecursosHumanos.Vista);
+
+        // Contenedor de módulos
+        // Empleados
+        _principal.Modulos.Vista.PanelCentral.Registrar(_empleados.Vista);
     }
 
     public override void Apagar() {
