@@ -172,10 +172,10 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
     private void VerificarPermisos() {
         btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_PROVEEDORES_ADICIONAR")
+                                   "MOD_RRHH_PROVEEDORES_ADICIONAR")
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_PROVEEDORES_TODOS")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                   "MOD_RRHH_PROVEEDORES_TODOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

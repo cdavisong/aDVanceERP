@@ -2,7 +2,9 @@
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.RecursosHumanos.Presentadores;
 using aDVanceERP.Modulos.RecursosHumanos.Properties;
+using aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
 using Guna.UI2.WinForms;
 
@@ -10,6 +12,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos;
 
 public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+    private PresentadorMenuRecursosHumanos _menuRecursosHumanos = null!;
 
     public ModuloRecursosHumanos() {
         Nombre = "MOD_RRHH";
@@ -28,12 +31,20 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
             AgregadorEventos.Publicar("MostrarVistaMenuRecursosHumanos", string.Empty);
         };
 
+        // Menu
+        _menuRecursosHumanos = new PresentadorMenuRecursosHumanos(new VistaMenuRecursosHumanos());
+
+        // Contenedor de módulos
+
         base.Inicializar(principal);
     }
 
     protected override void InicializarVistas() {
         // Agregar botón de acceso al módulo
         _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+
+        // Agregar menú del módulo
+        _principal.Vista.BarraTitulo.Registrar(_menuRecursosHumanos.Vista);
     }
 
     public override void Apagar() {

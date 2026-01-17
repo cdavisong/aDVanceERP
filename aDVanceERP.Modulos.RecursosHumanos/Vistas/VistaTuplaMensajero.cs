@@ -108,15 +108,15 @@ public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
 
         btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_CONTACTO_MENSAJEROS_EDITAR")
+                                "MOD_RRHH_MENSAJEROS_EDITAR")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_CONTACTO_MENSAJEROS_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                "MOD_RRHH_MENSAJEROS_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_MENSAJEROS_ELIMINAR")
+                                  "MOD_RRHH_MENSAJEROS_ELIMINAR")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_MENSAJEROS_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                  "MOD_RRHH_MENSAJEROS_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

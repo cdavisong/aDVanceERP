@@ -96,15 +96,15 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
     private void VerificarPermisos() {
         btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_CONTACTO_PROVEEDORES_EDITAR")
+                                "MOD_RRHH_PROVEEDORES_EDITAR")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_CONTACTO_PROVEEDORES_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                "MOD_RRHH_PROVEEDORES_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_PROVEEDORES_ELIMINAR")
+                                  "MOD_RRHH_PROVEEDORES_ELIMINAR")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_PROVEEDORES_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                  "MOD_RRHH_PROVEEDORES_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

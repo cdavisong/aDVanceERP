@@ -182,10 +182,10 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
 
         btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_CLIENTES_ADICIONAR")
+                                   "MOD_RRHH_CLIENTES_ADICIONAR")
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_CLIENTES_TODOS")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                   "MOD_RRHH_CLIENTES_TODOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {

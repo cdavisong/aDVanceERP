@@ -98,14 +98,14 @@ public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
 
     private void VerificarPermisos() {
         btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_CLIENTES_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_CLIENTES_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_EDITAR")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_CLIENTES_ELIMINAR")
+                                  "MOD_RRHH_CLIENTES_ELIMINAR")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_CONTACTO_CLIENTES_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                  "MOD_RRHH_CLIENTES_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

@@ -60,6 +60,7 @@ public partial class VistaMenuInventario : Form, IVistaMenuInventario {
 
     public void Restaurar() {
         btnProductos.Checked = false;
+        btnMovimientos.Checked = false;
         btnAlmacenes.Checked = false;
     }
 

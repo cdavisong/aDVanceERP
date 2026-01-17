@@ -191,10 +191,10 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
 
         btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_MENSAJEROS_ADICIONAR")
+                                   "MOD_RRHH_MENSAJEROS_ADICIONAR")
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_CONTACTO_MENSAJEROS_TODOS")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_CONTACTO_TODOS");
+                                   "MOD_RRHH_MENSAJEROS_TODOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 
     private void HabilitarBotonesPaginacion() {
