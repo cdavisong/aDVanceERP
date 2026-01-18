@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
@@ -33,21 +34,26 @@ public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
         set => Size = value;
     }
 
-    public string Id {
-        get => fieldId.Text;
-        set => fieldId.Text = value;
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
     }
 
-    public string Numero {
-        get => fieldNumero.Text;
-        set => fieldNumero.Text = value;
+    public long Id {
+        get => Convert.ToInt64(fieldId.Text);
+        set => fieldId.Text = value.ToString();
     }
 
-    public string RazonSocial {
-        get => fieldRazonSocial.Text;
+    public string CodigoCliente {
+        get => fieldCodigo.Text;
+        set => fieldCodigo.Text = value;
+    }
+
+    public string NombreCompleto {
+        get => fieldNombreCompleto.Text;
         set {
-            fieldRazonSocial.Text = value;
-            fieldRazonSocial.Margin = new Padding(1, value?.Length > 28 ? 10 : 1, 1, 1);
+            fieldNombreCompleto.Text = value;
+            fieldNombreCompleto.Margin = fieldNombreCompleto.AjusteAutomaticoMargenTexto();
         }
     }
 
@@ -60,15 +66,23 @@ public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
         get => fieldDireccion.Text;
         set {
             fieldDireccion.Text = value;
-            fieldDireccion.Margin = new Padding(1, value?.Length > 28 ? 10 : 1, 1, 1);
+            fieldDireccion.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
         }
     }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
+    public string FechaRegistro {
+        get => fieldFechaRegistro.Text;
+        set => fieldFechaRegistro.Text = value;
     }
-        
+
+    public bool Activo {
+        get => fieldEstado.Text.Equals("Activo");
+        set {
+            fieldEstado.Text = value ? "Activo" : "Inactivo";
+            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+        }
+    }
+
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
@@ -102,10 +116,8 @@ public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_CLIENTES_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_CLIENTES_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ELIMINAR")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

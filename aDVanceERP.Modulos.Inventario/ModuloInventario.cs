@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -68,25 +69,13 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         // Contenedor de módulos
         // Productos
         _principal.Modulos.Vista.PanelCentral.Registrar(_productos.Vista);
-        _principal.Modulos.Vista.PanelCentral.Registrar(
-            _registroProducto.Vista,
-            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroProducto.Vista.Dimensiones.Width, -10),
-            _registroProducto.Vista.Dimensiones,
-            TipoRedimensionadoVista.Vertical);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroProducto.Vista);
         // Movimientos
         _principal.Modulos.Vista.PanelCentral.Registrar(_movimientos.Vista);
-        _principal.Modulos.Vista.PanelCentral.Registrar(
-            _registroMovimiento.Vista,
-            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroMovimiento.Vista.Dimensiones.Width, -10),
-            _registroMovimiento.Vista.Dimensiones,
-            TipoRedimensionadoVista.Vertical);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroMovimiento.Vista);
         // Almacenes
         _principal.Modulos.Vista.PanelCentral.Registrar(_almacenes.Vista);
-        _principal.Modulos.Vista.PanelCentral.Registrar(
-            _registroAlmacen.Vista,
-            new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroAlmacen.Vista.Dimensiones.Width, -10),
-            _registroAlmacen.Vista.Dimensiones,
-            TipoRedimensionadoVista.Vertical);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroAlmacen.Vista);
     }
 
     public override void Apagar() {

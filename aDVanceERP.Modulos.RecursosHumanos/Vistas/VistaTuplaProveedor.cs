@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
@@ -45,7 +46,10 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
 
     public string RazonSocial {
         get => fieldRazonSocial.Text;
-        set => fieldRazonSocial.Text = value;
+        set {
+            fieldRazonSocial.Text = value;
+            fieldRazonSocial.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+        }
     }
 
     public string Telefonos {
@@ -57,7 +61,7 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         get => fieldDireccion.Text;
         set {
             fieldDireccion.Text = value;
-            fieldDireccion.Margin = new Padding(1, value?.Length > 28 ? 10 : 1, 1, 1);
+            fieldDireccion.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
         }
     }
 
@@ -65,7 +69,14 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         get => layoutVista.BackColor;
         set => layoutVista.BackColor = value;
     }
-        
+    public string NombreRepresentante {
+        get => fieldNombreRepresentante.Text;
+        set {
+            fieldNombreRepresentante.Text = value;
+            fieldNombreRepresentante.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+        }
+    }
+
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     

@@ -13,7 +13,7 @@ public partial class VistaGestionEmpleados : Form, IVistaGestionEmpleados {
     public VistaGestionEmpleados() {
         InitializeComponent();
 
-        NombreVista = nameof(VistaGestionClientes);
+        NombreVista = nameof(VistaGestionEmpleados);
         PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
@@ -111,9 +111,6 @@ public partial class VistaGestionEmpleados : Form, IVistaGestionEmpleados {
             else SincronizarDatos?.Invoke(sender, args);
 
             args.SuppressKeyPress = true;
-        };
-        btnCerrar.Click += delegate (object? sender, EventArgs e) {
-            Ocultar();
         };
         btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {

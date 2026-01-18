@@ -14,6 +14,7 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         InitializeComponent();
 
         NombreVista = nameof(VistaGestionClientes);
+        PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
     }
@@ -71,7 +72,7 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         }
     }
 
-    public RepoVistaBase? PanelCentral { get; private set; }
+    public RepoVistaBase PanelCentral { get; private set; }
 
     public event EventHandler? AlturaContenedorTuplasModificada;
     public event EventHandler? MostrarPrimeraPagina;

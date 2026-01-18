@@ -14,6 +14,7 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
         InitializeComponent();
 
         NombreVista = nameof(VistaGestionProveedores);
+        PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
     }
@@ -71,7 +72,7 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
         }
     }
 
-    public RepoVistaBase? PanelCentral { get; private set; }
+    public RepoVistaBase PanelCentral { get; private set; }
 
     public event EventHandler? AlturaContenedorTuplasModificada;
     public event EventHandler? MostrarPrimeraPagina;
@@ -105,9 +106,6 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
             if (!string.IsNullOrEmpty(CriteriosBusqueda[0]))
                 BuscarEntidades?.Invoke(this, (FiltroBusqueda, CriteriosBusqueda));
             else SincronizarDatos?.Invoke(sender, e);
-        };
-        btnCerrar.Click += delegate(object? sender, EventArgs e) {
-            Ocultar();
         };
         btnRegistrar.Click += delegate(object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
         btnPrimeraPagina.Click += delegate(object? sender, EventArgs e) {

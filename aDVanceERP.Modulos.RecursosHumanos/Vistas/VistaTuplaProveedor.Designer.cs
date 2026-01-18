@@ -43,6 +43,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar = new Guna2Button();
             fieldRazonSocial = new Label();
             fieldTelefonos = new Label();
+            fieldNombreRepresentante = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -75,14 +76,14 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.ColumnCount = 9;
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.Controls.Add(fieldNombreRepresentante, 5, 0);
             layoutVista.Controls.Add(fieldDireccion, 4, 0);
             layoutVista.Controls.Add(btnEliminar, 8, 0);
             layoutVista.Controls.Add(fieldNumeroIdentificacionTributaria, 1, 0);
@@ -131,10 +132,10 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEliminar.HoverState.BorderColor = Color.PeachPuff;
             btnEliminar.HoverState.FillColor = Color.PeachPuff;
             btnEliminar.HoverState.ForeColor = Color.White;
-            btnEliminar.Location = new Point(1204, 3);
+            btnEliminar.Location = new Point(1203, 3);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnEliminar.Size = new Size(34, 35);
+            btnEliminar.Size = new Size(35, 35);
             btnEliminar.TabIndex = 11;
             // 
             // fieldNumeroIdentificacionTributaria
@@ -181,7 +182,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.ForeColor = Color.White;
             btnEditar.HoverState.BorderColor = Color.PeachPuff;
             btnEditar.HoverState.FillColor = Color.PeachPuff;
-            btnEditar.Location = new Point(1164, 3);
+            btnEditar.Location = new Point(1163, 3);
             btnEditar.Name = "btnEditar";
             btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnEditar.Size = new Size(34, 35);
@@ -217,6 +218,21 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTelefonos.Text = "telefonos";
             fieldTelefonos.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // fieldNombreRepresentante
+            // 
+            fieldNombreRepresentante.AutoEllipsis = true;
+            fieldNombreRepresentante.Dock = DockStyle.Fill;
+            fieldNombreRepresentante.Font = new Font("Segoe UI", 11.25F);
+            fieldNombreRepresentante.ForeColor = Color.DimGray;
+            fieldNombreRepresentante.ImeMode = ImeMode.NoControl;
+            fieldNombreRepresentante.Location = new Point(901, 1);
+            fieldNombreRepresentante.Margin = new Padding(1);
+            fieldNombreRepresentante.Name = "fieldNombreRepresentante";
+            fieldNombreRepresentante.Size = new Size(218, 39);
+            fieldNombreRepresentante.TabIndex = 17;
+            fieldNombreRepresentante.Text = "nombreRepresentante";
+            fieldNombreRepresentante.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaTuplaProveedor
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -248,5 +264,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private Label fieldRazonSocial;
         private Label fieldTelefonos;
         private Label fieldDireccion;
+        private Label fieldNombreRepresentante;
     }
 }

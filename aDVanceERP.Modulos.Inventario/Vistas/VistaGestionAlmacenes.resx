@@ -251,17 +251,6 @@
         OD7611fmP4NfDpeVtRs7c9IAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="fieldIcono.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAUdJREFUSEvt
-        VD1LBDEQDRaW/gVvM2+yE7a3FUHuV2ijvaVaWNidIBaWVuLv8A9ocaClWGpnJTZ+gErWzbo7Chdz2N2D
-        gfBm3rxkNxNjZvgLhOlamD6mC1zpvi2aonMPu5MTQRt66L4tagOHfc2nImizDCoiiMOodDgIEdaB03XZ
-        Bh5YF6b3zrd+LoE1XZdtkIqZwUQ4Vyx5xqXmW+QYVFU1L0z3wnQX1jrfQ46BwO7G2+WZtnW+h1QDD2wK
-        2wthGneuboxxyJWwG1qXbJD2Zv3yJqUalEQrbSPQTZjqetqZbr95LGtdsoExZk6Y3ppmh5EU2KOGew01
-        fcmXwaMwHWteQ4Bh9wS+KBZFBoPuCbyzq1pnBHQmTC/CdBIftl4w7dV1uf8AwIIwnQrT009B3DGG2bco
-        B905KJm2dH5qNJP8EGLiJP8HPgHXVeEtRWEKoAAAAABJRU5ErkJggg==
-</value>
-  </data>
   <metadata name="fieldImportarArchivo.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>331, 17</value>
   </metadata>

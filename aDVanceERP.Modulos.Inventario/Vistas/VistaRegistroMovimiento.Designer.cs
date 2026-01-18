@@ -342,7 +342,7 @@
             layoutCantidadMover.Size = new Size(250, 45);
             layoutCantidadMover.TabIndex = 38;
             // 
-            // fieldAbreviaturaUM2
+            // fieldAbreviaturaUM1
             // 
             fieldAbreviaturaUM1.Dock = DockStyle.Fill;
             fieldAbreviaturaUM1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
@@ -350,7 +350,7 @@
             fieldAbreviaturaUM1.ImeMode = ImeMode.NoControl;
             fieldAbreviaturaUM1.Location = new Point(203, 3);
             fieldAbreviaturaUM1.Margin = new Padding(3, 3, 3, 5);
-            fieldAbreviaturaUM1.Name = "fieldAbreviaturaUM2";
+            fieldAbreviaturaUM1.Name = "fieldAbreviaturaUM1";
             fieldAbreviaturaUM1.Size = new Size(44, 37);
             fieldAbreviaturaUM1.TabIndex = 38;
             fieldAbreviaturaUM1.Text = "u";
@@ -699,7 +699,7 @@
             // 
             // fieldIcono
             // 
-            fieldIcono.BackgroundImage = (Image) resources.GetObject("fieldIcono.BackgroundImage");
+            fieldIcono.BackgroundImage = Properties.Resources.inventory_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
             fieldIcono.Location = new Point(20, 6);

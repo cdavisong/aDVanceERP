@@ -711,7 +711,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             // fieldIcono
             // 
-            fieldIcono.BackgroundImage = (Image) resources.GetObject("fieldIcono.BackgroundImage");
+            fieldIcono.BackgroundImage = Properties.Resources.inventory_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
             fieldIcono.Location = new Point(20, 6);
