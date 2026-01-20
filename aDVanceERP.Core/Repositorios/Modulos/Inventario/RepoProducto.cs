@@ -51,7 +51,7 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 """;
 
         parametros = new Dictionary<string, object> {
-            {  "@RutaImagen", objeto.RutaImagen  },
+            { "@RutaImagen", objeto.RutaImagen  },
             { "@Categoria", objeto.Categoria.ToString() },
             { "@Nombre", objeto.Nombre },
             { "@Codigo", objeto.Codigo },
@@ -94,8 +94,8 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
                 """;
 
         parametros = new Dictionary<string, object> {
-            {  "@Id", objeto.Id  },
-            {  "@RutaImagen", objeto.RutaImagen  },
+            { "@Id", objeto.Id  },
+            { "@RutaImagen", objeto.RutaImagen  },
             { "@Categoria", objeto.Categoria.ToString() },
             { "@Nombre", objeto.Nombre },
             { "@Codigo", objeto.Codigo },
@@ -132,16 +132,16 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
     }
 
     protected override string GenerarComandoObtener(FiltroBusquedaProducto filtroBusqueda, out Dictionary<string, object> parametros, params string[]? criteriosBusqueda) {
-        var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+        var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 2 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
 
         if (criteriosBusqueda == null || criteriosBusqueda.Length == 0 || string.IsNullOrEmpty(criteriosBusqueda[0]))
             criterio = string.Empty;
 
         // Procesamiento de parámetros
-        var todosLosAlmacenes = criteriosBusqueda.Length > 1 && criteriosBusqueda[0].Contains("Todos");
-        var todasLasCategorias = criteriosBusqueda.Length > 2 && criteriosBusqueda[1].Equals("-1");
-        var aplicarFiltroAlmacen = criteriosBusqueda.Length > 1 && !todosLosAlmacenes;
-        var aplicarFiltroCategoria = criteriosBusqueda.Length > 2 && !todasLasCategorias;
+        var todosLosAlmacenes = criteriosBusqueda?.Length == 0 || criteriosBusqueda?.Length > 1 && criteriosBusqueda[0].Contains("Todos");
+        var todasLasCategorias = criteriosBusqueda?.Length == 0 || criteriosBusqueda?.Length > 2 && criteriosBusqueda[1].Equals("0");
+        var aplicarFiltroAlmacen = criteriosBusqueda?.Length > 1 && !todosLosAlmacenes;
+        var aplicarFiltroCategoria = criteriosBusqueda?.Length > 2 && !todasLasCategorias;
 
         // Partes adicionales de la consulta
         const string consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
@@ -193,23 +193,23 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
 
         parametros = filtroBusqueda switch {
             FiltroBusquedaProducto.Id => new Dictionary<string, object> {
-                { "@id", Convert.ToInt64(criterio) },
-                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+                { "@id", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
+                { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
             },
             FiltroBusquedaProducto.Codigo => new Dictionary<string, object> {
                 { "@codigo", $"%{criterio}%" },
-                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+                { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
             },
             FiltroBusquedaProducto.Nombre => new Dictionary<string, object> {
                 { "@nombre", $"%{criterio}%" },
-                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+                { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
             },
             FiltroBusquedaProducto.Descripcion => new Dictionary<string, object> {
                 { "@descripcion", $"%{criterio}%" },
-                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+                { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
             },
             _ => new Dictionary<string, object> {
-                { "@activo", !criterio.Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
+                { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
             }
         };
 
@@ -218,7 +218,7 @@ public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProduct
         }
 
         if (aplicarFiltroCategoria) {
-            parametros.Add("@categoria", criteriosBusqueda[1]);
+            parametros.Add("@categoria", Convert.ToInt32(criteriosBusqueda[1]));
         }
 
         return consulta;

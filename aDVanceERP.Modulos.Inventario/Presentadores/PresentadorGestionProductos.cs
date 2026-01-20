@@ -12,12 +12,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores;
 
 public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTuplaProducto, IVistaGestionProductos, IVistaTuplaProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
     public PresentadorGestionProductos(IVistaGestionProductos vista) : base(vista) {
-        vista.HabilitarDeshabilitarProducto += OnIntercambiarHabilitacionProducto;
-
         RegistrarEntidad += OnRegistrarProducto;
         EditarEntidad += OnEditarProducto;
 
         AgregadorEventos.Suscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
+        AgregadorEventos.Suscribir("HabilitarDeshabilitarProducto", OnHabilitarDeshabilitarProducto);
     }
 
     private void OnRegistrarProducto(object? sender, EventArgs e) {
@@ -44,12 +43,24 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
         ActualizarResultadosBusqueda();
     }
 
+    private void OnHabilitarDeshabilitarProducto(string obj) {
+        var idProductoSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+        if (idProductoSeleccionado != 0) {
+            var estado = RepoProducto.Instancia.HabilitarDeshabilitarProducto(idProductoSeleccionado);
+
+            ActualizarResultadosBusqueda();
+
+            CentroNotificaciones.Mostrar($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
+        }
+    }
+
     protected override PresentadorTuplaProducto ObtenerValoresTupla(Producto entidad, List<IEntidadBaseDatos> entidadesExtra) {
         var presentadorTupla = new PresentadorTuplaProducto(new VistaTuplaProducto(), entidad);
         var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(entidad.IdUnidadMedida);
         var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, entidad.Id.ToString());
 
-        presentadorTupla.Vista.Id = entidad.Id.ToString();
+        presentadorTupla.Vista.Id = entidad.Id;
         presentadorTupla.Vista.Codigo = entidad.Codigo ?? string.Empty;
         presentadorTupla.Vista.FechaUltimoMovimiento = inventarioProducto.cantidad > 0 ? inventarioProducto.resultadosBusqueda.Min(inv => inv.entidadBase.UltimaActualizacion) : DateTime.MinValue;
         presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos") ? "-" : Vista.NombreAlmacen;
@@ -71,50 +82,7 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
 
             AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", AgregadorEventos.SerializarPayload(objetoNeg));
         };
-        presentadorTupla.EntidadSeleccionada += CambiarVisibilidadBtnHabilitacionProducto;
-        presentadorTupla.EntidadDeseleccionada += CambiarVisibilidadBtnHabilitacionProducto;
 
         return presentadorTupla;
-    }
-
-
-
-    private void OnIntercambiarHabilitacionProducto(object? sender, EventArgs e) {
-        var tuplaSeleccionada = _tuplasEntidades.Where(t => t.EstadoSeleccion).FirstOrDefault();
-
-        if (tuplaSeleccionada == null) {
-            Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-            return;
-        }
-
-        var estadoActualProducto = RepoProducto.Instancia.HabilitarDeshabilitarProducto(tuplaSeleccionada.Entidad.Id);
-
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-
-        ActualizarResultadosBusqueda();
-
-        CentroNotificaciones.Mostrar($"El producto '{tuplaSeleccionada.Entidad.Nombre}' ha sido {(estadoActualProducto ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
-    }
-
-    public override void ActualizarResultadosBusqueda() {
-        // Cambiar la visibilidad de los botones
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
-
-        base.ActualizarResultadosBusqueda();
-    }
-
-    private void CambiarVisibilidadBtnHabilitacionProducto(object? sender, Producto e) {
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = _tuplasEntidades.Any(t => t.EstadoSeleccion);
-    }
-
-    protected override void Dispose(bool disposing) {
-        Vista.HabilitarDeshabilitarProducto += OnIntercambiarHabilitacionProducto;
-
-        RegistrarEntidad += OnRegistrarProducto;
-        EditarEntidad += OnEditarProducto;
-
-        AgregadorEventos.Desuscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
-
-        base.Dispose(disposing);
     }
 }

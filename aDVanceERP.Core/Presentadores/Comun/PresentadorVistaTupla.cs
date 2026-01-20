@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
@@ -48,6 +49,10 @@ public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, 
                 Vista.Restaurar();
                 EntidadDeseleccionada?.Invoke(Vista, Entidad);
             }
+
+            Vista.EstadoSeleccion = value;
+
+            AgregadorEventos.Publicar("CambioSeleccionTuplaEntidad", AgregadorEventos.SerializarPayload(value));
         }
     }
 

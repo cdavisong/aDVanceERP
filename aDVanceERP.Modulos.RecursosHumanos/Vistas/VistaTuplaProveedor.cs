@@ -3,7 +3,7 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas; 
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
 public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
     public VistaTuplaProveedor() {
@@ -33,6 +33,13 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         get => Size;
         set => Size = value;
     }
+
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
 
     public string Id {
         get => fieldId.Text;
@@ -65,10 +72,6 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         }
     }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
     public string NombreRepresentante {
         get => fieldNombreRepresentante.Text;
         set {
@@ -79,11 +82,11 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
 
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
-    
+
     public void Inicializar() {
         // Eventos
-        btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-        btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+        btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
+        btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
     }
 
     public void Mostrar() {
@@ -106,16 +109,12 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
 
     private void VerificarPermisos() {
         btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_RRHH_PROVEEDORES_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_RRHH_PROVEEDORES_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_PROVEEDORES_EDITAR")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_PROVEEDORES_TODOS")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_PROVEEDORES_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_PROVEEDORES_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_PROVEEDORES_ELIMINAR")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_PROVEEDORES_TODOS")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

@@ -16,6 +16,9 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private PresentadorGestionEmpleados _empleados = null!;
     private PresentadorGestionProveedores _proveedores = null!;
     private PresentadorGestionClientes _clientes = null!;
+    private PresentadorGestionMensajeros _mensajeros = null!;
+    private PresentadorGestionPersonas _personas = null!;
+    private PresentadorRegistroPersona _registroPersona = null!;
 
     public ModuloRecursosHumanos() {
         Nombre = "MOD_RRHH";
@@ -44,6 +47,12 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
         // Clientes
         _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
+        // Mensajeros
+        _mensajeros = new PresentadorGestionMensajeros(new VistaGestionMensajeros());
+        // Personas
+        _personas = new PresentadorGestionPersonas(new VistaGestionPersonas());
+        _registroPersona = new PresentadorRegistroPersona(new VistaRegistroPersona());
+        _registroPersona.EntidadRegistradaActualizada += (s, e) => _personas.ActualizarResultadosBusqueda();
 
         base.Inicializar(principal);
     }
@@ -62,6 +71,11 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
         // Clientes
         _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
+        // Mensajeros
+        _principal.Modulos.Vista.PanelCentral.Registrar(_mensajeros.Vista);
+        // Personas
+        _principal.Modulos.Vista.PanelCentral.Registrar(_personas.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroPersona.Vista);
     }
 
     public override void Apagar() {

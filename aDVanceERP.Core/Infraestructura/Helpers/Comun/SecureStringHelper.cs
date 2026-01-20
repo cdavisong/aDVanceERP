@@ -19,17 +19,18 @@ public static class SecureStringHelper {
         }
     }
 
+    // ...
+
     private static (string hash, string salt) HashPassword(string? password) {
         var saltBytes = new byte[16];
 
-        using (var rng = new RNGCryptoServiceProvider()) {
-            rng.GetBytes(saltBytes);
-        }
+        RandomNumberGenerator.Fill(saltBytes);
 
         var salt = Convert.ToBase64String(saltBytes);
         var hash = string.Empty;
 
-        using (var rfc2898 = new Rfc2898DeriveBytes(password, saltBytes, 10000)) {
+        // Use SHA256 as the hash algorithm for PBKDF2
+        using (var rfc2898 = new Rfc2898DeriveBytes(password, saltBytes, 10000, HashAlgorithmName.SHA256)) {
             var hashBytes = rfc2898.GetBytes(32);
 
             hash = Convert.ToBase64String(hashBytes);

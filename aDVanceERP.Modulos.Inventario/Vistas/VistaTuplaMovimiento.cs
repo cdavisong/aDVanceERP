@@ -36,6 +36,13 @@ public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
         set => Size = value;
     }
 
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
+
     public string Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
@@ -93,12 +100,7 @@ public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
         get => fieldFecha.Text;
         set => fieldFecha.Text = value;
     }
-
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-        
+    
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     

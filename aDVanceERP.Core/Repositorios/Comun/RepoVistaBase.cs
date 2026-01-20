@@ -163,11 +163,11 @@ public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
                 vista.Dimensiones = _contenedorVistas.Size;
                 break;
             case TipoRedimensionadoVista.Horizontal:
-                vista.Coordenadas = new Point(0);
+                vista.Coordenadas = new Point(0, vista.Coordenadas.Y);
                 vista.Dimensiones = new Size(_contenedorVistas.Size.Width, dimensiones.Height);
                 break;
             case TipoRedimensionadoVista.Vertical:
-                vista.Coordenadas = new Point(0);
+                vista.Coordenadas = new Point(vista.Coordenadas.X, 0);
                 vista.Dimensiones = new Size(dimensiones.Width, _contenedorVistas.Size.Height);
                 break;
             default:

@@ -31,6 +31,13 @@ public partial class VistaTuplaRolUsuario : Form, IVistaTuplaRolUsuario {
         set => Size = value;
     }
 
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
+
     public string? Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
@@ -57,16 +64,10 @@ public partial class VistaTuplaRolUsuario : Form, IVistaTuplaRolUsuario {
         get => fieldCantidadUsuariosRol.Text;
         set => fieldCantidadUsuariosRol.Text = value;
     }
-
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-        
+  
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos
         btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };

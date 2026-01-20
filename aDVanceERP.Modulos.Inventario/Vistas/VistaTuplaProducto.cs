@@ -40,9 +40,16 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
         set => Size = value;
     }
 
-    public string Id {
-        get => fieldId.Text;
-        set => fieldId.Text = value;
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
+
+    public long Id {
+        get => Convert.ToInt64(fieldId.Text);
+        set => fieldId.Text = value.ToString();
     }
 
     public string NombreAlmacen {
@@ -117,11 +124,6 @@ public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
         }
     }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-        
     public event EventHandler? MovimientoPositivoStock;
     public event EventHandler? MovimientoNegativoStock;
     public event EventHandler? EditarDatosTupla;

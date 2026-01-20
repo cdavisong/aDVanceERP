@@ -4,7 +4,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.RecursosHumanos {
     public class Persona : IEntidadBaseDatos {
         public Persona() {
             NombreCompleto = "N/A";
-            TipoDocumento = TipoDocumento.NI;
+            TipoDocumento = TipoDocumento.CI;
             NumeroDocumento = "N/A";
             FechaRegistro = DateTime.UtcNow;
             Activo = true;

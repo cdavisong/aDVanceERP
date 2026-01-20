@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -6,6 +7,8 @@ using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 using System.Globalization;
+
+using Size = System.Drawing.Size;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas;
 
@@ -48,7 +51,7 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     }
 
     public int Categoria {
-        get => fieldFiltroCategoriaProducto.SelectedIndex - 1;
+        get => fieldFiltroCategoriaProducto.SelectedIndex;
         set => fieldFiltroCategoriaProducto.SelectedIndex = value + 1;
     }
 
@@ -112,11 +115,11 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     public event EventHandler? EliminarEntidad;
     public event EventHandler<(FiltroBusquedaProducto, string[])>? BuscarEntidades;
 
-    public event EventHandler? HabilitarDeshabilitarProducto;
-
-
-    public void Inicializar() {
+    public async void Inicializar() {
         // Eventos
+        AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarProducto);
+        AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarProducto);
+
         fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
         fieldFiltroCategoriaProducto.SelectedIndexChanged += OnCambioIndiceCategoriaProducto;
         fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
@@ -136,7 +139,7 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
             ActualizarValorTotalInventario();
         };
         btnHabilitarDeshabilitarProducto.Click += delegate (object? sender, EventArgs e) {
-            HabilitarDeshabilitarProducto?.Invoke(sender, e);
+            AgregadorEventos.Publicar("HabilitarDeshabilitarProducto", string.Empty);
         };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
             PaginaActual = 1;
@@ -168,6 +171,19 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
             ActualizarValorTotalInventario();
         };
         contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
+    }
+
+    private void OcultarMostrarBotonActivarDesactivarProducto(string obj) {
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        try {
+            var visibilidadBoton = Convert.ToBoolean(obj.ToString());
+
+            btnHabilitarDeshabilitarProducto.Visible = visibilidadBoton;
+        } catch (FormatException) {
+            btnHabilitarDeshabilitarProducto.Visible = false;
+        }
     }
 
     private void OnCambioIndiceFiltroAlmacen(object? sender, EventArgs e) {

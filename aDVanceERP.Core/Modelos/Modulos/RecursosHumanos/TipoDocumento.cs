@@ -1,6 +1,6 @@
 ﻿namespace aDVanceERP.Core.Modelos.Modulos.RecursosHumanos {
     public enum TipoDocumento {
-        NI,
+        CI,
         PASS,
         LICC
     }

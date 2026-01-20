@@ -41,6 +41,9 @@ public sealed class GestorModulosExtensibles {
             catch (ExcepcionCargaModuloExtensible) {
                 throw;
             }
+            catch (ReflectionTypeLoadException) {
+                continue;
+            }
         }
     }
 

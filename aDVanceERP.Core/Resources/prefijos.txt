@@ -1,0 +1,219 @@
+Albania|00355|al
+Alemania|0049|de
+Andorra|00376|ad
+Angola|00244|ao
+Anguilla|001 264|ai
+Antigua y Barbuda|001 268|ag
+Antillas Holandesas|00599|unknown
+Arabia Saudi|00966|sa
+Área Caribe|001 809|unknown
+Argelia|00213|dz
+Argentina|0054|ar
+Armenia|00374|am
+Aruba|00297|aw
+Ascensión|00247|sh
+Australia|0061|au
+Austria|0043|at
+Azerbaiyán|00994|az
+Bahamas|001 242|bs
+Bahrein|00973|bh
+Bangladesh|00880|bd
+Barbados|001 246|bb
+Bélgica|0032|be
+Belize|00501|bz
+Benín|00229|bj
+Bermudas|001441|bm
+Bhutan|00975|bt
+Bielorrusia|00375|by
+Bolivia|00591|bo
+Bosnia|00387|ba
+Botsuana|00267|bw
+Brasil|0055|br
+Brunei|00673|bn
+Bulgaria|00359|bg
+Burkina Faso|00226|bf
+Burundi|00257|bi
+Cabo Verde|00238|cv
+Caimanes|001 345|ky
+Camboya|00855|kh
+Camerún|00237|cm
+Canadá|001|ca
+República Centroafricana|00236|cf
+Chad|00235|td
+República Checa|00420|cz
+Chile|0056|cl
+China|0086|cn
+Colombia|0057|co
+Comores|00269|km
+Congo|00242|cg
+Islas Cook|00682|ck
+Corea, R.P.D.|00850|kp
+Costa de Marfil|00225|ci
+Costa Rica|00506|cr
+Croacia|00385|hr
+Cuba|0053|cu
+Diego García|00246|io
+Dinamarca|0045|dk
+República Dominicana|001 809|do
+Ecuador|00593|ec
+Egipto|0020|eg
+El Salvador|00503|sv
+Emiratos A.U.|00971|ae
+Eritrea|00291|er
+Escocia|0044|gb-sct
+República Eslovaca|00421|sk
+Eslovenia|00386|si
+Estados Unidos|001|us
+Estonia|00372|ee
+Etiopía|00251|et
+Islas Feroe|00298|fo
+Fiji|00679|fj
+Filipinas|0063|ph
+Finlandia|00358|fi
+Francia|0033|fr
+Gabón|00241|ga
+Gambia|00220|gm
+Georgia|00995|ge
+Ghana|00233|gh
+Gibraltar|009567|gi
+Granada|001473|gd
+Grecia|0030|gr
+Groenlandia|00299|gl
+Guadalupe|00590|gp
+Guam|001 671|gu
+Guatemala|00502|gt
+Guayana Fr.|00594|gf
+Guinea Bissau|00245|gw
+Guinea Ecuat.|00240|gq
+Guinea, Rep.|00224|gn
+Guyana|00592|gy
+Haiti|00509|ht
+Holanda|0031|nl
+Honduras|00504|hn
+Hong Kong|00852|hk
+Hungría|0036|hu
+India|0091|in
+Indonesia|0062|id
+Inglaterra|0044|gb-eng
+Irán|0098|ir
+Iraq|00964|iq
+Irlanda|00353|ie
+Islandia|00354|is
+Israel|00972|il
+Italia|0039|it
+Jamaica|001 876|jm
+Japón|0081|jp
+Jordania|00962|jo
+Kazajstán|007|kz
+Kenia|00254|ke
+Kiribati|00686|ki
+Kirguistán|007|kg
+Kuwait|00965|kw
+Laos|00856|la
+Lesoto|00266|ls
+Letonia|00371|lv
+Líbano|00961|lb
+Liberia|00231|lr
+Libia|00218|ly
+Liechtenstein|00423|li
+Lituania|00370|lt
+Luxemburgo|00352|lu
+Macao|00853|mo
+Macedonia|00389|mk
+Madagascar|00261|mg
+Malasia|0060|my
+Malawi|00265|mw
+Maldivas|00960|mv
+Mali|00223|ml
+Malta|00356|mt
+Malvinas|00500|fk
+Marianas|001 670|mp
+Marruecos|00212|ma
+Islas Marshall|00692|mh
+Martinica|00596|mq
+Mauricio|00230|mu
+Mayotte|00269|yt
+México|0052|mx
+Micronesia|00691|fm
+Moldavia|00373|md
+Mónaco|00377|mc
+Mongolia|00976|mn
+Montserrat|001 664|ms
+Mozambique|00258|mz
+Myanmar|0095|mm
+Namibia|00264|na
+Nauru|00674|nr
+Nepal|00977|np
+Nicaragua|00505|ni
+Niger|00227|ne
+Nigeria|00234|ng
+Niue|00683|nu
+Noruega|0047|no
+Nueva Caledonia|00687|nc
+Nueva Zelanda|0064|nz
+Omán|00968|om
+Pakistán|0092|pk
+Palau|00680|pw
+Panamá|00507|pa
+Papúa Nueva Guinea|00675|pg
+Paraguay|00595|py
+Perú|0051|pe
+Polinesia Fr.|00689|pf
+Polonia|0048|pl
+Portugal|00351|pt
+Puerto Rico|001 787|pr
+Qatar|00974|qa
+Reunión|00262|re
+Ruanda|00250|rw
+Rumanía|0040|ro
+Rusia|007|ru
+Salomón|00677|sb
+Samoa Amer.|00684|as
+Samoa Occ.|00685|ws
+San Cristóbal y Nieves|001 869|kn
+San Marino|00378|sm
+San Pedro y Miquelón|00508|pm
+San Vicente|001 784|vc
+Santa Elena|00290|sh
+Santa Lucía|001 758|lc
+Santo Tomé y Príncipe|00239|st
+Senegal|00221|sn
+Seychelles, Islas|00248|sc
+Sierra Leona|00232|sl
+Singapur|0065|sg
+Siria|00963|sy
+Sri Lanka|0094|lk
+Esuatini|00268|sz
+Sudáfrica|0027|za
+Sudán|00249|sd
+Suecia|0046|se
+Surinam|00597|sr
+Suiza|0041|ch
+Tailandia|0066|th
+Tanzania|00255|tz
+Trts. Ext. Austr.|00672|unknown
+Togo|00228|tg
+Tonga|00676|to
+Trinidad y Tobago|001 868|tt
+Túnez|00216|tn
+Turkmenistán|007|tm
+Turks y Caicos|001 649|tc
+Turquía|0090|tr
+Tuvalu|00688|tv
+Ucrania|00380|ua
+Uganda|00256|ug
+Uruguay|00598|uy
+Uzbekistán|007|uz
+Vanuatu|00678|vu
+Vaticano|0039|va
+Venezuela|0058|ve
+Vietnam|0084|vn
+Islas Vírgenes Americanas|001 340|vi
+Islas Vírgenes Británicas|001 284|vg
+Wallis y Futuna|00681|wf
+Yemen|00967|ye
+Yibuti|00253|dj
+Yugoslavia Fed.|00381|unknown
+República Democrática del Congo|00243|cd
+Zambia|00260|zm
+Zimbabwe|00263|zw

@@ -83,6 +83,16 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap deleteF_20px {
+            get {
+                object obj = ResourceManager.GetObject("deleteF_20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap inactive_state_20px {
             get {
                 object obj = ResourceManager.GetObject("inactive_state_20px", resourceCulture);
@@ -103,6 +113,16 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mail_fill_20px {
+            get {
+                object obj = ResourceManager.GetObject("mail_fill_20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap male_user_100px {
             get {
                 object obj = ResourceManager.GetObject("male_user_100px", resourceCulture);
@@ -116,6 +136,16 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Properties {
         internal static System.Drawing.Bitmap mascara {
             get {
                 object obj = ResourceManager.GetObject("mascara", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap phone_fill_20px {
+            get {
+                object obj = ResourceManager.GetObject("phone_fill_20px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

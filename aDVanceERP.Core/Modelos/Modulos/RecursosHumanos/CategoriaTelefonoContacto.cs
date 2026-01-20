@@ -2,6 +2,7 @@
     public enum CategoriaTelefonoContacto {
         Movil,
         Fijo,
+        Fax,
         Trabajo,
         Otro
     }

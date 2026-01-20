@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11312.210 d18.3
+VisualStudioVersion = 18.3.11312.210
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Desktop", "aDVanceERP.Desktop\aDVanceERP.Desktop.csproj", "{414811EF-B6AB-42DB-97FB-9B069EA9D204}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Actualizador", "aDVanceERP.Actualizador\aDVanceERP.Actualizador.csproj", "{46C6104E-764A-4C58-A929-09C10BC960D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.PatchDB", "aDVanceERP.PatchDB\aDVanceERP.PatchDB.csproj", "{C5A0BA96-5811-4F8A-B025-2486660D0A0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiendaSimple", "TiendaSimple\TiendaSimple.csproj", "{C0CFE07B-64CD-4A3B-AB27-31A4C0D17C23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,10 @@ Global
 		{C5A0BA96-5811-4F8A-B025-2486660D0A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5A0BA96-5811-4F8A-B025-2486660D0A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5A0BA96-5811-4F8A-B025-2486660D0A0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0CFE07B-64CD-4A3B-AB27-31A4C0D17C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0CFE07B-64CD-4A3B-AB27-31A4C0D17C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0CFE07B-64CD-4A3B-AB27-31A4C0D17C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0CFE07B-64CD-4A3B-AB27-31A4C0D17C23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

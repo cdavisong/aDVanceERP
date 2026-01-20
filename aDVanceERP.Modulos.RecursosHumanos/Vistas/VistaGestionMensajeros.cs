@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -14,6 +15,7 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
         InitializeComponent();
 
         NombreVista = nameof(VistaGestionMensajeros);
+        PanelCentral = new RepoVistaBase(contenedorVistas);
 
         Inicializar();
     }
@@ -51,8 +53,8 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
     }
 
     public bool MostrarBtnHabilitarDeshabilitarMensajero {
-        get => btnHabilitarDeshabilitarMensajero.Visible;
-        set => btnHabilitarDeshabilitarMensajero.Visible = value;
+        get => btnActivarDesactivarMensajero.Visible;
+        set => btnActivarDesactivarMensajero.Visible = value;
     }
 
     public int TuplasMaximasContenedor {
@@ -76,7 +78,7 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
         }
     }
 
-    public RepoVistaBase? PanelCentral { get; private set; }
+    public RepoVistaBase PanelCentral { get; private set; }
 
     public event EventHandler? AlturaContenedorTuplasModificada;
     public event EventHandler? MostrarPrimeraPagina;
@@ -84,18 +86,20 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
     public event EventHandler? MostrarPaginaSiguiente;
     public event EventHandler? MostrarUltimaPagina;
     public event EventHandler? SincronizarDatos;
-    
+
     public event EventHandler? RegistrarEntidad;
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
     public event EventHandler<(FiltroBusquedaMensajero, string[])>? BuscarEntidades;
-    public event EventHandler? HabilitarDeshabilitarMensajero;
 
     public void Inicializar() {
         // Variables locales
         PanelCentral = new RepoVistaBase(contenedorVistas);
 
         // Eventos
+        AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarMensajero);
+        AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarMensajero);
+
         fieldFiltroBusqueda.SelectedIndexChanged += delegate {
             fieldDatoBusqueda.Text = string.Empty;
             fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
@@ -107,7 +111,7 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
             PaginaActual = 1;
             HabilitarBotonesPaginacion();
         };
-        fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+        fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
 
@@ -117,14 +121,11 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
 
             args.SuppressKeyPress = true;
         };
-        btnCerrar.Click += delegate (object? sender, EventArgs e) {
-            Ocultar();
+        btnActivarDesactivarMensajero.Click += delegate (object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("ActivarDesactivarMensajero", string.Empty);
         };
-        btnHabilitarDeshabilitarMensajero.Click += delegate (object? sender, EventArgs e) {
-            HabilitarDeshabilitarMensajero?.Invoke(sender, e);
-        };
-        btnRegistrar.Click += delegate (object? sender, EventArgs e) { 
-            RegistrarEntidad?.Invoke(sender, e); 
+        btnRegistrar.Click += delegate (object? sender, EventArgs e) {
+            RegistrarEntidad?.Invoke(sender, e);
         };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
             PaginaActual = 1;
@@ -154,10 +155,23 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
         contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
     }
 
+    private void OcultarMostrarBotonActivarDesactivarMensajero(string obj) {
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        try {
+            var visibilidadBoton = Convert.ToBoolean(obj.ToString());
+
+            btnActivarDesactivarMensajero.Visible = visibilidadBoton;
+        } catch (FormatException) {
+            btnActivarDesactivarMensajero.Visible = false;
+        }
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
-        
+
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
@@ -184,16 +198,9 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
     }
 
     private void VerificarPermisos() {
-        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-            btnRegistrar.Enabled = false;
-            return;
-        }
-
         btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_RRHH_MENSAJEROS_ADICIONAR")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                   "MOD_RRHH_MENSAJEROS_TODOS")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_ADICIONAR")
+                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_TODOS")
                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 

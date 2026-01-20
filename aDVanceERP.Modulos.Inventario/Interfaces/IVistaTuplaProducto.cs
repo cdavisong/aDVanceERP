@@ -2,9 +2,8 @@
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces;
 
-public interface IVistaTuplaProducto : IVistaTupla
-{
-    string Id { get; set; }
+public interface IVistaTuplaProducto : IVistaTupla {
+    long Id { get; set; }
     string NombreAlmacen { get; set; }
     string Codigo { get; set; }
     DateTime FechaUltimoMovimiento { get; set; }

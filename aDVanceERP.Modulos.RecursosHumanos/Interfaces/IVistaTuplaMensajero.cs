@@ -3,9 +3,10 @@
 namespace aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
 public interface IVistaTuplaMensajero : IVistaTupla {
-    string Id { get; set; }
-    string NombreMensajero { get; set; }
+    long Id { get; set; }
+    string CodigoMensajero { get; set; }
+    string NombreCompleto { get; set; }    
     string Telefonos { get; set; }
-    string Direccion { get; set; }
-    bool Activo { get; set; }
+    public string MatriculaVehiculo { get; set; }
+    public bool Activo { get; set; }
 }

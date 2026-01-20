@@ -36,6 +36,8 @@ public partial class VistaTuplaEmpleado : Form, IVistaTuplaEmpleado {
         set => layoutVista.BackColor = value;
     }
 
+    public bool EstadoSeleccion { get; set; }
+
     public long Id {
         get => Convert.ToInt64(fieldId.Text);
         set => fieldId.Text = value.ToString();

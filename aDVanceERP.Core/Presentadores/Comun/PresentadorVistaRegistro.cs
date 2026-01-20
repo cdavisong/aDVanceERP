@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -12,13 +13,10 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
     where Fb : Enum {
     private bool _disposed; // Para evitar llamadas redundantes a Dispose
 
-    protected En? _entidad;
-    protected Re _repositorio;
+    protected En? _entidad = null!;
+    protected Re _repositorio = new();
 
     protected PresentadorVistaRegistro(Vr vista) : base(vista) {
-        _entidad = null;
-        _repositorio = new();
-
         Vista.RegistrarEntidad += OnRegistrarEntidad;
         Vista.EditarEntidad += OnEditarEntidad;
     }
@@ -54,25 +52,30 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
         if (!EntidadCorrecta())
             return;
 
-        _entidad = ObtenerEntidadDesdeVista();
+        var entidad = ObtenerEntidadDesdeVista();
 
-        if (_entidad == null)
+        if (entidad == null)
             return;
 
-        if (Vista.ModoEdicion && _entidad.Id != 0)
-            Repositorio.Editar(_entidad);
-        else if (_entidad.Id != 0)
-            Repositorio.Editar(_entidad);
-        else
-            _entidad.Id = Repositorio.Adicionar(_entidad);
+        if (Vista.ModoEdicion) {
+            if (_entidad != null) {
+                entidad.Id = _entidad.Id;
 
-        RegistroEdicionAuxiliar(_repositorio, _entidad.Id);
+                Repositorio.Editar(entidad);
+            }            
+        } else
+            entidad.Id = Repositorio.Adicionar(entidad);
+
+        RegistroEdicionAuxiliar(_repositorio, entidad.Id);
 
         EntidadRegistradaActualizada?.Invoke(sender, e);
         Salir?.Invoke(sender, e);
 
         Vista.ModoEdicion = false;
         Vista.Ocultar();
+
+        // Limpiar entidad después de la edición o registro 
+        _entidad = null;
     }
 
     private void OnSalir(object? sender, EventArgs e) {

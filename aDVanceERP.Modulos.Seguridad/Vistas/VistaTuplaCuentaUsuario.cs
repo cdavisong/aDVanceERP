@@ -31,6 +31,13 @@ public partial class VistaTuplaCuentaUsuario : Form, IVistaTuplaCuentaUsuario {
         set => Size = value;
     }
 
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
+
     public string Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
@@ -58,15 +65,9 @@ public partial class VistaTuplaCuentaUsuario : Form, IVistaTuplaCuentaUsuario {
         set => fieldEstadoCuentaUsuario.Text = value;
     }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos
         btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };

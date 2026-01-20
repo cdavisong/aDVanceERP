@@ -141,7 +141,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             var persona = new Persona(
                 id: Convert.ToInt64(lector["id_persona"]),
                 nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.NI,
+                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
                 numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
                 direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
                 fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),

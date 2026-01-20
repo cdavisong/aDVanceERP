@@ -8,7 +8,7 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores;
 
-public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Core.Modelos.Modulos.Inventario.Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
+public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
     public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) {
         AgregadorEventos.Suscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
         AgregadorEventos.Suscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
@@ -28,7 +28,7 @@ public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistr
         if (string.IsNullOrEmpty(obj))
             return;
 
-        var almacen = AgregadorEventos.DeserializarPayload<Core.Modelos.Modulos.Inventario.Almacen>(obj);
+        var almacen = AgregadorEventos.DeserializarPayload<Almacen>(obj);
 
         if (almacen == null)
             return;
@@ -38,7 +38,7 @@ public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistr
         Vista.Mostrar();
     }
 
-    public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.Almacen objeto) {
+    public override void PopularVistaDesdeEntidad(Almacen objeto) {
         base.PopularVistaDesdeEntidad(objeto);
 
         Vista.NombreAlmacen = objeto.Nombre;
@@ -50,8 +50,8 @@ public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistr
         Vista.CoordenadasGeograficas = objeto.Coordenadas;
     }
 
-    protected override Core.Modelos.Modulos.Inventario.Almacen? ObtenerEntidadDesdeVista() {
-        return new Core.Modelos.Modulos.Inventario.Almacen {
+    protected override Almacen? ObtenerEntidadDesdeVista() {
+        return new Almacen {
             Id = _entidad?.Id ?? 0,
             Nombre = Vista.NombreAlmacen,
             Descripcion = Vista.Descripcion,

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
@@ -35,7 +36,7 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
         Vista.AlturaContenedorTuplasModificada += OnAlturaContenedorTuplasModificada;
         Vista.SincronizarDatos += OnSincronizarDatos;
 
-        CargaDatosCompletada += delegate { _cargaDatos.Ocultar(); };
+        AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OnResultadosBusquedaActualizados);
     }
 
     public Re Repositorio => _repositorio;
@@ -45,7 +46,6 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
     public event EventHandler? RegistrarEntidad;
     public event EventHandler<En>? EditarEntidad;
-    public event EventHandler<bool>? CargaDatosCompletada;
 
     public void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda) {
         FiltroBusqueda = filtroBusqueda;
@@ -92,16 +92,16 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
             _cargaDatos.Mostrar();
 
             for (var i = 0; i < resultados.Count && i < Vista.TuplasMaximasContenedor; i++) {
-                var entidad = resultados[i];
+                var resultado = resultados[i];
 
                 (Vista as Control)?.Invoke(() => {
-                    AdicionarTuplaEntidad(entidad.entidadBase, entidad.entidadesExtra);
+                    AdicionarTuplaEntidad(resultado.entidadBase, resultado.entidadesExtra);
                 });
 
                 Application.DoEvents();
             }
 
-            CargaDatosCompletada?.Invoke(this, true);
+            AgregadorEventos.Publicar("ResultadosBusquedaActualizados", AgregadorEventos.SerializarPayload(resultados));
         } catch (Exception ex) {
             CentroNotificaciones.Mostrar($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacion.Error);
         }
@@ -133,8 +133,10 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
     private void DeseleccionarTuplas(IVistaTupla vista) {
         _tuplasEntidades.ForEach(tupla => {
-            if (!tupla.Vista.Equals(vista))
+            if (!tupla.Vista.Equals(vista)) {
                 tupla.EstadoSeleccion = false;
+                tupla.Vista.EstadoSeleccion = false;
+            }
         });
     }
 
@@ -178,6 +180,10 @@ public abstract class PresentadorVistaGestion<Pt, Vg, Vt, En, Re, Fb> : Presenta
 
     private void OnSincronizarDatos(object? sender, EventArgs e) {
         ActualizarResultadosBusqueda();
+    }
+
+    private void OnResultadosBusquedaActualizados(string obj) {
+        _cargaDatos.Ocultar();
     }
 
     private void OnMostrarOcultarVista(object? sender, EventArgs e) {

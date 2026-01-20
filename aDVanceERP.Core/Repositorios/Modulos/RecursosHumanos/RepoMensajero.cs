@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -118,7 +119,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             var persona = new Persona(
                 id: Convert.ToInt64(lector["id_persona"]),
                 nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.NI,
+                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
                 numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
                 direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
                 fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
@@ -139,6 +140,31 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #region STATIC
 
         public static RepoMensajero Instancia { get; } = new RepoMensajero();
+
+        #endregion
+
+        #region UTILES
+
+        public bool HabilitarDeshabilitarMensajero(long id) {
+            var consulta = $"""
+                UPDATE adv__mensajero
+                SET activo = NOT activo
+                WHERE id_mensajero = @IdMensajero;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdMensajero", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__mensajero
+                WHERE id_mensajero = @IdMensajero;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
 
         #endregion
     }

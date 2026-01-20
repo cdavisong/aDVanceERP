@@ -10,7 +10,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaRegistroMovimiento : Form, IVistaRegistroMovimiento {
         private bool _modoEdicion = false;
         private TipoMovimiento[] _tiposMovimiento = Array.Empty<TipoMovimiento>();
-        private Core.Modelos.Modulos.Inventario.Producto? _productoSeleccionado = null;
+        private Producto? _productoSeleccionado;
 
         public VistaRegistroMovimiento() {
             InitializeComponent();

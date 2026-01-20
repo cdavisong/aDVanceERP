@@ -23,7 +23,8 @@ public static class SecureStringExt {
         var saltBytes = Convert.FromBase64String(saltAlmacenado);
         var hash = string.Empty;
 
-        using (var rfc2898 = new Rfc2898DeriveBytes(password, saltBytes, 10000)) {
+        // Use SHA256 as the hash algorithm for PBKDF2
+        using (var rfc2898 = new Rfc2898DeriveBytes(password, saltBytes, 10000, HashAlgorithmName.SHA256)) {
             var hashBytes = rfc2898.GetBytes(32);
 
             hash = Convert.ToBase64String(hashBytes);

@@ -33,6 +33,13 @@ public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
         set => Size = value;
     }
 
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
+    }
+
+    public bool EstadoSeleccion { get; set; }
+
     public string Id {
         get => _idPermiso;
         set => _idPermiso = value ?? string.Empty;
@@ -42,16 +49,10 @@ public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
         get => fieldNombrePermiso.Text;
         set => fieldNombrePermiso.Text = value;
     }
-
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-        
+            
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
     
-
     public void Inicializar() {
         // Eventos            
         btnEliminar.Click += delegate(object? sender, EventArgs e) {

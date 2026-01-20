@@ -118,22 +118,31 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="mascara" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mascara.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="active_state_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\active_state_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="male_user_100px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\male_user_100px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="phone_fill_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\phone_fill_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="inactive_state_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\inactive_state_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="active_state_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\active_state_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="businessmanB_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\businessmanB_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="male_user_100px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\male_user_100px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="logoF_96px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logoF_96px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="businessmanB_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\businessmanB_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="mail_fill_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mail_fill_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mascara" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mascara.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="deleteF_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\deleteF_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

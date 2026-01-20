@@ -15,7 +15,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Vistas\VistaGestionPersonas.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaGestionEmpleados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroPersona.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaPersona.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaTuplaEmpleado.cs">

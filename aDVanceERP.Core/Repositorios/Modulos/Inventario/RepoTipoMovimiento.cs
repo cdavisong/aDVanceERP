@@ -23,7 +23,7 @@ public class RepoTipoMovimiento : RepoEntidadBaseDatos<TipoMovimiento, FiltroBus
 
         parametros = new Dictionary<string, object> {
             { "@nombre", objeto.Nombre },
-            { "@efecto", objeto.Efecto }
+            { "@efecto", objeto.Efecto.ToString() }
         };
 
         return consulta;
@@ -41,7 +41,7 @@ public class RepoTipoMovimiento : RepoEntidadBaseDatos<TipoMovimiento, FiltroBus
         parametros = new Dictionary<string, object> {
             { "@id", objeto.Id },
             { "@nombre", objeto.Nombre },
-            { "@efecto", objeto.Efecto } 
+            { "@efecto", objeto.Efecto.ToString() } 
         };
 
         return consulta;

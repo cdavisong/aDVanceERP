@@ -23,7 +23,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
 
             parametros = new Dictionary<string, object> {
                 { "@direccion_correo", entidad.DireccionCorreo },
-                { "@categoria", entidad.Categoria },
+                { "@categoria", entidad.Categoria.ToString() },
                 { "@id_persona", entidad.IdPersona }
             };
 
@@ -41,7 +41,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
 
             parametros = new Dictionary<string, object> {
                 { "@direccion_correo", entidad.DireccionCorreo },
-                { "@categoria", entidad.Categoria },
+                { "@categoria", entidad.Categoria.ToString() },
                 { "@id_persona", entidad.IdPersona },
                 { "@id", entidad.Id }
             };

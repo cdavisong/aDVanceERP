@@ -61,30 +61,30 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         Vista.Mostrar();
     }
 
-    public override void PopularVistaDesdeEntidad(Producto objeto) {
-        base.PopularVistaDesdeEntidad(objeto);
+    public override void PopularVistaDesdeEntidad(Producto entidad) {
+        base.PopularVistaDesdeEntidad(entidad);
 
         // Variables auxiliares
-        var proveedor = RepoProveedor.Instancia.ObtenerPorId(objeto.IdProveedor);
-        var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(objeto.IdUnidadMedida);
-        var clasificacion = RepoClasificacionProducto.Instancia.ObtenerPorId(objeto.IdClasificacionProducto);
+        var proveedor = RepoProveedor.Instancia.ObtenerPorId(entidad.IdProveedor);
+        var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(entidad.IdUnidadMedida);
+        var clasificacion = RepoClasificacionProducto.Instancia.ObtenerPorId(entidad.IdClasificacionProducto);
 
-        Vista.Categoria = objeto.Categoria;
-        Vista.Nombre = objeto.Nombre;
-        Vista.Codigo = objeto.Codigo;
-        Vista.Descripcion = objeto.Descripcion;
+        Vista.Categoria = entidad.Categoria;
+        Vista.Nombre = entidad.Nombre;
+        Vista.Codigo = entidad.Codigo;
+        Vista.Descripcion = entidad.Descripcion;
         Vista.NombreProveedor = proveedor?.RazonSocial ?? string.Empty;
         Vista.NombreUnidadMedida = unidadMedida?.Nombre ?? string.Empty;
         Vista.NombreClasificacionProducto = clasificacion?.Nombre ?? string.Empty;
-        Vista.EsVendible = objeto.EsVendible;
-        Vista.CostoUnitario = objeto.Categoria == CategoriaProducto.Mercancia || objeto.Categoria == CategoriaProducto.MateriaPrima
-                ? objeto.CostoAdquisicionUnitario
-                : objeto.Categoria == CategoriaProducto.ProductoTerminado
-                    ? objeto.CostoProduccionUnitario
+        Vista.EsVendible = entidad.EsVendible;
+        Vista.CostoUnitario = entidad.Categoria == CategoriaProducto.Mercancia || entidad.Categoria == CategoriaProducto.MateriaPrima
+                ? entidad.CostoAdquisicionUnitario
+                : entidad.Categoria == CategoriaProducto.ProductoTerminado
+                    ? entidad.CostoProduccionUnitario
                     : 0m;
-        Vista.ImpuestoVentaPorcentaje = objeto.ImpuestoVentaPorcentaje;
-        Vista.MargenGananciaDeseado = objeto.MargenGananciaDeseado;
-        Vista.PrecioVentaBase = objeto.PrecioVentaBase;
+        Vista.ImpuestoVentaPorcentaje = entidad.ImpuestoVentaPorcentaje;
+        Vista.MargenGananciaDeseado = entidad.MargenGananciaDeseado;
+        Vista.PrecioVentaBase = entidad.PrecioVentaBase;
     }
 
     protected override Producto? ObtenerEntidadDesdeVista() {
@@ -128,7 +128,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         return nombreOk && codigoOk && unidadMedidaOk;
     }
 
-    protected override void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
+    protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
         base.RegistroEdicionAuxiliar(repositorio, id);
 
         if (!Vista.ModoEdicion) {
@@ -164,6 +164,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
                 Notas = "Movimiento de inventario inicial al registrar el producto.",
             };
 
+            // Adicionar a la base de datos local
             RepoMovimiento.Instancia.Adicionar(movimiento);
         }
     }

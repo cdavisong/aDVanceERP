@@ -2,6 +2,7 @@
 
 public interface IVistaTupla : IVistaBase {
     Color ColorFondoTupla { get; set; }
+    bool EstadoSeleccion {  get; set; }
 
     event EventHandler? EditarDatosTupla;
     event EventHandler? EliminarDatosTupla;

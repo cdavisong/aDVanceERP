@@ -112,9 +112,6 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
 
             args.SuppressKeyPress = true;
         };
-        btnCerrar.Click += delegate (object? sender, EventArgs e) {
-            Ocultar();
-        };
         btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
             PaginaActual = 1;

@@ -1,9 +1,8 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
-using aDVanceERP.Modulos.RecursosHumanos.Properties;
-
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas; 
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
 public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
     private bool _activo;
@@ -36,14 +35,29 @@ public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
         set => Size = value;
     }
 
-    public string Id {
-        get => fieldId.Text;
-        set => fieldId.Text = value;
+    public Color ColorFondoTupla {
+        get => layoutVista.BackColor;
+        set => layoutVista.BackColor = value;
     }
 
-    public string NombreMensajero {
-        get => fieldNombre.Text;
-        set => fieldNombre.Text = value;
+    public bool EstadoSeleccion { get; set; }
+
+    public long Id {
+        get => Convert.ToInt64(fieldId.Text);
+        set => fieldId.Text = value.ToString();
+    }
+
+    public string CodigoMensajero {
+        get => fieldCodigo.Text;
+        set => fieldCodigo.Text = value;
+    }
+
+    public string NombreCompleto {
+        get => fieldNombreCompleto.Text;
+        set {
+            fieldNombreCompleto.Text = value;
+            fieldNombreCompleto.Margin = fieldNombreCompleto.AjusteAutomaticoMargenTexto();
+        }
     }
 
     public string Telefonos {
@@ -51,34 +65,26 @@ public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
         set => fieldTelefonos.Text = value;
     }
 
-    public string Direccion {
-        get => fieldDireccion.Text;
-        set {
-            fieldDireccion.Text = value;
-            fieldDireccion.Margin = new Padding(1, value?.Length > 43 ? 10 : 1, 1, 1);
-        }
+    public string MatriculaVehiculo {
+        get => fieldMatriculaVehiculo.Text;
+        set => fieldMatriculaVehiculo.Text = value;
     }
 
     public bool Activo {
-        get => _activo;
+        get => fieldEstado.Text.Equals("Activo");
         set {
-            _activo = value;
-            fieldActivo.Image = value ? Resources.active_state_20px : Resources.inactive_state_20px;
+            fieldEstado.Text = value ? "Activo" : "Inactivo";
+            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
         }
     }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-        
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
-    
+
     public void Inicializar() {
         // Eventos
-        btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-        btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+        btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
+        btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
     }
 
     public void Mostrar() {
@@ -100,23 +106,13 @@ public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
     }
 
     private void VerificarPermisos() {
-        if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-            btnEditar.Enabled = false;
-            btnEliminar.Enabled = false;
-            return;
-        }
-
         btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_RRHH_MENSAJEROS_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                "MOD_RRHH_MENSAJEROS_TODOS")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_EDITAR")
+                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_TODOS")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_MENSAJEROS_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                  "MOD_RRHH_MENSAJEROS_TODOS")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_ELIMINAR")
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_TODOS")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
     }
 }

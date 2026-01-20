@@ -40,6 +40,8 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
         set => layoutVista.BackColor = value;
     }
 
+    public bool EstadoSeleccion { get; set; }
+
     public string Id {
         get => fieldId.Text;
         set => fieldId.Text = value;
@@ -104,7 +106,6 @@ public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
     public event EventHandler? DescargarProductos;
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
-
 
     public void Inicializar() {
         // Eventos
