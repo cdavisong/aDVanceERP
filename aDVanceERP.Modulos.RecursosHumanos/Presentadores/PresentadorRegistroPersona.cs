@@ -1,4 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
@@ -62,49 +64,73 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
                 direccionPrincipal: Vista.DireccionPrincipal,
                 fechaRegistro: Vista.FechaRegistro,
                 activo: true
-                );
+            );
         }
 
         protected override void RegistroEdicionAuxiliar(RepoPersona repositorio, long id) {
             // Telefonos
             var repoTelefonos = RepoTelefonoContacto.Instancia;
-            var telefonos = repoTelefonos.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _entidad?.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
+            var telefonosBd = repoTelefonos.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _entidad?.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
 
             // Buscar si se borró algún teléfono registrado
-            telefonos.ForEach(tbd => {
-                if (Vista.Telefonos.Find(tv => tv.Id.Equals(tbd.Id)) == null)
-                    repoTelefonos.Eliminar(tbd.Id);
+            telefonosBd.ForEach(telefonoBd => {
+                if (Vista.Telefonos.Find(telefonoVista => telefonoVista.Id.Equals(telefonoBd.Id)) == null)
+                    repoTelefonos.Eliminar(telefonoBd.Id);
             });
 
             // Registrar o actualizar los teléfonos de la vista
-            Vista.Telefonos.ForEach(tv => {
-                if (tv.Id == 0) {
-                    tv.IdPersona = id;
-                    repoTelefonos.Adicionar(tv);
-                } else repoTelefonos.Editar(tv);
+            Vista.Telefonos.ForEach(telefono => {
+                var telefonoBd = telefonosBd.FirstOrDefault(t => t.Id == telefono.Id);
+                var telefonoVista = new TelefonoContacto(
+                    id: telefonoBd?.Id ?? 0,
+                    prefijoPais: telefono.PrefijoPais,
+                    numeroTelefono: telefono.NumeroTelefono,
+                    categoria: telefono.Categoria,
+                    idPersona: id
+                );
+
+                if (!Vista.ModoEdicion && telefonoVista.Id == 0) {
+                    repoTelefonos.Adicionar(telefonoVista);
+                } else repoTelefonos.Editar(telefonoVista);
             });
 
             // Direcciones de correo
             var repoDireccionesCorreo = RepoCorreoContacto.Instancia;
-            var direccionesCorreo = repoDireccionesCorreo.Buscar(FiltroBusquedaCorreoContacto.IdPersona, _entidad?.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
+            var direccionesCorreoBd = repoDireccionesCorreo.Buscar(FiltroBusquedaCorreoContacto.IdPersona, _entidad?.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
 
             // Buscar si se borró algún teléfono registrado
-            direccionesCorreo.ForEach(cbd => {
-                if (Vista.DireccionesCorreo.Find(cv => cv.Id.Equals(cbd.Id)) == null)
-                    repoDireccionesCorreo.Eliminar(cbd.Id);
+            direccionesCorreoBd.ForEach(direccionCorreoBd => {
+                if (Vista.DireccionesCorreo.Find(direccionCorreoVista => direccionCorreoVista.Id.Equals(direccionCorreoBd.Id)) == null)
+                    repoDireccionesCorreo.Eliminar(direccionCorreoBd.Id);
             });
 
             // Registrar o actualizar los teléfonos de la vista
-            Vista.DireccionesCorreo.ForEach(cv => {
-                if (cv.Id == 0) {
-                    cv.IdPersona = id;
-                    repoDireccionesCorreo.Adicionar(cv);
-                } else repoDireccionesCorreo.Editar(cv);
+            Vista.DireccionesCorreo.ForEach(direccionCorreo => {
+                var direccionCorreoBd = direccionesCorreoBd.FirstOrDefault(c => c.Id == direccionCorreo.Id);
+                var direccionCorreoVista = new CorreoContacto(
+                    id: direccionCorreoBd?.Id ?? 0,
+                    direccionCorreo: direccionCorreo.DireccionCorreo,
+                    categoria: direccionCorreo.Categoria,
+                    idPersona: id
+                );
+
+                if (!Vista.ModoEdicion && direccionCorreoVista.Id == 0) {
+                    repoDireccionesCorreo.Adicionar(direccionCorreoVista);
+                } else repoDireccionesCorreo.Editar(direccionCorreoVista);
             });
         }
 
         protected override bool EntidadCorrecta() {
-            return base.EntidadCorrecta();
+            var personasConNombreRepetido = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.NombreCompleto, Vista.NombreCompleto).cantidad;
+            var nombreRepetido = !Vista.ModoEdicion && personasConNombreRepetido > 0;
+            var nombreOk = !string.IsNullOrEmpty(Vista.NombreCompleto) && !nombreRepetido;
+
+            if (nombreRepetido)
+                CentroNotificaciones.Mostrar("Ye existe una persona con el mismo nombre registrada en el sistema, los nombres de personas deben ser únicos.", TipoNotificacion.Advertencia);
+            if (!nombreOk)
+                CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para la persona, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+
+            return nombreOk;
         }
     }
 }

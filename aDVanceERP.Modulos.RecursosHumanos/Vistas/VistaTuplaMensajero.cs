@@ -5,8 +5,6 @@ using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
 public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
-    private bool _activo;
-
     public VistaTuplaMensajero() {
         InitializeComponent();
 
@@ -57,7 +55,7 @@ public partial class VistaTuplaMensajero : Form, IVistaTuplaMensajero {
         set {
             fieldNombreCompleto.Text = value;
             fieldNombreCompleto.Margin = fieldNombreCompleto.AjusteAutomaticoMargenTexto();
-        }
+        }    
     }
 
     public string Telefonos {

@@ -24,10 +24,15 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroPersona));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -48,15 +53,11 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroPersona));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulo = new TableLayoutPanel();
             fieldTitulo = new Label();
+            fieldDireccionPrincipal = new Guna.UI2.WinForms.Guna2TextBox();
             fieldSubtitulo = new Label();
             separador1 = new Guna.UI2.WinForms.Guna2Separator();
             layoutBotones = new TableLayoutPanel();
@@ -64,9 +65,11 @@
             btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             layoutDistribucion2 = new TableLayoutPanel();
             layoutTitulos1 = new TableLayoutPanel();
+            fieldTituloFecha = new Label();
             fieldTituloDatosGenerales = new Label();
             fieldTituloTipoDocumento = new Label();
             layoutDatos1 = new TableLayoutPanel();
+            fieldFechaRegistro = new Guna.UI2.WinForms.Guna2DateTimePicker();
             fieldNumeroDocumento = new Guna.UI2.WinForms.Guna2TextBox();
             fieldTipoDocumento = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldNombreCompleto = new Guna.UI2.WinForms.Guna2TextBox();
@@ -89,9 +92,6 @@
             layoutDistListaTelefonosCorreos = new TableLayoutPanel();
             layoutListaTelefonos = new FlowLayoutPanel();
             layoutListaDireccionesCorreo = new FlowLayoutPanel();
-            fieldDireccionPrincipal = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldTituloFecha = new Label();
-            fieldFechaRegistro = new Guna.UI2.WinForms.Guna2DateTimePicker();
             layoutVista.SuspendLayout();
             layoutTitulo.SuspendLayout();
             layoutBotones.SuspendLayout();
@@ -179,6 +179,36 @@
             fieldTitulo.Text = "Persona";
             fieldTitulo.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // fieldDireccionPrincipal
+            // 
+            fieldDireccionPrincipal.Animated = true;
+            fieldDireccionPrincipal.BorderColor = Color.Gainsboro;
+            fieldDireccionPrincipal.BorderRadius = 16;
+            fieldDireccionPrincipal.Cursor = Cursors.IBeam;
+            fieldDireccionPrincipal.CustomizableEdges = customizableEdges1;
+            fieldDireccionPrincipal.DefaultText = "";
+            fieldDireccionPrincipal.DisabledState.BorderColor = Color.White;
+            fieldDireccionPrincipal.DisabledState.ForeColor = Color.DimGray;
+            fieldDireccionPrincipal.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldDireccionPrincipal.Dock = DockStyle.Fill;
+            fieldDireccionPrincipal.FocusedState.BorderColor = Color.SandyBrown;
+            fieldDireccionPrincipal.Font = new Font("Segoe UI", 11.25F);
+            fieldDireccionPrincipal.ForeColor = Color.Black;
+            fieldDireccionPrincipal.HoverState.BorderColor = Color.SandyBrown;
+            fieldDireccionPrincipal.IconLeft = (Image) resources.GetObject("fieldDireccionPrincipal.IconLeft");
+            fieldDireccionPrincipal.IconLeftOffset = new Point(10, 0);
+            fieldDireccionPrincipal.Location = new Point(55, 175);
+            fieldDireccionPrincipal.Margin = new Padding(5);
+            fieldDireccionPrincipal.Name = "fieldDireccionPrincipal";
+            fieldDireccionPrincipal.PasswordChar = '\0';
+            fieldDireccionPrincipal.PlaceholderForeColor = Color.DimGray;
+            fieldDireccionPrincipal.PlaceholderText = "Dirección principal";
+            fieldDireccionPrincipal.SelectedText = "";
+            fieldDireccionPrincipal.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldDireccionPrincipal.Size = new Size(1276, 35);
+            fieldDireccionPrincipal.TabIndex = 37;
+            fieldDireccionPrincipal.TextOffset = new Point(5, 0);
+            // 
             // fieldSubtitulo
             // 
             fieldSubtitulo.Dock = DockStyle.Fill;
@@ -255,7 +285,7 @@
             btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnRegistrarActualizar.Size = new Size(224, 39);
             btnRegistrarActualizar.TabIndex = 15;
-            btnRegistrarActualizar.Text = "Registrar el almacén";
+            btnRegistrarActualizar.Text = "Registrar la persona";
             // 
             // layoutDistribucion2
             // 
@@ -291,6 +321,21 @@
             layoutTitulos1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulos1.Size = new Size(1286, 35);
             layoutTitulos1.TabIndex = 47;
+            // 
+            // fieldTituloFecha
+            // 
+            fieldTituloFecha.Dock = DockStyle.Fill;
+            fieldTituloFecha.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloFecha.ForeColor = Color.DimGray;
+            fieldTituloFecha.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloFecha.ImeMode = ImeMode.NoControl;
+            fieldTituloFecha.Location = new Point(1001, 5);
+            fieldTituloFecha.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloFecha.Name = "fieldTituloFecha";
+            fieldTituloFecha.Size = new Size(282, 27);
+            fieldTituloFecha.TabIndex = 45;
+            fieldTituloFecha.Text = "Fecha del registro :";
+            fieldTituloFecha.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloDatosGenerales
             // 
@@ -343,6 +388,35 @@
             layoutDatos1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDatos1.Size = new Size(1286, 45);
             layoutDatos1.TabIndex = 40;
+            // 
+            // fieldFechaRegistro
+            // 
+            fieldFechaRegistro.Animated = true;
+            fieldFechaRegistro.AutoRoundedCorners = true;
+            fieldFechaRegistro.BackColor = Color.White;
+            fieldFechaRegistro.BorderColor = Color.Gainsboro;
+            fieldFechaRegistro.BorderRadius = 16;
+            fieldFechaRegistro.BorderThickness = 1;
+            fieldFechaRegistro.Checked = true;
+            fieldFechaRegistro.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFechaRegistro.CheckedState.FillColor = Color.White;
+            fieldFechaRegistro.CheckedState.ForeColor = Color.Black;
+            fieldFechaRegistro.CustomFormat = "yyyy-MM-dd";
+            fieldFechaRegistro.CustomizableEdges = customizableEdges7;
+            fieldFechaRegistro.Dock = DockStyle.Fill;
+            fieldFechaRegistro.FillColor = Color.White;
+            fieldFechaRegistro.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaRegistro.ForeColor = Color.Black;
+            fieldFechaRegistro.Format = DateTimePickerFormat.Custom;
+            fieldFechaRegistro.Location = new Point(991, 5);
+            fieldFechaRegistro.Margin = new Padding(5);
+            fieldFechaRegistro.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFechaRegistro.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFechaRegistro.Name = "fieldFechaRegistro";
+            fieldFechaRegistro.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldFechaRegistro.Size = new Size(290, 35);
+            fieldFechaRegistro.TabIndex = 50;
+            fieldFechaRegistro.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
             // 
             // fieldNumeroDocumento
             // 
@@ -785,80 +859,6 @@
             layoutListaDireccionesCorreo.Name = "layoutListaDireccionesCorreo";
             layoutListaDireccionesCorreo.Size = new Size(564, 299);
             layoutListaDireccionesCorreo.TabIndex = 1;
-            // 
-            // fieldDireccionPrincipal
-            // 
-            fieldDireccionPrincipal.Animated = true;
-            fieldDireccionPrincipal.BorderColor = Color.Gainsboro;
-            fieldDireccionPrincipal.BorderRadius = 16;
-            fieldDireccionPrincipal.Cursor = Cursors.IBeam;
-            fieldDireccionPrincipal.CustomizableEdges = customizableEdges1;
-            fieldDireccionPrincipal.DefaultText = "";
-            fieldDireccionPrincipal.DisabledState.BorderColor = Color.White;
-            fieldDireccionPrincipal.DisabledState.ForeColor = Color.DimGray;
-            fieldDireccionPrincipal.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldDireccionPrincipal.Dock = DockStyle.Fill;
-            fieldDireccionPrincipal.FocusedState.BorderColor = Color.SandyBrown;
-            fieldDireccionPrincipal.Font = new Font("Segoe UI", 11.25F);
-            fieldDireccionPrincipal.ForeColor = Color.Black;
-            fieldDireccionPrincipal.HoverState.BorderColor = Color.SandyBrown;
-            fieldDireccionPrincipal.IconLeft = (Image) resources.GetObject("fieldDireccionPrincipal.IconLeft");
-            fieldDireccionPrincipal.IconLeftOffset = new Point(10, 0);
-            fieldDireccionPrincipal.Location = new Point(55, 175);
-            fieldDireccionPrincipal.Margin = new Padding(5);
-            fieldDireccionPrincipal.Name = "fieldDireccionPrincipal";
-            fieldDireccionPrincipal.PasswordChar = '\0';
-            fieldDireccionPrincipal.PlaceholderForeColor = Color.DimGray;
-            fieldDireccionPrincipal.PlaceholderText = "Dirección principal";
-            fieldDireccionPrincipal.SelectedText = "";
-            fieldDireccionPrincipal.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            fieldDireccionPrincipal.Size = new Size(1276, 35);
-            fieldDireccionPrincipal.TabIndex = 37;
-            fieldDireccionPrincipal.TextOffset = new Point(5, 0);
-            // 
-            // fieldTituloFecha
-            // 
-            fieldTituloFecha.Dock = DockStyle.Fill;
-            fieldTituloFecha.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloFecha.ForeColor = Color.DimGray;
-            fieldTituloFecha.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloFecha.ImeMode = ImeMode.NoControl;
-            fieldTituloFecha.Location = new Point(1001, 5);
-            fieldTituloFecha.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloFecha.Name = "fieldTituloFecha";
-            fieldTituloFecha.Size = new Size(282, 27);
-            fieldTituloFecha.TabIndex = 45;
-            fieldTituloFecha.Text = "Fecha del registro :";
-            fieldTituloFecha.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldFechaRegistro
-            // 
-            fieldFechaRegistro.Animated = true;
-            fieldFechaRegistro.AutoRoundedCorners = true;
-            fieldFechaRegistro.BackColor = Color.White;
-            fieldFechaRegistro.BorderColor = Color.Gainsboro;
-            fieldFechaRegistro.BorderRadius = 16;
-            fieldFechaRegistro.BorderThickness = 1;
-            fieldFechaRegistro.Checked = true;
-            fieldFechaRegistro.CheckedState.BorderColor = Color.Gainsboro;
-            fieldFechaRegistro.CheckedState.FillColor = Color.White;
-            fieldFechaRegistro.CheckedState.ForeColor = Color.Black;
-            fieldFechaRegistro.CustomFormat = "yyyy-MM-dd";
-            fieldFechaRegistro.CustomizableEdges = customizableEdges7;
-            fieldFechaRegistro.Dock = DockStyle.Fill;
-            fieldFechaRegistro.FillColor = Color.White;
-            fieldFechaRegistro.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaRegistro.ForeColor = Color.Black;
-            fieldFechaRegistro.Format = DateTimePickerFormat.Custom;
-            fieldFechaRegistro.Location = new Point(991, 5);
-            fieldFechaRegistro.Margin = new Padding(5);
-            fieldFechaRegistro.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            fieldFechaRegistro.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            fieldFechaRegistro.Name = "fieldFechaRegistro";
-            fieldFechaRegistro.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            fieldFechaRegistro.Size = new Size(290, 35);
-            fieldFechaRegistro.TabIndex = 50;
-            fieldFechaRegistro.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
             // 
             // VistaRegistroPersona
             // 

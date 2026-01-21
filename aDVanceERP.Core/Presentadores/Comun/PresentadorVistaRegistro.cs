@@ -66,6 +66,9 @@ public abstract class PresentadorVistaRegistro<Vr, En, Re, Fb> : PresentadorVist
         } else
             entidad.Id = Repositorio.Adicionar(entidad);
 
+        // Actualizar la entidad global
+        _entidad = entidad;
+
         RegistroEdicionAuxiliar(_repositorio, entidad.Id);
 
         EntidadRegistradaActualizada?.Invoke(sender, e);

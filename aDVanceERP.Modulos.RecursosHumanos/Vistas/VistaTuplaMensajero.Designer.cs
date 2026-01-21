@@ -42,8 +42,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldCodigo = new Label();
             fieldId = new Label();
             btnEditar = new Guna2Button();
-            fieldNombreCompleto = new Label();
             fieldTelefonos = new Label();
+            fieldNombreCompleto = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -84,13 +84,13 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.Controls.Add(fieldNombreCompleto, 2, 0);
             layoutVista.Controls.Add(fieldEstado, 5, 0);
             layoutVista.Controls.Add(fieldMatriculaVehiculo, 4, 0);
             layoutVista.Controls.Add(btnEliminar, 8, 0);
             layoutVista.Controls.Add(fieldCodigo, 1, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
             layoutVista.Controls.Add(btnEditar, 7, 0);
-            layoutVista.Controls.Add(fieldNombreCompleto, 2, 0);
             layoutVista.Controls.Add(fieldTelefonos, 3, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
@@ -203,21 +203,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 9;
             // 
-            // fieldNombreCompleto
-            // 
-            fieldNombreCompleto.AutoEllipsis = true;
-            fieldNombreCompleto.Dock = DockStyle.Fill;
-            fieldNombreCompleto.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreCompleto.ForeColor = Color.DimGray;
-            fieldNombreCompleto.ImeMode = ImeMode.NoControl;
-            fieldNombreCompleto.Location = new Point(181, 1);
-            fieldNombreCompleto.Margin = new Padding(1);
-            fieldNombreCompleto.Name = "fieldNombreCompleto";
-            fieldNombreCompleto.Size = new Size(469, 39);
-            fieldNombreCompleto.TabIndex = 6;
-            fieldNombreCompleto.Text = "nombreCompleto";
-            fieldNombreCompleto.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // fieldTelefonos
             // 
             fieldTelefonos.AutoEllipsis = true;
@@ -232,6 +217,21 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTelefonos.TabIndex = 16;
             fieldTelefonos.Text = "telefonos";
             fieldTelefonos.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldNombreCompleto
+            // 
+            fieldNombreCompleto.AutoEllipsis = true;
+            fieldNombreCompleto.Dock = DockStyle.Fill;
+            fieldNombreCompleto.Font = new Font("Segoe UI", 11.25F);
+            fieldNombreCompleto.ForeColor = Color.DimGray;
+            fieldNombreCompleto.ImeMode = ImeMode.NoControl;
+            fieldNombreCompleto.Location = new Point(181, 1);
+            fieldNombreCompleto.Margin = new Padding(1);
+            fieldNombreCompleto.Name = "fieldNombreCompleto";
+            fieldNombreCompleto.Size = new Size(469, 39);
+            fieldNombreCompleto.TabIndex = 21;
+            fieldNombreCompleto.Text = "nombreCompleto";
+            fieldNombreCompleto.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaTuplaMensajero
             // 
@@ -263,7 +263,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private Label fieldCodigo;
         private Label fieldId;
         private Guna2Button btnEditar;
-        private Label fieldNombreCompleto;
         private Label fieldTelefonos;
+        private Label fieldNombreCompleto;
     }
 }

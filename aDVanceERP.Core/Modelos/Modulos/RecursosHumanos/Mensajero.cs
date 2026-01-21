@@ -8,7 +8,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.RecursosHumanos {
             Activo = true;
         }
 
-        public Mensajero(long idPersona, string codigoMensajero, string matriculaVehiculo, bool activo) {
+        public Mensajero(long id, long idPersona, string codigoMensajero, string matriculaVehiculo, bool activo) {
+            Id = id;
             IdPersona = idPersona;
             CodigoMensajero = codigoMensajero;
             MatriculaVehiculo = matriculaVehiculo;

@@ -126,13 +126,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
                 activo: Convert.ToBoolean(lector["activo"])
             );
 
-            return (new Mensajero {
-                Id = Convert.ToInt64(lector["id_mensajero"]),
-                IdPersona = persona.Id,
-                CodigoMensajero = Convert.ToString(lector["codigo_mensajero"]) ?? "N/A",
-                MatriculaVehiculo = Convert.ToString(lector["matricula_vehiculo"]) ?? "N/A",
-                Activo = Convert.ToBoolean(lector["activo"])
-            }, new List<IEntidadBaseDatos>() {
+            return (new Mensajero(
+                id:  Convert.ToInt64(lector["id_mensajero"]),
+                idPersona: persona.Id,
+                codigoMensajero: Convert.ToString(lector["codigo_mensajero"]) ?? "N/A",
+                matriculaVehiculo: Convert.ToString(lector["matricula_vehiculo"]) ?? "N/A",
+                activo: Convert.ToBoolean(lector["activo"])
+            ), new List<IEntidadBaseDatos>() {
                 persona
             });
         }

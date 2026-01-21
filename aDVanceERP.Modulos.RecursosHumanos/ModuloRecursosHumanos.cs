@@ -16,7 +16,9 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private PresentadorGestionEmpleados _empleados = null!;
     private PresentadorGestionProveedores _proveedores = null!;
     private PresentadorGestionClientes _clientes = null!;
+    private PresentadorRegistroCliente _registroCliente = null!;
     private PresentadorGestionMensajeros _mensajeros = null!;
+    private PresentadorRegistroMensajero _registroMensajero = null!;
     private PresentadorGestionPersonas _personas = null!;
     private PresentadorRegistroPersona _registroPersona = null!;
 
@@ -47,8 +49,12 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
         // Clientes
         _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
+        _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
+        _registroCliente.EntidadRegistradaActualizada += (s, e) => _clientes.ActualizarResultadosBusqueda();
         // Mensajeros
         _mensajeros = new PresentadorGestionMensajeros(new VistaGestionMensajeros());
+        _registroMensajero = new PresentadorRegistroMensajero(new  VistaRegistroMensajero());
+        _registroMensajero.EntidadRegistradaActualizada += (s, e) => _mensajeros.ActualizarResultadosBusqueda();
         // Personas
         _personas = new PresentadorGestionPersonas(new VistaGestionPersonas());
         _registroPersona = new PresentadorRegistroPersona(new VistaRegistroPersona());
@@ -71,8 +77,10 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
         // Clientes
         _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);
         // Mensajeros
         _principal.Modulos.Vista.PanelCentral.Registrar(_mensajeros.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroMensajero.Vista);
         // Personas
         _principal.Modulos.Vista.PanelCentral.Registrar(_personas.Vista);
         _principal.Modulos.Vista.PanelCentral.Registrar(_registroPersona.Vista);

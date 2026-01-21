@@ -54,7 +54,7 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         if (string.IsNullOrEmpty(obj))
             return;
 
-        var movimiento = AgregadorEventos.DeserializarPayload<Core.Modelos.Modulos.Inventario.Movimiento>(obj.ToString());
+        var movimiento = AgregadorEventos.DeserializarPayload<Movimiento>(obj.ToString());
 
         if (movimiento == null)
             return;
@@ -69,7 +69,7 @@ public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegi
         Vista.Mostrar();
     }
 
-    public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Inventario.Movimiento entidad) {
+    public override void PopularVistaDesdeEntidad(Movimiento entidad) {
         base.PopularVistaDesdeEntidad(entidad);
 
         // Variables auxiliares

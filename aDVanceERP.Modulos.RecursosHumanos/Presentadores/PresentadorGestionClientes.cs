@@ -40,7 +40,7 @@ public class PresentadorGestionClientes : PresentadorVistaGestion<PresentadorTup
         presentadorTupla.Vista.Id = entidad.Id;
         presentadorTupla.Vista.CodigoCliente = entidad.CodigoCliente;
         presentadorTupla.Vista.NombreCompleto = persona?.NombreCompleto ?? "N/A";
-        presentadorTupla.Vista.Telefonos = string.Concat(telefonos.Select(t => $"+{t.PrefijoPais} {t.NumeroTelefono}, ")).TrimEnd(',');
+        presentadorTupla.Vista.Telefonos = string.Concat(telefonos.Select(t => $"{t.PrefijoPais} {t.NumeroTelefono}, ")).TrimEnd(',', ' ');
         presentadorTupla.Vista.Direccion = persona?.DireccionPrincipal ?? "N/A";
         presentadorTupla.Vista.FechaRegistro = entidad.FechaRegistro.ToString("yyyy-MM-dd");
         presentadorTupla.Vista.Activo = entidad.Activo;

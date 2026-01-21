@@ -1,6 +1,9 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
+
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 using MySql.Data.MySqlClient;
 
@@ -127,6 +130,40 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #region STATIC
 
         public static RepoPersona Instancia { get; } = new RepoPersona();
+
+        #endregion
+
+        #region UTILES
+
+        public string[] NombresPersonasNoMensajeros() {
+            var consulta = $"""
+                SELECT p.nombre_completo
+                FROM adv__persona p
+                LEFT JOIN adv__mensajero m ON p.id_persona = m.id_persona
+                WHERE m.id_persona IS NULL -- Excluye las personas que tienen un registro en adv__mensajero
+                  AND p.activo = 1; -- Opcional: solo personas activas
+                """;
+            var parametros = new Dictionary<string, object>();
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
+        public string[] NombresPersonasNoClientes() {
+            var consulta = $"""
+                SELECT p.nombre_completo
+                FROM adv__persona p
+                LEFT JOIN adv__cliente c ON p.id_persona = c.id_persona
+                WHERE c.id_persona IS NULL -- Excluye las personas que tienen un registro en adv__cliente
+                  AND p.activo = 1; -- Opcional: solo personas activas
+                """;
+            var parametros = new Dictionary<string, object>();
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
+        private (string, List<IEntidadBaseDatos>) MapearNombreCompleto(MySqlDataReader lector) {
+            return (Convert.ToString(lector["nombre_completo"]) ?? string.Empty, []);
+        }
 
         #endregion
     }

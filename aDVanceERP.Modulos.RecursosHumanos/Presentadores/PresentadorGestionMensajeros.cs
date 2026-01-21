@@ -48,10 +48,17 @@ public class PresentadorGestionMensajeros : PresentadorVistaGestion<PresentadorT
         }
     }
 
-    protected override PresentadorTuplaMensajero ObtenerValoresTupla(Mensajero objeto, List<IEntidadBaseDatos> entidadesExtra) {
-        var presentadorTupla = new PresentadorTuplaMensajero(new VistaTuplaMensajero(), objeto);
+    protected override PresentadorTuplaMensajero ObtenerValoresTupla(Mensajero entidad, List<IEntidadBaseDatos> entidadesExtra) {
+        var presentadorTupla = new PresentadorTuplaMensajero(new VistaTuplaMensajero(), entidad);
+        var persona = entidadesExtra.Count > 0 ? entidadesExtra.FirstOrDefault() as Persona : null!;
+        var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona?.Id.ToString() ?? "0").resultadosBusqueda.Select(t => t.entidadBase);
 
-        
+        presentadorTupla.Vista.Id = entidad.Id;
+        presentadorTupla.Vista.CodigoMensajero = entidad.CodigoMensajero;
+        presentadorTupla.Vista.NombreCompleto = persona?.NombreCompleto ?? "N/A";
+        presentadorTupla.Vista.Telefonos = string.Concat(telefonos.Select(t => $"{t.PrefijoPais} {t.NumeroTelefono}, ")).TrimEnd(',', ' ');
+        presentadorTupla.Vista.MatriculaVehiculo = entidad.MatriculaVehiculo;
+        presentadorTupla.Vista.Activo = entidad.Activo;
 
         return presentadorTupla;
     }

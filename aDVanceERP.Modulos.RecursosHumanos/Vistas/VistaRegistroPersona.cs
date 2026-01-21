@@ -5,8 +5,6 @@ using aDVanceERP.Modulos.RecursosHumanos.Properties;
 
 using Guna.UI2.WinForms;
 
-using static Guna.UI2.Native.WinApi;
-
 namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
     public partial class VistaRegistroPersona : Form, IVIstaRegistroPersona {
         private bool _modoEdicion = false;
