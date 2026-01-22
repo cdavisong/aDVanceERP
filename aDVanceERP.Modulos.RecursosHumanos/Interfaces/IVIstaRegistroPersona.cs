@@ -6,8 +6,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Interfaces {
         string NombreCompleto { get; set; }
         TipoDocumento TipoDocumento { get; set; }        
         string NumeroDocumento { get; set; }
-        string? DireccionPrincipal { get; set; }
         DateTime FechaRegistro { get; set; }
+        string? DireccionPrincipal { get; set; }
         List<TelefonoContacto> Telefonos { get; }
         List<CorreoContacto> DireccionesCorreo { get; }
 

@@ -161,6 +161,19 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
         }
 
+        public string[] NombresPersonasNoProveedores() {
+            var consulta = $"""
+                SELECT p.nombre_completo
+                FROM adv__persona p
+                LEFT JOIN adv__proveedor pr ON p.id_persona = pr.id_persona
+                WHERE pr.id_persona IS NULL -- Excluye las personas que tienen un registro en adv__proveedor
+                  AND p.activo = 1; -- Opcional: solo personas activas
+                """;
+            var parametros = new Dictionary<string, object>();
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
         private (string, List<IEntidadBaseDatos>) MapearNombreCompleto(MySqlDataReader lector) {
             return (Convert.ToString(lector["nombre_completo"]) ?? string.Empty, []);
         }

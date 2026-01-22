@@ -1,121 +1,334 @@
-﻿using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
+using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
+using aDVanceERP.Modulos.RecursosHumanos.Properties;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas; 
+using Guna.UI2.WinForms;
 
-public partial class VistaRegistroProveedor : Form, IVistaRegistroProveedor {
-    private bool _modoEdicion;
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
+    public partial class VistaRegistroProveedor : Form, IVistaRegistroProveedor {
+        private bool _modoEdicion = false;
+        private List<Guna2TextBox> _telefonos = new List<Guna2TextBox>();
+        private List<Guna2TextBox> _direccionesCorreo = new List<Guna2TextBox>();
 
-    public VistaRegistroProveedor() {
-        InitializeComponent();
+        public VistaRegistroProveedor() {
+            InitializeComponent();
 
-        NombreVista = nameof(VistaRegistroProveedor);
+            NombreVista = nameof(VistaRegistroProveedor);
 
-        Inicializar();
-    }
-
-    public string NombreVista {
-        get => Name;
-        private set => Name = value;
-    }
-
-    public bool Habilitada {
-        get => Enabled;
-        set => Enabled = value;
-    }
-
-    public Point Coordenadas {
-        get => Location;
-        set => Location = value;
-    }
-
-    public Size Dimensiones {
-        get => Size;
-        set => Size = value;
-    }
-
-    public string NumeroIdentificacionTributaria {
-        get => fieldNumero.Text;
-        set => fieldNumero.Text = value;
-    }
-
-    public string RazonSocial {
-        get => fieldRazonSocial.Text;
-        set => fieldRazonSocial.Text = value;
-    }
-
-    public string TelefonoMovil {
-        get => fieldTelefonoMovil.Text;
-        set => fieldTelefonoMovil.Text = value;
-    }
-
-    public string TelefonoFijo {
-        get => fieldTelefonoFijo.Text;
-        set => fieldTelefonoFijo.Text = value;
-    }
-
-    public string CorreoElectronico {
-        get => fieldCorreoElectronico.Text;
-        set => fieldCorreoElectronico.Text = value;
-    }
-
-    public string Direccion {
-        get => fieldDireccion.Text;
-        set {
-            fieldDireccion.Text = value;
-            fieldDireccion.Margin = new Padding(1, value?.Length > 43 ? 10 : 1, 1, 1);
+            Inicializar();
+            InicializarPaisesPrefijos();
         }
-    }
 
-    public bool ModoEdicion {
-        get => _modoEdicion;
-        set {
-            fieldTelefonoMovil.ReadOnly = value;
-            fieldTelefonoFijo.ReadOnly = value;
-            fieldCorreoElectronico.ReadOnly = value;
-            fieldDireccion.ReadOnly = value;
-            fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
-            btnRegistrar.Text = value ? "Actualizar cliente" : "Crear cliente";
-            _modoEdicion = value;
+        private void InicializarPaisesPrefijos() {
+            fieldPaises.Items.Clear();
+            fieldPaises.Items.AddRange(PrefijosInternacionales.ObtenerPaises());
+            fieldPaises.StartIndex = 53;
         }
-    }
 
-    public event EventHandler? RegistrarEntidad;
-    public event EventHandler? EditarEntidad;
-    public event EventHandler? EliminarEntidad;
-    
+        public bool ModoEdicion {
+            get => _modoEdicion;
+            set {
+                _modoEdicion = value;
 
-    public void Inicializar() {
-        // Eventos
-        btnCerrar.Click += delegate(object? sender, EventArgs args) { Close(); };
-        btnRegistrar.Click += delegate(object? sender, EventArgs args) {
-            if (ModoEdicion)
-                EditarEntidad?.Invoke(sender, args);
-            else
-                RegistrarEntidad?.Invoke(sender, args);
-        };
-        btnSalir.Click += delegate(object? sender, EventArgs args) { Close(); };
-    }
+                fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
+                btnRegistrarActualizar.Text = value ? "Actualizar el proveedor" : "Registrar el proveedor";
+            }
+        }
 
-    public void Mostrar() {
-        BringToFront();
-        ShowDialog();
-    }
+        public string NombreVista {
+            get => Name;
+            private set => Name = value;
+        }
 
-    public void Restaurar() {
-        NumeroIdentificacionTributaria = string.Empty;
-        RazonSocial = string.Empty;
-        TelefonoMovil = string.Empty;
-        TelefonoFijo = string.Empty;
-        CorreoElectronico = string.Empty;
-        Direccion = string.Empty;
-        ModoEdicion = false;
-    }
+        public bool Habilitada {
+            get => Enabled;
+            set => Enabled = value;
+        }
 
-    public void Ocultar() {
-        Hide();
-    }
+        public Point Coordenadas {
+            get => Location;
+            set => Location = value;
+        }
 
-    public void Cerrar() {
-        Dispose();
+        public Size Dimensiones {
+            get => Size;
+            set => Size = value;
+        }
+
+        public string NombreCompleto {
+            get => fieldNombreCompleto.Text;
+            set => fieldNombreCompleto.Text = value;
+        }
+
+        public TipoDocumento TipoDocumento {
+            get => (TipoDocumento) fieldTipoDocumento.SelectedIndex;
+            set => fieldTipoDocumento.SelectedIndex = (int) value;
+        }
+
+        public string NumeroDocumento {
+            get => fieldNumeroDocumento.Text;
+            set => fieldNumeroDocumento.Text = value;
+        }
+
+        public DateTime FechaRegistro {
+            get => fieldFechaRegistro.Value;
+            set => fieldFechaRegistro.Value = value;
+        }
+
+        public string? DireccionPrincipal {
+            get => fieldDireccionPrincipal.Text;
+            set => fieldDireccionPrincipal.Text = value;
+        }
+
+        public string CodigoProveedor {
+            get => fieldCodigoProveedor.Text;
+            set => fieldCodigoProveedor.Text = value;
+        }
+
+        public string NIT {
+            get => fieldNit.Text;
+            set => fieldNit.Text = value;
+        }
+
+        public string? RazonSocial {
+            get => fieldRazonSocial.Text;
+            set => fieldRazonSocial.Text = value;
+        }
+
+        public string CondicionesPago {
+            get => fieldCondicionesPago.Text;
+            set => fieldCondicionesPago.Text = value;
+        }
+
+        public List<TelefonoContacto> Telefonos {
+            get => [.. _telefonos.Select(t => t.Tag).Cast<TelefonoContacto>()];
+        }
+
+        public List<CorreoContacto> DireccionesCorreo {
+            get => [.. _direccionesCorreo.Select(c => c.Tag).Cast<CorreoContacto>()];
+        }
+
+        public event EventHandler? RegistrarEntidad;
+        public event EventHandler? EditarEntidad;
+        public event EventHandler? EliminarEntidad;
+
+        public void Inicializar() {
+            fieldNombreCompleto.KeyDown += delegate (object? sender, KeyEventArgs args) {
+                if (args.KeyCode != Keys.Enter)
+                    return;
+
+                var persona = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.NombreCompleto, fieldNombreCompleto.Text).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+                TipoDocumento = persona.TipoDocumento;
+                NumeroDocumento = persona.NumeroDocumento;
+                DireccionPrincipal = persona.DireccionPrincipal;
+
+                // Agregar teléfonos
+                var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
+                telefonos.ForEach(t => { AgregarTelefono(t.Id, t.Categoria.ToString(), t.PrefijoPais, t.NumeroTelefono, t.IdPersona); });
+
+                // Agregar direcciones correo
+                var direccionesCorreo = RepoCorreoContacto.Instancia.Buscar(FiltroBusquedaCorreoContacto.IdPersona, persona.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
+                direccionesCorreo.ForEach(c => { AgregarDireccionCorreo(c.Id, c.Categoria.ToString(), c.DireccionCorreo, c.IdPersona); });
+
+                fieldNombreCompleto.Focus();
+
+                args.SuppressKeyPress = true;
+            };
+            fieldPaises.SelectedIndexChanged += delegate {
+                fieldPrefijoInternacional.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaises.Text)}";
+                fieldNumeroTelefono.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaises.Text);
+            };
+            fieldNumeroTelefono.KeyDown += delegate (object? sender, KeyEventArgs args) {
+                if (args.KeyCode != Keys.Enter)
+                    return;
+
+                AgregarTelefono(0, ((CategoriaTelefonoContacto) fieldCategoriaTelefono.SelectedIndex).ToString(), fieldPrefijoInternacional.Text, fieldNumeroTelefono.Text);
+                fieldNumeroTelefono.Focus();
+
+                args.SuppressKeyPress = true;
+            };
+            fieldDireccionCorreo.KeyDown += delegate (object? sender, KeyEventArgs args) {
+                if (args.KeyCode != Keys.Enter)
+                    return;
+
+                AgregarDireccionCorreo(0, ((CategoriaCorreoContacto) fieldCategoriaDireccionCorreo.SelectedIndex).ToString(), fieldDireccionCorreo.Text);
+                fieldDireccionCorreo.Focus();
+
+                args.SuppressKeyPress = true;
+            };
+            btnAgregarTelefono.Click += delegate {
+                AgregarTelefono(0, ((CategoriaTelefonoContacto) fieldCategoriaTelefono.SelectedIndex).ToString(), fieldPrefijoInternacional.Text, fieldNumeroTelefono.Text);
+            };
+            btnAgregarDireccionCorreo.Click += delegate {
+                AgregarDireccionCorreo(0, ((CategoriaCorreoContacto) fieldCategoriaDireccionCorreo.SelectedIndex).ToString(), fieldDireccionCorreo.Text);
+            };
+            btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
+                if (ModoEdicion)
+                    EditarEntidad?.Invoke(sender, args);
+                else
+                    RegistrarEntidad?.Invoke(sender, args);
+            };
+            btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
+        }
+
+        public void AgregarTelefono(long id, string categoria, string prefijo, string numero, long idPersona = 0) {
+            var telefono = new TelefonoContacto(id, prefijo, numero, Enum.TryParse<CategoriaTelefonoContacto>(categoria, out var ct) ? ct : CategoriaTelefonoContacto.Otro, idPersona);
+            var componente = new Guna2TextBox() {
+                BorderColor = Color.Gainsboro,
+                BorderThickness = 0,
+                Cursor = Cursors.IBeam,
+                DefaultText = "",
+                Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0),
+                ForeColor = Color.Black,
+                IconLeft = Resources.phone_fill_20px,
+                IconLeftOffset = new Point(10, 0),
+                IconLeftSize = new Size(20, 20),
+                IconRight = Resources.deleteF_20px,
+                IconRightOffset = new Point(6, 0),
+                IconRightSize = new Size(20, 20),
+                Margin = new Padding(5),
+                Name = $"field{_telefonos.Count}",
+                Padding = new Padding(5),
+                PasswordChar = '\0',
+                PlaceholderForeColor = Color.DimGray,
+                SelectedText = "",
+                TextOffset = new Point(5, 0)
+            };
+
+            var texto = $"{fieldCategoriaTelefono.Items[(int) telefono.Categoria]}: {prefijo} {numero}";
+            var dimensionesTexto = TextRenderer.MeasureText(texto, componente.Font);
+
+            componente.Size = new Size(dimensionesTexto.Width + 81, 35);
+            componente.Tag = telefono;
+            componente.Text = texto;
+            componente.IconRightClick += delegate (object? sender, EventArgs e) {
+                var comp = sender as Guna2TextBox;
+
+                if (comp != null) {
+                    // Restablecer datos (Edición)
+                    var telefono = comp.Tag as TelefonoContacto;
+
+                    fieldCategoriaTelefono.SelectedIndex = (int) (telefono?.Categoria ?? CategoriaTelefonoContacto.Movil);
+                    fieldPaises.Text = PrefijosInternacionales.ObtenerPais(telefono?.PrefijoPais ?? "+53");
+                    fieldNumeroTelefono.Text = telefono?.NumeroTelefono ?? string.Empty;
+
+                    _telefonos.Remove(comp);
+                    layoutListaTelefonos.Controls.Remove(comp);
+                    fieldNumeroTelefono.Focus();
+                }
+            };
+
+            _telefonos.Add(componente);
+            layoutListaTelefonos.Controls.Add(componente);
+
+            // Limpiar campos
+            fieldCategoriaTelefono.SelectedIndex = 0;
+            fieldPaises.SelectedIndex = 53;
+            fieldNumeroTelefono.Text = string.Empty;
+        }
+
+        public void AgregarDireccionCorreo(long id, string categoria, string direccionCorreo, long idPersona = 0) {
+            var correo = new CorreoContacto(id, direccionCorreo, Enum.TryParse<CategoriaCorreoContacto>(categoria, out var cc) ? cc : CategoriaCorreoContacto.Otro, idPersona);
+            var componente = new Guna2TextBox() {
+                BorderColor = Color.Gainsboro,
+                BorderThickness = 0,
+                Cursor = Cursors.IBeam,
+                DefaultText = "",
+                Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0),
+                ForeColor = Color.Black,
+                IconLeft = Resources.mail_fill_20px,
+                IconLeftOffset = new Point(10, 0),
+                IconLeftSize = new Size(20, 20),
+                IconRight = Resources.deleteF_20px,
+                IconRightOffset = new Point(6, 0),
+                IconRightSize = new Size(20, 20),
+                Margin = new Padding(5),
+                Name = $"field{_direccionesCorreo.Count}",
+                Padding = new Padding(5),
+                PasswordChar = '\0',
+                PlaceholderForeColor = Color.DimGray,
+                SelectedText = "",
+                TextOffset = new Point(5, 0)
+            };
+
+            var texto = $"{fieldCategoriaDireccionCorreo.Items[(int) correo.Categoria]}: {direccionCorreo}";
+            var dimensionesTexto = TextRenderer.MeasureText(texto, componente.Font);
+
+            componente.Size = new Size(dimensionesTexto.Width + 81, 35);
+            componente.Tag = correo;
+            componente.Text = texto;
+            componente.IconRightClick += delegate (object? sender, EventArgs e) {
+                var comp = sender as Guna2TextBox;
+
+                if (comp != null) {
+                    // Restablecer datos (Edición)
+                    var direccionCorreo = comp.Tag as CorreoContacto;
+
+                    fieldCategoriaDireccionCorreo.SelectedIndex = (int) (direccionCorreo?.Categoria ?? CategoriaCorreoContacto.Personal);
+                    fieldDireccionCorreo.Text = direccionCorreo?.DireccionCorreo ?? string.Empty;
+
+                    _direccionesCorreo.Remove(comp);
+                    layoutListaDireccionesCorreo.Controls.Remove(comp);
+                    fieldDireccionCorreo.Focus();
+                }
+            };
+
+            _direccionesCorreo.Add(componente);
+            layoutListaDireccionesCorreo.Controls.Add(componente);
+
+            // Limpiar campos
+            fieldCategoriaDireccionCorreo.SelectedIndex = 0;
+            fieldDireccionCorreo.Text = string.Empty;
+        }
+
+        public void Mostrar() {
+            FechaRegistro = DateTime.Now;
+
+            BringToFront();
+            Show();
+        }
+
+        public void Ocultar() {
+            Hide();
+        }
+
+        public void Restaurar() {
+            NombreCompleto = string.Empty;
+            TipoDocumento = TipoDocumento.CI;
+            NumeroDocumento = string.Empty;
+            DireccionPrincipal = string.Empty;
+            FechaRegistro = DateTime.Now;
+            CodigoProveedor = string.Empty;
+            NIT = string.Empty;
+            RazonSocial = string.Empty;
+            CondicionesPago = string.Empty;
+            fieldCategoriaTelefono.SelectedIndex = 0;
+            fieldPaises.SelectedIndex = 53;
+            fieldNumeroTelefono.Text = string.Empty;
+            fieldCategoriaDireccionCorreo.SelectedIndex = 0;
+            fieldDireccionCorreo.Text = string.Empty;
+
+            // Borrar telefonos
+            _telefonos.Clear();
+            layoutListaTelefonos.Controls.Clear();
+
+            // Borrar correos
+            _direccionesCorreo.Clear();
+            layoutListaDireccionesCorreo.Controls.Clear();
+        }
+
+        public void Cerrar() {
+            Dispose();
+        }
+
+        public void CargarNombresPersonas(string[] nombresPersonas) {
+            fieldNombreCompleto.AutoCompleteCustomSource.Clear();
+            fieldNombreCompleto.AutoCompleteCustomSource.AddRange(nombresPersonas);
+            fieldNombreCompleto.AutoCompleteMode = AutoCompleteMode.Suggest;
+            fieldNombreCompleto.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
     }
 }

@@ -53,15 +53,14 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
             Vista.NombreCompleto = persona.NombreCompleto;
             Vista.TipoDocumento = persona.TipoDocumento;
             Vista.NumeroDocumento = persona.NumeroDocumento;
-            Vista.FechaRegistro = persona.FechaRegistro;
             Vista.DireccionPrincipal = persona.DireccionPrincipal;
 
             // Agregar teléfonos
-            var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, entidad.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
+            var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).ToList();
             telefonos.ForEach(t => { Vista.AgregarTelefono(t.Id, t.Categoria.ToString(), t.PrefijoPais, t.NumeroTelefono, t.IdPersona); });
-
         }
 
+        Vista.FechaRegistro = entidad.FechaRegistro;
         Vista.CodigoCliente = entidad.CodigoCliente;
         Vista.LimiteCredito = entidad.LimiteCredito;
     }
@@ -72,9 +71,9 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
         return new Cliente(
             id: 0,
             idPersona: persona?.Id ?? 0,
-            codigoCliente: Vista.CodigoCliente,
-            fechaRegistro: Vista.FechaRegistro,
+            codigoCliente: Vista.CodigoCliente,           
             limiteCredito: Vista.LimiteCredito,
+            fechaRegistro: Vista.FechaRegistro,
             activo: true
         );
     }
@@ -89,7 +88,7 @@ public class PresentadorRegistroCliente : PresentadorVistaRegistro<IVistaRegistr
             tipoDocumento: Vista.TipoDocumento,
             numeroDocumento: Vista.NumeroDocumento,
             direccionPrincipal: Vista.DireccionPrincipal,
-            fechaRegistro: Vista.FechaRegistro,
+            fechaRegistro: personaBd?.FechaRegistro ?? Vista.FechaRegistro,
             activo: true
         );
 
