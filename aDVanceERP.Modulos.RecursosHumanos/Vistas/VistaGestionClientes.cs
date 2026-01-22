@@ -95,17 +95,7 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarCliente);
         AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarCliente);
 
-        fieldFiltroBusqueda.SelectedIndexChanged += delegate {
-            fieldDatoBusqueda.Text = string.Empty;
-            fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
-            fieldDatoBusqueda.Focus();
-
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.Empty }));
-
-            // Ir a la primera página al cambiar el criterio de búsqueda
-            PaginaActual = 1;
-            HabilitarBotonesPaginacion();
-        };
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
         fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
@@ -161,11 +151,32 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         }
     }
 
+    private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
+        fieldDatoBusqueda.Text = string.Empty;
+        fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
+
+        if (fieldDatoBusqueda.Visible)
+            fieldDatoBusqueda.Focus();
+
+        BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.Empty }));
+
+        // Ir a la primera página al cambiar el criterio de búsqueda
+        PaginaActual = 1;
+        HabilitarBotonesPaginacion();
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
+        fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
+
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
 
-        fieldFiltroBusqueda.SelectedIndex = 0;
+        if (fieldFiltroBusqueda.Items.Count > 0)
+            fieldFiltroBusqueda.SelectedIndex = 0;
+
+        // Reasignar el evento SelectedIndexChanged
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
     }
 
     public void Mostrar() {
@@ -178,7 +189,7 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         PaginaActual = 1;
         PaginasTotales = 1;
 
-        btnActivarDesactivarCliente.Visible = false;
+        btnActivarDesactivarCliente.Hide();
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 

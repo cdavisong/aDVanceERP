@@ -239,8 +239,6 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
 
         // Reasignar el evento SelectedIndexChanged
         fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-
-        btnHabilitarDeshabilitarProducto.Hide();
     }
 
     public void Mostrar() {
