@@ -1,4 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -14,6 +16,7 @@ public class PresentadorGestionClientes : PresentadorVistaGestion<PresentadorTup
         EditarEntidad += OnEditarCliente;
 
         AgregadorEventos.Suscribir("MostrarVistaGestionClientes", OnMostrarVistaGestionClientes);
+        AgregadorEventos.Suscribir("ActivarDesactivarCliente", OnActivarDesactivarCliente);
     }
 
     private void OnRegistrarCliente(object? sender, EventArgs e) {
@@ -30,6 +33,18 @@ public class PresentadorGestionClientes : PresentadorVistaGestion<PresentadorTup
         Vista.Mostrar();
 
         ActualizarResultadosBusqueda();
+    }
+
+    private void OnActivarDesactivarCliente(string obj) {
+        var idClienteSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+        if (idClienteSeleccionado != 0) {
+            var estado = RepoCliente.Instancia.HabilitarDeshabilitarCliente(idClienteSeleccionado);
+
+            ActualizarResultadosBusqueda();
+
+            CentroNotificaciones.Mostrar($"El cliente ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacion.Info);
+        }
     }
 
     protected override PresentadorTuplaCliente ObtenerValoresTupla(Cliente entidad, List<IEntidadBaseDatos> entidadesExtra) {

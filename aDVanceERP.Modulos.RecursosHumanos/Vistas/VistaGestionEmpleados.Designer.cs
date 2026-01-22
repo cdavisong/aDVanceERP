@@ -43,6 +43,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
@@ -76,6 +78,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldPaginasTotales = new Label();
             panelBotonesGestion = new Panel();
             btnRegistrar = new Guna2Button();
+            btnActivarDesactivarEmpleado = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
@@ -620,6 +623,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // 
             // panelBotonesGestion
             // 
+            panelBotonesGestion.Controls.Add(btnActivarDesactivarEmpleado);
             panelBotonesGestion.Controls.Add(btnRegistrar);
             panelBotonesGestion.Dock = DockStyle.Fill;
             panelBotonesGestion.Location = new Point(50, 210);
@@ -634,7 +638,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Animated = true;
             btnRegistrar.BackColor = Color.White;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges15;
+            btnRegistrar.CustomizableEdges = customizableEdges17;
             btnRegistrar.Dock = DockStyle.Left;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -644,10 +648,31 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnRegistrar.Size = new Size(320, 39);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Registrar un nuevo empleado";
+            // 
+            // btnActivarDesactivarEmpleado
+            // 
+            btnActivarDesactivarEmpleado.Animated = true;
+            btnActivarDesactivarEmpleado.BackColor = Color.White;
+            btnActivarDesactivarEmpleado.BorderRadius = 18;
+            btnActivarDesactivarEmpleado.CustomizableEdges = customizableEdges15;
+            btnActivarDesactivarEmpleado.Dock = DockStyle.Left;
+            btnActivarDesactivarEmpleado.FillColor = Color.PeachPuff;
+            btnActivarDesactivarEmpleado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarEmpleado.ForeColor = Color.Black;
+            btnActivarDesactivarEmpleado.Image = (Image) resources.GetObject("btnActivarDesactivarEmpleado.Image");
+            btnActivarDesactivarEmpleado.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarEmpleado.Location = new Point(323, 3);
+            btnActivarDesactivarEmpleado.Margin = new Padding(0);
+            btnActivarDesactivarEmpleado.Name = "btnActivarDesactivarEmpleado";
+            btnActivarDesactivarEmpleado.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnActivarDesactivarEmpleado.Size = new Size(320, 39);
+            btnActivarDesactivarEmpleado.TabIndex = 10;
+            btnActivarDesactivarEmpleado.Text = "Activar/Desactivar empleado";
+            btnActivarDesactivarEmpleado.Visible = false;
             // 
             // VistaGestionEmpleados
             // 
@@ -707,5 +732,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private Label fieldTituloDepartamento;
         private Label fieldTituloFechaContrato;
         private Label fieldTituloEstado;
+        private Guna2Button btnActivarDesactivarEmpleado;
     }
 }

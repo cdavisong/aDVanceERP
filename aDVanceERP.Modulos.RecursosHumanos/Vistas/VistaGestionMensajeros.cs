@@ -52,11 +52,6 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
         set => fieldDatoBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
     }
 
-    public bool MostrarBtnHabilitarDeshabilitarMensajero {
-        get => btnActivarDesactivarMensajero.Visible;
-        set => btnActivarDesactivarMensajero.Visible = value;
-    }
-
     public int TuplasMaximasContenedor {
         get => contenedorVistas.Height / ContextoAplicacion.AlturaTuplaPredeterminada;
     }
@@ -184,8 +179,8 @@ public partial class VistaGestionMensajeros : Form, IVistaGestionMensajeros {
     public void Restaurar() {
         PaginaActual = 1;
         PaginasTotales = 1;
-        MostrarBtnHabilitarDeshabilitarMensajero = false;
 
+        btnActivarDesactivarMensajero.Visible = false;
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 

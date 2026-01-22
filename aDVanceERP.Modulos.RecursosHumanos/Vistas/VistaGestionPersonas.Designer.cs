@@ -43,10 +43,12 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHerramientas = new TableLayoutPanel();
@@ -81,6 +83,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutHelp = new TableLayoutPanel();
             fieldInformacion = new Guna2Button();
             infoIcon = new Guna2NotificationPaint(components);
+            btnActivarDesactivarPersona = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
@@ -500,6 +503,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // 
             // panelBotonesGestion
             // 
+            panelBotonesGestion.Controls.Add(btnActivarDesactivarPersona);
             panelBotonesGestion.Controls.Add(btnRegistrar);
             panelBotonesGestion.Dock = DockStyle.Fill;
             panelBotonesGestion.Location = new Point(50, 270);
@@ -514,7 +518,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Animated = true;
             btnRegistrar.BackColor = Color.White;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges15;
+            btnRegistrar.CustomizableEdges = customizableEdges17;
             btnRegistrar.Dock = DockStyle.Left;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -524,7 +528,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnRegistrar.Size = new Size(320, 39);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Registrar una nueva persona";
@@ -677,8 +681,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldInformacion.BorderColor = Color.LightBlue;
             fieldInformacion.BorderRadius = 16;
             fieldInformacion.BorderThickness = 1;
-            customizableEdges17.TopLeft = false;
-            fieldInformacion.CustomizableEdges = customizableEdges17;
+            customizableEdges19.TopLeft = false;
+            fieldInformacion.CustomizableEdges = customizableEdges19;
             fieldInformacion.Dock = DockStyle.Fill;
             fieldInformacion.FillColor = Color.LightBlue;
             fieldInformacion.Font = new Font("Segoe UI", 9.75F);
@@ -690,7 +694,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldInformacion.Margin = new Padding(17, 13, 0, 5);
             fieldInformacion.Name = "fieldInformacion";
             fieldInformacion.PressedColor = Color.LightBlue;
-            fieldInformacion.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            fieldInformacion.ShadowDecoration.CustomizableEdges = customizableEdges20;
             fieldInformacion.Size = new Size(455, 42);
             fieldInformacion.TabIndex = 8;
             fieldInformacion.Text = "La ficha de personas se puede utilizar como agenda de contactos.";
@@ -709,6 +713,27 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             infoIcon.Size = new Size(30, 30);
             infoIcon.TargetControl = layoutHelp;
             infoIcon.Text = "i";
+            // 
+            // btnActivarDesactivarPersona
+            // 
+            btnActivarDesactivarPersona.Animated = true;
+            btnActivarDesactivarPersona.BackColor = Color.White;
+            btnActivarDesactivarPersona.BorderRadius = 18;
+            btnActivarDesactivarPersona.CustomizableEdges = customizableEdges15;
+            btnActivarDesactivarPersona.Dock = DockStyle.Left;
+            btnActivarDesactivarPersona.FillColor = Color.PeachPuff;
+            btnActivarDesactivarPersona.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarPersona.ForeColor = Color.Black;
+            btnActivarDesactivarPersona.Image = (Image) resources.GetObject("btnActivarDesactivarPersona.Image");
+            btnActivarDesactivarPersona.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarPersona.Location = new Point(323, 3);
+            btnActivarDesactivarPersona.Margin = new Padding(0);
+            btnActivarDesactivarPersona.Name = "btnActivarDesactivarPersona";
+            btnActivarDesactivarPersona.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnActivarDesactivarPersona.Size = new Size(320, 39);
+            btnActivarDesactivarPersona.TabIndex = 10;
+            btnActivarDesactivarPersona.Text = "Activar/Desactivar persona";
+            btnActivarDesactivarPersona.Visible = false;
             // 
             // VistaGestionPersonas
             // 
@@ -772,5 +797,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private TableLayoutPanel layoutHelp;
         private Guna2Button fieldInformacion;
         private Guna2NotificationPaint infoIcon;
+        private Guna2Button btnActivarDesactivarPersona;
     }
 }

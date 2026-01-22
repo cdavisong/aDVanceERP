@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -91,6 +92,9 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
         PanelCentral = new RepoVistaBase(contenedorVistas);
 
         // Eventos
+        AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarProveedor);
+        AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarProveedor);
+
         fieldFiltroBusqueda.SelectedIndexChanged += delegate {
             fieldDatoBusqueda.Text = string.Empty;
             fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
@@ -102,10 +106,18 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
             PaginaActual = 1;
             HabilitarBotonesPaginacion();
         };
-        fieldDatoBusqueda.TextChanged += delegate(object? sender, EventArgs e) {
+        fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
+            if (args.KeyCode != Keys.Enter)
+                return;
+
             if (!string.IsNullOrEmpty(CriteriosBusqueda[0]))
                 BuscarEntidades?.Invoke(this, (FiltroBusqueda, CriteriosBusqueda));
-            else SincronizarDatos?.Invoke(sender, e);
+            else SincronizarDatos?.Invoke(sender, args);
+
+            args.SuppressKeyPress = true;
+        };
+        btnActivarDesactivarProveedor.Click += delegate (object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("ActivarDesactivarProveedor", string.Empty);
         };
         btnRegistrar.Click += delegate(object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
         btnPrimeraPagina.Click += delegate(object? sender, EventArgs e) {
@@ -136,6 +148,19 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
         contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
     }
 
+    private void OcultarMostrarBotonActivarDesactivarProveedor(string obj) {
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        try {
+            var visibilidadBoton = Convert.ToBoolean(obj.ToString());
+
+            btnActivarDesactivarProveedor.Visible = visibilidadBoton;
+        } catch (FormatException) {
+            btnActivarDesactivarProveedor.Visible = false;
+        }
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
@@ -144,22 +169,20 @@ public partial class VistaGestionProveedores : Form, IVistaGestionProveedores {
     }
 
     public void Mostrar() {
-        Habilitada = true;
         VerificarPermisos();
         BringToFront();
         Show();
     }
 
     public void Restaurar() {
-        Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
 
+        btnActivarDesactivarProveedor.Visible = false;
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
     public void Ocultar() {
-        Habilitada = false;
         Hide();
     }
 

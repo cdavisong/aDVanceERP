@@ -1,4 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -13,6 +15,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
             EditarEntidad += OnEditarEmpleado;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionEmpleados", OnMostrarVistaGestionEmpleados);
+            AgregadorEventos.Suscribir("ActivarDesactivarEmpleado", OnActivarDesactivarEmpleado);
         }
 
         private void OnRegistrarEmpleado(object? sender, EventArgs e) {
@@ -29,6 +32,18 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
+        }
+
+        private void OnActivarDesactivarEmpleado(string obj) {
+            var idEmpleadoSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+            if (idEmpleadoSeleccionado != 0) {
+                var estado = RepoEmpleado.Instancia.HabilitarDeshabilitarEmpleado(idEmpleadoSeleccionado);
+
+                ActualizarResultadosBusqueda();
+
+                CentroNotificaciones.Mostrar($"El empleado ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacion.Info);
+            }
         }
 
         protected override PresentadorTuplaEmpleado ObtenerValoresTupla(Empleado entidad, List<IEntidadBaseDatos> entidadesExtra) {

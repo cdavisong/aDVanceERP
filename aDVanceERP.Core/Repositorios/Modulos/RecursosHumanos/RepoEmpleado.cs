@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -172,6 +173,31 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #region STATIC
 
         public static RepoEmpleado Instancia { get; } = new RepoEmpleado();
+
+        #endregion
+
+        #region UTILES
+
+        public bool HabilitarDeshabilitarEmpleado(long id) {
+            var consulta = $"""
+                UPDATE adv__empleado
+                SET activo = NOT activo
+                WHERE id_empleado = @IdEmpleado;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdEmpleado", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__empleado
+                WHERE id_empleado = @IdEmpleado;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
 
         #endregion
     }

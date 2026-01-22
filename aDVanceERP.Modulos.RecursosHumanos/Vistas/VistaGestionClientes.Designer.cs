@@ -43,6 +43,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
@@ -76,6 +78,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             label3 = new Label();
             fieldTituloNombre = new Label();
             fieldTituloCodigo = new Label();
+            btnActivarDesactivarCliente = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
@@ -492,6 +495,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // 
             // panelBotonesGestion
             // 
+            panelBotonesGestion.Controls.Add(btnActivarDesactivarCliente);
             panelBotonesGestion.Controls.Add(btnRegistrar);
             panelBotonesGestion.Dock = DockStyle.Fill;
             panelBotonesGestion.Location = new Point(50, 210);
@@ -506,7 +510,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Animated = true;
             btnRegistrar.BackColor = Color.White;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges15;
+            btnRegistrar.CustomizableEdges = customizableEdges17;
             btnRegistrar.Dock = DockStyle.Left;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -516,7 +520,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnRegistrar.Size = new Size(320, 39);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Registrar un nuevo cliente";
@@ -650,6 +654,27 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTituloCodigo.Text = "Código";
             fieldTituloCodigo.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btnActivarDesactivarCliente
+            // 
+            btnActivarDesactivarCliente.Animated = true;
+            btnActivarDesactivarCliente.BackColor = Color.White;
+            btnActivarDesactivarCliente.BorderRadius = 18;
+            btnActivarDesactivarCliente.CustomizableEdges = customizableEdges15;
+            btnActivarDesactivarCliente.Dock = DockStyle.Left;
+            btnActivarDesactivarCliente.FillColor = Color.PeachPuff;
+            btnActivarDesactivarCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarCliente.ForeColor = Color.Black;
+            btnActivarDesactivarCliente.Image = (Image) resources.GetObject("btnActivarDesactivarCliente.Image");
+            btnActivarDesactivarCliente.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarCliente.Location = new Point(323, 3);
+            btnActivarDesactivarCliente.Margin = new Padding(0);
+            btnActivarDesactivarCliente.Name = "btnActivarDesactivarCliente";
+            btnActivarDesactivarCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnActivarDesactivarCliente.Size = new Size(320, 39);
+            btnActivarDesactivarCliente.TabIndex = 10;
+            btnActivarDesactivarCliente.Text = "Activar/Desactivar cliente";
+            btnActivarDesactivarCliente.Visible = false;
+            // 
             // VistaGestionClientes
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -708,5 +733,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private Label label3;
         private Label fieldTituloNombre;
         private Label fieldTituloCodigo;
+        private Guna2Button btnActivarDesactivarCliente;
     }
 }

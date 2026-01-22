@@ -3,8 +3,6 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
 
-using DocumentFormat.OpenXml.Office2010.Excel;
-
 using MySql.Data.MySqlClient;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
@@ -134,6 +132,43 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #endregion
 
         #region UTILES
+
+        public bool HabilitarDeshabilitarPersona(long id) {
+            var consulta = $"""
+                UPDATE adv__persona
+                SET activo = NOT activo
+                WHERE id_persona = @IdPersona;
+
+                UPDATE adv__cliente
+                SET activo = NOT activo
+                WHERE id_persona = @IdPersona;
+
+                UPDATE adv__mensajero
+                SET activo = NOT activo
+                WHERE id_persona = @IdPersona;
+
+                UPDATE adv__proveedor
+                SET activo = NOT activo
+                WHERE id_persona = @IdPersona;
+
+                UPDATE adv__empleado
+                SET activo = NOT activo
+                WHERE id_persona = @IdPersona;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdPersona", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__persona
+                WHERE id_persona = @IdPersona;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
 
         public string[] NombresPersonasNoMensajeros() {
             var consulta = $"""

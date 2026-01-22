@@ -1,8 +1,9 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
-using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
 namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
@@ -91,6 +92,9 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         PanelCentral = new RepoVistaBase(contenedorVistas);
 
         // Eventos
+        AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarCliente);
+        AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarCliente);
+
         fieldFiltroBusqueda.SelectedIndexChanged += delegate {
             fieldDatoBusqueda.Text = string.Empty;
             fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
@@ -111,6 +115,9 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
             else SincronizarDatos?.Invoke(sender, args);
 
             args.SuppressKeyPress = true;
+        };
+        btnActivarDesactivarCliente.Click += delegate (object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("ActivarDesactivarCliente", string.Empty);
         };
         btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
         btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
@@ -141,6 +148,19 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
         contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
     }
 
+    private void OcultarMostrarBotonActivarDesactivarCliente(string obj) {
+        if (string.IsNullOrEmpty(obj))
+            return;
+
+        try {
+            var visibilidadBoton = Convert.ToBoolean(obj.ToString());
+
+            btnActivarDesactivarCliente.Visible = visibilidadBoton;
+        } catch (FormatException) {
+            btnActivarDesactivarCliente.Visible = false;
+        }
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
@@ -149,22 +169,20 @@ public partial class VistaGestionClientes : Form, IVistaGestionClientes {
     }
 
     public void Mostrar() {
-        Habilitada = true;
         VerificarPermisos();
         BringToFront();
         Show();
     }
 
     public void Restaurar() {
-        Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
 
+        btnActivarDesactivarCliente.Visible = false;
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
     public void Ocultar() {
-        Habilitada = false;
         Hide();
     }
 

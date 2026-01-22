@@ -199,6 +199,17 @@
         OD7611fmP4NfDpeVtRs7c9IAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="btnActivarDesactivarCliente.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAASVJREFUOE/t
+        0k0rpnEUx/FPHjZeg7CwMi9DCSWWdqNZGg8bUpSV2EuJhYWFZjNqJDvWNmYvL2CKsUBNGWPo1Lnyd82d
+        2d4L3zqL39U5v+t/HninqWnFFL7jBk//icg5w2TWvqIdh7jFKlbwF4/4imnMYB9/sIt+rOEOB2grDZdx
+        hT58zKKIgTIpGcRvjKX+gGssVQnx3MtsN8wecI7NF49/2MZJoWfxAy0hunMm82n2KdsYKQrqjOYMK3rT
+        ozNET4owi1l1ZEvjRUGdMIx5V1SGXSGi5fjbXpod4xd2ioI6W2+1HCzgJ05xgYl85VBRVFEtZTh1tZS5
+        MimcY/Wx2Q2s59mEjnNazDjKb1/yAqqz+dboFsvDDrP6IdfjPnM/NzJ7p4l4BhRnWJhX6GYBAAAAAElF
+        TkSuQmCC
+</value>
+  </data>
   <data name="btnRegistrar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAGVJREFUOE9j

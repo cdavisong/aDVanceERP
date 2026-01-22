@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -164,6 +165,31 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #region STATIC
 
         public static RepoProveedor Instancia { get; } = new RepoProveedor();
+
+        #endregion
+
+        #region UTILES
+
+        public bool HabilitarDeshabilitarProveedor(long id) {
+            var consulta = $"""
+                UPDATE adv__proveedor
+                SET activo = NOT activo
+                WHERE id_proveedor = @IdProveedor;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdProveedor", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__proveedor
+                WHERE id_proveedor = @IdProveedor;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
 
         #endregion
     }

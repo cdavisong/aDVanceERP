@@ -1,4 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -14,6 +16,7 @@ public class PresentadorGestionPersonas : PresentadorVistaGestion<PresentadorTup
         EditarEntidad += OnEditarPersona;
 
         AgregadorEventos.Suscribir("MostrarVistaGestionPersonas", OnMostrarVistaGestionPersonas);
+        AgregadorEventos.Suscribir("ActivarDesactivarPersona", OnActivarDesactivarPersona);
     }
 
     private void OnRegistrarPersona(object? sender, EventArgs e) {
@@ -30,6 +33,18 @@ public class PresentadorGestionPersonas : PresentadorVistaGestion<PresentadorTup
         Vista.Mostrar();
 
         ActualizarResultadosBusqueda();
+    }
+
+    private void OnActivarDesactivarPersona(string obj) {
+        var idPersonaSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+        if (idPersonaSeleccionado != 0) {
+            var estado = RepoPersona.Instancia.HabilitarDeshabilitarPersona(idPersonaSeleccionado);
+
+            ActualizarResultadosBusqueda();
+
+            CentroNotificaciones.Mostrar($"La persona ha sido {(estado ? "activada" : "desactivada")} satisfactoriamente.", TipoNotificacion.Info);
+        }
     }
 
     protected override PresentadorTuplaPersona ObtenerValoresTupla(Persona entidad, List<IEntidadBaseDatos> entidadesExtra) {

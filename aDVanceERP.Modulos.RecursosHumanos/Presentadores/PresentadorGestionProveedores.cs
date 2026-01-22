@@ -1,4 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -14,6 +16,7 @@ public class PresentadorGestionProveedores : PresentadorVistaGestion<Presentador
         EditarEntidad += OnEditarProveedor;
 
         AgregadorEventos.Suscribir("MostrarVistaGestionProveedores", OnMostrarVistaGestionProveedores);
+        AgregadorEventos.Suscribir("ActivarDesactivarProveedor", OnActivarDesactivarProveedor);
     }
 
     private void OnRegistrarProveedor(object? sender, EventArgs e) {
@@ -30,6 +33,18 @@ public class PresentadorGestionProveedores : PresentadorVistaGestion<Presentador
         Vista.Mostrar();
 
         ActualizarResultadosBusqueda();
+    }
+
+    private void OnActivarDesactivarProveedor(string obj) {
+        var idProveedorSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+        if (idProveedorSeleccionado != 0) {
+            var estado = RepoProveedor.Instancia.HabilitarDeshabilitarProveedor(idProveedorSeleccionado);
+
+            ActualizarResultadosBusqueda();
+
+            CentroNotificaciones.Mostrar($"El proveedor ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacion.Info);
+        }
     }
 
     protected override PresentadorTuplaProveedor ObtenerValoresTupla(Proveedor entidad, List<IEntidadBaseDatos> entidadesExtra) {
