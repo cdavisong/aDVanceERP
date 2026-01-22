@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -179,9 +179,9 @@
 </value>
   </data>
   <data name="fieldMensaje.Text" xml:space="preserve">
-    <value>Tu cuenta ha sido registrada &lt;b&gt;exitosamente&lt;/b&gt;. Sin embargo, para poder acceder y utilizar todas las funcionalidades, necesitarás esperar hasta que un administrador apruebe tu cuenta. Esto puede tomar un tiempo, así que te pedimos que tengas paciencia.
-&lt;p&gt;Una vez que tu cuenta sea aprobada, recibirás una notificación y podrás comenzar a usar el sistema de inmediato.&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;¡Gracias por tu comprensión y paciencia!&lt;/b&gt;&lt;/p&gt;
+    <value>Su cuenta ha sido registrada &lt;b&gt;exitosamente&lt;/b&gt;. Sin embargo, para poder acceder y utilizar todas las funcionalidades, necesitarás esperar hasta que un administrador apruebe la misma. Esto puede tomar un tiempo, así que le pedimos que tenga paciencia.
+&lt;p&gt;Una vez que su cuenta sea aprobada, recibirá una notificación y podrá comenzar a usar el sistema de inmediato.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;¡Gracias por su comprensión y paciencia!&lt;/b&gt;&lt;/p&gt;
 </value>
   </data>
 </root>
