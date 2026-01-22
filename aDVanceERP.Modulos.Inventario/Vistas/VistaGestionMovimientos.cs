@@ -41,9 +41,9 @@ public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
 
     public FiltroBusquedaMovimiento FiltroBusqueda {
         get => fieldFiltroBusqueda.SelectedIndex >= 0
-            ? (FiltroBusquedaMovimiento)fieldFiltroBusqueda.SelectedIndex
+            ? (FiltroBusquedaMovimiento) fieldFiltroBusqueda.SelectedIndex
             : default;
-        set => fieldFiltroBusqueda.SelectedIndex = (int)value;
+        set => fieldFiltroBusqueda.SelectedIndex = (int) value;
     }
 
     public string[] CriteriosBusqueda {
@@ -80,7 +80,7 @@ public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
     public event EventHandler? MostrarPaginaSiguiente;
     public event EventHandler? MostrarUltimaPagina;
     public event EventHandler? SincronizarDatos;
-    
+
     public event EventHandler? RegistrarEntidad;
     public event EventHandler? EditarEntidad;
     public event EventHandler? EliminarEntidad;
@@ -91,29 +91,8 @@ public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
         PanelCentral = new RepoVistaBase(contenedorVistas);
 
         // Eventos
-        fieldFiltroBusqueda.SelectedIndexChanged += delegate {
-            if (FiltroBusqueda == FiltroBusquedaMovimiento.Fecha) {
-                fieldDatoBusquedaFecha.Value = DateTime.Now;
-                fieldDatoBusquedaFecha.Focus();
-            }
-            else {
-                fieldDatoBusqueda.Text = string.Empty;
-                fieldDatoBusqueda.Focus();
-            }
-
-            fieldDatoBusqueda.Visible = FiltroBusqueda != FiltroBusquedaMovimiento.Fecha &&
-                                        fieldFiltroBusqueda.SelectedIndex != 0;
-            fieldDatoBusquedaFecha.Visible = FiltroBusqueda == FiltroBusquedaMovimiento.Fecha &&
-                                             fieldFiltroBusqueda.SelectedIndex != 0;
-
-            if (FiltroBusqueda != FiltroBusquedaMovimiento.Fecha)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
-
-            // Ir a la primera página al cambiar el criterio de búsqueda
-            PaginaActual = 1;
-            HabilitarBotonesPaginacion();
-        };
-        fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
+        fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
 
@@ -126,50 +105,76 @@ public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
         fieldDatoBusquedaFecha.ValueChanged += delegate (object? sender, EventArgs e) {
             BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldDatoBusquedaFecha.Value.ToString("yyyy-MM-dd") }));
         };
-        btnRegistrar.Click += delegate(object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
-        btnPrimeraPagina.Click += delegate(object? sender, EventArgs e) {
+        btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
+        btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
             PaginaActual = 1;
             MostrarPrimeraPagina?.Invoke(sender, e);
             SincronizarDatos?.Invoke(sender, e);
             HabilitarBotonesPaginacion();
         };
-        btnPaginaAnterior.Click += delegate(object? sender, EventArgs e) {
+        btnPaginaAnterior.Click += delegate (object? sender, EventArgs e) {
             PaginaActual--;
             MostrarPaginaAnterior?.Invoke(sender, e);
             SincronizarDatos?.Invoke(sender, e);
             HabilitarBotonesPaginacion();
         };
-        btnPaginaSiguiente.Click += delegate(object? sender, EventArgs e) {
+        btnPaginaSiguiente.Click += delegate (object? sender, EventArgs e) {
             PaginaActual++;
             MostrarPaginaSiguiente?.Invoke(sender, e);
             SincronizarDatos?.Invoke(sender, e);
             HabilitarBotonesPaginacion();
         };
-        btnUltimaPagina.Click += delegate(object? sender, EventArgs e) {
+        btnUltimaPagina.Click += delegate (object? sender, EventArgs e) {
             PaginaActual = PaginasTotales;
             MostrarUltimaPagina?.Invoke(sender, e);
             SincronizarDatos?.Invoke(sender, e);
             HabilitarBotonesPaginacion();
         };
-        btnSincronizarDatos.Click += delegate(object? sender, EventArgs e) { SincronizarDatos?.Invoke(sender, e); };
+        btnSincronizarDatos.Click += delegate (object? sender, EventArgs e) { SincronizarDatos?.Invoke(sender, e); };
         contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
     }
 
+    private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
+        if (FiltroBusqueda == FiltroBusquedaMovimiento.Fecha) {
+            fieldDatoBusquedaFecha.Value = DateTime.Now;
+            fieldDatoBusquedaFecha.Focus();
+        } else {
+            fieldDatoBusqueda.Text = string.Empty;
+            fieldDatoBusqueda.Focus();
+        }
+
+        fieldDatoBusqueda.Visible = FiltroBusqueda != FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
+        fieldDatoBusquedaFecha.Visible = FiltroBusqueda == FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
+
+        if (FiltroBusqueda != FiltroBusquedaMovimiento.Fecha)
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
+
+        // Ir a la primera página al cambiar el criterio de búsqueda
+        PaginaActual = 1;
+        HabilitarBotonesPaginacion();
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
+        fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
+
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
-        fieldFiltroBusqueda.SelectedIndex = 0;
+
+        if (fieldFiltroBusqueda.Items.Count > 0)
+            fieldFiltroBusqueda.SelectedIndex = 0;
+
+        // Reasignar el evento SelectedIndexChanged
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
     }
 
     public void Mostrar() {
-        Habilitada = true;
         VerificarPermisos();
         BringToFront();
         Show();
     }
 
     public void Restaurar() {
-        Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
 
@@ -177,7 +182,6 @@ public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
     }
 
     public void Ocultar() {
-        Habilitada = false;
         Hide();
     }
 

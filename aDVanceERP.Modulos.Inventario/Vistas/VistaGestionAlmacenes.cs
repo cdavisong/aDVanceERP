@@ -99,17 +99,7 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
 
     public void Inicializar() {
         // Eventos
-        fieldFiltroBusqueda.SelectedIndexChanged += delegate {
-            fieldDatoBusqueda.Text = string.Empty;
-            fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
-            fieldDatoBusqueda.Focus();
-
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
-
-            // Ir a la primera página al cambiar el criterio de búsqueda
-            PaginaActual = 1;
-            HabilitarBotonesPaginacion();
-        };
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
         fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
             if (args.KeyCode != Keys.Enter)
                 return;
@@ -167,21 +157,41 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
         };
     }
 
+    private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
+        fieldDatoBusqueda.Text = string.Empty;
+        fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
+
+        if (fieldDatoBusqueda.Visible)
+            fieldDatoBusqueda.Focus();
+
+        BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
+
+        // Ir a la primera página al cambiar el criterio de búsqueda
+        PaginaActual = 1;
+        HabilitarBotonesPaginacion();
+    }
+
     public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
+        fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
+
         fieldFiltroBusqueda.Items.Clear();
         fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
-        fieldFiltroBusqueda.SelectedIndex = 0;
+
+        if (fieldFiltroBusqueda.Items.Count > 0)
+            fieldFiltroBusqueda.SelectedIndex = 0;
+
+        // Reasignar el evento SelectedIndexChanged
+        fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
     }
 
     public void Mostrar() {
-        Habilitada = true;
         VerificarPermisos();
         BringToFront();
         Show();
     }
 
     public void Restaurar() {
-        Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
         MostrarBtnImportarInventarioVersat = false;
@@ -191,7 +201,6 @@ public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
     }
 
     public void Ocultar() {
-        Habilitada = false;
         Hide();
     }
 

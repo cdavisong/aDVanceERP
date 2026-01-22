@@ -26,12 +26,10 @@ public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTu
         }
 
         AgregadorEventos.Publicar("MostrarVistaRegistroProducto", string.Empty);
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
     }
 
     private void OnEditarProducto(object? sender, Producto e) {
         AgregadorEventos.Publicar("MostrarVistaEdicionProducto", AgregadorEventos.SerializarPayload(new object[] { e, sender }));
-        Vista.MostrarBtnHabilitarDeshabilitarProducto = false;
     }
 
     private void OnMostrarVistaGestionProductos(string obj) {

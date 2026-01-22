@@ -88,11 +88,6 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
         }
     }
 
-    public bool MostrarBtnHabilitarDeshabilitarProducto {
-        get => btnHabilitarDeshabilitarProducto.Visible;
-        set => btnHabilitarDeshabilitarProducto.Visible = value;
-    }
-
     public decimal ValorTotalInventario {
         get => decimal.TryParse(fieldValorTotalInventario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorTotal) ? valorTotal : 0m;
         set {
@@ -249,18 +244,16 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     }
 
     public void Mostrar() {
-        Habilitada = true;
         VerificarPermisos();
         BringToFront();
         Show();
     }
 
     public void Restaurar() {
-        Habilitada = true;
         PaginaActual = 1;
         PaginasTotales = 1;
-        MostrarBtnHabilitarDeshabilitarProducto = false;
 
+        btnHabilitarDeshabilitarProducto.Hide();
         if (fieldFiltroAlmacen.Items.Count > 0)
             fieldFiltroAlmacen.SelectedIndex = 0;
         if (fieldFiltroBusqueda.Items.Count > 0)
@@ -268,7 +261,6 @@ public partial class VistaGestionProductos : Form, IVistaGestionProductos {
     }
 
     public void Ocultar() {
-        Habilitada = false;
         Hide();
     }
 
