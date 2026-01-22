@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -302,12 +303,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void CargarNombresProveedores(string[] nombresProvedores) {
+            if (nombresProvedores == null || nombresProvedores.Length == 0) {
+                fieldTituloNombreProveedor.Visible = false;
+                fieldNombreProveedor.Visible = false;
+                return;
+            }
+
+            fieldTituloNombreProveedor.Visible = true;
+            fieldNombreProveedor.Visible = true;
             fieldNombreProveedor.Items.Clear();
             fieldNombreProveedor.Items.AddRange(nombresProvedores);
             fieldNombreProveedor.SelectedIndex = -1;
         }
 
-        public void CargarUnidadesMedida(Core.Modelos.Modulos.Inventario.UnidadMedida[] unidadesMedida) {
+        public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
             _unidadesMedida = unidadesMedida;
 
             fieldUnidadMedida.Items.Clear();

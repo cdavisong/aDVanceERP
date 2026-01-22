@@ -1,7 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
-using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Inventario.Presentadores;
@@ -45,7 +43,7 @@ public sealed class ModuloInventario : ModuloExtensionBase {
         // Contenedor de módulos
         // Productos
         _productos = new PresentadorGestionProductos(new VistaGestionProductos());
-        _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());
+        _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());        
         _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
         // Movimientos
         _movimientos = new PresentadorGestionMovimientos(new VistaGestionMovimientos());

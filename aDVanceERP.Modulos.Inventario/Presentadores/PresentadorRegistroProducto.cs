@@ -23,11 +23,11 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         Vista.Restaurar();
 
         // Carga inicial de datos
-        Vista.CargarNombresProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)]);
+        Vista.CargarNombresProveedores(RepoProveedor.Instancia.Cantidad() > 0 ? [.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)] : []);
         Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(um => um.entidadBase)]);
         Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.entidadBase)]);
         Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
-                
+
         Vista.Mostrar();
     }
 
@@ -40,13 +40,13 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
 
         var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
         var datosExtra = datos != null ? AgregadorEventos.DeserializarPayload<object[]>(datos[1].ToString()) : null;
-        var producto = datos != null ? AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString()) : null;        
-        
+        var producto = datos != null ? AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString()) : null;
+
         if (producto == null)
             return;
 
         // Carga inicial de datos
-        Vista.CargarNombresProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)]);
+        Vista.CargarNombresProveedores(RepoProveedor.Instancia.Cantidad() > 0 ? [.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)] : []);
         Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(um => um.entidadBase)]);
         Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.entidadBase)]);
         Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);

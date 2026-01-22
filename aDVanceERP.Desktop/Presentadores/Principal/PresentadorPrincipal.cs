@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Extension.Controladores;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -16,8 +15,6 @@ using Guna.UI2.WinForms;
 namespace aDVanceERP.Desktop.Presentadores.Principal;
 
 public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
-    private readonly GestorModulosExtensibles _gestorModulos = new GestorModulosExtensibles();
-    
     public PresentadorPrincipal() {
         Vista = new VistaPrincipal();
         Seguridad = new PresentadorSeguridad(Vista, new VistaSeguridad());
@@ -35,7 +32,7 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
         AgregadorEventos.Suscribir("EventoSesionCerrada", OnSesionCerrada);
 
         // Cargar módulos extensiones de la aplicación
-        CargarModulosExtension();
+        ((PresentadorModulos)Modulos).CargarModulosExtension(this);
     }
 
     public IVistaPrincipal Vista { get; }
@@ -43,10 +40,6 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
     public IPresentadorVistaSeguridad<IVistaSeguridad> Seguridad { get; }
 
     public IPresentadorVistaModulos<IVistaModulos> Modulos { get; }
-
-    private void CargarModulosExtension() {
-        _gestorModulos.CargarModulos(this);
-    }
 
     private void OnVistaPrincipalMostrada(object? sender, EventArgs e) {
         Vista.BarraTitulo.OcultarTodos();
@@ -56,7 +49,7 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
 
         // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
         Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += (s, args) => {
-            if (_gestorModulos.ObtenerModulosExtension().FirstOrDefault(m => m.Nombre.Equals("MOD_SEGURIDAD")) == null)
+            if (!Modulos.ObtenerNombresModulosExtensionCargados().Any(m => m.Equals("MOD_SEGURIDAD")))
                 AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
         };
     }
@@ -105,8 +98,6 @@ public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPri
     }
 
     public void Dispose() {
-        _gestorModulos.ApagarModulos();
-
         Modulos.Dispose();
         Seguridad.Dispose();
         Vista.Dispose();

@@ -8,5 +8,6 @@ public interface IPresentadorVistaModulos<Vm> : IPresentadorVistaBase<Vm>
      where Vm : class, IVistaModulos {
     IVistaPrincipal VistaPrincipal { get; }
 
+    string[] ObtenerNombresModulosExtensionCargados();
     void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo);
 }

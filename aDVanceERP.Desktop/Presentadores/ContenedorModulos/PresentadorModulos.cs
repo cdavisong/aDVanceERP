@@ -1,14 +1,26 @@
-﻿using aDVanceERP.Core.Presentadores.Comun.Interfaces;
+﻿using aDVanceERP.Core.Extension.Controladores;
+using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using Guna.UI2.WinForms.Suite;
+
 using Guna.UI2.WinForms;
+using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores.ContenedorModulos;
 
 public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos> {
+    private readonly GestorModulosExtensibles _gestorModulos = new GestorModulosExtensibles();
+
     public PresentadorModulos(IVistaPrincipal vistaPrincipal, IVistaModulos vistaModulos) {
         VistaPrincipal = vistaPrincipal;
         Vista = vistaModulos;
+    }
+
+    internal void CargarModulosExtension(IPresentadorVistaPrincipal<IVistaPrincipal> presentadorVistaPrincipal) {
+        _gestorModulos.CargarModulos(presentadorVistaPrincipal);
+    }
+
+    public string[] ObtenerNombresModulosExtensionCargados() {
+        return [.. _gestorModulos.ObtenerModulosExtension().Select(me => me.Nombre)];
     }
 
     public void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo) {
@@ -44,6 +56,8 @@ public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos
     public IVistaModulos Vista { get; }
 
     public void Dispose() {
+        _gestorModulos.ApagarModulos();
+
         Vista.Dispose();
     }
 }
