@@ -1,5 +1,5 @@
 ﻿namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
-    partial class VistaRegistroProveedor {
+    partial class VistaRegistroEmpleado {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,43 +24,45 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroProveedor));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges79 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges80 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges81 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges82 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges83 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges84 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges85 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges86 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges87 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges88 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges89 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges90 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges91 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges92 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges93 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges94 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges95 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges96 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges97 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges98 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges99 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges100 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges77 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroEmpleado));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges78 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges101 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges102 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges103 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges104 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges105 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges106 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges107 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges108 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges109 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges110 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges111 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges112 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges113 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges114 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulo = new TableLayoutPanel();
@@ -72,24 +74,26 @@
             btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             layoutDistribucion2 = new TableLayoutPanel();
             layoutTitulos1 = new TableLayoutPanel();
-            fieldTituloFecha = new Label();
             fieldTituloDatosGenerales = new Label();
+            lbTituloFechaNacimiento = new Label();
             fieldTituloTipoDocumento = new Label();
             layoutDatos1 = new TableLayoutPanel();
-            fieldFechaRegistro = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            fieldFechaNacimiento = new Guna.UI2.WinForms.Guna2DateTimePicker();
             fieldNumeroDocumento = new Guna.UI2.WinForms.Guna2TextBox();
             fieldTipoDocumento = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldNombreCompleto = new Guna.UI2.WinForms.Guna2TextBox();
             fieldIcono = new PictureBox();
             layoutTitulos2 = new TableLayoutPanel();
-            fieldTituloDatosMensajeria = new Label();
-            fieldTituloCondicionesPago = new Label();
+            fieldTituloDatosEmpleado = new Label();
+            fieldTituloSalario = new Label();
+            fieldTituloFecha = new Label();
             layoutDistDatos23 = new TableLayoutPanel();
             layoutDatos2 = new TableLayoutPanel();
-            fieldCondicionesPago = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldRazonSocial = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldNit = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldCodigoProveedor = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldSalario = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldDepartamento = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldCargo = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldFechaContratacion = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            fieldCodigoEmpelado = new Guna.UI2.WinForms.Guna2TextBox();
             fieldDireccionPrincipal = new Guna.UI2.WinForms.Guna2TextBox();
             layoutDistListaTelefonos = new TableLayoutPanel();
             layoutListaTelefonos = new FlowLayoutPanel();
@@ -203,7 +207,7 @@
             fieldTitulo.Name = "fieldTitulo";
             fieldTitulo.Size = new Size(1230, 45);
             fieldTitulo.TabIndex = 3;
-            fieldTitulo.Text = "Proveedor";
+            fieldTitulo.Text = "Empleado";
             fieldTitulo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldSubtitulo
@@ -253,7 +257,7 @@
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges1;
+            btnSalir.CustomizableEdges = customizableEdges79;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -263,7 +267,7 @@
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(1116, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges80;
             btnSalir.Size = new Size(164, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -272,14 +276,14 @@
             // 
             btnRegistrarActualizar.Animated = true;
             btnRegistrarActualizar.BorderRadius = 18;
-            btnRegistrarActualizar.CustomizableEdges = customizableEdges3;
+            btnRegistrarActualizar.CustomizableEdges = customizableEdges81;
             btnRegistrarActualizar.Dock = DockStyle.Fill;
             btnRegistrarActualizar.FillColor = Color.PeachPuff;
             btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrarActualizar.ForeColor = Color.Black;
             btnRegistrarActualizar.Location = new Point(886, 3);
             btnRegistrarActualizar.Name = "btnRegistrarActualizar";
-            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges82;
             btnRegistrarActualizar.Size = new Size(224, 39);
             btnRegistrarActualizar.TabIndex = 15;
             btnRegistrarActualizar.Text = "Registrar el proveedor";
@@ -307,8 +311,8 @@
             layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 470F));
             layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutTitulos1.Controls.Add(fieldTituloFecha, 2, 0);
             layoutTitulos1.Controls.Add(fieldTituloDatosGenerales, 0, 0);
+            layoutTitulos1.Controls.Add(lbTituloFechaNacimiento, 2, 0);
             layoutTitulos1.Controls.Add(fieldTituloTipoDocumento, 1, 0);
             layoutTitulos1.Dock = DockStyle.Fill;
             layoutTitulos1.Location = new Point(0, 0);
@@ -318,21 +322,6 @@
             layoutTitulos1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulos1.Size = new Size(1286, 35);
             layoutTitulos1.TabIndex = 47;
-            // 
-            // fieldTituloFecha
-            // 
-            fieldTituloFecha.Dock = DockStyle.Fill;
-            fieldTituloFecha.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloFecha.ForeColor = Color.DimGray;
-            fieldTituloFecha.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloFecha.ImeMode = ImeMode.NoControl;
-            fieldTituloFecha.Location = new Point(1001, 5);
-            fieldTituloFecha.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloFecha.Name = "fieldTituloFecha";
-            fieldTituloFecha.Size = new Size(282, 27);
-            fieldTituloFecha.TabIndex = 45;
-            fieldTituloFecha.Text = "Fecha del registro :";
-            fieldTituloFecha.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloDatosGenerales
             // 
@@ -349,6 +338,21 @@
             fieldTituloDatosGenerales.TabIndex = 41;
             fieldTituloDatosGenerales.Text = "      Datos generales :";
             fieldTituloDatosGenerales.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lbTituloFechaNacimiento
+            // 
+            lbTituloFechaNacimiento.Dock = DockStyle.Fill;
+            lbTituloFechaNacimiento.Font = new Font("Segoe UI", 11.25F);
+            lbTituloFechaNacimiento.ForeColor = Color.DimGray;
+            lbTituloFechaNacimiento.ImageAlign = ContentAlignment.MiddleLeft;
+            lbTituloFechaNacimiento.ImeMode = ImeMode.NoControl;
+            lbTituloFechaNacimiento.Location = new Point(1001, 5);
+            lbTituloFechaNacimiento.Margin = new Padding(15, 5, 3, 3);
+            lbTituloFechaNacimiento.Name = "lbTituloFechaNacimiento";
+            lbTituloFechaNacimiento.Size = new Size(282, 27);
+            lbTituloFechaNacimiento.TabIndex = 46;
+            lbTituloFechaNacimiento.Text = "Fecha de nacimiento :";
+            lbTituloFechaNacimiento.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloTipoDocumento
             // 
@@ -373,7 +377,7 @@
             layoutDatos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
             layoutDatos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             layoutDatos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutDatos1.Controls.Add(fieldFechaRegistro, 3, 0);
+            layoutDatos1.Controls.Add(fieldFechaNacimiento, 3, 0);
             layoutDatos1.Controls.Add(fieldNumeroDocumento, 2, 0);
             layoutDatos1.Controls.Add(fieldTipoDocumento, 1, 0);
             layoutDatos1.Controls.Add(fieldNombreCompleto, 0, 0);
@@ -386,34 +390,34 @@
             layoutDatos1.Size = new Size(1286, 45);
             layoutDatos1.TabIndex = 40;
             // 
-            // fieldFechaRegistro
+            // fieldFechaNacimiento
             // 
-            fieldFechaRegistro.Animated = true;
-            fieldFechaRegistro.AutoRoundedCorners = true;
-            fieldFechaRegistro.BackColor = Color.White;
-            fieldFechaRegistro.BorderColor = Color.Gainsboro;
-            fieldFechaRegistro.BorderRadius = 16;
-            fieldFechaRegistro.BorderThickness = 1;
-            fieldFechaRegistro.Checked = true;
-            fieldFechaRegistro.CheckedState.BorderColor = Color.Gainsboro;
-            fieldFechaRegistro.CheckedState.FillColor = Color.White;
-            fieldFechaRegistro.CheckedState.ForeColor = Color.Black;
-            fieldFechaRegistro.CustomFormat = "yyyy-MM-dd";
-            fieldFechaRegistro.CustomizableEdges = customizableEdges5;
-            fieldFechaRegistro.Dock = DockStyle.Fill;
-            fieldFechaRegistro.FillColor = Color.White;
-            fieldFechaRegistro.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaRegistro.ForeColor = Color.Black;
-            fieldFechaRegistro.Format = DateTimePickerFormat.Custom;
-            fieldFechaRegistro.Location = new Point(991, 5);
-            fieldFechaRegistro.Margin = new Padding(5);
-            fieldFechaRegistro.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            fieldFechaRegistro.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            fieldFechaRegistro.Name = "fieldFechaRegistro";
-            fieldFechaRegistro.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            fieldFechaRegistro.Size = new Size(290, 35);
-            fieldFechaRegistro.TabIndex = 50;
-            fieldFechaRegistro.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
+            fieldFechaNacimiento.Animated = true;
+            fieldFechaNacimiento.AutoRoundedCorners = true;
+            fieldFechaNacimiento.BackColor = Color.White;
+            fieldFechaNacimiento.BorderColor = Color.Gainsboro;
+            fieldFechaNacimiento.BorderRadius = 16;
+            fieldFechaNacimiento.BorderThickness = 1;
+            fieldFechaNacimiento.Checked = true;
+            fieldFechaNacimiento.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFechaNacimiento.CheckedState.FillColor = Color.White;
+            fieldFechaNacimiento.CheckedState.ForeColor = Color.Black;
+            fieldFechaNacimiento.CustomFormat = "yyyy-MM-dd";
+            fieldFechaNacimiento.CustomizableEdges = customizableEdges83;
+            fieldFechaNacimiento.Dock = DockStyle.Fill;
+            fieldFechaNacimiento.FillColor = Color.White;
+            fieldFechaNacimiento.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaNacimiento.ForeColor = Color.Black;
+            fieldFechaNacimiento.Format = DateTimePickerFormat.Custom;
+            fieldFechaNacimiento.Location = new Point(991, 5);
+            fieldFechaNacimiento.Margin = new Padding(5);
+            fieldFechaNacimiento.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFechaNacimiento.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFechaNacimiento.Name = "fieldFechaNacimiento";
+            fieldFechaNacimiento.ShadowDecoration.CustomizableEdges = customizableEdges84;
+            fieldFechaNacimiento.Size = new Size(290, 35);
+            fieldFechaNacimiento.TabIndex = 51;
+            fieldFechaNacimiento.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
             // 
             // fieldNumeroDocumento
             // 
@@ -421,7 +425,7 @@
             fieldNumeroDocumento.BorderColor = Color.Gainsboro;
             fieldNumeroDocumento.BorderRadius = 16;
             fieldNumeroDocumento.Cursor = Cursors.IBeam;
-            fieldNumeroDocumento.CustomizableEdges = customizableEdges7;
+            fieldNumeroDocumento.CustomizableEdges = customizableEdges85;
             fieldNumeroDocumento.DefaultText = "";
             fieldNumeroDocumento.DisabledState.BorderColor = Color.White;
             fieldNumeroDocumento.DisabledState.ForeColor = Color.DimGray;
@@ -440,7 +444,7 @@
             fieldNumeroDocumento.PlaceholderForeColor = Color.DimGray;
             fieldNumeroDocumento.PlaceholderText = "Número del documento";
             fieldNumeroDocumento.SelectedText = "";
-            fieldNumeroDocumento.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldNumeroDocumento.ShadowDecoration.CustomizableEdges = customizableEdges86;
             fieldNumeroDocumento.Size = new Size(230, 35);
             fieldNumeroDocumento.TabIndex = 38;
             fieldNumeroDocumento.TextOffset = new Point(5, 0);
@@ -451,7 +455,7 @@
             fieldTipoDocumento.BackColor = Color.Transparent;
             fieldTipoDocumento.BorderColor = Color.Gainsboro;
             fieldTipoDocumento.BorderRadius = 16;
-            fieldTipoDocumento.CustomizableEdges = customizableEdges9;
+            fieldTipoDocumento.CustomizableEdges = customizableEdges87;
             fieldTipoDocumento.Dock = DockStyle.Fill;
             fieldTipoDocumento.DrawMode = DrawMode.OwnerDrawFixed;
             fieldTipoDocumento.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -465,7 +469,7 @@
             fieldTipoDocumento.Location = new Point(521, 5);
             fieldTipoDocumento.Margin = new Padding(5);
             fieldTipoDocumento.Name = "fieldTipoDocumento";
-            fieldTipoDocumento.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            fieldTipoDocumento.ShadowDecoration.CustomizableEdges = customizableEdges88;
             fieldTipoDocumento.Size = new Size(220, 35);
             fieldTipoDocumento.StartIndex = 0;
             fieldTipoDocumento.TabIndex = 36;
@@ -477,7 +481,7 @@
             fieldNombreCompleto.BorderColor = Color.Gainsboro;
             fieldNombreCompleto.BorderRadius = 16;
             fieldNombreCompleto.Cursor = Cursors.IBeam;
-            fieldNombreCompleto.CustomizableEdges = customizableEdges11;
+            fieldNombreCompleto.CustomizableEdges = customizableEdges89;
             fieldNombreCompleto.DefaultText = "";
             fieldNombreCompleto.DisabledState.BorderColor = Color.White;
             fieldNombreCompleto.DisabledState.ForeColor = Color.DimGray;
@@ -496,7 +500,7 @@
             fieldNombreCompleto.PlaceholderForeColor = Color.DimGray;
             fieldNombreCompleto.PlaceholderText = "Nombre completo";
             fieldNombreCompleto.SelectedText = "";
-            fieldNombreCompleto.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            fieldNombreCompleto.ShadowDecoration.CustomizableEdges = customizableEdges90;
             fieldNombreCompleto.Size = new Size(506, 35);
             fieldNombreCompleto.TabIndex = 8;
             fieldNombreCompleto.TextOffset = new Point(5, 0);
@@ -515,13 +519,15 @@
             // 
             // layoutTitulos2
             // 
-            layoutTitulos2.ColumnCount = 4;
+            layoutTitulos2.ColumnCount = 5;
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 470F));
+            layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+            layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutTitulos2.Controls.Add(fieldTituloDatosMensajeria, 0, 0);
-            layoutTitulos2.Controls.Add(fieldTituloCondicionesPago, 3, 0);
+            layoutTitulos2.Controls.Add(fieldTituloDatosEmpleado, 0, 0);
+            layoutTitulos2.Controls.Add(fieldTituloSalario, 4, 0);
+            layoutTitulos2.Controls.Add(fieldTituloFecha, 1, 0);
             layoutTitulos2.Dock = DockStyle.Fill;
             layoutTitulos2.Location = new Point(50, 235);
             layoutTitulos2.Margin = new Padding(0);
@@ -531,37 +537,52 @@
             layoutTitulos2.Size = new Size(1286, 35);
             layoutTitulos2.TabIndex = 54;
             // 
-            // fieldTituloDatosMensajeria
+            // fieldTituloDatosEmpleado
             // 
-            fieldTituloDatosMensajeria.Dock = DockStyle.Fill;
-            fieldTituloDatosMensajeria.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloDatosMensajeria.ForeColor = Color.DimGray;
-            fieldTituloDatosMensajeria.Image = (Image) resources.GetObject("fieldTituloDatosMensajeria.Image");
-            fieldTituloDatosMensajeria.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosMensajeria.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosMensajeria.Location = new Point(15, 5);
-            fieldTituloDatosMensajeria.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosMensajeria.Name = "fieldTituloDatosMensajeria";
-            fieldTituloDatosMensajeria.Size = new Size(240, 27);
-            fieldTituloDatosMensajeria.TabIndex = 43;
-            fieldTituloDatosMensajeria.Text = "      Datos de proveedor :";
-            fieldTituloDatosMensajeria.TextAlign = ContentAlignment.MiddleLeft;
+            fieldTituloDatosEmpleado.Dock = DockStyle.Fill;
+            fieldTituloDatosEmpleado.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloDatosEmpleado.ForeColor = Color.DimGray;
+            fieldTituloDatosEmpleado.Image = (Image) resources.GetObject("fieldTituloDatosEmpleado.Image");
+            fieldTituloDatosEmpleado.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloDatosEmpleado.ImeMode = ImeMode.NoControl;
+            fieldTituloDatosEmpleado.Location = new Point(15, 5);
+            fieldTituloDatosEmpleado.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloDatosEmpleado.Name = "fieldTituloDatosEmpleado";
+            fieldTituloDatosEmpleado.Size = new Size(240, 27);
+            fieldTituloDatosEmpleado.TabIndex = 43;
+            fieldTituloDatosEmpleado.Text = "      Datos de empleado :";
+            fieldTituloDatosEmpleado.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // fieldTituloCondicionesPago
+            // fieldTituloSalario
             // 
-            fieldTituloCondicionesPago.Dock = DockStyle.Fill;
-            fieldTituloCondicionesPago.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloCondicionesPago.ForeColor = Color.DimGray;
-            fieldTituloCondicionesPago.Image = (Image) resources.GetObject("fieldTituloCondicionesPago.Image");
-            fieldTituloCondicionesPago.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloCondicionesPago.ImeMode = ImeMode.NoControl;
-            fieldTituloCondicionesPago.Location = new Point(1001, 5);
-            fieldTituloCondicionesPago.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloCondicionesPago.Name = "fieldTituloCondicionesPago";
-            fieldTituloCondicionesPago.Size = new Size(282, 27);
-            fieldTituloCondicionesPago.TabIndex = 44;
-            fieldTituloCondicionesPago.Text = "      Condiciones de pago :";
-            fieldTituloCondicionesPago.TextAlign = ContentAlignment.MiddleLeft;
+            fieldTituloSalario.Dock = DockStyle.Fill;
+            fieldTituloSalario.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloSalario.ForeColor = Color.DimGray;
+            fieldTituloSalario.Image = (Image) resources.GetObject("fieldTituloSalario.Image");
+            fieldTituloSalario.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloSalario.ImeMode = ImeMode.NoControl;
+            fieldTituloSalario.Location = new Point(1001, 5);
+            fieldTituloSalario.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloSalario.Name = "fieldTituloSalario";
+            fieldTituloSalario.Size = new Size(282, 27);
+            fieldTituloSalario.TabIndex = 44;
+            fieldTituloSalario.Text = "      Salario básico :";
+            fieldTituloSalario.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloFecha
+            // 
+            fieldTituloFecha.Dock = DockStyle.Fill;
+            fieldTituloFecha.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloFecha.ForeColor = Color.DimGray;
+            fieldTituloFecha.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloFecha.ImeMode = ImeMode.NoControl;
+            fieldTituloFecha.Location = new Point(273, 5);
+            fieldTituloFecha.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloFecha.Name = "fieldTituloFecha";
+            fieldTituloFecha.Size = new Size(240, 27);
+            fieldTituloFecha.TabIndex = 45;
+            fieldTituloFecha.Text = "Fecha de contratación :";
+            fieldTituloFecha.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // layoutDistDatos23
             // 
@@ -581,17 +602,17 @@
             // 
             // layoutDatos2
             // 
-            layoutDatos2.ColumnCount = 4;
+            layoutDatos2.ColumnCount = 5;
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 470F));
+            layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+            layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutDatos2.Controls.Add(fieldCondicionesPago, 3, 0);
-            layoutDatos2.Controls.Add(fieldRazonSocial, 2, 0);
-            layoutDatos2.Controls.Add(fieldNit, 1, 0);
-            layoutDatos2.Controls.Add(fieldCodigoProveedor, 0, 0);
+            layoutDatos2.Controls.Add(fieldSalario, 4, 0);
+            layoutDatos2.Controls.Add(fieldDepartamento, 3, 0);
+            layoutDatos2.Controls.Add(fieldCargo, 2, 0);
+            layoutDatos2.Controls.Add(fieldFechaContratacion, 1, 0);
+            layoutDatos2.Controls.Add(fieldCodigoEmpelado, 0, 0);
             layoutDatos2.Dock = DockStyle.Fill;
             layoutDatos2.Location = new Point(0, 0);
             layoutDatos2.Margin = new Padding(0);
@@ -601,127 +622,160 @@
             layoutDatos2.Size = new Size(1286, 45);
             layoutDatos2.TabIndex = 49;
             // 
-            // fieldCondicionesPago
+            // fieldSalario
             // 
-            fieldCondicionesPago.Animated = true;
-            fieldCondicionesPago.BorderColor = Color.Gainsboro;
-            fieldCondicionesPago.BorderRadius = 16;
-            fieldCondicionesPago.Cursor = Cursors.IBeam;
-            fieldCondicionesPago.CustomizableEdges = customizableEdges13;
-            fieldCondicionesPago.DefaultText = "";
-            fieldCondicionesPago.DisabledState.BorderColor = Color.White;
-            fieldCondicionesPago.DisabledState.ForeColor = Color.DimGray;
-            fieldCondicionesPago.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldCondicionesPago.Dock = DockStyle.Fill;
-            fieldCondicionesPago.FocusedState.BorderColor = Color.SandyBrown;
-            fieldCondicionesPago.Font = new Font("Segoe UI", 11.25F);
-            fieldCondicionesPago.ForeColor = Color.Black;
-            fieldCondicionesPago.HoverState.BorderColor = Color.SandyBrown;
-            fieldCondicionesPago.IconLeft = (Image) resources.GetObject("fieldCondicionesPago.IconLeft");
-            fieldCondicionesPago.IconLeftOffset = new Point(10, 0);
-            fieldCondicionesPago.Location = new Point(991, 5);
-            fieldCondicionesPago.Margin = new Padding(5);
-            fieldCondicionesPago.Name = "fieldCondicionesPago";
-            fieldCondicionesPago.PasswordChar = '\0';
-            fieldCondicionesPago.PlaceholderForeColor = Color.DimGray;
-            fieldCondicionesPago.PlaceholderText = "Neto 30, Contado, etc";
-            fieldCondicionesPago.SelectedText = "";
-            fieldCondicionesPago.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            fieldCondicionesPago.Size = new Size(290, 35);
-            fieldCondicionesPago.TabIndex = 52;
-            fieldCondicionesPago.TextOffset = new Point(5, 0);
+            fieldSalario.Animated = true;
+            fieldSalario.AutoRoundedCorners = true;
+            fieldSalario.BorderColor = Color.Gainsboro;
+            fieldSalario.BorderRadius = 16;
+            fieldSalario.Cursor = Cursors.IBeam;
+            fieldSalario.CustomizableEdges = customizableEdges91;
+            fieldSalario.DefaultText = "";
+            fieldSalario.DisabledState.BorderColor = Color.White;
+            fieldSalario.DisabledState.ForeColor = Color.DimGray;
+            fieldSalario.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldSalario.Dock = DockStyle.Fill;
+            fieldSalario.FocusedState.BorderColor = Color.SandyBrown;
+            fieldSalario.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldSalario.ForeColor = Color.Black;
+            fieldSalario.HoverState.BorderColor = Color.SandyBrown;
+            fieldSalario.IconLeftOffset = new Point(10, 0);
+            fieldSalario.IconRight = (Image) resources.GetObject("fieldSalario.IconRight");
+            fieldSalario.IconRightOffset = new Point(6, 0);
+            fieldSalario.IconRightSize = new Size(12, 12);
+            fieldSalario.Location = new Point(991, 5);
+            fieldSalario.Margin = new Padding(5);
+            fieldSalario.Name = "fieldSalario";
+            fieldSalario.PasswordChar = '\0';
+            fieldSalario.PlaceholderForeColor = Color.DimGray;
+            fieldSalario.PlaceholderText = "0.00";
+            fieldSalario.SelectedText = "";
+            fieldSalario.ShadowDecoration.CustomizableEdges = customizableEdges92;
+            fieldSalario.Size = new Size(290, 35);
+            fieldSalario.TabIndex = 53;
+            fieldSalario.TextAlign = HorizontalAlignment.Right;
+            fieldSalario.TextOffset = new Point(5, 0);
             // 
-            // fieldRazonSocial
+            // fieldDepartamento
             // 
-            fieldRazonSocial.Animated = true;
-            fieldRazonSocial.BorderColor = Color.Gainsboro;
-            fieldRazonSocial.BorderRadius = 16;
-            fieldRazonSocial.Cursor = Cursors.IBeam;
-            fieldRazonSocial.CustomizableEdges = customizableEdges15;
-            fieldRazonSocial.DefaultText = "";
-            fieldRazonSocial.DisabledState.BorderColor = Color.White;
-            fieldRazonSocial.DisabledState.ForeColor = Color.DimGray;
-            fieldRazonSocial.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldRazonSocial.Dock = DockStyle.Fill;
-            fieldRazonSocial.FocusedState.BorderColor = Color.SandyBrown;
-            fieldRazonSocial.Font = new Font("Segoe UI", 11.25F);
-            fieldRazonSocial.ForeColor = Color.Black;
-            fieldRazonSocial.HoverState.BorderColor = Color.SandyBrown;
-            fieldRazonSocial.IconLeft = (Image) resources.GetObject("fieldRazonSocial.IconLeft");
-            fieldRazonSocial.IconLeftOffset = new Point(10, 0);
-            fieldRazonSocial.Location = new Point(521, 5);
-            fieldRazonSocial.Margin = new Padding(5);
-            fieldRazonSocial.Name = "fieldRazonSocial";
-            fieldRazonSocial.PasswordChar = '\0';
-            fieldRazonSocial.PlaceholderForeColor = Color.DimGray;
-            fieldRazonSocial.PlaceholderText = "Razón social o nombre comercial";
-            fieldRazonSocial.SelectedText = "";
-            fieldRazonSocial.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            fieldRazonSocial.Size = new Size(460, 35);
-            fieldRazonSocial.TabIndex = 51;
-            fieldRazonSocial.TextOffset = new Point(5, 0);
+            fieldDepartamento.Animated = true;
+            fieldDepartamento.BorderColor = Color.Gainsboro;
+            fieldDepartamento.BorderRadius = 16;
+            fieldDepartamento.Cursor = Cursors.IBeam;
+            fieldDepartamento.CustomizableEdges = customizableEdges93;
+            fieldDepartamento.DefaultText = "";
+            fieldDepartamento.DisabledState.BorderColor = Color.White;
+            fieldDepartamento.DisabledState.ForeColor = Color.DimGray;
+            fieldDepartamento.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldDepartamento.Dock = DockStyle.Fill;
+            fieldDepartamento.FocusedState.BorderColor = Color.SandyBrown;
+            fieldDepartamento.Font = new Font("Segoe UI", 11.25F);
+            fieldDepartamento.ForeColor = Color.Black;
+            fieldDepartamento.HoverState.BorderColor = Color.SandyBrown;
+            fieldDepartamento.IconLeft = (Image) resources.GetObject("fieldDepartamento.IconLeft");
+            fieldDepartamento.IconLeftOffset = new Point(10, 0);
+            fieldDepartamento.Location = new Point(751, 5);
+            fieldDepartamento.Margin = new Padding(5);
+            fieldDepartamento.Name = "fieldDepartamento";
+            fieldDepartamento.PasswordChar = '\0';
+            fieldDepartamento.PlaceholderForeColor = Color.DimGray;
+            fieldDepartamento.PlaceholderText = "Departamento";
+            fieldDepartamento.SelectedText = "";
+            fieldDepartamento.ShadowDecoration.CustomizableEdges = customizableEdges94;
+            fieldDepartamento.Size = new Size(230, 35);
+            fieldDepartamento.TabIndex = 52;
+            fieldDepartamento.TextOffset = new Point(5, 0);
             // 
-            // fieldNit
+            // fieldCargo
             // 
-            fieldNit.Animated = true;
-            fieldNit.BorderColor = Color.Gainsboro;
-            fieldNit.BorderRadius = 16;
-            fieldNit.Cursor = Cursors.IBeam;
-            fieldNit.CustomizableEdges = customizableEdges17;
-            fieldNit.DefaultText = "";
-            fieldNit.DisabledState.BorderColor = Color.White;
-            fieldNit.DisabledState.ForeColor = Color.DimGray;
-            fieldNit.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldNit.Dock = DockStyle.Fill;
-            fieldNit.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNit.Font = new Font("Segoe UI", 11.25F);
-            fieldNit.ForeColor = Color.Black;
-            fieldNit.HoverState.BorderColor = Color.SandyBrown;
-            fieldNit.IconLeft = (Image) resources.GetObject("fieldNit.IconLeft");
-            fieldNit.IconLeftOffset = new Point(10, 0);
-            fieldNit.Location = new Point(263, 5);
-            fieldNit.Margin = new Padding(5);
-            fieldNit.Name = "fieldNit";
-            fieldNit.PasswordChar = '\0';
-            fieldNit.PlaceholderForeColor = Color.DimGray;
-            fieldNit.PlaceholderText = "NIT";
-            fieldNit.SelectedText = "";
-            fieldNit.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            fieldNit.Size = new Size(248, 35);
-            fieldNit.TabIndex = 50;
-            fieldNit.TextOffset = new Point(5, 0);
+            fieldCargo.Animated = true;
+            fieldCargo.BorderColor = Color.Gainsboro;
+            fieldCargo.BorderRadius = 16;
+            fieldCargo.Cursor = Cursors.IBeam;
+            fieldCargo.CustomizableEdges = customizableEdges95;
+            fieldCargo.DefaultText = "";
+            fieldCargo.DisabledState.BorderColor = Color.White;
+            fieldCargo.DisabledState.ForeColor = Color.DimGray;
+            fieldCargo.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldCargo.Dock = DockStyle.Fill;
+            fieldCargo.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCargo.Font = new Font("Segoe UI", 11.25F);
+            fieldCargo.ForeColor = Color.Black;
+            fieldCargo.HoverState.BorderColor = Color.SandyBrown;
+            fieldCargo.IconLeft = (Image) resources.GetObject("fieldCargo.IconLeft");
+            fieldCargo.IconLeftOffset = new Point(10, 0);
+            fieldCargo.Location = new Point(521, 5);
+            fieldCargo.Margin = new Padding(5);
+            fieldCargo.Name = "fieldCargo";
+            fieldCargo.PasswordChar = '\0';
+            fieldCargo.PlaceholderForeColor = Color.DimGray;
+            fieldCargo.PlaceholderText = "Cargo";
+            fieldCargo.SelectedText = "";
+            fieldCargo.ShadowDecoration.CustomizableEdges = customizableEdges96;
+            fieldCargo.Size = new Size(220, 35);
+            fieldCargo.TabIndex = 51;
+            fieldCargo.TextOffset = new Point(5, 0);
             // 
-            // fieldCodigoProveedor
+            // fieldFechaContratacion
             // 
-            fieldCodigoProveedor.Animated = true;
-            fieldCodigoProveedor.BorderColor = Color.Gainsboro;
-            fieldCodigoProveedor.BorderRadius = 16;
-            fieldCodigoProveedor.Cursor = Cursors.IBeam;
-            fieldCodigoProveedor.CustomizableEdges = customizableEdges19;
-            fieldCodigoProveedor.DefaultText = "";
-            fieldCodigoProveedor.DisabledState.BorderColor = Color.White;
-            fieldCodigoProveedor.DisabledState.ForeColor = Color.DimGray;
-            fieldCodigoProveedor.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoProveedor.Dock = DockStyle.Fill;
-            fieldCodigoProveedor.FocusedState.BorderColor = Color.SandyBrown;
-            fieldCodigoProveedor.Font = new Font("Segoe UI", 11.25F);
-            fieldCodigoProveedor.ForeColor = Color.Black;
-            fieldCodigoProveedor.HoverState.BorderColor = Color.SandyBrown;
-            fieldCodigoProveedor.IconLeft = (Image) resources.GetObject("fieldCodigoProveedor.IconLeft");
-            fieldCodigoProveedor.IconLeftOffset = new Point(10, 0);
-            fieldCodigoProveedor.IconRight = (Image) resources.GetObject("fieldCodigoProveedor.IconRight");
-            fieldCodigoProveedor.IconRightOffset = new Point(10, 0);
-            fieldCodigoProveedor.Location = new Point(5, 5);
-            fieldCodigoProveedor.Margin = new Padding(5);
-            fieldCodigoProveedor.Name = "fieldCodigoProveedor";
-            fieldCodigoProveedor.PasswordChar = '\0';
-            fieldCodigoProveedor.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoProveedor.PlaceholderText = "Código interno";
-            fieldCodigoProveedor.SelectedText = "";
-            fieldCodigoProveedor.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            fieldCodigoProveedor.Size = new Size(248, 35);
-            fieldCodigoProveedor.TabIndex = 49;
-            fieldCodigoProveedor.TextOffset = new Point(5, 0);
+            fieldFechaContratacion.Animated = true;
+            fieldFechaContratacion.AutoRoundedCorners = true;
+            fieldFechaContratacion.BackColor = Color.White;
+            fieldFechaContratacion.BorderColor = Color.Gainsboro;
+            fieldFechaContratacion.BorderRadius = 16;
+            fieldFechaContratacion.BorderThickness = 1;
+            fieldFechaContratacion.Checked = true;
+            fieldFechaContratacion.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFechaContratacion.CheckedState.FillColor = Color.White;
+            fieldFechaContratacion.CheckedState.ForeColor = Color.Black;
+            fieldFechaContratacion.CustomFormat = "yyyy-MM-dd";
+            fieldFechaContratacion.CustomizableEdges = customizableEdges97;
+            fieldFechaContratacion.Dock = DockStyle.Fill;
+            fieldFechaContratacion.FillColor = Color.White;
+            fieldFechaContratacion.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaContratacion.ForeColor = Color.Black;
+            fieldFechaContratacion.Format = DateTimePickerFormat.Custom;
+            fieldFechaContratacion.Location = new Point(263, 5);
+            fieldFechaContratacion.Margin = new Padding(5);
+            fieldFechaContratacion.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFechaContratacion.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFechaContratacion.Name = "fieldFechaContratacion";
+            fieldFechaContratacion.ShadowDecoration.CustomizableEdges = customizableEdges98;
+            fieldFechaContratacion.Size = new Size(248, 35);
+            fieldFechaContratacion.TabIndex = 50;
+            fieldFechaContratacion.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
+            // 
+            // fieldCodigoEmpelado
+            // 
+            fieldCodigoEmpelado.Animated = true;
+            fieldCodigoEmpelado.BorderColor = Color.Gainsboro;
+            fieldCodigoEmpelado.BorderRadius = 16;
+            fieldCodigoEmpelado.Cursor = Cursors.IBeam;
+            fieldCodigoEmpelado.CustomizableEdges = customizableEdges99;
+            fieldCodigoEmpelado.DefaultText = "";
+            fieldCodigoEmpelado.DisabledState.BorderColor = Color.White;
+            fieldCodigoEmpelado.DisabledState.ForeColor = Color.DimGray;
+            fieldCodigoEmpelado.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldCodigoEmpelado.Dock = DockStyle.Fill;
+            fieldCodigoEmpelado.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCodigoEmpelado.Font = new Font("Segoe UI", 11.25F);
+            fieldCodigoEmpelado.ForeColor = Color.Black;
+            fieldCodigoEmpelado.HoverState.BorderColor = Color.SandyBrown;
+            fieldCodigoEmpelado.IconLeft = (Image) resources.GetObject("fieldCodigoEmpelado.IconLeft");
+            fieldCodigoEmpelado.IconLeftOffset = new Point(10, 0);
+            fieldCodigoEmpelado.IconRight = (Image) resources.GetObject("fieldCodigoEmpelado.IconRight");
+            fieldCodigoEmpelado.IconRightOffset = new Point(10, 0);
+            fieldCodigoEmpelado.Location = new Point(5, 5);
+            fieldCodigoEmpelado.Margin = new Padding(5);
+            fieldCodigoEmpelado.Name = "fieldCodigoEmpelado";
+            fieldCodigoEmpelado.PasswordChar = '\0';
+            fieldCodigoEmpelado.PlaceholderForeColor = Color.DimGray;
+            fieldCodigoEmpelado.PlaceholderText = "Código interno";
+            fieldCodigoEmpelado.SelectedText = "";
+            fieldCodigoEmpelado.ShadowDecoration.CustomizableEdges = customizableEdges100;
+            fieldCodigoEmpelado.Size = new Size(248, 35);
+            fieldCodigoEmpelado.TabIndex = 49;
+            fieldCodigoEmpelado.TextOffset = new Point(5, 0);
             // 
             // fieldDireccionPrincipal
             // 
@@ -729,7 +783,7 @@
             fieldDireccionPrincipal.BorderColor = Color.Gainsboro;
             fieldDireccionPrincipal.BorderRadius = 16;
             fieldDireccionPrincipal.Cursor = Cursors.IBeam;
-            fieldDireccionPrincipal.CustomizableEdges = customizableEdges21;
+            fieldDireccionPrincipal.CustomizableEdges = customizableEdges77;
             fieldDireccionPrincipal.DefaultText = "";
             fieldDireccionPrincipal.DisabledState.BorderColor = Color.White;
             fieldDireccionPrincipal.DisabledState.ForeColor = Color.DimGray;
@@ -748,7 +802,7 @@
             fieldDireccionPrincipal.PlaceholderForeColor = Color.DimGray;
             fieldDireccionPrincipal.PlaceholderText = "Dirección principal";
             fieldDireccionPrincipal.SelectedText = "";
-            fieldDireccionPrincipal.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            fieldDireccionPrincipal.ShadowDecoration.CustomizableEdges = customizableEdges78;
             fieldDireccionPrincipal.Size = new Size(1276, 35);
             fieldDireccionPrincipal.TabIndex = 56;
             fieldDireccionPrincipal.TextOffset = new Point(5, 0);
@@ -888,7 +942,7 @@
             fieldDireccionCorreo.BorderColor = Color.Gainsboro;
             fieldDireccionCorreo.BorderRadius = 16;
             fieldDireccionCorreo.Cursor = Cursors.IBeam;
-            fieldDireccionCorreo.CustomizableEdges = customizableEdges23;
+            fieldDireccionCorreo.CustomizableEdges = customizableEdges101;
             fieldDireccionCorreo.DefaultText = "";
             fieldDireccionCorreo.DisabledState.BorderColor = Color.White;
             fieldDireccionCorreo.DisabledState.ForeColor = Color.DimGray;
@@ -907,7 +961,7 @@
             fieldDireccionCorreo.PlaceholderForeColor = Color.DimGray;
             fieldDireccionCorreo.PlaceholderText = "ejemplo@mail.ej";
             fieldDireccionCorreo.SelectedText = "";
-            fieldDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            fieldDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges102;
             fieldDireccionCorreo.Size = new Size(360, 35);
             fieldDireccionCorreo.TabIndex = 41;
             fieldDireccionCorreo.TextOffset = new Point(5, 0);
@@ -918,14 +972,14 @@
             btnAgregarDireccionCorreo.BorderRadius = 18;
             btnAgregarDireccionCorreo.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnAgregarDireccionCorreo.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAgregarDireccionCorreo.CustomizableEdges = customizableEdges25;
+            btnAgregarDireccionCorreo.CustomizableEdges = customizableEdges103;
             btnAgregarDireccionCorreo.Dock = DockStyle.Fill;
             btnAgregarDireccionCorreo.FillColor = Color.PeachPuff;
             btnAgregarDireccionCorreo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnAgregarDireccionCorreo.ForeColor = Color.Black;
             btnAgregarDireccionCorreo.Location = new Point(523, 3);
             btnAgregarDireccionCorreo.Name = "btnAgregarDireccionCorreo";
-            btnAgregarDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            btnAgregarDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges104;
             btnAgregarDireccionCorreo.Size = new Size(44, 39);
             btnAgregarDireccionCorreo.TabIndex = 40;
             // 
@@ -935,7 +989,7 @@
             fieldCategoriaDireccionCorreo.BackColor = Color.Transparent;
             fieldCategoriaDireccionCorreo.BorderColor = Color.Gainsboro;
             fieldCategoriaDireccionCorreo.BorderRadius = 16;
-            fieldCategoriaDireccionCorreo.CustomizableEdges = customizableEdges27;
+            fieldCategoriaDireccionCorreo.CustomizableEdges = customizableEdges105;
             fieldCategoriaDireccionCorreo.Dock = DockStyle.Fill;
             fieldCategoriaDireccionCorreo.DrawMode = DrawMode.OwnerDrawFixed;
             fieldCategoriaDireccionCorreo.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -949,7 +1003,7 @@
             fieldCategoriaDireccionCorreo.Location = new Point(5, 5);
             fieldCategoriaDireccionCorreo.Margin = new Padding(5);
             fieldCategoriaDireccionCorreo.Name = "fieldCategoriaDireccionCorreo";
-            fieldCategoriaDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            fieldCategoriaDireccionCorreo.ShadowDecoration.CustomizableEdges = customizableEdges106;
             fieldCategoriaDireccionCorreo.Size = new Size(140, 35);
             fieldCategoriaDireccionCorreo.StartIndex = 0;
             fieldCategoriaDireccionCorreo.TabIndex = 37;
@@ -982,14 +1036,14 @@
             btnAgregarTelefono.BorderRadius = 18;
             btnAgregarTelefono.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnAgregarTelefono.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAgregarTelefono.CustomizableEdges = customizableEdges29;
+            btnAgregarTelefono.CustomizableEdges = customizableEdges107;
             btnAgregarTelefono.Dock = DockStyle.Fill;
             btnAgregarTelefono.FillColor = Color.PeachPuff;
             btnAgregarTelefono.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnAgregarTelefono.ForeColor = Color.Black;
             btnAgregarTelefono.Location = new Point(649, 3);
             btnAgregarTelefono.Name = "btnAgregarTelefono";
-            btnAgregarTelefono.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            btnAgregarTelefono.ShadowDecoration.CustomizableEdges = customizableEdges108;
             btnAgregarTelefono.Size = new Size(44, 39);
             btnAgregarTelefono.TabIndex = 40;
             // 
@@ -1030,7 +1084,7 @@
             fieldNumeroTelefono.BorderColor = Color.Gainsboro;
             fieldNumeroTelefono.BorderRadius = 16;
             fieldNumeroTelefono.Cursor = Cursors.IBeam;
-            fieldNumeroTelefono.CustomizableEdges = customizableEdges31;
+            fieldNumeroTelefono.CustomizableEdges = customizableEdges109;
             fieldNumeroTelefono.DefaultText = "";
             fieldNumeroTelefono.DisabledState.BorderColor = Color.Gainsboro;
             fieldNumeroTelefono.DisabledState.FillColor = Color.White;
@@ -1052,7 +1106,7 @@
             fieldNumeroTelefono.PlaceholderForeColor = Color.DimGray;
             fieldNumeroTelefono.PlaceholderText = "0";
             fieldNumeroTelefono.SelectedText = "";
-            fieldNumeroTelefono.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            fieldNumeroTelefono.ShadowDecoration.CustomizableEdges = customizableEdges110;
             fieldNumeroTelefono.Size = new Size(196, 35);
             fieldNumeroTelefono.TabIndex = 2;
             fieldNumeroTelefono.TextOffset = new Point(5, 0);
@@ -1063,7 +1117,7 @@
             fieldPaises.BackColor = Color.Transparent;
             fieldPaises.BorderColor = Color.Gainsboro;
             fieldPaises.BorderRadius = 16;
-            fieldPaises.CustomizableEdges = customizableEdges33;
+            fieldPaises.CustomizableEdges = customizableEdges111;
             fieldPaises.Dock = DockStyle.Fill;
             fieldPaises.DrawMode = DrawMode.OwnerDrawFixed;
             fieldPaises.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1076,7 +1130,7 @@
             fieldPaises.Location = new Point(155, 5);
             fieldPaises.Margin = new Padding(5);
             fieldPaises.Name = "fieldPaises";
-            fieldPaises.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            fieldPaises.ShadowDecoration.CustomizableEdges = customizableEdges112;
             fieldPaises.Size = new Size(210, 35);
             fieldPaises.TabIndex = 38;
             fieldPaises.TextOffset = new Point(10, 0);
@@ -1087,7 +1141,7 @@
             fieldCategoriaTelefono.BackColor = Color.Transparent;
             fieldCategoriaTelefono.BorderColor = Color.Gainsboro;
             fieldCategoriaTelefono.BorderRadius = 16;
-            fieldCategoriaTelefono.CustomizableEdges = customizableEdges35;
+            fieldCategoriaTelefono.CustomizableEdges = customizableEdges113;
             fieldCategoriaTelefono.Dock = DockStyle.Fill;
             fieldCategoriaTelefono.DrawMode = DrawMode.OwnerDrawFixed;
             fieldCategoriaTelefono.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1101,13 +1155,13 @@
             fieldCategoriaTelefono.Location = new Point(5, 5);
             fieldCategoriaTelefono.Margin = new Padding(5);
             fieldCategoriaTelefono.Name = "fieldCategoriaTelefono";
-            fieldCategoriaTelefono.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            fieldCategoriaTelefono.ShadowDecoration.CustomizableEdges = customizableEdges114;
             fieldCategoriaTelefono.Size = new Size(140, 35);
             fieldCategoriaTelefono.StartIndex = 0;
             fieldCategoriaTelefono.TabIndex = 37;
             fieldCategoriaTelefono.TextOffset = new Point(10, 0);
             // 
-            // VistaRegistroProveedor
+            // VistaRegistroEmpleado
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1356, 685);
@@ -1115,7 +1169,7 @@
             Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-            Name = "VistaRegistroProveedor";
+            Name = "VistaRegistroEmpleado";
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "VistaGestionCostosProduccion";
@@ -1162,16 +1216,13 @@
         private TableLayoutPanel layoutTitulos2;
         private TableLayoutPanel layoutDistDatos23;
         private Label fieldTituloFecha;
-        private Guna.UI2.WinForms.Guna2DateTimePicker fieldFechaRegistro;
-        private Label fieldTituloDatosMensajeria;
+        private Guna.UI2.WinForms.Guna2DateTimePicker fieldFechaContratacion;
+        private Label fieldTituloDatosEmpleado;
         private Guna.UI2.WinForms.Guna2TextBox fieldDireccionPrincipal;
         private TableLayoutPanel layoutDistListaTelefonos;
         private TableLayoutPanel layoutDatos2;
-        private Guna.UI2.WinForms.Guna2TextBox fieldCodigoProveedor;
-        private Guna.UI2.WinForms.Guna2TextBox fieldNit;
-        private Guna.UI2.WinForms.Guna2TextBox fieldRazonSocial;
-        private Label fieldTituloCondicionesPago;
-        private Guna.UI2.WinForms.Guna2TextBox fieldCondicionesPago;
+        private Guna.UI2.WinForms.Guna2TextBox fieldCodigoEmpelado;
+        private Label fieldTituloSalario;
         private Guna.UI2.WinForms.Guna2Separator separador2;
         private TableLayoutPanel layoutTitulos3;
         private Label lbTituloCorreos;
@@ -1190,5 +1241,10 @@
         private Guna.UI2.WinForms.Guna2ComboBox fieldCategoriaTelefono;
         private FlowLayoutPanel layoutListaTelefonos;
         private FlowLayoutPanel layoutListaDireccionesCorreo;
+        private Label lbTituloFechaNacimiento;
+        private Guna.UI2.WinForms.Guna2DateTimePicker fieldFechaNacimiento;
+        private Guna.UI2.WinForms.Guna2TextBox fieldDepartamento;
+        private Guna.UI2.WinForms.Guna2TextBox fieldCargo;
+        private Guna.UI2.WinForms.Guna2TextBox fieldSalario;
     }
 }

@@ -45,6 +45,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHerramientas = new TableLayoutPanel();
@@ -76,6 +78,9 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             label3 = new Label();
             fieldTituloNombre = new Label();
             fieldTituloNoIdentidad = new Label();
+            layoutHelp = new TableLayoutPanel();
+            fieldInformacion = new Guna2Button();
+            infoIcon = new Guna2NotificationPaint(components);
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
@@ -84,6 +89,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutControlesTabla.SuspendLayout();
             panelBotonesGestion.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
+            layoutHelp.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -102,23 +108,25 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(layoutHerramientas, 2, 4);
-            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 3);
-            layoutVista.Controls.Add(separador1, 2, 5);
+            layoutVista.Controls.Add(layoutHerramientas, 2, 5);
+            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 4);
+            layoutVista.Controls.Add(separador1, 2, 6);
             layoutVista.Controls.Add(layoutTitulo, 2, 0);
             layoutVista.Controls.Add(fieldIcono, 1, 0);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
-            layoutVista.Controls.Add(contenedorVistas, 2, 10);
-            layoutVista.Controls.Add(layoutControlesTabla, 2, 11);
-            layoutVista.Controls.Add(panelBotonesGestion, 2, 6);
-            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 8);
+            layoutVista.Controls.Add(contenedorVistas, 2, 11);
+            layoutVista.Controls.Add(layoutControlesTabla, 2, 12);
+            layoutVista.Controls.Add(panelBotonesGestion, 2, 7);
+            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 9);
+            layoutVista.Controls.Add(layoutHelp, 2, 2);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 13;
+            layoutVista.RowCount = 14;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
@@ -142,7 +150,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutHerramientas.Controls.Add(fieldDatoBusqueda, 1, 0);
             layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 0, 0);
             layoutHerramientas.Dock = DockStyle.Fill;
-            layoutHerramientas.Location = new Point(50, 145);
+            layoutHerramientas.Location = new Point(50, 205);
             layoutHerramientas.Margin = new Padding(0);
             layoutHerramientas.Name = "layoutHerramientas";
             layoutHerramientas.RowCount = 1;
@@ -214,7 +222,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 0, 0);
             layoutTituloHerramientas.Dock = DockStyle.Fill;
-            layoutTituloHerramientas.Location = new Point(50, 110);
+            layoutTituloHerramientas.Location = new Point(50, 170);
             layoutTituloHerramientas.Margin = new Padding(0);
             layoutTituloHerramientas.Name = "layoutTituloHerramientas";
             layoutTituloHerramientas.RowCount = 1;
@@ -242,7 +250,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // 
             separador1.Dock = DockStyle.Fill;
             separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(53, 193);
+            separador1.Location = new Point(53, 253);
             separador1.Name = "separador1";
             separador1.Size = new Size(1280, 14);
             separador1.TabIndex = 35;
@@ -303,10 +311,10 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // contenedorVistas
             // 
             contenedorVistas.Dock = DockStyle.Fill;
-            contenedorVistas.Location = new Point(50, 335);
+            contenedorVistas.Location = new Point(50, 395);
             contenedorVistas.Margin = new Padding(0);
             contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(1286, 218);
+            contenedorVistas.Size = new Size(1286, 158);
             contenedorVistas.TabIndex = 13;
             // 
             // layoutControlesTabla
@@ -494,7 +502,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // 
             panelBotonesGestion.Controls.Add(btnRegistrar);
             panelBotonesGestion.Dock = DockStyle.Fill;
-            panelBotonesGestion.Location = new Point(50, 210);
+            panelBotonesGestion.Location = new Point(50, 270);
             panelBotonesGestion.Margin = new Padding(0);
             panelBotonesGestion.Name = "panelBotonesGestion";
             panelBotonesGestion.Padding = new Padding(3);
@@ -543,7 +551,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutEncabezadosTabla.Controls.Add(fieldTituloNombre, 2, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloNoIdentidad, 1, 0);
             layoutEncabezadosTabla.Dock = DockStyle.Fill;
-            layoutEncabezadosTabla.Location = new Point(51, 266);
+            layoutEncabezadosTabla.Location = new Point(51, 326);
             layoutEncabezadosTabla.Margin = new Padding(1);
             layoutEncabezadosTabla.Name = "layoutEncabezadosTabla";
             layoutEncabezadosTabla.RowCount = 1;
@@ -649,6 +657,59 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTituloNoIdentidad.Text = "No. Identidad";
             fieldTituloNoIdentidad.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // layoutHelp
+            // 
+            layoutHelp.ColumnCount = 1;
+            layoutHelp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutHelp.Controls.Add(fieldInformacion, 0, 0);
+            layoutHelp.Dock = DockStyle.Left;
+            layoutHelp.Location = new Point(50, 90);
+            layoutHelp.Margin = new Padding(0);
+            layoutHelp.Name = "layoutHelp";
+            layoutHelp.Padding = new Padding(0, 0, 10, 0);
+            layoutHelp.RowCount = 1;
+            layoutHelp.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            layoutHelp.Size = new Size(482, 60);
+            layoutHelp.TabIndex = 42;
+            // 
+            // fieldInformacion
+            // 
+            fieldInformacion.BorderColor = Color.LightBlue;
+            fieldInformacion.BorderRadius = 16;
+            fieldInformacion.BorderThickness = 1;
+            customizableEdges17.TopLeft = false;
+            fieldInformacion.CustomizableEdges = customizableEdges17;
+            fieldInformacion.Dock = DockStyle.Fill;
+            fieldInformacion.FillColor = Color.LightBlue;
+            fieldInformacion.Font = new Font("Segoe UI", 9.75F);
+            fieldInformacion.ForeColor = Color.SteelBlue;
+            fieldInformacion.HoverState.BorderColor = Color.LightBlue;
+            fieldInformacion.HoverState.FillColor = Color.LightBlue;
+            fieldInformacion.ImageOffset = new Point(-5, 0);
+            fieldInformacion.Location = new Point(17, 13);
+            fieldInformacion.Margin = new Padding(17, 13, 0, 5);
+            fieldInformacion.Name = "fieldInformacion";
+            fieldInformacion.PressedColor = Color.LightBlue;
+            fieldInformacion.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            fieldInformacion.Size = new Size(455, 42);
+            fieldInformacion.TabIndex = 8;
+            fieldInformacion.Text = "La ficha de personas se puede utilizar como agenda de contactos.";
+            fieldInformacion.TextAlign = HorizontalAlignment.Left;
+            fieldInformacion.TextOffset = new Point(20, 0);
+            // 
+            // infoIcon
+            // 
+            infoIcon.BorderColor = Color.Transparent;
+            infoIcon.BorderRadius = 16;
+            infoIcon.BorderThickness = 0;
+            infoIcon.FillColor = Color.LightBlue;
+            infoIcon.Font = new Font("Bodoni MT", 16F, FontStyle.Bold);
+            infoIcon.ForeColor = Color.SteelBlue;
+            infoIcon.Offset = new Point(0, 50);
+            infoIcon.Size = new Size(30, 30);
+            infoIcon.TargetControl = layoutHelp;
+            infoIcon.Text = "i";
+            // 
             // VistaGestionPersonas
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -671,6 +732,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutControlesTabla.ResumeLayout(false);
             panelBotonesGestion.ResumeLayout(false);
             layoutEncabezadosTabla.ResumeLayout(false);
+            layoutHelp.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -707,5 +769,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private Label label3;
         private Label fieldTituloNombre;
         private Label fieldTituloNoIdentidad;
+        private TableLayoutPanel layoutHelp;
+        private Guna2Button fieldInformacion;
+        private Guna2NotificationPaint infoIcon;
     }
 }

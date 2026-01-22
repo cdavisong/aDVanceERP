@@ -14,6 +14,7 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuRecursosHumanos _menuRecursosHumanos = null!;
     private PresentadorGestionEmpleados _empleados = null!;
+    private PresentadorRegistroEmpleado _registroEmpleado = null!;
     private PresentadorGestionProveedores _proveedores = null!;
     private PresentadorRegistroProveedor _registroProveedor = null!;
     private PresentadorGestionClientes _clientes = null!;
@@ -46,6 +47,8 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         // Contenedor de módulos
         // Empleados
         _empleados = new PresentadorGestionEmpleados(new VistaGestionEmpleados());
+        _registroEmpleado = new PresentadorRegistroEmpleado(new VistaRegistroEmpleado());
+        _registroEmpleado.EntidadRegistradaActualizada += (s, e) => _empleados.ActualizarResultadosBusqueda();
         // Proveedores
         _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
         _registroProveedor = new PresentadorRegistroProveedor(new VistaRegistroProveedor());
@@ -76,6 +79,7 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         // Contenedor de módulos
         // Empleados
         _principal.Modulos.Vista.PanelCentral.Registrar(_empleados.Vista);
+        _principal.Modulos.Vista.PanelCentral.Registrar(_registroEmpleado.Vista);
         // Proveedores
         _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
         _principal.Modulos.Vista.PanelCentral.Registrar(_registroProveedor.Vista);

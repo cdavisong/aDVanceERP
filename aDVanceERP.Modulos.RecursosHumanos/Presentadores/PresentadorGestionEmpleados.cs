@@ -36,6 +36,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
             var persona = entidadesExtra.Count > 0 ? entidadesExtra.FirstOrDefault() as Persona : null!;
 
             presentadorTupla.Vista.Id = entidad.Id;
+            presentadorTupla.Vista.CodigoEmpleado = entidad.CodigoEmpleado;
             presentadorTupla.Vista.NombreCompleto = persona?.NombreCompleto ?? "N/A";
             presentadorTupla.Vista.Cargo = entidad.Cargo;
             presentadorTupla.Vista.Departamento = entidad.Departamento;
