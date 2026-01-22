@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
@@ -136,6 +137,9 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
                 fieldNombreCompleto.Focus();
 
                 args.SuppressKeyPress = true;
+            };
+            fieldCodigoProveedor.IconRightClick += delegate {
+                fieldCodigoProveedor.Text = CodigoHelper.GenerarEan13($"{NumeroDocumento}.{NombreCompleto}");
             };
             fieldPaises.SelectedIndexChanged += delegate {
                 fieldPrefijoInternacional.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaises.Text)}";

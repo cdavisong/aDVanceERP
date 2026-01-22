@@ -70,7 +70,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         var clasificacion = RepoClasificacionProducto.Instancia.ObtenerPorId(entidad.IdClasificacionProducto);
 
         Vista.Categoria = entidad.Categoria;
-        Vista.Nombre = entidad.Nombre;
+        Vista.NombreProducto = entidad.Nombre;
         Vista.Codigo = entidad.Codigo;
         Vista.Descripcion = entidad.Descripcion;
         Vista.NombreProveedor = proveedor?.RazonSocial ?? string.Empty;
@@ -94,7 +94,7 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
         return new Producto {
             Id = _entidad?.Id ?? 0,
             Categoria = Vista.Categoria,
-            Nombre = Vista.Nombre,
+            Nombre = Vista.NombreProducto,
             Codigo = Vista.Codigo,
             Descripcion = Vista.Descripcion,
             IdProveedor = proveedor?.Id ?? 0,
@@ -110,9 +110,9 @@ public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegist
     }
 
     protected override bool EntidadCorrecta() {
-        var productosConNombreRepetido = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.Nombre).cantidad;
+        var productosConNombreRepetido = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).cantidad;
         var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
-        var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
+        var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
         var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
         var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
 

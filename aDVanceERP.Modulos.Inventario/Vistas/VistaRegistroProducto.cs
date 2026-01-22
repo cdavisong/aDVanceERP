@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
@@ -83,7 +84,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public string Nombre { 
+        public string NombreProducto { 
             get => fieldNombreProducto.Text;
             set => fieldNombreProducto.Text = value;
         }
@@ -202,6 +203,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldCostoUnitario.TextChanged += ActualizarCostoUnitario;
             fieldPrecioVentaBase.IconLeftClick += CalcularPrecioVenta;
             fieldMargenGananciaDeseado.IconLeftClick += CalcularMargenGanancia;
+            fieldCodigo.IconRightClick += delegate {
+                fieldCodigo.Text = CodigoHelper.GenerarEan13($"{Categoria}.{NombreProducto}");
+            };
             btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
                 if (ModoEdicion)
                     EditarEntidad?.Invoke(sender, args);
@@ -280,7 +284,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Restaurar() {
             Imagen = null;
             Categoria = CategoriaProducto.Mercancia;
-            Nombre = string.Empty;
+            NombreProducto = string.Empty;
             Codigo = string.Empty;
             NombreProveedor = string.Empty;
             Descripcion = string.Empty;

@@ -6,7 +6,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces;
 public interface IVistaRegistroProducto : IVistaRegistro {
     Image? Imagen { get; set; }
     CategoriaProducto Categoria { get; set; }
-    string Nombre { get; set; }
+    string NombreProducto { get; set; }
     string? Codigo { get; set; }
     string NombreProveedor { get; set; }
     string Descripcion { get; set; }

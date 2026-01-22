@@ -3,15 +3,15 @@ using System.Text;
 
 namespace aDVanceERP.Core.Infraestructura.Helpers.Comun {
     public static class CodigoHelper {
-        public static string GenerarEan13(string nombreProducto) {
-            if (string.IsNullOrWhiteSpace(nombreProducto)) {
-                throw new ArgumentException("El nombre del producto no puede estar vacío");
+        public static string GenerarEan13(string texto) {
+            if (string.IsNullOrWhiteSpace(texto)) {
+                throw new ArgumentException("El texto no puede estar vacío");
             }
 
-            // Paso 1: Obtener un hash del nombre del producto
+            // Paso 1: Obtener un hash del texto
             byte[] hashBytes;
             using (var sha256 = SHA256.Create())
-                hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(nombreProducto));
+                hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(texto));
 
             // Paso 2: Convertir el hash a un número largo
             long numericHash = BitConverter.ToInt64(hashBytes, 0);
