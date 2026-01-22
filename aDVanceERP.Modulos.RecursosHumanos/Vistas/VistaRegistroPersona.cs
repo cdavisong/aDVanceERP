@@ -32,7 +32,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
                 _modoEdicion = value;
 
                 fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
-                btnRegistrarActualizar.Text = value ? "Actualizar el almacén" : "Registrar el almacén";
+                btnRegistrarActualizar.Text = value ? "Actualizar la persona" : "Registrar la persona";
             }
         }
 
