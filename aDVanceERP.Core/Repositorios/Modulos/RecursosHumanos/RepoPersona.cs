@@ -68,7 +68,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
 
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
-                DELETE FROM adv__persona 
+                -- 1. Eliminar correos electrónicos asociados
+                DELETE FROM adv__correo_contacto
+                WHERE id_persona = @id_persona;
+
+                -- 2. Eliminar teléfonos asociados
+                DELETE FROM adv__telefono_contacto
+                WHERE id_persona = @id_persona;
+
+                -- 3. Finalmente, eliminar la persona.
+                DELETE FROM adv__persona
                 WHERE id_persona = @id_persona;
                 """;
 
@@ -132,6 +141,35 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         #endregion
 
         #region UTILES
+
+        public bool EsSeguroEliminarPersona(long idPersona) {
+            var consulta = $"""
+                SELECT
+                    COUNT(c.id_cliente) +
+                    COUNT(e.id_empleado) +
+                    COUNT(m.id_mensajero) +
+                    COUNT(prov.id_proveedor) AS total_registros_relacionados
+                FROM adv__persona p
+                LEFT JOIN adv__cliente c ON p.id_persona = c.id_persona
+                LEFT JOIN adv__empleado e ON p.id_persona = e.id_persona
+                LEFT JOIN adv__mensajero m ON p.id_persona = m.id_persona
+                LEFT JOIN adv__proveedor prov ON p.id_persona = prov.id_persona
+                WHERE p.id_persona = @IdPersona
+                GROUP BY p.id_persona;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@IdPersona", idPersona }
+            };
+
+            // Ejecuta la consulta y obtiene el conteo total de registros relacionados
+            // Si no hay registros relacionados (total_registros_relacionados = 0), es "seguro" eliminar
+            // Si hay registros (total_registros_relacionados > 0), NO es seguro eliminar físicamente.
+            var registrosRelacionados = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta, parametros);
+
+            // Devuelve true si es seguro (no hay registros), false si no lo es.
+            return registrosRelacionados == 0;
+        }
 
         public bool HabilitarDeshabilitarPersona(long id) {
             var consulta = $"""

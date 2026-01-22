@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
 namespace aDVanceERP.Modulos.RecursosHumanos.Vistas; 
@@ -120,9 +121,10 @@ public partial class VistaTuplaPersona : Form, IVistaTuplaPersona {
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_EDITAR")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
                             || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+        btnEliminar.Enabled = ((ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ELIMINAR")
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
+                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS"))
+                              && RepoPersona.Instancia.EsSeguroEliminarPersona(Id);
     }
 }

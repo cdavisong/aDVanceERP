@@ -74,8 +74,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
 
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             const string consulta = """
-                DELETE FROM adv__proveedor 
-                WHERE id_proveedor = @id_proveedor
+                -- 1. Actualizar los productos que tienen al proveedor específico para que id_proveedor = 0
+                UPDATE adv__producto
+                SET id_proveedor = 0 -- Valor por defecto para "ningún proveedor"
+                WHERE id_proveedor = @id_proveedor;
+
+                -- 2. Eliminar el proveedor de la tabla adv__proveedor
+                DELETE FROM adv__proveedor
+                WHERE id_proveedor = @id_proveedor;
                 """;
 
             parametros = new Dictionary<string, object> {
