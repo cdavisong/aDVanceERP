@@ -55,7 +55,7 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         get => fieldRazonSocial.Text;
         set {
             fieldRazonSocial.Text = value;
-            fieldRazonSocial.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+            fieldRazonSocial.Margin = fieldRazonSocial.AjusteAutomaticoMargenTexto();
         }
     }
 
@@ -76,7 +76,7 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         get => fieldNombreRepresentante.Text;
         set {
             fieldNombreRepresentante.Text = value;
-            fieldNombreRepresentante.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+            fieldNombreRepresentante.Margin = fieldNombreRepresentante.AjusteAutomaticoMargenTexto();
         }
     }
 
