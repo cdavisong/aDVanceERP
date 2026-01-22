@@ -82,7 +82,7 @@ public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegis
             nombreCompleto: Vista.NombreCompleto,
             tipoDocumento: Vista.TipoDocumento,
             numeroDocumento: Vista.NumeroDocumento,
-            direccionPrincipal: string.Empty,
+            direccionPrincipal: personaBd?.DireccionPrincipal ?? string.Empty,
             fechaRegistro: Vista.FechaRegistro,
             activo: true
         );
