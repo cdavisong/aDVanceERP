@@ -2,7 +2,7 @@
 using aDVanceERP.Core.Documentos.Interfaces;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Helpers.BD;
+using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -317,7 +317,7 @@ public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTu
                 producto = new Producto {
                     Categoria = CategoriaProducto.Mercancia,
                     Nombre = descripcion ?? "Producto sin descripción",
-                    Codigo = codigo ?? CodigoBarraHelper.GenerarEan13(descripcion),
+                    Codigo = codigo ?? CodigoHelper.GenerarEan13(descripcion),
                     Descripcion = descripcion ?? "Producto sin descripción",
                     IdProveedor = 0,
                     IdUnidadMedida = 1, // Unidad

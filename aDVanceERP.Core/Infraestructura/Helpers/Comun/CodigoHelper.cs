@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace aDVanceERP.Core.Infraestructura.Helpers.BD {
-    public static class CodigoBarraHelper {
+namespace aDVanceERP.Core.Infraestructura.Helpers.Comun {
+    public static class CodigoHelper {
         public static string GenerarEan13(string nombreProducto) {
             if (string.IsNullOrWhiteSpace(nombreProducto)) {
                 throw new ArgumentException("El nombre del producto no puede estar vacío");

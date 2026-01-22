@@ -89,7 +89,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             var consultaComun = $"""
                 SELECT *
                 FROM adv__proveedor p
-                INNER JOIN adv__persona per ON p.id_persona = per.id_persona
+                JOIN adv__persona per ON p.id_persona = per.id_persona
                 """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaProveedor.Id => $"""
@@ -138,28 +138,27 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         }
 
         protected override (Proveedor, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
-            var persona = new Persona(
-                id: Convert.ToInt64(lector["id_persona"]),
-                nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
-                numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
-                direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
-                fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
-                activo: Convert.ToBoolean(lector["activo"])
-            );
+            var persona = lector.VisibleFieldCount > 8
+                ? new Persona(
+                    id: Convert.ToInt64(lector["id_persona"]),
+                    nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
+                    tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
+                    numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
+                    direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
+                    fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
+                    activo: Convert.ToBoolean(lector["activo"])
+                ) : null!;
 
             return (new Proveedor {
                 Id = Convert.ToInt64(lector["id_proveedor"]),
-                IdPersona = persona.Id,
+                IdPersona = Convert.ToInt64(lector["id_persona"]),
                 CodigoProveedor = Convert.ToString(lector["codigo_proveedor"]) ?? "N/A",
                 RazonSocial = Convert.ToString(lector["razon_social"]) ?? "N/A",
                 NIT = Convert.ToString(lector["nit"]) ?? "N/A",
                 CondicionesPago = Convert.ToString(lector["condiciones_pago"]) ?? "N/A",
                 FechaRegistro = Convert.ToDateTime(lector["fecha_registro"]),
                 Activo = Convert.ToBoolean(lector["activo"])
-            }, new List<IEntidadBaseDatos>() {
-                persona
-            });
+            }, persona != null ? [persona] : []);
         }
 
         #region STATIC

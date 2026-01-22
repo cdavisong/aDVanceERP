@@ -81,7 +81,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             var consultaComun = $"""
                 SELECT *
                 FROM adv__cliente c
-                INNER JOIN adv__persona p ON c.id_persona = p.id_persona
+                JOIN adv__persona p ON c.id_persona = p.id_persona
                 """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaCliente.Id => $"""
@@ -116,26 +116,25 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         }
 
         protected override (Cliente, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
-            var persona = new Persona(
-                id: Convert.ToInt64(lector["id_persona"]),
-                nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
-                numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
-                direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
-                fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
-                activo: Convert.ToBoolean(lector["activo"])
-            );
+            var persona = lector.VisibleFieldCount > 6
+                ? new Persona(
+                    id: Convert.ToInt64(lector["id_persona"]),
+                    nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
+                    tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
+                    numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
+                    direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
+                    fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
+                    activo: Convert.ToBoolean(lector["activo"])
+                ) : null!;
 
             return (new Cliente {
                 Id = Convert.ToInt64(lector["id_cliente"]),
-                IdPersona = persona.Id,
+                IdPersona = Convert.ToInt64(lector["id_persona"]),
                 CodigoCliente = Convert.ToString(lector["codigo_cliente"]) ?? "N/A",
                 LimiteCredito = Convert.ToDecimal(lector["limite_credito"], CultureInfo.InvariantCulture),
                 FechaRegistro = Convert.ToDateTime(lector["fecha_registro"]),
                 Activo = Convert.ToBoolean(lector["activo"])
-            }, new List<IEntidadBaseDatos>() {
-                persona
-            });
+            }, persona != null ? [persona] : []);
         }
 
         #region STATIC

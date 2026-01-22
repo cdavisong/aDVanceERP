@@ -94,7 +94,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
             var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
             var consultaComun = $"""
                 SELECT * FROM adv__empleado e
-                INNER JOIN adv__persona p ON e.id_persona = p.id_persona
+                JOIN adv__persona p ON e.id_persona = p.id_persona
                 """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaEmpleado.Id => $"""
@@ -145,15 +145,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
         }
 
         protected override (Empleado, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
-            var persona = new Persona(
-                id: Convert.ToInt64(lector["id_persona"]),
-                nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
-                numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
-                direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
-                fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
-                activo: Convert.ToBoolean(lector["activo"])
-            );
+            var persona = lector.VisibleFieldCount > 9
+                ? new Persona(
+                    id: Convert.ToInt64(lector["id_persona"]),
+                    nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
+                    tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
+                    numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
+                    direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
+                    fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),
+                    activo: Convert.ToBoolean(lector["activo"])
+                ) : null!;
 
             return (new Empleado(
                 id: Convert.ToInt64(lector["id_empleado"]),
@@ -165,9 +166,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
                 departamento: Convert.ToString(lector["departamento"] ?? "N/A"),
                 salario: Convert.ToDecimal(lector["salario"], CultureInfo.InvariantCulture),
                 activo: Convert.ToBoolean(lector["activo"])
-            ), new List<IEntidadBaseDatos>() {
-                persona
-            });
+            ), persona != null ? [persona] : []);
         }
 
         #region STATIC
