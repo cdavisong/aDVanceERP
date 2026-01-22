@@ -41,14 +41,14 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
 
     public bool EstadoSeleccion { get; set; }
 
-    public string Id {
-        get => fieldId.Text;
-        set => fieldId.Text = value;
+    public long Id {
+        get => Convert.ToInt64(fieldId.Text);
+        set => fieldId.Text = value.ToString();
     }
 
-    public string NumeroIdentificacionTributaria {
-        get => fieldNumeroIdentificacionTributaria.Text;
-        set => fieldNumeroIdentificacionTributaria.Text = value;
+    public string CodigoProveedor {
+        get => fieldCodigo.Text;
+        set => fieldCodigo.Text = value;
     }
 
     public string RazonSocial {
@@ -61,7 +61,10 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
 
     public string Telefonos {
         get => fieldTelefonos.Text;
-        set => fieldTelefonos.Text = value;
+        set {
+            fieldTelefonos.Text = value;
+            fieldTelefonos.Margin = fieldTelefonos.AjusteAutomaticoMargenTexto();
+        }
     }
 
     public string Direccion {
@@ -77,6 +80,14 @@ public partial class VistaTuplaProveedor : Form, IVistaTuplaProveedor {
         set {
             fieldNombreRepresentante.Text = value;
             fieldNombreRepresentante.Margin = fieldNombreRepresentante.AjusteAutomaticoMargenTexto();
+        }
+    }
+
+    public bool Activo {
+        get => fieldEstado.Text.Equals("Activo");
+        set {
+            fieldEstado.Text = value ? "Activo" : "Inactivo";
+            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
         }
     }
 

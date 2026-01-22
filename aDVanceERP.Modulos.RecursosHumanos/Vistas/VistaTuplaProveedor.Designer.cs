@@ -29,21 +29,22 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaProveedor));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
+            fieldNombreRepresentante = new Label();
             fieldDireccion = new Label();
             btnEliminar = new Guna2Button();
-            fieldNumeroIdentificacionTributaria = new Label();
+            fieldCodigo = new Label();
             fieldId = new Label();
             btnEditar = new Guna2Button();
             fieldRazonSocial = new Label();
             fieldTelefonos = new Label();
-            fieldNombreRepresentante = new Label();
+            fieldEstado = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -73,22 +74,24 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // layoutVista
             // 
             layoutVista.BackColor = Color.White;
-            layoutVista.ColumnCount = 9;
+            layoutVista.ColumnCount = 10;
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            layoutVista.Controls.Add(fieldEstado, 6, 0);
             layoutVista.Controls.Add(fieldNombreRepresentante, 5, 0);
             layoutVista.Controls.Add(fieldDireccion, 4, 0);
-            layoutVista.Controls.Add(btnEliminar, 8, 0);
-            layoutVista.Controls.Add(fieldNumeroIdentificacionTributaria, 1, 0);
+            layoutVista.Controls.Add(btnEliminar, 9, 0);
+            layoutVista.Controls.Add(fieldCodigo, 1, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnEditar, 7, 0);
+            layoutVista.Controls.Add(btnEditar, 8, 0);
             layoutVista.Controls.Add(fieldRazonSocial, 2, 0);
             layoutVista.Controls.Add(fieldTelefonos, 3, 0);
             layoutVista.Dock = DockStyle.Fill;
@@ -100,6 +103,21 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 18;
             // 
+            // fieldNombreRepresentante
+            // 
+            fieldNombreRepresentante.AutoEllipsis = true;
+            fieldNombreRepresentante.Dock = DockStyle.Fill;
+            fieldNombreRepresentante.Font = new Font("Segoe UI", 11.25F);
+            fieldNombreRepresentante.ForeColor = Color.DimGray;
+            fieldNombreRepresentante.ImeMode = ImeMode.NoControl;
+            fieldNombreRepresentante.Location = new Point(851, 1);
+            fieldNombreRepresentante.Margin = new Padding(1);
+            fieldNombreRepresentante.Name = "fieldNombreRepresentante";
+            fieldNombreRepresentante.Size = new Size(168, 39);
+            fieldNombreRepresentante.TabIndex = 17;
+            fieldNombreRepresentante.Text = "nombreRepresentante";
+            fieldNombreRepresentante.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // fieldDireccion
             // 
             fieldDireccion.AutoEllipsis = true;
@@ -107,7 +125,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldDireccion.Font = new Font("Segoe UI", 11.25F);
             fieldDireccion.ForeColor = Color.DimGray;
             fieldDireccion.ImeMode = ImeMode.NoControl;
-            fieldDireccion.Location = new Point(651, 1);
+            fieldDireccion.Location = new Point(601, 1);
             fieldDireccion.Margin = new Padding(1);
             fieldDireccion.Name = "fieldDireccion";
             fieldDireccion.Size = new Size(248, 39);
@@ -124,7 +142,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges1;
+            btnEliminar.CustomizableEdges = customizableEdges5;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -134,23 +152,23 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(1203, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnEliminar.Size = new Size(35, 35);
             btnEliminar.TabIndex = 11;
             // 
-            // fieldNumeroIdentificacionTributaria
+            // fieldCodigo
             // 
-            fieldNumeroIdentificacionTributaria.Dock = DockStyle.Fill;
-            fieldNumeroIdentificacionTributaria.Font = new Font("Segoe UI", 11.25F);
-            fieldNumeroIdentificacionTributaria.ForeColor = Color.DimGray;
-            fieldNumeroIdentificacionTributaria.ImeMode = ImeMode.NoControl;
-            fieldNumeroIdentificacionTributaria.Location = new Point(61, 1);
-            fieldNumeroIdentificacionTributaria.Margin = new Padding(1);
-            fieldNumeroIdentificacionTributaria.Name = "fieldNumeroIdentificacionTributaria";
-            fieldNumeroIdentificacionTributaria.Size = new Size(118, 39);
-            fieldNumeroIdentificacionTributaria.TabIndex = 4;
-            fieldNumeroIdentificacionTributaria.Text = "nit";
-            fieldNumeroIdentificacionTributaria.TextAlign = ContentAlignment.MiddleCenter;
+            fieldCodigo.Dock = DockStyle.Fill;
+            fieldCodigo.Font = new Font("Segoe UI", 11.25F);
+            fieldCodigo.ForeColor = Color.DimGray;
+            fieldCodigo.ImeMode = ImeMode.NoControl;
+            fieldCodigo.Location = new Point(61, 1);
+            fieldCodigo.Margin = new Padding(1);
+            fieldCodigo.Name = "fieldCodigo";
+            fieldCodigo.Size = new Size(118, 39);
+            fieldCodigo.TabIndex = 4;
+            fieldCodigo.Text = "codigo";
+            fieldCodigo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldId
             // 
@@ -175,7 +193,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges3;
+            btnEditar.CustomizableEdges = customizableEdges7;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -184,7 +202,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1163, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 9;
             // 
@@ -198,7 +216,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldRazonSocial.Location = new Point(181, 1);
             fieldRazonSocial.Margin = new Padding(1);
             fieldRazonSocial.Name = "fieldRazonSocial";
-            fieldRazonSocial.Size = new Size(218, 39);
+            fieldRazonSocial.Size = new Size(168, 39);
             fieldRazonSocial.TabIndex = 6;
             fieldRazonSocial.Text = "razonSocial";
             fieldRazonSocial.TextAlign = ContentAlignment.MiddleLeft;
@@ -210,7 +228,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTelefonos.Font = new Font("Segoe UI", 11.25F);
             fieldTelefonos.ForeColor = Color.DimGray;
             fieldTelefonos.ImeMode = ImeMode.NoControl;
-            fieldTelefonos.Location = new Point(401, 1);
+            fieldTelefonos.Location = new Point(351, 1);
             fieldTelefonos.Margin = new Padding(1);
             fieldTelefonos.Name = "fieldTelefonos";
             fieldTelefonos.Size = new Size(248, 39);
@@ -218,20 +236,19 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTelefonos.Text = "telefonos";
             fieldTelefonos.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // fieldNombreRepresentante
+            // fieldEstado
             // 
-            fieldNombreRepresentante.AutoEllipsis = true;
-            fieldNombreRepresentante.Dock = DockStyle.Fill;
-            fieldNombreRepresentante.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreRepresentante.ForeColor = Color.DimGray;
-            fieldNombreRepresentante.ImeMode = ImeMode.NoControl;
-            fieldNombreRepresentante.Location = new Point(901, 1);
-            fieldNombreRepresentante.Margin = new Padding(1);
-            fieldNombreRepresentante.Name = "fieldNombreRepresentante";
-            fieldNombreRepresentante.Size = new Size(218, 39);
-            fieldNombreRepresentante.TabIndex = 17;
-            fieldNombreRepresentante.Text = "nombreRepresentante";
-            fieldNombreRepresentante.TextAlign = ContentAlignment.MiddleLeft;
+            fieldEstado.Dock = DockStyle.Fill;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F);
+            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.ImeMode = ImeMode.NoControl;
+            fieldEstado.Location = new Point(1021, 1);
+            fieldEstado.Margin = new Padding(1);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.Size = new Size(98, 39);
+            fieldEstado.TabIndex = 21;
+            fieldEstado.Text = "estado";
+            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaTuplaProveedor
             // 
@@ -258,12 +275,13 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private TableLayoutPanel layoutBase;
         private TableLayoutPanel layoutVista;
         private Guna2Button btnEliminar;
-        private Label fieldNumeroIdentificacionTributaria;
+        private Label fieldCodigo;
         private Label fieldId;
         private Guna2Button btnEditar;
         private Label fieldRazonSocial;
         private Label fieldTelefonos;
         private Label fieldDireccion;
         private Label fieldNombreRepresentante;
+        private Label fieldEstado;
     }
 }

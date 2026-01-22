@@ -37,12 +37,13 @@ public class PresentadorGestionProveedores : PresentadorVistaGestion<Presentador
         var persona = entidadesExtra.Count > 0 ? entidadesExtra.FirstOrDefault() as Persona : null!;
         var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona?.Id.ToString() ?? "0").resultadosBusqueda.Select(t => t.entidadBase);
 
-        presentadorTupla.Vista.Id = entidad.Id.ToString();
-        presentadorTupla.Vista.NumeroIdentificacionTributaria = entidad.NIT;
+        presentadorTupla.Vista.Id = entidad.Id;
+        presentadorTupla.Vista.CodigoProveedor = entidad.CodigoProveedor;
         presentadorTupla.Vista.RazonSocial = string.IsNullOrEmpty(entidad.RazonSocial) ? "N/A" : entidad.RazonSocial;
         presentadorTupla.Vista.Telefonos = string.Concat(telefonos.Select(t => $"{t.PrefijoPais} {t.NumeroTelefono}, ")).TrimEnd(',', ' ');
         presentadorTupla.Vista.Direccion = persona?.DireccionPrincipal ?? "N/A";
         presentadorTupla.Vista.NombreRepresentante = persona?.NombreCompleto ?? "N/A";
+        presentadorTupla.Vista.Activo = entidad.Activo;
 
         return presentadorTupla;
     }

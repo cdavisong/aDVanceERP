@@ -61,7 +61,10 @@ public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
 
     public string Telefonos {
         get => fieldTelefonos.Text;
-        set => fieldTelefonos.Text = value;
+        set {
+            fieldTelefonos.Text = value;
+            fieldTelefonos.Margin = fieldTelefonos.AjusteAutomaticoMargenTexto();
+        }
     }
 
     public string Direccion {

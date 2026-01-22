@@ -35,6 +35,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
+            fieldEstado = new Label();
+            fieldFechaRegistro = new Label();
             btnEliminar = new Guna2Button();
             fieldCodigo = new Label();
             fieldId = new Label();
@@ -42,8 +44,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldNombreCompleto = new Label();
             fieldTelefonos = new Label();
             fieldDireccion = new Label();
-            fieldFechaRegistro = new Label();
-            fieldEstado = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -102,6 +102,35 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 18;
+            // 
+            // fieldEstado
+            // 
+            fieldEstado.Dock = DockStyle.Fill;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F);
+            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.ImeMode = ImeMode.NoControl;
+            fieldEstado.Location = new Point(1021, 1);
+            fieldEstado.Margin = new Padding(1);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.Size = new Size(98, 39);
+            fieldEstado.TabIndex = 20;
+            fieldEstado.Text = "estado";
+            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // fieldFechaRegistro
+            // 
+            fieldFechaRegistro.AutoEllipsis = true;
+            fieldFechaRegistro.Dock = DockStyle.Fill;
+            fieldFechaRegistro.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaRegistro.ForeColor = Color.DimGray;
+            fieldFechaRegistro.ImeMode = ImeMode.NoControl;
+            fieldFechaRegistro.Location = new Point(901, 1);
+            fieldFechaRegistro.Margin = new Padding(1);
+            fieldFechaRegistro.Name = "fieldFechaRegistro";
+            fieldFechaRegistro.Size = new Size(118, 39);
+            fieldFechaRegistro.TabIndex = 18;
+            fieldFechaRegistro.Text = "fechaRegistro";
+            fieldFechaRegistro.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnEliminar
             // 
@@ -220,35 +249,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldDireccion.TabIndex = 17;
             fieldDireccion.Text = "direccion";
             fieldDireccion.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldFechaRegistro
-            // 
-            fieldFechaRegistro.AutoEllipsis = true;
-            fieldFechaRegistro.Dock = DockStyle.Fill;
-            fieldFechaRegistro.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaRegistro.ForeColor = Color.DimGray;
-            fieldFechaRegistro.ImeMode = ImeMode.NoControl;
-            fieldFechaRegistro.Location = new Point(901, 1);
-            fieldFechaRegistro.Margin = new Padding(1);
-            fieldFechaRegistro.Name = "fieldFechaRegistro";
-            fieldFechaRegistro.Size = new Size(118, 39);
-            fieldFechaRegistro.TabIndex = 18;
-            fieldFechaRegistro.Text = "fechaRegistro";
-            fieldFechaRegistro.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldEstado
-            // 
-            fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
-            fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(1021, 1);
-            fieldEstado.Margin = new Padding(1);
-            fieldEstado.Name = "fieldEstado";
-            fieldEstado.Size = new Size(98, 39);
-            fieldEstado.TabIndex = 20;
-            fieldEstado.Text = "estado";
-            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaTuplaCliente
             // 
