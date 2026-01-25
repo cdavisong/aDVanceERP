@@ -2,9 +2,9 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 using aDVanceERP.Modulos.RecursosHumanos.Vistas;
 

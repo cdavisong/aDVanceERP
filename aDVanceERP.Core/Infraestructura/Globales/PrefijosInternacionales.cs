@@ -2,14 +2,12 @@
 
 using Svg;
 
-using System;
-
 namespace aDVanceERP.Core.Infraestructura.Globales {
     public static class PrefijosInternacionales {
         private static List<(string pais, string prefijo, string codigoIso)> _ppc = new List<(string pais, string prefijo, string codigoIso)>();
 
         static PrefijosInternacionales() {
-            var lineas = Resources.Prefijos.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+            var lineas = Resources.Prefijos.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var linea in lineas) {
                 var partes = linea.Split('|');

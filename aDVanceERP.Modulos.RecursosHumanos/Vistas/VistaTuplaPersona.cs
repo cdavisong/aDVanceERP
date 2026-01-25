@@ -1,16 +1,16 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas; 
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
 
 public partial class VistaTuplaPersona : Form, IVistaTuplaPersona {
     public VistaTuplaPersona() {
         InitializeComponent();
 
-        NombreVista = nameof(VistaTuplaCliente);
+        NombreVista = nameof(VistaTuplaPersona);
 
         Inicializar();
     }

@@ -30,8 +30,6 @@ public sealed class ModuloSeguridad : ModuloExtensionBase {
     public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
         // Botón de acceso al módulo
         _btnAccesoModulo.Name = "btnAccesoModuloSeguridad";
-        _btnAccesoModulo.ImageSize = new Size(24, 24);
-        _btnAccesoModulo.CustomImages.ImageSize = new Size(24, 24);
         _btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
         _btnAccesoModulo.Click += delegate {
             AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);

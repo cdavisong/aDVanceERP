@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+﻿using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 

@@ -29,8 +29,6 @@ public sealed class ModuloInventario : ModuloExtensionBase {
     public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
         // Botón de acceso al módulo
         _btnAccesoModulo.Name = "btnAccesoModuloInventario";
-        _btnAccesoModulo.ImageSize = new Size(24, 24);
-        _btnAccesoModulo.CustomImages.ImageSize = new Size(24, 24);
         _btnAccesoModulo.CustomImages.Image = Resources.inventory_24px;
         _btnAccesoModulo.Click += delegate {
             AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
@@ -79,20 +77,4 @@ public sealed class ModuloInventario : ModuloExtensionBase {
     public override void Apagar() {
         throw new NotImplementedException();
     }
-
-    public static readonly string[] Permisos = {
-        "MOD_INVENTARIO_TODOS",
-        "MOD_INVENTARIO_PRODUCTOS_TODOS",
-        "MOD_INVENTARIO_PRODUCTOS_ADICIONAR",
-        "MOD_INVENTARIO_PRODUCTOS_EDITAR",
-        "MOD_INVENTARIO_PRODUCTOS_ELIMINAR",
-        "MOD_INVENTARIO_MOVIMIENTOS_TODOS",
-        "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR",
-        "MOD_INVENTARIO_MOVIMIENTOS_EDITAR",
-        "MOD_INVENTARIO_MOVIMIENTOS_ELIMINAR",
-        "MOD_INVENTARIO_ALMACENES_TODOS",
-        "MOD_INVENTARIO_ALMACENES_ADICIONAR",
-        "MOD_INVENTARIO_ALMACENES_EDITAR",
-        "MOD_INVENTARIO_ALMACENES_ELIMINAR"
-    };
 }

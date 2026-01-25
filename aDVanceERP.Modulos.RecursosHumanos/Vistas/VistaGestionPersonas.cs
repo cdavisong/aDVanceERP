@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 

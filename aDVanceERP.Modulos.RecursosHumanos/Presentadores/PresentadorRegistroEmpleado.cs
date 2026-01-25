@@ -1,6 +1,8 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 

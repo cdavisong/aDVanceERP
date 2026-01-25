@@ -1,0 +1,74 @@
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Presentadores.Comun.Interfaces;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.RecursosHumanos.Presentadores;
+using aDVanceERP.Modulos.Venta.Presentadores;
+using aDVanceERP.Modulos.Venta.Properties;
+using aDVanceERP.Modulos.Venta.Vistas;
+using Guna.UI2.WinForms;
+
+namespace aDVanceERP.Modulos.Venta {
+    public class ModuloVenta : ModuloExtensionBase {
+        private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+        private PresentadorMenuVenta _menuVenta = null!;
+        private PresentadorMenuMaestros _menuMaestros = null!; 
+        private PresentadorGestionClientes _clientes = null!;
+        private PresentadorRegistroCliente _registroCliente = null!;
+        private PresentadorGestionMensajeros _mensajeros = null!;
+        private PresentadorRegistroMensajero _registroMensajero = null!;
+
+        public ModuloVenta() {
+            Nombre = "MOD_VENTA";
+            Descripcion = "Proporciona funcionalidades de gestión de ventas.";
+            Version = new Version(1, 0, 0, 0);
+        }
+
+        public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
+            // Botón de acceso al módulo
+            _btnAccesoModulo.Name = "btnAccesoModuloVenta";
+            _btnAccesoModulo.CustomImages.Image = Resources.best_salesB_24px;
+            _btnAccesoModulo.Click += delegate {
+                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+                AgregadorEventos.Publicar("MostrarVistaMenuVenta", string.Empty);
+            };
+
+            // Menu
+            _menuVenta = new PresentadorMenuVenta(new VistaMenuVenta());
+            _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
+
+            // Contenedor de módulos
+            // Clientes
+            _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
+            _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
+            _registroCliente.EntidadRegistradaActualizada += (s, e) => _clientes.ActualizarResultadosBusqueda();
+            // Mensajeros
+            _mensajeros = new PresentadorGestionMensajeros(new VistaGestionMensajeros());
+            _registroMensajero = new PresentadorRegistroMensajero(new VistaRegistroMensajero());
+            _registroMensajero.EntidadRegistradaActualizada += (s, e) => _mensajeros.ActualizarResultadosBusqueda();
+
+            base.Inicializar(principal);
+        }
+
+        protected override void InicializarVistas() {
+            // Agregar botón de acceso al módulo
+            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+
+            // Agregar menú del módulo
+            _principal.Vista.BarraTitulo.Registrar(_menuVenta.Vista);
+            _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
+
+            // Contenedor de módulos
+            // Clientes
+            _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);
+            // Mensajeros
+            _principal.Modulos.Vista.PanelCentral.Registrar(_mensajeros.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroMensajero.Vista);
+        }
+
+        public override void Apagar() {
+            throw new NotImplementedException();
+        }
+    }
+}

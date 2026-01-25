@@ -1,12 +1,13 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
+namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores
+{
     public class PresentadorRegistroPersona : PresentadorVistaRegistro<IVIstaRegistroPersona, Persona, RepoPersona, FiltroBusquedaPersona> {
         public PresentadorRegistroPersona(IVIstaRegistroPersona vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroPersona", OnMostrarVistaRegistroPersona);

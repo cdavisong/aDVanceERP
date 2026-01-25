@@ -1,13 +1,14 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 using aDVanceERP.Modulos.RecursosHumanos.Properties;
 
 using Guna.UI2.WinForms;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas
+{
     public partial class VistaRegistroProveedor : Form, IVistaRegistroProveedor {
         private bool _modoEdicion = false;
         private List<Guna2TextBox> _telefonos = new List<Guna2TextBox>();

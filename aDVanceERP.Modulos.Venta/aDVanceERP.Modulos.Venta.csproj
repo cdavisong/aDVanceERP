@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj" />
+    <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Vistas\VistaGestionClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaGestionMensajeros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaMenuMaestros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaMenuVenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroMensajero.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaMensajero.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

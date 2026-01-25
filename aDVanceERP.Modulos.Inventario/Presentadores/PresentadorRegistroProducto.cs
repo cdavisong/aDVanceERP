@@ -1,11 +1,11 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Compra;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores;

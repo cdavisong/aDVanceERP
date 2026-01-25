@@ -21,16 +21,13 @@
     <Compile Update="Vistas\VistaGestionEmpleados.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaMenuMaestros.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaRegistroEmpleado.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaRegistroProveedor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroCliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroMensajero.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaRegistroPersona.cs">

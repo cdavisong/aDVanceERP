@@ -27,26 +27,14 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuRecursosHumanos));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutDistribucion = new TableLayoutPanel();
             fieldTitulo = new Label();
             panelRelleno = new Panel();
-            btnEmpleados = new Guna2Button();
-            btnProveedores = new Guna2Button();
-            btnClientes = new Guna2Button();
-            btnMensajeros = new Guna2Button();
-            btnPersonas = new Guna2Button();
+            btnMaestros = new Guna2Button();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             panelRelleno.SuspendLayout();
@@ -111,11 +99,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // panelRelleno
             // 
             panelRelleno.BackColor = Color.WhiteSmoke;
-            panelRelleno.Controls.Add(btnPersonas);
-            panelRelleno.Controls.Add(btnMensajeros);
-            panelRelleno.Controls.Add(btnClientes);
-            panelRelleno.Controls.Add(btnProveedores);
-            panelRelleno.Controls.Add(btnEmpleados);
+            panelRelleno.Controls.Add(btnMaestros);
             panelRelleno.Dock = DockStyle.Fill;
             panelRelleno.Font = new Font("Segoe UI", 11.25F);
             panelRelleno.Location = new Point(160, 0);
@@ -124,130 +108,39 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             panelRelleno.Size = new Size(834, 50);
             panelRelleno.TabIndex = 0;
             // 
-            // btnEmpleados
+            // btnMaestros
             // 
-            btnEmpleados.Animated = true;
-            btnEmpleados.BackColor = Color.WhiteSmoke;
-            btnEmpleados.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnEmpleados.CheckedState.FillColor = Color.WhiteSmoke;
-            btnEmpleados.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnEmpleados.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
-            btnEmpleados.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEmpleados.CustomImages.ImageOffset = new Point(0, 32);
-            btnEmpleados.CustomImages.ImageSize = new Size(131, 8);
-            btnEmpleados.CustomizableEdges = customizableEdges21;
-            btnEmpleados.Dock = DockStyle.Left;
-            btnEmpleados.FillColor = Color.WhiteSmoke;
-            btnEmpleados.Font = new Font("Segoe UI", 11.25F);
-            btnEmpleados.ForeColor = Color.Black;
-            btnEmpleados.Location = new Point(0, 0);
-            btnEmpleados.Margin = new Padding(0);
-            btnEmpleados.Name = "btnEmpleados";
-            btnEmpleados.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            btnEmpleados.Size = new Size(160, 50);
-            btnEmpleados.TabIndex = 14;
-            btnEmpleados.Text = "Empleados";
-            // 
-            // btnProveedores
-            // 
-            btnProveedores.Animated = true;
-            btnProveedores.BackColor = Color.WhiteSmoke;
-            btnProveedores.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnProveedores.CheckedState.FillColor = Color.WhiteSmoke;
-            btnProveedores.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnProveedores.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage1");
-            btnProveedores.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnProveedores.CustomImages.ImageOffset = new Point(0, 32);
-            btnProveedores.CustomImages.ImageSize = new Size(131, 8);
-            btnProveedores.CustomizableEdges = customizableEdges23;
-            btnProveedores.Dock = DockStyle.Left;
-            btnProveedores.FillColor = Color.WhiteSmoke;
-            btnProveedores.Font = new Font("Segoe UI", 11.25F);
-            btnProveedores.ForeColor = Color.Black;
-            btnProveedores.Location = new Point(160, 0);
-            btnProveedores.Margin = new Padding(0);
-            btnProveedores.Name = "btnProveedores";
-            btnProveedores.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            btnProveedores.Size = new Size(160, 50);
-            btnProveedores.TabIndex = 15;
-            btnProveedores.Text = "Proveedores";
-            // 
-            // btnClientes
-            // 
-            btnClientes.Animated = true;
-            btnClientes.BackColor = Color.WhiteSmoke;
-            btnClientes.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnClientes.CheckedState.FillColor = Color.WhiteSmoke;
-            btnClientes.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnClientes.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage2");
-            btnClientes.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnClientes.CustomImages.ImageOffset = new Point(0, 32);
-            btnClientes.CustomImages.ImageSize = new Size(131, 8);
-            btnClientes.CustomizableEdges = customizableEdges25;
-            btnClientes.Dock = DockStyle.Left;
-            btnClientes.FillColor = Color.WhiteSmoke;
-            btnClientes.Font = new Font("Segoe UI", 11.25F);
-            btnClientes.ForeColor = Color.Black;
-            btnClientes.Location = new Point(320, 0);
-            btnClientes.Margin = new Padding(0);
-            btnClientes.Name = "btnClientes";
-            btnClientes.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            btnClientes.Size = new Size(160, 50);
-            btnClientes.TabIndex = 16;
-            btnClientes.Text = "Clientes";
-            // 
-            // btnMensajeros
-            // 
-            btnMensajeros.Animated = true;
-            btnMensajeros.BackColor = Color.WhiteSmoke;
-            btnMensajeros.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnMensajeros.CheckedState.FillColor = Color.WhiteSmoke;
-            btnMensajeros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnMensajeros.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage3");
-            btnMensajeros.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMensajeros.CustomImages.ImageOffset = new Point(0, 32);
-            btnMensajeros.CustomImages.ImageSize = new Size(131, 8);
-            btnMensajeros.CustomizableEdges = customizableEdges27;
-            btnMensajeros.Dock = DockStyle.Left;
-            btnMensajeros.FillColor = Color.WhiteSmoke;
-            btnMensajeros.Font = new Font("Segoe UI", 11.25F);
-            btnMensajeros.ForeColor = Color.Black;
-            btnMensajeros.Location = new Point(480, 0);
-            btnMensajeros.Margin = new Padding(0);
-            btnMensajeros.Name = "btnMensajeros";
-            btnMensajeros.ShadowDecoration.CustomizableEdges = customizableEdges28;
-            btnMensajeros.Size = new Size(160, 50);
-            btnMensajeros.TabIndex = 17;
-            btnMensajeros.Text = "Mensajeros";
-            // 
-            // btnPersonas
-            // 
-            btnPersonas.Animated = true;
-            btnPersonas.BackColor = Color.WhiteSmoke;
-            btnPersonas.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnPersonas.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPersonas.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnPersonas.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage4");
-            btnPersonas.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnPersonas.CustomImages.ImageOffset = new Point(0, 32);
-            btnPersonas.CustomImages.ImageSize = new Size(131, 8);
-            btnPersonas.CustomizableEdges = customizableEdges29;
-            btnPersonas.Dock = DockStyle.Left;
-            btnPersonas.FillColor = Color.WhiteSmoke;
-            btnPersonas.Font = new Font("Segoe UI", 11.25F);
-            btnPersonas.ForeColor = Color.Black;
-            btnPersonas.Location = new Point(640, 0);
-            btnPersonas.Margin = new Padding(0);
-            btnPersonas.Name = "btnPersonas";
-            btnPersonas.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            btnPersonas.Size = new Size(160, 50);
-            btnPersonas.TabIndex = 18;
-            btnPersonas.Text = "Personas";
+            btnMaestros.Animated = true;
+            btnMaestros.BackColor = Color.WhiteSmoke;
+            btnMaestros.BorderRadius = 12;
+            btnMaestros.CheckedState.FillColor = Color.WhiteSmoke;
+            btnMaestros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnMaestros.Cursor = Cursors.Hand;
+            btnMaestros.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnMaestros.CustomImages.ImageAlign = HorizontalAlignment.Left;
+            btnMaestros.CustomImages.ImageOffset = new Point(10, 0);
+            btnMaestros.CustomImages.ImageSize = new Size(24, 24);
+            customizableEdges1.TopLeft = false;
+            customizableEdges1.TopRight = false;
+            btnMaestros.CustomizableEdges = customizableEdges1;
+            btnMaestros.Dock = DockStyle.Left;
+            btnMaestros.FillColor = Color.WhiteSmoke;
+            btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMaestros.ForeColor = Color.Black;
+            btnMaestros.HoverState.FillColor = Color.PeachPuff;
+            btnMaestros.Location = new Point(0, 0);
+            btnMaestros.Margin = new Padding(0);
+            btnMaestros.Name = "btnMaestros";
+            btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnMaestros.Size = new Size(160, 50);
+            btnMaestros.TabIndex = 15;
+            btnMaestros.Text = "Maestros";
+            btnMaestros.TextOffset = new Point(5, 0);
             // 
             // VistaMenuRecursosHumanos
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.FromArgb(  245,   245,   245);
+            BackColor = Color.FromArgb(245, 245, 245);
             ClientSize = new Size(994, 50);
             Controls.Add(layoutBase);
             Font = new Font("Segoe UI", 11.25F);
@@ -271,10 +164,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private TableLayoutPanel layoutDistribucion;
         private Panel panelRelleno;
         private Label fieldTitulo;
-        private Guna2Button btnPersonas;
-        private Guna2Button btnMensajeros;
-        private Guna2Button btnClientes;
-        private Guna2Button btnProveedores;
-        private Guna2Button btnEmpleados;
+        private Guna2Button btnMaestros;
     }
 }

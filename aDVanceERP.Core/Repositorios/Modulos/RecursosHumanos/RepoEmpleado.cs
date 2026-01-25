@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -7,7 +8,8 @@ using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos {
+namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos
+{
     public class RepoEmpleado : RepoEntidadBaseDatos<Empleado, FiltroBusquedaEmpleado> {
         public RepoEmpleado() : base("adv__empleado", "id_empleado") { }
 

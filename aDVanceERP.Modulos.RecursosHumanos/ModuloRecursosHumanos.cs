@@ -13,14 +13,11 @@ namespace aDVanceERP.Modulos.RecursosHumanos;
 public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuRecursosHumanos _menuRecursosHumanos = null!;
+    private PresentadorMenuMaestros _menuMaestros = null!;
     private PresentadorGestionEmpleados _empleados = null!;
     private PresentadorRegistroEmpleado _registroEmpleado = null!;
     private PresentadorGestionProveedores _proveedores = null!;
-    private PresentadorRegistroProveedor _registroProveedor = null!;
-    private PresentadorGestionClientes _clientes = null!;
-    private PresentadorRegistroCliente _registroCliente = null!;
-    private PresentadorGestionMensajeros _mensajeros = null!;
-    private PresentadorRegistroMensajero _registroMensajero = null!;
+    private PresentadorRegistroProveedor _registroProveedor = null!;    
     private PresentadorGestionPersonas _personas = null!;
     private PresentadorRegistroPersona _registroPersona = null!;
 
@@ -33,8 +30,6 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
     public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
         // Boton de acceso al módulo
         _btnAccesoModulo.Name = "btnModuloRecursosHumanos";
-        _btnAccesoModulo.ImageSize = new Size(24, 24);
-        _btnAccesoModulo.CustomImages.ImageSize = new Size(24, 24);
         _btnAccesoModulo.Image = Resources.businessmanB_24px;
         _btnAccesoModulo.Click += delegate {
             AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
@@ -43,6 +38,7 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
 
         // Menu
         _menuRecursosHumanos = new PresentadorMenuRecursosHumanos(new VistaMenuRecursosHumanos());
+        _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
         // Contenedor de módulos
         // Empleados
@@ -53,14 +49,6 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
         _registroProveedor = new PresentadorRegistroProveedor(new VistaRegistroProveedor());
         _registroProveedor.EntidadRegistradaActualizada += (s, e) => _proveedores.ActualizarResultadosBusqueda();
-        // Clientes
-        _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
-        _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
-        _registroCliente.EntidadRegistradaActualizada += (s, e) => _clientes.ActualizarResultadosBusqueda();
-        // Mensajeros
-        _mensajeros = new PresentadorGestionMensajeros(new VistaGestionMensajeros());
-        _registroMensajero = new PresentadorRegistroMensajero(new  VistaRegistroMensajero());
-        _registroMensajero.EntidadRegistradaActualizada += (s, e) => _mensajeros.ActualizarResultadosBusqueda();
         // Personas
         _personas = new PresentadorGestionPersonas(new VistaGestionPersonas());
         _registroPersona = new PresentadorRegistroPersona(new VistaRegistroPersona());
@@ -75,6 +63,7 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
 
         // Agregar menú del módulo
         _principal.Vista.BarraTitulo.Registrar(_menuRecursosHumanos.Vista);
+        _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
         // Contenedor de módulos
         // Empleados
@@ -83,12 +72,6 @@ public sealed class ModuloRecursosHumanos : ModuloExtensionBase {
         // Proveedores
         _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
         _principal.Modulos.Vista.PanelCentral.Registrar(_registroProveedor.Vista);
-        // Clientes
-        _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
-        _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);
-        // Mensajeros
-        _principal.Modulos.Vista.PanelCentral.Registrar(_mensajeros.Vista);
-        _principal.Modulos.Vista.PanelCentral.Registrar(_registroMensajero.Vista);
         // Personas
         _principal.Modulos.Vista.PanelCentral.Registrar(_personas.Vista);
         _principal.Modulos.Vista.PanelCentral.Registrar(_registroPersona.Vista);
