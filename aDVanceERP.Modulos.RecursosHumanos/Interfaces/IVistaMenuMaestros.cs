@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Interfaces;
-
-public interface IVistaMenuMaestros : IVistaMenu {
+namespace aDVanceERP.Modulos.RecursosHumanos.Interfaces {
+    public interface IVistaMenuMaestros : IVistaMenu {
+    }
 }

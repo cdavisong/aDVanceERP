@@ -1,19 +1,19 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Inventario.Interfaces;
+namespace aDVanceERP.Modulos.Inventario.Interfaces {
+    public interface IVistaTuplaProducto : IVistaTupla {
+        long Id { get; set; }
+        string NombreAlmacen { get; set; }
+        string Codigo { get; set; }
+        DateTime FechaUltimoMovimiento { get; set; }
+        string NombreProducto { get; set; }
+        string Descripcion { get; set; }
+        decimal CostoUnitario { get; set; }
+        decimal PrecioVentaBase { get; set; }
+        string UnidadMedida { get; set; }
+        decimal Stock { get; set; }
 
-public interface IVistaTuplaProducto : IVistaTupla {
-    long Id { get; set; }
-    string NombreAlmacen { get; set; }
-    string Codigo { get; set; }
-    DateTime FechaUltimoMovimiento { get; set; }
-    string NombreProducto { get; set; }
-    string Descripcion { get; set; }
-    decimal CostoUnitario { get; set; }
-    decimal PrecioVentaBase { get; set; }
-    string UnidadMedida { get; set; }
-    decimal Stock { get; set; }
-
-    event EventHandler? MovimientoPositivoStock;
-    event EventHandler? MovimientoNegativoStock;
+        event EventHandler? MovimientoPositivoStock;
+        event EventHandler? MovimientoNegativoStock;
+    }
 }

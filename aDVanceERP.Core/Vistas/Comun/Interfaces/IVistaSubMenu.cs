@@ -1,3 +1,3 @@
-﻿namespace aDVanceERP.Core.Vistas.Comun.Interfaces;
-
-internal interface IVistaSubMenu : IVistaBase { }
+﻿namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
+    internal interface IVistaSubMenu : IVistaBase { }
+}

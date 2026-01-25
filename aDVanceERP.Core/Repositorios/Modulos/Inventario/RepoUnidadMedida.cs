@@ -4,14 +4,13 @@ using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Inventario;
+namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
+    public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusquedaUnidadMedida> {
+        public RepoUnidadMedida() : base("adv__unidad_medida", "id_unidad_medida") { }
 
-public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusquedaUnidadMedida> {
-    public RepoUnidadMedida() : base("adv__unidad_medida", "id_unidad_medida") { }
-
-    protected override string GenerarComandoAdicionar(UnidadMedida objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
-        var consulta = $"""
-                INSERT INTO adv__unidad_medida (
+        protected override string GenerarComandoAdicionar(UnidadMedida objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
+            var consulta = $"""
+                    INSERT INTO adv__unidad_medida (
                     nombre,
                     abreviatura,
                     descripcion
@@ -23,18 +22,18 @@ public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusqued
                 );
                 """;
 
-        parametros = new Dictionary<string, object> {
-            {  "@nombre", objeto.Nombre  },
-            { "@abreviatura", objeto.Abreviatura },
-            { "@descripcion", objeto.Descripcion }
-        };
+            parametros = new Dictionary<string, object> {
+                {  "@nombre", objeto.Nombre  },
+                { "@abreviatura", objeto.Abreviatura },
+                { "@descripcion", objeto.Descripcion }
+            };
 
-        return consulta;
-    }
+            return consulta;
+        }
 
-    protected override string GenerarComandoEditar(UnidadMedida objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
-        var consulta = $"""
-                UPDATE adv__unidad_medida
+        protected override string GenerarComandoEditar(UnidadMedida objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
+            var consulta = $"""
+                    UPDATE adv__unidad_medida
                 SET
                     nombre = @nombre,
                     abreviatura = @abreviatura,
@@ -42,19 +41,19 @@ public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusqued
                 WHERE id_unidad_medida = @id;
                 """;
 
-        parametros = new Dictionary<string, object> {
-            { "@id", objeto.Id },
-            {  "@nombre", objeto.Nombre  },
-            { "@abreviatura", objeto.Abreviatura },
-            { "@descripcion", objeto.Descripcion }
-        };
+            parametros = new Dictionary<string, object> {
+                { "@id", objeto.Id },
+                {  "@nombre", objeto.Nombre  },
+                { "@abreviatura", objeto.Abreviatura },
+                { "@descripcion", objeto.Descripcion }
+            };
 
-        return consulta;
-    }
+            return consulta;
+        }
 
-    protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
-        var consulta = $"""
-                UPDATE adv__producto
+        protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
+            var consulta = $"""
+                    UPDATE adv__producto
                 SET id_unidad_medida = 0
                 WHERE id_unidad_medida = @id;
 
@@ -62,68 +61,69 @@ public class RepoUnidadMedida : RepoEntidadBaseDatos<UnidadMedida, FiltroBusqued
                 WHERE id_unidad_medida = @id;
                 """;
 
-        parametros = new Dictionary<string, object> {
-            { "@id", id }
-        };
+            parametros = new Dictionary<string, object> {
+                { "@id", id }
+            };
 
-        return consulta;
-    }
+            return consulta;
+        }
 
-    protected override string GenerarComandoObtener(FiltroBusquedaUnidadMedida filtroBusqueda, out Dictionary<string, object> parametros, params string[] criterios) {
-        var criterio = criterios.Length > 0 ? criterios[0] : string.Empty;
-        var consulta = filtroBusqueda switch {
-            FiltroBusquedaUnidadMedida.Todos => """
+        protected override string GenerarComandoObtener(FiltroBusquedaUnidadMedida filtroBusqueda, out Dictionary<string, object> parametros, params string[] criterios) {
+            var criterio = criterios.Length > 0 ? criterios[0] : string.Empty;
+            var consulta = filtroBusqueda switch {
+                FiltroBusquedaUnidadMedida.Todos => """
                 SELECT * 
                 FROM adv__unidad_medida;
                 """,
-            FiltroBusquedaUnidadMedida.Id => $"""
-                SELECT * 
+                FiltroBusquedaUnidadMedida.Id => $"""
+                    SELECT * 
                 FROM adv__unidad_medida 
                 WHERE id_unidad_medida = @id;
                 """,
-            FiltroBusquedaUnidadMedida.Nombre => $"""
-                SELECT * 
+                FiltroBusquedaUnidadMedida.Nombre => $"""
+                    SELECT * 
                 FROM adv__unidad_medida 
                 WHERE nombre LIKE @nombre;
                 """,
-            FiltroBusquedaUnidadMedida.Abreviatura => $"""
-                SELECT * 
+                FiltroBusquedaUnidadMedida.Abreviatura => $"""
+                    SELECT * 
                 FROM adv__unidad_medida 
                 WHERE abreviatura LIKE @abreviatura; 
                 """,
-            _ => throw new ArgumentOutOfRangeException(nameof(filtroBusqueda), filtroBusqueda, null)
-        };
+                _ => throw new ArgumentOutOfRangeException(nameof(filtroBusqueda), filtroBusqueda, null)
+            };
 
-        parametros = filtroBusqueda switch {
-            FiltroBusquedaUnidadMedida.Todos => new Dictionary<string, object>(),
-            FiltroBusquedaUnidadMedida.Id => new Dictionary<string, object> {
-                { "@id", long.Parse(criterio) }
-            },
-            FiltroBusquedaUnidadMedida.Nombre => new Dictionary<string, object> {
-                { "@nombre", $"%{criterio}%" }
-            },
-            FiltroBusquedaUnidadMedida.Abreviatura => new Dictionary<string, object> {
-                { "@abreviatura", $"%{criterio}%" }
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(filtroBusqueda), filtroBusqueda, null)
-        };
+            parametros = filtroBusqueda switch {
+                FiltroBusquedaUnidadMedida.Todos => new Dictionary<string, object>(),
+                FiltroBusquedaUnidadMedida.Id => new Dictionary<string, object> {
+                    { "@id", long.Parse(criterio) }
+                },
+                FiltroBusquedaUnidadMedida.Nombre => new Dictionary<string, object> {
+                    { "@nombre", $"%{criterio}%" }
+                },
+                FiltroBusquedaUnidadMedida.Abreviatura => new Dictionary<string, object> {
+                    { "@abreviatura", $"%{criterio}%" }
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(filtroBusqueda), filtroBusqueda, null)
+            };
 
-        return consulta;
+            return consulta;
+        }
+
+        protected override (UnidadMedida, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
+            return (new UnidadMedida(
+                lectorDatos.GetInt64("id_unidad_medida"),
+                lectorDatos.GetString("nombre"),
+                lectorDatos.GetString("abreviatura"),
+                lectorDatos.GetString("descripcion")
+            ), new List<IEntidadBaseDatos>());
+        }
+
+        #region STATIC
+
+        public static RepoUnidadMedida Instancia { get; } = new RepoUnidadMedida();
+
+        #endregion
     }
 
-    protected override (UnidadMedida, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
-        return (new UnidadMedida(
-            lectorDatos.GetInt64("id_unidad_medida"),
-            lectorDatos.GetString("nombre"),
-            lectorDatos.GetString("abreviatura"),
-            lectorDatos.GetString("descripcion")
-        ), new List<IEntidadBaseDatos>());
-    }
-
-    #region STATIC
-
-    public static RepoUnidadMedida Instancia { get; } = new RepoUnidadMedida();
-
-    #endregion
 }
-

@@ -4,17 +4,17 @@ using aDVanceERP.Core.Infraestructura.Globales;
 
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Infraestructura.Helpers.BD;
-
-public static class TablaHelper {
-    public static long ObtenerUltimoId(string nombreEntidad) {
-        var comando = $"""
-            SELECT MAX(id_{nombreEntidad}) 
+namespace aDVanceERP.Core.Infraestructura.Helpers.BD {
+    public static class TablaHelper {
+        public static long ObtenerUltimoId(string nombreEntidad) {
+            var comando = $"""
+                SELECT MAX(id_{nombreEntidad}) 
             FROM adv__{nombreEntidad}
             ORDER BY id_{nombreEntidad} DESC
             LIMIT 1;
             """;
 
-        return ContextoBaseDatos.EjecutarConsultaEscalar<long>(comando);
+            return ContextoBaseDatos.EjecutarConsultaEscalar<long>(comando);
+        }
     }
 }

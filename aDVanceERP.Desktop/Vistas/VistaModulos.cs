@@ -2,91 +2,91 @@
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Desktop.Vistas;
+namespace aDVanceERP.Desktop.Vistas {
+    public partial class VistaModulos : Form, IVistaModulos {
+        public VistaModulos() {
+            InitializeComponent();
 
-public partial class VistaModulos : Form, IVistaModulos {
-    public VistaModulos() {
-        InitializeComponent();
+            NombreVista = nameof(VistaModulos);
+            PanelCentral = new RepoVistaBase(panelCentral);
 
-        NombreVista = nameof(VistaModulos);
-        PanelCentral = new RepoVistaBase(panelCentral);
-
-        Inicializar();
-    }
-
-    public string NombreVista {
-        get => Name;
-        private set => Name = value;
-    }
-
-    public bool Habilitada {
-        get => Enabled;
-        set => Enabled = value;
-    }
-
-    public Point Coordenadas {
-        get => Location;
-        set => Location = value;
-    }
-
-    public Size Dimensiones {
-        get => Size;
-        set => Size = value;
-    }
-
-    public FlowLayoutPanel PanelMenuLateral => layoutModulos;
-
-    public RepoVistaBase PanelCentral { get; private set; }
-
-    public string MensajePortada {
-        get => fieldTextoBienvenida.Text;
-        set {
-            fieldTextoBienvenida.Text = value;
-            fieldTextoBienvenida.Visible = true;
+            Inicializar();
         }
-    }
 
-    public void Inicializar() {
-        // Estado inicial
-        btnInicio.PerformClick();
+        public string NombreVista {
+            get => Name;
+            private set => Name = value;
+        }
 
-        // Eventos
-        btnInicio.Click += delegate { PanelCentral.OcultarTodos(); };
-        btnInicio.Click += (s, e) => {
-            AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-            AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-        };
+        public bool Habilitada {
+            get => Enabled;
+            set => Enabled = value;
+        }
 
-        AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);
-    }
+        public Point Coordenadas {
+            get => Location;
+            set => Location = value;
+        }
 
-    private void OnEventoCambioModulo(string obj) {
-        Restaurar();
-    }
+        public Size Dimensiones {
+            get => Size;
+            set => Size = value;
+        }
 
-    public void Mostrar() {
-        BringToFront();
-        Show();
-    }
+        public FlowLayoutPanel PanelMenuLateral => layoutModulos;
 
-    public void Restaurar() {
-        PanelCentral.OcultarTodos();
+        public RepoVistaBase PanelCentral { get; private set; }
 
-        btnGestorModulos.Checked = false;
-        btnConfiguracionGeneral.Checked = false;
-    }
+        public string MensajePortada {
+            get => fieldTextoBienvenida.Text;
+            set {
+                fieldTextoBienvenida.Text = value;
+                fieldTextoBienvenida.Visible = true;
+            }
+        }
 
-    public void Ocultar() {
-        btnInicio.Checked = true;
-        btnGestorModulos.Checked = false;
-        btnConfiguracionGeneral.Checked = false;
+        public void Inicializar() {
+            // Estado inicial
+            btnInicio.PerformClick();
 
-        Hide();
-    }
+            // Eventos
+            btnInicio.Click += delegate { PanelCentral.OcultarTodos(); };
+            btnInicio.Click += (s, e) => {
+                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+            };
 
-    public void Cerrar() {
-        AgregadorEventos.Desuscribir("EventoCambioModulo", OnEventoCambioModulo);
+            AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);
+        }
 
-        PanelCentral?.CerrarTodos();
+        private void OnEventoCambioModulo(string obj) {
+            Restaurar();
+        }
+
+        public void Mostrar() {
+            BringToFront();
+            Show();
+        }
+
+        public void Restaurar() {
+            PanelCentral.OcultarTodos();
+
+            btnGestorModulos.Checked = false;
+            btnConfiguracionGeneral.Checked = false;
+        }
+
+        public void Ocultar() {
+            btnInicio.Checked = true;
+            btnGestorModulos.Checked = false;
+            btnConfiguracionGeneral.Checked = false;
+
+            Hide();
+        }
+
+        public void Cerrar() {
+            AgregadorEventos.Desuscribir("EventoCambioModulo", OnEventoCambioModulo);
+
+            PanelCentral?.CerrarTodos();
+        }
     }
 }

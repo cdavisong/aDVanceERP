@@ -2,20 +2,20 @@
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Presentadores.Comun.Interfaces;
+namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
+    public interface IPresentadorVistaGestion<Vg, Re, En, Fb> : IPresentadorVistaBase<Vg>, IDisposable
+        where Vg : class, IVistaContenedor, IGestorEntidades, IBuscadorEntidades<Fb>, INavegadorTuplasEntidades
+        where Re : class, IRepoEntidadBaseDatos<En, Fb>, new()
+        where En : class, IEntidadBaseDatos, new()
+        where Fb : Enum {
+        Re Repositorio { get; }
+        Fb FiltroBusqueda { get; }
+        string[] CriteriosBusqueda { get; }
 
-public interface IPresentadorVistaGestion<Vg, Re, En, Fb> : IPresentadorVistaBase<Vg>, IDisposable
-    where Vg : class, IVistaContenedor, IGestorEntidades, IBuscadorEntidades<Fb>, INavegadorTuplasEntidades
-    where Re : class, IRepoEntidadBaseDatos<En, Fb>, new()
-    where En : class, IEntidadBaseDatos, new()
-    where Fb : Enum {
-    Re Repositorio { get; }
-    Fb FiltroBusqueda { get; }
-    string[] CriteriosBusqueda { get; }
+        event EventHandler? RegistrarEntidad;
+        event EventHandler<En>? EditarEntidad;
 
-    event EventHandler? RegistrarEntidad;
-    event EventHandler<En>? EditarEntidad;
-
-    void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda);
-    void ActualizarResultadosBusqueda();
+        void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda);
+        void ActualizarResultadosBusqueda();
+    }
 }

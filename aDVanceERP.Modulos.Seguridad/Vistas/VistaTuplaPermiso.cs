@@ -1,79 +1,79 @@
 ﻿using aDVanceERP.Modulos.Seguridad.Interfaces;
 
-namespace aDVanceERP.Modulos.Seguridad.Vistas;
+namespace aDVanceERP.Modulos.Seguridad.Vistas {
+    public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
+        private string _idPermiso = string.Empty;
 
-public partial class VistaTuplaPermiso : Form, IVistaTuplaPermiso {
-    private string _idPermiso = string.Empty;
+        public VistaTuplaPermiso() {
+            InitializeComponent();
 
-    public VistaTuplaPermiso() {
-        InitializeComponent();
+            NombreVista = nameof(VistaTuplaPermiso);
 
-        NombreVista = nameof(VistaTuplaPermiso);
+            Inicializar();
+        }
 
-        Inicializar();
-    }
+        public string NombreVista {
+            get => $"{Name}{Id}";
+            private set => Name = value;
+        }
 
-    public string NombreVista {
-        get => $"{Name}{Id}";
-        private set => Name = value;
-    }
+        public bool Habilitada {
+            get => Enabled;
+            set => Enabled = value;
+        }
 
-    public bool Habilitada {
-        get => Enabled;
-        set => Enabled = value;
-    }
+        public Point Coordenadas {
+            get => Location;
+            set => Location = value;
+        }
 
-    public Point Coordenadas {
-        get => Location;
-        set => Location = value;
-    }
+        public Size Dimensiones {
+            get => Size;
+            set => Size = value;
+        }
 
-    public Size Dimensiones {
-        get => Size;
-        set => Size = value;
-    }
+        public Color ColorFondoTupla {
+            get => layoutVista.BackColor;
+            set => layoutVista.BackColor = value;
+        }
 
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
+        public bool EstadoSeleccion { get; set; }
 
-    public bool EstadoSeleccion { get; set; }
+        public string Id {
+            get => _idPermiso;
+            set => _idPermiso = value ?? string.Empty;
+        }
 
-    public string Id {
-        get => _idPermiso;
-        set => _idPermiso = value ?? string.Empty;
-    }
-
-    public string NombrePermiso {
-        get => fieldNombrePermiso.Text;
-        set => fieldNombrePermiso.Text = value;
-    }
+        public string NombrePermiso {
+            get => fieldNombrePermiso.Text;
+            set => fieldNombrePermiso.Text = value;
+        }
             
-    public event EventHandler? EditarDatosTupla;
-    public event EventHandler? EliminarDatosTupla;
+        public event EventHandler? EditarDatosTupla;
+        public event EventHandler? EliminarDatosTupla;
     
-    public void Inicializar() {
-        // Eventos            
-        btnEliminar.Click += delegate(object? sender, EventArgs e) {
-            EliminarDatosTupla?.Invoke(new[] { Id ?? string.Empty, NombrePermiso ?? string.Empty }, e);
-        };
-    }
+        public void Inicializar() {
+            // Eventos            
+            btnEliminar.Click += delegate(object? sender, EventArgs e) {
+                EliminarDatosTupla?.Invoke(new[] { Id ?? string.Empty, NombrePermiso ?? string.Empty }, e);
+            };
+        }
 
-    public void Mostrar() {
-        BringToFront();
-        Show();
-    }
+        public void Mostrar() {
+            BringToFront();
+            Show();
+        }
 
-    public void Restaurar() {
-        ColorFondoTupla = BackColor;
-    }
+        public void Restaurar() {
+            ColorFondoTupla = BackColor;
+        }
 
-    public void Ocultar() {
-        Hide();
-    }
+        public void Ocultar() {
+            Hide();
+        }
 
-    public void Cerrar() {
-        Dispose();
+        public void Cerrar() {
+            Dispose();
+        }
     }
 }

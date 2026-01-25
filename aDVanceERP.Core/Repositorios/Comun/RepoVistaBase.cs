@@ -5,232 +5,232 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Repositorios.Comun;
+namespace aDVanceERP.Core.Repositorios.Comun {
+    public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
+        private readonly Panel _contenedorVistas;
+        private bool disposedValue;
 
-public sealed class RepoVistaBase : IRepoVistaBase<IVistaBase> {
-    private readonly Panel _contenedorVistas;
-    private bool disposedValue;
+        public RepoVistaBase(Panel contenedorVistas) {
+            _contenedorVistas = contenedorVistas ?? throw new ArgumentNullException(nameof(contenedorVistas));
+            _contenedorVistas.Resize += OnRedimensionarContenedorVistas;
 
-    public RepoVistaBase(Panel contenedorVistas) {
-        _contenedorVistas = contenedorVistas ?? throw new ArgumentNullException(nameof(contenedorVistas));
-        _contenedorVistas.Resize += OnRedimensionarContenedorVistas;
+            // Habilitar doble búfer para reducir el flickering
+            _contenedorVistas.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)?
+                .SetValue(_contenedorVistas, true);
 
-        // Habilitar doble búfer para reducir el flickering
-        _contenedorVistas.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)?
-            .SetValue(_contenedorVistas, true);
-
-        // Inicializar variables
-        Vistas = new Dictionary<string, IVistaBase>();
-    }
-
-    public Dictionary<string, IVistaBase> Vistas { get; private set; }
-
-    public Size Dimensiones => _contenedorVistas.Size;
-
-    public IVistaBase? VistaActual { get; private set; }
-
-    public void Inicializar(string nombre) {
-        ObtenerPorId(nombre)?.Inicializar();
-    }
-
-    public IVistaBase? ObtenerPorId(object id) {
-        var name = id.ToString();
-
-        if (string.IsNullOrEmpty(name) || !(Vistas?.ContainsKey(name) ?? false))
-            return null;
-
-        return Vistas[name];
-    }
-
-    public List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)> ObtenerTodos() {
-        if (Vistas == null)
-            return new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
-
-        var resultado = new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
-
-        foreach (var vista in Vistas.Values)
-            resultado.Add((vista, new List<IEntidadBase>()));
-        
-        return resultado;
-    }
-
-    public void Registrar(IVistaBase vista) {
-        Registrar(vista, new Point(0, 0), _contenedorVistas.Size, TipoRedimensionadoVista.Completo);
-    }
-
-    public void Registrar(IVistaBase vista, Point coordenadas, Size dimensiones, TipoRedimensionadoVista tipoRedimensionado) {
-        SuspendRedraw();
-
-        try {
-            if (vista == null) {
-                throw new ArgumentNullException(nameof(vista));
-            }
-            else if (Vistas.ContainsKey(vista.NombreVista)) {
-                throw new ArgumentException($"La vista con el nombre '{vista.NombreVista}' ya está registrada en el contenedor.");
-            }
-            else if (vista is Control control) {
-                control.Location = coordenadas;
-                control.Name = vista.NombreVista;
-                control.Size = dimensiones;
-                control.Tag = tipoRedimensionado;
-                control.Visible = false;
-
-                if (control is Form form)
-                    form.TopLevel = false;
-
-                _contenedorVistas.Controls.Add(control);
-            }
-            else throw new ArgumentException($"La vista debe ser un Control. Tipo actual: {vista.GetType().Name}");
-
-            Vistas.Add(vista.NombreVista, vista);
-        }
-        finally {
-            ResumeRedraw();
+            // Inicializar variables
+            Vistas = new Dictionary<string, IVistaBase>();
         }
 
-        // Actualiza las dimensiones de las vistas por primera vez
-        OnRedimensionarContenedorVistas(vista, EventArgs.Empty);
-    }
+        public Dictionary<string, IVistaBase> Vistas { get; private set; }
 
-    public void Mostrar(string nombre) {
-        if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
-            return;
+        public Size Dimensiones => _contenedorVistas.Size;
 
-        Vistas[nombre].Mostrar();
-    }
+        public IVistaBase? VistaActual { get; private set; }
 
-    public void Restaurar(string nombre) {
-        if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
-            return;
+        public void Inicializar(string nombre) {
+            ObtenerPorId(nombre)?.Inicializar();
+        }
 
-        Vistas[nombre].Restaurar();
-    }
+        public IVistaBase? ObtenerPorId(object id) {
+            var name = id.ToString();
 
-    public void Ocultar(string nombre) {
-        if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
-            return;
+            if (string.IsNullOrEmpty(name) || !(Vistas?.ContainsKey(name) ?? false))
+                return null;
 
-        Vistas[nombre].Ocultar();
-    }
+            return Vistas[name];
+        }
 
-    public void OcultarTodos() {
-        foreach (var vista in Vistas.Values)
-            vista.Ocultar();
-    }
+        public List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)> ObtenerTodos() {
+            if (Vistas == null)
+                return new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
 
-    public void Cerrar(string nombre) {
-        if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
-            return;
+            var resultado = new List<(IVistaBase entidadBase, List<IEntidadBase> entidadesExtra)>();
 
-        Vistas[nombre].Cerrar();
-
-        var form = _contenedorVistas.Controls.OfType<IVistaBase>().OfType<Form>().FirstOrDefault();
-
-        form?.Dispose();
-
-        _contenedorVistas.Controls.Remove(form);
-
-        Vistas.Remove(nombre);
-    }
-
-    public void CerrarTodos() {
-        if (Vistas == null)
-            return;
-
-        SuspendRedraw();
-
-        try {
             foreach (var vista in Vistas.Values)
-                vista.Cerrar();
-
-            Vistas.Clear();
-
-            foreach (var form in _contenedorVistas.Controls.OfType<IVistaBase>().OfType<Form>()) {
-                form.Dispose();
-            }
-
-            _contenedorVistas.Controls.Clear();
+                resultado.Add((vista, new List<IEntidadBase>()));
+        
+            return resultado;
         }
-        finally {
-            ResumeRedraw();
+
+        public void Registrar(IVistaBase vista) {
+            Registrar(vista, new Point(0, 0), _contenedorVistas.Size, TipoRedimensionadoVista.Completo);
         }
-    }
 
-    private void AjustarDimensiones(IVistaBase vista, Size dimensiones, TipoRedimensionadoVista tipoRedimensionado) {
-        switch (tipoRedimensionado) {
-            case TipoRedimensionadoVista.Completo:
-                vista.Coordenadas = new Point(0);
-                vista.Dimensiones = _contenedorVistas.Size;
-                break;
-            case TipoRedimensionadoVista.Horizontal:
-                vista.Coordenadas = new Point(0, vista.Coordenadas.Y);
-                vista.Dimensiones = new Size(_contenedorVistas.Size.Width, dimensiones.Height);
-                break;
-            case TipoRedimensionadoVista.Vertical:
-                vista.Coordenadas = new Point(vista.Coordenadas.X, 0);
-                vista.Dimensiones = new Size(dimensiones.Width, _contenedorVistas.Size.Height);
-                break;
-            default:
-                vista.Dimensiones = dimensiones;
-                break;
-        }
-    }
+        public void Registrar(IVistaBase vista, Point coordenadas, Size dimensiones, TipoRedimensionadoVista tipoRedimensionado) {
+            SuspendRedraw();
 
-    private void OnRedimensionarContenedorVistas(object? sender, EventArgs e) {
-        try {
-            if (sender is IVistaBase vistaSender) {
-                if (vistaSender is Form form && form.Tag is TipoRedimensionadoVista tipoRedimensionado) {
-                    if (form.InvokeRequired) {
-                        form.Invoke(() => { OnRedimensionarContenedorVistas(vistaSender, e); });
-                        return;
-                    }
-
-                    SuspendRedraw();
-
-                    AjustarDimensiones(vistaSender, vistaSender.Dimensiones, tipoRedimensionado);
+            try {
+                if (vista == null) {
+                    throw new ArgumentNullException(nameof(vista));
                 }
+                else if (Vistas.ContainsKey(vista.NombreVista)) {
+                    throw new ArgumentException($"La vista con el nombre '{vista.NombreVista}' ya está registrada en el contenedor.");
+                }
+                else if (vista is Control control) {
+                    control.Location = coordenadas;
+                    control.Name = vista.NombreVista;
+                    control.Size = dimensiones;
+                    control.Tag = tipoRedimensionado;
+                    control.Visible = false;
+
+                    if (control is Form form)
+                        form.TopLevel = false;
+
+                    _contenedorVistas.Controls.Add(control);
+                }
+                else throw new ArgumentException($"La vista debe ser un Control. Tipo actual: {vista.GetType().Name}");
+
+                Vistas.Add(vista.NombreVista, vista);
+            }
+            finally {
+                ResumeRedraw();
+            }
+
+            // Actualiza las dimensiones de las vistas por primera vez
+            OnRedimensionarContenedorVistas(vista, EventArgs.Empty);
+        }
+
+        public void Mostrar(string nombre) {
+            if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
                 return;
+
+            Vistas[nombre].Mostrar();
+        }
+
+        public void Restaurar(string nombre) {
+            if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
+                return;
+
+            Vistas[nombre].Restaurar();
+        }
+
+        public void Ocultar(string nombre) {
+            if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
+                return;
+
+            Vistas[nombre].Ocultar();
+        }
+
+        public void OcultarTodos() {
+            foreach (var vista in Vistas.Values)
+                vista.Ocultar();
+        }
+
+        public void Cerrar(string nombre) {
+            if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
+                return;
+
+            Vistas[nombre].Cerrar();
+
+            var form = _contenedorVistas.Controls.OfType<IVistaBase>().OfType<Form>().FirstOrDefault();
+
+            form?.Dispose();
+
+            _contenedorVistas.Controls.Remove(form);
+
+            Vistas.Remove(nombre);
+        }
+
+        public void CerrarTodos() {
+            if (Vistas == null)
+                return;
+
+            SuspendRedraw();
+
+            try {
+                foreach (var vista in Vistas.Values)
+                    vista.Cerrar();
+
+                Vistas.Clear();
+
+                foreach (var form in _contenedorVistas.Controls.OfType<IVistaBase>().OfType<Form>()) {
+                    form.Dispose();
+                }
+
+                _contenedorVistas.Controls.Clear();
             }
-
-            foreach (var vista in (Vistas?.Values).Where(v => !(v is IVistaSubMenu)))
-                OnRedimensionarContenedorVistas(vista, e);
-        }
-        finally {
-            ResumeRedraw();
-        }
-    }
-
-    private void SuspendRedraw() {
-        _contenedorVistas.SuspendLayout();
-    }
-
-    private void ResumeRedraw() {
-        _contenedorVistas.ResumeLayout();
-    }
-
-    private void Dispose(bool disposing) {
-        if (!disposedValue) {
-            if (disposing) {
-                _contenedorVistas.Resize -= OnRedimensionarContenedorVistas;
+            finally {
+                ResumeRedraw();
             }
-
-            CerrarTodos();
-
-            // TODO: establecer los campos grandes como NULL
-            disposedValue = true;
         }
-    }
 
-    // // TODO: reemplazar el finalizador solo si "Dispose(bool disposing)" tiene código para liberar los recursos no administrados
-    // ~RepositorioVistaBase()
-    // {
-    //     // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
-    //     Dispose(disposing: false);
-    // }
+        private void AjustarDimensiones(IVistaBase vista, Size dimensiones, TipoRedimensionadoVista tipoRedimensionado) {
+            switch (tipoRedimensionado) {
+                case TipoRedimensionadoVista.Completo:
+                    vista.Coordenadas = new Point(0);
+                    vista.Dimensiones = _contenedorVistas.Size;
+                    break;
+                case TipoRedimensionadoVista.Horizontal:
+                    vista.Coordenadas = new Point(0, vista.Coordenadas.Y);
+                    vista.Dimensiones = new Size(_contenedorVistas.Size.Width, dimensiones.Height);
+                    break;
+                case TipoRedimensionadoVista.Vertical:
+                    vista.Coordenadas = new Point(vista.Coordenadas.X, 0);
+                    vista.Dimensiones = new Size(dimensiones.Width, _contenedorVistas.Size.Height);
+                    break;
+                default:
+                    vista.Dimensiones = dimensiones;
+                    break;
+            }
+        }
 
-    public void Dispose() {
-        // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
+        private void OnRedimensionarContenedorVistas(object? sender, EventArgs e) {
+            try {
+                if (sender is IVistaBase vistaSender) {
+                    if (vistaSender is Form form && form.Tag is TipoRedimensionadoVista tipoRedimensionado) {
+                        if (form.InvokeRequired) {
+                            form.Invoke(() => { OnRedimensionarContenedorVistas(vistaSender, e); });
+                            return;
+                        }
+
+                        SuspendRedraw();
+
+                        AjustarDimensiones(vistaSender, vistaSender.Dimensiones, tipoRedimensionado);
+                    }
+                    return;
+                }
+
+                foreach (var vista in (Vistas?.Values).Where(v => !(v is IVistaSubMenu)))
+                    OnRedimensionarContenedorVistas(vista, e);
+            }
+            finally {
+                ResumeRedraw();
+            }
+        }
+
+        private void SuspendRedraw() {
+            _contenedorVistas.SuspendLayout();
+        }
+
+        private void ResumeRedraw() {
+            _contenedorVistas.ResumeLayout();
+        }
+
+        private void Dispose(bool disposing) {
+            if (!disposedValue) {
+                if (disposing) {
+                    _contenedorVistas.Resize -= OnRedimensionarContenedorVistas;
+                }
+
+                CerrarTodos();
+
+                // TODO: establecer los campos grandes como NULL
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: reemplazar el finalizador solo si "Dispose(bool disposing)" tiene código para liberar los recursos no administrados
+        // ~RepositorioVistaBase()
+        // {
+        //     // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose() {
+            // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

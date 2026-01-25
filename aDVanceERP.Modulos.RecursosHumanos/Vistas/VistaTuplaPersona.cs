@@ -4,127 +4,127 @@ using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
+    public partial class VistaTuplaPersona : Form, IVistaTuplaPersona {
+        public VistaTuplaPersona() {
+            InitializeComponent();
 
-public partial class VistaTuplaPersona : Form, IVistaTuplaPersona {
-    public VistaTuplaPersona() {
-        InitializeComponent();
+            NombreVista = nameof(VistaTuplaPersona);
 
-        NombreVista = nameof(VistaTuplaPersona);
-
-        Inicializar();
-    }
-
-    public string NombreVista {
-        get => $"{Name}{Id}";
-        private set => Name = value;
-    }
-
-    public bool Habilitada {
-        get => Enabled;
-        set => Enabled = value;
-    }
-
-    public Point Coordenadas {
-        get => Location;
-        set => Location = value;
-    }
-
-    public Size Dimensiones {
-        get => Size;
-        set => Size = value;
-    }
-
-    public Color ColorFondoTupla {
-        get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
-    }
-
-    public bool EstadoSeleccion { get; set; }
-
-    public long Id {
-        get => Convert.ToInt64(fieldId.Text);
-        set => fieldId.Text = value.ToString();
-    }
-
-    public string NumeroIdentidad {
-        get => fieldNoIdentidad.Text;
-        set => fieldNoIdentidad.Text = value;
-    }
-
-    public string NombreCompleto {
-        get => fieldNombreCompleto.Text;
-        set {
-            fieldNombreCompleto.Text = value;
-            fieldNombreCompleto.Margin = fieldNombreCompleto.AjusteAutomaticoMargenTexto();
+            Inicializar();
         }
-    }
 
-    public string Telefonos {
-        get => fieldTelefonos.Text;
-        set {
-            fieldTelefonos.Text = value;
-            fieldTelefonos.Margin = fieldTelefonos.AjusteAutomaticoMargenTexto();
+        public string NombreVista {
+            get => $"{Name}{Id}";
+            private set => Name = value;
         }
-    }
 
-    public string Direccion {
-        get => fieldDireccion.Text;
-        set {
-            fieldDireccion.Text = value;
-            fieldDireccion.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+        public bool Habilitada {
+            get => Enabled;
+            set => Enabled = value;
         }
-    }
 
-    public string FechaRegistro {
-        get => fieldFechaRegistro.Text;
-        set => fieldFechaRegistro.Text = value;
-    }
-
-    public bool Activo {
-        get => fieldEstado.Text.Equals("Activo");
-        set {
-            fieldEstado.Text = value ? "Activo" : "Inactivo";
-            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+        public Point Coordenadas {
+            get => Location;
+            set => Location = value;
         }
-    }
 
-    public event EventHandler? EditarDatosTupla;
-    public event EventHandler? EliminarDatosTupla;
+        public Size Dimensiones {
+            get => Size;
+            set => Size = value;
+        }
+
+        public Color ColorFondoTupla {
+            get => layoutVista.BackColor;
+            set => layoutVista.BackColor = value;
+        }
+
+        public bool EstadoSeleccion { get; set; }
+
+        public long Id {
+            get => Convert.ToInt64(fieldId.Text);
+            set => fieldId.Text = value.ToString();
+        }
+
+        public string NumeroIdentidad {
+            get => fieldNoIdentidad.Text;
+            set => fieldNoIdentidad.Text = value;
+        }
+
+        public string NombreCompleto {
+            get => fieldNombreCompleto.Text;
+            set {
+                fieldNombreCompleto.Text = value;
+                fieldNombreCompleto.Margin = fieldNombreCompleto.AjusteAutomaticoMargenTexto();
+            }
+        }
+
+        public string Telefonos {
+            get => fieldTelefonos.Text;
+            set {
+                fieldTelefonos.Text = value;
+                fieldTelefonos.Margin = fieldTelefonos.AjusteAutomaticoMargenTexto();
+            }
+        }
+
+        public string Direccion {
+            get => fieldDireccion.Text;
+            set {
+                fieldDireccion.Text = value;
+                fieldDireccion.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+            }
+        }
+
+        public string FechaRegistro {
+            get => fieldFechaRegistro.Text;
+            set => fieldFechaRegistro.Text = value;
+        }
+
+        public bool Activo {
+            get => fieldEstado.Text.Equals("Activo");
+            set {
+                fieldEstado.Text = value ? "Activo" : "Inactivo";
+                fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+            }
+        }
+
+        public event EventHandler? EditarDatosTupla;
+        public event EventHandler? EliminarDatosTupla;
     
-    public void Inicializar() {
-        // Eventos
-        btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-        btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
-    }
+        public void Inicializar() {
+            // Eventos
+            btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
+            btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+        }
 
-    public void Mostrar() {
-        VerificarPermisos();
-        BringToFront();
-        Show();
-    }
+        public void Mostrar() {
+            VerificarPermisos();
+            BringToFront();
+            Show();
+        }
 
-    public void Restaurar() {
-        ColorFondoTupla = BackColor;
-    }
+        public void Restaurar() {
+            ColorFondoTupla = BackColor;
+        }
 
-    public void Ocultar() {
-        Hide();
-    }
+        public void Ocultar() {
+            Hide();
+        }
 
-    public void Cerrar() {
-        Dispose();
-    }
+        public void Cerrar() {
+            Dispose();
+        }
 
-    private void VerificarPermisos() {
-        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-        btnEliminar.Enabled = ((ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS"))
-                              && RepoPersona.Instancia.EsSeguroEliminarPersona(Id);
+        private void VerificarPermisos() {
+            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_EDITAR")
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
+                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
+            btnEliminar.Enabled = ((ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ELIMINAR")
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
+                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS"))
+                                  && RepoPersona.Instancia.EsSeguroEliminarPersona(Id);
+        }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Venta.Interfaces;
+namespace aDVanceERP.Modulos.Venta.Interfaces {
+    public interface IVistaTuplaVenta : IVistaTupla {
+        string Id { get; set; }
+        string Fecha { get; set; }
+        string NombreAlmacen { get; set; }
+        string NombreCliente { get; set; }
+        string CantidadProductos { get; set; }
+        string MontoTotal { get; set; }
+        string? EstadoEntrega { get; set; }
+        string EstadoPago { get; set; }
 
-public interface IVistaTuplaVenta : IVistaTupla {
-    string Id { get; set; }
-    string Fecha { get; set; }
-    string NombreAlmacen { get; set; }
-    string NombreCliente { get; set; }
-    string CantidadProductos { get; set; }
-    string MontoTotal { get; set; }
-    string? EstadoEntrega { get; set; }
-    string EstadoPago { get; set; }
-
-    event EventHandler? DescargarFactura;
+        event EventHandler? DescargarFactura;
+    }
 }

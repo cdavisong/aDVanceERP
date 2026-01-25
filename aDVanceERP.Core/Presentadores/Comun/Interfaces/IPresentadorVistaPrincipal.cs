@@ -2,12 +2,12 @@
 
 using Guna.UI2.WinForms;
 
-namespace aDVanceERP.Core.Presentadores.Comun.Interfaces;
+namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
+    public interface IPresentadorVistaPrincipal<Vp> : IPresentadorVistaBase<Vp>
+         where Vp : class, IVistaPrincipal {
+        IPresentadorVistaSeguridad<IVistaSeguridad> Seguridad { get; }
+        IPresentadorVistaModulos<IVistaModulos> Modulos { get; }
 
-public interface IPresentadorVistaPrincipal<Vp> : IPresentadorVistaBase<Vp>
-     where Vp : class, IVistaPrincipal {
-    IPresentadorVistaSeguridad<IVistaSeguridad> Seguridad { get; }
-    IPresentadorVistaModulos<IVistaModulos> Modulos { get; }
-
-    void AdicionarBotonBarraTitulo(Guna2Button btnTitulo);
+        void AdicionarBotonBarraTitulo(Guna2Button btnTitulo);
+    }
 }

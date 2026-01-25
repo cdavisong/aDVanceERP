@@ -1,9 +1,9 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 
-namespace aDVanceERP.Core.Vistas.Comun.Interfaces;
+namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
+    public interface IVistaContenedor : IVistaBase {
+        int TuplasMaximasContenedor { get; }
 
-public interface IVistaContenedor : IVistaBase {
-    int TuplasMaximasContenedor { get; }
-
-    RepoVistaBase PanelCentral { get; }
+        RepoVistaBase PanelCentral { get; }
+    }
 }

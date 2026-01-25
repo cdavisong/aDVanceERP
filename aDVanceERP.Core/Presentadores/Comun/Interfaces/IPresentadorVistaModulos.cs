@@ -2,12 +2,12 @@
 
 using Guna.UI2.WinForms;
 
-namespace aDVanceERP.Core.Presentadores.Comun.Interfaces;
+namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
+    public interface IPresentadorVistaModulos<Vm> : IPresentadorVistaBase<Vm>
+         where Vm : class, IVistaModulos {
+        IVistaPrincipal VistaPrincipal { get; }
 
-public interface IPresentadorVistaModulos<Vm> : IPresentadorVistaBase<Vm>
-     where Vm : class, IVistaModulos {
-    IVistaPrincipal VistaPrincipal { get; }
-
-    string[] ObtenerNombresModulosExtensionCargados();
-    void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo);
+        string[] ObtenerNombresModulosExtensionCargados();
+        void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo);
+    }
 }

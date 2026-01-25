@@ -1,19 +1,19 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 
-namespace aDVanceERP.Core.Vistas.Comun.Interfaces;
+namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
+    public interface IVistaPrincipal : IVistaBase {
+        string Titulo { get; }
 
-public interface IVistaPrincipal : IVistaBase {
-    string Titulo { get; }
+        #region Barra de título
 
-    #region Barra de título
+        RepoVistaBase BarraTitulo { get; }
+        FlowLayoutPanel BotonesTitulo { get; }
 
-    RepoVistaBase BarraTitulo { get; }
-    FlowLayoutPanel BotonesTitulo { get; }
+        #endregion
 
-    #endregion
+        RepoVistaBase PanelCentral { get; }
+        RepoVistaBase BarraEstado { get; }
 
-    RepoVistaBase PanelCentral { get; }
-    RepoVistaBase BarraEstado { get; }
-
-    void ModificarVisibilidadBotonesBarraTitulo(bool visible);
+        void ModificarVisibilidadBotonesBarraTitulo(bool visible);
+    }
 }

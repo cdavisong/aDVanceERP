@@ -2,11 +2,11 @@
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Inventario.Interfaces;
+namespace aDVanceERP.Modulos.Inventario.Interfaces {
+    public interface IVistaGestionProductos : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaProducto>, INavegadorTuplasEntidades {
+        string? NombreAlmacen { get; }
+        decimal ValorTotalInventario { get; }
 
-public interface IVistaGestionProductos : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaProducto>, INavegadorTuplasEntidades {
-    string? NombreAlmacen { get; }
-    decimal ValorTotalInventario { get; }
-
-    void CargarFiltroAlmacenes(object[] nombresAlmacenes);
+        void CargarFiltroAlmacenes(object[] nombresAlmacenes);
+    }
 }

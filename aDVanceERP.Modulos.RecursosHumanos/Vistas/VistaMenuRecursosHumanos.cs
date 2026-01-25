@@ -1,64 +1,64 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas;
+namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
+    public partial class VistaMenuRecursosHumanos : Form, IVistaMenuRecursosHumanos {
+        public VistaMenuRecursosHumanos() {
+            InitializeComponent();
 
-public partial class VistaMenuRecursosHumanos : Form, IVistaMenuRecursosHumanos {
-    public VistaMenuRecursosHumanos() {
-        InitializeComponent();
+            NombreVista = nameof(VistaMenuRecursosHumanos);
 
-        NombreVista = nameof(VistaMenuRecursosHumanos);
+            Inicializar();
+        }
 
-        Inicializar();
-    }
+        public string NombreVista {
+            get => Name;
+            private set => Name = value;
+        }
 
-    public string NombreVista {
-        get => Name;
-        private set => Name = value;
-    }
+        public bool Habilitada {
+            get => Enabled;
+            set => Enabled = value;
+        }
 
-    public bool Habilitada {
-        get => Enabled;
-        set => Enabled = value;
-    }
+        public Point Coordenadas {
+            get => Location;
+            set => Location = value;
+        }
 
-    public Point Coordenadas {
-        get => Location;
-        set => Location = value;
-    }
+        public Size Dimensiones {
+            get => Size;
+            set => Size = value;
+        }
 
-    public Size Dimensiones {
-        get => Size;
-        set => Size = value;
-    }
+        public void Inicializar() {
+            // Eventos
+            btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosRecursosHumanos", string.Empty); };
+        }
 
-    public void Inicializar() {
-        // Eventos
-        btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosRecursosHumanos", string.Empty); };
-    }
+        public void SeleccionarVistaInicial() {
 
-    public void SeleccionarVistaInicial() {
-
-    }
+        }
     
-    public void Mostrar() {
-        VerificarPermisos();
-        BringToFront();
-        Show();
-    }
+        public void Mostrar() {
+            VerificarPermisos();
+            BringToFront();
+            Show();
+        }
 
-    public void Restaurar() {
-    }
+        public void Restaurar() {
+        }
 
-    public void Ocultar() {
-        Hide();
-    }
+        public void Ocultar() {
+            Hide();
+        }
 
-    public void Cerrar() {
-        Dispose();
-    }
+        public void Cerrar() {
+            Dispose();
+        }
 
-    private void VerificarPermisos() {
+        private void VerificarPermisos() {
         
+        }
     }
 }

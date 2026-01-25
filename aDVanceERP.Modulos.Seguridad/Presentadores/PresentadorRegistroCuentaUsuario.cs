@@ -5,64 +5,64 @@ using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Interfaces;
 
-namespace aDVanceERP.Modulos.Seguridad.Presentadores;
+namespace aDVanceERP.Modulos.Seguridad.Presentadores {
+    public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaRegistroCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
+        public PresentadorRegistroCuentaUsuario(IVistaRegistroCuentaUsuario vista) : base(vista) {
+            AgregadorEventos.Suscribir("MostrarVistaRegistroCuentaUsuario", OnMostrarVistaRegistroCuentaUsuario);
+            AgregadorEventos.Suscribir("MostrarVistaEdicionCuentaUsuario", OnMostrarVistaEdicionCuentaUsuario);
+        }
 
-public class PresentadorRegistroCuentaUsuario : PresentadorVistaRegistro<IVistaRegistroCuentaUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
-    public PresentadorRegistroCuentaUsuario(IVistaRegistroCuentaUsuario vista) : base(vista) {
-        AgregadorEventos.Suscribir("MostrarVistaRegistroCuentaUsuario", OnMostrarVistaRegistroCuentaUsuario);
-        AgregadorEventos.Suscribir("MostrarVistaEdicionCuentaUsuario", OnMostrarVistaEdicionCuentaUsuario);
-    }
+        private void OnMostrarVistaRegistroCuentaUsuario(string obj) {
+            Vista.ModoEdicion = false;
 
-    private void OnMostrarVistaRegistroCuentaUsuario(string obj) {
-        Vista.ModoEdicion = false;
+            // Carga inicial de datos
+            Vista.CargarRolesUsuarios(RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre).ToArray());
 
-        // Carga inicial de datos
-        Vista.CargarRolesUsuarios(RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre).ToArray());
+            Vista.Restaurar();
+            Vista.Mostrar();
+        }
 
-        Vista.Restaurar();
-        Vista.Mostrar();
-    }
+        private void OnMostrarVistaEdicionCuentaUsuario(string obj) {
+            Vista.ModoEdicion = true;
 
-    private void OnMostrarVistaEdicionCuentaUsuario(string obj) {
-        Vista.ModoEdicion = true;
+            if (string.IsNullOrEmpty(obj))
+                return;
 
-        if (string.IsNullOrEmpty(obj))
-            return;
+            var cuentaUsuario = AgregadorEventos.DeserializarPayload<CuentaUsuario>(obj);
 
-        var cuentaUsuario = AgregadorEventos.DeserializarPayload<CuentaUsuario>(obj);
+            if (cuentaUsuario == null)
+                return;
 
-        if (cuentaUsuario == null)
-            return;
+            // Carga inicial de datos
+            Vista.CargarRolesUsuarios([.. RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre)]);
 
-        // Carga inicial de datos
-        Vista.CargarRolesUsuarios([.. RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre)]);
+            Vista.Restaurar();
 
-        Vista.Restaurar();
+            PopularVistaDesdeEntidad(cuentaUsuario);
 
-        PopularVistaDesdeEntidad(cuentaUsuario);
+            Vista.Mostrar();
+        }
 
-        Vista.Mostrar();
-    }
+        public override void PopularVistaDesdeEntidad(CuentaUsuario entidad) {
+            base.PopularVistaDesdeEntidad(entidad);
 
-    public override void PopularVistaDesdeEntidad(CuentaUsuario entidad) {
-        base.PopularVistaDesdeEntidad(entidad);
+            Vista.NombreUsuario = entidad.Nombre;        
+            Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? string.Empty;
+        }
 
-        Vista.NombreUsuario = entidad.Nombre;        
-        Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? string.Empty;
-    }
+        protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
+            var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
+            var rolUsuario = RepoRolUsuario.Instancia.Buscar(FiltroBusquedaRolUsuario.Nombre, Vista.NombreRolUsuario).resultadosBusqueda.FirstOrDefault().entidadBase;
 
-    protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
-        var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
-        var rolUsuario = RepoRolUsuario.Instancia.Buscar(FiltroBusquedaRolUsuario.Nombre, Vista.NombreRolUsuario).resultadosBusqueda.FirstOrDefault().entidadBase;
-
-        return new CuentaUsuario(
-            Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-            Vista.NombreUsuario,
-            passwordSeguro.hash,
-            passwordSeguro.salt,
-            rolUsuario?.Id ?? 0
-        ) {
-            Aprobado = Entidad?.Aprobado ?? false
-        };
+            return new CuentaUsuario(
+                Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                Vista.NombreUsuario,
+                passwordSeguro.hash,
+                passwordSeguro.salt,
+                rolUsuario?.Id ?? 0
+            ) {
+                Aprobado = Entidad?.Aprobado ?? false
+            };
+        }
     }
 }

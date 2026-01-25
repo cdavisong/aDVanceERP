@@ -1,10 +1,10 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 
-namespace aDVanceERP.Core.Vistas.Comun.Interfaces;
+namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
+    public interface IVistaModulos : IVistaBase {
+        FlowLayoutPanel PanelMenuLateral { get; }
+        RepoVistaBase PanelCentral { get; }
 
-public interface IVistaModulos : IVistaBase {
-    FlowLayoutPanel PanelMenuLateral { get; }
-    RepoVistaBase PanelCentral { get; }
-
-    string MensajePortada { get; set; }
+        string MensajePortada { get; set; }
+    }
 }

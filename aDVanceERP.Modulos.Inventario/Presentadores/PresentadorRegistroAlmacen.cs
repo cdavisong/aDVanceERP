@@ -6,72 +6,72 @@ using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
-namespace aDVanceERP.Modulos.Inventario.Presentadores;
+namespace aDVanceERP.Modulos.Inventario.Presentadores {
+    public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
+        public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) {
+            AgregadorEventos.Suscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
+            AgregadorEventos.Suscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
+        }
 
-public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-    public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) {
-        AgregadorEventos.Suscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
-        AgregadorEventos.Suscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
-    }
-
-    private void OnMostrarVistaRegistroAlmacen(string obj) {
-        Vista.ModoEdicion = false;
-        Vista.Restaurar();
+        private void OnMostrarVistaRegistroAlmacen(string obj) {
+            Vista.ModoEdicion = false;
+            Vista.Restaurar();
         
-        Vista.Mostrar();
-    }
+            Vista.Mostrar();
+        }
 
-    private void OnMostrarVistaEdicionAlmacen(string obj) {
-        Vista.ModoEdicion = true;
-        Vista.Restaurar();
+        private void OnMostrarVistaEdicionAlmacen(string obj) {
+            Vista.ModoEdicion = true;
+            Vista.Restaurar();
 
-        if (string.IsNullOrEmpty(obj))
-            return;
+            if (string.IsNullOrEmpty(obj))
+                return;
 
-        var almacen = AgregadorEventos.DeserializarPayload<Almacen>(obj);
+            var almacen = AgregadorEventos.DeserializarPayload<Almacen>(obj);
 
-        if (almacen == null)
-            return;
+            if (almacen == null)
+                return;
 
-        PopularVistaDesdeEntidad(almacen);
+            PopularVistaDesdeEntidad(almacen);
 
-        Vista.Mostrar();
-    }
+            Vista.Mostrar();
+        }
 
-    public override void PopularVistaDesdeEntidad(Almacen objeto) {
-        base.PopularVistaDesdeEntidad(objeto);
+        public override void PopularVistaDesdeEntidad(Almacen objeto) {
+            base.PopularVistaDesdeEntidad(objeto);
 
-        Vista.NombreAlmacen = objeto.Nombre;
-        Vista.Direccion = objeto.Direccion;
-        Vista.Descripcion = objeto.Descripcion;
-        Vista.Capacidad = objeto.Capacidad;
-        Vista.Tipo = objeto.Tipo;
-        Vista.Estado = objeto.Estado;
-        Vista.CoordenadasGeograficas = objeto.Coordenadas;
-    }
+            Vista.NombreAlmacen = objeto.Nombre;
+            Vista.Direccion = objeto.Direccion;
+            Vista.Descripcion = objeto.Descripcion;
+            Vista.Capacidad = objeto.Capacidad;
+            Vista.Tipo = objeto.Tipo;
+            Vista.Estado = objeto.Estado;
+            Vista.CoordenadasGeograficas = objeto.Coordenadas;
+        }
 
-    protected override Almacen? ObtenerEntidadDesdeVista() {
-        return new Almacen {
-            Id = _entidad?.Id ?? 0,
-            Nombre = Vista.NombreAlmacen,
-            Descripcion = Vista.Descripcion,
-            Direccion = Vista.Direccion,
-            Capacidad = Vista.Capacidad,
-            Tipo = Vista.Tipo,
-            Estado = Vista.Estado,
-            Coordenadas = Vista.CoordenadasGeograficas
-        }; 
-    }
+        protected override Almacen? ObtenerEntidadDesdeVista() {
+            return new Almacen {
+                Id = _entidad?.Id ?? 0,
+                Nombre = Vista.NombreAlmacen,
+                Descripcion = Vista.Descripcion,
+                Direccion = Vista.Direccion,
+                Capacidad = Vista.Capacidad,
+                Tipo = Vista.Tipo,
+                Estado = Vista.Estado,
+                Coordenadas = Vista.CoordenadasGeograficas
+            }; 
+        }
 
-    protected override bool EntidadCorrecta() {
-        var nombreRepetido = !Vista.ModoEdicion && RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).cantidad > 0;
-        var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
+        protected override bool EntidadCorrecta() {
+            var nombreRepetido = !Vista.ModoEdicion && RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).cantidad > 0;
+            var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
 
-        if (nombreRepetido)
-            CentroNotificaciones.Mostrar("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacion.Advertencia);
-        if (!nombreOk)
-            CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+            if (nombreRepetido)
+                CentroNotificaciones.Mostrar("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacion.Advertencia);
+            if (!nombreOk)
+                CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
-        return nombreOk;
+            return nombreOk;
+        }
     }
 }

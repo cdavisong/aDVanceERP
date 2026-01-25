@@ -2,6 +2,6 @@
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Seguridad.Interfaces;
-
-public interface IVistaGestionRolesUsuarios : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaRolUsuario>, INavegadorTuplasEntidades { }
+namespace aDVanceERP.Modulos.Seguridad.Interfaces {
+    public interface IVistaGestionRolesUsuarios : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaRolUsuario>, INavegadorTuplasEntidades { }
+}

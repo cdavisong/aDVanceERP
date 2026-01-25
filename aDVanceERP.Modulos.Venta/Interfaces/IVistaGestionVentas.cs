@@ -1,19 +1,20 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Ventas;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-namespace aDVanceERP.Modulos.Venta.Interfaces;
+namespace aDVanceERP.Modulos.Venta.Interfaces {
+    public interface IVistaGestionVentas : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaVenta>, INavegadorTuplasEntidades {
+        string FormatoReporte { get; }
+        bool HabilitarBtnConfirmarEntrega { get; set; }
+        bool HabilitarBtnConfirmarPagos { get; set; }
+        string ValorBrutoVenta { get; set; }
 
-public interface IVistaGestionVentas : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaVenta>, INavegadorTuplasEntidades {
-    string FormatoReporte { get; }
-    bool HabilitarBtnConfirmarEntrega { get; set; }
-    bool HabilitarBtnConfirmarPagos { get; set; }
-    string ValorBrutoVenta { get; set; }
+        event EventHandler? DescargarReporte;
+        event EventHandler? ImprimirReporte;
+        event EventHandler<string>? ImportarVentasArchivo;
+        event EventHandler? ConfirmarEntrega;
+        event EventHandler? ConfirmarPagos;
 
-    event EventHandler? DescargarReporte;
-    event EventHandler? ImprimirReporte;
-    event EventHandler<string>? ImportarVentasArchivo;
-    event EventHandler? ConfirmarEntrega;
-    event EventHandler? ConfirmarPagos;
-
-    void ActualizarValorBrutoVentas();
+        void ActualizarValorBrutoVentas();
+    }
 }
