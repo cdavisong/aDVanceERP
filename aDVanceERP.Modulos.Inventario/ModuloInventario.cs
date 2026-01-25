@@ -13,6 +13,7 @@ namespace aDVanceERP.Modulos.Inventario;
 public sealed class ModuloInventario : ModuloExtensionBase {
     private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
     private PresentadorMenuInventario _menuInventario = null!;
+    private PresentadorMenuMaestros _menuMaestros = null!;
     private PresentadorGestionProductos _productos = null!;
     private PresentadorRegistroProducto _registroProducto = null!;
     private PresentadorGestionMovimientos _movimientos = null!;
@@ -37,6 +38,7 @@ public sealed class ModuloInventario : ModuloExtensionBase {
 
         // Menu
         _menuInventario = new PresentadorMenuInventario(new VistaMenuInventario());
+        _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
         // Contenedor de módulos
         // Productos
@@ -61,6 +63,7 @@ public sealed class ModuloInventario : ModuloExtensionBase {
 
         // Agregar menú del módulo
         _principal.Vista.BarraTitulo.Registrar(_menuInventario.Vista);
+        _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
         // Contenedor de módulos
         // Productos
