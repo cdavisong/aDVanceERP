@@ -121,6 +121,14 @@
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="resource.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAABwSURBVDhP7dQ9DkBAEIbhJc7ip9FonJNGo91wMoWQuIF3yLYSmZFIeJMnYYqvXPeWKvjzU5+M
+        reiOP2U1NjSI5KDpH7tfGGuhHkuxoEcsB20ZTAelHBNGJHKw6JHRAh8eLTFjgNmo6fMVMn1gL3JuB5Oc
+        HWfSTwd/AAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="resource.CheckedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIMAAAAICAYAAADa6kx9AAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACH

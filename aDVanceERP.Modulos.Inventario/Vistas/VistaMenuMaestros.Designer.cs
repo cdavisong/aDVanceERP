@@ -26,9 +26,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuMaestros));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuMaestros));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -95,14 +95,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnAtras.CheckedState.FillColor = Color.WhiteSmoke;
             btnAtras.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             btnAtras.Cursor = Cursors.Hand;
-            btnAtras.CustomImages.ImageAlign = HorizontalAlignment.Left;
-            btnAtras.CustomImages.ImageSize = new Size(24, 24);
+            btnAtras.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnAtras.CustomImages.ImageAlign = HorizontalAlignment.Center;
             customizableEdges1.TopLeft = false;
             customizableEdges1.TopRight = false;
             btnAtras.CustomizableEdges = customizableEdges1;
             btnAtras.Dock = DockStyle.Left;
             btnAtras.FillColor = Color.WhiteSmoke;
-            btnAtras.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAtras.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             btnAtras.ForeColor = Color.Black;
             btnAtras.HoverState.FillColor = Color.PeachPuff;
             btnAtras.Location = new Point(160, 0);
@@ -111,7 +111,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnAtras.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnAtras.Size = new Size(35, 50);
             btnAtras.TabIndex = 13;
-            btnAtras.Text = "<";
             // 
             // fieldTitulo
             // 
@@ -148,7 +147,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnAlmacenes.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnAlmacenes.CheckedState.FillColor = Color.WhiteSmoke;
             btnAlmacenes.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnAlmacenes.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage");
+            btnAlmacenes.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
             btnAlmacenes.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnAlmacenes.CustomImages.ImageOffset = new Point(0, 32);
             btnAlmacenes.CustomImages.ImageSize = new Size(131, 8);
@@ -172,7 +171,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnProductos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnProductos.CheckedState.FillColor = Color.WhiteSmoke;
             btnProductos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnProductos.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage1");
+            btnProductos.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage1");
             btnProductos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnProductos.CustomImages.ImageOffset = new Point(0, 32);
             btnProductos.CustomImages.ImageSize = new Size(131, 8);
@@ -192,7 +191,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // VistaMenuMaestros
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.FromArgb(245, 245, 245);
+            BackColor = Color.FromArgb(  245,   245,   245);
             ClientSize = new Size(994, 50);
             Controls.Add(layoutBase);
             Font = new Font("Segoe UI", 11.25F);
