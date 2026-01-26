@@ -209,10 +209,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void VerificarPermisos() {
             btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_ALMACENES_ADICIONAR")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_ALMACENES_TODOS")
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_ALMACENES_ADICIONAR")
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_ALMACENES_TODOS")
                                    || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
         }
 

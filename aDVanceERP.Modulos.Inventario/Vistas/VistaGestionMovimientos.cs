@@ -13,6 +13,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             InitializeComponent();
 
             NombreVista = nameof(VistaGestionMovimientos);
+            PanelCentral = new RepoVistaBase(contenedorVistas);
 
             Inicializar();
         }
@@ -86,9 +87,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler<(FiltroBusquedaMovimiento, string[])>? BuscarEntidades;
 
         public void Inicializar() {
-            // Variables locales
-            PanelCentral = new RepoVistaBase(contenedorVistas);
-
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
             fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {

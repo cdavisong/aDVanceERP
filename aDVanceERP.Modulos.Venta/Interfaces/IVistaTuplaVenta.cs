@@ -1,16 +1,17 @@
-﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
     public interface IVistaTuplaVenta : IVistaTupla {
-        string Id { get; set; }
-        string Fecha { get; set; }
-        string NombreAlmacen { get; set; }
-        string NombreCliente { get; set; }
-        string CantidadProductos { get; set; }
-        string MontoTotal { get; set; }
-        string? EstadoEntrega { get; set; }
-        string EstadoPago { get; set; }
-
-        event EventHandler? DescargarFactura;
+        public long Id { get; set; }
+        public DateTime FechaVenta { get; set; }
+        public string NombreCliente { get; set; }
+        public string? MetodoPagoPrincipal { get; set; }
+        public decimal TotalBruto { get; set; }
+        public decimal DescuentoTotal { get; set; }
+        public decimal ImpuestoTotal { get; set; }
+        public decimal ImporteTotal { get; set; }
+        public EstadoVenta EstadoVenta { get; set; }
+        public bool Activo { get; set; }
     }
 }

@@ -8,14 +8,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
             DescuentoTotal = 0.0m;
             ImpuestoTotal = 0.0m;
             ImporteTotal = 0.0m;
-            EstadoVenta = EstadoVentaEnum.Pendiente;
+            EstadoVenta = EstadoVenta.Pendiente;
             Activo = true;
         }
 
         public Venta(long id, long? idPedido, long idCliente, long? idEmpleadoVendedor, long idAlmacen,
                     string numeroFacturaTicket, DateTime fechaVenta, decimal totalBruto,
                     decimal descuentoTotal, decimal impuestoTotal, decimal importeTotal,
-                    string metodoPagoPrincipal, EstadoVentaEnum estadoVenta,
+                    string metodoPagoPrincipal, EstadoVenta estadoVenta,
                     string observacionesVenta, bool activo) {
             Id = id;
             IdPedido = idPedido;
@@ -46,12 +46,12 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
         public decimal ImpuestoTotal { get; set; }
         public decimal ImporteTotal { get; set; }
         public string? MetodoPagoPrincipal { get; set; }
-        public EstadoVentaEnum EstadoVenta { get; set; }
+        public EstadoVenta EstadoVenta { get; set; }
         public string? ObservacionesVenta { get; set; }
         public bool Activo { get; set; }
     }
 
-    public enum EstadoVentaEnum {
+    public enum EstadoVenta {
         Pendiente,
         Completada,
         Anulada,
@@ -63,8 +63,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
         Id,
         IdCliente,
         NumeroFactura,
-        FechaDesde,
-        FechaHasta,
         Estado
     }
 
@@ -74,8 +72,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
             "Identificador de BD",
             "Identificador del cliente",
             "Número de factura/ticket",
-            "Fecha desde",
-            "Fecha hasta",
             "Estado de la venta"
         };
     }

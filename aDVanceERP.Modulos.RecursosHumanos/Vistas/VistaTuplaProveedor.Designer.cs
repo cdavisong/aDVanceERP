@@ -29,13 +29,14 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaProveedor));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
+            fieldEstado = new Label();
             fieldNombreRepresentante = new Label();
             fieldDireccion = new Label();
             btnEliminar = new Guna2Button();
@@ -44,7 +45,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar = new Guna2Button();
             fieldRazonSocial = new Label();
             fieldTelefonos = new Label();
-            fieldEstado = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -103,6 +103,20 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 18;
             // 
+            // fieldEstado
+            // 
+            fieldEstado.Dock = DockStyle.Fill;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F);
+            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.ImeMode = ImeMode.NoControl;
+            fieldEstado.Location = new Point(1021, 1);
+            fieldEstado.Margin = new Padding(1);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.Size = new Size(98, 39);
+            fieldEstado.TabIndex = 21;
+            fieldEstado.Text = "estado";
+            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // fieldNombreRepresentante
             // 
             fieldNombreRepresentante.AutoEllipsis = true;
@@ -142,7 +156,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges5;
+            btnEliminar.CustomizableEdges = customizableEdges1;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -152,7 +166,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(1203, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnEliminar.Size = new Size(35, 35);
             btnEliminar.TabIndex = 11;
             // 
@@ -193,7 +207,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges7;
+            btnEditar.CustomizableEdges = customizableEdges3;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -202,7 +216,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1163, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 9;
             // 
@@ -235,20 +249,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTelefonos.TabIndex = 15;
             fieldTelefonos.Text = "telefonos";
             fieldTelefonos.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldEstado
-            // 
-            fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
-            fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(1021, 1);
-            fieldEstado.Margin = new Padding(1);
-            fieldEstado.Name = "fieldEstado";
-            fieldEstado.Size = new Size(98, 39);
-            fieldEstado.TabIndex = 21;
-            fieldEstado.Text = "estado";
-            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaTuplaProveedor
             // 

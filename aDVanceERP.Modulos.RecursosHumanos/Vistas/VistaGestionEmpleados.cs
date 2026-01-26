@@ -95,7 +95,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarEmpleado);
 
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+            fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
@@ -207,10 +207,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             }
 
             btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_RRHH_CLIENTES_ADICIONAR")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_RRHH_CLIENTES_TODOS")
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ADICIONAR")
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
                                    || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         }
 

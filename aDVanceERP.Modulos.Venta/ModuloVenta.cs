@@ -6,13 +6,17 @@ using aDVanceERP.Modulos.RecursosHumanos.Presentadores;
 using aDVanceERP.Modulos.Venta.Presentadores;
 using aDVanceERP.Modulos.Venta.Properties;
 using aDVanceERP.Modulos.Venta.Vistas;
+
+using DVanceERP.Modulos.Venta.Vistas;
+
 using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Venta {
     public class ModuloVenta : ModuloExtensionBase {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuVenta _menuVenta = null!;
-        private PresentadorMenuMaestros _menuMaestros = null!; 
+        private PresentadorMenuMaestros _menuMaestros = null!;
+        private PresentadorGestionVentas _ventas = null!;
         private PresentadorGestionClientes _clientes = null!;
         private PresentadorRegistroCliente _registroCliente = null!;
         private PresentadorGestionMensajeros _mensajeros = null!;
@@ -38,6 +42,8 @@ namespace aDVanceERP.Modulos.Venta {
             _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
             // Contenedor de módulos
+            // Ventas
+            _ventas = new PresentadorGestionVentas(new VistaGestionVentas());
             // Clientes
             _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
             _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
@@ -59,6 +65,8 @@ namespace aDVanceERP.Modulos.Venta {
             _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
             // Contenedor de módulos
+            // Ventas
+            _principal.Modulos.Vista.PanelCentral.Registrar(_ventas.Vista);
             // Clientes
             _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);

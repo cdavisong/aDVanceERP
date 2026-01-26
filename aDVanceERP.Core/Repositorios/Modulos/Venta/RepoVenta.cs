@@ -124,15 +124,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaVenta filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
-            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
-            var segundoCriterio = criteriosBusqueda.Length > 1 ? criteriosBusqueda[1] : string.Empty;
+            var fechaDesde = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length > 0 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[2] : string.Empty;
 
             var consultaComun = $"""
-                SELECT v.*, c.nombre_completo as nombre_cliente
-                FROM adv__venta v
-                LEFT JOIN adv__cliente cl ON v.id_cliente = cl.id_cliente
-                LEFT JOIN adv__persona c ON cl.id_persona = c.id_persona
-                WHERE v.activo = 1
+                SELECT v.*, c.nombre_completo as nombre_cliente 
+                FROM adv__venta v 
+                LEFT JOIN adv__cliente cl ON v.id_cliente = cl.id_cliente 
+                LEFT JOIN adv__persona c ON cl.id_persona = c.id_persona 
+                WHERE v.fecha_venta >= @fecha_desde AND v.fecha_venta <= @fecha_hasta 
                 """;
 
             var consulta = filtroBusqueda switch {
@@ -148,11 +149,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
                     {consultaComun}
                     AND v.numero_factura_ticket = @numero_factura
                     """,
-                FiltroBusquedaVenta.FechaDesde => $"""
-                    {consultaComun}
-                    AND v.fecha_venta >= @fecha_desde
-                    AND v.fecha_venta <= @fecha_hasta
-                    """,
                 FiltroBusquedaVenta.Estado => $"""
                     {consultaComun}
                     AND v.estado_venta = @estado_venta
@@ -162,22 +158,29 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaVenta.Id => new Dictionary<string, object> {
-                    { "@id_venta", long.Parse(criterio) }
+                    { "@id_venta", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaVenta.IdCliente => new Dictionary<string, object> {
-                    { "@id_cliente", long.Parse(criterio) }
+                    { "@id_cliente", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaVenta.NumeroFactura => new Dictionary<string, object> {
-                    { "@numero_factura", criterio }
-                },
-                FiltroBusquedaVenta.FechaDesde => new Dictionary<string, object> {
-                    { "@fecha_desde", DateTime.Parse(criterio).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(segundoCriterio).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@numero_factura", criterio },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaVenta.Estado => new Dictionary<string, object> {
-                    { "@estado_venta", criterio }
+                    { "@estado_venta", criterio },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
-                _ => new Dictionary<string, object>()
+                _ => new Dictionary<string, object> {
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                }
             };
 
             return consulta;
@@ -197,7 +200,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
                 ImpuestoTotal = Convert.ToDecimal(lector["impuesto_total"], CultureInfo.InvariantCulture),
                 ImporteTotal = Convert.ToDecimal(lector["importe_total"], CultureInfo.InvariantCulture),
                 MetodoPagoPrincipal = lector["metodo_pago_principal"] != DBNull.Value ? Convert.ToString(lector["metodo_pago_principal"]) : null,
-                EstadoVenta = Enum.Parse<EstadoVentaEnum>(Convert.ToString(lector["estado_venta"]) ?? "Pendiente"),
+                EstadoVenta = Enum.Parse<EstadoVenta>(Convert.ToString(lector["estado_venta"]) ?? "Pendiente"),
                 ObservacionesVenta = lector["observaciones_venta"] != DBNull.Value ? Convert.ToString(lector["observaciones_venta"]) : null,
                 Activo = Convert.ToBoolean(lector["activo"])
             };
@@ -222,7 +225,28 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
         #region UTILES
 
-        public bool CambiarEstadoVenta(long idVenta, EstadoVentaEnum nuevoEstado) {
+        public bool HabilitarDeshabilitarVenta(long id) {
+            var consulta = $"""
+                UPDATE adv__venta
+                SET activo = NOT activo
+                WHERE id_venta = @IdVenta;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdVenta", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__venta
+                WHERE id_venta = @IdVenta;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
+
+        public bool CambiarEstadoVenta(long idVenta, EstadoVenta nuevoEstado) {
             var consulta = $"""
                 UPDATE adv__venta
                 SET estado_venta = @nuevo_estado
