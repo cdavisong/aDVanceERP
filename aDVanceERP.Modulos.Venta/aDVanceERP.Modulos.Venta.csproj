@@ -36,6 +36,9 @@
     <Compile Update="Vistas\VistaRegistroMensajero.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaRegistroVenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaTuplaCliente.cs">
       <SubType>Form</SubType>
     </Compile>
