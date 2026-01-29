@@ -9,12 +9,15 @@
     <Compile Remove="Modelos\Interfaces\**" />
     <Compile Remove="Presentadores\Interfaces\**" />
     <Compile Remove="Servicios\Interfaces\**" />
+    <Compile Remove="Vistas\Modulos\**" />
     <EmbeddedResource Remove="Modelos\Interfaces\**" />
     <EmbeddedResource Remove="Presentadores\Interfaces\**" />
     <EmbeddedResource Remove="Servicios\Interfaces\**" />
+    <EmbeddedResource Remove="Vistas\Modulos\**" />
     <None Remove="Modelos\Interfaces\**" />
     <None Remove="Presentadores\Interfaces\**" />
     <None Remove="Servicios\Interfaces\**" />
+    <None Remove="Vistas\Modulos\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
@@ -866,8 +869,5 @@
     <None Update="res\flags\zw.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Vistas\Modulos\" />
   </ItemGroup>
 </Project>
