@@ -12,11 +12,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos {
         protected override string GenerarComandoAdicionar(Modulo entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidade) {
             var consulta = $"""
                 INSERT INTO adv__modulo (
-                nombre
-            ) VALUES (
-                @nombre
-            );
-            """;
+                    nombre
+                ) VALUES (
+                    @nombre
+                );
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@nombre", entidad.Nombre }
@@ -28,10 +28,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos {
         protected override string GenerarComandoEditar(Modulo entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
             var consulta = $"""
                 UPDATE adv__modulo 
-            SET 
-                nombre = @nombre 
-            WHERE id_modulo = @id;
-            """;
+                SET 
+                    nombre = @nombre 
+                WHERE id_modulo = @id;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@nombre", entidad.Nombre },
@@ -44,8 +44,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos {
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 DELETE FROM adv__modulo 
-            WHERE id_modulo = @id;
-            """;
+                WHERE id_modulo = @id;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id", id }
@@ -59,18 +59,18 @@ namespace aDVanceERP.Core.Repositorios.Modulos {
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaModulo.Id => $"""
                     SELECT * 
-                FROM adv__modulo 
-                WHERE id_modulo = @id;
-                """,
+                    FROM adv__modulo 
+                    WHERE id_modulo = @id;
+                    """,
                 FiltroBusquedaModulo.Nombre => $"""
                     SELECT * 
-                FROM adv__modulo 
-                WHERE nombre LIKE @nombre;
-                """,
+                    FROM adv__modulo 
+                    WHERE nombre LIKE @nombre;
+                    """,
                 _ => """
-                SELECT * 
-                FROM adv__modulo;
-                """
+                    SELECT * 
+                    FROM adv__modulo;
+                    """
             };
 
             parametros = filtroBusqueda switch {

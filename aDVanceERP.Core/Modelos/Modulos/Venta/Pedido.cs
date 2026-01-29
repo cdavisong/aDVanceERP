@@ -44,6 +44,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
         Preparando,
         [Display(Name = "Listo para Retirar")]
         ListoParaRetirar,
+        Retirado,
         Cancelado
     }
 
@@ -51,8 +52,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
         Todos,
         Id,
         IdCliente,
-        FechaDesde,
-        FechaHasta,
         Estado
     }
 
@@ -61,8 +60,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
             "Todos los pedidos",
             "Identificador de BD",
             "Identificador del cliente",
-            "Fecha desde",
-            "Fecha hasta",
             "Estado del pedido"
         };
     }

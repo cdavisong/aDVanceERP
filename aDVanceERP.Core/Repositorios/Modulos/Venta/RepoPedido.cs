@@ -100,15 +100,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaPedido filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
-            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
-            var segundoCriterio = criteriosBusqueda.Length > 1 ? criteriosBusqueda[1] : string.Empty;
+            var fechaDesde = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length > 0 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[2] : string.Empty;
 
             var consultaComun = $"""
                 SELECT p.*, c.nombre_completo as nombre_cliente
                 FROM adv__pedido p
                 LEFT JOIN adv__cliente cl ON p.id_cliente = cl.id_cliente
                 LEFT JOIN adv__persona c ON cl.id_persona = c.id_persona
-                WHERE p.activo = 1
+                WHERE p.fecha_pedido >= @fecha_desde AND p.fecha_pedido <= @fecha_hasta 
                 """;
 
             var consulta = filtroBusqueda switch {
@@ -120,11 +121,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
                     {consultaComun}
                     AND p.id_cliente = @id_cliente
                     """,
-                FiltroBusquedaPedido.FechaDesde => $"""
-                    {consultaComun}
-                    AND p.fecha_pedido >= @fecha_desde
-                    AND p.fecha_pedido <= @fecha_hasta
-                    """,
                 FiltroBusquedaPedido.Estado => $"""
                     {consultaComun}
                     AND p.estado_pedido = @estado_pedido
@@ -134,19 +130,24 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPedido.Id => new Dictionary<string, object> {
-                    { "@id_pedido", long.Parse(criterio) }
+                    { "@id_pedido", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.IdCliente => new Dictionary<string, object> {
-                    { "@id_cliente", long.Parse(criterio) }
-                },
-                FiltroBusquedaPedido.FechaDesde => new Dictionary<string, object> {
-                    { "@fecha_desde", DateTime.Parse(criterio).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(segundoCriterio).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@id_cliente", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.Estado => new Dictionary<string, object> {
-                    { "@estado_pedido", criterio }
+                    { "@estado_pedido", criterio },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
-                _ => new Dictionary<string, object>()
+                _ => new Dictionary<string, object> {
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                }
             };
 
             return consulta;
@@ -180,9 +181,31 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
         #region STATIC
         public static RepoPedido Instancia { get; } = new RepoPedido();
+
         #endregion
 
         #region UTILES
+
+        public bool HabilitarDeshabilitarPedido(long id) {
+            var consulta = $"""
+                UPDATE adv__pedido
+                SET activo = NOT activo
+                WHERE id_pedido = @IdPedido;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@IdPedido", id }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+
+            consulta = $"""
+                SELECT activo
+                FROM adv__pedido
+                WHERE id_pedido = @IdPedido;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
 
         public bool CambiarEstadoPedido(long idPedido, EstadoPedidoEnum nuevoEstado) {
             var consulta = $"""

@@ -36,13 +36,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             // Eventos
+            btnPedidos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPedidos", string.Empty); };
             btnVentas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionVentas", string.Empty); };
             btnEnvios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionEnvios", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosVenta", string.Empty); };
         }
 
         public void SeleccionarVistaInicial() {
-            if (btnVentas.Visible)
+            if (btnPedidos.Visible)
+                btnPedidos.PerformClick();
+            else if (btnVentas.Visible)
                 btnVentas.PerformClick();
             else if (btnEnvios.Visible)
                 btnEnvios.PerformClick();
@@ -55,6 +58,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
+            btnPedidos.Checked = false;
             btnVentas.Checked = false;
             btnEnvios.Checked = false;
         }
@@ -68,6 +72,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         } 
 
         private void VerificarPermisos() {
+            btnPedidos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_VENTA_PEDIDOS")
+                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_VENTA_TODOS");
             btnVentas.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
                                    || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_VENTA_VENTAS")
                                    || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_VENTA_TODOS");

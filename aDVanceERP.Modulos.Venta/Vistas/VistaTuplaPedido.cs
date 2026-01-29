@@ -8,13 +8,13 @@ using System.Globalization;
 
 namespace DVanceERP.Modulos.Venta.Vistas;
 
-public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
-    private EstadoVenta _estadoVenta;
+public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
+    private EstadoPedidoEnum _estadoPedido;
 
-    public VistaTuplaVenta() {
+    public VistaTuplaPedido() {
         InitializeComponent();
 
-        NombreVista = nameof(VistaTuplaVenta);
+        NombreVista = nameof(VistaTuplaPedido);
 
         Inicializar();
     }
@@ -51,11 +51,11 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
         set => fieldId.Text = value.ToString();
     }
 
-    public DateTime FechaVenta {
-        get => fieldFechaVenta.Text.Equals("-")
+    public DateTime FechaPedido {
+        get => fieldFechaPedido.Text.Equals("-")
                 ? DateTime.MinValue
-                : DateTime.ParseExact(fieldFechaVenta.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        set => fieldFechaVenta.Text = value.Equals(DateTime.MinValue)
+                : DateTime.ParseExact(fieldFechaPedido.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        set => fieldFechaPedido.Text = value.Equals(DateTime.MinValue)
             ? "-"
             : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
@@ -68,39 +68,21 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
         }
     }
 
-    public string? MetodoPagoPrincipal {
-        get => fieldMetodoPagoPrincipal.Text;
-        set => fieldMetodoPagoPrincipal.Text = value;
+    public DateTime FechaEntrega {
+        get => fieldFechaEntrega.Text.Equals("-")
+                    ? DateTime.MinValue
+                    : DateTime.ParseExact(fieldFechaEntrega.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        set => fieldFechaEntrega.Text = value.Equals(DateTime.MinValue)
+            ? "-"
+            : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
 
-    public decimal TotalBruto {
-        get => decimal.TryParse(fieldTotalBruto.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
-                    out var value)
-                    ? value
-                    : 0m;
-        set => fieldTotalBruto.Text = value > 0
-                ? value.ToString("N2", CultureInfo.InvariantCulture)
-                : "-";
-    }
-
-    public decimal DescuentoTotal {
-        get => decimal.TryParse(fieldDescuentoTotal.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
-                        out var value)
-                        ? value
-                        : 0m;
-        set => fieldDescuentoTotal.Text = value > 0
-                ? value.ToString("N2", CultureInfo.InvariantCulture)
-                : "-";
-    }
-
-    public decimal ImpuestoTotal {
-        get => decimal.TryParse(fieldImpuestoTotal.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
-                            out var value)
-                            ? value
-                            : 0m;
-        set => fieldImpuestoTotal.Text = value > 0
-                ? value.ToString("N2", CultureInfo.InvariantCulture)
-                : "-";
+    public string DireccionEntrega {
+        get => fieldDireccionaEntrega.Text;
+        set {
+            fieldDireccionaEntrega.Text = value;
+            fieldDireccionaEntrega.Margin = fieldDireccionaEntrega.AjusteAutomaticoMargenTexto();
+        }
     }
 
     public decimal ImporteTotal {
@@ -113,10 +95,11 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
                 : "-";
     }
 
-    public EstadoVenta EstadoVenta {
-        get => _estadoVenta;
+    public EstadoPedidoEnum EstadoPedido {
+        get => _estadoPedido;
         set {
-            _estadoVenta = value;
+            _estadoPedido = value;
+            fieldEstado.Text = value.ToString();
             layoutVista.BackColor = ObtenerColorFondoTupla(value);
         }
     }
@@ -128,6 +111,7 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
             fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
         }
     }
+        
 
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
@@ -167,11 +151,12 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
     }
 
-    private Color ObtenerColorFondoTupla(EstadoVenta estado) {
+    private Color ObtenerColorFondoTupla(EstadoPedidoEnum estado) {
         return estado switch { 
-            EstadoVenta.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-            EstadoVenta.Anulada => ContextoAplicacion.ColorErrorTupla, 
-            EstadoVenta.Entregada => ContextoAplicacion.ColorAdvertenciaTupla, 
+            EstadoPedidoEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
+            EstadoPedidoEnum.Confirmado => ContextoAplicacion.ColorAdvertenciaTupla,
+            EstadoPedidoEnum.ListoParaRetirar => ContextoAplicacion.ColorOkTupla,
+            EstadoPedidoEnum.Cancelado => ContextoAplicacion.ColorAdvertenciaTupla, 
             _ => BackColor
         };
     }
