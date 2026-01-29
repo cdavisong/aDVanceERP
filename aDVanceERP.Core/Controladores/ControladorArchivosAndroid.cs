@@ -12,7 +12,7 @@ namespace aDVanceERP.Core.Controladores {
 
             // Verificar que existan las herramientas
             if (!File.Exists(Path.Combine(_toolsPath, "adb.exe"))) {
-                CentroNotificaciones.Mostrar("No se encontraron las herramientas ADB en el directorio tools", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("No se encontraron las herramientas ADB en el directorio tools", Modelos.Comun.TipoNotificacion.Error);
             }
         }
 
@@ -34,13 +34,13 @@ namespace aDVanceERP.Core.Controladores {
 
                     if (process.ExitCode != 0) {
                         string error = process.StandardError.ReadToEnd();
-                        CentroNotificaciones.Mostrar($"Error al copiar archivo: {error}", Modelos.Comun.TipoNotificacion.Error);
+                        CentroNotificaciones.MostrarNotificacion($"Error al copiar archivo: {error}", Modelos.Comun.TipoNotificacion.Error);
                         return false;
                     }
                     return true;
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 return false;
             }
         }
@@ -63,13 +63,13 @@ namespace aDVanceERP.Core.Controladores {
 
                     if (process.ExitCode != 0) {
                         string error = process.StandardError.ReadToEnd();
-                        CentroNotificaciones.Mostrar($"Error al obtener archivo: {error}", Modelos.Comun.TipoNotificacion.Error);
+                        CentroNotificaciones.MostrarNotificacion($"Error al obtener archivo: {error}", Modelos.Comun.TipoNotificacion.Error);
                         return false;
                     }
                     return File.Exists(localDestinationPath);
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 return false;
             }
         }
@@ -183,7 +183,7 @@ namespace aDVanceERP.Core.Controladores {
                     }
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al listar archivos en dispositivo: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al listar archivos en dispositivo: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
             }
 
             return result;

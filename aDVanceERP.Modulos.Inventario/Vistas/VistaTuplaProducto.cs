@@ -143,7 +143,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.Producto, NombreProducto).cantidad > 0)
                     EliminarDatosTupla?.Invoke(this, e);
                 else
-                    CentroNotificaciones.Mostrar(
+                    CentroNotificaciones.MostrarNotificacion(
                         $"No se puede eliminar el producto {NombreProducto}, existen registros de movimientos asociados al mismo y podría dañar la integridad y trazabilidad de los datos.",
                         TipoNotificacion.Advertencia);
             };

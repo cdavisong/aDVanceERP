@@ -1,13 +1,12 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
     public class RepoMensajero : RepoEntidadBaseDatos<Mensajero, FiltroBusquedaMensajero> {
         public RepoMensajero() : base("adv__mensajero", "id_mensajero") {
         }

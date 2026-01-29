@@ -69,13 +69,13 @@ namespace aDVanceERP.Core.Extension.Controladores {
                     m.Nombre.Equals(dependencia.NombreModulo, StringComparison.OrdinalIgnoreCase));
 
                 if (moduloDependiente == null) {
-                    CentroNotificaciones.Mostrar($"Faltan dependencias para el módulo {modulo.Nombre}: " +
+                    CentroNotificaciones.MostrarNotificacion($"Faltan dependencias para el módulo {modulo.Nombre}: " +
                                     $"El módulo requerido {dependencia.NombreModulo} no ha sido cargado", Modelos.Comun.TipoNotificacion.Error);
                     return false;
                 }
 
                 if (CompararVersiones(moduloDependiente.Version, dependencia.VersionMinima) < 0) {
-                    CentroNotificaciones.Mostrar($"La versión de dependencia requerida no coincide para el módulo {modulo.Nombre}: " +
+                    CentroNotificaciones.MostrarNotificacion($"La versión de dependencia requerida no coincide para el módulo {modulo.Nombre}: " +
                                     $"Se requiere {dependencia.NombreModulo} v{dependencia.VersionMinima}, " +
                                     $"Encontrado v{moduloDependiente.Version}", Modelos.Comun.TipoNotificacion.Error);
                     return false;

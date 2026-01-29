@@ -1,8 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
-
 using System.ComponentModel.DataAnnotations;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
+namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class SeguimientoEntrega : IEntidadBaseDatos {
         public SeguimientoEntrega() {
             TipoEnvio = TipoEnvioEnum.RetiroEnLocal;

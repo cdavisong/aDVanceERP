@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
+namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class Cliente : IEntidadBaseDatos {
         public Cliente() {
             CodigoCliente = "N/A";

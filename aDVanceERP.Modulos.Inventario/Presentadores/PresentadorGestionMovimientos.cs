@@ -21,7 +21,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnRegistrarMovimiento(object? sender, EventArgs e) {
             if (RepoProducto.Instancia.Cantidad() == 0) {
-                CentroNotificaciones.Mostrar("No es posible registrar un nuevo movimiento porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo movimiento porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacion.Advertencia);
                 return;
             }
 

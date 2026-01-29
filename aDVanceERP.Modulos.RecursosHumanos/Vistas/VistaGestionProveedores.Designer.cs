@@ -45,10 +45,10 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHelp = new TableLayoutPanel();
@@ -72,6 +72,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldIcono = new PictureBox();
             contenedorVistas = new Panel();
             panelBotonesGestion = new Panel();
+            btnActivarDesactivarProveedor = new Guna2Button();
             btnRegistrar = new Guna2Button();
             separador1 = new Guna2Separator();
             fieldSubtitulo = new Label();
@@ -84,7 +85,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTituloTelefonos = new Label();
             fieldTituloRazonSocial = new Label();
             infoIcon = new Guna2NotificationPaint(components);
-            btnActivarDesactivarProveedor = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHelp.SuspendLayout();
             layoutHerramientas.SuspendLayout();
@@ -92,7 +92,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutControlesTabla.SuspendLayout();
             layoutTitulo.SuspendLayout();
             panelTitulo.SuspendLayout();
-            ((ISupportInitialize) fieldIcono).BeginInit();
+            ((ISupportInitialize)fieldIcono).BeginInit();
             panelBotonesGestion.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
             SuspendLayout();
@@ -206,7 +206,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             // fieldDatoBusqueda
             // 
             fieldDatoBusqueda.Animated = true;
-            fieldDatoBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
+            fieldDatoBusqueda.BackColor = Color.FromArgb(254, 254, 253);
             fieldDatoBusqueda.BorderColor = Color.Gainsboro;
             fieldDatoBusqueda.BorderRadius = 18;
             fieldDatoBusqueda.Cursor = Cursors.IBeam;
@@ -220,7 +220,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldDatoBusqueda.ForeColor = Color.Black;
             fieldDatoBusqueda.HoverState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.IconLeft = (Image) resources.GetObject("fieldDatoBusqueda.IconLeft");
+            fieldDatoBusqueda.IconLeft = (Image)resources.GetObject("fieldDatoBusqueda.IconLeft");
             fieldDatoBusqueda.IconLeftOffset = new Point(10, 1);
             fieldDatoBusqueda.IconRightOffset = new Point(10, 0);
             fieldDatoBusqueda.Location = new Point(305, 5);
@@ -280,7 +280,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
             fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
-            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
+            fieldTituloFiltrosBusqueda.Image = (Image)resources.GetObject("fieldTituloFiltrosBusqueda.Image");
             fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
             fieldTituloFiltrosBusqueda.Location = new Point(15, 5);
@@ -330,7 +330,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPaginaAnterior.BackColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnPaginaAnterior.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaAnterior.CustomizableEdges = customizableEdges7;
@@ -338,7 +338,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPaginaAnterior.FillColor = Color.WhiteSmoke;
             btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
             btnPaginaAnterior.ForeColor = Color.White;
-            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
             btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
             btnPaginaAnterior.ImageSize = new Size(24, 24);
             btnPaginaAnterior.Location = new Point(36, 1);
@@ -354,7 +354,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPrimeraPagina.BackColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnPrimeraPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
             btnPrimeraPagina.CustomizableEdges = customizableEdges9;
@@ -362,7 +362,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPrimeraPagina.FillColor = Color.WhiteSmoke;
             btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
             btnPrimeraPagina.ForeColor = Color.White;
-            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
             btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
             btnPrimeraPagina.ImageSize = new Size(24, 24);
             btnPrimeraPagina.Location = new Point(1, 1);
@@ -378,7 +378,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPaginaSiguiente.BackColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
+            btnPaginaSiguiente.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
             btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.CustomizableEdges = customizableEdges11;
@@ -386,7 +386,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnPaginaSiguiente.FillColor = Color.WhiteSmoke;
             btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
             btnPaginaSiguiente.ForeColor = Color.White;
-            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
             btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
             btnPaginaSiguiente.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.Location = new Point(311, 1);
@@ -402,7 +402,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnUltimaPagina.BackColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
+            btnUltimaPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image3");
             btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
             btnUltimaPagina.CustomizableEdges = customizableEdges13;
@@ -410,7 +410,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnUltimaPagina.FillColor = Color.WhiteSmoke;
             btnUltimaPagina.Font = new Font("Segoe UI", 9F);
             btnUltimaPagina.ForeColor = Color.White;
-            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
             btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
             btnUltimaPagina.ImageSize = new Size(24, 24);
             btnUltimaPagina.Location = new Point(346, 1);
@@ -426,7 +426,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnSincronizarDatos.BackColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image4");
+            btnSincronizarDatos.CustomImages.Image = (Image)resources.GetObject("resource.Image4");
             btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
             btnSincronizarDatos.CustomizableEdges = customizableEdges15;
@@ -434,7 +434,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnSincronizarDatos.FillColor = Color.WhiteSmoke;
             btnSincronizarDatos.Font = new Font("Segoe UI", 9F);
             btnSincronizarDatos.ForeColor = Color.White;
-            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
             btnSincronizarDatos.HoverState.FillColor = Color.WhiteSmoke;
             btnSincronizarDatos.ImageSize = new Size(24, 24);
             btnSincronizarDatos.Location = new Point(391, 1);
@@ -543,6 +543,27 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             panelBotonesGestion.Size = new Size(1286, 45);
             panelBotonesGestion.TabIndex = 37;
             // 
+            // btnActivarDesactivarProveedor
+            // 
+            btnActivarDesactivarProveedor.Animated = true;
+            btnActivarDesactivarProveedor.BackColor = Color.White;
+            btnActivarDesactivarProveedor.BorderRadius = 18;
+            btnActivarDesactivarProveedor.CustomizableEdges = customizableEdges17;
+            btnActivarDesactivarProveedor.Dock = DockStyle.Left;
+            btnActivarDesactivarProveedor.FillColor = Color.PeachPuff;
+            btnActivarDesactivarProveedor.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarProveedor.ForeColor = Color.Black;
+            btnActivarDesactivarProveedor.Image = (Image)resources.GetObject("btnActivarDesactivarProveedor.Image");
+            btnActivarDesactivarProveedor.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarProveedor.Location = new Point(323, 3);
+            btnActivarDesactivarProveedor.Margin = new Padding(0);
+            btnActivarDesactivarProveedor.Name = "btnActivarDesactivarProveedor";
+            btnActivarDesactivarProveedor.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            btnActivarDesactivarProveedor.Size = new Size(320, 39);
+            btnActivarDesactivarProveedor.TabIndex = 10;
+            btnActivarDesactivarProveedor.Text = "Activar/Desactivar proveedor";
+            btnActivarDesactivarProveedor.Visible = false;
+            // 
             // btnRegistrar
             // 
             btnRegistrar.Animated = true;
@@ -553,7 +574,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
-            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
+            btnRegistrar.Image = (Image)resources.GetObject("btnRegistrar.Image");
             btnRegistrar.ImageOffset = new Point(-5, 0);
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
@@ -719,33 +740,12 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             infoIcon.BorderRadius = 16;
             infoIcon.BorderThickness = 0;
             infoIcon.FillColor = Color.LightBlue;
-            infoIcon.Font = new Font("Bodoni MT", 16F, FontStyle.Bold);
+            infoIcon.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold);
             infoIcon.ForeColor = Color.SteelBlue;
             infoIcon.Offset = new Point(0, 50);
             infoIcon.Size = new Size(30, 30);
             infoIcon.TargetControl = layoutHelp;
             infoIcon.Text = "i";
-            // 
-            // btnActivarDesactivarProveedor
-            // 
-            btnActivarDesactivarProveedor.Animated = true;
-            btnActivarDesactivarProveedor.BackColor = Color.White;
-            btnActivarDesactivarProveedor.BorderRadius = 18;
-            btnActivarDesactivarProveedor.CustomizableEdges = customizableEdges17;
-            btnActivarDesactivarProveedor.Dock = DockStyle.Left;
-            btnActivarDesactivarProveedor.FillColor = Color.PeachPuff;
-            btnActivarDesactivarProveedor.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnActivarDesactivarProveedor.ForeColor = Color.Black;
-            btnActivarDesactivarProveedor.Image = (Image) resources.GetObject("btnActivarDesactivarProveedor.Image");
-            btnActivarDesactivarProveedor.ImageOffset = new Point(-5, 0);
-            btnActivarDesactivarProveedor.Location = new Point(323, 3);
-            btnActivarDesactivarProveedor.Margin = new Padding(0);
-            btnActivarDesactivarProveedor.Name = "btnActivarDesactivarProveedor";
-            btnActivarDesactivarProveedor.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnActivarDesactivarProveedor.Size = new Size(320, 39);
-            btnActivarDesactivarProveedor.TabIndex = 10;
-            btnActivarDesactivarProveedor.Text = "Activar/Desactivar proveedor";
-            btnActivarDesactivarProveedor.Visible = false;
             // 
             // VistaGestionProveedores
             // 
@@ -767,7 +767,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             layoutControlesTabla.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
             panelTitulo.ResumeLayout(false);
-            ((ISupportInitialize) fieldIcono).EndInit();
+            ((ISupportInitialize)fieldIcono).EndInit();
             panelBotonesGestion.ResumeLayout(false);
             layoutEncabezadosTabla.ResumeLayout(false);
             ResumeLayout(false);

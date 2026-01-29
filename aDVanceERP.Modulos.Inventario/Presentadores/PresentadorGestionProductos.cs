@@ -20,7 +20,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnRegistrarProducto(object? sender, EventArgs e) {
             if (RepoAlmacen.Instancia.Cantidad() == 0) {
-                CentroNotificaciones.Mostrar("No es posible registrar un nuevo producto porque no hay almacenes registrados en el sistema. Por favor, registre al menos un almacén antes de continuar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo producto porque no hay almacenes registrados en el sistema. Por favor, registre al menos un almacén antes de continuar.", TipoNotificacion.Advertencia);
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.Mostrar($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
             }
         }
 

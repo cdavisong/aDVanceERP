@@ -2,10 +2,10 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
-using aDVanceERP.Core.Repositorios.Modulos.Ventas;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
@@ -119,9 +119,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreCompleto) && !nombreRepetido;
 
             if (nombreRepetido)
-                CentroNotificaciones.Mostrar("Ye existe un mensajero con el mismo nombre registrado en el sistema, los nombres de mensajeros deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe un mensajero con el mismo nombre registrado en el sistema, los nombres de mensajeros deben ser únicos.", TipoNotificacion.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el mensajero, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el mensajero, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
             return nombreOk;
         }

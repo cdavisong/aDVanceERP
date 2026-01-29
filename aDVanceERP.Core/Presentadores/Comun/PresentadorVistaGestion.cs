@@ -102,7 +102,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
                 AgregadorEventos.Publicar("ResultadosBusquedaActualizados", AgregadorEventos.SerializarPayload(resultados));
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacion.Error);
             }
         }
 

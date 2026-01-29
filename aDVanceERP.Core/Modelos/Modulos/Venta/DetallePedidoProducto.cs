@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
+namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class DetallePedidoProducto : IEntidadBaseDatos {
         public DetallePedidoProducto() {
             CantidadSolicitada = 0.0m;

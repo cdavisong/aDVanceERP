@@ -116,13 +116,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
 
             if (nombreRepetido)
-                CentroNotificaciones.Mostrar("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacion.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
             if (!codigoOk)
-                CentroNotificaciones.Mostrar("El campo de código es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de código es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
             if (!unidadMedidaOk)
-                CentroNotificaciones.Mostrar("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
             return nombreOk && codigoOk && unidadMedidaOk;
         }

@@ -22,7 +22,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         private void OnAutenticarCuentaUsuario(string obj) {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
-                CentroNotificaciones.Mostrar(
+                CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para autenticarse en el sistema. Por favor, rellene los campos correctamente.",
                     TipoNotificacion.Advertencia);
 
@@ -34,7 +34,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     var usuario = datosUsuario.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario).resultadosBusqueda.FirstOrDefault().entidadBase;
 
                     if (usuario == null) {
-                        CentroNotificaciones.Mostrar(
+                        CentroNotificaciones.MostrarNotificacion(
                             "El usuario especificado no existe en la base de datos o no se ha registrado aún en el sistema, verifique los datos entrados.",
                             TipoNotificacion.Advertencia);
 
@@ -52,13 +52,13 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                             AgregadorEventos.Publicar("EventoUsuarioAutenticado", AgregadorEventos.SerializarPayload(usuario));
                         } else AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
                     } else {
-                        CentroNotificaciones.Mostrar(
+                        CentroNotificaciones.MostrarNotificacion(
                             "La contraseña especificada es incorrecta para el usuario especificado, verifique los datos entrados.",
                             TipoNotificacion.Advertencia);
                     }
                 }
             } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.Mostrar(e.Message, TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacion.Error);
             }
         }
 

@@ -21,7 +21,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
 
         public static bool AbrirConexion(MySqlConnection conexion) {
             if (!EsConfiguracionCargada)
-                CentroNotificaciones.Mostrar("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
 
             if (conexion.State == ConnectionState.Open)
                 return true;
@@ -31,7 +31,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
                 return true;
             }
             catch (MySqlException ex) {
-                CentroNotificaciones.Mostrar($"Error al abrir la conexión a la base de datos: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al abrir la conexión a la base de datos: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 return false;
             }
         }
@@ -129,7 +129,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
 
         public static void ActualizarConfiguracion(ConfiguracionBaseDatos configuracion) {
             if (configuracion == null) {
-                CentroNotificaciones.Mostrar("La configuración de la base de datos no puede ser nula.", Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La configuración de la base de datos no puede ser nula.", Modelos.Comun.TipoNotificacion.Advertencia);
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
 
         private static void ValidarConfiguracionCargada() {
             if (!EsConfiguracionCargada)
-                CentroNotificaciones.Mostrar("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La configuración de la base de datos no ha sido cargada.", Modelos.Comun.TipoNotificacion.Advertencia);
         }
 
         private static void ValidarConexion() {
@@ -158,7 +158,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
                 connection.Open();
             }
             catch (MySqlException ex) {
-                CentroNotificaciones.Mostrar($"Error al conectar a la base de datos con la nueva configuración: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al conectar a la base de datos con la nueva configuración: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
                 throw new InvalidOperationException("No se pudo establecer la conexión con la base de datos utilizando la configuración proporcionada.", ex);
             }
         }

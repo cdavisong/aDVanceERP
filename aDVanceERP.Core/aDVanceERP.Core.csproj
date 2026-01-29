@@ -18,6 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
+    <PackageReference Include="GMap.NET.WinForms" Version="2.1.7" />
     <PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.4" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.8" />
@@ -33,6 +34,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="Vistas\BD\VistaConfiguracionBaseDatos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\Comun\VistaGestionUbicaciones.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\Comun\VistaNotificacion.cs">

@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Ventas {
+namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class Mensajero : IEntidadBaseDatos {
         public Mensajero() {
             CodigoMensajero = "N/A";

@@ -102,7 +102,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 _productoSeleccionado = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, NombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(NombreProducto)).entidadBase;
 
                 if (_productoSeleccionado == null) {
-                    CentroNotificaciones.Mostrar("El producto entrado no se encuentra registrado en la base de datos. Entre el nombre de un producto válido antes de realizar el movimiento.", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("El producto entrado no se encuentra registrado en la base de datos. Entre el nombre de un producto válido antes de realizar el movimiento.", TipoNotificacion.Advertencia);
 
                     _productoSeleccionado = null;
                     fieldNombreProducto.Text = string.Empty;                    

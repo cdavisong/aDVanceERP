@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Venta.Interfaces;
 

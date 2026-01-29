@@ -79,7 +79,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private async void OnImportarInventarioVersat(object? sender, string rutaArchivo) {
             // Mostrar mensaje de advertencia antes de la importación
-            if (VistaMensaje.Instancia.Mostrar(
+            if (CentroNotificaciones.MostrarMensaje(
                 "La importación desde Excel actualizará los datos existentes y agregará nuevos productos si no existen. ¿Desea continuar?",
                 TipoMensaje.Info,
                 BotonesMensaje.ContinuarAbortar) != DialogResult.Yes) {
@@ -101,12 +101,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 var resultado = await Task.Run(() => ImportarDesdeExcel(rutaArchivo, idAlmacen));
 
                 if (resultado.exito) {
-                    CentroNotificaciones.Mostrar($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.");
+                    CentroNotificaciones.MostrarNotificacion($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.");
 
                     Vista.MostrarBtnImportarInventarioVersat = false;
                     ActualizarResultadosBusqueda();
                 } else {
-                    CentroNotificaciones.Mostrar($"Error al importar el archivo: {resultado.mensaje}", TipoNotificacion.Error);
+                    CentroNotificaciones.MostrarNotificacion($"Error al importar el archivo: {resultado.mensaje}", TipoNotificacion.Error);
                 }
             }
         }
@@ -125,12 +125,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             try {
                 // Verificar conexión del dispositivo
                 if (!VerificarConexionDispositivo()) {
-                    CentroNotificaciones.Mostrar("Conecte un dispositivo Android con depuración USB activada", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("Conecte un dispositivo Android con depuración USB activada", TipoNotificacion.Advertencia);
                 } else {
                     existeDirectorio = _androidFileManager.EnsureDirectoryExists();
 
                     if (!existeDirectorio) {
-                        CentroNotificaciones.Mostrar("No se pudo crear el directorio en el dispositivo Android", TipoNotificacion.Error);
+                        CentroNotificaciones.MostrarNotificacion("No se pudo crear el directorio en el dispositivo Android", TipoNotificacion.Error);
                         return;
                     }
                 }
@@ -141,7 +141,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var id = sender as string;
 
             if (string.IsNullOrEmpty(id)) {
-                CentroNotificaciones.Mostrar("ID del almacén no proporcionado", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("ID del almacén no proporcionado", TipoNotificacion.Error);
                 return;
             }
 
@@ -154,9 +154,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
 
             if (_androidFileManager.PushFileToDevice(rutaArchivoProductos, "productos_almacen.json")) {
-                CentroNotificaciones.Mostrar($"Productos del almacén {id} descargados correctamente", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} descargados correctamente", TipoNotificacion.Info);
             } else {
-                CentroNotificaciones.Mostrar($"Error al descargar productos del almacén {id}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al descargar productos del almacén {id}", TipoNotificacion.Error);
             }
 
             // Limpiar archivo temporal
@@ -199,7 +199,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     var productosAEliminar = inventarioActual.Where(i => !productosEnExcel.Contains(RepoProducto.Instancia.ObtenerPorId(i.IdProducto)?.Codigo ?? "N/A")).ToList();
 
                     if (productosAEliminar.Count > 0) {
-                        if (VistaMensaje.Instancia.Mostrar(
+                        if (CentroNotificaciones.MostrarMensaje(
                             $"Se encontraron {productosAEliminar.Count} productos en el inventario actual que no están presentes en el archivo Excel. ¿Desea eliminarlos del sistema?",
                             TipoMensaje.Info,
                             BotonesMensaje.SiNo) == DialogResult.Yes) {
@@ -343,7 +343,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     return true;
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al procesar fila: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al procesar fila: {ex.Message}", TipoNotificacion.Error);
 
                 return false;
             }
@@ -388,7 +388,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     return dt;
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacion.Error);
                 return null;
             }
         }
@@ -401,7 +401,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 if (!_androidFileManager.CheckDeviceConnection())
                     conexionOk = false;
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacion.Error);
             }
 
             return conexionOk;

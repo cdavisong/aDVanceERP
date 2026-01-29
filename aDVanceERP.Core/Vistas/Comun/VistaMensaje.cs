@@ -6,8 +6,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Core.Vistas.Comun {
     public partial class VistaMensaje : Form, IVistaBase {
         private TipoMensaje _tipo;
-        public static VistaMensaje Instancia = new VistaMensaje();
-
+        
         public VistaMensaje() {
             InitializeComponent();
 
@@ -132,5 +131,11 @@ namespace aDVanceERP.Core.Vistas.Comun {
         public void Cerrar() {
             Close();
         }
+
+        #region STATIC
+
+        public static VistaMensaje Instancia = new VistaMensaje();
+
+        #endregion
     }
 }

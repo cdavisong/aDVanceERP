@@ -25,7 +25,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         protected override Core.Modelos.Modulos.Seguridad.CuentaUsuario? ObtenerEntidadDesdeVista() {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
-                CentroNotificaciones.Mostrar(
+                CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para registrarse en el sistema. Por favor, rellene los campos correctamente.",
                     TipoNotificacion.Advertencia);
 
@@ -66,7 +66,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     return null;
                 }
             } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.Mostrar(e.Message, TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacion.Error);
             }
 
             AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));

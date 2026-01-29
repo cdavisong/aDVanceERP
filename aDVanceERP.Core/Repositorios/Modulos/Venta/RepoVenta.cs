@@ -1,19 +1,18 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
-    public class RepoVenta : RepoEntidadBaseDatos<Venta, FiltroBusquedaVenta> {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
+    public class RepoVenta : RepoEntidadBaseDatos<Modelos.Modulos.Venta.Venta, FiltroBusquedaVenta> {
         public RepoVenta() : base("adv__venta", "id_venta") {
         }
 
-        protected override string GenerarComandoAdicionar(Venta entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        protected override string GenerarComandoAdicionar(Modelos.Modulos.Venta.Venta entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var comando = $"""
                 INSERT INTO adv__venta (
                     id_pedido,
@@ -68,7 +67,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             return comando;
         }
 
-        protected override string GenerarComandoEditar(Venta entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
+        protected override string GenerarComandoEditar(Modelos.Modulos.Venta.Venta entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var comando = $"""
                 UPDATE adv__venta 
                 SET 
@@ -186,8 +185,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             return consulta;
         }
 
-        protected override (Venta, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
-            var venta = new Venta {
+        protected override (Modelos.Modulos.Venta.Venta, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
+            var venta = new Modelos.Modulos.Venta.Venta {
                 Id = Convert.ToInt64(lector["id_venta"]),
                 IdPedido = lector["id_pedido"] != DBNull.Value ? Convert.ToInt64(lector["id_pedido"]) : null,
                 IdCliente = Convert.ToInt64(lector["id_cliente"]),
@@ -338,7 +337,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             return resultado;
         }
 
-        public List<Venta> ObtenerVentasPorCliente(long idCliente, DateTime? fechaInicio = null, DateTime? fechaFin = null) {
+        public List<Modelos.Modulos.Venta.Venta> ObtenerVentasPorCliente(long idCliente, DateTime? fechaInicio = null, DateTime? fechaFin = null) {
             var consulta = $"""
                 SELECT v.*, c.nombre_completo as nombre_cliente
                 FROM adv__venta v
@@ -364,7 +363,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
             consulta += " ORDER BY v.fecha_venta DESC";
 
-            var ventas = new List<Venta>();
+            var ventas = new List<Modelos.Modulos.Venta.Venta>();
             var resultados = ContextoBaseDatos.EjecutarConsulta(
                 consulta,
                 parametros,
@@ -400,7 +399,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             return numero;
         }
 
-        public List<Venta> ObtenerVentasPendientesPago() {
+        public List<Modelos.Modulos.Venta.Venta> ObtenerVentasPendientesPago() {
             var consulta = $"""
                 SELECT v.*, c.nombre_completo as nombre_cliente,
                        (SELECT COALESCE(SUM(monto_pagado), 0) 
@@ -423,7 +422,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
 
             var parametros = new Dictionary<string, object>();
 
-            var ventas = new List<Venta>();
+            var ventas = new List<Modelos.Modulos.Venta.Venta>();
             var resultados = ContextoBaseDatos.EjecutarConsulta(
                 consulta,
                 parametros,

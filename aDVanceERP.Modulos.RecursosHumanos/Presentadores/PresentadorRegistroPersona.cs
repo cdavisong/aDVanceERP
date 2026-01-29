@@ -127,9 +127,9 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreCompleto) && !nombreRepetido;
 
             if (nombreRepetido)
-                CentroNotificaciones.Mostrar("Ye existe una persona con el mismo nombre registrada en el sistema, los nombres de personas deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe una persona con el mismo nombre registrada en el sistema, los nombres de personas deben ser únicos.", TipoNotificacion.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.Mostrar("El campo de nombre es obligatorio para la persona, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para la persona, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
 
             return nombreOk;
         }

@@ -6,6 +6,9 @@ using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Core.Infraestructura.Globales;
 using Guna.UI2.WinForms.Suite;
 using Guna.UI2.WinForms;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Vistas.Comun;
+using System.Security.Principal;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
@@ -24,6 +27,9 @@ namespace aDVanceERP.Desktop.Presentadores {
             // Eventos de seguridad
             AgregadorEventos.Suscribir("EventoUsuarioAutenticado", OnUsuarioAutenticado);
             AgregadorEventos.Suscribir("EventoSesionCerrada", OnSesionCerrada);
+
+            // Adicionar vistas comunes
+            InicializarVistasComunes();
 
             // Cargar módulos extensiones de la aplicación
             ((PresentadorModulos)Modulos).CargarModulosExtension(this);
@@ -66,6 +72,12 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Mostrar(nameof(VistaSeguridad));
 
             AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+        }
+
+        private void InicializarVistasComunes() {
+            // Módulos
+            // Ubicaciones
+            Modulos.Vista.PanelCentral.Registrar(new VistaGestionUbicaciones());
         }
 
         public void AdicionarBotonBarraTitulo(Guna2Button btnTitulo) {

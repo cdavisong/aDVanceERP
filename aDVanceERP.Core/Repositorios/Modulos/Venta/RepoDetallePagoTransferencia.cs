@@ -1,13 +1,12 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
     public class RepoDetallePagoTransferencia : RepoEntidadBaseDatos<DetallePagoTransferencia, FiltroBusquedaDetalleTransferencia> {
         public RepoDetallePagoTransferencia() : base("adv__detalle_pago_transferencia", "id_detalle_pago_transferencia") {
         }

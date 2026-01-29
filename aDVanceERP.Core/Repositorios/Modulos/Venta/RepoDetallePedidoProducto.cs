@@ -1,14 +1,13 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
     public class RepoDetallePedidoProducto : RepoEntidadBaseDatos<DetallePedidoProducto, FiltroBusquedaDetallePedido> {
         public RepoDetallePedidoProducto() : base("adv__detalle_pedido_producto", "id_detalle_pedido_producto") {
         }

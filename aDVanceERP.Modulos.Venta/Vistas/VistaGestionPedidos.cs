@@ -2,8 +2,8 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Modulos.Venta.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 
 namespace DVanceERP.Modulos.Venta.Vistas;
 
@@ -163,7 +163,7 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         else {
             fieldFiltroBusquedaFechaDesde.Value = valorFechaHasta;
 
-            CentroNotificaciones.Mostrar("La fecha de inicio no puede ser mayor que la fecha final o fecha del día de hoy, por favor, corrija los datos de entrada", aDVanceERP.Core.Modelos.Comun.TipoNotificacion.Advertencia);
+            CentroNotificaciones.MostrarNotificacion("La fecha de inicio no puede ser mayor que la fecha final o fecha del día de hoy, por favor, corrija los datos de entrada", aDVanceERP.Core.Modelos.Comun.TipoNotificacion.Advertencia);
         }
     }
 
@@ -176,7 +176,7 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         else {
             fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
 
-            CentroNotificaciones.Mostrar("La fecha final no puede ser menor que la fecha inicial o mayor que la fecha del día de hoy, por favor, corrija los datos de entrada", aDVanceERP.Core.Modelos.Comun.TipoNotificacion.Advertencia);
+            CentroNotificaciones.MostrarNotificacion("La fecha final no puede ser menor que la fecha inicial o mayor que la fecha del día de hoy, por favor, corrija los datos de entrada", aDVanceERP.Core.Modelos.Comun.TipoNotificacion.Advertencia);
         }
     }
 

@@ -61,12 +61,12 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             var permiso = RepoPermiso.Instancia.Buscar(FiltroBusquedaPermiso.Nombre, e).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             if (permiso == null) {
-                CentroNotificaciones.Mostrar($"No se encontró el permiso '{e}' en el módulo seleccionado.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion($"No se encontró el permiso '{e}' en el módulo seleccionado.", TipoNotificacion.Advertencia);
                 return;
             }
 
             if (Vista.Permisos.Any(p => p.Id == permiso.Id)) {
-                CentroNotificaciones.Mostrar($"El permiso '{e}' ya ha sido agregado al rol de usuario.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion($"El permiso '{e}' ya ha sido agregado al rol de usuario.", TipoNotificacion.Advertencia);
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     Application.DoEvents();
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.Mostrar($"Error al refrescar la lista de permisos de usuario: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al refrescar la lista de permisos de usuario: {ex.Message}", TipoNotificacion.Error);
             }
         }
 

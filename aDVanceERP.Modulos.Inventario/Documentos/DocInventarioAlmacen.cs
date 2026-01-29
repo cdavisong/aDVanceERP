@@ -56,7 +56,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
             // Si no hay datos, salir
             if (almacenes.Count == 0 || inventario.Count == 0) {
-                CentroNotificaciones.Mostrar("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
                 return;
             }
 
@@ -225,7 +225,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                     });
                 }
                 catch (Exception ex) {
-                    CentroNotificaciones.Mostrar($"Error al abrir el archivo: {ex.Message}", Core.Modelos.Comun.TipoNotificacion.Error);
+                    CentroNotificaciones.MostrarNotificacion($"Error al abrir el archivo: {ex.Message}", Core.Modelos.Comun.TipoNotificacion.Error);
                 }
             }
         }
@@ -240,7 +240,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
             // Si no hay datos, salir
             if (almacenes.Count == 0 || inventario.Count == 0) {
-                CentroNotificaciones.Mostrar("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
                 return;
             }
 

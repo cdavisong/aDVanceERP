@@ -42,7 +42,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.Mostrar($"La persona ha sido {(estado ? "activada" : "desactivada")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"La persona ha sido {(estado ? "activada" : "desactivada")} satisfactoriamente.", TipoNotificacion.Info);
             }
         }
 

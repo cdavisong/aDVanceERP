@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Venta.Interfaces;
+using aDVanceERP.Modulos.Venta.Properties;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaMenuMaestros : Form, IVistaMenuMaestros {
@@ -38,6 +39,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // Eventos
             btnClientes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionClientes", string.Empty); };
             btnMensajeros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMensajeros", string.Empty); };
+            btnUbicaciones.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionUbicacionesVenta", string.Empty); };
             btnAtras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuVenta", string.Empty); };
         }
 
@@ -46,6 +48,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 btnClientes.PerformClick();
             else if (btnMensajeros.Visible)
                 btnMensajeros.PerformClick();
+            else if (btnUbicaciones.Visible)
+                btnUbicaciones.PerformClick();
         }
 
         public void Mostrar() {

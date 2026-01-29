@@ -54,12 +54,12 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
 
             if (tuplaSeleccionada == null) {
-                CentroNotificaciones.Mostrar("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacion.Advertencia);
                 return;
             }
 
             if (tuplaSeleccionada.Entidad.IdRolUsuario == 0) {
-                CentroNotificaciones.Mostrar("El usuario seleccionado no tiene un rolUsuario asignado, por lo que no se puede aprobar la solicitud de cuenta. Por favor, edite el usuario para asignarle un rol.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El usuario seleccionado no tiene un rolUsuario asignado, por lo que no se puede aprobar la solicitud de cuenta. Por favor, edite el usuario para asignarle un rol.", TipoNotificacion.Advertencia);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             ActualizarResultadosBusqueda();
 
-            CentroNotificaciones.Mostrar("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacion.Info);
+            CentroNotificaciones.MostrarNotificacion("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacion.Info);
         }
 
         private void OnCambioSeleccionEntidad(object? sender, CuentaUsuario e) {

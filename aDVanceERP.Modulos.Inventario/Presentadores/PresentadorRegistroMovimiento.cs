@@ -94,28 +94,28 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 switch (tipoMovimiento.Efecto) {
                     case EfectoMovimiento.Carga:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
-                            CentroNotificaciones.Mostrar("Debe especificar un almacén de destino para la operación de carga solicitada", TipoNotificacion.Advertencia);
+                            CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de destino para la operación de carga solicitada", TipoNotificacion.Advertencia);
                             return false;
                         }
                         break;
                     case EfectoMovimiento.Descarga:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || Vista.NombreAlmacenOrigen.Equals("Ninguno")) {
-                            CentroNotificaciones.Mostrar("Debe especificar un almacén de origen para la operación de descarga solicitada", TipoNotificacion.Advertencia);
+                            CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen para la operación de descarga solicitada", TipoNotificacion.Advertencia);
                             return false;
                         }
                         break;
                     case EfectoMovimiento.Transferencia:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenOrigen.Equals("Ninguno") || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
-                            CentroNotificaciones.Mostrar("Debe especificar un almacén de origen y un destino para la operación de transferencia solicitada", TipoNotificacion.Advertencia);
+                            CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen y un destino para la operación de transferencia solicitada", TipoNotificacion.Advertencia);
                             return false;
                         }
                         if (transferenciaAlmacenesIguales) {
-                            CentroNotificaciones.Mostrar("Error al especificar el origen o destino del producto, ambos almacenes deben tener distinta nomenclatura. Verifique los datos.", TipoNotificacion.Error);
+                            CentroNotificaciones.MostrarNotificacion("Error al especificar el origen o destino del producto, ambos almacenes deben tener distinta nomenclatura. Verifique los datos.", TipoNotificacion.Error);
                             return false;
                         }
                         break;
                     default:
-                        CentroNotificaciones.Mostrar("Efecto de movimiento desconocido", TipoNotificacion.Error);
+                        CentroNotificaciones.MostrarNotificacion("Efecto de movimiento desconocido", TipoNotificacion.Error);
                         return false;
                 }
             }
@@ -130,20 +130,20 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     var cantidadInicialOrigen = inventarioProducto?.Cantidad;
 
                     if (cantidadInicialOrigen - Vista.CantidadMovida < 0) {
-                        CentroNotificaciones.Mostrar($"No se puede mover una cantidad de productos hacia el destino menor que la cantidad orígen ({cantidadInicialOrigen} unidades) en el almacén {Vista.NombreAlmacenOrigen}", TipoNotificacion.Advertencia);
+                        CentroNotificaciones.MostrarNotificacion($"No se puede mover una cantidad de productos hacia el destino menor que la cantidad orígen ({cantidadInicialOrigen} unidades) en el almacén {Vista.NombreAlmacenOrigen}", TipoNotificacion.Advertencia);
                         return false;
                     }
                 }
             }
 
             if (!nombreProductoOk)
-                CentroNotificaciones.Mostrar("El campo de nombre para el producto es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre para el producto es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
             if (!tipoMovimientoOk)
-                CentroNotificaciones.Mostrar("Debe especificar un tipo de movimiento válido para el movimiento de productos, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Debe especificar un tipo de movimiento válido para el movimiento de productos, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
             if (!noCompraventaOk)
-                CentroNotificaciones.Mostrar("Las operaciones de compraventa no están permitidas directamente desde la sección de movimientos de inventario. Para registrar compras o ventas diríjase al módulo correspondiente", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Las operaciones de compraventa no están permitidas directamente desde la sección de movimientos de inventario. Para registrar compras o ventas diríjase al módulo correspondiente", TipoNotificacion.Advertencia);
             if (!cantidadOk)
-                CentroNotificaciones.Mostrar("La cantidad de productos a mover en una operación de carga, descarga o transferencia debe ser mayor que 0, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La cantidad de productos a mover en una operación de carga, descarga o transferencia debe ser mayor que 0, corrija los datos entrados", TipoNotificacion.Advertencia);
 
 
             return nombreProductoOk && tipoMovimientoOk && noCompraventaOk && cantidadOk;

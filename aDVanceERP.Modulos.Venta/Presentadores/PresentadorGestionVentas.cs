@@ -2,15 +2,15 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Repositorios.Modulos.Ventas;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using DVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Ventas.Venta, RepoVenta, FiltroBusquedaVenta> {
+    public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
         public PresentadorGestionVentas(IVistaGestionVentas vista) : base(vista) {
             RegistrarEntidad += OnRegistrarVenta;
             EditarEntidad += OnEditarVenta;
@@ -23,7 +23,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaRegistroVenta", string.Empty);
         }
 
-        private void OnEditarVenta(object? sender, Core.Modelos.Modulos.Ventas.Venta e) {
+        private void OnEditarVenta(object? sender, Core.Modelos.Modulos.Venta.Venta e) {
             AgregadorEventos.Publicar("MostrarVistaEdicionVenta", AgregadorEventos.SerializarPayload(e));
         }
 
@@ -43,11 +43,11 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.Mostrar($"La venta ha sido {(estado ? "habilitada" : "deshabilitada")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"La venta ha sido {(estado ? "habilitada" : "deshabilitada")} satisfactoriamente.", TipoNotificacion.Info);
             }
         }
 
-        protected override PresentadorTuplaVenta ObtenerValoresTupla(Core.Modelos.Modulos.Ventas.Venta entidad, List<IEntidadBaseDatos> entidadesExtra) {
+        protected override PresentadorTuplaVenta ObtenerValoresTupla(Core.Modelos.Modulos.Venta.Venta entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaVenta(new VistaTuplaVenta(), entidad);
             
             presentadorTupla.Vista.Id = entidad.Id;

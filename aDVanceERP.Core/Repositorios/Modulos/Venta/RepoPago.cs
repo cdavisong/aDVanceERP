@@ -1,13 +1,12 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
     public class RepoPago : RepoEntidadBaseDatos<Pago, FiltroBusquedaPago> {
         public RepoPago() : base("adv__pago", "id_pago") {
         }
@@ -137,7 +136,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
             if (lector.VisibleFieldCount > 7) {
-                entidadesExtra.Add(new Venta {
+                entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
                     NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
                     ImporteTotal = Convert.ToDecimal(lector["total_venta"], CultureInfo.InvariantCulture)
                 });

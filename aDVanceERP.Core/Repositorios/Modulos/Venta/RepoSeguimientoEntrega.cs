@@ -1,14 +1,13 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
-using aDVanceERP.Core.Modelos.Modulos.Ventas;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
+namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
     public class RepoSeguimientoEntrega : RepoEntidadBaseDatos<SeguimientoEntrega, FiltroBusquedaSeguimientoEntrega> {
         public RepoSeguimientoEntrega() : base("adv__seguimiento_entrega", "id_seguimiento_entrega") {
         }
@@ -168,7 +167,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Ventas {
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
             if (lector.VisibleFieldCount > 9) {
-                entidadesExtra.Add(new Venta {
+                entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
                     NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
                     ImporteTotal = Convert.ToDecimal(lector["total_venta"], CultureInfo.InvariantCulture)
                 });
