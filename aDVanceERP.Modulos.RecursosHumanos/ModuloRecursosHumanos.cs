@@ -31,6 +31,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
             _btnAccesoModulo.Name = "btnModuloRecursosHumanos";
             _btnAccesoModulo.Image = Resources.businessmanB_24px;
             _btnAccesoModulo.Click += delegate {
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
                 AgregadorEventos.Publicar("MostrarVistaMenuRecursosHumanos", string.Empty);
             };

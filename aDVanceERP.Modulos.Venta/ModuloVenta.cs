@@ -35,6 +35,7 @@ namespace aDVanceERP.Modulos.Venta {
             _btnAccesoModulo.Name = "btnAccesoModuloVenta";
             _btnAccesoModulo.CustomImages.Image = Resources.best_salesB_24px;
             _btnAccesoModulo.Click += delegate {
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
                 AgregadorEventos.Publicar("MostrarVistaMenuVenta", string.Empty);
             };

@@ -52,8 +52,8 @@ namespace aDVanceERP.Desktop.Vistas {
             // Eventos
             btnInicio.Click += delegate { PanelCentral.OcultarTodos(); };
             btnInicio.Click += (s, e) => {
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);                
             };
 
             AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);

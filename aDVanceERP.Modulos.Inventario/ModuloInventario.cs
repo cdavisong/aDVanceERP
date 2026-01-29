@@ -31,6 +31,7 @@ namespace aDVanceERP.Modulos.Inventario {
             _btnAccesoModulo.Name = "btnAccesoModuloInventario";
             _btnAccesoModulo.CustomImages.Image = Resources.inventory_24px;
             _btnAccesoModulo.Click += delegate {
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
                 AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty);
             };
