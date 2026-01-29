@@ -17,6 +17,7 @@ namespace aDVanceERP.Modulos.Venta {
         private PresentadorMenuVenta _menuVenta = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorGestionVentas _ventas = null!;
+        private PresentadorRegistroVenta _registroVenta = null!;
         private PresentadorGestionClientes _clientes = null!;
         private PresentadorRegistroCliente _registroCliente = null!;
         private PresentadorGestionMensajeros _mensajeros = null!;
@@ -44,6 +45,8 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Ventas
             _ventas = new PresentadorGestionVentas(new VistaGestionVentas());
+            _registroVenta = new PresentadorRegistroVenta(new VistaRegistroVenta());
+            _registroVenta.EntidadRegistradaActualizada += (s, e) => _ventas.ActualizarResultadosBusqueda();
             // Clientes
             _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
             _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
@@ -67,6 +70,7 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Ventas
             _principal.Modulos.Vista.PanelCentral.Registrar(_ventas.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroVenta.Vista);
             // Clientes
             _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);
