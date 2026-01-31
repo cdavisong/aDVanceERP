@@ -240,7 +240,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         public string[] ObtenerCodigosPedidosConfirmados() {
             var consulta = $"""
                 SELECT codigo
-                FORM adv__pedido
+                FROM adv__pedido
                 WHERE estado_pedido = @estado_pedido;
                 """;
             var parametros = new Dictionary<string, object> {

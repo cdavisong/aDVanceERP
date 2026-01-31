@@ -388,7 +388,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 ), 0) as comprometido
                 FROM adv__inventario i
                 WHERE i.id_producto = @idProducto 
-                AND i.id_almacen = @idAlmacen";
+                AND i.id_almacen = @idAlmacen;
                 """;
 
             var parametros = new Dictionary<string, object> {
