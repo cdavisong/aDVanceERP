@@ -51,7 +51,7 @@
     <Compile Update="Vistas\VistaTuplaPedido.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaTuplaProductoVenta.cs">
+    <Compile Update="Vistas\VistaTuplaCarrito.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

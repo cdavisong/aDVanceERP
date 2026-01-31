@@ -3,6 +3,8 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
+using DocumentFormat.OpenXml.Office2010.Excel;
+
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
@@ -287,24 +289,24 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
         public string ObtenerProductosAlmacenJson(long idAlmacen) {
             var consulta = """
-            SELECT 
-                p.id_producto,
-                p.codigo,
-                p.nombre,
-                p.categoria,
-                p.precio_compra,
-                p.costo_produccion_unitario,
-                p.precio_venta_base,
-                pa.cantidad,
-                a.nombre AS nombre_almacen,
-                IFNULL(um.nombre, '') AS unidad_medida,
-                IFNULL(um.abreviatura, '') AS abreviatura_medida
-            FROM adv__producto p
-            JOIN adv__inventario pa ON p.id_producto = pa.id_producto
-            JOIN adv__almacen a ON pa.id_almacen = a.id_almacen
-            LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
-            WHERE pa.id_almacen = @IdAlmacen;
-        """;
+                SELECT 
+                    p.id_producto,
+                    p.codigo,
+                    p.nombre,
+                    p.categoria,
+                    p.precio_compra,
+                    p.costo_produccion_unitario,
+                    p.precio_venta_base,
+                    pa.cantidad,
+                    a.nombre AS nombre_almacen,
+                    IFNULL(um.nombre, '') AS unidad_medida,
+                    IFNULL(um.abreviatura, '') AS abreviatura_medida
+                FROM adv__producto p
+                JOIN adv__inventario pa ON p.id_producto = pa.id_producto
+                JOIN adv__almacen a ON pa.id_almacen = a.id_almacen
+                LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
+                WHERE pa.id_almacen = @IdAlmacen;
+                """;
             var parametros = idAlmacen != 0
                 ? new Dictionary<string, object> {
                     { "@IdAlmacen", idAlmacen }
@@ -334,13 +336,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     WHEN p.categoria = 'ProductoTerminado' THEN (p.costo_produccion_unitario * i.cantidad)
                     ELSE (p.costo_adquisicion_unitario * i.cantidad)
                 END
-            ) AS valor_total_bruto
-            FROM adv__producto p
-            JOIN adv__inventario i ON p.id_producto = i.id_producto
-            {(idAlmacen != 0
-                    ? "WHERE p.activo = 1 AND i.id_almacen = @IdAlmacen"
-                    : "WHERE p.activo = 1")};
-            """;
+                ) AS valor_total_bruto
+                FROM adv__producto p
+                JOIN adv__inventario i ON p.id_producto = i.id_producto
+                {(idAlmacen != 0
+                        ? "WHERE p.activo = 1 AND i.id_almacen = @IdAlmacen"
+                        : "WHERE p.activo = 1")};
+                """;
             var parametros = idAlmacen != 0
                 ? new Dictionary<string, object> {
                     { "@IdAlmacen", idAlmacen }
@@ -352,22 +354,68 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         public bool HabilitarDeshabilitarProducto(long id) {
             var consulta = $"""
                 UPDATE adv__producto
-            SET activo = NOT activo
-            WHERE id_producto = @IdProducto;
-            """;
+                SET activo = NOT activo
+                WHERE id_producto = @IdProducto;
+                """;
+
             var parametros = new Dictionary<string, object> {
-                    { "@IdProducto", id }
-                };
+                { "@IdProducto", id }
+            };
 
             ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
 
             consulta = $"""
                 SELECT activo
-            FROM adv__producto
-            WHERE id_producto = @IdProducto;
-            """;
+                FROM adv__producto
+                WHERE id_producto = @IdProducto;
+                """;
 
             return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
+        }
+
+        public (decimal disponible, decimal comprometido) ObtenerDisponibilidadProducto(long idProducto, long idAlmacen, long idPedidoExcluir = 0) {
+            var consulta = $"""
+                SELECT 
+                COALESCE(SUM(i.cantidad), 0) as disponible,
+                COALESCE((
+                    SELECT SUM(dpp.cantidad_solicitada)
+                    FROM adv__detalle_pedido_producto dpp
+                    INNER JOIN adv__pedido p ON dpp.id_pedido = p.id_pedido
+                    WHERE dpp.id_producto = @idProducto
+                    AND p.estado_pedido IN ('Pendiente', 'Confirmado', 'Preparando')
+                    AND p.activo = 1
+                    AND p.id_pedido != @idPedidoExcluir
+                ), 0) as comprometido
+                FROM adv__inventario i
+                WHERE i.id_producto = @idProducto 
+                AND i.id_almacen = @idAlmacen";
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@idProducto", idProducto },
+                { "@idAlmacen", idAlmacen },
+                { "@idPedidoExcluir", idPedidoExcluir }
+            };
+
+            using (var connection = ContextoBaseDatos.ObtenerConexionOptimizada()) {
+                connection.Open();
+
+                using (var command = new MySqlCommand(consulta, connection)) {
+                    foreach (var param in parametros)
+                        command.Parameters.AddWithValue(param.Key, param.Value);
+
+                    using (var lector = command.ExecuteReader()) {
+                        if (lector.Read()) {
+                            decimal disponible = Convert.ToDecimal(lector["disponible"], CultureInfo.InvariantCulture);
+                            decimal comprometido = Convert.ToDecimal(lector["comprometido"], CultureInfo.InvariantCulture);
+
+                            return (disponible, comprometido);
+                        }
+                    }
+                }
+            }
+
+            return (0, 0);
         }
 
         #endregion

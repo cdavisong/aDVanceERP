@@ -4,6 +4,7 @@ using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
+
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
@@ -16,6 +17,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override string GenerarComandoAdicionar(Pedido entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var comando = $"""
                 INSERT INTO adv__pedido (
+                    codigo,
                     id_cliente,
                     id_empleado_vendedor,
                     fecha_pedido,
@@ -26,7 +28,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     observaciones_pedido,
                     activo
                 ) VALUES (
-                    @id_cliente,
+                    @codigo,
+                    @id_cliente,                    
                     @id_empleado_vendedor,
                     @fecha_pedido,
                     @fecha_entrega_solicitada,
@@ -40,6 +43,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_cliente", entidad.IdCliente },
+                { "@codigo", entidad.Codigo },
                 { "@id_empleado_vendedor", entidad.IdEmpleadoVendedor.HasValue ? entidad.IdEmpleadoVendedor.Value : DBNull.Value },
                 { "@fecha_pedido", entidad.FechaPedido.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@fecha_entrega_solicitada", entidad.FechaEntregaSolicitada.HasValue ? entidad.FechaEntregaSolicitada.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
@@ -57,6 +61,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var comando = $"""
                 UPDATE adv__pedido 
                 SET 
+                    codigo = @codigo,
                     id_cliente = @id_cliente,
                     id_empleado_vendedor = @id_empleado_vendedor,
                     fecha_pedido = @fecha_pedido,
@@ -71,6 +76,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_pedido", entidad.Id },
+                { "@codigo", entidad.Codigo },
                 { "@id_cliente", entidad.IdCliente },
                 { "@id_empleado_vendedor", entidad.IdEmpleadoVendedor.HasValue ? entidad.IdEmpleadoVendedor.Value : DBNull.Value },
                 { "@fecha_pedido", entidad.FechaPedido.ToString("yyyy-MM-dd HH:mm:ss") },
@@ -116,6 +122,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     {consultaComun}
                     AND p.id_pedido = @id_pedido
                     """,
+                FiltroBusquedaPedido.Codigo => $"""
+                    {consultaComun}
+                    AND p.codigo = @codigo
+                    """,
                 FiltroBusquedaPedido.IdCliente => $"""
                     {consultaComun}
                     AND p.id_cliente = @id_cliente
@@ -130,6 +140,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPedido.Id => new Dictionary<string, object> {
                     { "@id_pedido", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                },
+                FiltroBusquedaPedido.Codigo => new Dictionary<string, object> {
+                    { "@codigo", long.Parse(criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
@@ -155,6 +170,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override (Pedido, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
             var pedido = new Pedido {
                 Id = Convert.ToInt64(lector["id_pedido"]),
+                Codigo = Convert.ToString(lector["codigo"]) ?? "00000000000000",
                 IdCliente = Convert.ToInt64(lector["id_cliente"]),
                 IdEmpleadoVendedor = lector["id_empleado_vendedor"] != DBNull.Value ? Convert.ToInt64(lector["id_empleado_vendedor"]) : null,
                 FechaPedido = Convert.ToDateTime(lector["fecha_pedido"]),
@@ -221,6 +237,23 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
+        public string[] ObtenerCodigosPedidosConfirmados() {
+            var consulta = $"""
+                SELECT codigo
+                FORM adv__pedido
+                WHERE estado_pedido = @estado_pedido;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@estado_pedido", EstadoPedidoEnum.Confirmado.ToString() }
+            };
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearCodigoPedido).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
+        private (string, List<IEntidadBaseDatos>) MapearCodigoPedido(MySqlDataReader lector) {
+            return (Convert.ToString(lector["codigo"]) ?? string.Empty, []);
+        }
+
         public List<DetallePedidoProducto> ObtenerDetallesPedido(long idPedido) {
             var consulta = $"""
                 SELECT dpp.*, pr.nombre as nombre_producto, pr.codigo as codigo_producto
@@ -270,7 +303,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         }
 
         public decimal CalcularTotalPedido(long idPedido) {
-            var consulta = $"""
+            var consulta = """
                 SELECT COALESCE(SUM(subtotal), 0) as total
                 FROM adv__detalle_pedido_producto
                 WHERE id_pedido = @id_pedido
@@ -282,6 +315,82 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
             return resultado;
+        }
+
+        public (Dictionary<int, (decimal disponible, decimal comprometido, decimal solicitado, string nombre, string codigo)> disponibilidad, bool todosDisponibles) VerificarDisponibilidadPedidoCompleta(long idPedido, long idAlmacenVenta) {
+            var consulta = """
+                -- Obtener productos del pedido con sus cantidades
+                WITH productos_pedido AS (
+                    SELECT 
+                        dpp.id_producto,
+                        dpp.cantidad_solicitada,
+                        p.nombre,
+                        p.codigo,
+                        um.abreviatura as unidad_medida
+                    FROM adv__detalle_pedido_producto dpp
+                    INNER JOIN adv__producto p ON dpp.id_producto = p.id_producto
+                    LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
+                    WHERE dpp.id_pedido = @idPedido
+                    AND p.activo = 1
+                )
+                -- Combinar con disponibilidad en inventario
+                SELECT 
+                    pp.id_producto,
+                    pp.cantidad_solicitada,
+                    pp.nombre,
+                    pp.codigo,
+                    pp.unidad_medida,
+                    COALESCE(i.cantidad, 0) as disponible_inventario,
+                    COALESCE((
+                        SELECT SUM(dpp2.cantidad_solicitada)
+                        FROM adv__detalle_pedido_producto dpp2
+                        INNER JOIN adv__pedido p2 ON dpp2.id_pedido = p2.id_pedido
+                        WHERE dpp2.id_producto = pp.id_producto
+                        AND p2.estado_pedido IN ('Pendiente', 'Confirmado', 'Preparando')
+                        AND p2.activo = 1
+                        AND p2.id_pedido != @idPedido  -- Excluir este pedido
+                    ), 0) as comprometido_otros_pedidos
+                FROM productos_pedido pp
+                LEFT JOIN adv__inventario i ON pp.id_producto = i.id_producto 
+                    AND i.id_almacen = @idAlmacenVenta
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@idPedido", idPedido },
+                { "@idAlmacenVenta", idAlmacenVenta }
+            };
+
+            var resultados = new Dictionary<int, (decimal disponible, decimal comprometido, decimal solicitado, string nombre, string codigo)>();
+            bool todosDisponibles = true;
+
+            using (var connection = ContextoBaseDatos.ObtenerConexionOptimizada()) {
+                connection.Open();
+
+                using (var command = new MySqlCommand(consulta, connection)) {
+                    foreach (var param in parametros)
+                        command.Parameters.AddWithValue(param.Key, param.Value);
+
+                    using (var lector = command.ExecuteReader()) {
+                        while (lector.Read()) {
+                            var idProducto = Convert.ToInt32(lector["id_producto"]);
+                            var cantidadSolicitada = Convert.ToDecimal(lector["cantidad_solicitada"]);
+                            var disponible = Convert.ToDecimal(lector["disponible_inventario"]);
+                            var comprometido = Convert.ToDecimal(lector["comprometido_otros_pedidos"]);
+                            var nombre = Convert.ToString(lector["nombre"]) ?? "N/A";
+                            var codigo = Convert.ToString(lector["codigo"]) ?? "00000000000000";
+
+                            var stockReal = disponible - comprometido;
+
+                            resultados[idProducto] = (disponible, comprometido, cantidadSolicitada, nombre, codigo);
+
+                            if (cantidadSolicitada > stockReal)
+                                todosDisponibles = false;
+                        }
+                    }
+                }
+            }
+
+            return (resultados, todosDisponibles);
         }
 
         #endregion

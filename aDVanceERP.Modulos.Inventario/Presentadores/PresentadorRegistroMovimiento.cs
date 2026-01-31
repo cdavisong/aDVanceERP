@@ -18,8 +18,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.Restaurar();
 
             // Carga inicial de datos
-            Vista.CargarNombresProductos(RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre).ToArray());
-            Vista.CargarNombresAlmacenes(RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre).ToArray());
+            Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
+            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
 
             // Carga de datos extra
             if (!string.IsNullOrEmpty(obj)) {

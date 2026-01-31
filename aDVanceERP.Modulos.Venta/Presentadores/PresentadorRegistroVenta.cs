@@ -1,8 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Repositorios.Modulos.Maestros;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -16,6 +15,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private void OnMostrarVistaRegistroVenta(string obj) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
+
+            // Carga inicial de datos
+            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidosConfirmados()]);
+            Vista.CargarNombresClientes([.. RepoCliente.Instancia.ObtenerNombres()]);
+            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
+            Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
+
             Vista.Mostrar();
         }
 
@@ -30,6 +36,12 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             if (venta == null)
                 return;
+
+            // Carga inicial de datos
+            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidosConfirmados()]);
+            Vista.CargarNombresClientes([.. RepoCliente.Instancia.ObtenerNombres()]);
+            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
+            Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
 
             PopularVistaDesdeEntidad(venta);
 

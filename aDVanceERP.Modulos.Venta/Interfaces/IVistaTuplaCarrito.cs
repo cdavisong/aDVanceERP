@@ -2,11 +2,13 @@
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaTuplaProductoVenta : IVistaTupla {
+    public interface IVistaTuplaCarrito : IVistaTupla {
         public string Codigo { get; set; }
         public string NombreProducto { get; set; }
         public decimal CostoGeneral { get; set; }
         public decimal Cantidad { get; set; }
-        public UnidadMedida UnidadMedida { get; set; }
+        public decimal Descuento { get; set; }
+        public decimal ImpuestoAdicional { get; set; }
+        public UnidadMedida? UnidadMedida { get; set; }
     }
 }

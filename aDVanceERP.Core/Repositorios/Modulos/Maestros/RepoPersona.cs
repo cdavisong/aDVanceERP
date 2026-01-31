@@ -2,16 +2,14 @@
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.BD;
+
 using MySql.Data.MySqlClient;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
-{
-    public class RepoPersona : RepoEntidadBaseDatos<Persona, FiltroBusquedaPersona>
-    {
+namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
+    public class RepoPersona : RepoEntidadBaseDatos<Persona, FiltroBusquedaPersona> {
         public RepoPersona() : base("adv__persona", "id_persona") { }
 
-        protected override string GenerarComandoAdicionar(Persona entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades)
-        {
+        protected override string GenerarComandoAdicionar(Persona entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
             var consulta = $"""
                 INSERT INTO adv__persona (
                     nombre_completo,
@@ -42,8 +40,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return consulta;
         }
 
-        protected override string GenerarComandoEditar(Persona entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades)
-        {
+        protected override string GenerarComandoEditar(Persona entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
             var consulta = $"""
                 UPDATE adv__persona 
                 SET 
@@ -69,8 +66,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return consulta;
         }
 
-        protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros)
-        {
+        protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 -- 1. Eliminar correos electrónicos asociados
                 DELETE FROM adv__correo_contacto
@@ -92,11 +88,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return consulta;
         }
 
-        protected override string GenerarComandoObtener(FiltroBusquedaPersona filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda)
-        {
+        protected override string GenerarComandoObtener(FiltroBusquedaPersona filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
             var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
-            var consulta = filtroBusqueda switch
-            {
+            var consulta = filtroBusqueda switch {
                 FiltroBusquedaPersona.Id => $"""
                     SELECT * FROM adv__persona 
                     WHERE id_persona = @id_persona;
@@ -112,8 +106,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
                 _ => "SELECT * FROM adv__persona;"
             };
 
-            parametros = filtroBusqueda switch
-            {
+            parametros = filtroBusqueda switch {
                 FiltroBusquedaPersona.Id => new Dictionary<string, object> {
                     { "@id_persona", Convert.ToInt64(criterio) }
                 },
@@ -129,8 +122,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return consulta;
         }
 
-        protected override (Persona, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector)
-        {
+        protected override (Persona, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
             return (new Persona(
                 id: Convert.ToInt64(lector["id_persona"]),
                 nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
@@ -150,8 +142,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
 
         #region UTILES
 
-        public bool EsSeguroEliminarPersona(long idPersona)
-        {
+        public bool EsSeguroEliminarPersona(long idPersona) {
             var consulta = $"""
                 SELECT
                     COUNT(c.id_cliente) +
@@ -180,8 +171,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return registrosRelacionados == 0;
         }
 
-        public bool HabilitarDeshabilitarPersona(long id)
-        {
+        public bool HabilitarDeshabilitarPersona(long id) {
             var consulta = $"""
                 UPDATE adv__persona
                 SET activo = NOT activo
@@ -218,8 +208,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
         }
 
-        public string[] NombresPersonasNoMensajeros()
-        {
+        public string[] NombresPersonasNoMensajeros() {
             var consulta = $"""
                 SELECT p.nombre_completo
                 FROM adv__persona p
@@ -232,8 +221,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
         }
 
-        public string[] NombresPersonasNoClientes()
-        {
+        public string[] NombresPersonasNoClientes() {
             var consulta = $"""
                 SELECT p.nombre_completo
                 FROM adv__persona p
@@ -246,8 +234,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
         }
 
-        public string[] NombresPersonasNoProveedores()
-        {
+        public string[] NombresPersonasNoProveedores() {
             var consulta = $"""
                 SELECT p.nombre_completo
                 FROM adv__persona p
@@ -260,8 +247,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
         }
 
-        public string[] NombresPersonasNoEmpleados()
-        {
+        public string[] NombresPersonasNoEmpleados() {
             var consulta = $"""
                 SELECT p.nombre_completo
                 FROM adv__persona p
@@ -274,8 +260,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
         }
 
-        private (string, List<IEntidadBaseDatos>) MapearNombreCompleto(MySqlDataReader lector)
-        {
+        private (string, List<IEntidadBaseDatos>) MapearNombreCompleto(MySqlDataReader lector) {
             return (Convert.ToString(lector["nombre_completo"]) ?? string.Empty, []);
         }
 
