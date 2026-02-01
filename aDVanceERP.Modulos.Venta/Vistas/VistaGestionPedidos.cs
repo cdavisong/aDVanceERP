@@ -5,7 +5,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 
-namespace DVanceERP.Modulos.Venta.Vistas;
+namespace aDVanceERP.Modulos.Venta.Vistas;
 
 public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
     private int _paginaActual = 1;

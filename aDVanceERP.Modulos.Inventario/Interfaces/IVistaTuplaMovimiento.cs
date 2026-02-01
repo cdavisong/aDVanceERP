@@ -2,8 +2,7 @@
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
-    public interface IVistaTuplaMovimiento : IVistaTupla
-    {
+    public interface IVistaTuplaMovimiento : IVistaTupla {
         string Id { get; set; }
         string NombreProducto { get; set; }
         string NombreAlmacenOrigen { get; set; }
@@ -12,6 +11,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string CantidadMovida { get; set; }
         string SaldoFinal { get; set; }
         string TipoMovimiento { get; set; }
+        EstadoMovimiento EstadoMovimiento { get; set; }
         string Fecha { get; set; }
 
         void ActualizarIconoStock(EfectoMovimiento efecto);

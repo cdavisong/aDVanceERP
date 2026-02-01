@@ -5,8 +5,9 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 
 using System.Globalization;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
 
-namespace DVanceERP.Modulos.Venta.Vistas;
+namespace aDVanceERP.Modulos.Venta.Vistas;
 
 public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
     private EstadoPedidoEnum _estadoPedido;
@@ -41,7 +42,9 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
 
     public Color ColorFondoTupla {
         get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
+        set => layoutVista.BackColor = layoutVista.BackColor = value == Color.Gainsboro
+            ? value
+            : ObtenerColorFondoTupla(EstadoPedido);
     }
 
     public bool EstadoSeleccion { get; set; }
@@ -99,7 +102,8 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
         get => _estadoPedido;
         set {
             _estadoPedido = value;
-            fieldEstado.Text = value.ToString();
+            btnEditar.Enabled = value == EstadoPedidoEnum.Pendiente;
+            btnConfirmar.Enabled = value == EstadoPedidoEnum.Pendiente;
             layoutVista.BackColor = ObtenerColorFondoTupla(value);
         }
     }
@@ -109,17 +113,25 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
         set {
             fieldEstado.Text = value ? "Activo" : "Inactivo";
             fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+            btnEditar.Enabled = value;
+            btnConfirmar.Enabled = value;
+            btnCancelar.Enabled = value;
         }
     }
-        
 
     public event EventHandler? EditarDatosTupla;
     public event EventHandler? EliminarDatosTupla;
 
     public void Inicializar() {
         // Eventos
-        btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-        btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+        btnConfirmar.Click += delegate (object? sender, EventArgs e) { 
+            RepoPedido.Instancia.CambiarEstadoPedido(Id, EstadoPedidoEnum.Confirmado);
+            EstadoPedido = EstadoPedidoEnum.Confirmado;
+        };
+        btnCancelar.Click += delegate (object? sender, EventArgs e) { 
+            RepoPedido.Instancia.CambiarEstadoPedido(Id, EstadoPedidoEnum.Cancelado);
+            EstadoPedido = EstadoPedidoEnum.Cancelado;
+        };
     }
 
     public void Mostrar() {
@@ -141,22 +153,17 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
     }
 
     private void VerificarPermisos() {
-        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
-        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+        
     }
 
     private Color ObtenerColorFondoTupla(EstadoPedidoEnum estado) {
-        return estado switch { 
+        if (!Activo)
+            return BackColor;
+
+        return estado switch {
             EstadoPedidoEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-            EstadoPedidoEnum.Confirmado => ContextoAplicacion.ColorAdvertenciaTupla,
-            EstadoPedidoEnum.ListoParaRetirar => ContextoAplicacion.ColorOkTupla,
-            EstadoPedidoEnum.Cancelado => ContextoAplicacion.ColorAdvertenciaTupla, 
+            EstadoPedidoEnum.Retirado => ContextoAplicacion.ColorOkTupla,
+            EstadoPedidoEnum.Cancelado => ContextoAplicacion.ColorErrorTupla,
             _ => BackColor
         };
     }

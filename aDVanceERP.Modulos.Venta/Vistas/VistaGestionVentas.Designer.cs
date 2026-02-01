@@ -2,7 +2,7 @@
 
 using System.ComponentModel;
 
-namespace DVanceERP.Modulos.Venta.Vistas {
+namespace aDVanceERP.Modulos.Venta.Vistas {
     partial class VistaGestionVentas {
         /// <summary>
         /// Required designer variable.
@@ -26,34 +26,31 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             components = new Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionVentas));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutSeparadores = new TableLayoutPanel();
@@ -86,7 +83,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldTituloImporteTotal = new Label();
             fieldTituloEstado = new Label();
             layoutTitulo = new TableLayoutPanel();
-            btnCerrar = new Guna2Button();
             fieldTitulo = new Label();
             fieldIcono = new PictureBox();
             fieldSubtitulo = new Label();
@@ -116,7 +112,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             panelBotonesGestion.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
             layoutTitulo.SuspendLayout();
-            ((ISupportInitialize)fieldIcono).BeginInit();
+            ((ISupportInitialize) fieldIcono).BeginInit();
             layoutControlesTabla.SuspendLayout();
             layoutValorBrutoVenta.SuspendLayout();
             layoutPago.SuspendLayout();
@@ -251,7 +247,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusquedaFechaHasta.CheckedState.FillColor = Color.White;
             fieldFiltroBusquedaFechaHasta.CheckedState.ForeColor = Color.Black;
             fieldFiltroBusquedaFechaHasta.CustomFormat = "yyyy-MM-dd";
-            fieldFiltroBusquedaFechaHasta.CustomizableEdges = customizableEdges25;
+            fieldFiltroBusquedaFechaHasta.CustomizableEdges = customizableEdges1;
             fieldFiltroBusquedaFechaHasta.Dock = DockStyle.Fill;
             fieldFiltroBusquedaFechaHasta.FillColor = Color.White;
             fieldFiltroBusquedaFechaHasta.Font = new Font("Segoe UI", 11.25F);
@@ -262,7 +258,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusquedaFechaHasta.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             fieldFiltroBusquedaFechaHasta.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             fieldFiltroBusquedaFechaHasta.Name = "fieldFiltroBusquedaFechaHasta";
-            fieldFiltroBusquedaFechaHasta.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            fieldFiltroBusquedaFechaHasta.ShadowDecoration.CustomizableEdges = customizableEdges2;
             fieldFiltroBusquedaFechaHasta.Size = new Size(153, 35);
             fieldFiltroBusquedaFechaHasta.TabIndex = 26;
             fieldFiltroBusquedaFechaHasta.Value = new DateTime(2025, 2, 20, 21, 31, 28, 166);
@@ -287,7 +283,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusqueda.BackColor = Color.Transparent;
             fieldFiltroBusqueda.BorderColor = Color.Gainsboro;
             fieldFiltroBusqueda.BorderRadius = 16;
-            fieldFiltroBusqueda.CustomizableEdges = customizableEdges27;
+            fieldFiltroBusqueda.CustomizableEdges = customizableEdges3;
             fieldFiltroBusqueda.Dock = DockStyle.Fill;
             fieldFiltroBusqueda.DrawMode = DrawMode.OwnerDrawFixed;
             fieldFiltroBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -299,7 +295,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusqueda.Location = new Point(445, 5);
             fieldFiltroBusqueda.Margin = new Padding(5);
             fieldFiltroBusqueda.Name = "fieldFiltroBusqueda";
-            fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges4;
             fieldFiltroBusqueda.Size = new Size(290, 35);
             fieldFiltroBusqueda.TabIndex = 27;
             fieldFiltroBusqueda.TextOffset = new Point(10, 0);
@@ -317,11 +313,11 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             // fieldDatoBusqueda
             // 
             fieldDatoBusqueda.Animated = true;
-            fieldDatoBusqueda.BackColor = Color.FromArgb(254, 254, 253);
+            fieldDatoBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
             fieldDatoBusqueda.BorderColor = Color.Gainsboro;
             fieldDatoBusqueda.BorderRadius = 18;
             fieldDatoBusqueda.Cursor = Cursors.IBeam;
-            fieldDatoBusqueda.CustomizableEdges = customizableEdges29;
+            fieldDatoBusqueda.CustomizableEdges = customizableEdges5;
             fieldDatoBusqueda.DefaultText = "";
             fieldDatoBusqueda.DisabledState.BorderColor = Color.White;
             fieldDatoBusqueda.DisabledState.ForeColor = Color.DimGray;
@@ -330,7 +326,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldDatoBusqueda.ForeColor = Color.Black;
             fieldDatoBusqueda.HoverState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.IconLeft = (Image)resources.GetObject("fieldDatoBusqueda.IconLeft");
+            fieldDatoBusqueda.IconLeft = (Image) resources.GetObject("fieldDatoBusqueda.IconLeft");
             fieldDatoBusqueda.IconLeftOffset = new Point(10, 1);
             fieldDatoBusqueda.IconRightOffset = new Point(10, 0);
             fieldDatoBusqueda.Location = new Point(0, 0);
@@ -340,7 +336,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldDatoBusqueda.PlaceholderForeColor = Color.DimGray;
             fieldDatoBusqueda.PlaceholderText = "Datos complementarios de búsqueda";
             fieldDatoBusqueda.SelectedText = "";
-            fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
             fieldDatoBusqueda.Size = new Size(320, 35);
             fieldDatoBusqueda.TabIndex = 9;
             fieldDatoBusqueda.TextOffset = new Point(5, 0);
@@ -373,7 +369,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusquedaFechaDesde.CheckedState.FillColor = Color.White;
             fieldFiltroBusquedaFechaDesde.CheckedState.ForeColor = Color.Black;
             fieldFiltroBusquedaFechaDesde.CustomFormat = "yyyy-MM-dd";
-            fieldFiltroBusquedaFechaDesde.CustomizableEdges = customizableEdges31;
+            fieldFiltroBusquedaFechaDesde.CustomizableEdges = customizableEdges7;
             fieldFiltroBusquedaFechaDesde.Dock = DockStyle.Fill;
             fieldFiltroBusquedaFechaDesde.FillColor = Color.White;
             fieldFiltroBusquedaFechaDesde.Font = new Font("Segoe UI", 11.25F);
@@ -384,7 +380,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusquedaFechaDesde.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             fieldFiltroBusquedaFechaDesde.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             fieldFiltroBusquedaFechaDesde.Name = "fieldFiltroBusquedaFechaDesde";
-            fieldFiltroBusquedaFechaDesde.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            fieldFiltroBusquedaFechaDesde.ShadowDecoration.CustomizableEdges = customizableEdges8;
             fieldFiltroBusquedaFechaDesde.Size = new Size(153, 35);
             fieldFiltroBusquedaFechaDesde.TabIndex = 26;
             fieldFiltroBusquedaFechaDesde.Value = new DateTime(2025, 2, 20, 21, 31, 28, 166);
@@ -427,7 +423,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldTituloRangoFechaVentas.Dock = DockStyle.Fill;
             fieldTituloRangoFechaVentas.Font = new Font("Segoe UI", 11.25F);
             fieldTituloRangoFechaVentas.ForeColor = Color.DimGray;
-            fieldTituloRangoFechaVentas.Image = (Image)resources.GetObject("fieldTituloRangoFechaVentas.Image");
+            fieldTituloRangoFechaVentas.Image = (Image) resources.GetObject("fieldTituloRangoFechaVentas.Image");
             fieldTituloRangoFechaVentas.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloRangoFechaVentas.ImeMode = ImeMode.NoControl;
             fieldTituloRangoFechaVentas.Location = new Point(15, 5);
@@ -443,7 +439,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
             fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
-            fieldTituloFiltrosBusqueda.Image = (Image)resources.GetObject("fieldTituloFiltrosBusqueda.Image");
+            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
             fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
             fieldTituloFiltrosBusqueda.Location = new Point(455, 5);
@@ -471,17 +467,17 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnHabilitarDeshabilitarVenta.Animated = true;
             btnHabilitarDeshabilitarVenta.BackColor = Color.White;
             btnHabilitarDeshabilitarVenta.BorderRadius = 18;
-            btnHabilitarDeshabilitarVenta.CustomizableEdges = customizableEdges33;
+            btnHabilitarDeshabilitarVenta.CustomizableEdges = customizableEdges9;
             btnHabilitarDeshabilitarVenta.Dock = DockStyle.Left;
             btnHabilitarDeshabilitarVenta.FillColor = Color.PeachPuff;
             btnHabilitarDeshabilitarVenta.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnHabilitarDeshabilitarVenta.ForeColor = Color.Black;
-            btnHabilitarDeshabilitarVenta.Image = (Image)resources.GetObject("btnHabilitarDeshabilitarVenta.Image");
+            btnHabilitarDeshabilitarVenta.Image = (Image) resources.GetObject("btnHabilitarDeshabilitarVenta.Image");
             btnHabilitarDeshabilitarVenta.ImageOffset = new Point(-5, 0);
             btnHabilitarDeshabilitarVenta.Location = new Point(323, 3);
             btnHabilitarDeshabilitarVenta.Margin = new Padding(0);
             btnHabilitarDeshabilitarVenta.Name = "btnHabilitarDeshabilitarVenta";
-            btnHabilitarDeshabilitarVenta.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            btnHabilitarDeshabilitarVenta.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnHabilitarDeshabilitarVenta.Size = new Size(320, 39);
             btnHabilitarDeshabilitarVenta.TabIndex = 11;
             btnHabilitarDeshabilitarVenta.Text = "Habilitar/Deshabilitar venta";
@@ -492,17 +488,17 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnRegistrarVentaManual.Animated = true;
             btnRegistrarVentaManual.BackColor = Color.White;
             btnRegistrarVentaManual.BorderRadius = 18;
-            btnRegistrarVentaManual.CustomizableEdges = customizableEdges35;
+            btnRegistrarVentaManual.CustomizableEdges = customizableEdges11;
             btnRegistrarVentaManual.Dock = DockStyle.Left;
             btnRegistrarVentaManual.FillColor = Color.PeachPuff;
             btnRegistrarVentaManual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrarVentaManual.ForeColor = Color.Black;
-            btnRegistrarVentaManual.Image = (Image)resources.GetObject("btnRegistrarVentaManual.Image");
+            btnRegistrarVentaManual.Image = (Image) resources.GetObject("btnRegistrarVentaManual.Image");
             btnRegistrarVentaManual.ImageOffset = new Point(-5, 0);
             btnRegistrarVentaManual.Location = new Point(3, 3);
             btnRegistrarVentaManual.Margin = new Padding(0);
             btnRegistrarVentaManual.Name = "btnRegistrarVentaManual";
-            btnRegistrarVentaManual.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            btnRegistrarVentaManual.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnRegistrarVentaManual.Size = new Size(320, 39);
             btnRegistrarVentaManual.TabIndex = 7;
             btnRegistrarVentaManual.Text = "Registrar venta manual";
@@ -672,7 +668,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             layoutTitulo.ColumnCount = 2;
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            layoutTitulo.Controls.Add(btnCerrar, 1, 0);
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
             layoutTitulo.Location = new Point(50, 0);
@@ -682,25 +677,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             layoutTitulo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulo.Size = new Size(1286, 45);
             layoutTitulo.TabIndex = 14;
-            // 
-            // btnCerrar
-            // 
-            btnCerrar.Animated = true;
-            btnCerrar.AutoRoundedCorners = true;
-            btnCerrar.BorderColor = Color.Gray;
-            btnCerrar.BorderRadius = 18;
-            btnCerrar.CustomizableEdges = customizableEdges37;
-            btnCerrar.Dock = DockStyle.Fill;
-            btnCerrar.FillColor = Color.White;
-            btnCerrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            btnCerrar.ForeColor = Color.Black;
-            btnCerrar.HoverState.FillColor = Color.White;
-            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
-            btnCerrar.Location = new Point(1239, 3);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges38;
-            btnCerrar.Size = new Size(44, 39);
-            btnCerrar.TabIndex = 8;
             // 
             // fieldTitulo
             // 
@@ -717,7 +693,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             // 
             // fieldIcono
             // 
-            fieldIcono.BackgroundImage = (Image)resources.GetObject("fieldIcono.BackgroundImage");
+            fieldIcono.BackgroundImage = (Image) resources.GetObject("fieldIcono.BackgroundImage");
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
             fieldIcono.Location = new Point(20, 6);
@@ -837,7 +813,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldTituloValorBrutoVenta.Dock = DockStyle.Fill;
             fieldTituloValorBrutoVenta.Font = new Font("Segoe UI", 11.25F);
             fieldTituloValorBrutoVenta.ForeColor = Color.DimGray;
-            fieldTituloValorBrutoVenta.Image = (Image)resources.GetObject("fieldTituloValorBrutoVenta.Image");
+            fieldTituloValorBrutoVenta.Image = (Image) resources.GetObject("fieldTituloValorBrutoVenta.Image");
             fieldTituloValorBrutoVenta.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloValorBrutoVenta.ImeMode = ImeMode.NoControl;
             fieldTituloValorBrutoVenta.Location = new Point(15, 5);
@@ -854,21 +830,21 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnPaginaAnterior.BackColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaAnterior.CustomizableEdges = customizableEdges39;
+            btnPaginaAnterior.CustomizableEdges = customizableEdges13;
             btnPaginaAnterior.Dock = DockStyle.Fill;
             btnPaginaAnterior.FillColor = Color.WhiteSmoke;
             btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
             btnPaginaAnterior.ForeColor = Color.White;
-            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
+            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
             btnPaginaAnterior.ImageSize = new Size(24, 24);
             btnPaginaAnterior.Location = new Point(36, 1);
             btnPaginaAnterior.Margin = new Padding(1);
             btnPaginaAnterior.Name = "btnPaginaAnterior";
-            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges14;
             btnPaginaAnterior.Size = new Size(33, 33);
             btnPaginaAnterior.TabIndex = 1;
             // 
@@ -878,21 +854,21 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnPrimeraPagina.BackColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
+            btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnPrimeraPagina.CustomizableEdges = customizableEdges41;
+            btnPrimeraPagina.CustomizableEdges = customizableEdges15;
             btnPrimeraPagina.Dock = DockStyle.Fill;
             btnPrimeraPagina.FillColor = Color.WhiteSmoke;
             btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
             btnPrimeraPagina.ForeColor = Color.White;
-            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
+            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
             btnPrimeraPagina.ImageSize = new Size(24, 24);
             btnPrimeraPagina.Location = new Point(1, 1);
             btnPrimeraPagina.Margin = new Padding(1);
             btnPrimeraPagina.Name = "btnPrimeraPagina";
-            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges16;
             btnPrimeraPagina.Size = new Size(33, 33);
             btnPrimeraPagina.TabIndex = 0;
             // 
@@ -902,21 +878,21 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnPaginaSiguiente.BackColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
+            btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
             btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaSiguiente.CustomizableEdges = customizableEdges43;
+            btnPaginaSiguiente.CustomizableEdges = customizableEdges17;
             btnPaginaSiguiente.Dock = DockStyle.Fill;
             btnPaginaSiguiente.FillColor = Color.WhiteSmoke;
             btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
             btnPaginaSiguiente.ForeColor = Color.White;
-            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
+            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
             btnPaginaSiguiente.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.Location = new Point(311, 1);
             btnPaginaSiguiente.Margin = new Padding(1);
             btnPaginaSiguiente.Name = "btnPaginaSiguiente";
-            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnPaginaSiguiente.Size = new Size(33, 33);
             btnPaginaSiguiente.TabIndex = 2;
             // 
@@ -926,21 +902,21 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnUltimaPagina.BackColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image3");
+            btnUltimaPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
             btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnUltimaPagina.CustomizableEdges = customizableEdges45;
+            btnUltimaPagina.CustomizableEdges = customizableEdges19;
             btnUltimaPagina.Dock = DockStyle.Fill;
             btnUltimaPagina.FillColor = Color.WhiteSmoke;
             btnUltimaPagina.Font = new Font("Segoe UI", 9F);
             btnUltimaPagina.ForeColor = Color.White;
-            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
+            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
             btnUltimaPagina.ImageSize = new Size(24, 24);
             btnUltimaPagina.Location = new Point(346, 1);
             btnUltimaPagina.Margin = new Padding(1);
             btnUltimaPagina.Name = "btnUltimaPagina";
-            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges46;
+            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges20;
             btnUltimaPagina.Size = new Size(33, 33);
             btnUltimaPagina.TabIndex = 3;
             // 
@@ -950,21 +926,21 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnSincronizarDatos.BackColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CustomImages.Image = (Image)resources.GetObject("resource.Image4");
+            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image4");
             btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
-            btnSincronizarDatos.CustomizableEdges = customizableEdges47;
+            btnSincronizarDatos.CustomizableEdges = customizableEdges21;
             btnSincronizarDatos.Dock = DockStyle.Fill;
             btnSincronizarDatos.FillColor = Color.WhiteSmoke;
             btnSincronizarDatos.Font = new Font("Segoe UI", 9F);
             btnSincronizarDatos.ForeColor = Color.White;
-            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(245, 245, 245);
+            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnSincronizarDatos.HoverState.FillColor = Color.WhiteSmoke;
             btnSincronizarDatos.ImageSize = new Size(24, 24);
             btnSincronizarDatos.Location = new Point(391, 1);
             btnSincronizarDatos.Margin = new Padding(1);
             btnSincronizarDatos.Name = "btnSincronizarDatos";
-            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges22;
             btnSincronizarDatos.Size = new Size(33, 33);
             btnSincronizarDatos.TabIndex = 4;
             // 
@@ -1064,7 +1040,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             panelBotonesGestion.ResumeLayout(false);
             layoutEncabezadosTabla.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
-            ((ISupportInitialize)fieldIcono).EndInit();
+            ((ISupportInitialize) fieldIcono).EndInit();
             layoutControlesTabla.ResumeLayout(false);
             layoutValorBrutoVenta.ResumeLayout(false);
             layoutPago.ResumeLayout(false);
@@ -1076,7 +1052,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         private Guna2BorderlessForm formatoBase;
         private TableLayoutPanel layoutVista;
         private TableLayoutPanel layoutTitulo;
-        private Guna2Button btnCerrar;
         private Label fieldTitulo;
         private PictureBox fieldIcono;
         private Label fieldSubtitulo;

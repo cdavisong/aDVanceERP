@@ -5,7 +5,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 
-namespace DVanceERP.Modulos.Venta.Vistas;
+namespace aDVanceERP.Modulos.Venta.Vistas;
 
 public partial class VistaGestionVentas : Form, IVistaGestionVentas {
     private int _paginaActual = 1;
@@ -73,7 +73,6 @@ public partial class VistaGestionVentas : Form, IVistaGestionVentas {
     }
 
     public RepoVistaBase PanelCentral { get; private set; }
-
 
     public event EventHandler? AlturaContenedorTuplasModificada;
     public event EventHandler? MostrarPrimeraPagina;

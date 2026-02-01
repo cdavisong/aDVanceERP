@@ -1,12 +1,14 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
+        private EstadoMovimiento _estadoMovimiento;
+
         public VistaTuplaMovimiento() {
             InitializeComponent();
 
@@ -37,7 +39,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public Color ColorFondoTupla {
             get => layoutVista.BackColor;
-            set => layoutVista.BackColor = value;
+            set => layoutVista.BackColor = value == Color.Gainsboro
+            ? value
+            : ObtenerColorFondoTupla(EstadoMovimiento);
         }
 
         public bool EstadoSeleccion { get; set; }
@@ -80,11 +84,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public string SaldoFinal {
             get => fieldSaldoFinal.Text;
-            set { 
-                fieldSaldoFinal.Text = value;
-
-                //ColorFondoTupla = ObtenerColorTupla();
-            }
+            set => fieldSaldoFinal.Text = value;
         }
 
         public string TipoMovimiento {
@@ -99,7 +99,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             get => fieldFecha.Text;
             set => fieldFecha.Text = value;
         }
-    
+
+        public EstadoMovimiento EstadoMovimiento {
+            get => _estadoMovimiento;
+            set {
+                _estadoMovimiento = value;
+                layoutVista.BackColor = ObtenerColorFondoTupla(value);
+            }
+        }
+
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
     
@@ -157,16 +165,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
         }
 
-        private Color ObtenerColorTupla() {
-            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, NombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(NombreProducto)).entidadBase;
-            var inventarioProducto = producto != null ? RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda.Select(i => i.entidadBase) : null;
-            var saldoRealProducto = inventarioProducto != null && inventarioProducto.Any() ? inventarioProducto.Sum(i => i.Cantidad) : 0.0m;
-            var saldoFinalDecimal = decimal.TryParse(SaldoFinal, out var saldoFinal) ? saldoFinal : 0.0m;
-
-            if (saldoRealProducto.CompareTo(saldoFinalDecimal) != 0)
-                return ContextoAplicacion.ColorErrorTupla;
-
-            return BackColor;
+        private Color ObtenerColorFondoTupla(EstadoMovimiento estado) {
+            return estado switch {
+                EstadoMovimiento.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
+                EstadoMovimiento.Cancelado => ContextoAplicacion.ColorErrorTupla,
+                _ => BackColor
+            };
         }
     }
 }

@@ -128,8 +128,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
-            base.RegistroEdicionAuxiliar(repositorio, id);
-
             if (!Vista.ModoEdicion) {
                 // Crear inventario inicial en el almacén seleccionado
                 var almacen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).resultadosBusqueda.FirstOrDefault().entidadBase;

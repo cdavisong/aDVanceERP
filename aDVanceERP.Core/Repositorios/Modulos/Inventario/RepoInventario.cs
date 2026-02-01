@@ -84,23 +84,23 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaInventario.Id => $"""
                     SELECT * 
-                FROM adv__inventario 
-                WHERE id_inventario = @id;
-                """,
+                    FROM adv__inventario 
+                    WHERE id_inventario = @id;
+                    """,
                 FiltroBusquedaInventario.IdProducto => $"""
                     SELECT * 
-                FROM adv__inventario 
-                WHERE id_producto = @id_producto;
-                """,
+                    FROM adv__inventario 
+                    WHERE id_producto = @id_producto;
+                    """,
                 FiltroBusquedaInventario.IdAlmacen => $"""
                     SELECT * 
-                FROM adv__inventario 
-                WHERE id_almacen = @id_almacen;
-                """,
+                    FROM adv__inventario 
+                    WHERE id_almacen = @id_almacen;
+                    """,
                 _ => """
-                SELECT * 
-                FROM adv__inventario;
-                """
+                    SELECT * 
+                    FROM adv__inventario;
+                    """
             };
 
             parametros = filtroBusqueda switch {

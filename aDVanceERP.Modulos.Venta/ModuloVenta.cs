@@ -6,8 +6,6 @@ using aDVanceERP.Modulos.Venta.Presentadores;
 using aDVanceERP.Modulos.Venta.Properties;
 using aDVanceERP.Modulos.Venta.Vistas;
 
-using DVanceERP.Modulos.Venta.Vistas;
-
 using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Venta {
@@ -16,6 +14,7 @@ namespace aDVanceERP.Modulos.Venta {
         private PresentadorMenuVenta _menuVenta = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorGestionPedidos _pedidos = null!;
+        private PresentadorRegistroPedido _registroPedido = null!;
         private PresentadorGestionVentas _ventas = null!;
         private PresentadorRegistroVenta _registroVenta = null!;
         private PresentadorGestionClientes _clientes = null!;
@@ -46,6 +45,8 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Pedidos
             _pedidos = new PresentadorGestionPedidos(new VistaGestionPedidos());
+            _registroPedido = new PresentadorRegistroPedido(new VistaRegistroPedido());
+            _registroPedido.EntidadRegistradaActualizada += (s, e) => _pedidos.ActualizarResultadosBusqueda();
             // Ventas
             _ventas = new PresentadorGestionVentas(new VistaGestionVentas());
             _registroVenta = new PresentadorRegistroVenta(new VistaRegistroVenta());
@@ -73,6 +74,7 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Pedidos
             _principal.Modulos.Vista.PanelCentral.Registrar(_pedidos.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroPedido.Vista);
             // Ventas
             _principal.Modulos.Vista.PanelCentral.Registrar(_ventas.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroVenta.Vista);

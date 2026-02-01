@@ -52,6 +52,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.CantidadMovida = entidad.CantidadMovida.ToString("N2", CultureInfo.InvariantCulture);
             presentadorTupla.Vista.SaldoFinal = entidad.SaldoFinal.ToString("N2", CultureInfo.InvariantCulture);
             presentadorTupla.Vista.TipoMovimiento = entidad.NombreTipoMovimiento;
+            presentadorTupla.Vista.EstadoMovimiento = entidad.Estado;
             presentadorTupla.Vista.Fecha = entidad.FechaCreacion.ToString("yyyy-MM-dd");
 
             return presentadorTupla;

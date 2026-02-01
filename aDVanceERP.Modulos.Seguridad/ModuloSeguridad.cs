@@ -11,7 +11,7 @@ using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Seguridad {
     public sealed class ModuloSeguridad : ModuloExtensionBase {
-        private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+        //private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuSeguridad _menuSeguridad = null!;
         private PresentadorAutenticacionUsuario _autenticacionUsuario = null!;
         private PresentadorRegistroUsuario _registroUsuario = null!;
@@ -29,12 +29,12 @@ namespace aDVanceERP.Modulos.Seguridad {
 
         public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
             // Botón de acceso al módulo
-            _btnAccesoModulo.Name = "btnAccesoModuloSeguridad";
-            _btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
-            _btnAccesoModulo.Click += delegate {
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-                AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
-            };
+            //_btnAccesoModulo.Name = "btnAccesoModuloSeguridad";
+            //_btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
+            //_btnAccesoModulo.Click += delegate {
+            //    AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+            //    AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
+            //};
 
             // Menu
             _menuSeguridad = new PresentadorMenuSeguridad(new VistaMenuSeguridad());
@@ -60,7 +60,7 @@ namespace aDVanceERP.Modulos.Seguridad {
 
         protected override void InicializarVistas() {
             // Agregar botón de acceso al módulo
-            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+            //_principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
 
             // Agregar menú del módulo
             _principal.Vista.BarraTitulo.Registrar(_menuSeguridad.Vista);

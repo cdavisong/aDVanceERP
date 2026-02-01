@@ -388,14 +388,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 ), 0) as comprometido
                 FROM adv__inventario i
                 WHERE i.id_producto = @idProducto 
-                AND i.id_almacen = @idAlmacen;
+                {(idAlmacen != 0 ? "AND i.id_almacen = @idAlmacen" : string.Empty)};
                 """;
 
             var parametros = new Dictionary<string, object> {
                 { "@idProducto", idProducto },
-                { "@idAlmacen", idAlmacen },
                 { "@idPedidoExcluir", idPedidoExcluir }
             };
+
+            if (idAlmacen != 0)
+                parametros.Add("@idAlmacen", idAlmacen);
 
             using (var connection = ContextoBaseDatos.ObtenerConexionOptimizada()) {
                 connection.Open();

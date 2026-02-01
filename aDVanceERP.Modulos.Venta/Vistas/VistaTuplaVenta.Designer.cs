@@ -2,7 +2,7 @@
 
 using System.ComponentModel;
 
-namespace DVanceERP.Modulos.Venta.Vistas {
+namespace aDVanceERP.Modulos.Venta.Vistas {
     partial class VistaTuplaVenta {
         /// <summary>
         /// Required designer variable.
@@ -37,18 +37,18 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldEstado = new Label();
             fieldMetodoPagoPrincipal = new Label();
             fieldId = new Label();
-            btnEditar = new Guna2Button();
-            btnEliminar = new Guna2Button();
+            btnVerFactura = new Guna2Button();
+            btnAnular = new Guna2Button();
             simboloPeso4 = new Label();
             fieldImporteTotal = new Label();
             simboloPeso3 = new Label();
             simboloPeso2 = new Label();
-            fieldFechaVenta = new Label();
-            fieldNombreCliente = new Label();
             simboloPeso1 = new Label();
             fieldImpuestoTotal = new Label();
             fieldTotalBruto = new Label();
             fieldDescuentoTotal = new Label();
+            fieldFechaVenta = new Label();
+            fieldNombreCliente = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -90,18 +90,18 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             layoutVista.Controls.Add(fieldEstado, 12, 0);
             layoutVista.Controls.Add(fieldMetodoPagoPrincipal, 3, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnEditar, 14, 0);
-            layoutVista.Controls.Add(btnEliminar, 15, 0);
+            layoutVista.Controls.Add(btnVerFactura, 14, 0);
+            layoutVista.Controls.Add(btnAnular, 15, 0);
             layoutVista.Controls.Add(simboloPeso4, 11, 0);
             layoutVista.Controls.Add(fieldImporteTotal, 10, 0);
             layoutVista.Controls.Add(simboloPeso3, 9, 0);
             layoutVista.Controls.Add(simboloPeso2, 7, 0);
-            layoutVista.Controls.Add(fieldFechaVenta, 1, 0);
-            layoutVista.Controls.Add(fieldNombreCliente, 1, 0);
             layoutVista.Controls.Add(simboloPeso1, 5, 0);
             layoutVista.Controls.Add(fieldImpuestoTotal, 8, 0);
             layoutVista.Controls.Add(fieldTotalBruto, 4, 0);
             layoutVista.Controls.Add(fieldDescuentoTotal, 6, 0);
+            layoutVista.Controls.Add(fieldFechaVenta, 1, 0);
+            layoutVista.Controls.Add(fieldNombreCliente, 2, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -154,51 +154,51 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldId.Text = "id";
             fieldId.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnEditar
+            // btnVerFactura
             // 
-            btnEditar.Animated = true;
-            btnEditar.BorderColor = Color.Gainsboro;
-            btnEditar.BorderRadius = 16;
-            btnEditar.BorderThickness = 1;
-            btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
-            btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
-            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges1;
-            btnEditar.Dock = DockStyle.Fill;
-            btnEditar.FillColor = Color.White;
-            btnEditar.Font = new Font("Segoe UI", 9.75F);
-            btnEditar.ForeColor = Color.White;
-            btnEditar.HoverState.BorderColor = Color.PeachPuff;
-            btnEditar.HoverState.FillColor = Color.PeachPuff;
-            btnEditar.Location = new Point(1164, 3);
-            btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnEditar.Size = new Size(34, 35);
-            btnEditar.TabIndex = 21;
+            btnVerFactura.Animated = true;
+            btnVerFactura.BorderColor = Color.Gainsboro;
+            btnVerFactura.BorderRadius = 16;
+            btnVerFactura.BorderThickness = 1;
+            btnVerFactura.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
+            btnVerFactura.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnVerFactura.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnVerFactura.CustomizableEdges = customizableEdges1;
+            btnVerFactura.Dock = DockStyle.Fill;
+            btnVerFactura.FillColor = Color.White;
+            btnVerFactura.Font = new Font("Segoe UI", 9.75F);
+            btnVerFactura.ForeColor = Color.White;
+            btnVerFactura.HoverState.BorderColor = Color.PeachPuff;
+            btnVerFactura.HoverState.FillColor = Color.PeachPuff;
+            btnVerFactura.Location = new Point(1164, 3);
+            btnVerFactura.Name = "btnVerFactura";
+            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnVerFactura.Size = new Size(34, 35);
+            btnVerFactura.TabIndex = 21;
+            btnVerFactura.Visible = false;
             // 
-            // btnEliminar
+            // btnAnular
             // 
-            btnEliminar.Animated = true;
-            btnEliminar.BorderColor = Color.Gainsboro;
-            btnEliminar.BorderRadius = 16;
-            btnEliminar.BorderThickness = 1;
-            btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
-            btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
-            btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges3;
-            btnEliminar.Dock = DockStyle.Fill;
-            btnEliminar.Enabled = false;
-            btnEliminar.FillColor = Color.White;
-            btnEliminar.Font = new Font("Segoe UI", 9.75F);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.HoverState.BorderColor = Color.PeachPuff;
-            btnEliminar.HoverState.FillColor = Color.PeachPuff;
-            btnEliminar.HoverState.ForeColor = Color.White;
-            btnEliminar.Location = new Point(1204, 3);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnEliminar.Size = new Size(34, 35);
-            btnEliminar.TabIndex = 22;
+            btnAnular.Animated = true;
+            btnAnular.BorderColor = Color.Gainsboro;
+            btnAnular.BorderRadius = 16;
+            btnAnular.BorderThickness = 1;
+            btnAnular.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnAnular.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnAnular.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnAnular.CustomizableEdges = customizableEdges3;
+            btnAnular.Dock = DockStyle.Fill;
+            btnAnular.FillColor = Color.White;
+            btnAnular.Font = new Font("Segoe UI", 9.75F);
+            btnAnular.ForeColor = Color.White;
+            btnAnular.HoverState.BorderColor = Color.PeachPuff;
+            btnAnular.HoverState.FillColor = Color.PeachPuff;
+            btnAnular.HoverState.ForeColor = Color.White;
+            btnAnular.Location = new Point(1204, 3);
+            btnAnular.Name = "btnAnular";
+            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnAnular.Size = new Size(34, 35);
+            btnAnular.TabIndex = 22;
             // 
             // simboloPeso4
             // 
@@ -259,35 +259,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             simboloPeso2.Text = "$";
             simboloPeso2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // fieldFechaVenta
-            // 
-            fieldFechaVenta.Dock = DockStyle.Fill;
-            fieldFechaVenta.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaVenta.ForeColor = Color.DimGray;
-            fieldFechaVenta.ImeMode = ImeMode.NoControl;
-            fieldFechaVenta.Location = new Point(61, 1);
-            fieldFechaVenta.Margin = new Padding(1);
-            fieldFechaVenta.Name = "fieldFechaVenta";
-            fieldFechaVenta.Size = new Size(118, 39);
-            fieldFechaVenta.TabIndex = 17;
-            fieldFechaVenta.Text = "fecha";
-            fieldFechaVenta.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldNombreCliente
-            // 
-            fieldNombreCliente.AutoEllipsis = true;
-            fieldNombreCliente.Dock = DockStyle.Fill;
-            fieldNombreCliente.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreCliente.ForeColor = Color.DimGray;
-            fieldNombreCliente.ImeMode = ImeMode.NoControl;
-            fieldNombreCliente.Location = new Point(185, 1);
-            fieldNombreCliente.Margin = new Padding(5, 1, 1, 1);
-            fieldNombreCliente.Name = "fieldNombreCliente";
-            fieldNombreCliente.Size = new Size(165, 39);
-            fieldNombreCliente.TabIndex = 4;
-            fieldNombreCliente.Text = "nombreCliente";
-            fieldNombreCliente.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // simboloPeso1
             // 
             simboloPeso1.Dock = DockStyle.Fill;
@@ -345,6 +316,35 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldDescuentoTotal.Text = "descuento";
             fieldDescuentoTotal.TextAlign = ContentAlignment.MiddleRight;
             // 
+            // fieldFechaVenta
+            // 
+            fieldFechaVenta.Dock = DockStyle.Fill;
+            fieldFechaVenta.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaVenta.ForeColor = Color.DimGray;
+            fieldFechaVenta.ImeMode = ImeMode.NoControl;
+            fieldFechaVenta.Location = new Point(61, 1);
+            fieldFechaVenta.Margin = new Padding(1);
+            fieldFechaVenta.Name = "fieldFechaVenta";
+            fieldFechaVenta.Size = new Size(118, 39);
+            fieldFechaVenta.TabIndex = 17;
+            fieldFechaVenta.Text = "fecha";
+            fieldFechaVenta.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // fieldNombreCliente
+            // 
+            fieldNombreCliente.AutoEllipsis = true;
+            fieldNombreCliente.Dock = DockStyle.Fill;
+            fieldNombreCliente.Font = new Font("Segoe UI", 11.25F);
+            fieldNombreCliente.ForeColor = Color.DimGray;
+            fieldNombreCliente.ImeMode = ImeMode.NoControl;
+            fieldNombreCliente.Location = new Point(185, 1);
+            fieldNombreCliente.Margin = new Padding(5, 1, 1, 1);
+            fieldNombreCliente.Name = "fieldNombreCliente";
+            fieldNombreCliente.Size = new Size(165, 39);
+            fieldNombreCliente.TabIndex = 4;
+            fieldNombreCliente.Text = "nombreCliente";
+            fieldNombreCliente.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaTuplaVenta
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -373,8 +373,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         private Label fieldFechaVenta;
         private Label fieldNombreCliente;
         private Label fieldImporteTotal;
-        private Guna2Button btnEditar;
-        private Guna2Button btnEliminar;
+        private Guna2Button btnVerFactura;
         private Label simboloPeso4;
         private Label simboloPeso3;
         private Label simboloPeso2;
@@ -384,5 +383,6 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         private Label fieldDescuentoTotal;
         private Label fieldMetodoPagoPrincipal;
         private Label fieldEstado;
+        private Guna2Button btnAnular;
     }
 }

@@ -106,8 +106,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
         protected override string GenerarComandoObtener(FiltroBusquedaPedido filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
             var fechaDesde = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var fechaHasta = criteriosBusqueda.Length > 0 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[2] : string.Empty;
+            var fechaHasta = criteriosBusqueda.Length > 1 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length > 2 ? criteriosBusqueda[2] : string.Empty;
 
             var consultaComun = $"""
                 SELECT p.*, c.nombre_completo as nombre_cliente
@@ -144,7 +144,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.Codigo => new Dictionary<string, object> {
-                    { "@codigo", long.Parse(criterio) },
+                    { "@codigo", criterio },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },

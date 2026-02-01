@@ -2,7 +2,7 @@
 
 using System.ComponentModel;
 
-namespace DVanceERP.Modulos.Venta.Vistas {
+namespace aDVanceERP.Modulos.Venta.Vistas {
     partial class VistaTuplaCarrito {
         /// <summary>
         /// Required designer variable.
@@ -28,8 +28,8 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaCarrito));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldUnidadMedida = new Label();
@@ -60,16 +60,14 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             // layoutVista
             // 
             layoutVista.BackColor = Color.White;
-            layoutVista.ColumnCount = 8;
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutVista.ColumnCount = 7;
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 125F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.Controls.Add(fieldUnidadMedida, 5, 0);
             layoutVista.Controls.Add(fieldCantidad, 4, 0);
@@ -93,7 +91,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F);
             fieldUnidadMedida.ForeColor = Color.DimGray;
             fieldUnidadMedida.ImeMode = ImeMode.NoControl;
-            fieldUnidadMedida.Location = new Point(590, 1);
+            fieldUnidadMedida.Location = new Point(610, 1);
             fieldUnidadMedida.Margin = new Padding(5, 1, 1, 1);
             fieldUnidadMedida.Name = "fieldUnidadMedida";
             fieldUnidadMedida.Size = new Size(74, 39);
@@ -107,7 +105,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldCantidad.Font = new Font("Segoe UI", 11.25F);
             fieldCantidad.ForeColor = Color.DimGray;
             fieldCantidad.ImeMode = ImeMode.NoControl;
-            fieldCantidad.Location = new Point(480, 1);
+            fieldCantidad.Location = new Point(500, 1);
             fieldCantidad.Margin = new Padding(5, 1, 1, 1);
             fieldCantidad.Name = "fieldCantidad";
             fieldCantidad.Size = new Size(104, 39);
@@ -124,16 +122,16 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges3;
+            btnEliminar.CustomizableEdges = customizableEdges1;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
             btnEliminar.ForeColor = Color.White;
             btnEliminar.HoverState.BorderColor = Color.PeachPuff;
             btnEliminar.HoverState.FillColor = Color.PeachPuff;
-            btnEliminar.Location = new Point(668, 3);
+            btnEliminar.Location = new Point(688, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnEliminar.Size = new Size(34, 35);
             btnEliminar.TabIndex = 21;
             // 
@@ -144,7 +142,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             simboloPeso1.ForeColor = Color.Black;
             simboloPeso1.ImageAlign = ContentAlignment.MiddleLeft;
             simboloPeso1.ImeMode = ImeMode.NoControl;
-            simboloPeso1.Location = new Point(458, 5);
+            simboloPeso1.Location = new Point(478, 5);
             simboloPeso1.Margin = new Padding(3, 5, 3, 3);
             simboloPeso1.Name = "simboloPeso1";
             simboloPeso1.Size = new Size(14, 33);
@@ -161,7 +159,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldCodigo.Location = new Point(5, 1);
             fieldCodigo.Margin = new Padding(5, 1, 1, 1);
             fieldCodigo.Name = "fieldCodigo";
-            fieldCodigo.Size = new Size(114, 39);
+            fieldCodigo.Size = new Size(119, 39);
             fieldCodigo.TabIndex = 4;
             fieldCodigo.Text = "codigo";
             fieldCodigo.TextAlign = ContentAlignment.MiddleCenter;
@@ -172,7 +170,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldCostoGeneral.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldCostoGeneral.ForeColor = Color.Black;
             fieldCostoGeneral.ImeMode = ImeMode.NoControl;
-            fieldCostoGeneral.Location = new Point(346, 1);
+            fieldCostoGeneral.Location = new Point(366, 1);
             fieldCostoGeneral.Margin = new Padding(1);
             fieldCostoGeneral.Name = "fieldCostoGeneral";
             fieldCostoGeneral.Size = new Size(108, 39);
@@ -187,15 +185,15 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldNombreProducto.Font = new Font("Segoe UI", 11.25F);
             fieldNombreProducto.ForeColor = Color.DimGray;
             fieldNombreProducto.ImeMode = ImeMode.NoControl;
-            fieldNombreProducto.Location = new Point(121, 1);
+            fieldNombreProducto.Location = new Point(126, 1);
             fieldNombreProducto.Margin = new Padding(1);
             fieldNombreProducto.Name = "fieldNombreProducto";
-            fieldNombreProducto.Size = new Size(223, 39);
+            fieldNombreProducto.Size = new Size(238, 39);
             fieldNombreProducto.TabIndex = 17;
             fieldNombreProducto.Text = "nombreProducto";
             fieldNombreProducto.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // VistaTuplaProductoVenta
+            // VistaTuplaCarrito
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
@@ -204,7 +202,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
-            Name = "VistaTuplaProductoVenta";
+            Name = "VistaTuplaCarrito";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;

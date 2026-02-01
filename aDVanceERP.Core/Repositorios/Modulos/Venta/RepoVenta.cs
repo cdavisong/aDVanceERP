@@ -124,8 +124,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
         protected override string GenerarComandoObtener(FiltroBusquedaVenta filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
             var fechaDesde = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var fechaHasta = criteriosBusqueda.Length > 0 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[2] : string.Empty;
+            var fechaHasta = criteriosBusqueda.Length > 1 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length > 2 ? criteriosBusqueda[2] : string.Empty;
 
             var consultaComun = $"""
                 SELECT v.*, c.nombre_completo as nombre_cliente 

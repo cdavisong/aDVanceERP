@@ -2,7 +2,7 @@
 
 using System.ComponentModel;
 
-namespace DVanceERP.Modulos.Venta.Vistas {
+namespace aDVanceERP.Modulos.Venta.Vistas {
     partial class VistaTuplaPedido {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,20 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
+            btnEditar = new Guna2Button();
             fieldEstado = new Label();
             fieldFechaEntrega = new Label();
             fieldId = new Label();
-            btnEditar = new Guna2Button();
-            btnEliminar = new Guna2Button();
+            btnConfirmar = new Guna2Button();
+            btnCancelar = new Guna2Button();
             simboloPeso4 = new Label();
             fieldImporteTotal = new Label();
             fieldFechaPedido = new Label();
@@ -78,16 +81,17 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.Controls.Add(btnEditar, 8, 0);
             layoutVista.Controls.Add(fieldEstado, 7, 0);
             layoutVista.Controls.Add(fieldFechaEntrega, 3, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnEditar, 9, 0);
-            layoutVista.Controls.Add(btnEliminar, 10, 0);
+            layoutVista.Controls.Add(btnConfirmar, 9, 0);
+            layoutVista.Controls.Add(btnCancelar, 10, 0);
             layoutVista.Controls.Add(simboloPeso4, 6, 0);
             layoutVista.Controls.Add(fieldImporteTotal, 5, 0);
-            layoutVista.Controls.Add(fieldFechaPedido, 1, 0);
-            layoutVista.Controls.Add(fieldNombreCliente, 1, 0);
             layoutVista.Controls.Add(fieldDireccionaEntrega, 4, 0);
+            layoutVista.Controls.Add(fieldNombreCliente, 2, 0);
+            layoutVista.Controls.Add(fieldFechaPedido, 1, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -96,6 +100,28 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 19;
+            // 
+            // btnEditar
+            // 
+            btnEditar.Animated = true;
+            btnEditar.BorderColor = Color.Gainsboro;
+            btnEditar.BorderRadius = 16;
+            btnEditar.BorderThickness = 1;
+            btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
+            btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEditar.CustomizableEdges = customizableEdges1;
+            btnEditar.Dock = DockStyle.Fill;
+            btnEditar.FillColor = Color.White;
+            btnEditar.Font = new Font("Segoe UI", 9.75F);
+            btnEditar.ForeColor = Color.White;
+            btnEditar.HoverState.BorderColor = Color.PeachPuff;
+            btnEditar.HoverState.FillColor = Color.PeachPuff;
+            btnEditar.Location = new Point(1123, 3);
+            btnEditar.Name = "btnEditar";
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnEditar.Size = new Size(34, 35);
+            btnEditar.TabIndex = 39;
             // 
             // fieldEstado
             // 
@@ -140,51 +166,50 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldId.Text = "id";
             fieldId.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnEditar
+            // btnConfirmar
             // 
-            btnEditar.Animated = true;
-            btnEditar.BorderColor = Color.Gainsboro;
-            btnEditar.BorderRadius = 16;
-            btnEditar.BorderThickness = 1;
-            btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
-            btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
-            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges5;
-            btnEditar.Dock = DockStyle.Fill;
-            btnEditar.FillColor = Color.White;
-            btnEditar.Font = new Font("Segoe UI", 9.75F);
-            btnEditar.ForeColor = Color.White;
-            btnEditar.HoverState.BorderColor = Color.PeachPuff;
-            btnEditar.HoverState.FillColor = Color.PeachPuff;
-            btnEditar.Location = new Point(1163, 3);
-            btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnEditar.Size = new Size(34, 35);
-            btnEditar.TabIndex = 21;
+            btnConfirmar.Animated = true;
+            btnConfirmar.BorderColor = Color.Gainsboro;
+            btnConfirmar.BorderRadius = 16;
+            btnConfirmar.BorderThickness = 1;
+            btnConfirmar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnConfirmar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnConfirmar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnConfirmar.CustomizableEdges = customizableEdges3;
+            btnConfirmar.Dock = DockStyle.Fill;
+            btnConfirmar.FillColor = Color.White;
+            btnConfirmar.Font = new Font("Segoe UI", 9.75F);
+            btnConfirmar.ForeColor = Color.White;
+            btnConfirmar.HoverState.BorderColor = Color.PeachPuff;
+            btnConfirmar.HoverState.FillColor = Color.PeachPuff;
+            btnConfirmar.Location = new Point(1163, 3);
+            btnConfirmar.Name = "btnConfirmar";
+            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnConfirmar.Size = new Size(34, 35);
+            btnConfirmar.TabIndex = 21;
             // 
-            // btnEliminar
+            // btnCancelar
             // 
-            btnEliminar.Animated = true;
-            btnEliminar.BorderColor = Color.Gainsboro;
-            btnEliminar.BorderRadius = 16;
-            btnEliminar.BorderThickness = 1;
-            btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
-            btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
-            btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges7;
-            btnEliminar.Dock = DockStyle.Fill;
-            btnEliminar.Enabled = false;
-            btnEliminar.FillColor = Color.White;
-            btnEliminar.Font = new Font("Segoe UI", 9.75F);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.HoverState.BorderColor = Color.PeachPuff;
-            btnEliminar.HoverState.FillColor = Color.PeachPuff;
-            btnEliminar.HoverState.ForeColor = Color.White;
-            btnEliminar.Location = new Point(1203, 3);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnEliminar.Size = new Size(35, 35);
-            btnEliminar.TabIndex = 22;
+            btnCancelar.Animated = true;
+            btnCancelar.BorderColor = Color.Gainsboro;
+            btnCancelar.BorderRadius = 16;
+            btnCancelar.BorderThickness = 1;
+            btnCancelar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage2");
+            btnCancelar.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
+            btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnCancelar.CustomizableEdges = customizableEdges5;
+            btnCancelar.Dock = DockStyle.Fill;
+            btnCancelar.FillColor = Color.White;
+            btnCancelar.Font = new Font("Segoe UI", 9.75F);
+            btnCancelar.ForeColor = Color.White;
+            btnCancelar.HoverState.BorderColor = Color.PeachPuff;
+            btnCancelar.HoverState.FillColor = Color.PeachPuff;
+            btnCancelar.HoverState.ForeColor = Color.White;
+            btnCancelar.Location = new Point(1203, 3);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnCancelar.Size = new Size(35, 35);
+            btnCancelar.TabIndex = 22;
             // 
             // simboloPeso4
             // 
@@ -249,7 +274,7 @@ namespace DVanceERP.Modulos.Venta.Vistas {
             fieldDireccionaEntrega.AutoEllipsis = true;
             fieldDireccionaEntrega.Dock = DockStyle.Fill;
             fieldDireccionaEntrega.Font = new Font("Segoe UI", 11.25F);
-            fieldDireccionaEntrega.ForeColor = Color.Black;
+            fieldDireccionaEntrega.ForeColor = Color.DimGray;
             fieldDireccionaEntrega.ImeMode = ImeMode.NoControl;
             fieldDireccionaEntrega.Location = new Point(529, 1);
             fieldDireccionaEntrega.Margin = new Padding(1);
@@ -287,11 +312,12 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         private Label fieldFechaPedido;
         private Label fieldNombreCliente;
         private Label fieldImporteTotal;
-        private Guna2Button btnEditar;
-        private Guna2Button btnEliminar;
+        private Guna2Button btnConfirmar;
+        private Guna2Button btnCancelar;
         private Label simboloPeso4;
         private Label fieldDireccionaEntrega;
         private Label fieldFechaEntrega;
         private Label fieldEstado;
+        private Guna2Button btnEditar;
     }
 }

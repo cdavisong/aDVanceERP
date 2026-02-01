@@ -1,26 +1,24 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
-    public partial class VistaRegistroVenta : Form, IVistaRegistroVenta {
+    public partial class VistaRegistroPedido : Form, IVistaRegistroPedido {
         private bool _modoEdicion = false;
-        private Pedido? _pedidoSeleccionado = null!;
-        private Almacen? _almacenSeleccionado = null!;
         private Producto? _productoSeleccionado = null;
         private UnidadMedida? _unidadMedidaProductoSeleccionado = null;
         private Dictionary<long, VistaTuplaCarrito> _carrito = new Dictionary<long, VistaTuplaCarrito>();
 
-        public VistaRegistroVenta() {
+        public VistaRegistroPedido() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaRegistroVenta);
+            NombreVista = nameof(VistaRegistroPedido);
 
             Inicializar();
         }
@@ -31,7 +29,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 _modoEdicion = value;
 
                 fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
-                btnRegistrarActualizar.Text = value ? "Actualizar la venta" : "Registrar la venta";
+                btnRegistrarActualizar.Text = value ? "Actualizar el pedido" : "Registrar el pedido";
             }
         }
 
@@ -55,14 +53,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => Size = value;
         }
 
-        public DateTime FechaVenta {
-            get => fieldFechaVenta.Value;
-            set => fieldFechaVenta.Value = value;
+        public DateTime FechaEntregaSolicitada {
+            get => fieldFechaEntregaSolicitada.Value;
+            set => fieldFechaEntregaSolicitada.Value = value;
         }
 
-        public string NumeroPedido {
-            get => fieldNumeroPedido.Text;
-            set => fieldNumeroPedido.Text = value;
+        public string Codigo {
+            get => $"P{DateTime.Today:yyyyMMdd}{(RepoPedido.Instancia.Cantidad() + 1):000000}";
         }
 
         public string NombreCliente {
@@ -70,12 +67,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldNombreCompletoCliente.Text = value;
         }
 
-        public string NombreAlmacenOrigen {
-            get => fieldAlmacenOrigen.Text;
-            set => fieldAlmacenOrigen.Text = value;
+        public string DireccionEntrega {
+            get => fieldDireccionEntrega.Text;
+            set => fieldDireccionEntrega.Text = value;
         }
 
-        public string ObservacionesVenta {
+        public string ObservacionesPedido {
             get => fieldObservaciones.Text;
             set => fieldObservaciones.Text = value;
         }
@@ -83,36 +80,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private string NombreProducto {
             get => fieldNombreProducto.Text;
             set => fieldNombreProducto.Text = value;
-        }
-
-        private decimal Descuento {
-            get {
-                var descuentoPorcentaje = !string.IsNullOrEmpty(fieldDescuento.Text)
-                    ? fieldDescuento.Text
-                    : fieldDescuento.PlaceholderText;
-
-                return decimal.TryParse(descuentoPorcentaje, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            }
-            set {
-                fieldDescuento.Text = value > 0
-                    ? value.ToString("N2", CultureInfo.InvariantCulture)
-                    : string.Empty;
-            }
-        }
-
-        private decimal ImpuestoAdicional {
-            get {
-                var impuestoAdicionalPorcentaje = !string.IsNullOrEmpty(fieldImpuestoAdicional.Text)
-                    ? fieldImpuestoAdicional.Text
-                    : fieldImpuestoAdicional.PlaceholderText;
-
-                return decimal.TryParse(impuestoAdicionalPorcentaje, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            }
-            set {
-                fieldImpuestoAdicional.Text = value > 0
-                    ? value.ToString("N2", CultureInfo.InvariantCulture)
-                    : string.Empty;
-            }
         }
 
         private decimal Cantidad {
@@ -130,24 +97,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             }
         }
 
-        public decimal TotalBruto {
-            get => decimal.TryParse(fieldTotalBruto.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m; 
-            private set => fieldTotalBruto.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+        public decimal SubTotal {
+            get => decimal.TryParse(fieldSubTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m; 
+            private set => fieldSubTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public decimal DescuentoTotal {
-            get => decimal.TryParse(fieldDescuentoTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            private set => fieldDescuentoTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
-        }
-
-        public decimal ImpuestoTotal {
-            get => decimal.TryParse(fieldImpuestoTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            private set => fieldImpuestoTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
-        }
-
-        public decimal ImporteTotal {
-            get => decimal.TryParse(fieldImporteTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            private set => fieldImporteTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+        public decimal ImporteEstimado {
+            get => decimal.TryParse(fieldImporteEstimado.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
+            private set => fieldImporteEstimado.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public Dictionary<long, VistaTuplaCarrito> Carrito { get => _carrito; }
@@ -157,6 +114,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
+            fieldNombreCompletoCliente.KeyDown += delegate (object? sender, KeyEventArgs args) {
+                if (args.KeyCode != Keys.Enter)
+                    return;
+
+                var persona = RepoPersona.Instancia.Buscar(Core.Modelos.Modulos.Maestros.FiltroBusquedaPersona.NombreCompleto, NombreCliente).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+                DireccionEntrega = persona?.DireccionPrincipal ?? string.Empty;
+
+                args.SuppressKeyPress = true;
+            };
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
@@ -164,12 +131,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 ObtenerProductoSeleccionado();                
 
                 args.SuppressKeyPress = true;
-            };
-            fieldDescuento.Click += delegate {
-                ObtenerProductoSeleccionado();
-            };
-            fieldImpuestoAdicional.Click += delegate {
-                ObtenerProductoSeleccionado();
             };
             fieldCantidad.Click += delegate {
                 ObtenerProductoSeleccionado();
@@ -199,20 +160,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
-        private bool ObtenerAlmacenSeleccionado() {
-            if (_almacenSeleccionado != null)
-                return true;
-
-            _almacenSeleccionado = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
-
-            if (_almacenSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("Debe seleccionar un almacén de origen para la venta antes de agregar productos al carrito.", TipoNotificacion.Advertencia);
-                return false;
-            }
-
-            return true;
-        }
-
         private bool ObtenerProductoSeleccionado() {
             if (_productoSeleccionado != null)
                 return true;
@@ -231,32 +178,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 return false;
             }
 
-            // Obtener el producto desde el carrito si está disponible para actualizar descuento e impuesto
-            var productoCarrito = _carrito.TryGetValue(_productoSeleccionado.Id, out var pc) ? pc : null;
-
-            if (productoCarrito != null) {
-                Descuento = productoCarrito.Descuento;
-                ImpuestoAdicional = productoCarrito.ImpuestoAdicional;
-            }
-
             fieldAbreviaturaUM1.Text = _unidadMedidaProductoSeleccionado != null ? _unidadMedidaProductoSeleccionado.Abreviatura : "u";
             fieldCantidad.Focus();
 
             return true;
         }
 
-        private void AgregarPedidoAlCarrito() {
-            if (!ObtenerAlmacenSeleccionado() || !ObtenerProductoSeleccionado())
-                return;
-
-            var disponibilidadPedido = RepoPedido.Instancia.VerificarDisponibilidadPedidoCompleta(_pedidoSeleccionado!.Id, _almacenSeleccionado!.Id);
-        }
-
         private void AgregarProductoAlCarrito() {
-            if (!ObtenerAlmacenSeleccionado() || !ObtenerProductoSeleccionado())
+            if (!ObtenerProductoSeleccionado())
                 return;
 
-            var disponibilidadProducto = RepoProducto.Instancia.ObtenerDisponibilidadProducto(_productoSeleccionado!.Id, _almacenSeleccionado!.Id, _pedidoSeleccionado?.Id ?? 0);
+            var disponibilidadProducto = RepoProducto.Instancia.ObtenerDisponibilidadProducto(_productoSeleccionado!.Id, 0, 0);
             var disponible = disponibilidadProducto.disponible;
             var comprometido = disponibilidadProducto.comprometido;
             var cantidadReal = disponible - comprometido;
@@ -292,8 +224,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             if (_carrito.ContainsKey(_productoSeleccionado.Id)) {
                 var productoCarrito = _carrito[_productoSeleccionado.Id];
 
-                productoCarrito.Descuento = Descuento;
-                productoCarrito.ImpuestoAdicional = ImpuestoAdicional;
                 productoCarrito.Cantidad += Cantidad;
             } else {
                 var tuplaCarrito = new VistaTuplaCarrito() {
@@ -303,8 +233,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     CostoGeneral = _productoSeleccionado.PrecioVentaBase,
                     Cantidad = Cantidad,
                     UnidadMedida = _unidadMedidaProductoSeleccionado ?? null,
-                    Descuento = Descuento,
-                    ImpuestoAdicional = ImpuestoAdicional,
                     TopLevel = false,
                     Location = new Point(0, _carrito.Count * 42),
                     Size = new Size(panelProductosVenta.Width - 20, 42),
@@ -320,8 +248,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // Limpiar datos
             _productoSeleccionado = null;
             NombreProducto = string.Empty;
-            Descuento = 0;
-            ImpuestoAdicional = 0;
             Cantidad = 0;
 
             fieldNombreProducto.Focus();
@@ -353,25 +279,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private void CalcularTotales() {
-            decimal totalBruto = 0m;
-            decimal descuentoTotal = 0m;
-            decimal impuestoTotal = 0m;
+            decimal subtotal = 0m;
 
             foreach (var producto in _carrito.Values) {
                 var subTotal = producto.CostoGeneral * producto.Cantidad;
-                var descuento = subTotal * (producto.Descuento / 100);
-                var impuestoAdicional = subTotal * (producto.ImpuestoAdicional / 100);
 
-                totalBruto += subTotal;
-                descuentoTotal += descuento;
-                impuestoTotal += impuestoAdicional;
+                subtotal += subTotal;
             }
 
             // Actualizar campos correspondientes
-            TotalBruto = totalBruto;
-            DescuentoTotal = descuentoTotal;
-            ImpuestoTotal = impuestoTotal;
-            ImporteTotal = totalBruto - descuentoTotal + impuestoTotal;
+            SubTotal = subtotal;
+            ImporteEstimado = subtotal;
         }
 
         public void Mostrar() {
@@ -384,18 +302,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
-            FechaVenta = DateTime.Today;
-            NumeroPedido = string.Empty;
+            FechaEntregaSolicitada = DateTime.Today;
             NombreCliente = string.Empty;
-            ObservacionesVenta = string.Empty;
+            DireccionEntrega = string.Empty;
             NombreProducto = string.Empty;
-            TotalBruto = 0;
-            Descuento = 0;
-            DescuentoTotal = 0;
-            ImpuestoAdicional = 0;
-            ImpuestoTotal = 0;
+            SubTotal = 0;
             Cantidad = 0;
-            ImporteTotal = 0;
+            ImporteEstimado = 0;
 
             // Limpiar el carrito
             foreach (var control in panelProductosVenta.Controls) {
@@ -412,23 +325,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        public void CargarNumerosPedidos(object[] numerosPedidos) {
-            fieldNumeroPedido.Items.Clear();
-            fieldNumeroPedido.Items.AddRange(numerosPedidos);
-            fieldNumeroPedido.SelectedIndex = -1;
-        }
-
         public void CargarNombresClientes(string[] nombresClientes) {
             fieldNombreCompletoCliente.AutoCompleteCustomSource.Clear();
             fieldNombreCompletoCliente.AutoCompleteCustomSource.AddRange(nombresClientes);
             fieldNombreCompletoCliente.AutoCompleteMode = AutoCompleteMode.Suggest;
             fieldNombreCompletoCliente.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        public void CargarNombresAlmacenes(object[] nombresAlmacenes) {
-            fieldAlmacenOrigen.Items.Clear();
-            fieldAlmacenOrigen.Items.AddRange(nombresAlmacenes);
-            fieldAlmacenOrigen.SelectedIndex = nombresAlmacenes.Length > 0 ? 0 : -1;
         }
 
         public void CargarNombresProductos(string[] nombresProductos) {

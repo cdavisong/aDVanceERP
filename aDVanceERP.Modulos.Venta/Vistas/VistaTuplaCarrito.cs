@@ -3,7 +3,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
 
-namespace DVanceERP.Modulos.Venta.Vistas {
+namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaCarrito : Form, IVistaTuplaCarrito {
         private UnidadMedida? _unidadMedida = null!;
 
@@ -41,6 +41,8 @@ namespace DVanceERP.Modulos.Venta.Vistas {
         }
 
         public bool EstadoSeleccion { get; set; }
+
+        public long IdProducto { get; set; }
 
         public string Codigo {
             get => fieldCodigo.Text;

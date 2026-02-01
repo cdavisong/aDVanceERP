@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Venta {
@@ -11,9 +12,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             Activo = true;
         }
 
-        public Pedido(long id, string codigo, long idCliente, long? idEmpleadoVendedor, DateTime fechaPedido,
-                     DateTime? fechaEntregaSolicitada, string direccionEntrega, decimal totalPedido,
-                     EstadoPedidoEnum estadoPedido, string observacionesPedido, bool activo) {
+        public Pedido(long id, string codigo, long idCliente, long? idEmpleadoVendedor, DateTime fechaPedido, DateTime? fechaEntregaSolicitada, string direccionEntrega, decimal totalPedido, EstadoPedidoEnum estadoPedido, string observacionesPedido, bool activo) {
             Id = id;
             Codigo = codigo;
             IdCliente = idCliente;

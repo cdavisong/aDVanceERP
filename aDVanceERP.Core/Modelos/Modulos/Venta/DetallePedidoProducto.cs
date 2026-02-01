@@ -7,8 +7,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             PrecioVentaReferencia = 0.0m;
         }
 
-        public DetallePedidoProducto(long id, long idPedido, long idProducto, decimal cantidadSolicitada,
-                                    decimal precioVentaReferencia, decimal subtotal) {
+        public DetallePedidoProducto(long id, long idPedido, long idProducto, decimal cantidadSolicitada, decimal precioVentaReferencia, decimal subtotal) {
             Id = id;
             IdPedido = idPedido;
             IdProducto = idProducto;

@@ -176,7 +176,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
         public List<DetalleVentaProducto> ObtenerDetallesConProducto(long idVenta) {
             var consulta = $"""
-                SELECT dvp.*, p.nombre, p.codigo, p.categoria
+                SELECT dvp.*, p.nombre as nombre_producto, p.codigo as codigo_producto, p.categoria
                 FROM adv__detalle_venta_producto dvp
                 INNER JOIN adv__producto p ON dvp.id_producto = p.id_producto
                 WHERE dvp.id_venta = @id_venta

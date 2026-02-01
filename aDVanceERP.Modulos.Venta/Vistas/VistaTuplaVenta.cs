@@ -5,9 +5,13 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 
 using System.Globalization;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 
-namespace DVanceERP.Modulos.Venta.Vistas;
+namespace aDVanceERP.Modulos.Venta.Vistas;
 
+// TODO: Implementar los botones de cancelar la venta e imprimir la factura, recordar que una venta se cancela solo cuando tiene un estado distinto a completada
 public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
     private EstadoVenta _estadoVenta;
 
@@ -41,7 +45,9 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
 
     public Color ColorFondoTupla {
         get => layoutVista.BackColor;
-        set => layoutVista.BackColor = value;
+        set => layoutVista.BackColor = value == Color.Gainsboro 
+            ? value 
+            : ObtenerColorFondoTupla(EstadoVenta);
     }
 
     public bool EstadoSeleccion { get; set; }
@@ -117,14 +123,16 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
         get => _estadoVenta;
         set {
             _estadoVenta = value;
+            btnVerFactura.Visible = value == EstadoVenta.Completada;
+            btnAnular.Enabled = value == EstadoVenta.Pendiente || value == EstadoVenta.Entregada;
             layoutVista.BackColor = ObtenerColorFondoTupla(value);
         }
     }
 
     public bool Activo {
-        get => fieldEstado.Text.Equals("Activo");
+        get => fieldEstado.Text.Equals("Activa");
         set {
-            fieldEstado.Text = value ? "Activo" : "Inactivo";
+            fieldEstado.Text = value ? "Activa" : "Inactiva";
             fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
         }
     }
@@ -134,8 +142,46 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
 
     public void Inicializar() {
         // Eventos
-        btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-        btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+        btnAnular.Click += delegate (object? sender, EventArgs e) {
+            RepoVenta.Instancia.CambiarEstadoVenta(Id, EstadoVenta.Anulada);
+            EstadoVenta = EstadoVenta.Anulada;
+
+            // Crear movimiento de inventario
+            var venta = RepoVenta.Instancia.ObtenerPorId(Id);
+            var detallesVenta = RepoDetalleVentaProducto.Instancia.ObtenerDetallesConProducto(venta!.Id);
+
+            foreach (var detalleVenta in detallesVenta) {
+                var producto = RepoProducto.Instancia.ObtenerPorId(detalleVenta.IdProducto);
+                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
+                var movimiento = new Movimiento() {
+                    Id = 0,
+                    IdProducto = producto!.Id,
+                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    IdAlmacenOrigen = 0,
+                    IdAlmacenDestino = venta.IdAlmacen,
+                    Estado = EstadoMovimiento.Completado,
+                    FechaCreacion = DateTime.Now,
+                    SaldoInicial = inventarioProducto.Cantidad,
+                    FechaTermino = DateTime.Now,
+                    CantidadMovida = detalleVenta.Cantidad,
+                    SaldoFinal = inventarioProducto.Cantidad + detalleVenta.Cantidad,
+                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    Notas = "Devolución para una venta de producto.",
+                };
+
+                // Adicionar a la base de datos local
+                RepoMovimiento.Instancia.Adicionar(movimiento);
+
+                // Modificar inventario
+                RepoInventario.Instancia.ModificarInventario(
+                    producto!.Id,
+                    0,
+                    venta.IdAlmacen,
+                    detalleVenta.Cantidad);
+            }
+            
+        };
     }
 
     public void Mostrar() {
@@ -157,17 +203,13 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
     }
 
     private void VerificarPermisos() {
-        btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_EDITAR")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
-                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
-        btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_ELIMINAR")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_VENTA_TODOS")
-                              || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
+        
     }
 
     private Color ObtenerColorFondoTupla(EstadoVenta estado) {
+        if (!Activo)
+            return BackColor;
+
         return estado switch { 
             EstadoVenta.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
             EstadoVenta.Anulada => ContextoAplicacion.ColorErrorTupla, 

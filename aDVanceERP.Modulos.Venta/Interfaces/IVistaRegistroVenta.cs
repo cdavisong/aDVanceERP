@@ -1,7 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Vistas.Comun.Interfaces;
-
-using DVanceERP.Modulos.Venta.Vistas;
+﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
     public interface IVistaRegistroVenta : IVistaRegistro {
@@ -9,8 +7,12 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         string NumeroPedido { get; set; }
         string NombreCliente { get; set; }
         string NombreAlmacenOrigen { get; set; }
-        string ObservacionesPedido { get; set; }
+        string ObservacionesVenta { get; set; }
         Dictionary<long, VistaTuplaCarrito> Carrito { get; }
+        decimal TotalBruto { get; }
+        decimal DescuentoTotal {  get; }
+        decimal ImpuestoTotal { get; }
+        decimal ImporteTotal { get; }
 
         void CargarNumerosPedidos(object[] numerosPedidos);
         void CargarNombresClientes(string[] nombresClientes);

@@ -87,9 +87,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler<(FiltroBusquedaCliente, string[])>? BuscarEntidades;
 
         public void Inicializar() {
-            // Variables locales
-            PanelCentral = new RepoVistaBase(contenedorVistas);
-
             // Eventos
             AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarCliente);
             AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarCliente);

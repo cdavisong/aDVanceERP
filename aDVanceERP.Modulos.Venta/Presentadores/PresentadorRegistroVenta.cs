@@ -1,7 +1,10 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -48,14 +51,82 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.Mostrar();
         }
 
-        public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Venta.Venta entidad) {
-            base.PopularVistaDesdeEntidad(entidad);
+        protected override Core.Modelos.Modulos.Venta.Venta? ObtenerEntidadDesdeVista() {
+            var pedido = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), Vista.NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var persona = RepoPersona.Instancia.Buscar(Core.Modelos.Modulos.Maestros.FiltroBusquedaPersona.NombreCompleto, Vista.NombreCliente).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var cliente = RepoCliente.Instancia.Buscar(FiltroBusquedaCliente.IdPersona, persona?.Id.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
 
-            
+            return new Core.Modelos.Modulos.Venta.Venta() {
+                Id = 0,
+                IdPedido = pedido?.Id ?? 0,
+                IdCliente = cliente?.Id ?? 0,
+                IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0, // TODO: Integrar con empleados autenticados
+                IdAlmacen = almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
+                NumeroFacturaTicket = $"F{DateTime.Today:yyyyMMdd}{(RepoVenta.Instancia.Cantidad() + 1):000000}",
+                FechaVenta = Vista.FechaVenta,
+                TotalBruto = Vista.TotalBruto,
+                DescuentoTotal = Vista.DescuentoTotal,
+                ImpuestoTotal = Vista.ImpuestoTotal,
+                ImporteTotal = Vista.ImporteTotal,
+                MetodoPagoPrincipal = string.Empty, // TODO: Implementar pago e integrar
+                EstadoVenta = EstadoVenta.Pendiente, // TODO: Implementar estados de venta dependiendo de pagos y estados de entregas
+                ObservacionesVenta = Vista.ObservacionesVenta,
+                Activo = true
+            };
         }
 
-        protected override Core.Modelos.Modulos.Venta.Venta? ObtenerEntidadDesdeVista() {
-            throw new NotImplementedException();
+        protected override void RegistroEdicionAuxiliar(RepoVenta repositorio, long id) {
+            var repoProducto = RepoProducto.Instancia;
+            var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
+            var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+            foreach (var productoCarrito in Vista.Carrito) {
+                // Detalles de venta
+                var producto = repoProducto.ObtenerPorId(productoCarrito.Key);
+                var subtotal = productoCarrito.Value.CostoGeneral * productoCarrito.Value.Cantidad;
+                var detalleVenta = new DetalleVentaProducto() {
+                    Id = 0,
+                    IdVenta = id,
+                    IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
+                    Cantidad = productoCarrito.Value.Cantidad,
+                    PrecioCompraVigente = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    PrecioVentaUnitario = producto.PrecioVentaBase,
+                    DescuentoItem = productoCarrito.Value.Descuento,
+                    Subtotal = subtotal - (subtotal * (productoCarrito.Value.Descuento / 100))
+                };
+
+                repoDetalleVenta.Adicionar(detalleVenta);
+
+                // Crear movimiento de inventario
+                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenOrigen.Id)).entidadBase;
+                var movimiento = new Movimiento() {
+                    Id = 0,
+                    IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
+                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    IdAlmacenOrigen = almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
+                    IdAlmacenDestino = 0,
+                    Estado = EstadoMovimiento.Completado,
+                    FechaCreacion = DateTime.Now,
+                    SaldoInicial = inventarioProducto.Cantidad,
+                    FechaTermino = Entidad?.EstadoVenta == EstadoVenta.Completada ? DateTime.Now : DateTime.MinValue,
+                    CantidadMovida = productoCarrito.Value.Cantidad,
+                    SaldoFinal = inventarioProducto.Cantidad - productoCarrito.Value.Cantidad,
+                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    Notas = "Venta de producto.",
+                };
+
+                // Adicionar a la base de datos local
+                RepoMovimiento.Instancia.Adicionar(movimiento);
+
+                // Modificar inventario
+                RepoInventario.Instancia.ModificarInventario(
+                    producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
+                    almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
+                    0,
+                    productoCarrito.Value.Cantidad);
+            }
         }
     }
 }
