@@ -39,8 +39,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
@@ -51,8 +49,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldTitulo = new Label();
             fieldPassword = new Guna2TextBox();
             fieldConfirmarPassword = new Guna2TextBox();
-            fieldTituloNombreRolUsuario = new Label();
-            fieldNombreRolUsuario = new Guna2ComboBox();
             layoutBotones = new TableLayoutPanel();
             btnSalir = new Guna2Button();
             btnRegistrar = new Guna2Button();
@@ -105,13 +101,11 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(fieldPassword, 2, 6);
             layoutVista.Controls.Add(fieldConfirmarPassword, 2, 8);
-            layoutVista.Controls.Add(fieldTituloNombreRolUsuario, 2, 10);
-            layoutVista.Controls.Add(fieldNombreRolUsuario, 2, 11);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(13, 0);
             layoutVista.Margin = new Padding(3, 0, 0, 0);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 14;
+            layoutVista.RowCount = 11;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
@@ -120,11 +114,11 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.Size = new Size(487, 620);
             layoutVista.TabIndex = 0;
@@ -277,45 +271,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldConfirmarPassword.TextOffset = new Point(5, 0);
             fieldConfirmarPassword.UseSystemPasswordChar = true;
             // 
-            // fieldTituloNombreRolUsuario
-            // 
-            fieldTituloNombreRolUsuario.Dock = DockStyle.Fill;
-            fieldTituloNombreRolUsuario.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloNombreRolUsuario.ForeColor = Color.DimGray;
-            fieldTituloNombreRolUsuario.Image = (Image) resources.GetObject("fieldTituloNombreRolUsuario.Image");
-            fieldTituloNombreRolUsuario.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloNombreRolUsuario.ImeMode = ImeMode.NoControl;
-            fieldTituloNombreRolUsuario.Location = new Point(65, 300);
-            fieldTituloNombreRolUsuario.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloNombreRolUsuario.Name = "fieldTituloNombreRolUsuario";
-            fieldTituloNombreRolUsuario.Size = new Size(399, 27);
-            fieldTituloNombreRolUsuario.TabIndex = 25;
-            fieldTituloNombreRolUsuario.Text = "      Asignar un rol de usuario :";
-            fieldTituloNombreRolUsuario.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldNombreRolUsuario
-            // 
-            fieldNombreRolUsuario.Animated = true;
-            fieldNombreRolUsuario.BackColor = Color.Transparent;
-            fieldNombreRolUsuario.BorderColor = Color.Gainsboro;
-            fieldNombreRolUsuario.BorderRadius = 16;
-            fieldNombreRolUsuario.CustomizableEdges = customizableEdges7;
-            fieldNombreRolUsuario.Dock = DockStyle.Fill;
-            fieldNombreRolUsuario.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldNombreRolUsuario.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldNombreRolUsuario.FocusedColor = Color.SandyBrown;
-            fieldNombreRolUsuario.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNombreRolUsuario.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreRolUsuario.ForeColor = Color.Black;
-            fieldNombreRolUsuario.ItemHeight = 29;
-            fieldNombreRolUsuario.Location = new Point(55, 335);
-            fieldNombreRolUsuario.Margin = new Padding(5);
-            fieldNombreRolUsuario.Name = "fieldNombreRolUsuario";
-            fieldNombreRolUsuario.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            fieldNombreRolUsuario.Size = new Size(407, 35);
-            fieldNombreRolUsuario.TabIndex = 26;
-            fieldNombreRolUsuario.TextOffset = new Point(10, 0);
-            // 
             // layoutBotones
             // 
             layoutBotones.BackColor = Color.White;
@@ -342,7 +297,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges9;
+            btnSalir.CustomizableEdges = customizableEdges7;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -352,7 +307,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(302, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnSalir.Size = new Size(160, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -361,14 +316,14 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             // 
             btnRegistrar.Animated = true;
             btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges11;
+            btnRegistrar.CustomizableEdges = customizableEdges9;
             btnRegistrar.Dock = DockStyle.Fill;
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Location = new Point(53, 3);
             btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnRegistrar.Size = new Size(243, 39);
             btnRegistrar.TabIndex = 15;
             btnRegistrar.Text = "Registrar usuario";
@@ -408,8 +363,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         private Guna2Button btnSalir;
         private Guna2Button btnRegistrar;
         private Guna2TextBox fieldConfirmarPassword;
-        private Label fieldTituloNombreRolUsuario;
-        private Guna2ComboBox fieldNombreRolUsuario;
         private Guna2TextBox fieldPassword;
     }
 }

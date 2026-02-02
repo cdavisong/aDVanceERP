@@ -10,17 +10,15 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
             Nombre = string.Empty;
             PasswordHash = null;
             PasswordSalt = null;
-            IdRolUsuario = 0;
             Administrador = false;
             Aprobado = false;
         }
 
-        public CuentaUsuario(long id, string nombre, string passwordHash, string passwordSalt, long idRolUsuario) {
+        public CuentaUsuario(long id, string nombre, string passwordHash, string passwordSalt) {
             Id = id;
             Nombre = nombre;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
-            IdRolUsuario = idRolUsuario;
             Administrador = false;
             Aprobado = false;
         }
@@ -29,24 +27,20 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
         public string Nombre { get; set; }
         public string? PasswordHash { get; set; }
         public string? PasswordSalt { get; set; }
-        public long IdRolUsuario { get; set; }
         public bool Administrador { get; set; }
         public bool Aprobado { get; set; }
-        public string? NombreRolUsuario { get; set; }
     }
 
     public enum FiltroBusquedaCuentaUsuario {
         Todos,
-        Nombre,
-        IdRol
+        Nombre
     }
 
     public static class UtilesBusquedaCuentaUsuario {
         public static string[] FiltroBusquedaCuentaUsuario = {
             "Todos los usuarios",
             "Identificador de BD",
-            "Nombre del usuario",
-            "Rol de usuario"
+            "Nombre del usuario"
         };
     }
 }

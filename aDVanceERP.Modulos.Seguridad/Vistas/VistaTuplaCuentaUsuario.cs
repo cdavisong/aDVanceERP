@@ -47,18 +47,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             set => fieldNombreUsuario.Text = value;
         }
 
-        public string NombreRolUsuario {
-            get => fieldNombreRolUsuario.Text;
-            set {
-                fieldNombreRolUsuario.Text = value;
-
-                if (value != null && value.Equals("Administrador")) {
-                    btnEditar.Enabled = false;
-                    btnEliminar.Enabled = false;
-                }
-            }
-        }
-
         public string EstadoCuentaUsuario {
             get => fieldEstadoCuentaUsuario.Text;
             set => fieldEstadoCuentaUsuario.Text = value;

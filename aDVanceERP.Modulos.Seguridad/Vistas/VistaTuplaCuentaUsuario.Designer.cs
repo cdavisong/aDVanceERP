@@ -40,7 +40,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldId = new Label();
             btnEditar = new Guna2Button();
             fieldNombreUsuario = new Label();
-            fieldNombreRolUsuario = new Label();
             fieldEstadoCuentaUsuario = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
@@ -71,21 +70,20 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             // layoutVista
             // 
             layoutVista.BackColor = Color.White;
-            layoutVista.ColumnCount = 8;
+            layoutVista.ColumnCount = 7;
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.Controls.Add(btnEliminar, 7, 0);
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.Controls.Add(btnEliminar, 6, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnEditar, 6, 0);
+            layoutVista.Controls.Add(btnEditar, 5, 0);
             layoutVista.Controls.Add(fieldNombreUsuario, 1, 0);
-            layoutVista.Controls.Add(fieldNombreRolUsuario, 2, 0);
-            layoutVista.Controls.Add(fieldEstadoCuentaUsuario, 3, 0);
+            layoutVista.Controls.Add(fieldEstadoCuentaUsuario, 2, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -168,27 +166,13 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldNombreUsuario.Text = "nombreUsuario";
             fieldNombreUsuario.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // fieldNombreRolUsuario
-            // 
-            fieldNombreRolUsuario.Dock = DockStyle.Fill;
-            fieldNombreRolUsuario.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreRolUsuario.ForeColor = Color.DimGray;
-            fieldNombreRolUsuario.ImeMode = ImeMode.NoControl;
-            fieldNombreRolUsuario.Location = new Point(211, 1);
-            fieldNombreRolUsuario.Margin = new Padding(1);
-            fieldNombreRolUsuario.Name = "fieldNombreRolUsuario";
-            fieldNombreRolUsuario.Size = new Size(148, 39);
-            fieldNombreRolUsuario.TabIndex = 14;
-            fieldNombreRolUsuario.Text = "nombreRol";
-            fieldNombreRolUsuario.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // fieldEstadoCuentaUsuario
             // 
             fieldEstadoCuentaUsuario.Dock = DockStyle.Fill;
             fieldEstadoCuentaUsuario.Font = new Font("Segoe UI", 11.25F);
             fieldEstadoCuentaUsuario.ForeColor = Color.DimGray;
             fieldEstadoCuentaUsuario.ImeMode = ImeMode.NoControl;
-            fieldEstadoCuentaUsuario.Location = new Point(361, 1);
+            fieldEstadoCuentaUsuario.Location = new Point(211, 1);
             fieldEstadoCuentaUsuario.Margin = new Padding(1);
             fieldEstadoCuentaUsuario.Name = "fieldEstadoCuentaUsuario";
             fieldEstadoCuentaUsuario.Size = new Size(198, 39);
@@ -224,7 +208,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         private Label fieldNombreUsuario;
         private Label fieldId;
         private Guna2Button btnEditar;
-        private Label fieldNombreRolUsuario;
         private Label fieldEstadoCuentaUsuario;
     }
 }

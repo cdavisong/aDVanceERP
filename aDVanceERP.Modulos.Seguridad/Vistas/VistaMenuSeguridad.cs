@@ -35,14 +35,11 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         public void Inicializar() {
             // Eventos
             btnUsuarios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCuentasUsuarios", string.Empty); };
-            btnRolesUsuarios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionRolesUsuarios", string.Empty); };
         }
 
         public void SeleccionarVistaInicial() {
             if (btnUsuarios.Visible)
                 btnUsuarios.PerformClick();
-            else if (btnRolesUsuarios.Visible)
-                btnRolesUsuarios.PerformClick();
         }
 
         public void Mostrar() {
@@ -52,7 +49,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
 
         public void Restaurar() {
             btnUsuarios.Checked = false;
-            btnRolesUsuarios.Checked = false;
         }
 
         public void Ocultar() {

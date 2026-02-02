@@ -34,29 +34,17 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             // Obtener los datos de la vista
             var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
-            var usuario = new Core.Modelos.Modulos.Seguridad.CuentaUsuario(
+            var usuario = new CuentaUsuario(
                 Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
                 Vista.NombreUsuario,
                 passwordSeguro.hash,
-                passwordSeguro.salt,
-                0
+                passwordSeguro.salt
             );
 
             try {
                 var repoCuentaUsuario = new RepoCuentaUsuario();
-                var repoRolUsuario = new RepoRolUsuario();
-
+                
                 if (repoCuentaUsuario.Cantidad() == 0) {
-                    var rolAdministrador = repoRolUsuario.Buscar(FiltroBusquedaRolUsuario.Nombre, "Administrador").resultadosBusqueda.FirstOrDefault().entidadBase;
-
-                    if (rolAdministrador != null) 
-                        usuario.IdRolUsuario = rolAdministrador.Id;
-                    else { 
-                        rolAdministrador = new RolUsuario(0, "Administrador"); 
-                        rolAdministrador.Id = repoRolUsuario.Adicionar(rolAdministrador);
-                        usuario.IdRolUsuario = rolAdministrador.Id;
-                    }
-
                     usuario.Aprobado = true;
                     usuario.Administrador = true;
                     usuario.Id = repoCuentaUsuario.Adicionar(usuario);

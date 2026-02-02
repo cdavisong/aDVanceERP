@@ -14,15 +14,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 INSERT INTO adv__cuenta_usuario (
                 nombre, 
                 password_hash, 
-                password_salt, 
-                id_rol_usuario, 
+                password_salt,
                 administrador, 
                 aprobado
             ) VALUES (
                 @nombre, 
                 @password_hash, 
                 @password_salt, 
-                @id_rol_usuario, 
                 @administrador, 
                 @aprobado
             );
@@ -32,7 +30,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 { "@nombre", objeto.Nombre },
                 { "@password_hash", objeto.PasswordHash },
                 { "@password_salt", objeto.PasswordSalt },
-                { "@id_rol_usuario", objeto.IdRolUsuario },
                 { "@administrador", Convert.ToInt32(objeto.Administrador) },
                 { "@aprobado", Convert.ToInt32(objeto.Aprobado) }
             };
@@ -43,16 +40,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         protected override string GenerarComandoEditar(CuentaUsuario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
             var consulta = $"""
                 UPDATE adv__cuenta_usuario 
-            SET 
-                nombre = @nombre,
-                id_rol_usuario = @id_rol_usuario,
-                aprobado = @aprobado 
-            WHERE id_cuenta_usuario = @id;
-            """;
+                SET 
+                    nombre = @nombre,
+                    aprobado = @aprobado 
+                WHERE id_cuenta_usuario = @id;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@nombre", objeto.Nombre },
-                { "@id_rol_usuario", objeto.IdRolUsuario },
                 { "@aprobado", Convert.ToInt32(objeto.Aprobado) },
                 { "@id", objeto.Id }
             };
@@ -63,8 +58,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 DELETE FROM adv__cuenta_usuario 
-            WHERE id_cuenta_usuario = @id;
-            """;
+                WHERE id_cuenta_usuario = @id;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id", id }
@@ -76,28 +71,20 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         protected override string GenerarComandoObtener(FiltroBusquedaCuentaUsuario filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
             var critero = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
             var consultaComun = $"""
-                SELECT cu.*, ru.nombre AS nombre_rol_usuario
-            FROM adv__cuenta_usuario cu
-            LEFT JOIN adv__rol_usuario ru ON cu.id_rol_usuario = ru.id_rol_usuario
-            """;
+                SELECT cu.*
+                FROM adv__cuenta_usuario cu
+                """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaCuentaUsuario.Nombre => $"""
                     {consultaComun} 
-                WHERE LOWER(cu.nombre) LIKE LOWER(@nombre);
-            """,
-                FiltroBusquedaCuentaUsuario.IdRol => $"""
-                    {consultaComun} 
-                WHERE cu.id_rol_usuario = @id_rol_usuario;
-            """,
+                    WHERE LOWER(cu.nombre) LIKE LOWER(@nombre);
+                """,
                 _ => consultaComun
             };
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaCuentaUsuario.Nombre => new Dictionary<string, object> {
                     { "@nombre", $"%{critero}%" }
-                },
-                FiltroBusquedaCuentaUsuario.IdRol => new Dictionary<string, object> {
-                    { "@id_rol_usuario", Convert.ToInt64(critero) }
                 },
                 _ => new Dictionary<string, object>()
             };
@@ -110,11 +97,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 id: Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),
                 nombre: Convert.ToString(lectorDatos["nombre"]),
                 passwordHash: Convert.ToString(lectorDatos["password_hash"]),
-                passwordSalt: Convert.ToString(lectorDatos["password_salt"]),
-                idRolUsuario: Convert.ToInt64(lectorDatos["id_rol_usuario"])) {
+                passwordSalt: Convert.ToString(lectorDatos["password_salt"])) {
                 Administrador = Convert.ToBoolean(lectorDatos["administrador"]),
-                Aprobado = Convert.ToBoolean(lectorDatos["aprobado"]),
-                NombreRolUsuario = Convert.ToString(lectorDatos["nombre_rol_usuario"])
+                Aprobado = Convert.ToBoolean(lectorDatos["aprobado"])
             }, new List<IEntidadBaseDatos>());
         }
 

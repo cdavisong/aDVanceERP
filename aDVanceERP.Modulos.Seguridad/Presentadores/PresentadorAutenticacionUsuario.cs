@@ -43,12 +43,8 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
                     if (Vista.Password.VerificarPassword(usuario.PasswordHash, usuario.PasswordSalt)) {
                         if (usuario.Aprobado) {
-                            var rolUsuario = RepoRolUsuario.Instancia.ObtenerPorId(usuario.IdRolUsuario);
-                            var permisosRolUsuario = RepoRolPermisoUsuario.Instancia.Buscar(FiltroBusquedaPermisoRolUsuario.IdRolUsuario, rolUsuario?.Id.ToString()).resultadosBusqueda.Select(pru => pru.entidadBase);
-                        
                             ContextoSeguridad.UsuarioAutenticado = usuario;
-                            ContextoSeguridad.PermisosUsuario = permisosRolUsuario.Select(p => p.NombrePermiso).ToArray();
-
+                            
                             AgregadorEventos.Publicar("EventoUsuarioAutenticado", AgregadorEventos.SerializarPayload(usuario));
                         } else AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
                     } else {

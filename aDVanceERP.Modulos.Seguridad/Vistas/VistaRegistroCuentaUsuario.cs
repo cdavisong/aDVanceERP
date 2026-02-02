@@ -62,11 +62,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             }
         }
 
-        public string? NombreRolUsuario {
-            get => fieldNombreRolUsuario.Text;
-            set => fieldNombreRolUsuario.Text = value;
-        }
-
         public bool ModoEdicion {
             get => _modoEdicion;
             set {
@@ -120,18 +115,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
                     RegistrarEntidad?.Invoke(sender, args);
             };
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
-        }
-
-        public void CargarRolesUsuarios(string?[] rolesUsuarios) {
-            if (rolesUsuarios == null || rolesUsuarios.Length == 0)
-                return;
-
-            var rolesFiltrados = rolesUsuarios.Where(rol => rol != "Administrador").ToArray();
-
-            fieldNombreRolUsuario.Items.Clear();
-            fieldNombreRolUsuario.Items.Add("Ninguno");
-            fieldNombreRolUsuario.Items.AddRange(rolesFiltrados);
-            fieldNombreRolUsuario.SelectedIndex = rolesUsuarios.Length > 0 ? 0 : -1;
         }
 
         public void Mostrar() {

@@ -4,7 +4,6 @@ namespace aDVanceERP.Modulos.Seguridad.Interfaces {
     public interface IVistaTuplaCuentaUsuario : IVistaTupla {
         string Id { get; set; }
         string NombreUsuario { get; set; }
-        string NombreRolUsuario { get; set; }
         string EstadoCuentaUsuario { get; set; }
     }
 }

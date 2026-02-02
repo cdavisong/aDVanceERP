@@ -42,7 +42,6 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             presentadorTupla.Vista.Id = entidad.Id.ToString();
             presentadorTupla.Vista.NombreUsuario = entidad.Nombre;
-            presentadorTupla.Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? "No asignado";
             presentadorTupla.Vista.EstadoCuentaUsuario = entidad.Aprobado ? "Activa" : "Esperando aprobación";
             presentadorTupla.EntidadSeleccionada += OnCambioSeleccionEntidad;
             presentadorTupla.EntidadDeseleccionada += OnCambioSeleccionEntidad;
@@ -55,11 +54,6 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             if (tuplaSeleccionada == null) {
                 CentroNotificaciones.MostrarNotificacion("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacion.Advertencia);
-                return;
-            }
-
-            if (tuplaSeleccionada.Entidad.IdRolUsuario == 0) {
-                CentroNotificaciones.MostrarNotificacion("El usuario seleccionado no tiene un rolUsuario asignado, por lo que no se puede aprobar la solicitud de cuenta. Por favor, edite el usuario para asignarle un rol.", TipoNotificacion.Advertencia);
                 return;
             }
 

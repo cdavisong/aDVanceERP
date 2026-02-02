@@ -14,10 +14,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         private void OnMostrarVistaRegistroCuentaUsuario(string obj) {
             Vista.ModoEdicion = false;
-
-            // Carga inicial de datos
-            Vista.CargarRolesUsuarios(RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre).ToArray());
-
+                        
             Vista.Restaurar();
             Vista.Mostrar();
         }
@@ -33,9 +30,6 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             if (cuentaUsuario == null)
                 return;
 
-            // Carga inicial de datos
-            Vista.CargarRolesUsuarios([.. RepoRolUsuario.Instancia.ObtenerTodos().Select(ru => ru.entidadBase.Nombre)]);
-
             Vista.Restaurar();
 
             PopularVistaDesdeEntidad(cuentaUsuario);
@@ -46,20 +40,17 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
         public override void PopularVistaDesdeEntidad(CuentaUsuario entidad) {
             base.PopularVistaDesdeEntidad(entidad);
 
-            Vista.NombreUsuario = entidad.Nombre;        
-            Vista.NombreRolUsuario = entidad.NombreRolUsuario ?? string.Empty;
+            Vista.NombreUsuario = entidad.Nombre;
         }
 
         protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
             var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
-            var rolUsuario = RepoRolUsuario.Instancia.Buscar(FiltroBusquedaRolUsuario.Nombre, Vista.NombreRolUsuario).resultadosBusqueda.FirstOrDefault().entidadBase;
-
+            
             return new CuentaUsuario(
                 Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
                 Vista.NombreUsuario,
                 passwordSeguro.hash,
-                passwordSeguro.salt,
-                rolUsuario?.Id ?? 0
+                passwordSeguro.salt
             ) {
                 Aprobado = Entidad?.Aprobado ?? false
             };

@@ -18,8 +18,6 @@ namespace aDVanceERP.Modulos.Seguridad {
         private PresentadorAprobacionUsuario _aprobacionUsuario = null!;
         private PresentadorGestionCuentasUsuarios _cuentasUsuarios = null!;
         private PresentadorRegistroCuentaUsuario _registroCuentaUsuario = null!;
-        private PresentadorGestionRolesUsuarios _rolesUsuarios = null!;
-        private PresentadorRegistroRolUsuario _registroRolUsuario = null!;
 
         public ModuloSeguridad() {
             Nombre = "MOD_SEGURIDAD";
@@ -50,11 +48,7 @@ namespace aDVanceERP.Modulos.Seguridad {
             _cuentasUsuarios = new PresentadorGestionCuentasUsuarios(new VistaGestionCuentasUsuarios());
             _registroCuentaUsuario = new PresentadorRegistroCuentaUsuario(new VistaRegistroCuentaUsuario());
             _registroCuentaUsuario.EntidadRegistradaActualizada += (s, e) => _cuentasUsuarios.ActualizarResultadosBusqueda();
-            // Roles de usuario
-            _rolesUsuarios = new PresentadorGestionRolesUsuarios(new VistaGestionRolesUsuarios());
-            _registroRolUsuario = new PresentadorRegistroRolUsuario(new VistaRegistroRolUsuario());
-            _registroRolUsuario.EntidadRegistradaActualizada += (s, e) => _rolesUsuarios.ActualizarResultadosBusqueda();
-
+            
             base.Inicializar(principal);
         }
 
@@ -79,14 +73,7 @@ namespace aDVanceERP.Modulos.Seguridad {
                 new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroCuentaUsuario.Vista.Dimensiones.Width, - 10), 
                 _registroCuentaUsuario.Vista.Dimensiones, 
                 TipoRedimensionadoVista.Vertical);
-            // Registrar vistas de gestión de roles de usuario
-            _principal.Modulos.Vista.PanelCentral.Registrar(_rolesUsuarios.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(
-                _registroRolUsuario.Vista, 
-                new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroRolUsuario.Vista.Dimensiones.Width, -10), 
-                _registroRolUsuario.Vista.Dimensiones, 
-                TipoRedimensionadoVista.Vertical);
-
+            
             // Mostrar la vista de autenticación por defecto
             _principal.Seguridad.Vista.PanelCentral.Mostrar(nameof(VistaAutenticacionUsuario));
         }
