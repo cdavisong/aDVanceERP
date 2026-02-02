@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
@@ -219,8 +218,6 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         PaginasTotales = 1;
 
         btnHabilitarDeshabilitarPedido.Hide();
-        fieldFiltroBusquedaFechaDesde.Value = DateTime.Now;
-        fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 

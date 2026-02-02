@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
@@ -218,8 +217,6 @@ public partial class VistaGestionVentas : Form, IVistaGestionVentas {
         PaginasTotales = 1;
 
         btnHabilitarDeshabilitarVenta.Hide();
-        fieldFiltroBusquedaFechaDesde.Value = DateTime.Now;
-        fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
