@@ -117,7 +117,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -134,19 +134,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
-            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_ALMACENES_EDITAR")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_ALMACENES_TODOS")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                      "MOD_INVENTARIO_ALMACENES_ELIMINAR")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                      "MOD_INVENTARIO_ALMACENES_TODOS")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        }
+        
     }
 }

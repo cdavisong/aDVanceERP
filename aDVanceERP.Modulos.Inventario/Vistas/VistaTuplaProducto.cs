@@ -150,7 +150,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
             BringToFront();
             Show();
         }
@@ -167,34 +166,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
-            if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-                btnMovimientoPositivo.Enabled = false;
-                btnMovimientoNegativo.Enabled = false;
-                btnEditar.Enabled = false;
-                return;
-            }
-
-            btnMovimientoPositivo.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR")
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_TODOS");
-            btnMovimientoNegativo.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR")
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                            || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                                "MOD_INVENTARIO_TODOS");
-            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_PRODUCTOS_EDITAR")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_PRODUCTOS_TODOS")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        }
+        
     }
 }

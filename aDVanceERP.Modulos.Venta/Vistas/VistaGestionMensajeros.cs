@@ -181,7 +181,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -202,12 +202,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // ...
         }
 
-        private void VerificarPermisos() {
-            btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_ADICIONAR")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_MENSAJEROS_TODOS")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-        }
+        
 
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;

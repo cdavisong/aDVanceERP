@@ -3,7 +3,7 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
-namespace aDVanceERP.Modulos.Venta.Vistas { 
+namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaCliente : Form, IVistaTuplaCliente {
         public VistaTuplaCliente() {
             InitializeComponent();
@@ -89,15 +89,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
-    
+
         public void Inicializar() {
             // Eventos
-            btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-            btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
+            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -114,15 +114,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
-            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_EDITAR")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_ELIMINAR")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_CLIENTES_TODOS")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-        }
+        
     }
 }

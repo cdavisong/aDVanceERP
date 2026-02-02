@@ -241,7 +241,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -270,19 +270,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacen).resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0);
         }
 
-        private void VerificarPermisos() {
-            if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-                btnRegistrar.Enabled = false;
-                return;
-            }
-
-            btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_PRODUCTOS_ADICIONAR")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_PRODUCTOS_TODOS")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        }
+        
 
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;

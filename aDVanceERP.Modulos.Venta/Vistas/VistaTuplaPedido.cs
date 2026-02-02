@@ -135,7 +135,6 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
     }
 
     public void Mostrar() {
-        VerificarPermisos();
         BringToFront();
         Show();
     }
@@ -150,10 +149,6 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
 
     public void Cerrar() {
         Dispose();
-    }
-
-    private void VerificarPermisos() {
-        
     }
 
     private Color ObtenerColorFondoTupla(EstadoPedidoEnum estado) {

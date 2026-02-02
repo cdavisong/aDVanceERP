@@ -41,7 +41,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         }
     
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -57,8 +57,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
         
-        }
     }
 }

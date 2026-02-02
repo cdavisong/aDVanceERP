@@ -53,7 +53,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -69,15 +69,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Cerrar() {
             Dispose();
-        } 
-
-        private void VerificarPermisos() {
-            btnClientes.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_RRHH_CLIENTES")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-            btnMensajeros.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                     || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_RRHH_MENSAJEROS")
-                                     || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
         }
+
+        
     }
 }

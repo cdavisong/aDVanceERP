@@ -51,7 +51,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -67,15 +67,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Cerrar() {
             Dispose();
-        } 
-
-        private void VerificarPermisos() {
-            btnProductos.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_PRODUCTOS")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-            btnAlmacenes.Visible = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoParcial("MOD_INVENTARIO_ALMACENES")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
         }
+
+        
     }
 }

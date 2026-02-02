@@ -185,7 +185,6 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
     }
 
     public void Mostrar() {
-        VerificarPermisos();
         BringToFront();
         Show();
     }
@@ -200,10 +199,6 @@ public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
 
     public void Cerrar() {
         Dispose();
-    }
-
-    private void VerificarPermisos() {
-        
     }
 
     private Color ObtenerColorFondoTupla(EstadoVenta estado) {

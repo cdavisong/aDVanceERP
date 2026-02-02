@@ -88,7 +88,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -105,15 +105,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
-            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_EMPLEADOS_EDITAR")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_EMPLEADOS_TODOS")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_EMPLEADOS_ELIMINAR")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_EMPLEADOS_TODOS")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_RRHH_TODOS");
-        }
+        
     }
 }

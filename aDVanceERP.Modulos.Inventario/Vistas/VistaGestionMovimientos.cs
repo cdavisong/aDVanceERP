@@ -166,7 +166,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
+            
             BringToFront();
             Show();
         }
@@ -186,19 +186,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // ...
         }
 
-        private void VerificarPermisos() {
-            if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-                btnRegistrar.Enabled = false;
-                return;
-            }
-
-            btnRegistrar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_MOVIMIENTOS_ADICIONAR")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                       "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                   || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        }
+        
 
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;

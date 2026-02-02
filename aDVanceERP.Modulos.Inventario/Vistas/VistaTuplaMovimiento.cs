@@ -127,7 +127,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            VerificarPermisos();
             BringToFront();
             Show();
         }
@@ -144,26 +143,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        private void VerificarPermisos() {
-            if (ContextoSeguridad.UsuarioAutenticado == null || ContextoSeguridad.PermisosUsuario == null) {
-                btnEditar.Enabled = false;
-                btnEliminar.Enabled = false;
-                return;
-            }
-
-            btnEditar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_MOVIMIENTOS_EDITAR")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                    "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-            btnEliminar.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                      "MOD_INVENTARIO_MOVIMIENTOS_ELIMINAR")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto(
-                                      "MOD_INVENTARIO_MOVIMIENTOS_TODOS")
-                                  || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_INVENTARIO_TODOS");
-        }
+        
 
         private Color ObtenerColorFondoTupla(EstadoMovimiento estado) {
             return estado switch {

@@ -209,7 +209,7 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
     }
 
     public void Mostrar() {
-        VerificarPermisos();
+        
         BringToFront();
         Show();
     }
@@ -219,17 +219,8 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         PaginasTotales = 1;
 
         btnHabilitarDeshabilitarPedido.Hide();
-
-        // Evitar búsquedas innecesarias al restablecer los campos de fecha
-        fieldFiltroBusquedaFechaDesde.ValueChanged -= OnCambioValorFechaDesde;
-        fieldFiltroBusquedaFechaHasta.ValueChanged -= OnCambioValorFechaHasta;
-
         fieldFiltroBusquedaFechaDesde.Value = DateTime.Now;
         fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
-
-        fieldFiltroBusquedaFechaDesde.ValueChanged += OnCambioValorFechaDesde;
-        fieldFiltroBusquedaFechaHasta.ValueChanged += OnCambioValorFechaHasta;
-
         fieldFiltroBusqueda.SelectedIndex = 0;
     }
 
@@ -241,12 +232,7 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         // ...
     }
 
-    private void VerificarPermisos() {
-        btnRegistrarPedidoManual.Enabled = (ContextoSeguridad.UsuarioAutenticado?.Administrador ?? false)
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_PEDIDO_ADICIONAR")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_PEDIDO_TODOS")
-                               || ContextoSeguridad.PermisosUsuario.ContienePermisoExacto("MOD_COMPRAVENTA_TODOS");
-    }
+    
 
     private void HabilitarBotonesPaginacion() {
         btnPrimeraPagina.Enabled = PaginaActual > 1;
