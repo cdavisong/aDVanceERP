@@ -383,7 +383,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusquedaFechaDesde.ShadowDecoration.CustomizableEdges = customizableEdges8;
             fieldFiltroBusquedaFechaDesde.Size = new Size(153, 35);
             fieldFiltroBusquedaFechaDesde.TabIndex = 26;
-            fieldFiltroBusquedaFechaDesde.Value = new DateTime(2025, 2, 20, 21, 31, 28, 166);
+            fieldFiltroBusquedaFechaDesde.Value = new DateTime(2026, 2, 5, 17, 13, 37, 0);
             // 
             // fieldTextoDesde
             // 

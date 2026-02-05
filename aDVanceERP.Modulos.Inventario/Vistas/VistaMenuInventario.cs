@@ -47,7 +47,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            
             BringToFront();
             Show();
         }

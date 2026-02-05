@@ -55,6 +55,11 @@ namespace aDVanceERP.Desktop.Vistas {
                 AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);                
             };
+            btnGestorModulos.Click += (s, e) => {
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+                AgregadorEventos.Publicar("MostrarVistaContenedorExtensiones", string.Empty);
+            };
 
             AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);
         }

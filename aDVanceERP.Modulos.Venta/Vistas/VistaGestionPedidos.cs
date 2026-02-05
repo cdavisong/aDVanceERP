@@ -91,7 +91,9 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
         AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarPedido);
         AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarPedido);
 
+        fieldFiltroBusquedaFechaDesde.Value = DateTime.Today;
         fieldFiltroBusquedaFechaDesde.ValueChanged += OnCambioValorFechaDesde;
+        fieldFiltroBusquedaFechaHasta.Value = DateTime.Today;
         fieldFiltroBusquedaFechaHasta.ValueChanged += OnCambioValorFechaHasta;
         fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
         fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
@@ -154,8 +156,8 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
     }
 
     private void OnCambioValorFechaDesde(object? sender, EventArgs e) {
-        var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value;
-        var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value;
+        var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value.Date;
+        var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
         if (valorFechaDesde <= valorFechaHasta)
             BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
@@ -167,8 +169,8 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
     }
 
     private void OnCambioValorFechaHasta(object? sender, EventArgs e) {
-        var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value;
-        var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value;
+        var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value.Date;
+        var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
         if (valorFechaHasta >= valorFechaDesde && valorFechaHasta <= DateTime.Now)
             BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
@@ -208,7 +210,6 @@ public partial class VistaGestionPedidos : Form, IVistaGestionPedidos {
     }
 
     public void Mostrar() {
-        
         BringToFront();
         Show();
     }

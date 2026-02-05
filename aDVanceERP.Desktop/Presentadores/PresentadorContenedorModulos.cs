@@ -1,16 +1,25 @@
 ﻿using aDVanceERP.Core.Extension.Controladores;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Desktop.Vistas;
+
 using Guna.UI2.WinForms;
 using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorContenedorModulos : IPresentadorVistaContenedorModulos<IVistaContenedorModulos> {
         private readonly GestorModulosExtensibles _gestorModulos = new GestorModulosExtensibles();
+        private PresentadorContenedorExtensiones _extensiones = null!;
 
         public PresentadorContenedorModulos(IVistaPrincipal vistaPrincipal, IVistaContenedorModulos vistaModulos) {
             VistaPrincipal = vistaPrincipal;
             Vista = vistaModulos;
+
+            // Inicializar presentadores
+            _extensiones = new PresentadorContenedorExtensiones(new VistaContenedorExtensiones());
+
+            // Adicionar vistas al panel central
+            Vista.PanelCentral.Registrar(_extensiones.Vista);
         }
 
         internal void CargarModulosExtension(IPresentadorVistaPrincipal<IVistaPrincipal> presentadorVistaPrincipal) {
@@ -47,7 +56,6 @@ namespace aDVanceERP.Desktop.Presentadores {
 
             Vista.PanelMenuLateral.ResumeLayout(false);
         }
-
 
         public IVistaPrincipal VistaPrincipal { get; }
 

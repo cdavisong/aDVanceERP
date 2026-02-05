@@ -1,17 +1,18 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Presentadores.Comun.Interfaces;
-using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using aDVanceERP.Desktop.Vistas;
-using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Core.Infraestructura.Globales;
-using Guna.UI2.WinForms.Suite;
-using Guna.UI2.WinForms;
-using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun;
-using System.Security.Principal;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Desktop.Properties;
+using aDVanceERP.Desktop.Vistas;
+
+using Guna.UI2.WinForms;
+using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
+        
+
         public PresentadorPrincipal() {
             Vista = new VistaPrincipal();
             Seguridad = new PresentadorContenedorSeguridad(Vista, new VistaContenedorSeguridad());
