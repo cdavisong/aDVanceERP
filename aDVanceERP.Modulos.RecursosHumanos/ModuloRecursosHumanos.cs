@@ -80,29 +80,5 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
         public override void Apagar() {
             throw new NotImplementedException();
         }
-
-        public static readonly string[] Permisos = {
-            "MOD_RRHH_TODOS",
-            "MOD_RRHH_EMPLEADOS_TODOS",
-            "MOD_RRHH_EMPLEADOS_ADICIONAR",
-            "MOD_RRHH_EMPLEADOS_EDITAR",
-            "MOD_RRHH_EMPLEADOS_ELIMINAR",
-            "MOD_RRHH_CLIENTES_TODOS",
-            "MOD_RRHH_CLIENTES_ADICIONAR",
-            "MOD_RRHH_CLIENTES_EDITAR",
-            "MOD_RRHH_CLIENTES_ELIMINAR",
-            "MOD_RRHH_PROVEEDORES_TODOS",
-            "MOD_RRHH_PROVEEDORES_ADICIONAR",
-            "MOD_RRHH_PROVEEDORES_EDITAR",
-            "MOD_RRHH_PROVEEDORES_ELIMINAR",
-            "MOD_RRHH_MENSAJEROS_TODOS",
-            "MOD_RRHH_MENSAJEROS_ADICIONAR",
-            "MOD_RRHH_MENSAJEROS_EDITAR",
-            "MOD_RRHH_MENSAJEROS_ELIMINAR",
-            "MOD_RRHH_PERSONAS_TODOS",
-            "MOD_RRHH_PERSONAS_ADICIONAR",
-            "MOD_RRHH_PERSONAS_EDITAR",
-            "MOD_RRHH_PERSONAS_ELIMINAR"
-        };
     }
 }

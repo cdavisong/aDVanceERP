@@ -5,10 +5,10 @@ using Guna.UI2.WinForms;
 using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
-    public partial class PresentadorModulos : IPresentadorVistaModulos<IVistaModulos> {
+    public partial class PresentadorContenedorModulos : IPresentadorVistaContenedorModulos<IVistaContenedorModulos> {
         private readonly GestorModulosExtensibles _gestorModulos = new GestorModulosExtensibles();
 
-        public PresentadorModulos(IVistaPrincipal vistaPrincipal, IVistaModulos vistaModulos) {
+        public PresentadorContenedorModulos(IVistaPrincipal vistaPrincipal, IVistaContenedorModulos vistaModulos) {
             VistaPrincipal = vistaPrincipal;
             Vista = vistaModulos;
         }
@@ -51,7 +51,7 @@ namespace aDVanceERP.Desktop.Presentadores {
 
         public IVistaPrincipal VistaPrincipal { get; }
 
-        public IVistaModulos Vista { get; }
+        public IVistaContenedorModulos Vista { get; }
 
         public void Dispose() {
             _gestorModulos.ApagarModulos();

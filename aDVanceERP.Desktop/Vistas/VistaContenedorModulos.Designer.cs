@@ -1,7 +1,7 @@
 ﻿using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Desktop.Vistas {
-    partial class VistaModulos {
+    partial class VistaContenedorModulos {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -26,7 +26,7 @@ namespace aDVanceERP.Desktop.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaModulos));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaContenedorModulos));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -294,7 +294,7 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa3.TabIndex = 2;
             fieldEmpresa3.TabStop = false;
             // 
-            // VistaModulos
+            // VistaContenedorModulos
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
@@ -304,7 +304,7 @@ namespace aDVanceERP.Desktop.Vistas {
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
-            Name = "VistaModulos";
+            Name = "VistaContenedorModulos";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;

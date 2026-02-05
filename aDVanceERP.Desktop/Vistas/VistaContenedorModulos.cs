@@ -3,11 +3,11 @@ using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Desktop.Vistas {
-    public partial class VistaModulos : Form, IVistaModulos {
-        public VistaModulos() {
+    public partial class VistaContenedorModulos : Form, IVistaContenedorModulos {
+        public VistaContenedorModulos() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaModulos);
+            NombreVista = nameof(VistaContenedorModulos);
             PanelCentral = new RepoVistaBase(panelCentral);
 
             Inicializar();

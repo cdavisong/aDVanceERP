@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 
 namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
-    public interface IVistaModulos : IVistaBase {
+    public interface IVistaContenedorModulos : IVistaBase {
         FlowLayoutPanel PanelMenuLateral { get; }
         RepoVistaBase PanelCentral { get; }
 

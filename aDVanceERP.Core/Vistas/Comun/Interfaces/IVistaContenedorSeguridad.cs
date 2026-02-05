@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 
 namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
-    public interface IVistaSeguridad : IVistaBase {
+    public interface IVistaContenedorSeguridad : IVistaBase {
         RepoVistaBase PanelCentral { get; }
     }
 }

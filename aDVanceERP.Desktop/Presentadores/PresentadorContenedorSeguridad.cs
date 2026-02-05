@@ -3,10 +3,10 @@ using aDVanceERP.Core.Vistas.BD;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Desktop.Presentadores {
-    public partial class PresentadorSeguridad : IPresentadorVistaSeguridad<IVistaSeguridad> {
+    public partial class PresentadorContenedorSeguridad : IPresentadorVistaContenedorSeguridad<IVistaContenedorSeguridad> {
         private readonly VistaConfiguracionBaseDatos _configuracionBaseDatos = new VistaConfiguracionBaseDatos();
 
-        public PresentadorSeguridad(IVistaPrincipal vistaPrincipal, IVistaSeguridad vistaSeguridad) {
+        public PresentadorContenedorSeguridad(IVistaPrincipal vistaPrincipal, IVistaContenedorSeguridad vistaSeguridad) {
             VistaPrincipal = vistaPrincipal;
             Vista = vistaSeguridad;
 
@@ -14,16 +14,16 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Registrar(_configuracionBaseDatos);
 
             // Eventos de la vista seguridad
-            ((Form)Vista).Shown += OnVistaSeguridadMostrada;
+            ((Form)Vista).Shown += OnVistaContenedorSeguridadMostrada;
         }
 
         public IVistaPrincipal VistaPrincipal { get; }
 
-        public IVistaSeguridad Vista { get; }
+        public IVistaContenedorSeguridad Vista { get; }
 
         public VistaConfiguracionBaseDatos ConfiguracionBaseDatos => _configuracionBaseDatos;
 
-        private void OnVistaSeguridadMostrada(object? sender, EventArgs e) {
+        private void OnVistaContenedorSeguridadMostrada(object? sender, EventArgs e) {
             Vista.PanelCentral.Mostrar(nameof(VistaConfiguracionBaseDatos));
         }
 

@@ -14,8 +14,8 @@ namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
         public PresentadorPrincipal() {
             Vista = new VistaPrincipal();
-            Seguridad = new PresentadorSeguridad(Vista, new VistaSeguridad());
-            Modulos = new PresentadorModulos(Vista, new VistaModulos());
+            Seguridad = new PresentadorContenedorSeguridad(Vista, new VistaContenedorSeguridad());
+            Modulos = new PresentadorContenedorModulos(Vista, new VistaContenedorModulos());
 
             // Adicionar vistas al panel central
             Vista.PanelCentral.Registrar(Seguridad.Vista);
@@ -32,19 +32,19 @@ namespace aDVanceERP.Desktop.Presentadores {
             InicializarVistasComunes();
 
             // Cargar módulos extensiones de la aplicación
-            ((PresentadorModulos)Modulos).CargarModulosExtension(this);
+            ((PresentadorContenedorModulos)Modulos).CargarModulosExtension(this);
         }
 
         public IVistaPrincipal Vista { get; }
 
-        public IPresentadorVistaSeguridad<IVistaSeguridad> Seguridad { get; }
+        public IPresentadorVistaContenedorSeguridad<IVistaContenedorSeguridad> Seguridad { get; }
 
-        public IPresentadorVistaModulos<IVistaModulos> Modulos { get; }
+        public IPresentadorVistaContenedorModulos<IVistaContenedorModulos> Modulos { get; }
 
         private void OnVistaPrincipalMostrada(object? sender, EventArgs e) {
             Vista.BarraTitulo.OcultarTodos();
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
-            Vista.PanelCentral.Mostrar(nameof(VistaSeguridad));
+            Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
             Vista.BarraEstado.OcultarTodos();
 
             // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
@@ -56,9 +56,9 @@ namespace aDVanceERP.Desktop.Presentadores {
 
         private void OnUsuarioAutenticado(string obj) {
             Vista.ModificarVisibilidadBotonesBarraTitulo(true);
-            Vista.PanelCentral.Ocultar(nameof(VistaSeguridad));
-            Vista.PanelCentral.Restaurar(nameof(VistaModulos));
-            Vista.PanelCentral.Mostrar(nameof(VistaModulos));
+            Vista.PanelCentral.Ocultar(nameof(VistaContenedorSeguridad));
+            Vista.PanelCentral.Restaurar(nameof(VistaContenedorModulos));
+            Vista.PanelCentral.Mostrar(nameof(VistaContenedorModulos));
 
             Modulos.Vista.MensajePortada = Resources.MensajePortada
                 .Replace("[version]", $"{Program.Version}-beta")
@@ -67,9 +67,9 @@ namespace aDVanceERP.Desktop.Presentadores {
 
         private void OnSesionCerrada(string obj) {
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
-            Vista.PanelCentral.Ocultar(nameof(VistaModulos));
-            Vista.PanelCentral.Restaurar(nameof(VistaSeguridad));
-            Vista.PanelCentral.Mostrar(nameof(VistaSeguridad));
+            Vista.PanelCentral.Ocultar(nameof(VistaContenedorModulos));
+            Vista.PanelCentral.Restaurar(nameof(VistaContenedorSeguridad));
+            Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
 
             AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
         }

@@ -1,13 +1,9 @@
-﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+﻿using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Presentadores;
-using aDVanceERP.Modulos.Seguridad.Properties;
 using aDVanceERP.Modulos.Seguridad.Vistas;
-
-using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Seguridad {
     public sealed class ModuloSeguridad : ModuloExtensionBase {

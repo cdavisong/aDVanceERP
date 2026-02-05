@@ -3,8 +3,8 @@
 using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
-    public interface IPresentadorVistaModulos<Vm> : IPresentadorVistaBase<Vm>
-         where Vm : class, IVistaModulos {
+    public interface IPresentadorVistaContenedorModulos<Vm> : IPresentadorVistaBase<Vm>
+         where Vm : class, IVistaContenedorModulos {
         IVistaPrincipal VistaPrincipal { get; }
 
         string[] ObtenerNombresModulosExtensionCargados();
