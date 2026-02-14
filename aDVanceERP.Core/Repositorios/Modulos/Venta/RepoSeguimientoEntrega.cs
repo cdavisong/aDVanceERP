@@ -45,7 +45,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@fecha_entrega_realizada", entidad.FechaEntregaRealizada.HasValue ? entidad.FechaEntregaRealizada.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_pago_negocio", entidad.FechaPagoNegocio.HasValue ? entidad.FechaPagoNegocio.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_entrega", entidad.EstadoEntrega.ToString() },
-                { "@monto_cobrado_al_cliente", entidad.MontoCobradoAlCliente.ToString(CultureInfo.InvariantCulture) },
+                { "@monto_cobrado_al_cliente", entidad.MontoCobradoAlCliente },
                 { "@observaciones_entrega", entidad.ObservacionesEntrega }
             };
 
@@ -77,7 +77,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@fecha_entrega_realizada", entidad.FechaEntregaRealizada.HasValue ? entidad.FechaEntregaRealizada.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_pago_negocio", entidad.FechaPagoNegocio.HasValue ? entidad.FechaPagoNegocio.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_entrega", entidad.EstadoEntrega.ToString() },
-                { "@monto_cobrado_al_cliente", entidad.MontoCobradoAlCliente.ToString(CultureInfo.InvariantCulture) },
+                { "@monto_cobrado_al_cliente", entidad.MontoCobradoAlCliente },
                 { "@observaciones_entrega", entidad.ObservacionesEntrega }
             };
 
@@ -234,7 +234,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             var parametros = new Dictionary<string, object> {
                 { "@id_seguimiento", idSeguimiento },
-                { "@monto_cobrado", montoCobrado.ToString(CultureInfo.InvariantCulture) },
+                { "@monto_cobrado", montoCobrado },
                 { "@observaciones", observaciones }
             };
 

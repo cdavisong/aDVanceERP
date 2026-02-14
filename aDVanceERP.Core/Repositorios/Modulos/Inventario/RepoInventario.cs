@@ -153,7 +153,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
             var costoUnitario = (producto?.Categoria == CategoriaProducto.ProductoTerminado 
                 ? (producto?.CostoProduccionUnitario ?? 0) 
-                : (producto?.CostoAdquisicionUnitario ?? 0)).ToString(CultureInfo.InvariantCulture);
+                : (producto?.CostoAdquisicionUnitario ?? 0));
 
             var consulta = string.Empty;
             var parametros = new Dictionary<string, object>();

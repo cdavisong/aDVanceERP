@@ -34,10 +34,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_venta", entidad.IdVenta },
                 { "@id_producto", entidad.IdProducto },
-                { "@cantidad", entidad.Cantidad.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_compra_vigente", entidad.PrecioCompraVigente.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_venta_unitario", entidad.PrecioVentaUnitario.ToString(CultureInfo.InvariantCulture) },
-                { "@descuento_item", entidad.DescuentoItem.ToString(CultureInfo.InvariantCulture) }
+                { "@cantidad", entidad.Cantidad },
+                { "@precio_compra_vigente", entidad.PrecioCompraVigente },
+                { "@precio_venta_unitario", entidad.PrecioVentaUnitario },
+                { "@descuento_item", entidad.DescuentoItem }
             };
 
             return comando;
@@ -60,10 +60,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_detalle", entidad.Id },
                 { "@id_venta", entidad.IdVenta },
                 { "@id_producto", entidad.IdProducto },
-                { "@cantidad", entidad.Cantidad.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_compra_vigente", entidad.PrecioCompraVigente.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_venta_unitario", entidad.PrecioVentaUnitario.ToString(CultureInfo.InvariantCulture) },
-                { "@descuento_item", entidad.DescuentoItem.ToString(CultureInfo.InvariantCulture) }
+                { "@cantidad", entidad.Cantidad },
+                { "@precio_compra_vigente", entidad.PrecioCompraVigente },
+                { "@precio_venta_unitario", entidad.PrecioVentaUnitario },
+                { "@descuento_item", entidad.DescuentoItem }
             };
 
             return comando;

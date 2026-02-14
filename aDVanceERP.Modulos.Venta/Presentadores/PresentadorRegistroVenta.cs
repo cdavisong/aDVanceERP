@@ -52,7 +52,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         protected override Core.Modelos.Modulos.Venta.Venta? ObtenerEntidadDesdeVista() {
-            var pedido = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), Vista.NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var pedido = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
             var persona = RepoPersona.Instancia.Buscar(Core.Modelos.Modulos.Maestros.FiltroBusquedaPersona.NombreCompleto, Vista.NombreCliente).resultadosBusqueda.FirstOrDefault().entidadBase;
             var cliente = RepoCliente.Instancia.Buscar(FiltroBusquedaCliente.IdPersona, persona?.Id.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
             var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
@@ -117,7 +117,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     Notas = "Venta de producto.",
                 };
 
-                // Adicionar a la base de datos local
                 RepoMovimiento.Instancia.Adicionar(movimiento);
 
                 // Modificar inventario
@@ -126,6 +125,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
                     0,
                     productoCarrito.Value.Cantidad);
+
+                // Actualizar el estado del pedido
+                if (Entidad?.IdPedido != 0) {
+                    var repoPedido = RepoPedido.Instancia;
+                    var pedido = repoPedido.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+                    pedido.EstadoPedido = EstadoPedidoEnum.Retirado;
+                    repoPedido.Editar(pedido);                    
+                }
             }
         }
     }

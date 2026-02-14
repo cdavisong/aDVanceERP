@@ -33,7 +33,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_venta", entidad.IdVenta },
                 { "@metodo_pago", entidad.MetodoPago.ToString() },
-                { "@monto_pagado", entidad.MontoPagado.ToString(CultureInfo.InvariantCulture) },
+                { "@monto_pagado", entidad.MontoPagado },
                 { "@fecha_pago_cliente", entidad.FechaPagoCliente.HasValue ? entidad.FechaPagoCliente.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_confirmacion_pago", entidad.FechaConfirmacionPago.HasValue ? entidad.FechaConfirmacionPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_pago", entidad.EstadoPago.ToString() }
@@ -59,7 +59,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_pago", entidad.Id },
                 { "@id_venta", entidad.IdVenta },
                 { "@metodo_pago", entidad.MetodoPago.ToString() },
-                { "@monto_pagado", entidad.MontoPagado.ToString(CultureInfo.InvariantCulture) },
+                { "@monto_pagado", entidad.MontoPagado },
                 { "@fecha_pago_cliente", entidad.FechaPagoCliente.HasValue ? entidad.FechaPagoCliente.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_confirmacion_pago", entidad.FechaConfirmacionPago.HasValue ? entidad.FechaConfirmacionPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_pago", entidad.EstadoPago.ToString() }

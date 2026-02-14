@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;

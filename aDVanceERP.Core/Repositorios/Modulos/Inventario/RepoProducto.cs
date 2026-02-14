@@ -3,8 +3,6 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
-using DocumentFormat.OpenXml.Office2010.Excel;
-
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
@@ -61,11 +59,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 { "@IdUnidadMedida", objeto.IdUnidadMedida },
                 { "@IdClasificacionProducto", objeto.IdClasificacionProducto },
                 { "@EsVendible", objeto.EsVendible },
-                { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@PrecioVentaBase", objeto.PrecioVentaBase.ToString("N2", CultureInfo.InvariantCulture) },
+                { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario },
+                { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario },
+                { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje },
+                { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado },
+                { "@PrecioVentaBase", objeto.PrecioVentaBase },
                 { "@Activo", objeto.Activo }
             };
 
@@ -105,11 +103,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 { "@IdUnidadMedida", objeto.IdUnidadMedida },
                 { "@IdClasificacionProducto", objeto.IdClasificacionProducto },
                 { "@EsVendible", objeto.EsVendible },
-                { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado.ToString("N2", CultureInfo.InvariantCulture) },
-                { "@PrecioVentaBase", objeto.PrecioVentaBase.ToString("N2", CultureInfo.InvariantCulture) },
+                { "@CostoAdquisicionUnitario", objeto.CostoAdquisicionUnitario },
+                { "@CostoProduccionUnitario", objeto.CostoProduccionUnitario },
+                { "@ImpuestoVentaPorcentaje", objeto.ImpuestoVentaPorcentaje },
+                { "@MargenGananciaDeseado", objeto.MargenGananciaDeseado },
+                { "@PrecioVentaBase", objeto.PrecioVentaBase },
                 { "@Activo", objeto.Activo }
             };
 

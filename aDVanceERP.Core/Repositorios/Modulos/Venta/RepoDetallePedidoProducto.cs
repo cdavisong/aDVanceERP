@@ -30,8 +30,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_pedido", entidad.IdPedido },
                 { "@id_producto", entidad.IdProducto },
-                { "@cantidad_solicitada", entidad.CantidadSolicitada.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_venta_referencia", entidad.PrecioVentaReferencia.ToString(CultureInfo.InvariantCulture) }
+                { "@cantidad_solicitada", entidad.CantidadSolicitada },
+                { "@precio_venta_referencia", entidad.PrecioVentaReferencia }
             };
 
             return comando;
@@ -52,8 +52,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_detalle", entidad.Id },
                 { "@id_pedido", entidad.IdPedido },
                 { "@id_producto", entidad.IdProducto },
-                { "@cantidad_solicitada", entidad.CantidadSolicitada.ToString(CultureInfo.InvariantCulture) },
-                { "@precio_venta_referencia", entidad.PrecioVentaReferencia.ToString(CultureInfo.InvariantCulture) }
+                { "@cantidad_solicitada", entidad.CantidadSolicitada },
+                { "@precio_venta_referencia", entidad.PrecioVentaReferencia }
             };
 
             return comando;
@@ -176,7 +176,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var parametros = new Dictionary<string, object> {
                 { "@id_pedido", idPedido },
                 { "@id_producto", idProducto },
-                { "@nueva_cantidad", nuevaCantidad.ToString(CultureInfo.InvariantCulture) }
+                { "@nueva_cantidad", nuevaCantidad }
             };
 
             ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);

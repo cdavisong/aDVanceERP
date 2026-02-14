@@ -32,7 +32,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_persona", entidad.IdPersona },
                 { "@codigo_cliente", entidad.CodigoCliente },
-                { "@limite_credito", entidad.LimiteCredito.ToString(CultureInfo.InvariantCulture) },
+                { "@limite_credito", entidad.LimiteCredito },
                 { "@fecha_registro", entidad.FechaRegistro.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@activo", entidad.Activo }
             };
@@ -56,7 +56,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_cliente", entidad.Id },
                 { "@id_persona", entidad.IdPersona },
                 { "@codigo_cliente", entidad.CodigoCliente },
-                { "@limite_credito", entidad.LimiteCredito.ToString(CultureInfo.InvariantCulture) },
+                { "@limite_credito", entidad.LimiteCredito },
                 { "@fecha_registro", entidad.FechaRegistro.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@activo", entidad.Activo }
             };

@@ -3,6 +3,7 @@ using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -157,6 +158,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
+            fieldNumeroPedido.SelectedValueChanged += delegate {
+                ObtenerPedidoSeleccionado();
+            };
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
@@ -197,6 +201,41 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         tuplaCarrito.Dimensiones = new Size(panelProductosVenta.Width - 20, 42);
             };
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
+        }
+
+        private bool ObtenerPedidoSeleccionado() {
+            _pedidoSeleccionado = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+            if (_pedidoSeleccionado == null) {
+                CentroNotificaciones.MostrarNotificacion("El número de pedido seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacion.Advertencia);
+
+                _pedidoSeleccionado = null;
+                return false;
+            }
+
+            // Rellenar automáticamente los campos relacionados con el pedido
+            var cliente = RepoCliente.Instancia.ObtenerPorId(_pedidoSeleccionado.IdCliente.ToString());
+            var persona = RepoPersona.Instancia.ObtenerPorId(cliente?.IdPersona.ToString());
+
+            NombreCliente = persona?.NombreCompleto ?? string.Empty;
+            ObservacionesVenta = _pedidoSeleccionado.ObservacionesPedido ?? string.Empty;
+
+            // Limpiar el carrito
+            foreach (var control in panelProductosVenta.Controls) {
+                if (control is VistaTuplaCarrito tuplaCarrito) {
+                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
+                    tuplaCarrito.Cerrar();
+
+                    _carrito.Remove(tuplaCarrito.IdProducto);
+                }
+            }
+
+            AgregarPedidoAlCarrito();
+
+            fieldNombreProducto.Text = string.Empty;
+            fieldNombreProducto.Focus();
+
+            return true;
         }
 
         private bool ObtenerAlmacenSeleccionado() {
@@ -246,10 +285,102 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private void AgregarPedidoAlCarrito() {
-            if (!ObtenerAlmacenSeleccionado() || !ObtenerProductoSeleccionado())
+            if (!ObtenerAlmacenSeleccionado())
                 return;
 
             var disponibilidadPedido = RepoPedido.Instancia.VerificarDisponibilidadPedidoCompleta(_pedidoSeleccionado!.Id, _almacenSeleccionado!.Id);
+
+            // Verificar si todos los productos están disponibles
+            if (!disponibilidadPedido.todosDisponibles) {
+                var productosInsuficientes = new List<string>();
+
+                foreach (var item in disponibilidadPedido.disponibilidad) {
+                    var disponible = item.Value.disponible;
+                    var comprometido = item.Value.comprometido;
+                    var solicitado = item.Value.solicitado;
+                    var stockReal = disponible - comprometido;
+
+                    if (solicitado > stockReal) {
+                        productosInsuficientes.Add(
+                            $"{item.Value.nombre} ({item.Value.codigo}): solicitado {solicitado}, disponible {stockReal}"
+                        );
+                    }
+                }
+
+                var mensaje = "Los siguientes productos no tienen stock suficiente:\n\n" +
+                              string.Join("\n", productosInsuficientes) +
+                              "\n\n¿Desea agregar solo los productos disponibles?";
+
+                var resultado = CentroNotificaciones.MostrarMensaje(
+                    mensaje,
+                    TipoMensaje.Advertencia,
+                    BotonesMensaje.SiNo
+                );
+
+                if (resultado != DialogResult.Yes)
+                    return;
+            }
+
+            // Agregar productos del pedido al carrito
+            foreach (var item in disponibilidadPedido.disponibilidad) {
+                var idProducto = item.Key;
+                var disponible = item.Value.disponible;
+                var comprometido = item.Value.comprometido;
+                var solicitado = item.Value.solicitado;
+                var stockReal = disponible - comprometido;
+
+                // Determinar la cantidad a agregar
+                var cantidadAAgregar = solicitado;
+                if (solicitado > stockReal) {
+                    if (stockReal <= 0)
+                        continue; // Saltar productos sin stock
+                    cantidadAAgregar = stockReal;
+                }
+
+                var cantidadEnCarrito = _carrito.ContainsKey(idProducto) ? _carrito[idProducto].Cantidad : 0;
+
+                // Agregar o actualizar el carrito
+                if (_carrito.ContainsKey(idProducto)) {
+                    _carrito[idProducto].Cantidad += cantidadAAgregar;
+                } else {
+                    // Obtener información adicional del producto (precio, unidad medida, etc.)
+                    var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
+                    
+                    if (producto == null)
+                        continue;
+
+                    var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Id, producto.IdUnidadMedida.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+                    var tuplaCarrito = new VistaTuplaCarrito() {
+                        IdProducto = idProducto,
+                        Codigo = item.Value.codigo,
+                        NombreProducto = item.Value.nombre,
+                        CostoGeneral = producto.PrecioVentaBase,
+                        Cantidad = cantidadAAgregar,
+                        UnidadMedida = unidadMedida,
+                        Descuento = 0,
+                        ImpuestoAdicional = 0,
+                        TopLevel = false,
+                        Location = new Point(0, _carrito.Count * 42),
+                        Size = new Size(panelProductosVenta.Width - 20, 42),
+                        Visible = true
+                    };
+
+                    tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
+
+                    _carrito.Add(idProducto, tuplaCarrito);
+                    panelProductosVenta.Controls.Add(tuplaCarrito);
+                }
+            }
+
+            // Mostrar notificación de éxito
+            CentroNotificaciones.MostrarNotificacion(
+                $"Se agregaron {disponibilidadPedido.disponibilidad.Count} productos del pedido al carrito",
+                TipoNotificacion.Info
+            );
+
+            // Calcular totales de la venta
+            CalcularTotales();
         }
 
         private void AgregarProductoAlCarrito() {
@@ -318,6 +449,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             }
 
             // Limpiar datos
+            _pedidoSeleccionado = null;
             _productoSeleccionado = null;
             NombreProducto = string.Empty;
             Descuento = 0;

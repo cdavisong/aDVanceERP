@@ -59,7 +59,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public string Codigo {
-            get => $"P{DateTime.Today:yyyyMMdd}{(RepoPedido.Instancia.Cantidad() + 1):000000}";
+            get => $"PED{DateTime.Now:yyMMddHHmmss}{Random.Shared.Next(10, 99)}";
         }
 
         public string NombreCliente {

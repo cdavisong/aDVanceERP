@@ -43,7 +43,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos
                 { "@fecha_nacimiento", entidad.FechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@cargo", entidad.Cargo },
                 { "@departamento", entidad.Departamento },
-                { "@salario", entidad.Salario.ToString("N2", CultureInfo.InvariantCulture) },
+                { "@salario", entidad.Salario },
                 { "@activo", entidad.Activo ? 1 : 0 }
             };
 
@@ -72,7 +72,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos
                 { "@fecha_nacimiento", entidad.FechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@cargo", entidad.Cargo },
                 { "@departamento", entidad.Departamento },
-                { "@salario", entidad.Salario.ToString("N2", CultureInfo.InvariantCulture) },
+                { "@salario", entidad.Salario },
                 { "@activo", entidad.Activo ? 1 : 0 },
                 { "@id_empleado", entidad.Id }
             };

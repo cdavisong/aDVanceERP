@@ -30,7 +30,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_pago", entidad.IdPago },
                 { "@numero_confirmacion", entidad.NumeroConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
-                { "@monto_transferencia", entidad.MontoTransferencia.ToString(CultureInfo.InvariantCulture) }
+                { "@monto_transferencia", entidad.MontoTransferencia }
             };
 
             return comando;
@@ -52,7 +52,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_pago", entidad.IdPago },
                 { "@numero_confirmacion", entidad.NumeroConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
-                { "@monto_transferencia", entidad.MontoTransferencia.ToString(CultureInfo.InvariantCulture) }
+                { "@monto_transferencia", entidad.MontoTransferencia }
             };
 
             return comando;

@@ -63,7 +63,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         Id,
         IdCliente,
         NumeroFactura,
-        Estado
+        Estado,
+        Inactivos
     }
 
     public static class UtilesBusquedaVenta {
@@ -72,7 +73,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             "Identificador de BD",
             "Identificador del cliente",
             "Número de factura/ticket",
-            "Estado de la venta"
+            "Estado de la venta",
+            "Ventas inactivas"
         };
     }
 }

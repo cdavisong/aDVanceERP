@@ -1,7 +1,5 @@
 ﻿using aDVanceERP.Core.Documentos.Interfaces;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
-using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
@@ -84,7 +82,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             get => fieldDescripcion.Text;
             set {
                 fieldDescripcion.Text = value;
-                fieldDescripcion.Margin = fieldDireccion.AjusteAutomaticoMargenTexto();
+                fieldDescripcion.Margin = fieldDescripcion.AjusteAutomaticoMargenTexto();
             }
         }
 

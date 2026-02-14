@@ -48,7 +48,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@fecha_pedido", entidad.FechaPedido.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@fecha_entrega_solicitada", entidad.FechaEntregaSolicitada.HasValue ? entidad.FechaEntregaSolicitada.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@direccion_entrega", entidad.DireccionEntrega },
-                { "@total_pedido", entidad.TotalPedido.ToString(CultureInfo.InvariantCulture) },
+                { "@total_pedido", entidad.TotalPedido },
                 { "@estado_pedido", entidad.EstadoPedido.ToString() },
                 { "@observaciones_pedido", entidad.ObservacionesPedido },
                 { "@activo", entidad.Activo }
@@ -82,7 +82,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@fecha_pedido", entidad.FechaPedido.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@fecha_entrega_solicitada", entidad.FechaEntregaSolicitada.HasValue ? entidad.FechaEntregaSolicitada.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@direccion_entrega", entidad.DireccionEntrega },
-                { "@total_pedido", entidad.TotalPedido.ToString(CultureInfo.InvariantCulture) },
+                { "@total_pedido", entidad.TotalPedido },
                 { "@estado_pedido", entidad.EstadoPedido.ToString() },
                 { "@observaciones_pedido", entidad.ObservacionesPedido },
                 { "@activo", entidad.Activo }
@@ -105,16 +105,17 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaPedido filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
-            var fechaDesde = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var fechaHasta = criteriosBusqueda.Length > 1 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var criterio = criteriosBusqueda.Length > 2 ? criteriosBusqueda[2] : string.Empty;
+            var fechaDesde = criteriosBusqueda.Length == 3 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length == 3 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length == 3 ? criteriosBusqueda[2] : criteriosBusqueda .Length > 0 ? criteriosBusqueda[0] : string.Empty;
 
             var consultaComun = $"""
                 SELECT p.*, c.nombre_completo as nombre_cliente
                 FROM adv__pedido p
                 LEFT JOIN adv__cliente cl ON p.id_cliente = cl.id_cliente
                 LEFT JOIN adv__persona c ON cl.id_persona = c.id_persona
-                WHERE p.fecha_pedido >= @fecha_desde AND p.fecha_pedido <= @fecha_hasta 
+                WHERE p.activo = @activo 
+                { (criteriosBusqueda.Length == 3 ? "AND p.fecha_pedido >= @fecha_desde AND p.fecha_pedido <= @fecha_hasta" : string.Empty) }
                 """;
 
             var consulta = filtroBusqueda switch {
@@ -140,25 +141,30 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPedido.Id => new Dictionary<string, object> {
                     { "@id_pedido", long.Parse(criterio) },
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.Codigo => new Dictionary<string, object> {
                     { "@codigo", criterio },
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.IdCliente => new Dictionary<string, object> {
                     { "@id_cliente", long.Parse(criterio) },
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.Estado => new Dictionary<string, object> {
                     { "@estado_pedido", criterio },
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 _ => new Dictionary<string, object> {
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 }

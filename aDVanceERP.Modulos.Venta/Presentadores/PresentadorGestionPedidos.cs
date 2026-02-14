@@ -5,6 +5,7 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
@@ -22,6 +23,11 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnRegistrarPedido(object? sender, EventArgs e) {
+            if (RepoProducto.Instancia.Cantidad() == 0) {
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo pedido porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacion.Advertencia);
+                return;
+            }
+
             AgregadorEventos.Publicar("MostrarVistaRegistroPedido", string.Empty);
         }
 

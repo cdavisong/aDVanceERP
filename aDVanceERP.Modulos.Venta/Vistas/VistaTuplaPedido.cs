@@ -104,6 +104,7 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
             _estadoPedido = value;
             btnEditar.Enabled = value == EstadoPedidoEnum.Pendiente;
             btnConfirmar.Enabled = value == EstadoPedidoEnum.Pendiente;
+            btnCancelar.Enabled = value != EstadoPedidoEnum.Retirado;
             layoutVista.BackColor = ObtenerColorFondoTupla(value);
         }
     }
