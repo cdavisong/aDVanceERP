@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 
@@ -11,6 +10,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas;
 
 public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
     private EstadoPedidoEnum _estadoPedido;
+    private bool _activo;
 
     public VistaTuplaPedido() {
         InitializeComponent();
@@ -49,9 +49,11 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
 
     public bool EstadoSeleccion { get; set; }
 
-    public long Id {
-        get => Convert.ToInt64(fieldId.Text);
-        set => fieldId.Text = value.ToString();
+    public long Id { get; set; }
+
+    public string Codigo {
+        get => fieldCodigo.Text;
+        set => fieldCodigo.Text = value;
     }
 
     public DateTime FechaPedido {
@@ -102,6 +104,7 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
         get => _estadoPedido;
         set {
             _estadoPedido = value;
+            fieldEstado.Text = Enum.GetName(value);
             btnEditar.Enabled = value == EstadoPedidoEnum.Pendiente;
             btnConfirmar.Enabled = value == EstadoPedidoEnum.Pendiente;
             btnCancelar.Enabled = value != EstadoPedidoEnum.Retirado;
@@ -110,10 +113,9 @@ public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
     }
 
     public bool Activo {
-        get => fieldEstado.Text.Equals("Activo");
+        get => _activo;
         set {
-            fieldEstado.Text = value ? "Activo" : "Inactivo";
-            fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+            _activo = value;
             btnEditar.Enabled = value;
             btnConfirmar.Enabled = value;
             btnCancelar.Enabled = value;

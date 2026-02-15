@@ -4,6 +4,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Modulos.Venta.Interfaces {
     public interface IVistaTuplaPedido : IVistaTupla {
         public long Id { get; set; }
+        public string Codigo { get; set; }
         public DateTime FechaPedido { get; set; }
         public string NombreCliente { get; set; }
         public DateTime FechaEntrega { get; set; }

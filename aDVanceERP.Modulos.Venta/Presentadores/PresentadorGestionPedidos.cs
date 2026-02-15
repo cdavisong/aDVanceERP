@@ -61,6 +61,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var persona = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.Id, cliente?.IdPersona.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             presentadorTupla.Vista.Id = entidad.Id;
+            presentadorTupla.Vista.Codigo = entidad.Codigo;
             presentadorTupla.Vista.FechaPedido = entidad.FechaPedido;
             presentadorTupla.Vista.NombreCliente = persona?.NombreCompleto ?? "Anónimo";
             presentadorTupla.Vista.FechaEntrega = entidad.FechaEntregaSolicitada ?? DateTime.MinValue;
