@@ -153,32 +153,21 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
         #region UTILES
 
-        public bool ConfirmarPago(long idPago) {
+        public bool CambiarEstadoPago(long id, EstadoPagoEnum estado) {
             var consulta = $"""
-                UPDATE adv__pago
-                SET estado_pago = 'Confirmado',
-                    fecha_confirmacion_pago = NOW()
+                UPDATE adv__pago 
+                SET estado_pago = @estado_pago,
+                    fecha_confirmacion_pago = @fecha_confirmacion_pago
                 WHERE id_pago = @id_pago
-                AND estado_pago = 'Pendiente';
                 """;
 
             var parametros = new Dictionary<string, object> {
-                { "@id_pago", idPago }
-            };
-
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
-        public bool AnularPago(long idPago) {
-            var consulta = $"""
-                UPDATE adv__pago
-                SET estado_pago = 'Anulado'
-                WHERE id_pago = @id_pago
-                AND estado_pago IN ('Pendiente', 'Confirmado');
-                """;
-
-            var parametros = new Dictionary<string, object> {
-                { "@id_pago", idPago }
+                { "@id_pago", id },
+                { "@estado_pago", estado.ToString() },
+                { "@fecha_confirmacion_pago", estado != EstadoPagoEnum.Confirmado
+                    ? DateTime.MinValue.ToString("yyyy-MM-dd HH:mm:ss")
+                    : DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                }
             };
 
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
@@ -197,7 +186,21 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             };
 
             var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+
             return resultado;
+        }
+
+        private (EstadoPagoVenta, List<IEntidadBaseDatos>) MapearEntidadEstadoPagoVenta(MySqlDataReader reader) {
+            var estadoPagoVenta = new EstadoPagoVenta {
+                ImporteTotal = Convert.ToDecimal(reader["importe_total"]),
+                TotalPagado = Convert.ToDecimal(reader["total_pagado"]),
+                Saldo = Convert.ToDecimal(reader["saldo"]),
+                EstaPagadaCompletamente = Convert.ToDecimal(reader["saldo"]) == 0 && Convert.ToInt32(reader["pagos_pendientes"]) == 0,
+                TienePagosPendientes = Convert.ToInt32(reader["pagos_pendientes"]) > 0,
+                TieneSobrepago = Convert.ToDecimal(reader["saldo"]) < 0
+            };
+
+            return (estadoPagoVenta, new List<IEntidadBaseDatos>());
         }
 
         public bool ExistePagoParaVenta(long idVenta) {

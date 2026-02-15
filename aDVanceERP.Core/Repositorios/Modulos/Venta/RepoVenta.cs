@@ -307,23 +307,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return (detalle, entidadesExtra);
         }
 
-        public bool AnularVenta(long idVenta, string motivo) {
-            var consulta = $"""
-                UPDATE adv__venta
-                SET estado_venta = 'Anulada',
-                    observaciones_venta = CONCAT(COALESCE(observaciones_venta, ''), '\\nAnulada: ', @motivo)
-                WHERE id_venta = @id_venta
-                AND estado_venta IN ('Pendiente', 'Completada');
-                """;
-
-            var parametros = new Dictionary<string, object> {
-                { "@id_venta", idVenta },
-                { "@motivo", motivo }
-            };
-
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
         public decimal ObtenerTotalVentasPorPeriodo(DateTime fechaInicio, DateTime fechaFin) {
             var consulta = $"""
                 SELECT COALESCE(SUM(importe_total), 0) as total_ventas
@@ -386,23 +369,55 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ventas;
         }
 
-        public string GenerarNumeroFactura() {
+        public bool VentaEstaPagadaCompletamente(long idVenta) {
             var consulta = $"""
-                SELECT CONCAT('FAC-', YEAR(NOW()), '-', LPAD(COALESCE(MAX(SUBSTRING_INDEX(SUBSTRING_INDEX(numero_factura_ticket, '-', -1), '-', 1)), 0) + 1, 6, '0')) as nuevo_numero
-                FROM adv__venta
-                WHERE numero_factura_ticket LIKE CONCAT('FAC-', YEAR(NOW()), '-%')
-                AND numero_factura_ticket REGEXP '^FAC-[0-9]{4}-[0-9]{6}$';
+                SELECT 
+                    CASE 
+                        WHEN v.importe_total <= COALESCE(SUM(p.monto_pagado), 0) 
+                            AND COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) = 0
+                        THEN 1 
+                        ELSE 0 
+                    END as esta_pagada
+                FROM adv__venta v
+                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                    AND p.estado_pago IN ('Confirmado', 'Pendiente')
+                WHERE v.id_venta = @id_venta
+                GROUP BY v.id_venta, v.importe_total;
                 """;
 
-            var parametros = new Dictionary<string, object>();
+            var parametros = new Dictionary<string, object> {
+                { "@id_venta", idVenta }
+            };
 
-            var numero = ContextoBaseDatos.EjecutarConsultaEscalar<string>(consulta, parametros);
+            var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta, parametros);
 
-            if (string.IsNullOrEmpty(numero)) {
-                numero = $"FAC-{DateTime.Now.Year}-000001";
-            }
+            return resultado == 1;
+        }
 
-            return numero;
+        public EstadoPagoVenta VerificarEstadoPagoVenta(long idVenta) {
+            var consulta = $"""
+                SELECT 
+                    v.importe_total,
+                    COALESCE(SUM(p.monto_pagado), 0) as total_pagado,
+                    v.importe_total - COALESCE(SUM(p.monto_pagado), 0) as saldo,
+                    COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) as pagos_pendientes
+                FROM adv__venta v
+                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                    AND p.estado_pago IN ('Confirmado', 'Pendiente')
+                WHERE v.id_venta = @id_venta
+                GROUP BY v.id_venta, v.importe_total;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_venta", idVenta }
+            };
+
+            var resultado = ContextoBaseDatos.EjecutarConsulta<EstadoPagoVenta>(consulta, parametros, MapearEntidadEstadoPagoVenta).FirstOrDefault().entidadBase;
+
+            if (resultado == null)
+                throw new Exception("Venta no encontrada");
+
+            return resultado;
         }
 
         public List<Modelos.Modulos.Venta.Venta> ObtenerVentasPendientesPago() {

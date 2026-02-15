@@ -28,10 +28,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaVenta));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
@@ -160,10 +160,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVerFactura.BorderColor = Color.Gainsboro;
             btnVerFactura.BorderRadius = 16;
             btnVerFactura.BorderThickness = 1;
-            btnVerFactura.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
-            btnVerFactura.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnVerFactura.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
+            btnVerFactura.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnVerFactura.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnVerFactura.CustomizableEdges = customizableEdges1;
+            btnVerFactura.CustomizableEdges = customizableEdges5;
             btnVerFactura.Dock = DockStyle.Fill;
             btnVerFactura.FillColor = Color.White;
             btnVerFactura.Font = new Font("Segoe UI", 9.75F);
@@ -172,7 +172,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVerFactura.HoverState.FillColor = Color.PeachPuff;
             btnVerFactura.Location = new Point(1164, 3);
             btnVerFactura.Name = "btnVerFactura";
-            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnVerFactura.Size = new Size(34, 35);
             btnVerFactura.TabIndex = 21;
             btnVerFactura.Visible = false;
@@ -183,10 +183,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnAnular.BorderColor = Color.Gainsboro;
             btnAnular.BorderRadius = 16;
             btnAnular.BorderThickness = 1;
-            btnAnular.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
-            btnAnular.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnAnular.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
+            btnAnular.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnAnular.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAnular.CustomizableEdges = customizableEdges3;
+            btnAnular.CustomizableEdges = customizableEdges7;
             btnAnular.Dock = DockStyle.Fill;
             btnAnular.FillColor = Color.White;
             btnAnular.Font = new Font("Segoe UI", 9.75F);
@@ -196,7 +196,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnAnular.HoverState.ForeColor = Color.White;
             btnAnular.Location = new Point(1204, 3);
             btnAnular.Name = "btnAnular";
-            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnAnular.Size = new Size(34, 35);
             btnAnular.TabIndex = 22;
             // 

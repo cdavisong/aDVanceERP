@@ -43,10 +43,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHerramientas = new TableLayoutPanel();
@@ -69,6 +69,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldPaginaActual = new Label();
             fieldPaginasTotales = new Label();
             panelBotonesGestion = new Panel();
+            btnActivarDesactivarCliente = new Guna2Button();
             btnRegistrar = new Guna2Button();
             layoutEncabezadosTabla = new TableLayoutPanel();
             fieldTituloEstado = new Label();
@@ -78,12 +79,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             label3 = new Label();
             fieldTituloNombre = new Label();
             fieldTituloCodigo = new Label();
-            btnActivarDesactivarCliente = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
             layoutTitulo.SuspendLayout();
-            ((ISupportInitialize) fieldIcono).BeginInit();
+            ((ISupportInitialize)fieldIcono).BeginInit();
             layoutControlesTabla.SuspendLayout();
             panelBotonesGestion.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
@@ -156,7 +156,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // fieldDatoBusqueda
             // 
             fieldDatoBusqueda.Animated = true;
-            fieldDatoBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
+            fieldDatoBusqueda.BackColor = Color.FromArgb(254, 254, 253);
             fieldDatoBusqueda.BorderColor = Color.Gainsboro;
             fieldDatoBusqueda.BorderRadius = 18;
             fieldDatoBusqueda.Cursor = Cursors.IBeam;
@@ -170,7 +170,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldDatoBusqueda.ForeColor = Color.Black;
             fieldDatoBusqueda.HoverState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.IconLeft = (Image) resources.GetObject("fieldDatoBusqueda.IconLeft");
+            fieldDatoBusqueda.IconLeft = (Image)resources.GetObject("fieldDatoBusqueda.IconLeft");
             fieldDatoBusqueda.IconLeftOffset = new Point(10, 1);
             fieldDatoBusqueda.IconRightOffset = new Point(10, 0);
             fieldDatoBusqueda.Location = new Point(305, 5);
@@ -230,7 +230,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
             fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
             fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
-            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
+            fieldTituloFiltrosBusqueda.Image = (Image)resources.GetObject("fieldTituloFiltrosBusqueda.Image");
             fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
             fieldTituloFiltrosBusqueda.Location = new Point(15, 5);
@@ -351,7 +351,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPaginaAnterior.BackColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnPaginaAnterior.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaAnterior.CustomizableEdges = customizableEdges5;
@@ -375,7 +375,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPrimeraPagina.BackColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnPrimeraPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
             btnPrimeraPagina.CustomizableEdges = customizableEdges7;
@@ -399,7 +399,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPaginaSiguiente.BackColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
+            btnPaginaSiguiente.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
             btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.CustomizableEdges = customizableEdges9;
@@ -423,7 +423,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnUltimaPagina.BackColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
+            btnUltimaPagina.CustomImages.Image = (Image)resources.GetObject("resource.Image3");
             btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
             btnUltimaPagina.CustomizableEdges = customizableEdges11;
@@ -447,7 +447,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSincronizarDatos.BackColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image4");
+            btnSincronizarDatos.CustomImages.Image = (Image)resources.GetObject("resource.Image4");
             btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
             btnSincronizarDatos.CustomizableEdges = customizableEdges13;
@@ -505,6 +505,27 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             panelBotonesGestion.Size = new Size(1286, 45);
             panelBotonesGestion.TabIndex = 18;
             // 
+            // btnActivarDesactivarCliente
+            // 
+            btnActivarDesactivarCliente.Animated = true;
+            btnActivarDesactivarCliente.BackColor = Color.White;
+            btnActivarDesactivarCliente.BorderRadius = 18;
+            btnActivarDesactivarCliente.CustomizableEdges = customizableEdges15;
+            btnActivarDesactivarCliente.Dock = DockStyle.Left;
+            btnActivarDesactivarCliente.FillColor = Color.PeachPuff;
+            btnActivarDesactivarCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarCliente.ForeColor = Color.Black;
+            btnActivarDesactivarCliente.Image = (Image)resources.GetObject("btnActivarDesactivarCliente.Image");
+            btnActivarDesactivarCliente.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarCliente.Location = new Point(323, 3);
+            btnActivarDesactivarCliente.Margin = new Padding(0);
+            btnActivarDesactivarCliente.Name = "btnActivarDesactivarCliente";
+            btnActivarDesactivarCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnActivarDesactivarCliente.Size = new Size(320, 39);
+            btnActivarDesactivarCliente.TabIndex = 10;
+            btnActivarDesactivarCliente.Text = "Activar/Desactivar cliente";
+            btnActivarDesactivarCliente.Visible = false;
+            // 
             // btnRegistrar
             // 
             btnRegistrar.Animated = true;
@@ -515,7 +536,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnRegistrar.FillColor = Color.PeachPuff;
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
-            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
+            btnRegistrar.Image = (Image)resources.GetObject("btnRegistrar.Image");
             btnRegistrar.ImageOffset = new Point(-5, 0);
             btnRegistrar.Location = new Point(3, 3);
             btnRegistrar.Margin = new Padding(0);
@@ -654,27 +675,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTituloCodigo.Text = "Código";
             fieldTituloCodigo.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnActivarDesactivarCliente
-            // 
-            btnActivarDesactivarCliente.Animated = true;
-            btnActivarDesactivarCliente.BackColor = Color.White;
-            btnActivarDesactivarCliente.BorderRadius = 18;
-            btnActivarDesactivarCliente.CustomizableEdges = customizableEdges15;
-            btnActivarDesactivarCliente.Dock = DockStyle.Left;
-            btnActivarDesactivarCliente.FillColor = Color.PeachPuff;
-            btnActivarDesactivarCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnActivarDesactivarCliente.ForeColor = Color.Black;
-            btnActivarDesactivarCliente.Image = (Image) resources.GetObject("btnActivarDesactivarCliente.Image");
-            btnActivarDesactivarCliente.ImageOffset = new Point(-5, 0);
-            btnActivarDesactivarCliente.Location = new Point(323, 3);
-            btnActivarDesactivarCliente.Margin = new Padding(0);
-            btnActivarDesactivarCliente.Name = "btnActivarDesactivarCliente";
-            btnActivarDesactivarCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            btnActivarDesactivarCliente.Size = new Size(320, 39);
-            btnActivarDesactivarCliente.TabIndex = 10;
-            btnActivarDesactivarCliente.Text = "Activar/Desactivar cliente";
-            btnActivarDesactivarCliente.Visible = false;
-            // 
             // VistaGestionClientes
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -693,7 +693,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutHerramientas.ResumeLayout(false);
             layoutTituloHerramientas.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
-            ((ISupportInitialize) fieldIcono).EndInit();
+            ((ISupportInitialize)fieldIcono).EndInit();
             layoutControlesTabla.ResumeLayout(false);
             panelBotonesGestion.ResumeLayout(false);
             layoutEncabezadosTabla.ResumeLayout(false);
