@@ -21,6 +21,9 @@
     <Compile Update="Vistas\VistaGestionClientes.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaGestionEnvios.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaGestionMensajeros.cs">
       <SubType>Form</SubType>
     </Compile>
