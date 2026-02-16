@@ -83,6 +83,16 @@ namespace aDVanceERP.Modulos.Venta.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap paid_96px {
+            get {
+                object obj = ResourceManager.GetObject("paid_96px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap phone_fill_20px {
             get {
                 object obj = ResourceManager.GetObject("phone_fill_20px", resourceCulture);

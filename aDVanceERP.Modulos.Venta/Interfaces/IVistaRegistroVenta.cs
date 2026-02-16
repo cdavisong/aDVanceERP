@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
@@ -13,6 +14,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         decimal DescuentoTotal {  get; }
         decimal ImpuestoTotal { get; }
         decimal ImporteTotal { get; }
+        Dictionary<Pago, DetallePagoTransferencia> Pagos { get; }
 
         void CargarNumerosPedidos(object[] numerosPedidos);
         void CargarNombresClientes(string[] nombresClientes);

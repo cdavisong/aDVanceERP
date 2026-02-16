@@ -17,6 +17,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Producto? _productoSeleccionado = null;
         private UnidadMedida? _unidadMedidaProductoSeleccionado = null;
         private Dictionary<long, VistaTuplaCarrito> _carrito = new Dictionary<long, VistaTuplaCarrito>();
+        private Dictionary<Pago, DetallePagoTransferencia> _pagos = new Dictionary<Pago, DetallePagoTransferencia>();
 
         public VistaRegistroVenta() {
             InitializeComponent();
@@ -132,7 +133,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public decimal TotalBruto {
-            get => decimal.TryParse(fieldTotalBruto.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m; 
+            get => decimal.TryParse(fieldTotalBruto.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             private set => fieldTotalBruto.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
@@ -146,9 +147,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             private set => fieldImpuestoTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
+        public decimal MontoPagado {
+            get => decimal.TryParse(fieldMontoPagado.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
+            private set => fieldMontoPagado.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+        }
+
         public decimal ImporteTotal {
             get => decimal.TryParse(fieldImporteTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             private set => fieldImporteTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+        }
+
+        public Dictionary<Pago, DetallePagoTransferencia> Pagos {
+            get => _pagos;
         }
 
         public Dictionary<long, VistaTuplaCarrito> Carrito { get => _carrito; }
@@ -165,7 +175,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
-                ObtenerProductoSeleccionado();                
+                ObtenerProductoSeleccionado();
 
                 args.SuppressKeyPress = true;
             };
@@ -188,6 +198,72 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             };
             btnAdicionarAlCarrito.Click += delegate {
                 AgregarProductoAlCarrito();
+            };
+            btnPagoEfectivo.Click += delegate {
+                if (Carrito.Count == 0) {
+                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacion.Advertencia);
+                    return;
+                }
+
+                var vistaPagoEfectivo = new VistaRegistroPagoEfectivo();
+
+                if (vistaPagoEfectivo.ShowDialog() == DialogResult.OK) {
+                    var pago = new Pago() {
+                        Id = 0,
+                        IdVenta = 0, // Se asignará al registrar la venta
+                        MetodoPago = MetodoPagoEnum.Efectivo,
+                        MontoPagado = vistaPagoEfectivo.MontoPagado,
+                        FechaPagoCliente = DateTime.Now,
+                        FechaConfirmacionPago = vistaPagoEfectivo.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
+                        EstadoPago = vistaPagoEfectivo.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
+                    };
+
+                    _pagos.Add(pago, null!);
+                }
+
+                // Calcular totales de la venta
+                CalcularTotales();
+
+                // Verificar que los pagos satisfacen el monto total de la venta
+                btnPagoEfectivo.Enabled = MontoPagado < ImporteTotal;
+                btnPagoTransferencia.Enabled = MontoPagado < ImporteTotal;
+            };
+            btnPagoTransferencia.Click += delegate {
+                if (Carrito.Count == 0) {
+                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacion.Advertencia);
+                    return;
+                }
+
+                var vistaPagoTransferencia = new VistaRegistroPagoTransferencia();
+
+                if (vistaPagoTransferencia.ShowDialog() == DialogResult.OK) {
+                    var pago = new Pago() {
+                        Id = 0,
+                        IdVenta = 0, // Se asignará al registrar la venta
+                        MetodoPago = MetodoPagoEnum.TransferenciaBancaria,
+                        MontoPagado = vistaPagoTransferencia.MontoPagado,
+                        FechaPagoCliente = DateTime.Now,
+                        FechaConfirmacionPago = vistaPagoTransferencia.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
+                        EstadoPago = vistaPagoTransferencia.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
+                    };
+
+                    var detallePagoTransferencia = new DetallePagoTransferencia() {
+                        Id = 0,
+                        IdPago = 0, // Se asignará al registrar el pago
+                        NumeroConfirmacion = vistaPagoTransferencia.NumeroConfirmacion,
+                        NumeroTransaccion = vistaPagoTransferencia.NumeroTransaccion,
+                        MontoTransferencia = vistaPagoTransferencia.MontoPagado
+                    };
+
+                    _pagos.Add(pago, detallePagoTransferencia);
+                }
+
+                // Calcular totales de la venta
+                CalcularTotales();
+
+                // Verificar que los pagos satisfacen el monto total de la venta
+                btnPagoEfectivo.Enabled = MontoPagado < ImporteTotal;
+                btnPagoTransferencia.Enabled = MontoPagado < ImporteTotal;
             };
             btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
                 if (ModoEdicion)
@@ -345,7 +421,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 } else {
                     // Obtener información adicional del producto (precio, unidad medida, etc.)
                     var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
-                    
+
                     if (producto == null)
                         continue;
 
@@ -381,11 +457,30 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             // Calcular totales de la venta
             CalcularTotales();
+
+            // Habilitar botones de pago
+            btnPagoEfectivo.Enabled = true;
+            btnPagoTransferencia.Enabled = true;
+
+            // Eliminar pagos al modificar el carrito
+            _pagos.Clear();
         }
 
         private void AgregarProductoAlCarrito() {
             if (!ObtenerAlmacenSeleccionado() || !ObtenerProductoSeleccionado())
                 return;
+
+            void LimpiarDatos() {
+                // Limpiar datos
+                _pedidoSeleccionado = null;
+                _productoSeleccionado = null;
+                NombreProducto = string.Empty;
+                Descuento = 0;
+                ImpuestoAdicional = 0;
+                Cantidad = 0;
+
+                fieldNombreProducto.Focus();
+            }
 
             var disponibilidadProducto = RepoProducto.Instancia.ObtenerDisponibilidadProducto(_productoSeleccionado!.Id, _almacenSeleccionado!.Id, _pedidoSeleccionado?.Id ?? 0);
             var disponible = disponibilidadProducto.disponible;
@@ -416,7 +511,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         if (Cantidad <= 0)
                             return; // Ya está en carrito
                     } else return;
-                } else return;
+                } else {
+                    LimpiarDatos();
+                    return;
+                }
             }
 
             // Agregar o actualizar el carrito
@@ -443,23 +541,22 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 };
 
                 tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
-                
-                _carrito.Add(_productoSeleccionado.Id, tuplaCarrito);                
+
+                _carrito.Add(_productoSeleccionado.Id, tuplaCarrito);
                 panelProductosVenta.Controls.Add(tuplaCarrito);
             }
 
-            // Limpiar datos
-            _pedidoSeleccionado = null;
-            _productoSeleccionado = null;
-            NombreProducto = string.Empty;
-            Descuento = 0;
-            ImpuestoAdicional = 0;
-            Cantidad = 0;
-
-            fieldNombreProducto.Focus();
+            LimpiarDatos();
 
             // Calcular totales de la venta
             CalcularTotales();
+
+            // Habilitar botones de pago
+            btnPagoEfectivo.Enabled = true;
+            btnPagoTransferencia.Enabled = true;
+
+            // Eliminar pagos al modificar el carrito
+            _pagos.Clear();
         }
 
         private void EliminarProductoCarrito(object? sender, EventArgs e) {
@@ -473,7 +570,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // Ajustar posiciones de elementos del carrito
             for (int i = 0; i < panelProductosVenta.Controls.Count; i++) {
                 object? control = panelProductosVenta.Controls[i];
-                
+
                 if (control is IVistaTuplaCarrito tupla)
                     tupla.Coordenadas = new Point(0, i * 42);
             }
@@ -482,6 +579,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             // Calcular totales de la venta
             CalcularTotales();
+
+            // Deshabilitar botones de pago si el carrito está vacío
+            if (_carrito.Count == 0) {
+                btnPagoEfectivo.Enabled = false;
+                btnPagoTransferencia.Enabled = false;
+            }
+
+            // Eliminar pagos al modificar el carrito
+            _pagos.Clear();
         }
 
         private void CalcularTotales() {
@@ -503,6 +609,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             TotalBruto = totalBruto;
             DescuentoTotal = descuentoTotal;
             ImpuestoTotal = impuestoTotal;
+            MontoPagado = _pagos.Sum(p => p.Key.MontoPagado);
             ImporteTotal = totalBruto - descuentoTotal + impuestoTotal;
         }
 
@@ -537,7 +644,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                     _carrito.Remove(tuplaCarrito.IdProducto);
                 }
-            }            
+            }
+
+            // Eliminar pagos
+            _pagos.Clear();
         }
 
         public void Cerrar() {

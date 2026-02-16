@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -60,9 +61,10 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var persona = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.Id, cliente?.IdPersona.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             presentadorTupla.Vista.Id = entidad.Id;
+            presentadorTupla.Vista.NumeroFacturaVenta = entidad.NumeroFacturaTicket ?? "-";
             presentadorTupla.Vista.FechaVenta = entidad.FechaVenta;
             presentadorTupla.Vista.NombreCliente = persona.NombreCompleto ?? "Anónimo";
-            presentadorTupla.Vista.MetodoPagoPrincipal = entidad.MetodoPagoPrincipal;
+            presentadorTupla.Vista.MetodoPagoPrincipal = string.IsNullOrEmpty(entidad.MetodoPagoPrincipal) ? "No existen pagos registrados" : Enum.Parse<MetodoPagoEnum>(entidad.MetodoPagoPrincipal).ObtenerDisplayName();
             presentadorTupla.Vista.TotalBruto = entidad.TotalBruto;
             presentadorTupla.Vista.DescuentoTotal = entidad.DescuentoTotal;
             presentadorTupla.Vista.ImpuestoTotal = entidad.ImpuestoTotal;

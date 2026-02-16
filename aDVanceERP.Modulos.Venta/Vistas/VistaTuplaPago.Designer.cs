@@ -34,18 +34,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
-            fieldEstado = new Label();
-            fieldFechaConfirmacion = new Label();
+            fieldNumeroFactura = new Label();
             fieldId = new Label();
             btnConfirmar = new Guna2Button();
             btnCancelar = new Guna2Button();
+            fieldNumeroTransferencia = new Label();
+            fieldEstado = new Label();
             simboloPeso4 = new Label();
             fieldMonto = new Label();
-            fieldNumeroTransferencia = new Label();
+            fieldFechaConfirmacion = new Label();
             fieldFechaPago = new Label();
             fieldNumeroConfirmacion = new Label();
             fieldMetodoPago = new Label();
-            fieldNumeroFactura = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -103,33 +103,19 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 19;
             // 
-            // fieldEstado
+            // fieldNumeroFactura
             // 
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
-            fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(992, 1);
-            fieldEstado.Margin = new Padding(1);
-            fieldEstado.Name = "fieldEstado";
-            fieldEstado.Size = new Size(128, 39);
-            fieldEstado.TabIndex = 38;
-            fieldEstado.Text = "estado";
-            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldFechaConfirmacion
-            // 
-            fieldFechaConfirmacion.AutoEllipsis = true;
-            fieldFechaConfirmacion.Dock = DockStyle.Fill;
-            fieldFechaConfirmacion.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaConfirmacion.ForeColor = Color.DimGray;
-            fieldFechaConfirmacion.ImeMode = ImeMode.NoControl;
-            fieldFechaConfirmacion.Location = new Point(746, 1);
-            fieldFechaConfirmacion.Margin = new Padding(5, 1, 1, 1);
-            fieldFechaConfirmacion.Name = "fieldFechaConfirmacion";
-            fieldFechaConfirmacion.Size = new Size(114, 39);
-            fieldFechaConfirmacion.TabIndex = 37;
-            fieldFechaConfirmacion.Text = "fechaConf";
-            fieldFechaConfirmacion.TextAlign = ContentAlignment.MiddleCenter;
+            fieldNumeroFactura.Dock = DockStyle.Fill;
+            fieldNumeroFactura.Font = new Font("Segoe UI", 11.25F);
+            fieldNumeroFactura.ForeColor = Color.DimGray;
+            fieldNumeroFactura.ImeMode = ImeMode.NoControl;
+            fieldNumeroFactura.Location = new Point(61, 1);
+            fieldNumeroFactura.Margin = new Padding(1);
+            fieldNumeroFactura.Name = "fieldNumeroFactura";
+            fieldNumeroFactura.Size = new Size(158, 39);
+            fieldNumeroFactura.TabIndex = 41;
+            fieldNumeroFactura.Text = "facturaVenta";
+            fieldNumeroFactura.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldId
             // 
@@ -190,6 +176,33 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.Size = new Size(34, 35);
             btnCancelar.TabIndex = 22;
             // 
+            // fieldNumeroTransferencia
+            // 
+            fieldNumeroTransferencia.Dock = DockStyle.Fill;
+            fieldNumeroTransferencia.Font = new Font("Segoe UI", 11.25F);
+            fieldNumeroTransferencia.ForeColor = Color.DimGray;
+            fieldNumeroTransferencia.ImeMode = ImeMode.NoControl;
+            fieldNumeroTransferencia.Location = new Point(502, 1);
+            fieldNumeroTransferencia.Margin = new Padding(1);
+            fieldNumeroTransferencia.Name = "fieldNumeroTransferencia";
+            fieldNumeroTransferencia.Size = new Size(118, 39);
+            fieldNumeroTransferencia.TabIndex = 35;
+            fieldNumeroTransferencia.Text = "numeroTransf";
+            fieldNumeroTransferencia.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // fieldEstado
+            // 
+            fieldEstado.Font = new Font("Segoe UI", 11.25F);
+            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.ImeMode = ImeMode.NoControl;
+            fieldEstado.Location = new Point(992, 1);
+            fieldEstado.Margin = new Padding(1);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.Size = new Size(128, 39);
+            fieldEstado.TabIndex = 38;
+            fieldEstado.Text = "estado";
+            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // simboloPeso4
             // 
             simboloPeso4.Dock = DockStyle.Fill;
@@ -219,19 +232,20 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldMonto.Text = "monto";
             fieldMonto.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // fieldNumeroTransferencia
+            // fieldFechaConfirmacion
             // 
-            fieldNumeroTransferencia.Dock = DockStyle.Fill;
-            fieldNumeroTransferencia.Font = new Font("Segoe UI", 11.25F);
-            fieldNumeroTransferencia.ForeColor = Color.DimGray;
-            fieldNumeroTransferencia.ImeMode = ImeMode.NoControl;
-            fieldNumeroTransferencia.Location = new Point(502, 1);
-            fieldNumeroTransferencia.Margin = new Padding(1);
-            fieldNumeroTransferencia.Name = "fieldNumeroTransferencia";
-            fieldNumeroTransferencia.Size = new Size(118, 39);
-            fieldNumeroTransferencia.TabIndex = 35;
-            fieldNumeroTransferencia.Text = "numeroTransf";
-            fieldNumeroTransferencia.TextAlign = ContentAlignment.MiddleCenter;
+            fieldFechaConfirmacion.AutoEllipsis = true;
+            fieldFechaConfirmacion.Dock = DockStyle.Fill;
+            fieldFechaConfirmacion.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaConfirmacion.ForeColor = Color.DimGray;
+            fieldFechaConfirmacion.ImeMode = ImeMode.NoControl;
+            fieldFechaConfirmacion.Location = new Point(746, 1);
+            fieldFechaConfirmacion.Margin = new Padding(5, 1, 1, 1);
+            fieldFechaConfirmacion.Name = "fieldFechaConfirmacion";
+            fieldFechaConfirmacion.Size = new Size(114, 39);
+            fieldFechaConfirmacion.TabIndex = 37;
+            fieldFechaConfirmacion.Text = "fechaConf";
+            fieldFechaConfirmacion.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldFechaPago
             // 
@@ -274,20 +288,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldMetodoPago.TabIndex = 40;
             fieldMetodoPago.Text = "metodoPago";
             fieldMetodoPago.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldNumeroFactura
-            // 
-            fieldNumeroFactura.Dock = DockStyle.Fill;
-            fieldNumeroFactura.Font = new Font("Segoe UI", 11.25F);
-            fieldNumeroFactura.ForeColor = Color.DimGray;
-            fieldNumeroFactura.ImeMode = ImeMode.NoControl;
-            fieldNumeroFactura.Location = new Point(61, 1);
-            fieldNumeroFactura.Margin = new Padding(1);
-            fieldNumeroFactura.Name = "fieldNumeroFactura";
-            fieldNumeroFactura.Size = new Size(158, 39);
-            fieldNumeroFactura.TabIndex = 41;
-            fieldNumeroFactura.Text = "facturaVenta";
-            fieldNumeroFactura.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaTuplaPago
             // 

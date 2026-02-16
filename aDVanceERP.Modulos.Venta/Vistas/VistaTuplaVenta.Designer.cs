@@ -28,15 +28,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaVenta));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
             fieldMetodoPagoPrincipal = new Label();
-            fieldId = new Label();
+            fieldNumeroFactura = new Label();
             btnVerFactura = new Guna2Button();
             btnAnular = new Guna2Button();
             simboloPeso4 = new Label();
@@ -48,7 +48,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTotalBruto = new Label();
             fieldDescuentoTotal = new Label();
             fieldFechaVenta = new Label();
-            fieldNombreCliente = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -70,11 +69,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // layoutVista
             // 
             layoutVista.BackColor = Color.White;
-            layoutVista.ColumnCount = 16;
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
+            layoutVista.ColumnCount = 15;
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
@@ -87,21 +85,21 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.Controls.Add(fieldEstado, 12, 0);
-            layoutVista.Controls.Add(fieldMetodoPagoPrincipal, 3, 0);
-            layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnVerFactura, 14, 0);
-            layoutVista.Controls.Add(btnAnular, 15, 0);
-            layoutVista.Controls.Add(simboloPeso4, 11, 0);
-            layoutVista.Controls.Add(fieldImporteTotal, 10, 0);
-            layoutVista.Controls.Add(simboloPeso3, 9, 0);
-            layoutVista.Controls.Add(simboloPeso2, 7, 0);
-            layoutVista.Controls.Add(simboloPeso1, 5, 0);
-            layoutVista.Controls.Add(fieldImpuestoTotal, 8, 0);
-            layoutVista.Controls.Add(fieldTotalBruto, 4, 0);
-            layoutVista.Controls.Add(fieldDescuentoTotal, 6, 0);
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.Controls.Add(fieldEstado, 11, 0);
+            layoutVista.Controls.Add(fieldMetodoPagoPrincipal, 2, 0);
+            layoutVista.Controls.Add(fieldNumeroFactura, 0, 0);
+            layoutVista.Controls.Add(btnVerFactura, 13, 0);
+            layoutVista.Controls.Add(btnAnular, 14, 0);
+            layoutVista.Controls.Add(simboloPeso4, 10, 0);
+            layoutVista.Controls.Add(fieldImporteTotal, 9, 0);
+            layoutVista.Controls.Add(simboloPeso3, 8, 0);
+            layoutVista.Controls.Add(simboloPeso2, 6, 0);
+            layoutVista.Controls.Add(simboloPeso1, 4, 0);
+            layoutVista.Controls.Add(fieldImpuestoTotal, 7, 0);
+            layoutVista.Controls.Add(fieldTotalBruto, 3, 0);
+            layoutVista.Controls.Add(fieldDescuentoTotal, 5, 0);
             layoutVista.Controls.Add(fieldFechaVenta, 1, 0);
-            layoutVista.Controls.Add(fieldNombreCliente, 2, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -132,27 +130,27 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldMetodoPagoPrincipal.Font = new Font("Segoe UI", 11.25F);
             fieldMetodoPagoPrincipal.ForeColor = Color.DimGray;
             fieldMetodoPagoPrincipal.ImeMode = ImeMode.NoControl;
-            fieldMetodoPagoPrincipal.Location = new Point(356, 1);
+            fieldMetodoPagoPrincipal.Location = new Point(285, 1);
             fieldMetodoPagoPrincipal.Margin = new Padding(5, 1, 1, 1);
             fieldMetodoPagoPrincipal.Name = "fieldMetodoPagoPrincipal";
-            fieldMetodoPagoPrincipal.Size = new Size(144, 39);
+            fieldMetodoPagoPrincipal.Size = new Size(215, 39);
             fieldMetodoPagoPrincipal.TabIndex = 37;
             fieldMetodoPagoPrincipal.Text = "metodoPago";
             fieldMetodoPagoPrincipal.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // fieldId
+            // fieldNumeroFactura
             // 
-            fieldId.Dock = DockStyle.Fill;
-            fieldId.Font = new Font("Segoe UI", 11.25F);
-            fieldId.ForeColor = Color.DimGray;
-            fieldId.ImeMode = ImeMode.NoControl;
-            fieldId.Location = new Point(1, 1);
-            fieldId.Margin = new Padding(1);
-            fieldId.Name = "fieldId";
-            fieldId.Size = new Size(58, 39);
-            fieldId.TabIndex = 13;
-            fieldId.Text = "id";
-            fieldId.TextAlign = ContentAlignment.MiddleCenter;
+            fieldNumeroFactura.Dock = DockStyle.Fill;
+            fieldNumeroFactura.Font = new Font("Segoe UI", 11.25F);
+            fieldNumeroFactura.ForeColor = Color.DimGray;
+            fieldNumeroFactura.ImeMode = ImeMode.NoControl;
+            fieldNumeroFactura.Location = new Point(1, 1);
+            fieldNumeroFactura.Margin = new Padding(1);
+            fieldNumeroFactura.Name = "fieldNumeroFactura";
+            fieldNumeroFactura.Size = new Size(158, 39);
+            fieldNumeroFactura.TabIndex = 13;
+            fieldNumeroFactura.Text = "numeroFactura";
+            fieldNumeroFactura.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnVerFactura
             // 
@@ -163,7 +161,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVerFactura.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnVerFactura.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnVerFactura.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnVerFactura.CustomizableEdges = customizableEdges5;
+            btnVerFactura.CustomizableEdges = customizableEdges1;
             btnVerFactura.Dock = DockStyle.Fill;
             btnVerFactura.FillColor = Color.White;
             btnVerFactura.Font = new Font("Segoe UI", 9.75F);
@@ -172,7 +170,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVerFactura.HoverState.FillColor = Color.PeachPuff;
             btnVerFactura.Location = new Point(1164, 3);
             btnVerFactura.Name = "btnVerFactura";
-            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnVerFactura.Size = new Size(34, 35);
             btnVerFactura.TabIndex = 21;
             btnVerFactura.Visible = false;
@@ -186,7 +184,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnAnular.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
             btnAnular.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnAnular.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAnular.CustomizableEdges = customizableEdges7;
+            btnAnular.CustomizableEdges = customizableEdges3;
             btnAnular.Dock = DockStyle.Fill;
             btnAnular.FillColor = Color.White;
             btnAnular.Font = new Font("Segoe UI", 9.75F);
@@ -196,7 +194,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnAnular.HoverState.ForeColor = Color.White;
             btnAnular.Location = new Point(1204, 3);
             btnAnular.Name = "btnAnular";
-            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnAnular.Size = new Size(34, 35);
             btnAnular.TabIndex = 22;
             // 
@@ -322,28 +320,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaVenta.Font = new Font("Segoe UI", 11.25F);
             fieldFechaVenta.ForeColor = Color.DimGray;
             fieldFechaVenta.ImeMode = ImeMode.NoControl;
-            fieldFechaVenta.Location = new Point(61, 1);
+            fieldFechaVenta.Location = new Point(161, 1);
             fieldFechaVenta.Margin = new Padding(1);
             fieldFechaVenta.Name = "fieldFechaVenta";
             fieldFechaVenta.Size = new Size(118, 39);
             fieldFechaVenta.TabIndex = 17;
             fieldFechaVenta.Text = "fecha";
             fieldFechaVenta.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldNombreCliente
-            // 
-            fieldNombreCliente.AutoEllipsis = true;
-            fieldNombreCliente.Dock = DockStyle.Fill;
-            fieldNombreCliente.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreCliente.ForeColor = Color.DimGray;
-            fieldNombreCliente.ImeMode = ImeMode.NoControl;
-            fieldNombreCliente.Location = new Point(185, 1);
-            fieldNombreCliente.Margin = new Padding(5, 1, 1, 1);
-            fieldNombreCliente.Name = "fieldNombreCliente";
-            fieldNombreCliente.Size = new Size(165, 39);
-            fieldNombreCliente.TabIndex = 4;
-            fieldNombreCliente.Text = "nombreCliente";
-            fieldNombreCliente.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaTuplaVenta
             // 
@@ -369,9 +352,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Guna2BorderlessForm formatoBase;
         private TableLayoutPanel layoutBase;
         private TableLayoutPanel layoutVista;
-        private Label fieldId;
+        private Label fieldNumeroFactura;
         private Label fieldFechaVenta;
-        private Label fieldNombreCliente;
         private Label fieldImporteTotal;
         private Guna2Button btnVerFactura;
         private Label simboloPeso4;

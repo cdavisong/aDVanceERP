@@ -124,32 +124,6 @@
     <value>51</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fieldTituloCostoUnitario.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAcBJREFUOE/F
-        lDtLw1AYhlsFwbmrl8GKgyDq4m3RvbgFHcTNtknskH/QQcRJRUUUdRTEQbHioIsI7i4uDipolw4irdiC
-        xcvzxROapK1tJ194OTnf9+Y5OelJA/8uwzDadV2fxJrb1EdpB39T1RWUm+Px+ALjEj7ABZzG9z4XgG6p
-        +8qlaVoLoWOcxZf4FvAX1lXEI/ry1Hk19UrBUjjNqmFscF0ENq0itqgt4mvcQ2+c8Vu1SrIsq5XGOX6I
-        RqMdCvbhh4mo5wRCxKoIFBjNCxqPpml2/gUTSZ3+NtlQGbBRmF8eoAvmvLNZrouMc3agDpGX4/PqgcVi
-        sW5WijQK4113cc8TXhPyBs6wzV5pArzCy3ayDrlgp3I6BJjlaaZUX76EM2qHXNY89WTDLP5MPmXDRExu
-        8I49QVz3YVlknWlVaEWYiK0OUXzDK0xtAOF+5i+Me8lksklqbsnroZ/B+8CaVbkkAoMCwLsOgNUH/DVR
-        TZgjAGOEcu6tqlqecVXmrm2eeLZZTRybEcLyZ7ApqzOa+BPIO+Od9IAe1QVzxE3DWLYk32kezyQSiTag
-        8zhCpOavXybeU4gnmRCQKv2XAoEfH6IvVO0xeRwAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="fieldTituloPrecioVentaBase.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAcBJREFUOE/F
-        lDtLw1AYhlsFwbmrl8GKgyDq4m3RvbgFHcTNtknskH/QQcRJRUUUdRTEQbHioIsI7i4uDipolw4irdiC
-        xcvzxROapK1tJ194OTnf9+Y5OelJA/8uwzDadV2fxJrb1EdpB39T1RWUm+Px+ALjEj7ABZzG9z4XgG6p
-        +8qlaVoLoWOcxZf4FvAX1lXEI/ry1Hk19UrBUjjNqmFscF0ENq0itqgt4mvcQ2+c8Vu1SrIsq5XGOX6I
-        RqMdCvbhh4mo5wRCxKoIFBjNCxqPpml2/gUTSZ3+NtlQGbBRmF8eoAvmvLNZrouMc3agDpGX4/PqgcVi
-        sW5WijQK4113cc8TXhPyBs6wzV5pArzCy3ayDrlgp3I6BJjlaaZUX76EM2qHXNY89WTDLP5MPmXDRExu
-        8I49QVz3YVlknWlVaEWYiK0OUXzDK0xtAOF+5i+Me8lksklqbsnroZ/B+8CaVbkkAoMCwLsOgNUH/DVR
-        TZgjAGOEcu6tqlqecVXmrm2eeLZZTRybEcLyZ7ApqzOa+BPIO+Od9IAe1QVzxE3DWLYk32kezyQSiTag
-        8zhCpOavXybeU4gnmRCQKv2XAoEfH6IvVO0xeRwAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="fieldTituloUnidadMedida.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAWlJREFUOE/V
@@ -297,6 +271,32 @@
         OxV+NHUnRJyYb0xr0mg0xF/ekvAWj77IOR9a6Xfatj3CGNcaaINzl0TOrFRT1pmb5ti0vGmiTK+mNbjx
         Heu8MnUY6xy5D9Oa0ox1fqHpHjHHWJ+J/a2V+ymbQfMiMi1VfbD034TgT0uY/sC5b1EFLXWhu87vAAAA
         AElFTkSuQmCC
+</value>
+  </data>
+  <data name="fieldTituloCostoUnitario.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAcBJREFUOE/F
+        lDtLw1AYhlsFwbmrl8GKgyDq4m3RvbgFHcTNtknskH/QQcRJRUUUdRTEQbHioIsI7i4uDipolw4irdiC
+        xcvzxROapK1tJ194OTnf9+Y5OelJA/8uwzDadV2fxJrb1EdpB39T1RWUm+Px+ALjEj7ABZzG9z4XgG6p
+        +8qlaVoLoWOcxZf4FvAX1lXEI/ry1Hk19UrBUjjNqmFscF0ENq0itqgt4mvcQ2+c8Vu1SrIsq5XGOX6I
+        RqMdCvbhh4mo5wRCxKoIFBjNCxqPpml2/gUTSZ3+NtlQGbBRmF8eoAvmvLNZrouMc3agDpGX4/PqgcVi
+        sW5WijQK4113cc8TXhPyBs6wzV5pArzCy3ayDrlgp3I6BJjlaaZUX76EM2qHXNY89WTDLP5MPmXDRExu
+        8I49QVz3YVlknWlVaEWYiK0OUXzDK0xtAOF+5i+Me8lksklqbsnroZ/B+8CaVbkkAoMCwLsOgNUH/DVR
+        TZgjAGOEcu6tqlqecVXmrm2eeLZZTRybEcLyZ7ApqzOa+BPIO+Od9IAe1QVzxE3DWLYk32kezyQSiTag
+        8zhCpOavXybeU4gnmRCQKv2XAoEfH6IvVO0xeRwAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="fieldTituloPrecioVentaBase.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAcBJREFUOE/F
+        lDtLw1AYhlsFwbmrl8GKgyDq4m3RvbgFHcTNtknskH/QQcRJRUUUdRTEQbHioIsI7i4uDipolw4irdiC
+        xcvzxROapK1tJ194OTnf9+Y5OelJA/8uwzDadV2fxJrb1EdpB39T1RWUm+Px+ALjEj7ABZzG9z4XgG6p
+        +8qlaVoLoWOcxZf4FvAX1lXEI/ry1Hk19UrBUjjNqmFscF0ENq0itqgt4mvcQ2+c8Vu1SrIsq5XGOX6I
+        RqMdCvbhh4mo5wRCxKoIFBjNCxqPpml2/gUTSZ3+NtlQGbBRmF8eoAvmvLNZrouMc3agDpGX4/PqgcVi
+        sW5WijQK4113cc8TXhPyBs6wzV5pArzCy3ayDrlgp3I6BJjlaaZUX76EM2qHXNY89WTDLP5MPmXDRExu
+        8I49QVz3YVlknWlVaEWYiK0OUXzDK0xtAOF+5i+Me8lksklqbsnroZ/B+8CaVbkkAoMCwLsOgNUH/DVR
+        TZgjAGOEcu6tqlqecVXmrm2eeLZZTRybEcLyZ7ApqzOa+BPIO+Od9IAe1QVzxE3DWLYk32kezyQSiTag
+        8zhCpOavXybeU4gnmRCQKv2XAoEfH6IvVO0xeRwAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="fieldTituloStockMinimo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -17,6 +17,8 @@ namespace aDVanceERP.Modulos.Venta {
         private PresentadorRegistroPedido _registroPedido = null!;
         private PresentadorGestionVentas _ventas = null!;
         private PresentadorRegistroVenta _registroVenta = null!;
+        private PresentadorGestionPagos _pagos = null!;
+        private PresentadorRegistroPago _registroPago = null!;
         private PresentadorGestionClientes _clientes = null!;
         private PresentadorRegistroCliente _registroCliente = null!;
         private PresentadorGestionMensajeros _mensajeros = null!;
@@ -51,6 +53,10 @@ namespace aDVanceERP.Modulos.Venta {
             _ventas = new PresentadorGestionVentas(new VistaGestionVentas());
             _registroVenta = new PresentadorRegistroVenta(new VistaRegistroVenta());
             _registroVenta.EntidadRegistradaActualizada += (s, e) => _ventas.ActualizarResultadosBusqueda();
+            // Pagos
+            _pagos = new PresentadorGestionPagos(new VistaGestionPagos());
+            _registroPago = new PresentadorRegistroPago(new VistaRegistroPago());
+            _registroPago.EntidadRegistradaActualizada += (s, e) => _pagos.ActualizarResultadosBusqueda();
             // Clientes
             _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
             _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
@@ -78,6 +84,9 @@ namespace aDVanceERP.Modulos.Venta {
             // Ventas
             _principal.Modulos.Vista.PanelCentral.Registrar(_ventas.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroVenta.Vista);
+            // Pagos
+            _principal.Modulos.Vista.PanelCentral.Registrar(_pagos.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroPago.Vista);
             // Clientes
             _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);

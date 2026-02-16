@@ -159,7 +159,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             return estado switch {
                 EstadoPedidoEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoPedidoEnum.Retirado => ContextoAplicacion.ColorOkTupla,
                 EstadoPedidoEnum.Cancelado => ContextoAplicacion.ColorErrorTupla,
                 _ => BackColor
             };

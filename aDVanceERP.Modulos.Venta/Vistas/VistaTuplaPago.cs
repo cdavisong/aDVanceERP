@@ -49,6 +49,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => Convert.ToInt64(fieldId.Text);
             set => fieldId.Text = value.ToString();
         }
+
         public long IdVenta { get; set; }
 
         public string NumeroFacturaVenta {
@@ -59,6 +60,20 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public MetodoPagoEnum MetodoPago {
             get => (MetodoPagoEnum)Enum.Parse(typeof(MetodoPagoEnum), fieldMetodoPago.Text);
             set => fieldMetodoPago.Text = value.ObtenerDisplayName();
+        }
+
+        public string NumeroConfirmacion { 
+            get => fieldNumeroConfirmacion.Text;
+            set => fieldNumeroConfirmacion.Text = string.IsNullOrEmpty(value)
+                ? "-"
+                : value;
+        }
+
+        public string NumeroTransaccion {
+            get => fieldNumeroTransferencia.Text;
+            set => fieldNumeroTransferencia.Text = string.IsNullOrEmpty(value)
+                ? "-"
+                : value;
         }
 
         public decimal MontoPagado {
@@ -106,13 +121,25 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Inicializar() {
             // Eventos
             btnConfirmar.Click += delegate (object? sender, EventArgs e) {
+                var repoVenta = RepoVenta.Instancia;
+                
                 RepoPago.Instancia.CambiarEstadoPago(Id, EstadoPagoEnum.Confirmado);
+
+                if (repoVenta.VentaEstaPagadaCompletamente(IdVenta))
+                    repoVenta.CambiarEstadoVenta(IdVenta, EstadoVenta.Completada);
+                repoVenta.ActualizarMetodoPagoPrincipal(IdVenta);
+
                 FechaConfirmacionPago = DateTime.Now;
                 EstadoPago = EstadoPagoEnum.Confirmado;
             };
             btnCancelar.Click += delegate (object? sender, EventArgs e) {
+                var repoVenta = RepoVenta.Instancia;
+
                 RepoPago.Instancia.CambiarEstadoPago(Id, EstadoPagoEnum.Anulado);
-                RepoVenta.Instancia.CambiarEstadoVenta(IdVenta, EstadoVenta.Pendiente);
+                
+                repoVenta.CambiarEstadoVenta(IdVenta, EstadoVenta.Pendiente);
+                repoVenta.ActualizarMetodoPagoPrincipal(IdVenta);
+
                 FechaConfirmacionPago = DateTime.MinValue;
                 EstadoPago = EstadoPagoEnum.Anulado;
             };
@@ -138,7 +165,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Color ObtenerColorFondoTupla(EstadoPagoEnum estado) {
             return estado switch {
                 EstadoPagoEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoPagoEnum.Confirmado => ContextoAplicacion.ColorOkTupla,
                 EstadoPagoEnum.Fallido => ContextoAplicacion.ColorErrorTupla,
                 EstadoPagoEnum.Anulado => ContextoAplicacion.ColorErrorTupla,
                 _ => BackColor

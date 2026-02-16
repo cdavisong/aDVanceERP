@@ -412,7 +412,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_venta", idVenta }
             };
 
-            var resultado = ContextoBaseDatos.EjecutarConsulta<EstadoPagoVenta>(consulta, parametros, MapearEntidadEstadoPagoVenta).FirstOrDefault().entidadBase;
+            var resultado = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidadEstadoPagoVenta).FirstOrDefault().entidadBase;
 
             if (resultado == null)
                 throw new Exception("Venta no encontrada");
@@ -420,44 +420,218 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return resultado;
         }
 
-        public List<Modelos.Modulos.Venta.Venta> ObtenerVentasPendientesPago() {
+        private (EstadoPagoVenta, List<IEntidadBaseDatos>) MapearEntidadEstadoPagoVenta(MySqlDataReader reader) {
+            var estadoPagoVenta = new EstadoPagoVenta {
+                ImporteTotal = Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture),
+                TotalPagado = Convert.ToDecimal(reader["total_pagado"], CultureInfo.InvariantCulture),
+                Saldo = Convert.ToDecimal(reader["saldo"], CultureInfo.InvariantCulture),
+                EstaPagadaCompletamente = Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture) <= Convert.ToDecimal(reader["total_pagado"], CultureInfo.InvariantCulture) && Convert.ToInt32(reader["pagos_pendientes"]) == 0,
+                TienePagosPendientes = Convert.ToInt32(reader["pagos_pendientes"]) > 0,
+                TieneSobrepago = Convert.ToDecimal(reader["total_pagado"], CultureInfo.InvariantCulture) > Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture)
+            };
+
+            return (estadoPagoVenta, new List<IEntidadBaseDatos>());
+        }
+
+        public List<VentaPendientePago> ObtenerVentasPendientesDePago() {
             var consulta = $"""
-                SELECT v.*, c.nombre_completo as nombre_cliente,
-                       (SELECT COALESCE(SUM(monto_pagado), 0) 
-                        FROM adv__pago p 
-                        WHERE p.id_venta = v.id_venta 
-                        AND p.estado_pago = 'Confirmado') as total_pagado
+                SELECT 
+                    v.id_venta,
+                    v.numero_factura_ticket,
+                    v.fecha_venta,
+                    v.importe_total,
+                    COALESCE(SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END), 0) as total_pagado,
+                    v.importe_total - COALESCE(SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END), 0) as saldo_pendiente,
+                    COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) as pagos_pendientes_confirmacion,
+                    c.codigo_cliente,
+                    per.nombre_completo as nombre_cliente
                 FROM adv__venta v
-                LEFT JOIN adv__cliente cl ON v.id_cliente = cl.id_cliente
-                LEFT JOIN adv__persona c ON cl.id_persona = c.id_persona
-                WHERE v.estado_venta IN ('Completada', 'Entregada')
-                AND v.activo = 1
-                AND v.importe_total > (
-                    SELECT COALESCE(SUM(monto_pagado), 0) 
-                    FROM adv__pago p 
-                    WHERE p.id_venta = v.id_venta 
-                    AND p.estado_pago = 'Confirmado'
-                )
-                ORDER BY v.fecha_venta DESC;
+                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                    AND p.estado_pago IN ('Confirmado', 'Pendiente')
+                WHERE v.estado_venta NOT IN ('Anulada')
+                    AND v.activo = 1
+                GROUP BY v.id_venta, v.numero_factura_ticket, v.fecha_venta, v.importe_total,
+                         c.codigo_cliente, per.nombre_completo
+                HAVING saldo_pendiente > 0
+                ORDER BY v.fecha_venta ASC;
                 """;
 
-            var parametros = new Dictionary<string, object>();
+            return ContextoBaseDatos.EjecutarConsulta(consulta, null, MapearEntidadVentaPendientePago)
+                .Select(r => r.entidadBase)
+                .ToList();
+        }
 
-            var ventas = new List<Modelos.Modulos.Venta.Venta>();
-            var resultados = ContextoBaseDatos.EjecutarConsulta(
-                consulta,
-                parametros,
-                (reader) => {
-                    var (venta, entidadesExtra) = MapearEntidad(reader);
-                    return (venta, entidadesExtra);
+        private (VentaPendientePago, List<IEntidadBaseDatos>) MapearEntidadVentaPendientePago(MySqlDataReader reader) {
+            var ventaPendiente = new VentaPendientePago {
+                IdVenta = Convert.ToInt64(reader["id_venta"]),
+                NumeroFacturaTicket = reader["numero_factura_ticket"]?.ToString() ?? string.Empty,
+                FechaVenta = Convert.ToDateTime(reader["fecha_venta"]),
+                ImporteTotal = Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture),
+                TotalPagado = Convert.ToDecimal(reader["total_pagado"], CultureInfo.InvariantCulture),
+                SaldoPendiente = Convert.ToDecimal(reader["saldo_pendiente"], CultureInfo.InvariantCulture),
+                PagosPendientesConfirmacion = Convert.ToInt32(reader["pagos_pendientes_confirmacion"]),
+                CodigoCliente = reader["codigo_cliente"]?.ToString() ?? string.Empty,
+                NombreCliente = reader["nombre_cliente"]?.ToString() ?? string.Empty
+            };
+
+            return (ventaPendiente, new List<IEntidadBaseDatos>());
+        }
+
+        public List<VentaSinPago> ObtenerVentasSinPagos() {
+            var consulta = $"""
+                SELECT 
+                    v.id_venta,
+                    v.numero_factura_ticket,
+                    v.fecha_venta,
+                    v.importe_total,
+                    c.codigo_cliente,
+                    per.nombre_completo as nombre_cliente as nombre_cliente,
+                    DATEDIFF(NOW(), v.fecha_venta) as dias_sin_pago
+                FROM adv__venta v
+                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta
+                WHERE v.estado_venta NOT IN ('Anulada')
+                    AND v.activo = 1
+                    AND p.id_pago IS NULL
+                ORDER BY v.fecha_venta ASC;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, null, MapearEntidadVentaSinPago)
+                .Select(r => r.entidadBase)
+                .ToList();
+        }
+
+        private (VentaSinPago, List<IEntidadBaseDatos>) MapearEntidadVentaSinPago(MySqlDataReader reader) {
+            var ventaSinPago = new VentaSinPago {
+                IdVenta = Convert.ToInt64(reader["id_venta"]),
+                NumeroFacturaTicket = reader["numero_factura_ticket"]?.ToString() ?? string.Empty,
+                FechaVenta = Convert.ToDateTime(reader["fecha_venta"]),
+                ImporteTotal = Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture),
+                CodigoCliente = reader["codigo_cliente"]?.ToString() ?? string.Empty,
+                NombreCliente = reader["nombre_cliente"]?.ToString() ?? string.Empty,
+                DiasSinPago = Convert.ToInt32(reader["dias_sin_pago"])
+            };
+
+            return (ventaSinPago, new List<IEntidadBaseDatos>());
+        }
+
+        public List<VentaPagoParcial> ObtenerVentasConPagosParciales() {
+            var consulta = $"""
+                SELECT 
+                    v.id_venta,
+                    v.numero_factura_ticket,
+                    v.fecha_venta,
+                    v.importe_total,
+                    SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END) as total_pagado,
+                    v.importe_total - SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END) as saldo_pendiente,
+                    COUNT(p.id_pago) as cantidad_pagos,
+                    c.codigo_cliente,
+                    per.nombre_completo as nombre_cliente
+                FROM adv__venta v
+                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                INNER JOIN adv__pago p ON v.id_venta = p.id_venta
+                WHERE v.estado_venta NOT IN ('Anulada')
+                    AND v.activo = 1
+                    AND p.estado_pago = 'Confirmado'
+                GROUP BY v.id_venta, v.numero_factura_ticket, v.fecha_venta, v.importe_total,
+                         c.codigo_cliente, per.nombre_completo
+                HAVING total_pagado < v.importe_total AND total_pagado > 0
+                ORDER BY v.fecha_venta ASC;
+                """;
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, null, MapearEntidadVentaPagoParcial)
+                .Select(r => r.entidadBase)
+                .ToList();
+        }
+
+        private (VentaPagoParcial, List<IEntidadBaseDatos>) MapearEntidadVentaPagoParcial(MySqlDataReader reader) {
+            var ventaPagoParcial = new VentaPagoParcial {
+                IdVenta = Convert.ToInt64(reader["id_venta"]),
+                NumeroFacturaTicket = reader["numero_factura_ticket"]?.ToString() ?? string.Empty,
+                FechaVenta = Convert.ToDateTime(reader["fecha_venta"]),
+                ImporteTotal = Convert.ToDecimal(reader["importe_total"], CultureInfo.InvariantCulture),
+                TotalPagado = Convert.ToDecimal(reader["total_pagado"], CultureInfo.InvariantCulture),
+                SaldoPendiente = Convert.ToDecimal(reader["saldo_pendiente"], CultureInfo.InvariantCulture),
+                CantidadPagos = Convert.ToInt32(reader["cantidad_pagos"]),
+                CodigoCliente = reader["codigo_cliente"]?.ToString() ?? string.Empty,
+                NombreCliente = reader["nombre_cliente"]?.ToString() ?? string.Empty
+            };
+
+            return (ventaPagoParcial, new List<IEntidadBaseDatos>());
+        }
+
+        /// <summary>
+        /// Determina el método de pago principal de una venta basándose en el monto total pagado con cada método.
+        /// Si la venta tiene múltiples pagos, retorna el método con mayor monto acumulado.
+        /// </summary>
+        /// <param name="idVenta">ID de la venta</param>
+        /// <returns>El método de pago principal, o null si no hay pagos confirmados</returns>
+        public MetodoPagoEnum? DeterminarMetodoPagoPrincipal(long idVenta) {
+            var consulta = $"""
+                SELECT 
+                    metodo_pago,
+                    SUM(monto_pagado) as total_por_metodo
+                FROM adv__pago
+                WHERE id_venta = @id_venta
+                AND estado_pago = 'Confirmado'
+                GROUP BY metodo_pago
+                ORDER BY total_por_metodo DESC
+                LIMIT 1;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_venta", idVenta }
+            };
+
+            try {
+                var resultado = ContextoBaseDatos.EjecutarConsulta(
+                    consulta,
+                    parametros,
+                    (reader) => {
+                        var metodoPago = Convert.ToString(reader["metodo_pago"]);
+
+                        return (metodoPago, new List<IEntidadBaseDatos>());
+                    }
+                );
+
+                if (resultado.Any()) {
+                    var metodoPagoStr = resultado.First().entidadBase as string;
+                    
+                    if (!string.IsNullOrEmpty(metodoPagoStr))
+                        return Enum.Parse<MetodoPagoEnum>(metodoPagoStr);
                 }
-            );
-
-            foreach (var (venta, _) in resultados) {
-                ventas.Add(venta);
+            } catch (Exception) {
+                // Si hay error en la consulta, retornar null
+                return null;
             }
 
-            return ventas;
+            return null;
+        }
+
+        /// <summary>
+        /// Actualiza el método de pago principal de una venta basándose en los pagos confirmados existentes.
+        /// </summary>
+        /// <param name="idVenta">ID de la venta</param>
+        /// <returns>True si se actualizó correctamente, False si no se pudo actualizar o no hay pagos</returns>
+        public bool ActualizarMetodoPagoPrincipal(long idVenta) {
+            var metodoPagoPrincipal = DeterminarMetodoPagoPrincipal(idVenta);
+
+            var consulta = $"""
+                UPDATE adv__venta 
+                SET metodo_pago_principal = @metodo_pago_principal
+                WHERE id_venta = @id_venta
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_venta", idVenta },
+                { "@metodo_pago_principal", !metodoPagoPrincipal.HasValue ? string.Empty : metodoPagoPrincipal.Value.ToString() }
+            };
+
+            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
         #endregion

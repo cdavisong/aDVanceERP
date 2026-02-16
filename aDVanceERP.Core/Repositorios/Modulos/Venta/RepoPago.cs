@@ -82,41 +82,53 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaPago filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
-            var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+            var fechaDesde = criteriosBusqueda.Length == 3 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length == 3 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length == 3 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
 
             var consultaComun = $"""
                 SELECT p.*, v.numero_factura_ticket, v.importe_total as total_venta
                 FROM adv__pago p
                 LEFT JOIN adv__venta v ON p.id_venta = v.id_venta
+                {(criteriosBusqueda.Length == 3 ? "WHERE p.fecha_pago_cliente >= @fecha_desde AND p.fecha_pago_cliente <= @fecha_hasta" : string.Empty)}
                 """;
 
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaPago.Id => $"""
                     {consultaComun}
-                    WHERE p.id_pago = @id_pago
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.id_pago = @id_pago
                     """,
                 FiltroBusquedaPago.IdVenta => $"""
                     {consultaComun}
-                    WHERE p.id_venta = @id_venta
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.id_venta = @id_venta
                     """,
                 FiltroBusquedaPago.Estado => $"""
                     {consultaComun}
-                    WHERE p.estado_pago = @estado_pago
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.estado_pago = @estado_pago
                     """,
                 _ => consultaComun
             };
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPago.Id => new Dictionary<string, object> {
-                    { "@id_pago", long.Parse(criterio) }
+                    { "@id_pago", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPago.IdVenta => new Dictionary<string, object> {
-                    { "@id_venta", long.Parse(criterio) }
+                    { "@id_venta", long.Parse(criterio) },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPago.Estado => new Dictionary<string, object> {
-                    { "@estado_pago", criterio }
+                    { "@estado_pago", criterio },
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
-                _ => new Dictionary<string, object>()
+                _ => new Dictionary<string, object>() {
+                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                }
             };
 
             return consulta;

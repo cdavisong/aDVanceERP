@@ -50,9 +50,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public bool EstadoSeleccion { get; set; }
 
-        public long Id {
-            get => Convert.ToInt64(fieldId.Text);
-            set => fieldId.Text = value.ToString();
+        public long Id { get; set; }
+
+        public string NumeroFacturaVenta {
+            get => fieldNumeroFactura.Text;
+            set => fieldNumeroFactura.Text = value;
         }
 
         public DateTime FechaVenta {
@@ -64,17 +66,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
-        public string NombreCliente {
-            get => fieldNombreCliente.Text;
-            set {
-                fieldNombreCliente.Text = value;
-                fieldNombreCliente.Margin = fieldNombreCliente.AjusteAutomaticoMargenTexto();
-            }
-        }
+        public string NombreCliente { get; set; }
 
         public string? MetodoPagoPrincipal {
             get => fieldMetodoPagoPrincipal.Text;
-            set => fieldMetodoPagoPrincipal.Text = value;
+            set { 
+                fieldMetodoPagoPrincipal.Text = value;
+                fieldMetodoPagoPrincipal.Margin = fieldMetodoPagoPrincipal.AjusteAutomaticoMargenTexto();
+            }
         }
 
         public decimal TotalBruto {

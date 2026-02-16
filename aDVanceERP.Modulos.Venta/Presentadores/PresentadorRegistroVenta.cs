@@ -69,7 +69,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 DescuentoTotal = Vista.DescuentoTotal,
                 ImpuestoTotal = Vista.ImpuestoTotal,
                 ImporteTotal = Vista.ImporteTotal,
-                MetodoPagoPrincipal = string.Empty, // TODO: Implementar pago e integrar
+                MetodoPagoPrincipal = string.Empty,
                 EstadoVenta = EstadoVenta.Pendiente, // TODO: Implementar estados de venta dependiendo de pagos y estados de entregas
                 ObservacionesVenta = Vista.ObservacionesVenta,
                 Activo = true
@@ -135,6 +135,27 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     repoPedido.Editar(pedido);                    
                 }
             }
+
+            // Registrar los pagos asociados a la venta
+            var repoPago = RepoPago.Instancia;
+            var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
+
+            foreach (var pago in Vista.Pagos) {
+                pago.Key.IdVenta = id;
+                var idPago = repoPago.Adicionar(pago.Key);
+
+                if (pago.Key.MetodoPago == MetodoPagoEnum.TransferenciaBancaria && pago.Value != null) {
+                    pago.Value.IdPago = idPago;
+                    repoDetallePagoTransferencia.Adicionar(pago.Value);
+                }
+            }
+
+            // Actualizar el estado de la venta a completada si el total pagado cubre el importe total de la venta
+            if (repositorio.VentaEstaPagadaCompletamente(id))
+                repositorio.CambiarEstadoVenta(id, EstadoVenta.Completada);
+
+            // Actualizar el método de pago principal de la venta
+            repositorio.ActualizarMetodoPagoPrincipal(id);
         }
     }
 }

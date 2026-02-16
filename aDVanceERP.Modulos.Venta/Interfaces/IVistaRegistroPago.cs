@@ -2,16 +2,16 @@
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaTuplaPago : IVistaTupla {
-        public long Id { get; set; }
-        long IdVenta { get; set; }
+    public interface IVistaRegistroPago : IVistaRegistro {
         string NumeroFacturaVenta { get; set; }
+        DateTime FechaPagoCliente { get; set; }
         public MetodoPagoEnum MetodoPago { get; set; }
+        decimal MontoPagado { get; set; }
+        bool EstadoPendiente { get; set; }
         string NumeroConfirmacion { get; set; }
         string NumeroTransaccion { get; set; }
-        decimal MontoPagado { get; set; }
-        DateTime FechaPagoCliente { get; set; }
-        DateTime FechaConfirmacionPago { get; set; }
-        EstadoPagoEnum EstadoPago { get; set; }
+
+        void CargarFacturasVentasPendientes(string[] numerosFacturasPendientes);
+        void CargarMetodosPago(string[] metodosPago);
     }
 }
