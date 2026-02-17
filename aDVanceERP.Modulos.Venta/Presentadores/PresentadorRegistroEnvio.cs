@@ -15,6 +15,16 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private void OnMostrarVistaRegistroEnvio(string obj) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
+
+            // Carga inicial de datos
+            var tiposEnvio = new List<string>();
+
+            foreach (TipoEnvioEnum metodo in Enum.GetValues(typeof(TipoEnvioEnum)))
+                tiposEnvio.Add(metodo.ObtenerDisplayName());
+
+            Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
+            Vista.CargarTiposEnvio([.. tiposEnvio]);
+
             Vista.Mostrar();
         }
 
@@ -29,6 +39,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             if (envio == null)
                 return;
+
+            // Carga inicial de datos
+            var tiposEnvio = new List<string>();
+
+            foreach (TipoEnvioEnum metodo in Enum.GetValues(typeof(TipoEnvioEnum)))
+                tiposEnvio.Add(metodo.ObtenerDisplayName());
+
+            Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
+            Vista.CargarTiposEnvio([.. tiposEnvio]);
 
             PopularVistaDesdeEntidad(envio);
 

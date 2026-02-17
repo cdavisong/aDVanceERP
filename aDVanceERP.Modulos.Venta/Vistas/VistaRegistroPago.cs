@@ -102,7 +102,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Inicializar() {
             fieldMetodoPago.SelectedIndexChanged += delegate {
                 separador1.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
-                fieldTituloDatosTransferencia.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
                 layoutTitulos2.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
                 layoutDatos2.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
             };

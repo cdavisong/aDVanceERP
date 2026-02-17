@@ -1,19 +1,15 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Maestros
-{
-    public sealed class TelefonoContacto : IEntidadBaseDatos
-    {
-        public TelefonoContacto()
-        {
+namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
+    public sealed class TelefonoContacto : IEntidadBaseDatos {
+        public TelefonoContacto() {
             PrefijoPais = "+0";
             NumeroTelefono = "N/A";
             Categoria = CategoriaTelefonoContacto.Movil;
             IdPersona = 0;
         }
 
-        public TelefonoContacto(long id, string prefijoPais, string numeroTelefono, CategoriaTelefonoContacto categoria, long idPersona)
-        {
+        public TelefonoContacto(long id, string prefijoPais, string numeroTelefono, CategoriaTelefonoContacto categoria, long idPersona) {
             Id = id;
             PrefijoPais = prefijoPais;
             NumeroTelefono = numeroTelefono;
@@ -28,8 +24,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
         public long IdPersona { get; set; }
     }
 
-    public enum FiltroBusquedaTelefonoContacto
-    {
+    public enum FiltroBusquedaTelefonoContacto {
         Todos,
         Id,
         PrefijoPais,
@@ -38,8 +33,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
         IdPersona
     }
 
-    public static class UtilesBusquedaTelefonoContacto
-    {
+    public static class UtilesBusquedaTelefonoContacto {
         public static object[] FiltroBusquedaTelefonoContacto = {
             "Todos los teléfonos de contacto",
             "Identificador de BD",

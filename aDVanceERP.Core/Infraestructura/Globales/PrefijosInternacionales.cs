@@ -52,6 +52,10 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
         public static Image ObtenerFlag(string pais) {
             var entry = _ppc.FirstOrDefault(p => p.pais.Equals(pais, StringComparison.OrdinalIgnoreCase));
             var codigoIso = entry.codigoIso ?? throw new ArgumentException("Ha ocurrido un error, el país especificado no es correcto", nameof(pais));
+            
+            if (string.IsNullOrEmpty(codigoIso) || codigoIso.Equals("unknown"))
+                return null!;
+
             var svgDoc = SvgDocument.Open($@".\res\flags\{codigoIso}.svg");
             var flag = svgDoc.Draw();
 

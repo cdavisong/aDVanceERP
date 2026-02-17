@@ -69,13 +69,11 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutDatos1 = new TableLayoutPanel();
             fieldObservaciones = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldMetodoPago = new Guna.UI2.WinForms.Guna2ComboBox();
+            fieldTipoEnvio = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldMonto = new Guna.UI2.WinForms.Guna2TextBox();
             fieldFechaAsignacion = new Guna.UI2.WinForms.Guna2DateTimePicker();
             fieldNumeroFactura = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -93,48 +91,43 @@
             btnSalir = new Guna.UI2.WinForms.Guna2Button();
             btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             fieldIcono = new PictureBox();
-            fieldTituloDatosCliente = new Label();
             layoutDistribucion2 = new TableLayoutPanel();
             layoutTitulos2 = new TableLayoutPanel();
+            fieldTituloLimiteCredito = new Label();
             fieldTituloDatosGeneralesCliente = new Label();
             fieldTituloTipoDocumentoCliente = new Label();
             layoutDatos2 = new TableLayoutPanel();
+            fieldLimiteCredito = new Guna.UI2.WinForms.Guna2TextBox();
             fieldNumeroDocumentoCliente = new Guna.UI2.WinForms.Guna2TextBox();
             fieldTipoDocumentoCliente = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldNombreCompletoCliente = new Guna.UI2.WinForms.Guna2TextBox();
             layoutTitulos3 = new TableLayoutPanel();
-            fieldTituloLimiteCredito = new Label();
-            fieldTituloDatosClientela = new Label();
             lbTituloTelefonosCliente = new Label();
             layoutDatos3 = new TableLayoutPanel();
-            fieldLimiteCredito = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldCodigoCliente = new Guna.UI2.WinForms.Guna2TextBox();
             layoutNumeroTelefonoCliente = new TableLayoutPanel();
             fieldPrefijoInternacionalCliente = new Label();
             fieldNumeroTelefonoCliente = new Guna.UI2.WinForms.Guna2TextBox();
             fieldPaisesCliente = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldCategoriaTelefonoCliente = new Guna.UI2.WinForms.Guna2ComboBox();
-            fieldTitulodatosMensajero = new Label();
             layoutDistribucion3 = new TableLayoutPanel();
             layoutTitulos4 = new TableLayoutPanel();
             fieldTituloDatosGeneralesMensajero = new Label();
             fieldTituloTipoDocumentoMensajero = new Label();
             layoutDatos4 = new TableLayoutPanel();
+            fieldMatricula = new Guna.UI2.WinForms.Guna2TextBox();
             fieldNumeroDocumentoMensajero = new Guna.UI2.WinForms.Guna2TextBox();
             fieldTipoDocumentoMensajero = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldNombreCompletoMensajero = new Guna.UI2.WinForms.Guna2TextBox();
             layoutTitulos5 = new TableLayoutPanel();
-            fieldTituloDatosMensajeria = new Label();
             lbTituloTelefonosMensajero = new Label();
             layoutDatos5 = new TableLayoutPanel();
-            fieldMatricula = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldCodigoMensajero = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldPaisesMensajero = new Guna.UI2.WinForms.Guna2ComboBox();
+            fieldCategoriaTelefonoMensajero = new Guna.UI2.WinForms.Guna2ComboBox();
             layoutNumeroTelefonoMensajero = new TableLayoutPanel();
             fieldPrefijoInternacionalMensajero = new Label();
             fieldNumeroTelefonoMensajero = new Guna.UI2.WinForms.Guna2TextBox();
-            fieldPaisesMensajero = new Guna.UI2.WinForms.Guna2ComboBox();
-            fieldCategoriaTelefonoMensajero = new Guna.UI2.WinForms.Guna2ComboBox();
             separador2 = new Guna.UI2.WinForms.Guna2Separator();
+            fieldDireccionPrincipalCliente = new Guna.UI2.WinForms.Guna2TextBox();
             layoutVista.SuspendLayout();
             layoutDatos1.SuspendLayout();
             layoutTitulos1.SuspendLayout();
@@ -176,34 +169,32 @@
             layoutVista.Controls.Add(layoutTitulo, 2, 0);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
             layoutVista.Controls.Add(separador1, 2, 4);
-            layoutVista.Controls.Add(layoutBotones, 2, 18);
+            layoutVista.Controls.Add(layoutBotones, 2, 17);
             layoutVista.Controls.Add(fieldIcono, 1, 0);
-            layoutVista.Controls.Add(fieldTituloDatosCliente, 2, 5);
-            layoutVista.Controls.Add(layoutDistribucion2, 2, 6);
+            layoutVista.Controls.Add(layoutDistribucion2, 2, 5);
             layoutVista.Controls.Add(layoutTitulos3, 2, 8);
             layoutVista.Controls.Add(layoutDatos3, 2, 9);
-            layoutVista.Controls.Add(fieldTitulodatosMensajero, 2, 11);
-            layoutVista.Controls.Add(layoutDistribucion3, 2, 12);
-            layoutVista.Controls.Add(layoutTitulos5, 2, 14);
-            layoutVista.Controls.Add(layoutDatos5, 2, 15);
+            layoutVista.Controls.Add(layoutDistribucion3, 2, 11);
+            layoutVista.Controls.Add(layoutTitulos5, 2, 13);
+            layoutVista.Controls.Add(layoutDatos5, 2, 14);
             layoutVista.Controls.Add(separador2, 2, 10);
+            layoutVista.Controls.Add(fieldDireccionPrincipalCliente, 2, 6);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 20;
+            layoutVista.RowCount = 19;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
@@ -224,7 +215,7 @@
             layoutDatos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 175F));
             layoutDatos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutDatos1.Controls.Add(fieldObservaciones, 4, 0);
-            layoutDatos1.Controls.Add(fieldMetodoPago, 2, 0);
+            layoutDatos1.Controls.Add(fieldTipoEnvio, 2, 0);
             layoutDatos1.Controls.Add(fieldMonto, 3, 0);
             layoutDatos1.Controls.Add(fieldFechaAsignacion, 1, 0);
             layoutDatos1.Controls.Add(fieldNumeroFactura, 0, 0);
@@ -271,28 +262,28 @@
             fieldObservaciones.TabIndex = 41;
             fieldObservaciones.TextOffset = new Point(5, 0);
             // 
-            // fieldMetodoPago
+            // fieldTipoEnvio
             // 
-            fieldMetodoPago.Animated = true;
-            fieldMetodoPago.BackColor = Color.Transparent;
-            fieldMetodoPago.BorderColor = Color.Gainsboro;
-            fieldMetodoPago.BorderRadius = 16;
-            fieldMetodoPago.CustomizableEdges = customizableEdges3;
-            fieldMetodoPago.Dock = DockStyle.Fill;
-            fieldMetodoPago.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldMetodoPago.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldMetodoPago.FocusedColor = Color.SandyBrown;
-            fieldMetodoPago.FocusedState.BorderColor = Color.SandyBrown;
-            fieldMetodoPago.Font = new Font("Segoe UI", 11.25F);
-            fieldMetodoPago.ForeColor = Color.Black;
-            fieldMetodoPago.ItemHeight = 29;
-            fieldMetodoPago.Location = new Point(555, 5);
-            fieldMetodoPago.Margin = new Padding(5);
-            fieldMetodoPago.Name = "fieldMetodoPago";
-            fieldMetodoPago.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            fieldMetodoPago.Size = new Size(240, 35);
-            fieldMetodoPago.TabIndex = 51;
-            fieldMetodoPago.TextOffset = new Point(10, 0);
+            fieldTipoEnvio.Animated = true;
+            fieldTipoEnvio.BackColor = Color.Transparent;
+            fieldTipoEnvio.BorderColor = Color.Gainsboro;
+            fieldTipoEnvio.BorderRadius = 16;
+            fieldTipoEnvio.CustomizableEdges = customizableEdges3;
+            fieldTipoEnvio.Dock = DockStyle.Fill;
+            fieldTipoEnvio.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldTipoEnvio.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldTipoEnvio.FocusedColor = Color.SandyBrown;
+            fieldTipoEnvio.FocusedState.BorderColor = Color.SandyBrown;
+            fieldTipoEnvio.Font = new Font("Segoe UI", 11.25F);
+            fieldTipoEnvio.ForeColor = Color.Black;
+            fieldTipoEnvio.ItemHeight = 29;
+            fieldTipoEnvio.Location = new Point(555, 5);
+            fieldTipoEnvio.Margin = new Padding(5);
+            fieldTipoEnvio.Name = "fieldTipoEnvio";
+            fieldTipoEnvio.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            fieldTipoEnvio.Size = new Size(240, 35);
+            fieldTipoEnvio.TabIndex = 51;
+            fieldTipoEnvio.TextOffset = new Point(10, 0);
             // 
             // fieldMonto
             // 
@@ -597,21 +588,6 @@
             fieldIcono.TabIndex = 52;
             fieldIcono.TabStop = false;
             // 
-            // fieldTituloDatosCliente
-            // 
-            fieldTituloDatosCliente.Dock = DockStyle.Fill;
-            fieldTituloDatosCliente.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            fieldTituloDatosCliente.ForeColor = Color.DimGray;
-            fieldTituloDatosCliente.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosCliente.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosCliente.Location = new Point(65, 195);
-            fieldTituloDatosCliente.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosCliente.Name = "fieldTituloDatosCliente";
-            fieldTituloDatosCliente.Size = new Size(1268, 27);
-            fieldTituloDatosCliente.TabIndex = 53;
-            fieldTituloDatosCliente.Text = " Datos del cliente :";
-            fieldTituloDatosCliente.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // layoutDistribucion2
             // 
             layoutDistribucion2.ColumnCount = 1;
@@ -619,7 +595,7 @@
             layoutDistribucion2.Controls.Add(layoutTitulos2, 0, 0);
             layoutDistribucion2.Controls.Add(layoutDatos2, 0, 1);
             layoutDistribucion2.Dock = DockStyle.Fill;
-            layoutDistribucion2.Location = new Point(50, 225);
+            layoutDistribucion2.Location = new Point(50, 190);
             layoutDistribucion2.Margin = new Padding(0);
             layoutDistribucion2.Name = "layoutDistribucion2";
             layoutDistribucion2.RowCount = 2;
@@ -635,6 +611,7 @@
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 470F));
             layoutTitulos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            layoutTitulos2.Controls.Add(fieldTituloLimiteCredito, 2, 0);
             layoutTitulos2.Controls.Add(fieldTituloDatosGeneralesCliente, 0, 0);
             layoutTitulos2.Controls.Add(fieldTituloTipoDocumentoCliente, 1, 0);
             layoutTitulos2.Dock = DockStyle.Fill;
@@ -646,10 +623,26 @@
             layoutTitulos2.Size = new Size(1286, 35);
             layoutTitulos2.TabIndex = 47;
             // 
+            // fieldTituloLimiteCredito
+            // 
+            fieldTituloLimiteCredito.Dock = DockStyle.Fill;
+            fieldTituloLimiteCredito.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloLimiteCredito.ForeColor = Color.DimGray;
+            fieldTituloLimiteCredito.Image = (Image)resources.GetObject("fieldTituloLimiteCredito.Image");
+            fieldTituloLimiteCredito.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloLimiteCredito.ImeMode = ImeMode.NoControl;
+            fieldTituloLimiteCredito.Location = new Point(1001, 5);
+            fieldTituloLimiteCredito.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloLimiteCredito.Name = "fieldTituloLimiteCredito";
+            fieldTituloLimiteCredito.Size = new Size(282, 27);
+            fieldTituloLimiteCredito.TabIndex = 44;
+            fieldTituloLimiteCredito.Text = "      Límite de crédito :";
+            fieldTituloLimiteCredito.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // fieldTituloDatosGeneralesCliente
             // 
             fieldTituloDatosGeneralesCliente.Dock = DockStyle.Fill;
-            fieldTituloDatosGeneralesCliente.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloDatosGeneralesCliente.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             fieldTituloDatosGeneralesCliente.ForeColor = Color.DimGray;
             fieldTituloDatosGeneralesCliente.Image = (Image)resources.GetObject("fieldTituloDatosGeneralesCliente.Image");
             fieldTituloDatosGeneralesCliente.ImageAlign = ContentAlignment.MiddleLeft;
@@ -659,7 +652,7 @@
             fieldTituloDatosGeneralesCliente.Name = "fieldTituloDatosGeneralesCliente";
             fieldTituloDatosGeneralesCliente.Size = new Size(498, 27);
             fieldTituloDatosGeneralesCliente.TabIndex = 41;
-            fieldTituloDatosGeneralesCliente.Text = "      Datos generales :";
+            fieldTituloDatosGeneralesCliente.Text = "      Datos generales del cliente :";
             fieldTituloDatosGeneralesCliente.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloTipoDocumentoCliente
@@ -685,6 +678,7 @@
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             layoutDatos2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            layoutDatos2.Controls.Add(fieldLimiteCredito, 3, 0);
             layoutDatos2.Controls.Add(fieldNumeroDocumentoCliente, 2, 0);
             layoutDatos2.Controls.Add(fieldTipoDocumentoCliente, 1, 0);
             layoutDatos2.Controls.Add(fieldNombreCompletoCliente, 0, 0);
@@ -697,13 +691,47 @@
             layoutDatos2.Size = new Size(1286, 45);
             layoutDatos2.TabIndex = 40;
             // 
+            // fieldLimiteCredito
+            // 
+            fieldLimiteCredito.Animated = true;
+            fieldLimiteCredito.AutoRoundedCorners = true;
+            fieldLimiteCredito.BorderColor = Color.Gainsboro;
+            fieldLimiteCredito.BorderRadius = 16;
+            fieldLimiteCredito.Cursor = Cursors.IBeam;
+            fieldLimiteCredito.CustomizableEdges = customizableEdges15;
+            fieldLimiteCredito.DefaultText = "";
+            fieldLimiteCredito.DisabledState.BorderColor = Color.White;
+            fieldLimiteCredito.DisabledState.ForeColor = Color.DimGray;
+            fieldLimiteCredito.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldLimiteCredito.Dock = DockStyle.Fill;
+            fieldLimiteCredito.FocusedState.BorderColor = Color.SandyBrown;
+            fieldLimiteCredito.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldLimiteCredito.ForeColor = Color.Black;
+            fieldLimiteCredito.HoverState.BorderColor = Color.SandyBrown;
+            fieldLimiteCredito.IconLeftOffset = new Point(10, 0);
+            fieldLimiteCredito.IconRight = (Image)resources.GetObject("fieldLimiteCredito.IconRight");
+            fieldLimiteCredito.IconRightOffset = new Point(6, 0);
+            fieldLimiteCredito.IconRightSize = new Size(12, 12);
+            fieldLimiteCredito.Location = new Point(991, 5);
+            fieldLimiteCredito.Margin = new Padding(5);
+            fieldLimiteCredito.Name = "fieldLimiteCredito";
+            fieldLimiteCredito.PasswordChar = '\0';
+            fieldLimiteCredito.PlaceholderForeColor = Color.DimGray;
+            fieldLimiteCredito.PlaceholderText = "0.00";
+            fieldLimiteCredito.SelectedText = "";
+            fieldLimiteCredito.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            fieldLimiteCredito.Size = new Size(290, 35);
+            fieldLimiteCredito.TabIndex = 50;
+            fieldLimiteCredito.TextAlign = HorizontalAlignment.Right;
+            fieldLimiteCredito.TextOffset = new Point(5, 0);
+            // 
             // fieldNumeroDocumentoCliente
             // 
             fieldNumeroDocumentoCliente.Animated = true;
             fieldNumeroDocumentoCliente.BorderColor = Color.Gainsboro;
             fieldNumeroDocumentoCliente.BorderRadius = 16;
             fieldNumeroDocumentoCliente.Cursor = Cursors.IBeam;
-            fieldNumeroDocumentoCliente.CustomizableEdges = customizableEdges15;
+            fieldNumeroDocumentoCliente.CustomizableEdges = customizableEdges17;
             fieldNumeroDocumentoCliente.DefaultText = "";
             fieldNumeroDocumentoCliente.DisabledState.BorderColor = Color.White;
             fieldNumeroDocumentoCliente.DisabledState.ForeColor = Color.DimGray;
@@ -722,7 +750,7 @@
             fieldNumeroDocumentoCliente.PlaceholderForeColor = Color.DimGray;
             fieldNumeroDocumentoCliente.PlaceholderText = "Número del documento";
             fieldNumeroDocumentoCliente.SelectedText = "";
-            fieldNumeroDocumentoCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            fieldNumeroDocumentoCliente.ShadowDecoration.CustomizableEdges = customizableEdges18;
             fieldNumeroDocumentoCliente.Size = new Size(230, 35);
             fieldNumeroDocumentoCliente.TabIndex = 38;
             fieldNumeroDocumentoCliente.TextOffset = new Point(5, 0);
@@ -733,7 +761,7 @@
             fieldTipoDocumentoCliente.BackColor = Color.Transparent;
             fieldTipoDocumentoCliente.BorderColor = Color.Gainsboro;
             fieldTipoDocumentoCliente.BorderRadius = 16;
-            fieldTipoDocumentoCliente.CustomizableEdges = customizableEdges17;
+            fieldTipoDocumentoCliente.CustomizableEdges = customizableEdges19;
             fieldTipoDocumentoCliente.Dock = DockStyle.Fill;
             fieldTipoDocumentoCliente.DrawMode = DrawMode.OwnerDrawFixed;
             fieldTipoDocumentoCliente.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -747,7 +775,7 @@
             fieldTipoDocumentoCliente.Location = new Point(521, 5);
             fieldTipoDocumentoCliente.Margin = new Padding(5);
             fieldTipoDocumentoCliente.Name = "fieldTipoDocumentoCliente";
-            fieldTipoDocumentoCliente.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            fieldTipoDocumentoCliente.ShadowDecoration.CustomizableEdges = customizableEdges20;
             fieldTipoDocumentoCliente.Size = new Size(220, 35);
             fieldTipoDocumentoCliente.StartIndex = 0;
             fieldTipoDocumentoCliente.TabIndex = 36;
@@ -759,7 +787,7 @@
             fieldNombreCompletoCliente.BorderColor = Color.Gainsboro;
             fieldNombreCompletoCliente.BorderRadius = 16;
             fieldNombreCompletoCliente.Cursor = Cursors.IBeam;
-            fieldNombreCompletoCliente.CustomizableEdges = customizableEdges19;
+            fieldNombreCompletoCliente.CustomizableEdges = customizableEdges21;
             fieldNombreCompletoCliente.DefaultText = "";
             fieldNombreCompletoCliente.DisabledState.BorderColor = Color.White;
             fieldNombreCompletoCliente.DisabledState.ForeColor = Color.DimGray;
@@ -778,60 +806,26 @@
             fieldNombreCompletoCliente.PlaceholderForeColor = Color.DimGray;
             fieldNombreCompletoCliente.PlaceholderText = "Nombre completo";
             fieldNombreCompletoCliente.SelectedText = "";
-            fieldNombreCompletoCliente.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            fieldNombreCompletoCliente.ShadowDecoration.CustomizableEdges = customizableEdges22;
             fieldNombreCompletoCliente.Size = new Size(506, 35);
             fieldNombreCompletoCliente.TabIndex = 8;
             fieldNombreCompletoCliente.TextOffset = new Point(5, 0);
             // 
             // layoutTitulos3
             // 
-            layoutTitulos3.ColumnCount = 3;
-            layoutTitulos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutTitulos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutTitulos3.ColumnCount = 2;
             layoutTitulos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 770F));
-            layoutTitulos3.Controls.Add(fieldTituloLimiteCredito, 1, 0);
-            layoutTitulos3.Controls.Add(fieldTituloDatosClientela, 0, 0);
-            layoutTitulos3.Controls.Add(lbTituloTelefonosCliente, 2, 0);
+            layoutTitulos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutTitulos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutTitulos3.Controls.Add(lbTituloTelefonosCliente, 0, 0);
             layoutTitulos3.Dock = DockStyle.Fill;
-            layoutTitulos3.Location = new Point(50, 315);
+            layoutTitulos3.Location = new Point(50, 325);
             layoutTitulos3.Margin = new Padding(0);
             layoutTitulos3.Name = "layoutTitulos3";
             layoutTitulos3.RowCount = 1;
             layoutTitulos3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulos3.Size = new Size(1286, 35);
             layoutTitulos3.TabIndex = 55;
-            // 
-            // fieldTituloLimiteCredito
-            // 
-            fieldTituloLimiteCredito.Dock = DockStyle.Fill;
-            fieldTituloLimiteCredito.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloLimiteCredito.ForeColor = Color.DimGray;
-            fieldTituloLimiteCredito.Image = (Image)resources.GetObject("fieldTituloLimiteCredito.Image");
-            fieldTituloLimiteCredito.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloLimiteCredito.ImeMode = ImeMode.NoControl;
-            fieldTituloLimiteCredito.Location = new Point(273, 5);
-            fieldTituloLimiteCredito.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloLimiteCredito.Name = "fieldTituloLimiteCredito";
-            fieldTituloLimiteCredito.Size = new Size(240, 27);
-            fieldTituloLimiteCredito.TabIndex = 44;
-            fieldTituloLimiteCredito.Text = "      Límite de crédito :";
-            fieldTituloLimiteCredito.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldTituloDatosClientela
-            // 
-            fieldTituloDatosClientela.Dock = DockStyle.Fill;
-            fieldTituloDatosClientela.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloDatosClientela.ForeColor = Color.DimGray;
-            fieldTituloDatosClientela.Image = (Image)resources.GetObject("fieldTituloDatosClientela.Image");
-            fieldTituloDatosClientela.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosClientela.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosClientela.Location = new Point(15, 5);
-            fieldTituloDatosClientela.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosClientela.Name = "fieldTituloDatosClientela";
-            fieldTituloDatosClientela.Size = new Size(240, 27);
-            fieldTituloDatosClientela.TabIndex = 43;
-            fieldTituloDatosClientela.Text = "      Datos de clientela :";
-            fieldTituloDatosClientela.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lbTituloTelefonosCliente
             // 
@@ -841,7 +835,7 @@
             lbTituloTelefonosCliente.Image = (Image)resources.GetObject("lbTituloTelefonosCliente.Image");
             lbTituloTelefonosCliente.ImageAlign = ContentAlignment.MiddleLeft;
             lbTituloTelefonosCliente.ImeMode = ImeMode.NoControl;
-            lbTituloTelefonosCliente.Location = new Point(531, 5);
+            lbTituloTelefonosCliente.Location = new Point(15, 5);
             lbTituloTelefonosCliente.Margin = new Padding(15, 5, 3, 3);
             lbTituloTelefonosCliente.Name = "lbTituloTelefonosCliente";
             lbTituloTelefonosCliente.Size = new Size(752, 27);
@@ -851,93 +845,25 @@
             // 
             // layoutDatos3
             // 
-            layoutDatos3.ColumnCount = 7;
-            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutDatos3.ColumnCount = 4;
             layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 276F));
-            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
-            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 74F));
-            layoutDatos3.Controls.Add(fieldLimiteCredito, 1, 0);
-            layoutDatos3.Controls.Add(fieldCodigoCliente, 0, 0);
-            layoutDatos3.Controls.Add(layoutNumeroTelefonoCliente, 4, 0);
-            layoutDatos3.Controls.Add(fieldPaisesCliente, 3, 0);
-            layoutDatos3.Controls.Add(fieldCategoriaTelefonoCliente, 2, 0);
+            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos3.Controls.Add(layoutNumeroTelefonoCliente, 2, 0);
+            layoutDatos3.Controls.Add(fieldPaisesCliente, 1, 0);
+            layoutDatos3.Controls.Add(fieldCategoriaTelefonoCliente, 0, 0);
             layoutDatos3.Dock = DockStyle.Fill;
-            layoutDatos3.Location = new Point(50, 350);
+            layoutDatos3.Location = new Point(50, 360);
             layoutDatos3.Margin = new Padding(0);
             layoutDatos3.Name = "layoutDatos3";
             layoutDatos3.RowCount = 1;
             layoutDatos3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDatos3.Size = new Size(1286, 45);
             layoutDatos3.TabIndex = 57;
-            // 
-            // fieldLimiteCredito
-            // 
-            fieldLimiteCredito.Animated = true;
-            fieldLimiteCredito.AutoRoundedCorners = true;
-            fieldLimiteCredito.BorderColor = Color.Gainsboro;
-            fieldLimiteCredito.BorderRadius = 16;
-            fieldLimiteCredito.Cursor = Cursors.IBeam;
-            fieldLimiteCredito.CustomizableEdges = customizableEdges21;
-            fieldLimiteCredito.DefaultText = "";
-            fieldLimiteCredito.DisabledState.BorderColor = Color.White;
-            fieldLimiteCredito.DisabledState.ForeColor = Color.DimGray;
-            fieldLimiteCredito.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldLimiteCredito.Dock = DockStyle.Fill;
-            fieldLimiteCredito.FocusedState.BorderColor = Color.SandyBrown;
-            fieldLimiteCredito.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldLimiteCredito.ForeColor = Color.Black;
-            fieldLimiteCredito.HoverState.BorderColor = Color.SandyBrown;
-            fieldLimiteCredito.IconLeftOffset = new Point(10, 0);
-            fieldLimiteCredito.IconRight = (Image)resources.GetObject("fieldLimiteCredito.IconRight");
-            fieldLimiteCredito.IconRightOffset = new Point(6, 0);
-            fieldLimiteCredito.IconRightSize = new Size(12, 12);
-            fieldLimiteCredito.Location = new Point(263, 5);
-            fieldLimiteCredito.Margin = new Padding(5);
-            fieldLimiteCredito.Name = "fieldLimiteCredito";
-            fieldLimiteCredito.PasswordChar = '\0';
-            fieldLimiteCredito.PlaceholderForeColor = Color.DimGray;
-            fieldLimiteCredito.PlaceholderText = "0.00";
-            fieldLimiteCredito.SelectedText = "";
-            fieldLimiteCredito.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            fieldLimiteCredito.Size = new Size(248, 35);
-            fieldLimiteCredito.TabIndex = 50;
-            fieldLimiteCredito.TextAlign = HorizontalAlignment.Right;
-            fieldLimiteCredito.TextOffset = new Point(5, 0);
-            // 
-            // fieldCodigoCliente
-            // 
-            fieldCodigoCliente.Animated = true;
-            fieldCodigoCliente.BorderColor = Color.Gainsboro;
-            fieldCodigoCliente.BorderRadius = 16;
-            fieldCodigoCliente.Cursor = Cursors.IBeam;
-            fieldCodigoCliente.CustomizableEdges = customizableEdges23;
-            fieldCodigoCliente.DefaultText = "";
-            fieldCodigoCliente.DisabledState.BorderColor = Color.White;
-            fieldCodigoCliente.DisabledState.ForeColor = Color.DimGray;
-            fieldCodigoCliente.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoCliente.Dock = DockStyle.Fill;
-            fieldCodigoCliente.FocusedState.BorderColor = Color.SandyBrown;
-            fieldCodigoCliente.Font = new Font("Segoe UI", 11.25F);
-            fieldCodigoCliente.ForeColor = Color.Black;
-            fieldCodigoCliente.HoverState.BorderColor = Color.SandyBrown;
-            fieldCodigoCliente.IconLeft = (Image)resources.GetObject("fieldCodigoCliente.IconLeft");
-            fieldCodigoCliente.IconLeftOffset = new Point(10, 0);
-            fieldCodigoCliente.IconRight = (Image)resources.GetObject("fieldCodigoCliente.IconRight");
-            fieldCodigoCliente.IconRightOffset = new Point(10, 0);
-            fieldCodigoCliente.Location = new Point(5, 5);
-            fieldCodigoCliente.Margin = new Padding(5);
-            fieldCodigoCliente.Name = "fieldCodigoCliente";
-            fieldCodigoCliente.PasswordChar = '\0';
-            fieldCodigoCliente.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoCliente.PlaceholderText = "Código interno";
-            fieldCodigoCliente.SelectedText = "";
-            fieldCodigoCliente.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            fieldCodigoCliente.Size = new Size(248, 35);
-            fieldCodigoCliente.TabIndex = 49;
-            fieldCodigoCliente.TextOffset = new Point(5, 0);
             // 
             // layoutNumeroTelefonoCliente
             // 
@@ -947,7 +873,7 @@
             layoutNumeroTelefonoCliente.Controls.Add(fieldPrefijoInternacionalCliente, 0, 0);
             layoutNumeroTelefonoCliente.Controls.Add(fieldNumeroTelefonoCliente, 1, 0);
             layoutNumeroTelefonoCliente.Dock = DockStyle.Fill;
-            layoutNumeroTelefonoCliente.Location = new Point(886, 0);
+            layoutNumeroTelefonoCliente.Location = new Point(370, 0);
             layoutNumeroTelefonoCliente.Margin = new Padding(0);
             layoutNumeroTelefonoCliente.Name = "layoutNumeroTelefonoCliente";
             layoutNumeroTelefonoCliente.RowCount = 1;
@@ -976,7 +902,7 @@
             fieldNumeroTelefonoCliente.BorderColor = Color.Gainsboro;
             fieldNumeroTelefonoCliente.BorderRadius = 16;
             fieldNumeroTelefonoCliente.Cursor = Cursors.IBeam;
-            fieldNumeroTelefonoCliente.CustomizableEdges = customizableEdges25;
+            fieldNumeroTelefonoCliente.CustomizableEdges = customizableEdges23;
             fieldNumeroTelefonoCliente.DefaultText = "";
             fieldNumeroTelefonoCliente.DisabledState.BorderColor = Color.Gainsboro;
             fieldNumeroTelefonoCliente.DisabledState.FillColor = Color.White;
@@ -998,7 +924,7 @@
             fieldNumeroTelefonoCliente.PlaceholderForeColor = Color.DimGray;
             fieldNumeroTelefonoCliente.PlaceholderText = "0";
             fieldNumeroTelefonoCliente.SelectedText = "";
-            fieldNumeroTelefonoCliente.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            fieldNumeroTelefonoCliente.ShadowDecoration.CustomizableEdges = customizableEdges24;
             fieldNumeroTelefonoCliente.Size = new Size(196, 35);
             fieldNumeroTelefonoCliente.TabIndex = 2;
             fieldNumeroTelefonoCliente.TextOffset = new Point(5, 0);
@@ -1009,7 +935,7 @@
             fieldPaisesCliente.BackColor = Color.Transparent;
             fieldPaisesCliente.BorderColor = Color.Gainsboro;
             fieldPaisesCliente.BorderRadius = 16;
-            fieldPaisesCliente.CustomizableEdges = customizableEdges27;
+            fieldPaisesCliente.CustomizableEdges = customizableEdges25;
             fieldPaisesCliente.Dock = DockStyle.Fill;
             fieldPaisesCliente.DrawMode = DrawMode.OwnerDrawFixed;
             fieldPaisesCliente.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1019,10 +945,10 @@
             fieldPaisesCliente.ForeColor = Color.Black;
             fieldPaisesCliente.IntegralHeight = false;
             fieldPaisesCliente.ItemHeight = 29;
-            fieldPaisesCliente.Location = new Point(671, 5);
+            fieldPaisesCliente.Location = new Point(155, 5);
             fieldPaisesCliente.Margin = new Padding(5);
             fieldPaisesCliente.Name = "fieldPaisesCliente";
-            fieldPaisesCliente.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            fieldPaisesCliente.ShadowDecoration.CustomizableEdges = customizableEdges26;
             fieldPaisesCliente.Size = new Size(210, 35);
             fieldPaisesCliente.TabIndex = 38;
             fieldPaisesCliente.TextOffset = new Point(10, 0);
@@ -1033,7 +959,7 @@
             fieldCategoriaTelefonoCliente.BackColor = Color.Transparent;
             fieldCategoriaTelefonoCliente.BorderColor = Color.Gainsboro;
             fieldCategoriaTelefonoCliente.BorderRadius = 16;
-            fieldCategoriaTelefonoCliente.CustomizableEdges = customizableEdges29;
+            fieldCategoriaTelefonoCliente.CustomizableEdges = customizableEdges27;
             fieldCategoriaTelefonoCliente.Dock = DockStyle.Fill;
             fieldCategoriaTelefonoCliente.DrawMode = DrawMode.OwnerDrawFixed;
             fieldCategoriaTelefonoCliente.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -1044,29 +970,14 @@
             fieldCategoriaTelefonoCliente.IntegralHeight = false;
             fieldCategoriaTelefonoCliente.ItemHeight = 29;
             fieldCategoriaTelefonoCliente.Items.AddRange(new object[] { "Móvil", "Fijo", "Fax", "Trabajo", "Otro" });
-            fieldCategoriaTelefonoCliente.Location = new Point(521, 5);
+            fieldCategoriaTelefonoCliente.Location = new Point(5, 5);
             fieldCategoriaTelefonoCliente.Margin = new Padding(5);
             fieldCategoriaTelefonoCliente.Name = "fieldCategoriaTelefonoCliente";
-            fieldCategoriaTelefonoCliente.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            fieldCategoriaTelefonoCliente.ShadowDecoration.CustomizableEdges = customizableEdges28;
             fieldCategoriaTelefonoCliente.Size = new Size(140, 35);
             fieldCategoriaTelefonoCliente.StartIndex = 0;
             fieldCategoriaTelefonoCliente.TabIndex = 37;
             fieldCategoriaTelefonoCliente.TextOffset = new Point(10, 0);
-            // 
-            // fieldTitulodatosMensajero
-            // 
-            fieldTitulodatosMensajero.Dock = DockStyle.Fill;
-            fieldTitulodatosMensajero.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            fieldTitulodatosMensajero.ForeColor = Color.DimGray;
-            fieldTitulodatosMensajero.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTitulodatosMensajero.ImeMode = ImeMode.NoControl;
-            fieldTitulodatosMensajero.Location = new Point(65, 420);
-            fieldTitulodatosMensajero.Margin = new Padding(15, 5, 3, 3);
-            fieldTitulodatosMensajero.Name = "fieldTitulodatosMensajero";
-            fieldTitulodatosMensajero.Size = new Size(1268, 27);
-            fieldTitulodatosMensajero.TabIndex = 58;
-            fieldTitulodatosMensajero.Text = " Datos del mensajero :";
-            fieldTitulodatosMensajero.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // layoutDistribucion3
             // 
@@ -1075,7 +986,7 @@
             layoutDistribucion3.Controls.Add(layoutTitulos4, 0, 0);
             layoutDistribucion3.Controls.Add(layoutDatos4, 0, 1);
             layoutDistribucion3.Dock = DockStyle.Fill;
-            layoutDistribucion3.Location = new Point(50, 450);
+            layoutDistribucion3.Location = new Point(50, 425);
             layoutDistribucion3.Margin = new Padding(0);
             layoutDistribucion3.Name = "layoutDistribucion3";
             layoutDistribucion3.RowCount = 2;
@@ -1084,6 +995,7 @@
             layoutDistribucion3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutDistribucion3.Size = new Size(1286, 80);
             layoutDistribucion3.TabIndex = 59;
+            layoutDistribucion3.Visible = false;
             // 
             // layoutTitulos4
             // 
@@ -1105,7 +1017,7 @@
             // fieldTituloDatosGeneralesMensajero
             // 
             fieldTituloDatosGeneralesMensajero.Dock = DockStyle.Fill;
-            fieldTituloDatosGeneralesMensajero.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloDatosGeneralesMensajero.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             fieldTituloDatosGeneralesMensajero.ForeColor = Color.DimGray;
             fieldTituloDatosGeneralesMensajero.Image = (Image)resources.GetObject("fieldTituloDatosGeneralesMensajero.Image");
             fieldTituloDatosGeneralesMensajero.ImageAlign = ContentAlignment.MiddleLeft;
@@ -1115,7 +1027,7 @@
             fieldTituloDatosGeneralesMensajero.Name = "fieldTituloDatosGeneralesMensajero";
             fieldTituloDatosGeneralesMensajero.Size = new Size(498, 27);
             fieldTituloDatosGeneralesMensajero.TabIndex = 41;
-            fieldTituloDatosGeneralesMensajero.Text = "      Datos generales :";
+            fieldTituloDatosGeneralesMensajero.Text = "      Datos generales del mensajero :";
             fieldTituloDatosGeneralesMensajero.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloTipoDocumentoMensajero
@@ -1141,6 +1053,7 @@
             layoutDatos4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
             layoutDatos4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             layoutDatos4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
+            layoutDatos4.Controls.Add(fieldMatricula, 3, 0);
             layoutDatos4.Controls.Add(fieldNumeroDocumentoMensajero, 2, 0);
             layoutDatos4.Controls.Add(fieldTipoDocumentoMensajero, 1, 0);
             layoutDatos4.Controls.Add(fieldNombreCompletoMensajero, 0, 0);
@@ -1152,6 +1065,36 @@
             layoutDatos4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDatos4.Size = new Size(1286, 45);
             layoutDatos4.TabIndex = 40;
+            // 
+            // fieldMatricula
+            // 
+            fieldMatricula.Animated = true;
+            fieldMatricula.BorderColor = Color.Gainsboro;
+            fieldMatricula.BorderRadius = 16;
+            fieldMatricula.Cursor = Cursors.IBeam;
+            fieldMatricula.CustomizableEdges = customizableEdges29;
+            fieldMatricula.DefaultText = "";
+            fieldMatricula.DisabledState.BorderColor = Color.White;
+            fieldMatricula.DisabledState.ForeColor = Color.DimGray;
+            fieldMatricula.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldMatricula.Dock = DockStyle.Fill;
+            fieldMatricula.FocusedState.BorderColor = Color.SandyBrown;
+            fieldMatricula.Font = new Font("Segoe UI", 11.25F);
+            fieldMatricula.ForeColor = Color.Black;
+            fieldMatricula.HoverState.BorderColor = Color.SandyBrown;
+            fieldMatricula.IconLeft = (Image)resources.GetObject("fieldMatricula.IconLeft");
+            fieldMatricula.IconLeftOffset = new Point(10, 0);
+            fieldMatricula.Location = new Point(991, 5);
+            fieldMatricula.Margin = new Padding(5);
+            fieldMatricula.Name = "fieldMatricula";
+            fieldMatricula.PasswordChar = '\0';
+            fieldMatricula.PlaceholderForeColor = Color.DimGray;
+            fieldMatricula.PlaceholderText = "Matrícula del vehículo";
+            fieldMatricula.SelectedText = "";
+            fieldMatricula.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            fieldMatricula.Size = new Size(290, 35);
+            fieldMatricula.TabIndex = 50;
+            fieldMatricula.TextOffset = new Point(5, 0);
             // 
             // fieldNumeroDocumentoMensajero
             // 
@@ -1242,35 +1185,18 @@
             // layoutTitulos5
             // 
             layoutTitulos5.ColumnCount = 2;
-            layoutTitulos5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 770F));
-            layoutTitulos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutTitulos5.Controls.Add(fieldTituloDatosMensajeria, 0, 0);
-            layoutTitulos5.Controls.Add(lbTituloTelefonosMensajero, 1, 0);
+            layoutTitulos5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutTitulos5.Controls.Add(lbTituloTelefonosMensajero, 0, 0);
             layoutTitulos5.Dock = DockStyle.Fill;
-            layoutTitulos5.Location = new Point(50, 540);
+            layoutTitulos5.Location = new Point(50, 515);
             layoutTitulos5.Margin = new Padding(0);
             layoutTitulos5.Name = "layoutTitulos5";
             layoutTitulos5.RowCount = 1;
             layoutTitulos5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulos5.Size = new Size(1286, 35);
             layoutTitulos5.TabIndex = 60;
-            // 
-            // fieldTituloDatosMensajeria
-            // 
-            fieldTituloDatosMensajeria.Dock = DockStyle.Fill;
-            fieldTituloDatosMensajeria.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloDatosMensajeria.ForeColor = Color.DimGray;
-            fieldTituloDatosMensajeria.Image = (Image)resources.GetObject("fieldTituloDatosMensajeria.Image");
-            fieldTituloDatosMensajeria.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosMensajeria.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosMensajeria.Location = new Point(15, 5);
-            fieldTituloDatosMensajeria.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosMensajeria.Name = "fieldTituloDatosMensajeria";
-            fieldTituloDatosMensajeria.Size = new Size(498, 27);
-            fieldTituloDatosMensajeria.TabIndex = 43;
-            fieldTituloDatosMensajeria.Text = "      Datos de mensajería :";
-            fieldTituloDatosMensajeria.TextAlign = ContentAlignment.MiddleLeft;
+            layoutTitulos5.Visible = false;
             // 
             // lbTituloTelefonosMensajero
             // 
@@ -1280,7 +1206,7 @@
             lbTituloTelefonosMensajero.Image = (Image)resources.GetObject("lbTituloTelefonosMensajero.Image");
             lbTituloTelefonosMensajero.ImageAlign = ContentAlignment.MiddleLeft;
             lbTituloTelefonosMensajero.ImeMode = ImeMode.NoControl;
-            lbTituloTelefonosMensajero.Location = new Point(531, 5);
+            lbTituloTelefonosMensajero.Location = new Point(15, 5);
             lbTituloTelefonosMensajero.Margin = new Padding(15, 5, 3, 3);
             lbTituloTelefonosMensajero.Name = "lbTituloTelefonosMensajero";
             lbTituloTelefonosMensajero.Size = new Size(752, 27);
@@ -1290,87 +1216,75 @@
             // 
             // layoutDatos5
             // 
-            layoutDatos5.ColumnCount = 6;
-            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutDatos5.ColumnCount = 4;
             layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
             layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 276F));
-            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 124F));
-            layoutDatos5.Controls.Add(fieldMatricula, 1, 0);
-            layoutDatos5.Controls.Add(fieldCodigoMensajero, 0, 0);
-            layoutDatos5.Controls.Add(layoutNumeroTelefonoMensajero, 4, 0);
-            layoutDatos5.Controls.Add(fieldPaisesMensajero, 3, 0);
-            layoutDatos5.Controls.Add(fieldCategoriaTelefonoMensajero, 2, 0);
-            layoutDatos5.Location = new Point(50, 575);
+            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos5.Controls.Add(fieldPaisesMensajero, 1, 0);
+            layoutDatos5.Controls.Add(fieldCategoriaTelefonoMensajero, 0, 0);
+            layoutDatos5.Controls.Add(layoutNumeroTelefonoMensajero, 2, 0);
+            layoutDatos5.Dock = DockStyle.Fill;
+            layoutDatos5.Location = new Point(50, 550);
             layoutDatos5.Margin = new Padding(0);
             layoutDatos5.Name = "layoutDatos5";
             layoutDatos5.RowCount = 1;
             layoutDatos5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDatos5.Size = new Size(1286, 45);
             layoutDatos5.TabIndex = 50;
+            layoutDatos5.Visible = false;
             // 
-            // fieldMatricula
+            // fieldPaisesMensajero
             // 
-            fieldMatricula.Animated = true;
-            fieldMatricula.BorderColor = Color.Gainsboro;
-            fieldMatricula.BorderRadius = 16;
-            fieldMatricula.Cursor = Cursors.IBeam;
-            fieldMatricula.CustomizableEdges = customizableEdges37;
-            fieldMatricula.DefaultText = "";
-            fieldMatricula.DisabledState.BorderColor = Color.White;
-            fieldMatricula.DisabledState.ForeColor = Color.DimGray;
-            fieldMatricula.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldMatricula.Dock = DockStyle.Fill;
-            fieldMatricula.FocusedState.BorderColor = Color.SandyBrown;
-            fieldMatricula.Font = new Font("Segoe UI", 11.25F);
-            fieldMatricula.ForeColor = Color.Black;
-            fieldMatricula.HoverState.BorderColor = Color.SandyBrown;
-            fieldMatricula.IconLeft = (Image)resources.GetObject("fieldMatricula.IconLeft");
-            fieldMatricula.IconLeftOffset = new Point(10, 0);
-            fieldMatricula.Location = new Point(263, 5);
-            fieldMatricula.Margin = new Padding(5);
-            fieldMatricula.Name = "fieldMatricula";
-            fieldMatricula.PasswordChar = '\0';
-            fieldMatricula.PlaceholderForeColor = Color.DimGray;
-            fieldMatricula.PlaceholderText = "Matrícula del vehículo";
-            fieldMatricula.SelectedText = "";
-            fieldMatricula.ShadowDecoration.CustomizableEdges = customizableEdges38;
-            fieldMatricula.Size = new Size(248, 35);
-            fieldMatricula.TabIndex = 50;
-            fieldMatricula.TextOffset = new Point(5, 0);
+            fieldPaisesMensajero.Animated = true;
+            fieldPaisesMensajero.BackColor = Color.Transparent;
+            fieldPaisesMensajero.BorderColor = Color.Gainsboro;
+            fieldPaisesMensajero.BorderRadius = 16;
+            fieldPaisesMensajero.CustomizableEdges = customizableEdges37;
+            fieldPaisesMensajero.Dock = DockStyle.Fill;
+            fieldPaisesMensajero.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldPaisesMensajero.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldPaisesMensajero.FocusedColor = Color.SandyBrown;
+            fieldPaisesMensajero.FocusedState.BorderColor = Color.SandyBrown;
+            fieldPaisesMensajero.Font = new Font("Segoe UI", 11.25F);
+            fieldPaisesMensajero.ForeColor = Color.Black;
+            fieldPaisesMensajero.IntegralHeight = false;
+            fieldPaisesMensajero.ItemHeight = 29;
+            fieldPaisesMensajero.Location = new Point(155, 5);
+            fieldPaisesMensajero.Margin = new Padding(5);
+            fieldPaisesMensajero.Name = "fieldPaisesMensajero";
+            fieldPaisesMensajero.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            fieldPaisesMensajero.Size = new Size(210, 35);
+            fieldPaisesMensajero.TabIndex = 38;
+            fieldPaisesMensajero.TextOffset = new Point(10, 0);
             // 
-            // fieldCodigoMensajero
+            // fieldCategoriaTelefonoMensajero
             // 
-            fieldCodigoMensajero.Animated = true;
-            fieldCodigoMensajero.BorderColor = Color.Gainsboro;
-            fieldCodigoMensajero.BorderRadius = 16;
-            fieldCodigoMensajero.Cursor = Cursors.IBeam;
-            fieldCodigoMensajero.CustomizableEdges = customizableEdges39;
-            fieldCodigoMensajero.DefaultText = "";
-            fieldCodigoMensajero.DisabledState.BorderColor = Color.White;
-            fieldCodigoMensajero.DisabledState.ForeColor = Color.DimGray;
-            fieldCodigoMensajero.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoMensajero.Dock = DockStyle.Fill;
-            fieldCodigoMensajero.FocusedState.BorderColor = Color.SandyBrown;
-            fieldCodigoMensajero.Font = new Font("Segoe UI", 11.25F);
-            fieldCodigoMensajero.ForeColor = Color.Black;
-            fieldCodigoMensajero.HoverState.BorderColor = Color.SandyBrown;
-            fieldCodigoMensajero.IconLeft = (Image)resources.GetObject("fieldCodigoMensajero.IconLeft");
-            fieldCodigoMensajero.IconLeftOffset = new Point(10, 0);
-            fieldCodigoMensajero.IconRight = (Image)resources.GetObject("fieldCodigoMensajero.IconRight");
-            fieldCodigoMensajero.IconRightOffset = new Point(10, 0);
-            fieldCodigoMensajero.Location = new Point(5, 5);
-            fieldCodigoMensajero.Margin = new Padding(5);
-            fieldCodigoMensajero.Name = "fieldCodigoMensajero";
-            fieldCodigoMensajero.PasswordChar = '\0';
-            fieldCodigoMensajero.PlaceholderForeColor = Color.DimGray;
-            fieldCodigoMensajero.PlaceholderText = "Código interno";
-            fieldCodigoMensajero.SelectedText = "";
-            fieldCodigoMensajero.ShadowDecoration.CustomizableEdges = customizableEdges40;
-            fieldCodigoMensajero.Size = new Size(248, 35);
-            fieldCodigoMensajero.TabIndex = 49;
-            fieldCodigoMensajero.TextOffset = new Point(5, 0);
+            fieldCategoriaTelefonoMensajero.Animated = true;
+            fieldCategoriaTelefonoMensajero.BackColor = Color.Transparent;
+            fieldCategoriaTelefonoMensajero.BorderColor = Color.Gainsboro;
+            fieldCategoriaTelefonoMensajero.BorderRadius = 16;
+            fieldCategoriaTelefonoMensajero.CustomizableEdges = customizableEdges39;
+            fieldCategoriaTelefonoMensajero.Dock = DockStyle.Fill;
+            fieldCategoriaTelefonoMensajero.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldCategoriaTelefonoMensajero.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldCategoriaTelefonoMensajero.FocusedColor = Color.SandyBrown;
+            fieldCategoriaTelefonoMensajero.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCategoriaTelefonoMensajero.Font = new Font("Segoe UI", 11.25F);
+            fieldCategoriaTelefonoMensajero.ForeColor = Color.Black;
+            fieldCategoriaTelefonoMensajero.IntegralHeight = false;
+            fieldCategoriaTelefonoMensajero.ItemHeight = 29;
+            fieldCategoriaTelefonoMensajero.Items.AddRange(new object[] { "Móvil", "Fijo", "Fax", "Trabajo", "Otro" });
+            fieldCategoriaTelefonoMensajero.Location = new Point(5, 5);
+            fieldCategoriaTelefonoMensajero.Margin = new Padding(5);
+            fieldCategoriaTelefonoMensajero.Name = "fieldCategoriaTelefonoMensajero";
+            fieldCategoriaTelefonoMensajero.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            fieldCategoriaTelefonoMensajero.Size = new Size(140, 35);
+            fieldCategoriaTelefonoMensajero.StartIndex = 0;
+            fieldCategoriaTelefonoMensajero.TabIndex = 37;
+            fieldCategoriaTelefonoMensajero.TextOffset = new Point(10, 0);
             // 
             // layoutNumeroTelefonoMensajero
             // 
@@ -1380,7 +1294,7 @@
             layoutNumeroTelefonoMensajero.Controls.Add(fieldPrefijoInternacionalMensajero, 0, 0);
             layoutNumeroTelefonoMensajero.Controls.Add(fieldNumeroTelefonoMensajero, 1, 0);
             layoutNumeroTelefonoMensajero.Dock = DockStyle.Fill;
-            layoutNumeroTelefonoMensajero.Location = new Point(886, 0);
+            layoutNumeroTelefonoMensajero.Location = new Point(370, 0);
             layoutNumeroTelefonoMensajero.Margin = new Padding(0);
             layoutNumeroTelefonoMensajero.Name = "layoutNumeroTelefonoMensajero";
             layoutNumeroTelefonoMensajero.RowCount = 1;
@@ -1436,64 +1350,45 @@
             fieldNumeroTelefonoMensajero.TabIndex = 2;
             fieldNumeroTelefonoMensajero.TextOffset = new Point(5, 0);
             // 
-            // fieldPaisesMensajero
-            // 
-            fieldPaisesMensajero.Animated = true;
-            fieldPaisesMensajero.BackColor = Color.Transparent;
-            fieldPaisesMensajero.BorderColor = Color.Gainsboro;
-            fieldPaisesMensajero.BorderRadius = 16;
-            fieldPaisesMensajero.CustomizableEdges = customizableEdges43;
-            fieldPaisesMensajero.Dock = DockStyle.Fill;
-            fieldPaisesMensajero.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldPaisesMensajero.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldPaisesMensajero.FocusedColor = Color.SandyBrown;
-            fieldPaisesMensajero.FocusedState.BorderColor = Color.SandyBrown;
-            fieldPaisesMensajero.Font = new Font("Segoe UI", 11.25F);
-            fieldPaisesMensajero.ForeColor = Color.Black;
-            fieldPaisesMensajero.IntegralHeight = false;
-            fieldPaisesMensajero.ItemHeight = 29;
-            fieldPaisesMensajero.Location = new Point(671, 5);
-            fieldPaisesMensajero.Margin = new Padding(5);
-            fieldPaisesMensajero.Name = "fieldPaisesMensajero";
-            fieldPaisesMensajero.ShadowDecoration.CustomizableEdges = customizableEdges44;
-            fieldPaisesMensajero.Size = new Size(210, 35);
-            fieldPaisesMensajero.TabIndex = 38;
-            fieldPaisesMensajero.TextOffset = new Point(10, 0);
-            // 
-            // fieldCategoriaTelefonoMensajero
-            // 
-            fieldCategoriaTelefonoMensajero.Animated = true;
-            fieldCategoriaTelefonoMensajero.BackColor = Color.Transparent;
-            fieldCategoriaTelefonoMensajero.BorderColor = Color.Gainsboro;
-            fieldCategoriaTelefonoMensajero.BorderRadius = 16;
-            fieldCategoriaTelefonoMensajero.CustomizableEdges = customizableEdges45;
-            fieldCategoriaTelefonoMensajero.Dock = DockStyle.Fill;
-            fieldCategoriaTelefonoMensajero.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldCategoriaTelefonoMensajero.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldCategoriaTelefonoMensajero.FocusedColor = Color.SandyBrown;
-            fieldCategoriaTelefonoMensajero.FocusedState.BorderColor = Color.SandyBrown;
-            fieldCategoriaTelefonoMensajero.Font = new Font("Segoe UI", 11.25F);
-            fieldCategoriaTelefonoMensajero.ForeColor = Color.Black;
-            fieldCategoriaTelefonoMensajero.IntegralHeight = false;
-            fieldCategoriaTelefonoMensajero.ItemHeight = 29;
-            fieldCategoriaTelefonoMensajero.Items.AddRange(new object[] { "Móvil", "Fijo", "Fax", "Trabajo", "Otro" });
-            fieldCategoriaTelefonoMensajero.Location = new Point(521, 5);
-            fieldCategoriaTelefonoMensajero.Margin = new Padding(5);
-            fieldCategoriaTelefonoMensajero.Name = "fieldCategoriaTelefonoMensajero";
-            fieldCategoriaTelefonoMensajero.ShadowDecoration.CustomizableEdges = customizableEdges46;
-            fieldCategoriaTelefonoMensajero.Size = new Size(140, 35);
-            fieldCategoriaTelefonoMensajero.StartIndex = 0;
-            fieldCategoriaTelefonoMensajero.TabIndex = 37;
-            fieldCategoriaTelefonoMensajero.TextOffset = new Point(10, 0);
-            // 
             // separador2
             // 
             separador2.Dock = DockStyle.Fill;
             separador2.FillColor = Color.FromArgb(208, 197, 188);
-            separador2.Location = new Point(53, 398);
+            separador2.Location = new Point(53, 408);
             separador2.Name = "separador2";
             separador2.Size = new Size(1280, 14);
             separador2.TabIndex = 61;
+            separador2.Visible = false;
+            // 
+            // fieldDireccionPrincipalCliente
+            // 
+            fieldDireccionPrincipalCliente.Animated = true;
+            fieldDireccionPrincipalCliente.BorderColor = Color.Gainsboro;
+            fieldDireccionPrincipalCliente.BorderRadius = 16;
+            fieldDireccionPrincipalCliente.Cursor = Cursors.IBeam;
+            fieldDireccionPrincipalCliente.CustomizableEdges = customizableEdges43;
+            fieldDireccionPrincipalCliente.DefaultText = "";
+            fieldDireccionPrincipalCliente.DisabledState.BorderColor = Color.White;
+            fieldDireccionPrincipalCliente.DisabledState.ForeColor = Color.DimGray;
+            fieldDireccionPrincipalCliente.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldDireccionPrincipalCliente.Dock = DockStyle.Fill;
+            fieldDireccionPrincipalCliente.FocusedState.BorderColor = Color.SandyBrown;
+            fieldDireccionPrincipalCliente.Font = new Font("Segoe UI", 11.25F);
+            fieldDireccionPrincipalCliente.ForeColor = Color.Black;
+            fieldDireccionPrincipalCliente.HoverState.BorderColor = Color.SandyBrown;
+            fieldDireccionPrincipalCliente.IconLeft = (Image)resources.GetObject("fieldDireccionPrincipalCliente.IconLeft");
+            fieldDireccionPrincipalCliente.IconLeftOffset = new Point(10, 0);
+            fieldDireccionPrincipalCliente.Location = new Point(55, 275);
+            fieldDireccionPrincipalCliente.Margin = new Padding(5);
+            fieldDireccionPrincipalCliente.Name = "fieldDireccionPrincipalCliente";
+            fieldDireccionPrincipalCliente.PasswordChar = '\0';
+            fieldDireccionPrincipalCliente.PlaceholderForeColor = Color.DimGray;
+            fieldDireccionPrincipalCliente.PlaceholderText = "Dirección principal";
+            fieldDireccionPrincipalCliente.SelectedText = "";
+            fieldDireccionPrincipalCliente.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            fieldDireccionPrincipalCliente.Size = new Size(1276, 35);
+            fieldDireccionPrincipalCliente.TabIndex = 62;
+            fieldDireccionPrincipalCliente.TextOffset = new Point(5, 0);
             // 
             // VistaRegistroEnvio
             // 
@@ -1546,7 +1441,7 @@
         private Guna.UI2.WinForms.Guna2ComboBox fieldUnidadMedida;
         private PictureBox fieldIcono;
         private TableLayoutPanel layoutDatos1;
-        private Guna.UI2.WinForms.Guna2ComboBox fieldMetodoPago;
+        private Guna.UI2.WinForms.Guna2ComboBox fieldTipoEnvio;
         private Guna.UI2.WinForms.Guna2ComboBox fieldNumeroFactura;
         private Guna.UI2.WinForms.Guna2DateTimePicker fieldFechaAsignacion;
         private Guna.UI2.WinForms.Guna2TextBox fieldMonto;
@@ -1557,7 +1452,6 @@
         private Label fieldTituloMonto;
         private Label fieldTituloObservaciones;
         private Guna.UI2.WinForms.Guna2TextBox fieldObservaciones;
-        private Label fieldTituloDatosCliente;
         private TableLayoutPanel layoutDistribucion2;
         private TableLayoutPanel layoutTitulos2;
         private Label fieldTituloDatosGeneralesCliente;
@@ -1568,17 +1462,14 @@
         private Guna.UI2.WinForms.Guna2TextBox fieldNombreCompletoCliente;
         private TableLayoutPanel layoutTitulos3;
         private Label fieldTituloLimiteCredito;
-        private Label fieldTituloDatosClientela;
         private Label lbTituloTelefonosCliente;
         private TableLayoutPanel layoutDatos3;
         private Guna.UI2.WinForms.Guna2TextBox fieldLimiteCredito;
-        private Guna.UI2.WinForms.Guna2TextBox fieldCodigoCliente;
         private TableLayoutPanel layoutNumeroTelefonoCliente;
         private Label fieldPrefijoInternacionalCliente;
         private Guna.UI2.WinForms.Guna2TextBox fieldNumeroTelefonoCliente;
         private Guna.UI2.WinForms.Guna2ComboBox fieldPaisesCliente;
         private Guna.UI2.WinForms.Guna2ComboBox fieldCategoriaTelefonoCliente;
-        private Label fieldTitulodatosMensajero;
         private TableLayoutPanel layoutDistribucion3;
         private TableLayoutPanel layoutTitulos4;
         private Label fieldTituloDatosGeneralesMensajero;
@@ -1588,16 +1479,15 @@
         private Guna.UI2.WinForms.Guna2ComboBox fieldTipoDocumentoMensajero;
         private Guna.UI2.WinForms.Guna2TextBox fieldNombreCompletoMensajero;
         private TableLayoutPanel layoutTitulos5;
-        private Label fieldTituloDatosMensajeria;
         private Label lbTituloTelefonosMensajero;
         private TableLayoutPanel layoutDatos5;
         private Guna.UI2.WinForms.Guna2TextBox fieldMatricula;
-        private Guna.UI2.WinForms.Guna2TextBox fieldCodigoMensajero;
         private TableLayoutPanel layoutNumeroTelefonoMensajero;
         private Label fieldPrefijoInternacionalMensajero;
         private Guna.UI2.WinForms.Guna2TextBox fieldNumeroTelefonoMensajero;
         private Guna.UI2.WinForms.Guna2ComboBox fieldPaisesMensajero;
         private Guna.UI2.WinForms.Guna2ComboBox fieldCategoriaTelefonoMensajero;
         private Guna.UI2.WinForms.Guna2Separator separador2;
+        private Guna.UI2.WinForms.Guna2TextBox fieldDireccionPrincipalCliente;
     }
 }

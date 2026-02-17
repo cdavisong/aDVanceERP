@@ -40,8 +40,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             if (pago == null)
                 return;
 
-            // Carga inicial de datos
+            var metodosPago = new List<string>();
+
+            foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
+                metodosPago.Add(metodo.ObtenerDisplayName());
+
             Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
+            Vista.CargarMetodosPago([.. metodosPago]);
 
             PopularVistaDesdeEntidad(pago);
 

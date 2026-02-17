@@ -69,7 +69,6 @@
             layoutTitulos2 = new TableLayoutPanel();
             fieldTituloNumeroTransaccion = new Label();
             fieldTituloNumeroConfirmacion = new Label();
-            fieldTituloDatosTransferencia = new Label();
             layoutDatos2 = new TableLayoutPanel();
             layoutNumeroTelefono = new TableLayoutPanel();
             fieldPrefijoInternacional = new Label();
@@ -109,27 +108,26 @@
             layoutVista.Controls.Add(layoutTitulo, 2, 0);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
             layoutVista.Controls.Add(separador1, 2, 4);
-            layoutVista.Controls.Add(layoutBotones, 2, 10);
+            layoutVista.Controls.Add(layoutBotones, 2, 9);
             layoutVista.Controls.Add(fieldIcono, 1, 0);
-            layoutVista.Controls.Add(layoutTitulos2, 2, 6);
-            layoutVista.Controls.Add(fieldTituloDatosTransferencia, 2, 5);
-            layoutVista.Controls.Add(layoutDatos2, 2, 7);
+            layoutVista.Controls.Add(layoutTitulos2, 2, 5);
+            layoutVista.Controls.Add(layoutDatos2, 2, 6);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 12;
+            layoutVista.RowCount = 11;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.Size = new Size(1356, 685);
             layoutVista.TabIndex = 5;
@@ -527,7 +525,7 @@
             layoutTitulos2.Controls.Add(fieldTituloNumeroTransaccion, 1, 0);
             layoutTitulos2.Controls.Add(fieldTituloNumeroConfirmacion, 0, 0);
             layoutTitulos2.Dock = DockStyle.Fill;
-            layoutTitulos2.Location = new Point(50, 225);
+            layoutTitulos2.Location = new Point(50, 190);
             layoutTitulos2.Margin = new Padding(0);
             layoutTitulos2.Name = "layoutTitulos2";
             layoutTitulos2.RowCount = 1;
@@ -564,25 +562,8 @@
             fieldTituloNumeroConfirmacion.Name = "fieldTituloNumeroConfirmacion";
             fieldTituloNumeroConfirmacion.Size = new Size(484, 27);
             fieldTituloNumeroConfirmacion.TabIndex = 46;
-            fieldTituloNumeroConfirmacion.Text = "      Número telefónico de confirmación :";
+            fieldTituloNumeroConfirmacion.Text = "      Número telefónico a confirmar la transferencia :";
             fieldTituloNumeroConfirmacion.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldTituloDatosTransferencia
-            // 
-            fieldTituloDatosTransferencia.Dock = DockStyle.Fill;
-            fieldTituloDatosTransferencia.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            fieldTituloDatosTransferencia.ForeColor = Color.DimGray;
-            fieldTituloDatosTransferencia.Image = (Image)resources.GetObject("fieldTituloDatosTransferencia.Image");
-            fieldTituloDatosTransferencia.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosTransferencia.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosTransferencia.Location = new Point(65, 195);
-            fieldTituloDatosTransferencia.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosTransferencia.Name = "fieldTituloDatosTransferencia";
-            fieldTituloDatosTransferencia.Size = new Size(1268, 27);
-            fieldTituloDatosTransferencia.TabIndex = 56;
-            fieldTituloDatosTransferencia.Text = "      Datos para seguimiento de transferencia bancaria :";
-            fieldTituloDatosTransferencia.TextAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosTransferencia.Visible = false;
             // 
             // layoutDatos2
             // 
@@ -596,7 +577,7 @@
             layoutDatos2.Controls.Add(fieldPaises, 0, 0);
             layoutDatos2.Controls.Add(fieldNumeroTransaccion, 2, 0);
             layoutDatos2.Dock = DockStyle.Fill;
-            layoutDatos2.Location = new Point(50, 260);
+            layoutDatos2.Location = new Point(50, 225);
             layoutDatos2.Margin = new Padding(0);
             layoutDatos2.Name = "layoutDatos2";
             layoutDatos2.RowCount = 1;
@@ -783,7 +764,6 @@
         private Label fieldTituloFecha;
         private Label fieldTituloMonto;
         private TableLayoutPanel layoutTitulos2;
-        private Label fieldTituloDatosTransferencia;
         private TableLayoutPanel layoutDatos2;
         private Label fieldTituloNumeroTransaccion;
         private Guna.UI2.WinForms.Guna2TextBox fieldNumeroTransaccion;

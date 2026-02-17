@@ -284,8 +284,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             if (_pedidoSeleccionado == null) {
                 CentroNotificaciones.MostrarNotificacion("El número de pedido seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacion.Advertencia);
-
-                _pedidoSeleccionado = null;
                 return false;
             }
 
@@ -623,6 +621,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
+            _pedidoSeleccionado = null;
+            _almacenSeleccionado = null;
+            _productoSeleccionado = null;
+            _unidadMedidaProductoSeleccionado = null;
+
             FechaVenta = DateTime.Today;
             NumeroPedido = string.Empty;
             NombreCliente = string.Empty;
