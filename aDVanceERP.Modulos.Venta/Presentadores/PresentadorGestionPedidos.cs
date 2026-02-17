@@ -13,7 +13,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorGestionPedidos : PresentadorVistaGestion<PresentadorTuplaPedido, IVistaGestionPedidos, IVistaTuplaPedido, Pedido, RepoPedido, FiltroBusquedaPedido> {
+    internal class PresentadorGestionPedidos : PresentadorVistaGestion<PresentadorTuplaPedido, IVistaGestionPedidos, IVistaTuplaPedido, Pedido, RepoPedido, FiltroBusquedaPedido> {
         public PresentadorGestionPedidos(IVistaGestionPedidos vista) : base(vista) {
             RegistrarEntidad += OnRegistrarPedido;
             EditarEntidad += OnEditarPedido;

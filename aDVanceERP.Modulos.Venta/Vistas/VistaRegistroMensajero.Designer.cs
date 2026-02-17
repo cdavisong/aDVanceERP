@@ -85,7 +85,7 @@
             layoutDistribucion2.SuspendLayout();
             layoutTitulos1.SuspendLayout();
             layoutDatos1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) fieldIcono).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)fieldIcono).BeginInit();
             layoutTitulos2.SuspendLayout();
             layoutDistDatos23.SuspendLayout();
             layoutDatos2.SuspendLayout();
@@ -178,7 +178,7 @@
             // separador1
             // 
             separador1.Dock = DockStyle.Fill;
-            separador1.FillColor = Color.FromArgb(  208,   197,   188);
+            separador1.FillColor = Color.FromArgb(208, 197, 188);
             separador1.Location = new Point(53, 173);
             separador1.Name = "separador1";
             separador1.Size = new Size(1280, 14);
@@ -295,7 +295,7 @@
             fieldTituloDatosGenerales.Dock = DockStyle.Fill;
             fieldTituloDatosGenerales.Font = new Font("Segoe UI", 11.25F);
             fieldTituloDatosGenerales.ForeColor = Color.DimGray;
-            fieldTituloDatosGenerales.Image = (Image) resources.GetObject("fieldTituloDatosGenerales.Image");
+            fieldTituloDatosGenerales.Image = (Image)resources.GetObject("fieldTituloDatosGenerales.Image");
             fieldTituloDatosGenerales.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloDatosGenerales.ImeMode = ImeMode.NoControl;
             fieldTituloDatosGenerales.Location = new Point(15, 5);
@@ -311,7 +311,7 @@
             fieldTituloTipoDocumento.Dock = DockStyle.Fill;
             fieldTituloTipoDocumento.Font = new Font("Segoe UI", 11.25F);
             fieldTituloTipoDocumento.ForeColor = Color.DimGray;
-            fieldTituloTipoDocumento.Image = (Image) resources.GetObject("fieldTituloTipoDocumento.Image");
+            fieldTituloTipoDocumento.Image = (Image)resources.GetObject("fieldTituloTipoDocumento.Image");
             fieldTituloTipoDocumento.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloTipoDocumento.ImeMode = ImeMode.NoControl;
             fieldTituloTipoDocumento.Location = new Point(531, 5);
@@ -387,7 +387,7 @@
             fieldNumeroDocumento.Font = new Font("Segoe UI", 11.25F);
             fieldNumeroDocumento.ForeColor = Color.Black;
             fieldNumeroDocumento.HoverState.BorderColor = Color.SandyBrown;
-            fieldNumeroDocumento.IconLeft = (Image) resources.GetObject("fieldNumeroDocumento.IconLeft");
+            fieldNumeroDocumento.IconLeft = (Image)resources.GetObject("fieldNumeroDocumento.IconLeft");
             fieldNumeroDocumento.IconLeftOffset = new Point(10, 0);
             fieldNumeroDocumento.Location = new Point(751, 5);
             fieldNumeroDocumento.Margin = new Padding(5);
@@ -443,7 +443,7 @@
             fieldNombreCompleto.Font = new Font("Segoe UI", 11.25F);
             fieldNombreCompleto.ForeColor = Color.Black;
             fieldNombreCompleto.HoverState.BorderColor = Color.SandyBrown;
-            fieldNombreCompleto.IconLeft = (Image) resources.GetObject("fieldNombreCompleto.IconLeft");
+            fieldNombreCompleto.IconLeft = (Image)resources.GetObject("fieldNombreCompleto.IconLeft");
             fieldNombreCompleto.IconLeftOffset = new Point(10, 0);
             fieldNombreCompleto.Location = new Point(5, 5);
             fieldNombreCompleto.Margin = new Padding(5);
@@ -491,7 +491,7 @@
             fieldTituloDatosMensajeria.Dock = DockStyle.Fill;
             fieldTituloDatosMensajeria.Font = new Font("Segoe UI", 11.25F);
             fieldTituloDatosMensajeria.ForeColor = Color.DimGray;
-            fieldTituloDatosMensajeria.Image = (Image) resources.GetObject("fieldTituloDatosMensajeria.Image");
+            fieldTituloDatosMensajeria.Image = (Image)resources.GetObject("fieldTituloDatosMensajeria.Image");
             fieldTituloDatosMensajeria.ImageAlign = ContentAlignment.MiddleLeft;
             fieldTituloDatosMensajeria.ImeMode = ImeMode.NoControl;
             fieldTituloDatosMensajeria.Location = new Point(15, 5);
@@ -507,7 +507,7 @@
             lbTituloTelefonos.Dock = DockStyle.Fill;
             lbTituloTelefonos.Font = new Font("Segoe UI", 11.25F);
             lbTituloTelefonos.ForeColor = Color.DimGray;
-            lbTituloTelefonos.Image = (Image) resources.GetObject("lbTituloTelefonos.Image");
+            lbTituloTelefonos.Image = (Image)resources.GetObject("lbTituloTelefonos.Image");
             lbTituloTelefonos.ImageAlign = ContentAlignment.MiddleLeft;
             lbTituloTelefonos.ImeMode = ImeMode.NoControl;
             lbTituloTelefonos.Location = new Point(531, 5);
@@ -573,7 +573,7 @@
             fieldMatricula.Font = new Font("Segoe UI", 11.25F);
             fieldMatricula.ForeColor = Color.Black;
             fieldMatricula.HoverState.BorderColor = Color.SandyBrown;
-            fieldMatricula.IconLeft = (Image) resources.GetObject("fieldMatricula.IconLeft");
+            fieldMatricula.IconLeft = (Image)resources.GetObject("fieldMatricula.IconLeft");
             fieldMatricula.IconLeftOffset = new Point(10, 0);
             fieldMatricula.Location = new Point(263, 5);
             fieldMatricula.Margin = new Padding(5);
@@ -603,9 +603,9 @@
             fieldCodigoMensajero.Font = new Font("Segoe UI", 11.25F);
             fieldCodigoMensajero.ForeColor = Color.Black;
             fieldCodigoMensajero.HoverState.BorderColor = Color.SandyBrown;
-            fieldCodigoMensajero.IconLeft = (Image) resources.GetObject("fieldCodigoMensajero.IconLeft");
+            fieldCodigoMensajero.IconLeft = (Image)resources.GetObject("fieldCodigoMensajero.IconLeft");
             fieldCodigoMensajero.IconLeftOffset = new Point(10, 0);
-            fieldCodigoMensajero.IconRight = (Image) resources.GetObject("fieldCodigoMensajero.IconRight");
+            fieldCodigoMensajero.IconRight = (Image)resources.GetObject("fieldCodigoMensajero.IconRight");
             fieldCodigoMensajero.IconRightOffset = new Point(10, 0);
             fieldCodigoMensajero.Location = new Point(5, 5);
             fieldCodigoMensajero.Margin = new Padding(5);
@@ -638,7 +638,7 @@
             // fieldPrefijoInternacional
             // 
             fieldPrefijoInternacional.Dock = DockStyle.Fill;
-            fieldPrefijoInternacional.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldPrefijoInternacional.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             fieldPrefijoInternacional.ForeColor = Color.Black;
             fieldPrefijoInternacional.ImeMode = ImeMode.NoControl;
             fieldPrefijoInternacional.Location = new Point(3, 3);
@@ -664,7 +664,7 @@
             fieldNumeroTelefono.DisabledState.PlaceholderForeColor = Color.DimGray;
             fieldNumeroTelefono.Dock = DockStyle.Fill;
             fieldNumeroTelefono.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNumeroTelefono.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            fieldNumeroTelefono.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             fieldNumeroTelefono.ForeColor = Color.Black;
             fieldNumeroTelefono.HoverState.BorderColor = Color.SandyBrown;
             fieldNumeroTelefono.IconLeftOffset = new Point(10, 0);
@@ -751,7 +751,7 @@
             layoutDistribucion2.ResumeLayout(false);
             layoutTitulos1.ResumeLayout(false);
             layoutDatos1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) fieldIcono).EndInit();
+            ((System.ComponentModel.ISupportInitialize)fieldIcono).EndInit();
             layoutTitulos2.ResumeLayout(false);
             layoutDistDatos23.ResumeLayout(false);
             layoutDatos2.ResumeLayout(false);

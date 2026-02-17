@@ -15,7 +15,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
+    internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
         private DocFacturaVenta _docFacturaVenta = null!;
 
         public PresentadorGestionVentas(IVistaGestionVentas vista) : base(vista) {

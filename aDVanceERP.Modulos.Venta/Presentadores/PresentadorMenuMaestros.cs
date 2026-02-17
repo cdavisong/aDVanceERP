@@ -3,7 +3,7 @@ using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorMenuMaestros : PresentadorVistaBase<IVistaMenuMaestros> {
+    internal class PresentadorMenuMaestros : PresentadorVistaBase<IVistaMenuMaestros> {
         public PresentadorMenuMaestros(IVistaMenuMaestros vista) : base(vista) {
             AgregadorEventos.Suscribir("EventoCambioMenu", OnEventoCambioMenu);
             AgregadorEventos.Suscribir("MostrarVistaMenuMaestrosVenta", OnMostrarVistaMenuMaestros);

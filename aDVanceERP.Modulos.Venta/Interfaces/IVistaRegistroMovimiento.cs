@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaRegistroMovimiento : IVistaRegistro {
+    internal interface IVistaRegistroMovimiento : IVistaRegistro {
     }
 }

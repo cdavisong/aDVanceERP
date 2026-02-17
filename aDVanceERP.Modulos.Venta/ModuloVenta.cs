@@ -9,7 +9,7 @@ using aDVanceERP.Modulos.Venta.Vistas;
 using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Venta {
-    public class ModuloVenta : ModuloExtensionBase {
+    internal class ModuloVenta : ModuloExtensionBase {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuVenta _menuVenta = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
@@ -19,6 +19,8 @@ namespace aDVanceERP.Modulos.Venta {
         private PresentadorRegistroVenta _registroVenta = null!;
         private PresentadorGestionPagos _pagos = null!;
         private PresentadorRegistroPago _registroPago = null!;
+        private PresentadorGestionEnvios _envios = null!;
+        private PresentadorRegistroEnvio _registroEnvio = null!;
         private PresentadorGestionClientes _clientes = null!;
         private PresentadorRegistroCliente _registroCliente = null!;
         private PresentadorGestionMensajeros _mensajeros = null!;
@@ -57,6 +59,10 @@ namespace aDVanceERP.Modulos.Venta {
             _pagos = new PresentadorGestionPagos(new VistaGestionPagos());
             _registroPago = new PresentadorRegistroPago(new VistaRegistroPago());
             _registroPago.EntidadRegistradaActualizada += (s, e) => _pagos.ActualizarResultadosBusqueda();
+            // Envíos
+            _envios = new PresentadorGestionEnvios(new VistaGestionEnvios());
+            _registroEnvio = new PresentadorRegistroEnvio(new VistaRegistroEnvio());
+            _registroEnvio.EntidadRegistradaActualizada += (s, e) => _envios.ActualizarResultadosBusqueda();
             // Clientes
             _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
             _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
@@ -87,6 +93,9 @@ namespace aDVanceERP.Modulos.Venta {
             // Pagos
             _principal.Modulos.Vista.PanelCentral.Registrar(_pagos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroPago.Vista);
+            // Envíos
+            _principal.Modulos.Vista.PanelCentral.Registrar(_envios.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroEnvio.Vista);
             // Clientes
             _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);

@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Documentos {
-    public class DocFacturaVenta : DocumentoBase {
+    internal class DocFacturaVenta : DocumentoBase {
         private long _idVenta;
         private Dictionary<string, string> _datosVenta;
         private Dictionary<string, string> _datosCliente;

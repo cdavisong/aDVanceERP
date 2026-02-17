@@ -2,7 +2,7 @@
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaRegistroCliente : IVistaRegistro {
+    internal interface IVistaRegistroCliente : IVistaRegistro {
         string NombreCompleto { get; set; }
         TipoDocumento TipoDocumento { get; set; }
         string NumeroDocumento { get; set; }

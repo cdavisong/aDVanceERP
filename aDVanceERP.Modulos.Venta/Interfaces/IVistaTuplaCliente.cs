@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaTuplaCliente : IVistaTupla {
+    internal interface IVistaTuplaCliente : IVistaTupla {
         long Id { get; set; }
         string CodigoCliente { get; set; }
         string NombreCompleto { get; set; }

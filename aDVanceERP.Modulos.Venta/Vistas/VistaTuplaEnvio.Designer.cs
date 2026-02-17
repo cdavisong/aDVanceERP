@@ -28,10 +28,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaEnvio));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldNumeroFactura = new Label();
@@ -139,16 +139,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnConfirmar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnConfirmar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnConfirmar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnConfirmar.CustomizableEdges = customizableEdges5;
+            btnConfirmar.CustomizableEdges = customizableEdges1;
             btnConfirmar.Dock = DockStyle.Fill;
             btnConfirmar.FillColor = Color.White;
             btnConfirmar.Font = new Font("Segoe UI", 9.75F);
             btnConfirmar.ForeColor = Color.White;
             btnConfirmar.HoverState.BorderColor = Color.PeachPuff;
             btnConfirmar.HoverState.FillColor = Color.PeachPuff;
-            btnConfirmar.Location = new Point(1164, 3);
+            btnConfirmar.Location = new Point(1163, 3);
             btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnConfirmar.Size = new Size(34, 35);
             btnConfirmar.TabIndex = 21;
             // 
@@ -161,7 +161,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
             btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges7;
+            btnCancelar.CustomizableEdges = customizableEdges3;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -169,10 +169,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.BorderColor = Color.PeachPuff;
             btnCancelar.HoverState.FillColor = Color.PeachPuff;
             btnCancelar.HoverState.ForeColor = Color.White;
-            btnCancelar.Location = new Point(1204, 3);
+            btnCancelar.Location = new Point(1203, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnCancelar.Size = new Size(34, 35);
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnCancelar.Size = new Size(35, 35);
             btnCancelar.TabIndex = 22;
             // 
             // fieldFechaAsignacion
@@ -181,7 +181,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaAsignacion.Font = new Font("Segoe UI", 11.25F);
             fieldFechaAsignacion.ForeColor = Color.DimGray;
             fieldFechaAsignacion.ImeMode = ImeMode.NoControl;
-            fieldFechaAsignacion.Location = new Point(502, 1);
+            fieldFechaAsignacion.Location = new Point(525, 1);
             fieldFechaAsignacion.Margin = new Padding(1);
             fieldFechaAsignacion.Name = "fieldFechaAsignacion";
             fieldFechaAsignacion.Size = new Size(118, 39);
@@ -195,7 +195,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldEstado.Font = new Font("Segoe UI", 11.25F);
             fieldEstado.ForeColor = Color.DimGray;
             fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(992, 1);
+            fieldEstado.Location = new Point(991, 1);
             fieldEstado.Margin = new Padding(1);
             fieldEstado.Name = "fieldEstado";
             fieldEstado.Size = new Size(128, 39);
@@ -210,7 +210,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             simboloPeso4.ForeColor = Color.Black;
             simboloPeso4.ImageAlign = ContentAlignment.MiddleLeft;
             simboloPeso4.ImeMode = ImeMode.NoControl;
-            simboloPeso4.Location = new Point(974, 5);
+            simboloPeso4.Location = new Point(973, 5);
             simboloPeso4.Margin = new Padding(3, 5, 3, 3);
             simboloPeso4.Name = "simboloPeso4";
             simboloPeso4.Size = new Size(14, 33);
@@ -224,7 +224,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldMonto.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldMonto.ForeColor = Color.Black;
             fieldMonto.ImeMode = ImeMode.NoControl;
-            fieldMonto.Location = new Point(862, 1);
+            fieldMonto.Location = new Point(861, 1);
             fieldMonto.Margin = new Padding(1);
             fieldMonto.Name = "fieldMonto";
             fieldMonto.Size = new Size(108, 39);
@@ -239,10 +239,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldObservaciones.Font = new Font("Segoe UI", 11.25F);
             fieldObservaciones.ForeColor = Color.DimGray;
             fieldObservaciones.ImeMode = ImeMode.NoControl;
-            fieldObservaciones.Location = new Point(746, 1);
+            fieldObservaciones.Location = new Point(769, 1);
             fieldObservaciones.Margin = new Padding(5, 1, 1, 1);
             fieldObservaciones.Name = "fieldObservaciones";
-            fieldObservaciones.Size = new Size(114, 39);
+            fieldObservaciones.Size = new Size(90, 39);
             fieldObservaciones.TabIndex = 37;
             fieldObservaciones.Text = "observaciones";
             fieldObservaciones.TextAlign = ContentAlignment.MiddleCenter;
@@ -253,7 +253,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaEntrega.Font = new Font("Segoe UI", 11.25F);
             fieldFechaEntrega.ForeColor = Color.DimGray;
             fieldFechaEntrega.ImeMode = ImeMode.NoControl;
-            fieldFechaEntrega.Location = new Point(622, 1);
+            fieldFechaEntrega.Location = new Point(645, 1);
             fieldFechaEntrega.Margin = new Padding(1);
             fieldFechaEntrega.Name = "fieldFechaEntrega";
             fieldFechaEntrega.Size = new Size(118, 39);
@@ -267,16 +267,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTipoEnvio.Font = new Font("Segoe UI", 11.25F);
             fieldTipoEnvio.ForeColor = Color.DimGray;
             fieldTipoEnvio.ImeMode = ImeMode.NoControl;
-            fieldTipoEnvio.Location = new Point(382, 1);
+            fieldTipoEnvio.Location = new Point(365, 1);
             fieldTipoEnvio.Margin = new Padding(1);
             fieldTipoEnvio.Name = "fieldTipoEnvio";
-            fieldTipoEnvio.Size = new Size(118, 39);
+            fieldTipoEnvio.Size = new Size(158, 39);
             fieldTipoEnvio.TabIndex = 39;
             fieldTipoEnvio.Text = "tipoEnvio";
             fieldTipoEnvio.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldNombreMensajero
             // 
+            fieldNombreMensajero.AutoEllipsis = true;
             fieldNombreMensajero.Dock = DockStyle.Fill;
             fieldNombreMensajero.Font = new Font("Segoe UI", 11.25F);
             fieldNombreMensajero.ForeColor = Color.DimGray;
@@ -284,7 +285,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldNombreMensajero.Location = new Point(221, 1);
             fieldNombreMensajero.Margin = new Padding(1);
             fieldNombreMensajero.Name = "fieldNombreMensajero";
-            fieldNombreMensajero.Size = new Size(159, 39);
+            fieldNombreMensajero.Size = new Size(142, 39);
             fieldNombreMensajero.TabIndex = 40;
             fieldNombreMensajero.Text = "nombreMensajero";
             fieldNombreMensajero.TextAlign = ContentAlignment.MiddleLeft;

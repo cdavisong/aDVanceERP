@@ -9,7 +9,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegistroMensajero, Mensajero, RepoMensajero, FiltroBusquedaMensajero> {
+    internal class PresentadorRegistroMensajero : PresentadorVistaRegistro<IVistaRegistroMensajero, Mensajero, RepoMensajero, FiltroBusquedaMensajero> {
         public PresentadorRegistroMensajero(IVistaRegistroMensajero vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroMensajero", OnMostrarVistaRegistroMensajero);
             AgregadorEventos.Suscribir("MostrarVistaEdicionMensajero", OnMostrarVistaEdicionMensajero);

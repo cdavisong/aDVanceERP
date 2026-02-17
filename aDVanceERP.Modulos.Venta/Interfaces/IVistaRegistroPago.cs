@@ -2,7 +2,7 @@
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaRegistroPago : IVistaRegistro {
+    internal interface IVistaRegistroPago : IVistaRegistro {
         string NumeroFacturaVenta { get; set; }
         DateTime FechaPagoCliente { get; set; }
         public MetodoPagoEnum MetodoPago { get; set; }

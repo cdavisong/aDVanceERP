@@ -8,7 +8,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorRegistroPedido : PresentadorVistaRegistro<IVistaRegistroPedido, Pedido, RepoPedido, FiltroBusquedaPedido> {
+    internal class PresentadorRegistroPedido : PresentadorVistaRegistro<IVistaRegistroPedido, Pedido, RepoPedido, FiltroBusquedaPedido> {
         public PresentadorRegistroPedido(IVistaRegistroPedido vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroPedido", OnMostrarVistaRegistroPedido);
             AgregadorEventos.Suscribir("MostrarVistaEdicionPedido", OnMostrarVistaEdicionPedido);

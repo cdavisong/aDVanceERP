@@ -11,7 +11,7 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
-    public class PresentadorGestionMensajeros : PresentadorVistaGestion<PresentadorTuplaMensajero, IVistaGestionMensajeros,
+    internal class PresentadorGestionMensajeros : PresentadorVistaGestion<PresentadorTuplaMensajero, IVistaGestionMensajeros,
         IVistaTuplaMensajero, Mensajero, RepoMensajero, FiltroBusquedaMensajero> {
         public PresentadorGestionMensajeros(IVistaGestionMensajeros vista) : base(vista) {
             RegistrarEntidad += OnRegistrarMensajero;

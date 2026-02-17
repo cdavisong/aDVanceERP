@@ -45,6 +45,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public bool EstadoSeleccion { get; set; }
+
         public long Id {
             get => Convert.ToInt64(fieldId.Text);
             set => fieldId.Text = value.ToString();

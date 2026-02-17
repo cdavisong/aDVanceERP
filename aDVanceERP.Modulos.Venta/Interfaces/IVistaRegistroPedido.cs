@@ -2,7 +2,7 @@
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaRegistroPedido : IVistaRegistro {
+    internal interface IVistaRegistroPedido : IVistaRegistro {
         DateTime FechaEntregaSolicitada {  get; set; }
         string Codigo { get; }
         string NombreCliente { get; set; }

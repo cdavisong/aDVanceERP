@@ -3,7 +3,7 @@ using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
-    public interface IVistaTuplaVenta : IVistaTupla {
+    internal interface IVistaTuplaVenta : IVistaTupla {
         long Id { get; set; }
         string NumeroFacturaVenta { get; set; }
         DateTime FechaVenta { get; set; }
