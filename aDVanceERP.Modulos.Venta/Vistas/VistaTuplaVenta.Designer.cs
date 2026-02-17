@@ -27,11 +27,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaVenta));
+            components = new Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaVenta));
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
@@ -48,8 +49,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTotalBruto = new Label();
             fieldDescuentoTotal = new Label();
             fieldFechaVenta = new Label();
+            menuFormatoDocumento = new ContextMenuStrip(components);
+            btnExportarPdf = new ToolStripMenuItem();
+            btnExportarXlsx = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
+            menuFormatoDocumento.SuspendLayout();
             SuspendLayout();
             // 
             // layoutBase
@@ -158,6 +163,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVerFactura.BorderColor = Color.Gainsboro;
             btnVerFactura.BorderRadius = 16;
             btnVerFactura.BorderThickness = 1;
+            btnVerFactura.ContextMenuStrip = menuFormatoDocumento;
             btnVerFactura.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnVerFactura.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnVerFactura.CustomImages.ImageAlign = HorizontalAlignment.Center;
@@ -328,6 +334,37 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaVenta.Text = "fecha";
             fieldFechaVenta.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // menuFormatoDocumento
+            // 
+            menuFormatoDocumento.BackColor = Color.White;
+            menuFormatoDocumento.Items.AddRange(new ToolStripItem[] { btnExportarPdf, btnExportarXlsx });
+            menuFormatoDocumento.Name = "menuGastoIndirecto";
+            menuFormatoDocumento.Size = new Size(114, 56);
+            // 
+            // btnExportarPdf
+            // 
+            btnExportarPdf.BackColor = Color.White;
+            btnExportarPdf.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExportarPdf.Image = (Image)resources.GetObject("btnExportarPdf.Image");
+            btnExportarPdf.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExportarPdf.ImageScaling = ToolStripItemImageScaling.None;
+            btnExportarPdf.Name = "btnExportarPdf";
+            btnExportarPdf.Size = new Size(113, 26);
+            btnExportarPdf.Text = "PDF";
+            btnExportarPdf.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnExportarXlsx
+            // 
+            btnExportarXlsx.BackColor = Color.White;
+            btnExportarXlsx.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExportarXlsx.Image = (Image)resources.GetObject("btnExportarXlsx.Image");
+            btnExportarXlsx.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExportarXlsx.ImageScaling = ToolStripItemImageScaling.None;
+            btnExportarXlsx.Name = "btnExportarXlsx";
+            btnExportarXlsx.Size = new Size(113, 26);
+            btnExportarXlsx.Text = "XLSX";
+            btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaTuplaVenta
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -344,6 +381,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Text = "VistaTuplaVenta";
             layoutBase.ResumeLayout(false);
             layoutVista.ResumeLayout(false);
+            menuFormatoDocumento.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -366,5 +404,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Label fieldMetodoPagoPrincipal;
         private Label fieldEstado;
         private Guna2Button btnAnular;
+        private ContextMenuStrip menuFormatoDocumento;
+        private ToolStripMenuItem btnExportarPdf;
+        private ToolStripMenuItem btnExportarXlsx;
     }
 }

@@ -1,33 +1,49 @@
-﻿using aDVanceERP.Core.Documentos.Interfaces;
+﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 using aDVanceERP.Core.Infraestructura.Globales;
-
-using MySql.Data.MySqlClient;
-
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp;
 
 using ClosedXML.Excel;
 
+using MySql.Data.MySqlClient;
+
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
-using System.Data;
-using aDVanceERP.Core.Infraestructura.Extensiones.BD;
 
 namespace aDVanceERP.Modulos.Inventario.Documentos {
-    public class DocInventarioAlmacen : IGeneradorDocumento {
+    public class DocInventarioAlmacen : DocumentoBase {
         private int? _idAlmacenEspecifico;
+        private Dictionary<int, string> _almacenes;
+        private Dictionary<int, List<Dictionary<string, string>>> _inventario;
+
+        #region Constructor
 
         public DocInventarioAlmacen(int? idAlmacen = null) {
             _idAlmacenEspecifico = idAlmacen;
+
+            // Configurar información de la empresa
+            CargarInformacionEmpresa();
+
+            // Intentar cargar el logo (ajusta la ruta según tu aplicación)
+            string rutaLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
+            if (File.Exists(rutaLogo)) {
+                CargarLogo(rutaLogo);
+            }
         }
+
+        #endregion
+
+        #region Implementación de IGeneradorDocumento
 
         public void GenerarDocumento(bool mostrar = true, FormatoDocumento formato = FormatoDocumento.PDF) {
             if (formato == FormatoDocumento.Excel) {
-                GenerarDocumentoInventarioAlmacenesExcel(mostrar, _idAlmacenEspecifico);
-            }
-            else {
-                GenerarDocumentoInventarioAlmacenesPdf(mostrar, _idAlmacenEspecifico);
+                GenerarDocumentoExcel(mostrar);
+            } else {
+                GenerarDocumentoPDF(mostrar);
             }
         }
 
@@ -38,562 +54,410 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 idAlmacen = id;
             }
 
-            if (formato == FormatoDocumento.Excel) {
-                GenerarDocumentoInventarioAlmacenesExcel(true, idAlmacen);
-            }
-            else {
-                GenerarDocumentoInventarioAlmacenesPdf(true, idAlmacen);
-            }
+            _idAlmacenEspecifico = idAlmacen;
+            GenerarDocumento(true, formato);
         }
 
-        public static void GenerarDocumentoInventarioAlmacenesExcel(bool mostrar = true, int? idAlmacenEspecifico = null) {
-            // Obtener datos de la base de datos  
-            var almacenes = idAlmacenEspecifico.HasValue
-                ? ObtenerAlmacenEspecifico(idAlmacenEspecifico.Value)
-                : ObtenerAlmacenes();
+        #endregion
 
-            var inventario = ObtenerInventarioPorAlmacenes(idAlmacenEspecifico);
+        #region Override de Método Abstracto
 
-            // Si no hay datos, salir
-            if (almacenes.Count == 0 || inventario.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
-                return;
-            }
+        public override void GenerarDocumento(bool mostrar = true) {
+            GenerarDocumentoPDF(mostrar);
+        }
 
-            // Crear un nuevo libro de trabajo
-            var workbook = new XLWorkbook();
-            var worksheet = workbook.Worksheets.Add("Inventario");
+        #endregion
 
-            // Configurar cultura para números (usar CultureInfo.InvariantCulture)
-            var culture = CultureInfo.InvariantCulture;
+        #region Generación de PDF
 
-            // Configurar anchos de columna FIJOS
-            worksheet.Column(1).Width = 22;  // Código
-            worksheet.Column(2).Width = 40;  // Producto
-            worksheet.Column(3).Width = 8;   // UM
-            worksheet.Column(4).Width = 12;  // Stock
-            worksheet.Column(5).Width = 15;  // Costo
-            worksheet.Column(6).Width = 15;  // P. Venta
-            worksheet.Column(7).Width = 18;  // Categoría
+        private void GenerarDocumentoPDF(bool mostrar) {
+            try {
+                // Cargar datos
+                _almacenes = _idAlmacenEspecifico.HasValue
+                    ? ObtenerAlmacenEspecifico(_idAlmacenEspecifico.Value)
+                    : ObtenerAlmacenes();
 
-            // Configurar estilos
-            var titleStyle = workbook.Style;
-            titleStyle.Font.FontSize = 14;
-            titleStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                _inventario = ObtenerInventarioPorAlmacenes(_idAlmacenEspecifico);
 
-            var headerStyle = workbook.Style;
-            headerStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            headerStyle.Border.BottomBorder = XLBorderStyleValues.Thin;
-
-            // IMPORTANTE: Usar formato de número invariante para evitar problemas culturales
-            var numberStyle = workbook.Style;
-            numberStyle.NumberFormat.NumberFormatId = 4; // Formato numérico estándar
-            numberStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-
-            var textStyle = workbook.Style;
-            textStyle.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-
-            var totalStyle = workbook.Style;
-            totalStyle.Border.TopBorder = XLBorderStyleValues.Thin;
-            totalStyle.Border.BottomBorder = XLBorderStyleValues.Double;
-
-            // Escribir título
-            string titulo = idAlmacenEspecifico.HasValue
-                ? $"INVENTARIO POR ALMACÉN - {almacenes.First().Value.ToUpper()}"
-                : "INVENTARIO POR ALMACENES";
-
-            worksheet.Cell(1, 1).Value = titulo;
-            worksheet.Range(1, 1, 1, 7).Merge().Style = titleStyle;
-
-            // Escribir fecha
-            worksheet.Cell(2, 1).Value = $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
-            worksheet.Range(2, 1, 2, 7).Merge().Style = textStyle;
-
-            int currentRow = 4;
-
-            foreach (var almacen in almacenes) {
-                var productosEnAlmacen = inventario.ContainsKey(almacen.Key) ? inventario[almacen.Key] : new List<Dictionary<string, string>>();
-
-                if (productosEnAlmacen.Count == 0)
-                    continue;
-
-                // Escribir encabezado de almacén
-                worksheet.Cell(currentRow, 1).Value = $"ALMACÉN: {almacen.Value.ToUpper()}";
-                worksheet.Range(currentRow, 1, currentRow, 7).Merge().Style = headerStyle;
-                currentRow++;
-
-                // Escribir encabezados de columna
-                worksheet.Cell(currentRow, 1).Value = "Código";
-                worksheet.Cell(currentRow, 2).Value = "Producto";
-                worksheet.Cell(currentRow, 3).Value = "UM";
-                worksheet.Cell(currentRow, 4).Value = "Stock";
-                worksheet.Cell(currentRow, 5).Value = "Costo";
-                worksheet.Cell(currentRow, 6).Value = "P. Venta";
-                worksheet.Cell(currentRow, 7).Value = "Categoría";
-
-                // Aplicar estilo de encabezado a todas las celdas
-                worksheet.Range(currentRow, 1, currentRow, 7).Style = headerStyle;
-
-                currentRow++;
-
-                // Escribir productos
-                foreach (var producto in productosEnAlmacen) {
-                    worksheet.Cell(currentRow, 1).Value = producto["codigo"];
-                    worksheet.Cell(currentRow, 1).Style = textStyle;
-
-                    worksheet.Cell(currentRow, 2).Value = producto["nombre"];
-                    worksheet.Cell(currentRow, 2).Style = textStyle;
-
-                    worksheet.Cell(currentRow, 3).Value = producto["unidad_medida"];
-                    worksheet.Cell(currentRow, 3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-
-                    // IMPORTANTE: Parsear usando CultureInfo.InvariantCulture
-                    if (decimal.TryParse(producto["cantidad"], NumberStyles.Any, CultureInfo.InvariantCulture, out var cantidad)) {
-                        worksheet.Cell(currentRow, 4).Value = cantidad;
-                        worksheet.Cell(currentRow, 4).Style = numberStyle;
-                    }
-
-                    if (decimal.TryParse(producto["precio_costo"], NumberStyles.Any, CultureInfo.InvariantCulture, out var precioCosto)) {
-                        worksheet.Cell(currentRow, 5).Value = precioCosto;
-                        worksheet.Cell(currentRow, 5).Style = numberStyle;
-                    }
-
-                    if (decimal.TryParse(producto["precio_venta"], NumberStyles.Any, CultureInfo.InvariantCulture, out var precioVenta)) {
-                        worksheet.Cell(currentRow, 6).Value = precioVenta;
-                        worksheet.Cell(currentRow, 6).Style = numberStyle;
-                    }
-
-                    string categoria = producto["categoria"] switch {
-                        "ProductoTerminado" => "PROD. TERMINADO",
-                        "MateriaPrima" => "MATERIA PRIMA",
-                        _ => "MERCANCÍA"
-                    };
-                    worksheet.Cell(currentRow, 7).Value = categoria;
-                    worksheet.Cell(currentRow, 7).Style = textStyle;
-
-                    currentRow++;
+                if (_almacenes.Count == 0 || _inventario.Count == 0) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "No se encontraron datos para el reporte.",
+                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                    return;
                 }
 
-                // Calcular y escribir totales del almacén
-                int totalProductos = productosEnAlmacen.Count;
-                decimal valorTotalCosto = productosEnAlmacen.Sum(p =>
-                {
-                    if (decimal.TryParse(p["cantidad"], NumberStyles.Any, CultureInfo.InvariantCulture, out var cant) &&
-                        decimal.TryParse(p["precio_costo"], NumberStyles.Any, CultureInfo.InvariantCulture, out var costo)) {
-                        return cant * costo;
+                // Crear documento PDF
+                var documento = new PdfDocument();
+                documento.Info.Title = _idAlmacenEspecifico.HasValue
+                    ? $"Inventario - {_almacenes.First().Value}"
+                    : "Inventario por Almacenes";
+                documento.Info.Author = NombreEmpresa;
+                documento.Info.Creator = "aDVance ERP";
+
+                int numeroPagina = 1;
+                PdfPage paginaActual = null;
+                XGraphics gfx = null;
+                double yPos = 0;
+
+                // Procesar cada almacén
+                foreach (var almacen in _almacenes) {
+                    var productos = _inventario.ContainsKey(almacen.Key)
+                        ? _inventario[almacen.Key]
+                        : new List<Dictionary<string, string>>();
+
+                    if (productos.Count == 0) continue;
+
+                    // Crear nueva página para cada almacén
+                    paginaActual = documento.AddPage();
+                    paginaActual.Size = PageSize.Letter;
+                    gfx = XGraphics.FromPdfPage(paginaActual);
+
+                    // Dibujar banner profesional
+                    DibujarBannerProfesional(
+                        gfx,
+                        paginaActual,
+                        "INVENTARIO POR ALMACÉN",
+                        $"ALM-{almacen.Key:D4}",
+                        DateTime.Now
+                    );
+
+                    // CORRECCIÓN: Iniciar después del banner con más espacio
+                    yPos = ObtenerInicioPosicionContenido();
+
+                    // Información del almacén en cuadro destacado
+                    var infoAlmacen = new Dictionary<string, string> {
+                        ["Almacén"] = almacen.Value.ToUpper(),
+                        ["Total Productos"] = productos.Count.ToString("N0"),
+                        ["Fecha Reporte"] = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+                    };
+
+                    DibujarCuadroInformacion(gfx, MargenIzquierdo, yPos,
+                        gfx.PageSize.Width - MargenIzquierdo - MargenDerecho,
+                        "INFORMACIÓN DEL ALMACÉN", infoAlmacen);
+
+                    // CORRECCIÓN: Espacio adecuado después del cuadro de información
+                    yPos += 95;
+
+                    // CORRECCIÓN: Calcular anchos de columna proporcionalmente al ancho disponible
+                    double anchoDisponible = gfx.PageSize.Width - MargenIzquierdo - MargenDerecho;
+                    var columnas = new Dictionary<string, double> {
+                        ["Código"] = anchoDisponible * 0.15,      // 15%
+                        ["Producto"] = anchoDisponible * 0.25,    // 25%
+                        ["UM"] = anchoDisponible * 0.08,          // 8%
+                        ["Stock"] = anchoDisponible * 0.10,       // 10%
+                        ["Costo"] = anchoDisponible * 0.12,       // 12%
+                        ["P. Venta"] = anchoDisponible * 0.12,    // 12%
+                        ["Categoría"] = anchoDisponible * 0.18    // 18%
+                    };
+
+                    // Dibujar encabezado de tabla
+                    DibujarEncabezadoTabla(gfx, yPos, columnas);
+                    yPos += 25;
+
+                    // Variables para totales
+                    int totalProductos = productos.Count;
+                    decimal valorTotalCosto = 0;
+                    decimal valorTotalVenta = 0;
+                    int numeroFila = 0;
+
+                    // Dibujar productos
+                    foreach (var producto in productos) {
+                        // Verificar si se necesita nueva página
+                        if (NecesitaNuevaPagina(yPos, 20, gfx.PageSize.Height)) {
+                            // Pie de página actual
+                            DibujarPiePagina(gfx, paginaActual, numeroPagina,
+                                documento.PageCount + 1,
+                                $"Almacén: {almacen.Value}");
+
+                            // Nueva página
+                            paginaActual = documento.AddPage();
+                            paginaActual.Size = PageSize.Letter;
+                            gfx = XGraphics.FromPdfPage(paginaActual);
+                            numeroPagina++;
+
+                            // Dibujar banner y encabezado en nueva página
+                            DibujarBannerProfesional(
+                                gfx,
+                                paginaActual,
+                                "INVENTARIO POR ALMACÉN",
+                                $"ALM-{almacen.Key:D4}",
+                                DateTime.Now
+                            );
+
+                            yPos = ObtenerInicioPosicionContenido() + 10;
+                            DibujarEncabezadoTabla(gfx, yPos, columnas);
+                            yPos += 25;
+                        }
+
+                        // Parsear valores
+                        var cantidad = decimal.Parse(producto["cantidad"], CultureInfo.InvariantCulture);
+                        var precioCosto = decimal.Parse(producto["precio_costo"], CultureInfo.InvariantCulture);
+                        var precioVenta = decimal.Parse(producto["precio_venta"], CultureInfo.InvariantCulture);
+
+                        // Calcular totales
+                        valorTotalCosto += cantidad * precioCosto;
+                        valorTotalVenta += cantidad * precioVenta;
+
+                        // CORRECCIÓN: Acortar categoría para que quepa
+                        string categoriaTexto = producto["categoria"] switch {
+                            "MateriaPrima" => "M. Prima",
+                            "ProductoTerminado" => "P. Terminado",
+                            "Mercancia" => "Mercancía",
+                            _ => producto["categoria"]
+                        };
+
+                        // CORRECCIÓN: Truncar texto largo si es necesario
+                        string nombreProducto = TruncarTexto(producto["nombre"], FontContenido, gfx, columnas["Producto"] - 10);
+
+                        // Dibujar fila
+                        var datosColumnas = new Dictionary<string, (double, string, XStringFormat)> {
+                            ["Código"] = (columnas["Código"], producto["codigo"], XStringFormats.CenterLeft),
+                            ["Producto"] = (columnas["Producto"], nombreProducto, XStringFormats.CenterLeft),
+                            ["UM"] = (columnas["UM"], producto["unidad_medida"], XStringFormats.Center),
+                            ["Stock"] = (columnas["Stock"], cantidad.ToString("N2"), XStringFormats.CenterRight),
+                            ["Costo"] = (columnas["Costo"], "$" + precioCosto.ToString("N2"), XStringFormats.CenterRight),
+                            ["P. Venta"] = (columnas["P. Venta"], "$" + precioVenta.ToString("N2"), XStringFormats.CenterRight),
+                            ["Categoría"] = (columnas["Categoría"], categoriaTexto, XStringFormats.CenterLeft)
+                        };
+
+                        DibujarFilaTabla(gfx, yPos, datosColumnas, numeroFila % 2 == 0);
+                        yPos += 18;
+                        numeroFila++;
                     }
-                    return 0;
-                });
 
-                worksheet.Cell(currentRow, 1).Value = "TOTAL ALMACÉN:";
-                worksheet.Range(currentRow, 1, currentRow, 3).Merge().Style = totalStyle;
+                    // CORRECCIÓN: Más espacio antes de los totales
+                    yPos += 15;
 
-                worksheet.Cell(currentRow, 4).Value = totalProductos;
-                worksheet.Cell(currentRow, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                worksheet.Cell(currentRow, 4).Style.Font.Bold = true;
+                    // Dibujar totales
+                    var totales = new Dictionary<string, string> {
+                        ["Total Productos"] = totalProductos.ToString("N0"),
+                        ["Valor Total Costo"] = "$" + valorTotalCosto.ToString("N2"),
+                        ["Valor Total Venta"] = "$" + valorTotalVenta.ToString("N2"),
+                        ["Margen Potencial"] = "$" + (valorTotalVenta - valorTotalCosto).ToString("N2")
+                    };
 
-                worksheet.Cell(currentRow, 5).Value = valorTotalCosto;
-                worksheet.Cell(currentRow, 5).Style = numberStyle;
-                worksheet.Cell(currentRow, 5).Style.Font.Bold = true;
+                    DibujarSeccionTotales(gfx, yPos, totales, 300);
 
-                // Aplicar estilo de total a toda la fila
-                worksheet.Range(currentRow, 1, currentRow, 7).Style = totalStyle;
+                    // Pie de página
+                    DibujarPiePagina(gfx, paginaActual, numeroPagina,
+                        documento.PageCount, $"Almacén: {almacen.Value}");
+                }
 
-                currentRow += 2;
-            }
+                // Guardar documento
+                string rutaDocumento = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Inventario_{DateTime.Now:yyyyMMdd_HHmmss}.pdf"
+                );
 
-            // Agregar bordes a toda la tabla
-            if (currentRow > 4) {
-                var dataRange = worksheet.Range(4, 1, currentRow - 3, 7);
-                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Medium;
-                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-            }
+                documento.Save(rutaDocumento);
 
-            // Guardar el archivo
-            var nombreArchivo = idAlmacenEspecifico.HasValue
-                ? $"inventario-almacen-{idAlmacenEspecifico.Value}-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx"
-                : $"inventario-almacenes-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx";
-
-            workbook.SaveAs(nombreArchivo);
-
-            // Mostrar el archivo Excel al usuario  
-            if (mostrar) {
-                try {
+                if (mostrar) {
                     Process.Start(new ProcessStartInfo {
-                        FileName = nombreArchivo,
+                        FileName = rutaDocumento,
                         UseShellExecute = true
                     });
                 }
-                catch (Exception ex) {
-                    CentroNotificaciones.MostrarNotificacion($"Error al abrir el archivo: {ex.Message}", Core.Modelos.Comun.TipoNotificacion.Error);
+
+                CentroNotificaciones.MostrarNotificacion(
+                    "Documento PDF generado exitosamente.",
+                    Core.Modelos.Comun.TipoNotificacion.Info
+                );
+
+            } catch (Exception ex) {
+                CentroNotificaciones.MostrarNotificacion(
+                    $"Error al generar el documento: {ex.Message}",
+                    Core.Modelos.Comun.TipoNotificacion.Error
+                );
+            }
+        }
+
+        #endregion
+
+        #region Generación de Excel
+
+        private void GenerarDocumentoExcel(bool mostrar) {
+            try {
+                // Cargar datos
+                _almacenes = _idAlmacenEspecifico.HasValue
+                    ? ObtenerAlmacenEspecifico(_idAlmacenEspecifico.Value)
+                    : ObtenerAlmacenes();
+
+                _inventario = ObtenerInventarioPorAlmacenes(_idAlmacenEspecifico);
+
+                if (_almacenes.Count == 0 || _inventario.Count == 0) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "No se encontraron datos para el reporte.",
+                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                    return;
+                }
+
+                var workbook = new XLWorkbook();
+
+                foreach (var almacen in _almacenes) {
+                    var productos = _inventario.ContainsKey(almacen.Key)
+                        ? _inventario[almacen.Key]
+                        : new List<Dictionary<string, string>>();
+
+                    if (productos.Count == 0) continue;
+
+                    var worksheet = workbook.Worksheets.Add($"ALM-{almacen.Key:D4}");
+
+                    // Encabezado
+                    worksheet.Cell(1, 1).Value = "INVENTARIO POR ALMACÉN";
+                    worksheet.Range(1, 1, 1, 7).Merge().Style.Font.Bold = true;
+                    worksheet.Range(1, 1, 1, 7).Style.Font.FontSize = 14;
+                    worksheet.Range(1, 1, 1, 7).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    // Información del almacén
+                    worksheet.Cell(3, 1).Value = "Almacén:";
+                    worksheet.Cell(3, 2).Value = almacen.Value;
+                    worksheet.Cell(4, 1).Value = "Fecha:";
+                    worksheet.Cell(4, 2).Value = DateTime.Now;
+                    worksheet.Cell(4, 2).Style.DateFormat.Format = "dd/MM/yyyy HH:mm:ss";
+
+                    // Encabezados de tabla
+                    int headerRow = 6;
+                    worksheet.Cell(headerRow, 1).Value = "Código";
+                    worksheet.Cell(headerRow, 2).Value = "Producto";
+                    worksheet.Cell(headerRow, 3).Value = "UM";
+                    worksheet.Cell(headerRow, 4).Value = "Stock";
+                    worksheet.Cell(headerRow, 5).Value = "Costo";
+                    worksheet.Cell(headerRow, 6).Value = "P. Venta";
+                    worksheet.Cell(headerRow, 7).Value = "Categoría";
+
+                    var rangoEncabezado = worksheet.Range(headerRow, 1, headerRow, 7);
+                    rangoEncabezado.Style.Font.Bold = true;
+                    rangoEncabezado.Style.Fill.BackgroundColor = XLColor.LightGray;
+                    rangoEncabezado.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+
+                    // Datos
+                    int currentRow = headerRow + 1;
+                    decimal valorTotalCosto = 0;
+                    decimal valorTotalVenta = 0;
+
+                    foreach (var producto in productos) {
+                        var cantidad = decimal.Parse(producto["cantidad"], CultureInfo.InvariantCulture);
+                        var precioCosto = decimal.Parse(producto["precio_costo"], CultureInfo.InvariantCulture);
+                        var precioVenta = decimal.Parse(producto["precio_venta"], CultureInfo.InvariantCulture);
+
+                        valorTotalCosto += cantidad * precioCosto;
+                        valorTotalVenta += cantidad * precioVenta;
+
+                        string categoriaTexto = producto["categoria"] switch {
+                            "MateriaPrima" => "Materia Prima",
+                            "ProductoTerminado" => "Producto Terminado",
+                            "Mercancia" => "Mercancía",
+                            _ => producto["categoria"]
+                        };
+
+                        worksheet.Cell(currentRow, 1).Value = producto["codigo"];
+                        worksheet.Cell(currentRow, 2).Value = producto["nombre"];
+                        worksheet.Cell(currentRow, 3).Value = producto["unidad_medida"];
+                        worksheet.Cell(currentRow, 4).Value = cantidad;
+                        worksheet.Cell(currentRow, 5).Value = precioCosto;
+                        worksheet.Cell(currentRow, 6).Value = precioVenta;
+                        worksheet.Cell(currentRow, 7).Value = categoriaTexto;
+
+                        // Formato de números
+                        worksheet.Cell(currentRow, 4).Style.NumberFormat.NumberFormatId = 4;
+                        worksheet.Cell(currentRow, 5).Style.NumberFormat.NumberFormatId = 4;
+                        worksheet.Cell(currentRow, 6).Style.NumberFormat.NumberFormatId = 4;
+
+                        currentRow++;
+                    }
+
+                    // Fila de totales
+                    worksheet.Cell(currentRow, 1).Value = "TOTAL ALMACÉN:";
+                    worksheet.Cell(currentRow, 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, 4).Value = productos.Count;
+                    worksheet.Cell(currentRow, 5).Value = valorTotalCosto;
+                    worksheet.Cell(currentRow, 6).Value = valorTotalVenta;
+
+                    var rangoTotales = worksheet.Range(currentRow, 1, currentRow, 7);
+                    rangoTotales.Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    rangoTotales.Style.Border.BottomBorder = XLBorderStyleValues.Double;
+                    rangoTotales.Style.Font.Bold = true;
+
+                    currentRow += 2;
+                }
+
+                // Guardar archivo
+                string rutaDocumento = Path.Combine(
+                    Path.GetTempPath(),
+                    $"Inventario_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx"
+                );
+
+                workbook.SaveAs(rutaDocumento);
+
+                if (mostrar) {
+                    Process.Start(new ProcessStartInfo {
+                        FileName = rutaDocumento,
+                        UseShellExecute = true
+                    });
+                }
+
+                CentroNotificaciones.MostrarNotificacion(
+                    "Documento Excel generado exitosamente.",
+                    Core.Modelos.Comun.TipoNotificacion.Info
+                );
+
+            } catch (Exception ex) {
+                CentroNotificaciones.MostrarNotificacion(
+                    $"Error al generar el documento: {ex.Message}",
+                    Core.Modelos.Comun.TipoNotificacion.Error
+                );
+            }
+        }
+
+        #endregion
+
+        #region Métodos auxiliares
+
+        /// <summary>
+        /// Trunca texto para que quepa en el ancho especificado
+        /// </summary>
+        private string TruncarTexto(string texto, XFont fuente, XGraphics gfx, double anchoMaximo) {
+            var tamano = gfx.MeasureString(texto, fuente);
+
+            if (tamano.Width <= anchoMaximo) {
+                return texto;
+            }
+
+            // Ir quitando caracteres hasta que quepa
+            string textoTruncado = texto;
+            while (textoTruncado.Length > 0) {
+                textoTruncado = textoTruncado.Substring(0, textoTruncado.Length - 1);
+                var nuevoTamano = gfx.MeasureString(textoTruncado + "...", fuente);
+                if (nuevoTamano.Width <= anchoMaximo) {
+                    return textoTruncado + "...";
                 }
             }
+
+            return "...";
         }
 
-        public static void GenerarDocumentoInventarioAlmacenesPdf(bool mostrar = true, int? idAlmacenEspecifico = null) {
-            // Obtener datos de la base de datos  
-            var almacenes = idAlmacenEspecifico.HasValue
-                ? ObtenerAlmacenEspecifico(idAlmacenEspecifico.Value)
-                : ObtenerAlmacenes();
+        #endregion
 
-            var inventario = ObtenerInventarioPorAlmacenes(idAlmacenEspecifico);
+        #region Métodos para obtener datos de BD
 
-            // Si no hay datos, salir
-            if (almacenes.Count == 0 || inventario.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion("No se encontraron datos para el reporte.", Core.Modelos.Comun.TipoNotificacion.Advertencia);
-                return;
-            }
-
-            // Crear documento PDF  
-            var documento = new PdfDocument();
-            documento.Info.Title = idAlmacenEspecifico.HasValue
-                ? $"Reporte de Inventario - Almacén {almacenes.First().Value}"
-                : "Reporte de Inventario por Almacenes";
-            documento.Info.Author = "aDVanceERP";
-
-            // Configuración de márgenes y fuentes  
-            const int margenIzquierdo = 40;
-            const int margenDerecho = 40;
-            const int margenSuperior = 40;
-            const int margenInferior = 40;
-            const int alturaFila = 18;
-            const int maxFilasPorPagina = 26;
-
-            var fontTitulo = new XFont("Arial", 14, XFontStyleEx.Bold);
-            var fontSubtitulo = new XFont("Arial", 10, XFontStyleEx.Regular);
-            var fontContenido = new XFont("Arial", 12, XFontStyleEx.Regular);
-            var fontEncabezado = new XFont("Arial", 12, XFontStyleEx.Bold);
-            var fontAlmacen = new XFont("Arial", 12, XFontStyleEx.Bold);
-
-            // Primera pasada: Generar todo el contenido
-            List<PdfPage> paginasGeneradas = new List<PdfPage>();
-            PdfPage paginaActual = null;
-            XGraphics gfx = null;
-            double yPoint = 0;
-            int filasEnPaginaActual = 0;
-
-            foreach (var almacen in almacenes) {
-                var productosEnAlmacen = inventario.ContainsKey(almacen.Key) ? inventario[almacen.Key] : new List<Dictionary<string, string>>();
-
-                if (productosEnAlmacen.Count == 0)
-                    continue;
-
-                int productosProcesados = 0;
-
-                while (productosProcesados < productosEnAlmacen.Count) {
-                    // Crear nueva página si es necesario
-                    if (paginaActual == null || filasEnPaginaActual >= maxFilasPorPagina - 3) {
-                        // Cerrar el contexto gráfico anterior si existe
-                        if (gfx != null) {
-                            gfx.Dispose();
-                        }
-
-                        paginaActual = documento.AddPage();
-                        paginaActual.Orientation = PageOrientation.Landscape;
-                        paginaActual.Size = PageSize.A4;
-                        paginasGeneradas.Add(paginaActual);
-                        gfx = XGraphics.FromPdfPage(paginaActual);
-                        yPoint = margenSuperior;
-                        filasEnPaginaActual = 0;
-
-                        // Dibujar encabezado
-                        DibujarEncabezadoInventario(gfx, paginaActual, fontTitulo, fontSubtitulo,
-                            margenIzquierdo, margenDerecho, ref yPoint, idAlmacenEspecifico.HasValue);
-                        filasEnPaginaActual += 2;
-                    }
-
-                    // Encabezado de almacén
-                    if (productosProcesados == 0) {
-                        if (filasEnPaginaActual > maxFilasPorPagina - 3) {
-                            // Cerrar el contexto gráfico actual
-                            gfx.Dispose();
-
-                            paginaActual = documento.AddPage();
-                            paginaActual.Orientation = PageOrientation.Landscape;
-                            paginasGeneradas.Add(paginaActual);
-                            gfx = XGraphics.FromPdfPage(paginaActual);
-                            yPoint = margenSuperior;
-                            filasEnPaginaActual = 0;
-
-                            DibujarEncabezadoInventario(gfx, paginaActual, fontTitulo, fontSubtitulo,
-                                margenIzquierdo, margenDerecho, ref yPoint, idAlmacenEspecifico.HasValue);
-                            filasEnPaginaActual += 2;
-                        }
-
-                        gfx.DrawString($"ALMACÉN: {almacen.Value.ToUpper()}", fontAlmacen, XBrushes.Black,
-                            new XRect(margenIzquierdo, yPoint, paginaActual.Width - margenIzquierdo - margenDerecho, 20),
-                            XStringFormats.TopLeft);
-                        yPoint += 25;
-                        filasEnPaginaActual += 1;
-
-                        DibujarEncabezadosTablaInventario(gfx, paginaActual, fontEncabezado,
-                            margenIzquierdo, margenDerecho, ref yPoint);
-                        filasEnPaginaActual += 1;
-                    }
-
-                    // Calcular cuántas filas podemos poner en esta página
-                    int filasDisponibles = maxFilasPorPagina - filasEnPaginaActual;
-                    int filasAProcesar = Math.Min(filasDisponibles, productosEnAlmacen.Count - productosProcesados);
-
-                    for (int i = 0; i < filasAProcesar; i++) {
-                        var producto = productosEnAlmacen[productosProcesados];
-                        DibujarFilaInventario(gfx, fontContenido, producto,
-                            margenIzquierdo, margenDerecho, ref yPoint, alturaFila);
-
-                        productosProcesados++;
-                        filasEnPaginaActual++;
-                    }
-
-                    // Totales del almacén
-                    if (productosProcesados == productosEnAlmacen.Count) {
-                        if (filasEnPaginaActual > maxFilasPorPagina - 2) {
-                            // Cerrar el contexto gráfico actual
-                            gfx.Dispose();
-
-                            paginaActual = documento.AddPage();
-                            paginaActual.Orientation = PageOrientation.Landscape;
-                            paginasGeneradas.Add(paginaActual);
-                            gfx = XGraphics.FromPdfPage(paginaActual);
-                            yPoint = margenSuperior;
-                            filasEnPaginaActual = 0;
-
-                            DibujarEncabezadoInventario(gfx, paginaActual, fontTitulo, fontSubtitulo,
-                                margenIzquierdo, margenDerecho, ref yPoint, idAlmacenEspecifico.HasValue);
-                            filasEnPaginaActual += 2;
-                        }
-
-                        DibujarTotalesAlmacen(gfx, fontContenido, productosEnAlmacen,
-                            margenIzquierdo, margenDerecho, ref yPoint, alturaFila);
-                        filasEnPaginaActual += 2;
-                    }
-                }
-            }
-
-            // Cerrar el último contexto gráfico si existe
-            if (gfx != null) {
-                gfx.Dispose();
-            }
-
-            // Segunda pasada: Numerar las páginas correctamente usando el mismo contexto gráfico
-            for (int i = 0; i < documento.Pages.Count; i++) {
-                using (var gfxUnificado = XGraphics.FromPdfPage(documento.Pages[i])) {
-                    DibujarPiePaginaInventario(gfxUnificado, documento.Pages[i], fontSubtitulo,
-                        margenIzquierdo, margenDerecho,
-                        margenInferior, i + 1, documento.Pages.Count);
-                }
-            }
-
-            // Guardar el documento
-            var nombreArchivo = idAlmacenEspecifico.HasValue
-                ? $"inventario-almacen-{idAlmacenEspecifico.Value}-{DateTime.Now:yyyyMMdd-HHmmss}.pdf"
-                : $"inventario-almacenes-{DateTime.Now:yyyyMMdd-HHmmss}.pdf";
-
-            if (documento.Pages.Count <= 0)
-                return;
-
-            documento.Save(nombreArchivo);
-
-            // Mostrar el documento PDF al usuario  
-            if (mostrar)
-                Process.Start(new ProcessStartInfo {
-                    FileName = nombreArchivo,
-                    UseShellExecute = true
-                });
+        protected override void CargarInformacionEmpresa() {
+            // Implementa la lógica para cargar desde tu BD
+            // Por ahora, datos de ejemplo
+            ConfigurarEmpresa(
+                nombre: "aDVance ERP",
+                direccion: "Tu dirección comercial",
+                telefono: "+58 (XXX) XXX-XXXX",
+                email: "info@advanceerp.com",
+                web: "www.advanceerp.com",
+                rif: "J-XXXXXXXXX-X"
+            );
         }
-
-        private static void DibujarEncabezadoInventario(XGraphics gfx, PdfPage pagina, XFont fontTitulo, XFont fontSubtitulo,
-                                                int margenIzquierdo, int margenDerecho, ref double yPoint, bool esAlmacenEspecifico = false) {
-            // Agregar título
-            string titulo = esAlmacenEspecifico ? "INVENTARIO POR ALMACÉN" : "INVENTARIO POR ALMACENES";
-            gfx.DrawString(titulo, fontTitulo, XBrushes.Black,
-                new XRect(margenIzquierdo, yPoint, pagina.Width - margenIzquierdo - margenDerecho, 20),
-                XStringFormats.TopCenter);
-            yPoint += 25;
-
-            // Agregar información del reporte
-            gfx.DrawString($"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", fontSubtitulo, XBrushes.Black,
-                new XRect(margenIzquierdo, yPoint, pagina.Width, 15), XStringFormats.TopLeft);
-            yPoint += 20;
-        }
-
-        private static void DibujarEncabezadosTablaInventario(XGraphics gfx, PdfPage pagina, XFont fontEncabezado,
-                                                      int margenIzquierdo, int margenDerecho, ref double yPoint) {
-            // Anchuras de columnas ajustadas para hoja horizontal
-            var anchoCodigo = 100;
-            var anchoUM = 30;
-            var anchoStock = 45;
-            var anchoPrecioCosto = 80;
-            var anchoPrecioVenta = 70;
-            var anchoCategoria = 150;
-
-            // Calcular ancho disponible para producto (dinámico)
-            double anchoTotalFijo = anchoCodigo + anchoUM + anchoStock +
-                                  anchoPrecioCosto + anchoPrecioVenta + anchoCategoria;
-            double anchoDisponible = pagina.Width - margenIzquierdo - margenDerecho;
-            double anchoProducto = anchoDisponible - anchoTotalFijo;
-
-            // Posición X inicial
-            double xPos = margenIzquierdo;
-
-            // Encabezados de columna
-            gfx.DrawString("Código", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoCodigo, 20), XStringFormats.TopLeft);
-            xPos += anchoCodigo;
-
-            gfx.DrawString("Producto", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoProducto, 20), XStringFormats.TopLeft);
-            xPos += anchoProducto;
-
-            gfx.DrawString("UM", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoUM, 20), XStringFormats.TopCenter);
-            xPos += anchoUM;
-
-            gfx.DrawString("Stock", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoStock, 20), XStringFormats.TopRight);
-            xPos += anchoStock;
-
-            gfx.DrawString("Costo", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoPrecioCosto, 20), XStringFormats.TopRight);
-            xPos += anchoPrecioCosto;
-
-            gfx.DrawString("P. Venta", fontEncabezado, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoPrecioVenta, 20), XStringFormats.TopRight);
-            xPos += anchoPrecioVenta;
-
-            gfx.DrawString("Categoría", fontEncabezado, XBrushes.Black,
-                new XRect(xPos + 10, yPoint, anchoCategoria, 20), XStringFormats.TopLeft);
-
-            // Línea divisoria
-            yPoint += 20;
-            gfx.DrawLine(XPens.Black, margenIzquierdo, yPoint, pagina.Width - margenDerecho, yPoint);
-            yPoint += 5;
-        }
-
-        private static void DibujarFilaInventario(XGraphics gfx, XFont fontContenido, Dictionary<string, string> producto,
-                                          int margenIzquierdo, int margenDerecho, ref double yPoint, int alturaFila) {
-            // Anchuras de columnas (consistentes con encabezados)
-            var anchoCodigo = 100;
-            var anchoUM = 30;
-            var anchoStock = 45;
-            var anchoPrecioCosto = 80;
-            var anchoPrecioVenta = 70;
-            var anchoCategoria = 150;
-
-            // Calcular ancho disponible para producto (dinámico)
-            double anchoTotalFijo = anchoCodigo + anchoUM + anchoStock +
-                                  anchoPrecioCosto + anchoPrecioVenta + anchoCategoria;
-            double anchoDisponible = gfx.PageSize.Width - margenIzquierdo - margenDerecho;
-            double anchoProducto = anchoDisponible - anchoTotalFijo;
-
-            // Posición X inicial
-            double xPos = margenIzquierdo;
-
-            // Código del producto
-            gfx.DrawString(producto["codigo"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoCodigo, alturaFila), XStringFormats.TopLeft);
-            xPos += anchoCodigo;
-
-            // Nombre del producto
-            gfx.DrawString(producto["nombre"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoProducto, alturaFila), XStringFormats.TopLeft);
-            xPos += anchoProducto;
-
-            // Unidad de medida
-            gfx.DrawString(producto["unidad_medida"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoUM, alturaFila), XStringFormats.TopCenter);
-            xPos += anchoUM;
-
-            // Stock
-            gfx.DrawString(producto["cantidad"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoStock, alturaFila), XStringFormats.TopRight);
-            xPos += anchoStock;
-
-            // Precio costo (compra o producción)
-            gfx.DrawString(producto["precio_costo"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoPrecioCosto, alturaFila), XStringFormats.TopRight);
-            xPos += anchoPrecioCosto;
-
-            // Precio venta
-            gfx.DrawString(producto["precio_venta"], fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoPrecioVenta, alturaFila), XStringFormats.TopRight);
-            xPos += anchoPrecioVenta;
-
-            // Categoría
-            string categoria = producto["categoria"] switch {
-                "ProductoTerminado" => "PROD. TERMINADO",
-                "MateriaPrima" => "MATERIA PRIMA",
-                _ => "MERCANCÍA"
-            };
-            gfx.DrawString(categoria, fontContenido, XBrushes.Black,
-                new XRect(xPos + 10, yPoint, anchoCategoria, alturaFila), XStringFormats.TopLeft);
-
-            yPoint += alturaFila;
-        }
-
-        private static void DibujarTotalesAlmacen(XGraphics gfx, XFont fontContenido, List<Dictionary<string, string>> productos,
-                                          int margenIzquierdo, int margenDerecho, ref double yPoint, int alturaFila) {
-            // Calcular totales
-            int totalProductos = productos.Count;
-            decimal valorTotalCosto = productos.Sum(p => decimal.Parse(p["cantidad"], NumberStyles.Any, CultureInfo.InvariantCulture) * decimal.Parse(p["precio_costo"], NumberStyles.Any, CultureInfo.InvariantCulture));
-
-            // Dibujar línea divisoria
-            gfx.DrawLine(XPens.Black, margenIzquierdo, yPoint, gfx.PageSize.Width - margenDerecho, yPoint);
-            yPoint += 5;
-
-            // Anchuras de columnas (consistentes con encabezados)
-            var anchoCodigo = 100;
-            var anchoUM = 30;
-            var anchoStock = 45;
-            var anchoPrecioCosto = 80;
-            var anchoPrecioVenta = 70;
-            var anchoCategoria = 150;
-
-            // Calcular ancho disponible para producto (dinámico)
-            double anchoTotalFijo = anchoCodigo + anchoUM + anchoStock +
-                                  anchoPrecioCosto + anchoPrecioVenta + anchoCategoria;
-            double anchoDisponible = gfx.PageSize.Width - margenIzquierdo - margenDerecho;
-            double anchoProducto = anchoDisponible - anchoTotalFijo;
-
-            // Posición X inicial
-            double xPos = margenIzquierdo;
-
-            // Total productos
-            gfx.DrawString("TOTAL ALMACÉN:", fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoCodigo + anchoProducto, alturaFila), XStringFormats.TopRight);
-            xPos += anchoCodigo + anchoProducto;
-
-            gfx.DrawString(totalProductos.ToString("N0", CultureInfo.InvariantCulture), fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoUM + anchoStock, alturaFila), XStringFormats.TopRight);
-            xPos += anchoUM + anchoStock;
-
-            // Valor total costo/compra
-            gfx.DrawString($"${valorTotalCosto.ToString("N2", CultureInfo.InvariantCulture)}", fontContenido, XBrushes.Black,
-                new XRect(xPos, yPoint, anchoPrecioCosto, alturaFila), XStringFormats.TopRight);
-            xPos += anchoPrecioCosto;
-
-            yPoint += alturaFila;
-        }
-
-        private static void DibujarPiePaginaInventario(XGraphics gfx, PdfPage pagina, XFont fontSubtitulo,
-                                               int margenIzquierdo, int margenDerecho,
-                                               int margenInferior, int paginaActual,
-                                               int totalPaginas) {
-            var textoPie = $"Página {paginaActual} de {totalPaginas} - {DateTime.Now:dd/MM/yyyy HH:mm:ss}";
-
-            gfx.DrawString(textoPie, fontSubtitulo, XBrushes.Black,
-                new XRect(margenIzquierdo, pagina.Height - margenInferior,
-                    pagina.Width - margenIzquierdo - margenDerecho, 20),
-                XStringFormats.BottomRight);
-        }
-
-        #region Métodos para obtener datos de la base de datos
 
         private static Dictionary<int, string> ObtenerAlmacenes() {
             var almacenes = new Dictionary<int, string>();
 
             using (var connection = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
                 connection.Open();
-
                 var query = "SELECT id_almacen, nombre FROM adv__almacen ORDER BY nombre";
 
                 using (var command = new MySqlCommand(query, connection)) {
@@ -613,7 +477,6 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
             using (var connection = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion())) {
                 connection.Open();
-
                 var query = "SELECT id_almacen, nombre FROM adv__almacen WHERE id_almacen = @idAlmacen";
 
                 using (var command = new MySqlCommand(query, connection)) {
@@ -648,15 +511,14 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                         ELSE p.costo_adquisicion_unitario
                     END as precio_costo,
                     p.precio_venta_base as precio_venta,
-                    COALESCE(pa.cantidad, 0) as cantidad,  -- Mostrar 0 si no hay inventario
-                    COALESCE(um.abreviatura, 'N/A') as unidad_medida  -- Valor por defecto
+                    COALESCE(pa.cantidad, 0) as cantidad,
+                    COALESCE(um.abreviatura, 'N/A') as unidad_medida
                 FROM adv__producto p
                 LEFT JOIN adv__inventario pa ON p.id_producto = pa.id_producto
                 LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
-                WHERE 1=1  -- Condición siempre verdadera para facilitar filtros
+                WHERE 1=1
                 """;
 
-                // Agregar filtro por almacén si se especifica
                 if (idAlmacenEspecifico.HasValue) {
                     query += " AND pa.id_almacen = @idAlmacen";
                 }
@@ -680,9 +542,12 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                                 ["codigo"] = reader["codigo"].ToString(),
                                 ["nombre"] = reader["nombre"].ToString(),
                                 ["categoria"] = reader["categoria"].ToString(),
-                                ["precio_costo"] = reader.IsDBNull("precio_costo") ? "0.00" : reader.GetDecimal("precio_costo").ToString("N2", CultureInfo.InvariantCulture),
-                                ["precio_venta"] = reader.IsDBNull("precio_venta") ? "0.00" : reader.GetDecimal("precio_venta").ToString("N2", CultureInfo.InvariantCulture),
-                                ["cantidad"] = reader.IsDBNull("cantidad") ? "0.00" : reader.GetDecimal("cantidad").ToString("N2", CultureInfo.InvariantCulture),
+                                ["precio_costo"] = reader.IsDBNull("precio_costo") ? "0.00" :
+                                    reader.GetDecimal("precio_costo").ToString("N2", CultureInfo.InvariantCulture),
+                                ["precio_venta"] = reader.IsDBNull("precio_venta") ? "0.00" :
+                                    reader.GetDecimal("precio_venta").ToString("N2", CultureInfo.InvariantCulture),
+                                ["cantidad"] = reader.IsDBNull("cantidad") ? "0.00" :
+                                    reader.GetDecimal("cantidad").ToString("N2", CultureInfo.InvariantCulture),
                                 ["unidad_medida"] = reader["unidad_medida"].ToString()
                             };
 
@@ -697,5 +562,4 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
         #endregion
     }
-
 }

@@ -28,12 +28,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             btnEditar = new Guna2Button();
@@ -109,7 +109,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnEditar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges7;
+            btnEditar.CustomizableEdges = customizableEdges1;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -118,7 +118,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1123, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 39;
             // 
@@ -174,7 +174,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnConfirmar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
             btnConfirmar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
             btnConfirmar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnConfirmar.CustomizableEdges = customizableEdges9;
+            btnConfirmar.CustomizableEdges = customizableEdges3;
             btnConfirmar.Dock = DockStyle.Fill;
             btnConfirmar.FillColor = Color.White;
             btnConfirmar.Font = new Font("Segoe UI", 9.75F);
@@ -183,7 +183,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnConfirmar.HoverState.FillColor = Color.PeachPuff;
             btnConfirmar.Location = new Point(1163, 3);
             btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnConfirmar.Size = new Size(34, 35);
             btnConfirmar.TabIndex = 21;
             // 
@@ -196,7 +196,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage2");
             btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges11;
+            btnCancelar.CustomizableEdges = customizableEdges5;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -206,7 +206,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.ForeColor = Color.White;
             btnCancelar.Location = new Point(1203, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnCancelar.Size = new Size(35, 35);
             btnCancelar.TabIndex = 22;
             // 

@@ -7,9 +7,9 @@ using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Documentos.Comun;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
-    // TODO: Implementar los botones de cancelar la venta e imprimir la factura, recordar que una venta se cancela solo cuando tiene un estado distinto a completada
     public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
         private EstadoVenta _estadoVenta;
 
@@ -129,11 +129,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public bool Activo { get; set; }
 
+        public event EventHandler<(long, FormatoDocumento)>? ExportarFacturaVenta;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
 
         public void Inicializar() {
             // Eventos
+            btnVerFactura.Click += delegate { btnVerFactura.ContextMenuStrip?.Show(btnVerFactura, new Point(0, 40)); };
+            btnExportarPdf.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.PDF)); };
+            btnExportarXlsx.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.Excel)); };
             btnAnular.Click += delegate (object? sender, EventArgs e) {
                 RepoVenta.Instancia.CambiarEstadoVenta(Id, EstadoVenta.Anulada);
                 EstadoVenta = EstadoVenta.Anulada;

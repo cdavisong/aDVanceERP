@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
@@ -14,5 +15,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         decimal ImporteTotal { get; set; }
         EstadoVenta EstadoVenta { get; set; }
         bool Activo { get; set; }
+
+        event EventHandler<(long, FormatoDocumento)>? ExportarFacturaVenta;
     }
 }

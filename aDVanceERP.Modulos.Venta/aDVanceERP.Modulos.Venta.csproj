@@ -63,6 +63,9 @@
     <Compile Update="Vistas\VistaTuplaMensajero.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaTuplaEnvio.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaTuplaPago.cs">
       <SubType>Form</SubType>
     </Compile>

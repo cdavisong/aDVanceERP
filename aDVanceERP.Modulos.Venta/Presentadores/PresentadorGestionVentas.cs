@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -9,11 +10,14 @@ using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
+using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     public class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
+        private DocFacturaVenta _docFacturaVenta = null!;
+
         public PresentadorGestionVentas(IVistaGestionVentas vista) : base(vista) {
             RegistrarEntidad += OnRegistrarVenta;
             EditarEntidad += OnEditarVenta;
@@ -71,8 +75,14 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.ImporteTotal = entidad.ImporteTotal;            
             presentadorTupla.Vista.Activo = entidad.Activo;
             presentadorTupla.Vista.EstadoVenta = entidad.EstadoVenta;
+            presentadorTupla.Vista.ExportarFacturaVenta += OnExportarDocumentoFacturaVenta;
 
             return presentadorTupla;
+        }
+
+        private void OnExportarDocumentoFacturaVenta(object? sender, (long id, FormatoDocumento formato) e) {
+            _docFacturaVenta = new DocFacturaVenta(e.id);
+            _docFacturaVenta.GenerarDocumentoConParametros(e.formato);
         }
     }
 }

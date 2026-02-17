@@ -1,5 +1,5 @@
 ﻿using aDVanceERP.Core.Controladores;
-using aDVanceERP.Core.Documentos.Interfaces;
+using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
@@ -8,7 +8,6 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Vistas.Comun;
 using aDVanceERP.Modulos.Inventario.Documentos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Vistas;

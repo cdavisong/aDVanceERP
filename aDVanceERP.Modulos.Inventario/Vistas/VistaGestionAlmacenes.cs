@@ -1,8 +1,7 @@
-﻿using aDVanceERP.Core.Documentos.Interfaces;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {

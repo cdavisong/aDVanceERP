@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Documentos.Interfaces;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Documentos.Interfaces;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -115,7 +115,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            
             BringToFront();
             Show();
         }
@@ -131,7 +130,5 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Cerrar() {
             Dispose();
         }
-
-        
     }
 }
