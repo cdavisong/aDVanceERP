@@ -446,8 +446,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     c.codigo_cliente,
                     per.nombre_completo as nombre_cliente
                 FROM adv__venta v
-                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
-                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
                 LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
                     AND p.estado_pago IN ('Confirmado', 'Pendiente')
                 WHERE v.estado_venta NOT IN ('Anulada')
@@ -490,8 +490,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     per.nombre_completo as nombre_cliente as nombre_cliente,
                     DATEDIFF(NOW(), v.fecha_venta) as dias_sin_pago
                 FROM adv__venta v
-                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
-                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
                 LEFT JOIN adv__pago p ON v.id_venta = p.id_venta
                 WHERE v.estado_venta NOT IN ('Anulada')
                     AND v.activo = 1
@@ -531,8 +531,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     c.codigo_cliente,
                     per.nombre_completo as nombre_cliente
                 FROM adv__venta v
-                INNER JOIN adv__cliente c ON v.id_cliente = c.id_cliente
-                INNER JOIN adv__persona per ON c.id_persona = per.id_persona
+                LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
+                LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
                 INNER JOIN adv__pago p ON v.id_venta = p.id_venta
                 WHERE v.estado_venta NOT IN ('Anulada')
                     AND v.activo = 1
