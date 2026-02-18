@@ -163,9 +163,9 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                         ["Código"] = (columnas["Código"], producto["codigo"], XStringFormats.CenterLeft),
                         ["Producto"] = (columnas["Producto"], TruncarTexto(producto["nombre"], FontContenido, gfx, columnas["Producto"] - 15), XStringFormats.CenterLeft),
                         ["Cant."] = (columnas["Cant."], cantidad.ToString("N2"), XStringFormats.CenterRight),
-                        ["P. Unit."] = (columnas["P. Unit."], precioUnitario.ToString("C2"), XStringFormats.CenterRight),
-                        ["Desc."] = (columnas["Desc."], descuento.ToString("C2"), XStringFormats.CenterRight),
-                        ["Subtotal"] = (columnas["Subtotal"], subtotal.ToString("C2"), XStringFormats.CenterRight)
+                        ["P. Unit."] = (columnas["P. Unit."], "$" + precioUnitario.ToString("N2"), XStringFormats.CenterRight),
+                        ["Desc."] = (columnas["Desc."], "$" + descuento.ToString("N2"), XStringFormats.CenterRight),
+                        ["Subtotal"] = (columnas["Subtotal"], "$" + subtotal.ToString("N2"), XStringFormats.CenterRight)
                     };
 
                     DibujarFilaTabla(gfx, yPos, datosProducto, numeroFila % 2 == 0, 20);
@@ -186,11 +186,11 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 decimal importeTotal = decimal.Parse(_datosVenta["importe_total"], CultureInfo.InvariantCulture);
 
                 var totales = new Dictionary<string, string> {
-                    ["SUBTOTAL"] = totalBruto.ToString("C2"),
-                    ["DESCUENTO"] = descuentoTotal.ToString("C2"),
-                    ["BASE IMPONIBLE"] = (totalBruto - descuentoTotal).ToString("C2"),
-                    ["IMPUESTOS"] = impuestoTotal.ToString("C2"),
-                    ["TOTAL A PAGAR"] = importeTotal.ToString("C2")
+                    ["SUBTOTAL"] = "$" + totalBruto.ToString("N2"),
+                    ["DESCUENTO"] = "$" + descuentoTotal.ToString("N2"),
+                    ["BASE IMPONIBLE"] = "$" + (totalBruto - descuentoTotal).ToString("N2"),
+                    ["IMPUESTOS"] = "$" + impuestoTotal.ToString("N2"),
+                    ["TOTAL A PAGAR"] = "$" + importeTotal.ToString("N2")
                 };
 
                 DibujarSeccionTotales(gfx, yPos, totales, 350);
@@ -514,12 +514,12 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
 
             // Columna izquierda - Cliente
             var datosCliente = new Dictionary<string, string> {
-                ["Cliente"] = _datosCliente["nombre_completo"],
-                ["Documento"] = $"{_datosCliente["tipo_documento"]}: {_datosCliente["numero_documento"]}",
-                ["Código Cliente"] = _datosCliente["codigo_cliente"]
+                ["Cliente"] = _datosCliente.Count > 0 ? _datosCliente["nombre_completo"] : "Anónimo",
+                ["Documento"] = _datosCliente.Count > 0 ? $"{_datosCliente["tipo_documento"]}: {_datosCliente["numero_documento"]}" : "N/A",
+                ["Código Cliente"] = _datosCliente.Count > 0 ? _datosCliente["codigo_cliente"] : "N/A"
             };
 
-            if (!string.IsNullOrEmpty(_datosCliente["direccion_principal"])) {
+            if (_datosCliente.Count > 0 && !string.IsNullOrEmpty(_datosCliente["direccion_principal"])) {
                 var lineasDireccion = ObtenerLineasTexto(_datosCliente["direccion_principal"], 
                     FontContenidoNegrita, gfx, anchoColumna / 2);
 
@@ -630,28 +630,27 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 connection.Open();
 
                 var query = """
-                SELECT 
-                    v.id_venta,
-                    v.id_cliente,
-                    v.id_empleado_vendedor,
-                    v.id_almacen,
-                    v.numero_factura_ticket,
-                    v.fecha_venta,
-                    v.total_bruto,
-                    v.descuento_total,
-                    v.impuesto_total,
-                    v.importe_total,
-                    v.metodo_pago_principal,
-                    v.estado_venta,
-                    v.observaciones_venta,
-                    a.nombre as nombre_almacen,
-                    CONCAT(p.nombre_completo) as nombre_vendedor
-                FROM adv__venta v
-                INNER JOIN adv__almacen a ON v.id_almacen = a.id_almacen
-                LEFT JOIN adv__empleado e ON v.id_empleado_vendedor = e.id_empleado
-                LEFT JOIN adv__persona p ON e.id_persona = p.id_persona
-                WHERE v.id_venta = @idVenta
-                """;
+                    SELECT 
+                        v.id_venta,
+                        v.id_cliente,
+                        v.id_empleado_vendedor,
+                        v.id_almacen,
+                        v.numero_factura_ticket,
+                        v.fecha_venta,
+                        v.total_bruto,
+                        v.descuento_total,
+                        v.impuesto_total,
+                        v.importe_total,
+                        v.metodo_pago_principal,
+                        v.estado_venta,
+                        v.observaciones_venta,
+                        a.nombre as nombre_almacen,
+                        cu.nombre as nombre_vendedor
+                    FROM adv__venta v
+                    INNER JOIN adv__almacen a ON v.id_almacen = a.id_almacen
+                    LEFT JOIN adv__cuenta_usuario cu ON v.id_empleado_vendedor = cu.id_cuenta_usuario
+                    WHERE v.id_venta = @idVenta
+                    """;
 
                 using (var command = new MySqlCommand(query, connection)) {
                     command.Parameters.AddWithValue("@idVenta", idVenta);
@@ -662,10 +661,10 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                             datos["id_cliente"] = reader["id_cliente"].ToString();
                             datos["numero_factura_ticket"] = reader["numero_factura_ticket"]?.ToString() ?? "N/A";
                             datos["fecha_venta"] = reader["fecha_venta"].ToString();
-                            datos["total_bruto"] = reader["total_bruto"].ToString();
-                            datos["descuento_total"] = reader["descuento_total"].ToString();
-                            datos["impuesto_total"] = reader["impuesto_total"].ToString();
-                            datos["importe_total"] = reader["importe_total"].ToString();
+                            datos["total_bruto"] = reader.GetDecimal("total_bruto").ToString("N2", CultureInfo.InvariantCulture);
+                            datos["descuento_total"] = reader.GetDecimal("descuento_total").ToString("N2", CultureInfo.InvariantCulture);
+                            datos["impuesto_total"] = reader.GetDecimal("impuesto_total").ToString("N2", CultureInfo.InvariantCulture);
+                            datos["importe_total"] = reader.GetDecimal("importe_total").ToString("N2", CultureInfo.InvariantCulture);
                             datos["metodo_pago_principal"] = reader["metodo_pago_principal"]?.ToString() ?? "N/A";
                             datos["estado_venta"] = reader["estado_venta"].ToString();
                             datos["observaciones_venta"] = reader["observaciones_venta"]?.ToString() ?? "";
@@ -691,17 +690,17 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 connection.Open();
 
                 var query = """
-                SELECT 
-                    c.codigo_cliente,
-                    c.limite_credito,
-                    p.nombre_completo,
-                    p.tipo_documento,
-                    p.numero_documento,
-                    p.direccion_principal
-                FROM adv__cliente c
-                INNER JOIN adv__persona p ON c.id_persona = p.id_persona
-                WHERE c.id_cliente = @idCliente
-                """;
+                    SELECT 
+                        c.codigo_cliente,
+                        c.limite_credito,
+                        p.nombre_completo,
+                        p.tipo_documento,
+                        p.numero_documento,
+                        p.direccion_principal
+                    FROM adv__cliente c
+                    INNER JOIN adv__persona p ON c.id_persona = p.id_persona
+                    WHERE c.id_cliente = @idCliente
+                    """;
 
                 using (var command = new MySqlCommand(query, connection)) {
                     command.Parameters.AddWithValue("@idCliente", idCliente);
@@ -732,20 +731,20 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 connection.Open();
 
                 var query = """
-                SELECT 
-                    p.codigo,
-                    p.nombre,
-                    dvp.cantidad,
-                    dvp.precio_venta_unitario,
-                    dvp.descuento_item,
-                    dvp.subtotal,
-                    um.abreviatura as unidad_medida
-                FROM adv__detalle_venta_producto dvp
-                INNER JOIN adv__producto p ON dvp.id_producto = p.id_producto
-                LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
-                WHERE dvp.id_venta = @idVenta
-                ORDER BY dvp.id_detalle_venta_producto
-                """;
+                    SELECT 
+                        p.codigo,
+                        p.nombre,
+                        dvp.cantidad,
+                        dvp.precio_venta_unitario,
+                        dvp.descuento_item,
+                        dvp.subtotal,
+                        um.abreviatura as unidad_medida
+                    FROM adv__detalle_venta_producto dvp
+                    INNER JOIN adv__producto p ON dvp.id_producto = p.id_producto
+                    LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
+                    WHERE dvp.id_venta = @idVenta
+                    ORDER BY dvp.id_detalle_venta_producto
+                    """;
 
                 using (var command = new MySqlCommand(query, connection)) {
                     command.Parameters.AddWithValue("@idVenta", idVenta);

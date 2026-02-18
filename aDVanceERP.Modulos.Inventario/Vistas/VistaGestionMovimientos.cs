@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -81,6 +81,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? MostrarUltimaPagina;
         public event EventHandler? SincronizarDatos;
 
+        public event EventHandler<(DateTime fechaDesde, DateTime fechaHasta, FormatoDocumento formato)>? AuditarInventario;
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
@@ -103,6 +104,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldDatoBusquedaFecha.Value.ToString("yyyy-MM-dd") }));
             };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
+            btnAuditarInventarioPdf.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.PDF)); };
+            btnAuditarInventarioXls.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.Excel)); };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);
@@ -166,7 +169,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            
             BringToFront();
             Show();
         }
@@ -175,6 +177,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             PaginaActual = 1;
             PaginasTotales = 1;
 
+            fieldFechaDesde.Value = DateTime.Now;
+            fieldFechaHasta.Value = DateTime.Now;
             fieldFiltroBusqueda.SelectedIndex = 0;
         }
 

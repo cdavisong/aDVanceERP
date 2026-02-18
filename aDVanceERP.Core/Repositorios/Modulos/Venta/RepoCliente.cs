@@ -105,7 +105,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     { "@id_cliente", long.Parse(criterio) }
                 },
                 FiltroBusquedaCliente.IdPersona => new Dictionary<string, object> {
-                    { "@id_persona", long.Parse(criterio) }
+                    { "@id_persona", long.TryParse(criterio, out var idPersona) ? idPersona : 0 }
                 },
                 FiltroBusquedaCliente.CodigoCliente => new Dictionary<string, object> {
                     { "@codigo_cliente", criterio }
