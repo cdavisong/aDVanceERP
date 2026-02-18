@@ -189,6 +189,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 fieldPrefijoInternacionalCliente.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaisesCliente.Text)}";
                 fieldNumeroTelefonoCliente.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaisesCliente.Text);
             };
+            fieldNombreCompletoMensajero.KeyDown += delegate (object? sender, KeyEventArgs args) {
+                if (args.KeyCode != Keys.Enter)
+                    return;
+
+                ObtenerDatosMensajeroSeleccionado();
+
+                args.SuppressKeyPress = true;
+            };
             fieldPaisesMensajero.SelectedIndexChanged += delegate {
                 fieldPrefijoInternacionalCliente.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaisesMensajero.Text)}";
                 fieldNumeroTelefonoMensajero.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaisesMensajero.Text);
@@ -228,9 +236,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private void ObtenerDatosClienteSeleccionado() {
-            if (_clienteSeleccionado != null && fieldNombreCompletoCliente.Text == _personaClienteSeleccionada?.NombreCompleto)
-                return;
-
             _personaClienteSeleccionada = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.NombreCompleto, fieldNombreCompletoCliente.Text).resultadosBusqueda.FirstOrDefault().entidadBase;
             _clienteSeleccionado = RepoCliente.Instancia.Buscar(FiltroBusquedaCliente.IdPersona, _personaClienteSeleccionada?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault().entidadBase;
             _telefonoContactoClienteSeleccionado = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _personaClienteSeleccionada?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault(t => t.entidadBase.Categoria == CategoriaTelefonoContacto.Movil).entidadBase;
@@ -251,6 +256,28 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldLimiteCredito.Text = _clienteSeleccionado != null ? _clienteSeleccionado.LimiteCredito.ToString("N2", CultureInfo.InvariantCulture) : string.Empty;
             fieldPaisesCliente.SelectedItem = _telefonoContactoClienteSeleccionado != null ? PrefijosInternacionales.ObtenerPais(_telefonoContactoClienteSeleccionado.PrefijoPais) : "Cuba";
             fieldNumeroTelefonoCliente.Text = _telefonoContactoClienteSeleccionado?.NumeroTelefono ?? string.Empty;
+        }
+
+        private void ObtenerDatosMensajeroSeleccionado() {
+            _personaMensajeroSeleccionado = RepoPersona.Instancia.Buscar(FiltroBusquedaPersona.NombreCompleto, fieldNombreCompletoMensajero.Text).resultadosBusqueda.FirstOrDefault().entidadBase;
+            _mensajeroSeleccionado = RepoMensajero.Instancia.Buscar(FiltroBusquedaMensajero.IdPersona, _personaMensajeroSeleccionado?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault().entidadBase;
+            _telefonoContactoMensajeroSeleccionado = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _personaMensajeroSeleccionado?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault(t => t.entidadBase.Categoria == CategoriaTelefonoContacto.Movil).entidadBase;
+
+            if (_mensajeroSeleccionado == null || _personaMensajeroSeleccionado == null) {
+                CentroNotificaciones.MostrarNotificacion("El mensajero seleccionado no es válido o no existe en el sistema.", TipoNotificacion.Error);
+                return;
+            }
+
+            ActualizarDatosMensajero();
+        }
+
+        private void ActualizarDatosMensajero() {
+            fieldNombreCompletoMensajero.Text = _personaMensajeroSeleccionado?.NombreCompleto ?? string.Empty;
+            fieldTipoDocumentoMensajero.SelectedIndex = _personaMensajeroSeleccionado != null ? (int)_personaMensajeroSeleccionado.TipoDocumento : 0;
+            fieldNumeroDocumentoMensajero.Text = _personaMensajeroSeleccionado?.NumeroDocumento ?? string.Empty;
+            fieldMatricula.Text = _mensajeroSeleccionado?.MatriculaVehiculo ?? string.Empty;
+            fieldPaisesMensajero.SelectedItem = _telefonoContactoMensajeroSeleccionado != null ? PrefijosInternacionales.ObtenerPais(_telefonoContactoMensajeroSeleccionado.PrefijoPais) : "Cuba";
+            fieldNumeroTelefonoMensajero.Text = _telefonoContactoMensajeroSeleccionado?.NumeroTelefono ?? string.Empty;
         }
 
         public void Mostrar() {

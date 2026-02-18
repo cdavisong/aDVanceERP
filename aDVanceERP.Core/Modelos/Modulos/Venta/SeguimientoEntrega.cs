@@ -9,13 +9,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             MontoCobradoAlCliente = 0.0m;
         }
 
-        public SeguimientoEntrega(long id, long idVenta, long? idMensajero,
+        public SeguimientoEntrega(long id, long idVenta, long idCliente, long? idMensajero,
                                  TipoEnvioEnum tipoEnvio, DateTime? fechaAsignacion,
                                  DateTime? fechaEntregaRealizada, DateTime? fechaPagoNegocio,
                                  EstadoEntregaEnum estadoEntrega, decimal montoCobradoAlCliente,
                                  string observacionesEntrega) {
             Id = id;
             IdVenta = idVenta;
+            IdCliente = idCliente;
             IdMensajero = idMensajero;
             TipoEnvio = tipoEnvio;
             FechaAsignacion = fechaAsignacion;
@@ -28,6 +29,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
 
         public long Id { get; set; }
         public long IdVenta { get; set; }
+        public long IdCliente { get; set; }
         public long? IdMensajero { get; set; }
         public TipoEnvioEnum TipoEnvio { get; set; }
         public DateTime? FechaAsignacion { get; set; }
@@ -56,14 +58,18 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         Entregado,
         [Display(Name = "Pago Recibido")]
         PagoRecibido,
+        Completado,
         Cancelado,
-        Fallido
+        Fallido,
+        [Display(Name = "En Espera")]
+        EnEspera
     }
 
     public enum FiltroBusquedaSeguimientoEntrega {
         Todos,
         Id,
         IdVenta,
+        IdCliente,
         IdMensajero,
         Estado
     }
@@ -73,6 +79,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             "Todos los seguimientos",
             "Identificador de BD",
             "Identificador de la venta",
+            "Identificador del cliente",
             "Identificador del mensajero",
             "Estado de entrega"
         };

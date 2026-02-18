@@ -72,9 +72,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public string NumeroTransaccion {
             get => fieldNumeroTransferencia.Text;
-            set => fieldNumeroTransferencia.Text = string.IsNullOrEmpty(value)
+            set {
+                fieldNumeroTransferencia.Text = string.IsNullOrEmpty(value)
                 ? "-"
                 : value;
+                fieldNumeroTransferencia.Margin = fieldNumeroTransferencia.AjusteAutomaticoMargenTexto();
+            }
         }
 
         public decimal MontoPagado {

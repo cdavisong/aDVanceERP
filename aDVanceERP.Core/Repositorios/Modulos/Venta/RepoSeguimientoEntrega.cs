@@ -16,6 +16,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var comando = $"""
                 INSERT INTO adv__seguimiento_entrega (
                     id_venta,
+                    id_cliente,
                     id_mensajero,
                     tipo_envio,
                     fecha_asignacion,
@@ -26,6 +27,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     observaciones_entrega
                 ) VALUES (
                     @id_venta,
+                    @id_cliente,
                     @id_mensajero,
                     @tipo_envio,
                     @fecha_asignacion,
@@ -39,6 +41,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_venta", entidad.IdVenta },
+                { "@id_cliente", entidad.IdCliente },
                 { "@id_mensajero", entidad.IdMensajero.HasValue ? entidad.IdMensajero.Value : DBNull.Value },
                 { "@tipo_envio", entidad.TipoEnvio.ToString() },
                 { "@fecha_asignacion", entidad.FechaAsignacion.HasValue ? entidad.FechaAsignacion.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
@@ -57,6 +60,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 UPDATE adv__seguimiento_entrega 
                 SET 
                     id_venta = @id_venta,
+                    id_cliente = @id_cliente,
                     id_mensajero = @id_mensajero,
                     tipo_envio = @tipo_envio,
                     fecha_asignacion = @fecha_asignacion,
@@ -71,6 +75,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_seguimiento", entidad.Id },
                 { "@id_venta", entidad.IdVenta },
+                { "@id_cliente", entidad.IdCliente },
                 { "@id_mensajero", entidad.IdMensajero.HasValue ? entidad.IdMensajero.Value : DBNull.Value },
                 { "@tipo_envio", entidad.TipoEnvio.ToString() },
                 { "@fecha_asignacion", entidad.FechaAsignacion.HasValue ? entidad.FechaAsignacion.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
@@ -120,6 +125,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     {consultaComun}
                     WHERE se.id_venta = @id_venta
                     """,
+                FiltroBusquedaSeguimientoEntrega.IdCliente => $"""
+                    {consultaComun}
+                    WHERE se.id_cliente = @id_cliente
+                    """,
                 FiltroBusquedaSeguimientoEntrega.IdMensajero => $"""
                     {consultaComun}
                     WHERE se.id_mensajero = @id_mensajero
@@ -138,6 +147,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 FiltroBusquedaSeguimientoEntrega.IdVenta => new Dictionary<string, object> {
                     { "@id_venta", long.Parse(criterio) }
                 },
+                FiltroBusquedaSeguimientoEntrega.IdCliente => new Dictionary<string, object> {
+                    { "@id_cliente", long.Parse(criterio) }
+                },
                 FiltroBusquedaSeguimientoEntrega.IdMensajero => new Dictionary<string, object> {
                     { "@id_mensajero", long.Parse(criterio) }
                 },
@@ -154,6 +166,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var seguimiento = new SeguimientoEntrega {
                 Id = Convert.ToInt64(lector["id_seguimiento_entrega"]),
                 IdVenta = Convert.ToInt64(lector["id_venta"]),
+                IdCliente = Convert.ToInt64(lector["id_cliente"]),
                 IdMensajero = lector["id_mensajero"] != DBNull.Value ? Convert.ToInt64(lector["id_mensajero"]) : null,
                 TipoEnvio = Enum.Parse<TipoEnvioEnum>(Convert.ToString(lector["tipo_envio"]) ?? "RetiroEnLocal"),
                 FechaAsignacion = lector["fecha_asignacion"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_asignacion"]) : null,
@@ -206,45 +219,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
-        public bool MarcarEnRuta(long idSeguimiento) {
-            var consulta = $"""
-                UPDATE adv__seguimiento_entrega
-                SET estado_entrega = 'En Ruta'
-                WHERE id_seguimiento_entrega = @id_seguimiento
-                AND estado_entrega = 'Asignado';
-                """;
-
-            var parametros = new Dictionary<string, object> {
-                { "@id_seguimiento", idSeguimiento }
-            };
-
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
-        public bool MarcarEntregado(long idSeguimiento, decimal montoCobrado, string observaciones = null) {
-            var consulta = $"""
-                UPDATE adv__seguimiento_entrega
-                SET estado_entrega = 'Entregado',
-                    fecha_entrega_realizada = NOW(),
-                    monto_cobrado_al_cliente = @monto_cobrado,
-                    observaciones_entrega = @observaciones
-                WHERE id_seguimiento_entrega = @id_seguimiento
-                AND estado_entrega IN ('Asignado', 'En Ruta');
-                """;
-
-            var parametros = new Dictionary<string, object> {
-                { "@id_seguimiento", idSeguimiento },
-                { "@monto_cobrado", montoCobrado },
-                { "@observaciones", observaciones }
-            };
-
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
         public bool RegistrarPagoRecibido(long idSeguimiento) {
             var consulta = $"""
                 UPDATE adv__seguimiento_entrega
-                SET estado_entrega = 'Pago Recibido',
+                SET estado_entrega = 'PagoRecibido',
                     fecha_pago_negocio = NOW()
                 WHERE id_seguimiento_entrega = @id_seguimiento
                 AND estado_entrega = 'Entregado';
@@ -252,23 +230,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             var parametros = new Dictionary<string, object> {
                 { "@id_seguimiento", idSeguimiento }
-            };
-
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
-        public bool CancelarEntrega(long idSeguimiento, string motivo) {
-            var consulta = $"""
-                UPDATE adv__seguimiento_entrega
-                SET estado_entrega = 'Cancelado',
-                    observaciones_entrega = CONCAT(COALESCE(observaciones_entrega, ''), '\\nCancelado: ', @motivo)
-                WHERE id_seguimiento_entrega = @id_seguimiento
-                AND estado_entrega NOT IN ('Entregado', 'Pago Recibido');
-                """;
-
-            var parametros = new Dictionary<string, object> {
-                { "@id_seguimiento", idSeguimiento },
-                { "@motivo", motivo }
             };
 
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
@@ -354,6 +315,35 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
         }
+
+        public bool CambiarEstadoEntrega(long idSeguimientoEntrega, EstadoEntregaEnum nuevoEstado) {
+            var consulta = $"""
+                UPDATE adv__seguimiento_entrega
+                SET 
+                    estado_entrega = @nuevo_estado,
+                    fecha_asignacion = CASE 
+                        WHEN @nuevo_estado = 'Asignado' THEN NOW() 
+                        ELSE fecha_asignacion 
+                    END,
+                    fecha_entrega_realizada = CASE 
+                        WHEN @nuevo_estado = 'Entregado' THEN NOW() 
+                        ELSE fecha_entrega_realizada 
+                    END,
+                    fecha_pago_negocio = CASE 
+                        WHEN @nuevo_estado = 'PagoRecibido' THEN NOW() 
+                        ELSE fecha_pago_negocio 
+                    END
+                WHERE id_seguimiento_entrega = @id_seguimiento
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_seguimiento", idSeguimientoEntrega },
+                { "@nuevo_estado", nuevoEstado.ToString() }
+            };
+
+            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
+        }
+
         #endregion
     }
 }

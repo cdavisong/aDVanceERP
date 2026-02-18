@@ -178,6 +178,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // 
             // fieldNumeroTransferencia
             // 
+            fieldNumeroTransferencia.AutoEllipsis = true;
             fieldNumeroTransferencia.Dock = DockStyle.Fill;
             fieldNumeroTransferencia.Font = new Font("Segoe UI", 11.25F);
             fieldNumeroTransferencia.ForeColor = Color.DimGray;

@@ -240,6 +240,22 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
+        public string[] ObtenerNombres() {
+            var consulta = $"""
+                SELECT p.nombre_completo
+                FROM adv__persona p
+                LEFT JOIN adv__mensajero m ON p.id_persona = m.id_persona
+                WHERE p.activo = 1; -- Opcional: solo personas activas
+                """;
+            var parametros = new Dictionary<string, object>();
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearNombreCompleto).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
+        private (string, List<IEntidadBaseDatos>) MapearNombreCompleto(MySqlDataReader lector) {
+            return (Convert.ToString(lector["nombre_completo"]) ?? string.Empty, []);
+        }
+
         #endregion
     }
 }
