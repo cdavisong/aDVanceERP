@@ -14,7 +14,6 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
-using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
@@ -74,7 +73,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.TotalBruto = entidad.TotalBruto;
             presentadorTupla.Vista.DescuentoTotal = entidad.DescuentoTotal;
             presentadorTupla.Vista.ImpuestoTotal = entidad.ImpuestoTotal;
-            presentadorTupla.Vista.ImporteTotal = entidad.ImporteTotal;            
+            presentadorTupla.Vista.ImporteTotal = entidad.ImporteTotal;
             presentadorTupla.Vista.Activo = entidad.Activo;
             presentadorTupla.Vista.EstadoVenta = entidad.EstadoVenta;
             presentadorTupla.Vista.ExportarFacturaVenta += OnExportarDocumentoFacturaVenta;
@@ -99,14 +98,22 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 var repoPedido = RepoPedido.Instancia;
                 var pedido = repoPedido.ObtenerPorId(venta.IdPedido);
 
-                if (pedido != null) 
+                if (pedido != null)
                     repoPedido.CambiarEstadoPedido(pedido.Id, EstadoPedidoEnum.Cancelado);
             }
 
+            // Verificar si la venta tiene un envío asociado y solicitar cancelar los pagos desde la ventana de envíos
+            var repoSeguimientoEntrega = RepoSeguimientoEntrega.Instancia;
+            var envio = 
+
             // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
             var repoPago = RepoPago.Instancia;
-            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta)
-            if 
+            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
+
+            if (pagosVenta?.Count > 0) {
+                foreach (var pago in pagosVenta)
+                    repoPago.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Anulado);                
+            }
 
             // Crear movimiento de inventario
             foreach (var detalleVenta in detallesVenta) {
