@@ -4,6 +4,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaRegistroProducto : IVistaRegistro {
         Image? Imagen { get; set; }
+        string RutaImagen { get; }
         CategoriaProducto Categoria { get; set; }
         string NombreProducto { get; set; }
         string? Codigo { get; set; }
@@ -23,6 +24,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         decimal CantidadMinima { get; set; }
         bool HabilitarNotificacionesStockBajo { get; set; }
 
+        void SalvarImagenEnDirectorioLocal();
         void CargarNombresProveedores(string[] nombresProvedores);
         void CargarUnidadesMedida(UnidadMedida[] unidadesMedida);
         void CargarClasificaciones(ClasificacionProducto[] nombresClasificaciones);

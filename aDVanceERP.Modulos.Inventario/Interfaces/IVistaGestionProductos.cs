@@ -7,6 +7,8 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string? NombreAlmacen { get; }
         decimal ValorTotalInventario { get; }
 
+        event EventHandler? GenerarCatalogoProductos;
+
         void CargarFiltroAlmacenes(object[] nombresAlmacenes);
     }
 }

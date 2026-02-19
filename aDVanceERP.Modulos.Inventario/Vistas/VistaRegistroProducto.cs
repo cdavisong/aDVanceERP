@@ -9,6 +9,7 @@ using System.Globalization;
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaRegistroProducto : Form, IVistaRegistroProducto {
         private bool _modoEdicion = false;
+        private string _rutaImagen = string.Empty;
         private decimal _costoAdquisicionUnitario = 0;
         private decimal _costoProduccionUnitario = 0;
         private UnidadMedida[] _unidadesMedida = Array.Empty<UnidadMedida>();
@@ -22,7 +23,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Inicializar();
         }
 
-        public bool ModoEdicion { 
+        public bool ModoEdicion {
             get => _modoEdicion;
             set {
                 _modoEdicion = value;
@@ -74,8 +75,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public CategoriaProducto Categoria { 
-            get => (CategoriaProducto) fieldCategoriaProducto.SelectedIndex;
+        public string RutaImagen { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos", $"{Codigo}.{Path.GetExtension(_rutaImagen)}"); }
+
+        public CategoriaProducto Categoria {
+            get => (CategoriaProducto)fieldCategoriaProducto.SelectedIndex;
             set {
                 fieldCategoriaProducto.SelectedItem = value;
 
@@ -84,7 +87,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public string NombreProducto { 
+        public string NombreProducto {
             get => fieldNombreProducto.Text;
             set => fieldNombreProducto.Text = value;
         }
@@ -94,27 +97,27 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldCodigo.Text = value;
         }
 
-        public string NombreProveedor { 
+        public string NombreProveedor {
             get => fieldNombreProveedor.Text;
             set => fieldNombreProveedor.Text = value;
         }
 
-        public string Descripcion { 
+        public string Descripcion {
             get => fieldDescripcion.Text;
             set => fieldDescripcion.Text = value;
         }
 
         public string NombreUnidadMedida {
-            get => fieldUnidadMedida.Text; 
+            get => fieldUnidadMedida.Text;
             set => fieldUnidadMedida.Text = value;
         }
 
-        public string NombreClasificacionProducto { 
+        public string NombreClasificacionProducto {
             get => fieldClasificacionProducto.Text;
             set => fieldClasificacionProducto.SelectedItem = value;
         }
 
-        public bool EsVendible { 
+        public bool EsVendible {
             get => fieldEsVendible.Checked;
             set => fieldEsVendible.Checked = value;
         }
@@ -135,7 +138,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public decimal CostoAdquisicionUnitario { 
+        public decimal CostoAdquisicionUnitario {
             get => _costoAdquisicionUnitario;
         }
 
@@ -149,7 +152,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     ? fieldImpuestoVentaPorcentaje.Text
                     : fieldImpuestoVentaPorcentaje.PlaceholderText;
 
-                return decimal.TryParse(impuestoVentaPorcentaje, CultureInfo.InvariantCulture, out var value) ? value : 0m; 
+                return decimal.TryParse(impuestoVentaPorcentaje, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             }
             set => fieldImpuestoVentaPorcentaje.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
@@ -160,12 +163,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     ? fieldMargenGananciaDeseado.Text
                     : fieldMargenGananciaDeseado.PlaceholderText;
 
-                return decimal.TryParse(margenGananciaDeseado, CultureInfo.InvariantCulture, out var value) ? value : 0m; 
+                return decimal.TryParse(margenGananciaDeseado, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             }
             set => fieldMargenGananciaDeseado.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public decimal PrecioVentaBase { 
+        public decimal PrecioVentaBase {
             get => decimal.TryParse(fieldPrecioVentaBase.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             set => fieldPrecioVentaBase.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
@@ -175,12 +178,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldNombreAlmacen.Text = value;
         }
 
-        public decimal CantidadInicial { 
+        public decimal CantidadInicial {
             get => decimal.TryParse(fieldCantidadInicial.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             set => fieldCantidadInicial.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public decimal CantidadMinima { 
+        public decimal CantidadMinima {
             get => decimal.TryParse(fieldCantidadMinima.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             set => fieldCantidadMinima.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
@@ -195,6 +198,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
+            fieldImagen.Click += ObtenerImagenProducto;
             fieldCategoriaProducto.SelectedIndexChanged += ActualizarDescripcionCategoria;
             fieldCategoriaProducto.SelectedIndexChanged += ActualizarVisibilidadCostosPorCategoria;
             fieldUnidadMedida.SelectedIndexChanged += ActualizarDescripcionUnidadMedida;
@@ -215,8 +219,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void ObtenerImagenProducto(object? sender, EventArgs e) {
+            // Crear el directorio base si no existe en la ruta res/imagenes/productos
+            var directorioBase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos");
+
+            if (!Directory.Exists(directorioBase))
+                Directory.CreateDirectory(directorioBase);
+
+            if (fieldDialogoImagen.ShowDialog() == DialogResult.OK) {
+                _rutaImagen = fieldDialogoImagen.FileName;
+
+                Imagen = Image.FromFile(_rutaImagen);
+            }
+        }
+
         private void ActualizarDescripcionCategoria(object? sender, EventArgs e) {
-            toolTip1.SetToolTip(fieldCategoriaProducto, UtilesCategoriaProducto.DescripcionesProducto[(int) Categoria]);
+            toolTip1.SetToolTip(fieldCategoriaProducto, UtilesCategoriaProducto.DescripcionesProducto[(int)Categoria]);
         }
 
         private void ActualizarVisibilidadCostosPorCategoria(object? sender, EventArgs e) {
@@ -260,7 +278,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void ActualizarCostoUnitario(object? sender, EventArgs e) {
-            _costoAdquisicionUnitario = Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) ? valueAdq: 0m : 0m;
+            _costoAdquisicionUnitario = Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) ? valueAdq : 0m : 0m;
             _costoProduccionUnitario = Categoria == CategoriaProducto.ProductoTerminado ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueProd) ? valueProd : 0m : 0m;
         }
 
@@ -299,6 +317,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Cerrar() {
             Dispose();
+        }
+
+        public void SalvarImagenEnDirectorioLocal() {
+            if (string.IsNullOrEmpty(_rutaImagen) || Imagen == null)
+                return;
+
+            if (File.Exists(RutaImagen))
+                File.Delete(RutaImagen);
+
+            File.Copy(_rutaImagen, RutaImagen);
         }
 
         public void CargarNombresProveedores(string[] nombresProvedores) {

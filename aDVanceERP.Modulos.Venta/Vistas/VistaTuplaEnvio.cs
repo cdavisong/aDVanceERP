@@ -1,7 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
-using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
@@ -74,7 +73,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _tipoEnvio;
             set {
                 _tipoEnvio = value;
-                fieldTipoEnvio.Text = value.ObtenerDisplayName(); 
+                fieldTipoEnvio.Text = value.ObtenerDisplayName();
             }
         }
 
@@ -98,7 +97,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public string? ObservacionesEntrega {
             get => fieldObservaciones.Text;
-            set { 
+            set {
                 fieldObservaciones.Text = value;
                 fieldObservaciones.Margin = fieldObservaciones.AjusteAutomaticoMargenTexto();
             }
@@ -119,8 +118,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set {
                 _estadoEntrega = value;
                 fieldEstado.Text = value.ObtenerDisplayName();
-                btnConfirmar.Enabled = value == EstadoEntregaEnum.PendienteAsignacion;
-                btnCambiarEstado.Enabled = value != EstadoEntregaEnum.PendienteAsignacion && value != EstadoEntregaEnum.Cancelado && value != EstadoEntregaEnum.Completado;
+                fieldEstado.Font = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
+                fieldEstado.ForeColor = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? Color.DimGray : Color.DodgerBlue;
+                fieldEstado.Cursor = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? Cursors.Default : Cursors.Hand;
                 btnCancelar.Enabled = value != EstadoEntregaEnum.Cancelado && value != EstadoEntregaEnum.PagoRecibido && value != EstadoEntregaEnum.Completado;
                 ColorFondoTupla = ObtenerColorFondoTupla(_estadoEntrega);
             }
@@ -128,74 +128,49 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
+        public event EventHandler<(long idEnvio, long idVenta, EstadoEntregaEnum estado)> CambioEstadoEnvio;
 
         public void Inicializar() {
             // Eventos
-            btnConfirmar.Click += delegate (object? sender, EventArgs e) {
-                EstadoEntrega = EstadoEntregaEnum.Asignado;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.Asignado);                
-            };
-            btnCambiarEstado.Click += delegate {
-                if (TipoEnvio == TipoEnvioEnum.MensajeriaConFondo) {
-                    btnCambiarEstado.ContextMenuStrip?.Items.Remove(btnEstadoPagoRecibido);
-                }
+            fieldEstado.Click += delegate {
+                if (EstadoEntrega == EstadoEntregaEnum.Completado)
+                    return;
 
-                btnCambiarEstado.ContextMenuStrip?.Show(btnCambiarEstado, new Point(0, 40)); 
+                btnAsignado.Visible = EstadoEntrega == EstadoEntregaEnum.Fallido;
+                btnEstadoEnRuta.Visible = EstadoEntrega == EstadoEntregaEnum.Asignado;
+                btnEstadoEntregado.Visible = EstadoEntrega == EstadoEntregaEnum.EnRuta;
+                btnEstadoPagoRecibido.Visible = EstadoEntrega == EstadoEntregaEnum.Entregado || EstadoEntrega == EstadoEntregaEnum.EnEspera;
+                btnEstadoCompletado.Visible = EstadoEntrega == EstadoEntregaEnum.PagoRecibido;
+                btnEstadoFallido.Visible = EstadoEntrega == EstadoEntregaEnum.EnRuta;
+                fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
+            };
+            btnAsignado.Click += delegate (object? sender, EventArgs e) {
+                EstadoEntrega = EstadoEntregaEnum.Asignado;
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnEstadoEnRuta.Click += delegate (object? sender, EventArgs e) {
                 EstadoEntrega = EstadoEntregaEnum.EnRuta;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.EnRuta);
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnEstadoEntregado.Click += delegate (object? sender, EventArgs e) {
                 EstadoEntrega = EstadoEntregaEnum.Entregado;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.Entregado);
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnEstadoPagoRecibido.Click += delegate (object? sender, EventArgs e) {
-                if (CentroNotificaciones.MostrarMensaje(
-                    "Está seguro de confirmar los pagos recibidos por la venta?",
-                    Core.Modelos.Comun.TipoMensaje.Info,
-                    Core.Modelos.Comun.BotonesMensaje.SiNo) == DialogResult.Yes) {
-                    EstadoEntrega = EstadoEntregaEnum.PagoRecibido;
-                    RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.PagoRecibido);
-
-                    // Confirmar pagos pendientes de la venta
-                    var venta = RepoVenta.Instancia.ObtenerPorId(IdVenta);
-                    var pagosVenta = RepoPago.Instancia.Buscar(FiltroBusquedaPago.IdVenta, venta?.Id.ToString() ?? "0").resultadosBusqueda.Select(r => r.entidadBase).ToList();
-
-                    if (pagosVenta.Count == 0) {
-                        // Registrar nuevo pago
-                        var pago = new Pago() {
-                            Id = 0,
-                            IdVenta = venta?.Id ?? 0,
-                            MetodoPago = MetodoPagoEnum.Efectivo,
-                            MontoPagado = venta?.ImporteTotal ?? 0,
-                            FechaPagoCliente = DateTime.Now,
-                            FechaConfirmacionPago = DateTime.Now,
-                            EstadoPago = TipoEnvio == TipoEnvioEnum.MensajeriaConFondo
-                                ? EstadoPagoEnum.Confirmado
-                                : EstadoPagoEnum.Pendiente
-                        };
-
-                        RepoPago.Instancia.Adicionar(pago);
-                    } else {
-                        foreach (var pago in pagosVenta) {
-                            if (pago.EstadoPago == EstadoPagoEnum.Pendiente)
-                                RepoPago.Instancia.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Confirmado);
-                        }
-                    }
-                }
+                EstadoEntrega = EstadoEntregaEnum.PagoRecibido;
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnEstadoCompletado.Click += delegate (object? sender, EventArgs e) {
                 EstadoEntrega = EstadoEntregaEnum.Completado;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.Completado);
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnEstadoFallido.Click += delegate (object? sender, EventArgs e) {
                 EstadoEntrega = EstadoEntregaEnum.Fallido;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.Fallido);
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
             btnCancelar.Click += delegate (object? sender, EventArgs e) {
                 EstadoEntrega = EstadoEntregaEnum.Cancelado;
-                RepoSeguimientoEntrega.Instancia.CambiarEstadoEntrega(Id, EstadoEntregaEnum.Cancelado);
+                CambioEstadoEnvio?.Invoke(this, (Id, IdVenta, EstadoEntrega));
             };
         }
 

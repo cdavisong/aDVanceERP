@@ -1,13 +1,13 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Modulos.Venta.Interfaces;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
+using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
-using aDVanceERP.Core.Repositorios.Modulos.Venta;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Documentos.Comun;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
@@ -43,8 +43,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public Color ColorFondoTupla {
             get => layoutVista.BackColor;
-            set => layoutVista.BackColor = value == Color.Gainsboro 
-                ? value 
+            set => layoutVista.BackColor = value == Color.Gainsboro
+                ? value
                 : ObtenerColorFondoTupla(EstadoVenta);
         }
 
@@ -70,7 +70,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public string? MetodoPagoPrincipal {
             get => fieldMetodoPagoPrincipal.Text;
-            set { 
+            set {
                 fieldMetodoPagoPrincipal.Text = value;
                 fieldMetodoPagoPrincipal.Margin = fieldMetodoPagoPrincipal.AjusteAutomaticoMargenTexto();
             }
@@ -130,6 +130,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public bool Activo { get; set; }
 
         public event EventHandler<(long, FormatoDocumento)>? ExportarFacturaVenta;
+        public event EventHandler<long>? AnularVenta;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
 
@@ -139,44 +140,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnExportarPdf.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.PDF)); };
             btnExportarXlsx.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.Excel)); };
             btnAnular.Click += delegate (object? sender, EventArgs e) {
-                RepoVenta.Instancia.CambiarEstadoVenta(Id, EstadoVenta.Anulada);
                 EstadoVenta = EstadoVenta.Anulada;
-
-                // Crear movimiento de inventario
-                var venta = RepoVenta.Instancia.ObtenerPorId(Id);
-                var detallesVenta = RepoDetalleVentaProducto.Instancia.ObtenerDetallesConProducto(venta!.Id);
-
-                foreach (var detalleVenta in detallesVenta) {
-                    var producto = RepoProducto.Instancia.ObtenerPorId(detalleVenta.IdProducto);
-                    var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
-                    var movimiento = new Movimiento() {
-                        Id = 0,
-                        IdProducto = producto!.Id,
-                        CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
-                        IdAlmacenOrigen = 0,
-                        IdAlmacenDestino = venta.IdAlmacen,
-                        Estado = EstadoMovimiento.Completado,
-                        FechaCreacion = DateTime.Now,
-                        SaldoInicial = inventarioProducto.Cantidad,
-                        FechaTermino = DateTime.Now,
-                        CantidadMovida = detalleVenta.Cantidad,
-                        SaldoFinal = inventarioProducto.Cantidad + detalleVenta.Cantidad,
-                        IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
-                        IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                        Notas = "Devolución para una venta de producto.",
-                    };
-
-                    // Adicionar a la base de datos local
-                    RepoMovimiento.Instancia.Adicionar(movimiento);
-
-                    // Modificar inventario
-                    RepoInventario.Instancia.ModificarInventario(
-                        producto!.Id,
-                        0,
-                        venta.IdAlmacen,
-                        detalleVenta.Cantidad);
-                }
-            
+                AnularVenta?.Invoke(this, Id);
             };
         }
 
@@ -201,10 +166,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             if (!Activo)
                 return BackColor;
 
-            return estado switch { 
+            return estado switch {
                 EstadoVenta.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoVenta.Anulada => ContextoAplicacion.ColorErrorTupla, 
-                EstadoVenta.Entregada => ContextoAplicacion.ColorAdvertenciaTupla, 
+                EstadoVenta.Anulada => ContextoAplicacion.ColorErrorTupla,
+                EstadoVenta.Entregada => ContextoAplicacion.ColorAdvertenciaTupla,
                 _ => BackColor
             };
         }

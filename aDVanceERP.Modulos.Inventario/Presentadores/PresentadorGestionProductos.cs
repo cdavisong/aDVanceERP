@@ -5,12 +5,15 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Modulos.Inventario.Documentos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Vistas;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionProductos : PresentadorVistaGestion<PresentadorTuplaProducto, IVistaGestionProductos, IVistaTuplaProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
         public PresentadorGestionProductos(IVistaGestionProductos vista) : base(vista) {
+            vista.GenerarCatalogoProductos += OnGenerarCatalogoProductos;
+
             RegistrarEntidad += OnRegistrarProducto;
             EditarEntidad += OnEditarProducto;
 
@@ -38,6 +41,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
+        }
+
+        private void OnGenerarCatalogoProductos(object? sender, EventArgs e) {
+            var docCatalogoProductos = new DocCatalogoComercial();
+
+            docCatalogoProductos.GenerarDocumento();
         }
 
         private void OnHabilitarDeshabilitarProducto(string obj) {

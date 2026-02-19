@@ -4,6 +4,7 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -13,6 +14,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
@@ -76,6 +78,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.Activo = entidad.Activo;
             presentadorTupla.Vista.EstadoVenta = entidad.EstadoVenta;
             presentadorTupla.Vista.ExportarFacturaVenta += OnExportarDocumentoFacturaVenta;
+            presentadorTupla.Vista.AnularVenta += OnAnularVenta;
 
             return presentadorTupla;
         }
@@ -83,6 +86,59 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private void OnExportarDocumentoFacturaVenta(object? sender, (long id, FormatoDocumento formato) e) {
             _docFacturaVenta = new DocFacturaVenta(e.id);
             _docFacturaVenta.GenerarDocumentoConParametros(e.formato);
+        }
+
+        private void OnAnularVenta(object? sender, long idVenta) {
+            var repoVenta = RepoVenta.Instancia;
+            var repoDetalleVentaProducto = RepoDetalleVentaProducto.Instancia;
+            var venta = repoVenta.ObtenerPorId(idVenta)!;
+            var detalleVenta = repoDetalleVentaProducto.Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString()).resultadosBusqueda.Select(dv => dv.entidadBase).FirstOrDefault()!;
+
+            // Verificar si la venta está asociada a algún pedido y cancelarlo
+            if (venta.IdPedido != 0) {
+                var repoPedido = RepoPedido.Instancia;
+                var pedido = repoPedido.ObtenerPorId(venta.IdPedido);
+
+                if (pedido != null) 
+                    repoPedido.CambiarEstadoPedido(pedido.Id, EstadoPedidoEnum.Cancelado);
+            }
+
+            // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
+            var repoPago = RepoPago.Instancia;
+            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta)
+            if 
+
+            // Crear movimiento de inventario
+            foreach (var detalleVenta in detallesVenta) {
+                var producto = RepoProducto.Instancia.ObtenerPorId(detalleVenta.IdProducto);
+                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
+                var movimiento = new Movimiento() {
+                    Id = 0,
+                    IdProducto = producto!.Id,
+                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    IdAlmacenOrigen = 0,
+                    IdAlmacenDestino = venta.IdAlmacen,
+                    Estado = EstadoMovimiento.Completado,
+                    FechaCreacion = DateTime.Now,
+                    SaldoInicial = inventarioProducto.Cantidad,
+                    FechaTermino = DateTime.Now,
+                    CantidadMovida = detalleVenta.Cantidad,
+                    SaldoFinal = inventarioProducto.Cantidad + detalleVenta.Cantidad,
+                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    Notas = "Devolución para una venta de producto.",
+                };
+
+                // Adicionar a la base de datos local
+                RepoMovimiento.Instancia.Adicionar(movimiento);
+
+                // Modificar inventario
+                RepoInventario.Instancia.ModificarInventario(
+                    producto!.Id,
+                    0,
+                    venta.IdAlmacen,
+                    detalleVenta.Cantidad);
+            }
         }
     }
 }

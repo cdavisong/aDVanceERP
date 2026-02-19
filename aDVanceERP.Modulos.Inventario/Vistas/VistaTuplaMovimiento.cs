@@ -143,8 +143,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        
-
         private Color ObtenerColorFondoTupla(EstadoMovimiento estado) {
             return estado switch {
                 EstadoMovimiento.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,

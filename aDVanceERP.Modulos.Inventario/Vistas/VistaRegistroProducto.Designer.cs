@@ -121,6 +121,7 @@
             toolTip1 = new ToolTip(components);
             toolTip2 = new ToolTip(components);
             toolTip3 = new ToolTip(components);
+            fieldDialogoImagen = new OpenFileDialog();
             layoutVista.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fieldIcono).BeginInit();
@@ -1346,6 +1347,11 @@
             fieldNombreAlmacen.TabIndex = 28;
             fieldNombreAlmacen.TextOffset = new Point(10, 0);
             // 
+            // fieldDialogoImagen
+            // 
+            fieldDialogoImagen.Filter = "Imágenes JPG|*.jpg|Imágenes JPEG|*.jpeg|Imágenes PNG|*.png";
+            fieldDialogoImagen.Title = "Imágen del producto";
+            // 
             // VistaRegistroProducto
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -1449,5 +1455,6 @@
         private ToolTip toolTip1;
         private ToolTip toolTip2;
         private ToolTip toolTip3;
+        private OpenFileDialog fieldDialogoImagen;
     }
 }

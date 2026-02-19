@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -104,10 +103,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? MostrarUltimaPagina;
         public event EventHandler? SincronizarDatos;
 
+        public event EventHandler? GenerarCatalogoProductos;
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaProducto, string[])>? BuscarEntidades;
+        
 
         public async void Inicializar() {
             // Eventos
@@ -127,6 +128,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 args.SuppressKeyPress = true;
             };
+            btnGenerarCatalogo.Click += delegate { GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty); };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(sender, e);
 

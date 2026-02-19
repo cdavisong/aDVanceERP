@@ -14,5 +14,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         string? ObservacionesEntrega { get; set; }
         decimal MontoCobradoAlCliente { get; set; }
         EstadoEntregaEnum EstadoEntrega { get; set; }
+
+        event EventHandler<(long idEnvio, long idVenta, EstadoEntregaEnum estado)> CambioEstadoEnvio;
     }
 }

@@ -68,6 +68,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(entidad.IdUnidadMedida);
             var clasificacion = RepoClasificacionProducto.Instancia.ObtenerPorId(entidad.IdClasificacionProducto);
 
+            Vista.Imagen = File.Exists(entidad.RutaImagen) ? Image.FromFile(entidad.RutaImagen) : null;
             Vista.Categoria = entidad.Categoria;
             Vista.NombreProducto = entidad.Nombre;
             Vista.Codigo = entidad.Codigo;
@@ -90,6 +91,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var proveedor = RepoProveedor.Instancia.Buscar(FiltroBusquedaProveedor.RazonSocial, Vista.NombreProveedor).resultadosBusqueda.FirstOrDefault().entidadBase;
             var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Nombre, Vista.NombreUnidadMedida).resultadosBusqueda.FirstOrDefault().entidadBase;
 
+            // Salvar imagen en el proceso de obtención de la entidad
+            Vista.SalvarImagenEnDirectorioLocal();
+
             return new Producto {
                 Id = _entidad?.Id ?? 0,
                 Categoria = Vista.Categoria,
@@ -104,6 +108,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 ImpuestoVentaPorcentaje = Vista.ImpuestoVentaPorcentaje,
                 MargenGananciaDeseado = Vista.MargenGananciaDeseado,
                 PrecioVentaBase = Vista.PrecioVentaBase,
+                RutaImagen = Vista.RutaImagen,
                 Activo = true
             };
         }

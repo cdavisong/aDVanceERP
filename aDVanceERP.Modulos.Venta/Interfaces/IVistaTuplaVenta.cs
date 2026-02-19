@@ -17,5 +17,6 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         bool Activo { get; set; }
 
         event EventHandler<(long, FormatoDocumento)>? ExportarFacturaVenta;
+        event EventHandler<long>? AnularVenta;
     }
 }

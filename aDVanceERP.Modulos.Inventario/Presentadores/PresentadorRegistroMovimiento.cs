@@ -83,6 +83,43 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.NombreTipoMovimiento = tipoMovimiento?.Nombre ?? string.Empty;
         }
 
+        protected override Movimiento? ObtenerEntidadDesdeVista() {
+            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(Vista.NombreProducto)).entidadBase;
+            var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(Vista.NombreAlmacenOrigen)).entidadBase;
+            var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(Vista.NombreAlmacenDestino)).entidadBase;
+            var inventario = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString()).resultadosBusqueda.FirstOrDefault(i => i.entidadBase.IdAlmacen.Equals(almacenOrigen?.Id) || i.entidadBase.IdAlmacen.Equals(almacenDestino?.Id)).entidadBase;
+            var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario;
+            var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.NombreTipoMovimiento).resultadosBusqueda.FirstOrDefault(tm => tm.entidadBase.Nombre.Equals(Vista.NombreTipoMovimiento)).entidadBase;
+            var saldoFinal = (inventario?.Cantidad ?? 0) + (Vista.CantidadMovida * (tipoMovimiento?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
+
+            return new Movimiento() {
+                Id = Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                IdProducto = producto?.Id ?? throw new ArgumentNullException("El producto especificado no es válido"),
+                CostoUnitario = costoUnitario,
+                IdAlmacenOrigen = almacenOrigen?.Id ?? 0,
+                IdAlmacenDestino = almacenDestino?.Id ?? 0,
+                Estado = EstadoMovimiento.Pendiente,
+                FechaCreacion = Vista.Fecha,
+                SaldoInicial = inventario?.Cantidad ?? 0,
+                FechaTermino = DateTime.MinValue,
+                CantidadMovida = Vista.CantidadMovida,
+                SaldoFinal = saldoFinal,
+                IdTipoMovimiento = tipoMovimiento?.Id ?? throw new ArgumentNullException("El tipo de movimiento especificado no es válido"),
+                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                Notas = Vista.Notas ?? string.Empty
+            };
+        }
+
+        protected override void RegistroEdicionAuxiliar(RepoMovimiento repoMovimiento, long id) {
+            if (Entidad != null)
+                RepoInventario.Instancia.ModificarInventario(
+                    Vista.NombreProducto,
+                    Vista.NombreAlmacenOrigen,
+                    Vista.NombreAlmacenDestino,
+                    Vista.CantidadMovida
+                );
+        }
+
         protected override bool EntidadCorrecta() {
             var nombreProductoOk = !string.IsNullOrEmpty(Vista.NombreProducto);
             var tipoMovimientoOk = !string.IsNullOrEmpty(Vista.NombreTipoMovimiento);
@@ -147,43 +184,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
 
             return nombreProductoOk && tipoMovimientoOk && noCompraventaOk && cantidadOk;
-        }
-
-        protected override void RegistroEdicionAuxiliar(RepoMovimiento repoMovimiento, long id) {
-            if (Entidad != null)
-                RepoInventario.Instancia.ModificarInventario(
-                    Vista.NombreProducto,
-                    Vista.NombreAlmacenOrigen,
-                    Vista.NombreAlmacenDestino,
-                    Vista.CantidadMovida
-                );
-        }
-
-        protected override Movimiento? ObtenerEntidadDesdeVista() {
-            var producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(Vista.NombreProducto)).entidadBase;
-            var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(Vista.NombreAlmacenOrigen)).entidadBase;
-            var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(Vista.NombreAlmacenDestino)).entidadBase;
-            var inventario = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString()).resultadosBusqueda.FirstOrDefault(i => i.entidadBase.IdAlmacen.Equals(almacenOrigen?.Id) || i.entidadBase.IdAlmacen.Equals(almacenDestino?.Id)).entidadBase;
-            var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario;
-            var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.NombreTipoMovimiento).resultadosBusqueda.FirstOrDefault(tm => tm.entidadBase.Nombre.Equals(Vista.NombreTipoMovimiento)).entidadBase;
-            var saldoFinal = (inventario?.Cantidad ?? 0) + (Vista.CantidadMovida * (tipoMovimiento?.Efecto == EfectoMovimiento.Carga ? 1 : -1));
-
-            return new Movimiento() { 
-                Id = Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-                IdProducto = producto?.Id ?? throw new ArgumentNullException("El producto especificado no es válido"),
-                CostoUnitario = costoUnitario,
-                IdAlmacenOrigen = almacenOrigen?.Id ?? 0,
-                IdAlmacenDestino = almacenDestino?.Id ?? 0,
-                Estado = EstadoMovimiento.Pendiente,
-                FechaCreacion = Vista.Fecha,
-                SaldoInicial = inventario?.Cantidad ?? 0,
-                FechaTermino = DateTime.MinValue,
-                CantidadMovida = Vista.CantidadMovida,
-                SaldoFinal = saldoFinal,
-                IdTipoMovimiento = tipoMovimiento?.Id ?? throw new ArgumentNullException("El tipo de movimiento especificado no es válido"),
-                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                Notas = Vista.Notas ?? string.Empty
-            };
         }
     }
 }
