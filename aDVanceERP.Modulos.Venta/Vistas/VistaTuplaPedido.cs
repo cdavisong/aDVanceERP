@@ -135,7 +135,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 btnConfirmado.Visible = EstadoPedido == EstadoPedidoEnum.Pendiente;
                 btnEstadoPreparando.Visible = EstadoPedido == EstadoPedidoEnum.Confirmado;
                 btnEstadoListoParaRetirar.Visible = EstadoPedido == EstadoPedidoEnum.Preparando;
-                btnEstadoRetirado.Visible = EstadoPedido == EstadoPedidoEnum.ListoParaRetirar;
                 fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
             };
             btnConfirmado.Click += delegate (object? sender, EventArgs e) { 
@@ -148,10 +147,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             };
             btnEstadoListoParaRetirar.Click += delegate (object? sender, EventArgs e) {
                 EstadoPedido = EstadoPedidoEnum.ListoParaRetirar;
-                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
-            };
-            btnEstadoRetirado.Click += delegate (object? sender, EventArgs e) {
-                EstadoPedido = EstadoPedidoEnum.Retirado;
                 CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
             };
             btnCancelar.Click += delegate (object? sender, EventArgs e) { 

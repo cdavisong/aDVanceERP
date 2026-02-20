@@ -28,14 +28,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
+            menuEstados = new ContextMenuStrip(components);
+            btnConfirmado = new ToolStripMenuItem();
+            btnEstadoPreparando = new ToolStripMenuItem();
+            btnEstadoListoParaRetirar = new ToolStripMenuItem();
             fieldFechaEntrega = new Label();
             fieldCodigo = new Label();
             btnCancelar = new Guna2Button();
@@ -45,11 +49,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldNombreCliente = new Label();
             fieldFechaPedido = new Label();
             btnEditar = new Guna2Button();
-            menuEstados = new ContextMenuStrip(components);
-            btnConfirmado = new ToolStripMenuItem();
-            btnEstadoPreparando = new ToolStripMenuItem();
-            btnEstadoListoParaRetirar = new ToolStripMenuItem();
-            btnEstadoRetirado = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             menuEstados.SuspendLayout();
@@ -117,6 +116,49 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldEstado.TabIndex = 38;
             fieldEstado.Text = "estado";
             fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // menuEstados
+            // 
+            menuEstados.BackColor = Color.White;
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar });
+            menuEstados.Name = "menuGastoIndirecto";
+            menuEstados.Size = new Size(190, 104);
+            // 
+            // btnConfirmado
+            // 
+            btnConfirmado.BackColor = Color.White;
+            btnConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
+            btnConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnConfirmado.ImageScaling = ToolStripItemImageScaling.None;
+            btnConfirmado.Name = "btnConfirmado";
+            btnConfirmado.Size = new Size(189, 26);
+            btnConfirmado.Text = "Confirmado";
+            btnConfirmado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoPreparando
+            // 
+            btnEstadoPreparando.BackColor = Color.White;
+            btnEstadoPreparando.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoPreparando.Image = (Image)resources.GetObject("btnEstadoPreparando.Image");
+            btnEstadoPreparando.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoPreparando.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoPreparando.Name = "btnEstadoPreparando";
+            btnEstadoPreparando.Size = new Size(189, 26);
+            btnEstadoPreparando.Text = "Preparando";
+            btnEstadoPreparando.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoListoParaRetirar
+            // 
+            btnEstadoListoParaRetirar.BackColor = Color.White;
+            btnEstadoListoParaRetirar.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoListoParaRetirar.Image = (Image)resources.GetObject("btnEstadoListoParaRetirar.Image");
+            btnEstadoListoParaRetirar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoListoParaRetirar.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoListoParaRetirar.Name = "btnEstadoListoParaRetirar";
+            btnEstadoListoParaRetirar.Size = new Size(189, 26);
+            btnEstadoListoParaRetirar.Text = "Listo para retirar";
+            btnEstadoListoParaRetirar.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldFechaEntrega
             // 
@@ -265,61 +307,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 39;
             // 
-            // menuEstados
-            // 
-            menuEstados.BackColor = Color.White;
-            menuEstados.Items.AddRange(new ToolStripItem[] { btnConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar, btnEstadoRetirado });
-            menuEstados.Name = "menuGastoIndirecto";
-            menuEstados.Size = new Size(190, 108);
-            // 
-            // btnConfirmado
-            // 
-            btnConfirmado.BackColor = Color.White;
-            btnConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
-            btnConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnConfirmado.ImageScaling = ToolStripItemImageScaling.None;
-            btnConfirmado.Name = "btnConfirmado";
-            btnConfirmado.Size = new Size(189, 26);
-            btnConfirmado.Text = "Confirmado";
-            btnConfirmado.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoPreparando
-            // 
-            btnEstadoPreparando.BackColor = Color.White;
-            btnEstadoPreparando.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoPreparando.Image = (Image)resources.GetObject("btnEstadoPreparando.Image");
-            btnEstadoPreparando.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoPreparando.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoPreparando.Name = "btnEstadoPreparando";
-            btnEstadoPreparando.Size = new Size(189, 26);
-            btnEstadoPreparando.Text = "Preparando";
-            btnEstadoPreparando.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoListoParaRetirar
-            // 
-            btnEstadoListoParaRetirar.BackColor = Color.White;
-            btnEstadoListoParaRetirar.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoListoParaRetirar.Image = (Image)resources.GetObject("btnEstadoListoParaRetirar.Image");
-            btnEstadoListoParaRetirar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoListoParaRetirar.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoListoParaRetirar.Name = "btnEstadoListoParaRetirar";
-            btnEstadoListoParaRetirar.Size = new Size(189, 26);
-            btnEstadoListoParaRetirar.Text = "Listo para retirar";
-            btnEstadoListoParaRetirar.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoRetirado
-            // 
-            btnEstadoRetirado.BackColor = Color.White;
-            btnEstadoRetirado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoRetirado.Image = (Image)resources.GetObject("btnEstadoRetirado.Image");
-            btnEstadoRetirado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoRetirado.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoRetirado.Name = "btnEstadoRetirado";
-            btnEstadoRetirado.Size = new Size(189, 26);
-            btnEstadoRetirado.Text = "Retirado";
-            btnEstadoRetirado.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // VistaTuplaPedido
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -359,6 +346,5 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private ToolStripMenuItem btnConfirmado;
         private ToolStripMenuItem btnEstadoPreparando;
         private ToolStripMenuItem btnEstadoListoParaRetirar;
-        private ToolStripMenuItem btnEstadoRetirado;
     }
 }
