@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
@@ -83,82 +85,139 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         protected override void RegistroEdicionAuxiliar(RepoSeguimientoEntrega repositorio, long id) {
+            var repoPersona = RepoPersona.Instancia;
+            var repoTelefonoContacto = RepoTelefonoContacto.Instancia;
+            var repoVenta = RepoVenta.Instancia;
+            var repoPago = RepoPago.Instancia;
+
             // Persona-Cliente:
-            if (Vista.Cliente.persona != null) {
-                if (Vista.Cliente.persona.Id == 0)
-                    Vista.Cliente.persona.Id = RepoPersona.Instancia.Adicionar(Vista.Cliente.persona);
-                else RepoPersona.Instancia.Editar(Vista.Cliente.persona);
+            var personaCliente = Vista.Cliente.persona;
+
+            if (personaCliente != null) {
+                if (personaCliente.Id == 0)
+                    personaCliente.Id = repoPersona.Adicionar(Vista.Cliente.persona);
+                else repoPersona.Editar(personaCliente);
             }
 
             // Cliente:
-            if (Vista.Cliente.cliente != null) {
-                Vista.Cliente.cliente.IdPersona = Vista.Cliente.persona?.Id ?? 0;
+            var cliente = Vista.Cliente.cliente;
 
-                if (Vista.Cliente.cliente.Id == 0)
-                    Vista.Cliente.cliente.Id = Vista.Cliente.cliente.Id = RepoCliente.Instancia.Adicionar(Vista.Cliente.cliente);
-                else RepoCliente.Instancia.Editar(Vista.Cliente.cliente);
+            if (cliente != null) {
+                cliente.IdPersona = personaCliente!.Id;
+
+                if (cliente.Id == 0)
+                    cliente.Id = Vista.Cliente.cliente.Id = RepoCliente.Instancia.Adicionar(cliente);
+                else RepoCliente.Instancia.Editar(cliente);
             }
 
             // Telefono de contacto del cliente:
-            if (Vista.Cliente.telefono != null) {
-                Vista.Cliente.telefono.IdPersona = Vista.Cliente.persona?.Id ?? 0;
+            var telefonoCliente = Vista.Cliente.telefono;
 
-                if (Vista.Cliente.telefono.Id == 0)
-                    Vista.Cliente.telefono.Id = Vista.Cliente.telefono.Id = RepoTelefonoContacto.Instancia.Adicionar(Vista.Cliente.telefono);
-                else RepoTelefonoContacto.Instancia.Editar(Vista.Cliente.telefono);
+            if (telefonoCliente != null) {
+                telefonoCliente.IdPersona = personaCliente!.Id;
+
+                if (telefonoCliente.Id == 0)
+                    repoTelefonoContacto.Adicionar(telefonoCliente);
+                else repoTelefonoContacto.Editar(telefonoCliente);
             }
 
+            // Actualizar el id de cliente en la venta asociada
+            var venta = repoVenta.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
+
+            venta.IdCliente = cliente!.Id;
+            repoVenta.Editar(venta);
+
             // Persona-Mensajero:
-            if (Vista.Mensajero.persona != null) {
-                if (Vista.Mensajero.persona.Id == 0)
-                    Vista.Mensajero.persona.Id = RepoPersona.Instancia.Adicionar(Vista.Mensajero.persona);
-                else RepoPersona.Instancia.Editar(Vista.Mensajero.persona);
+            var personaMensajero = Vista.Mensajero.persona;
+
+            if (personaMensajero != null) {
+                if (personaMensajero.Id == 0)
+                    personaMensajero.Id = repoPersona.Adicionar(personaMensajero);
+                else repoPersona.Editar(personaMensajero);
             }
 
             // Mensajero:
-            if (Vista.Mensajero.mensajero != null) {
-                Vista.Mensajero.mensajero.IdPersona = Vista.Mensajero.persona?.Id ?? 0;
+            var mensajero = Vista.Mensajero.mensajero;
 
-                if (Vista.Mensajero.mensajero.Id == 0)
-                    Vista.Mensajero.mensajero.Id = Vista.Mensajero.mensajero.Id = RepoMensajero.Instancia.Adicionar(Vista.Mensajero.mensajero);
-                else RepoMensajero.Instancia.Editar(Vista.Mensajero.mensajero);
+            if (mensajero != null) {
+                mensajero.IdPersona = personaMensajero!.Id;
+
+                if (mensajero.Id == 0)
+                    mensajero.Id = RepoMensajero.Instancia.Adicionar(mensajero);
+                else RepoMensajero.Instancia.Editar(mensajero);
             }
 
             // Telefono de contacto del mensajero:
-            if (Vista.Mensajero.telefono != null) {
-                Vista.Mensajero.telefono.IdPersona = Vista.Mensajero.persona?.Id ?? 0;
+            var telefonoMensajero = Vista.Mensajero.telefono;
 
-                if (Vista.Mensajero.telefono.Id == 0)
-                    Vista.Mensajero.telefono.Id = Vista.Mensajero.telefono.Id = RepoTelefonoContacto.Instancia.Adicionar(Vista.Mensajero.telefono);
-                else RepoTelefonoContacto.Instancia.Editar(Vista.Mensajero.telefono);
+            if (telefonoMensajero != null) {
+                telefonoMensajero.IdPersona = personaMensajero!.Id;
+
+                if (telefonoMensajero.Id == 0)
+                    telefonoMensajero.Id = repoTelefonoContacto.Adicionar(telefonoMensajero);
+                else repoTelefonoContacto.Editar(telefonoMensajero);
             }
+
+            // Actualizar el id de cliente y mensajero en el seguimiento de entrega
+            var envio = repositorio.ObtenerPorId(id);
+
+            envio!.IdCliente = cliente!.Id;
+            envio!.IdMensajero = mensajero!.Id;
+            repositorio.Editar(envio);
 
             // Si el tipo de envío es mensajería con fondo, verificar si existe un pago pendiente de la venta y completarlo, de no
             // existir un pago pendiente, registrar un nuevo pago.
             if (Vista.TipoEnvio != TipoEnvioEnum.RetiroEnLocal) {
-                var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
-                var pagosVenta = RepoPago.Instancia.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
 
-                if (pagosVenta.Count == 0) {
-                    // Registrar nuevo pago
-                    var pago = new Pago() {
-                        Id = 0,
-                        IdVenta = venta.Id,
-                        MetodoPago = MetodoPagoEnum.Efectivo,
-                        MontoPagado = venta.ImporteTotal,
-                        FechaPagoCliente = DateTime.Now,
-                        FechaConfirmacionPago = DateTime.Now,
-                        EstadoPago = Vista.TipoEnvio == TipoEnvioEnum.MensajeriaConFondo 
-                            ? EstadoPagoEnum.Confirmado
-                            : EstadoPagoEnum.Pendiente
-                    };
+                if (CentroNotificaciones.MostrarMensaje("Desea adicionar o confirmar los pagos recibidos en la venta correspondiente?", TipoMensaje.Info, BotonesMensaje.SiNo) == DialogResult.Yes) {
+                    if (pagosVenta.Count == 0) {
+                        var pago = new Pago() {
+                            Id = 0,
+                            IdVenta = venta.Id,
+                            MetodoPago = MetodoPagoEnum.Efectivo,
+                            MontoPagado = venta.ImporteTotal,
+                            FechaPagoCliente = DateTime.Today,
+                            FechaConfirmacionPago = DateTime.Today,
+                            EstadoPago = EstadoPagoEnum.Confirmado
+                        };
 
-                    RepoPago.Instancia.Adicionar(pago);
-                } else {
-                    foreach (var pago in pagosVenta) {
-                        if (pago.EstadoPago == EstadoPagoEnum.Pendiente)
-                            RepoPago.Instancia.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Confirmado);
+                        repoPago.Adicionar(pago);
+                    } else {
+                        foreach (var pago in pagosVenta) {
+                            pago.FechaPagoCliente = DateTime.Today;
+                            pago.FechaConfirmacionPago = envio.TipoEnvio == TipoEnvioEnum.MensajeriaSinFondo ? DateTime.MinValue : DateTime.Today;
+                            pago.EstadoPago = EstadoPagoEnum.Confirmado;
+
+                            repoPago.Editar(pago);
+                        }
+
+                        // Verificar si los pagos confirmados satisfacen la venta
+                        if (!repoVenta.VentaEstaPagadaCompletamente(venta.Id)) {
+                            if (CentroNotificaciones.MostrarMensaje("Los pagos confirmados no satisfacen la totalidad del importe de la venta. Desea agregar un pago adicional cubriendo la diferencia?", TipoMensaje.Advertencia, BotonesMensaje.SiNo) == DialogResult.Yes) {
+                                var montoPagado = pagosVenta.Sum(p => p.MontoPagado);
+                                var diferencia = venta.ImporteTotal = montoPagado;
+                                var pago = new Pago() {
+                                    Id = 0,
+                                    IdVenta = venta.Id,
+                                    MetodoPago = MetodoPagoEnum.Efectivo,
+                                    MontoPagado = diferencia,
+                                    FechaPagoCliente = DateTime.Today,
+                                    FechaConfirmacionPago = DateTime.Today,
+                                    EstadoPago = EstadoPagoEnum.Confirmado
+                                };
+
+                                pagosVenta.Add(pago);
+                                repoPago.Adicionar(pago);
+                            }
+                        } else return;
                     }
+
+                    // Actualizar datos de la venta con respecto a los pagos
+                    venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerDisplayName();
+                    venta.EstadoVenta = EstadoVentaEnum.Completada;
+
+                    repoVenta.Editar(venta);
                 }
             }
         }

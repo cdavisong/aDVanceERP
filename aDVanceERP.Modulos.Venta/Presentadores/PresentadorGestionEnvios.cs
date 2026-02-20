@@ -108,7 +108,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                         } else {
                             foreach (var pago in pagosVenta) {
                                 pago.FechaPagoCliente = DateTime.Today;
-                                pago.FechaConfirmacionPago = envio.TipoEnvio == TipoEnvioEnum.MensajeriaSinFondo ? DateTime.MinValue : DateTime.Today,
+                                pago.FechaConfirmacionPago = envio.TipoEnvio == TipoEnvioEnum.MensajeriaSinFondo ? DateTime.MinValue : DateTime.Today;
                                 pago.EstadoPago = EstadoPagoEnum.Confirmado;
 
                                 repoPago.Editar(pago);

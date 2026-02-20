@@ -139,8 +139,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 btnAsignado.Visible = EstadoEntrega == EstadoEntregaEnum.Fallido;
                 btnEstadoEnRuta.Visible = EstadoEntrega == EstadoEntregaEnum.Asignado;
                 btnEstadoEntregado.Visible = EstadoEntrega == EstadoEntregaEnum.EnRuta;
-                btnEstadoPagoRecibido.Visible = EstadoEntrega == EstadoEntregaEnum.Entregado || EstadoEntrega == EstadoEntregaEnum.EnEspera;
-                btnEstadoCompletado.Visible = EstadoEntrega == EstadoEntregaEnum.PagoRecibido;
+                btnEstadoPagoRecibido.Visible = TipoEnvio != TipoEnvioEnum.MensajeriaConFondo && (EstadoEntrega == EstadoEntregaEnum.Entregado || EstadoEntrega == EstadoEntregaEnum.EnEspera);
+                btnEstadoCompletado.Visible = (TipoEnvio == TipoEnvioEnum.MensajeriaConFondo && EstadoEntrega == EstadoEntregaEnum.Entregado) || EstadoEntrega == EstadoEntregaEnum.PagoRecibido;
                 btnEstadoFallido.Visible = EstadoEntrega == EstadoEntregaEnum.EnRuta;
                 fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
             };

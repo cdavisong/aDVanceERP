@@ -40,7 +40,7 @@
             btnNoCancel = new Guna.UI2.WinForms.Guna2Button();
             btnOkYes = new Guna.UI2.WinForms.Guna2Button();
             layoutDistribucion1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) fieldIcono).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)fieldIcono).BeginInit();
             layoutBotones.SuspendLayout();
             SuspendLayout();
             // 
@@ -102,7 +102,7 @@
             btnCerrar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             btnCerrar.ForeColor = Color.Black;
             btnCerrar.HoverState.FillColor = Color.White;
-            btnCerrar.Image = (Image) resources.GetObject("btnCerrar.Image");
+            btnCerrar.Image = (Image)resources.GetObject("btnCerrar.Image");
             btnCerrar.Location = new Point(498, 23);
             btnCerrar.Name = "btnCerrar";
             btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges2;
@@ -190,8 +190,9 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
             Text = "VistaMensaje";
+            TopMost = true;
             layoutDistribucion1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) fieldIcono).EndInit();
+            ((System.ComponentModel.ISupportInitialize)fieldIcono).EndInit();
             layoutBotones.ResumeLayout(false);
             ResumeLayout(false);
         }

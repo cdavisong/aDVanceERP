@@ -198,7 +198,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 args.SuppressKeyPress = true;
             };
             fieldPaisesMensajero.SelectedIndexChanged += delegate {
-                fieldPrefijoInternacionalCliente.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaisesMensajero.Text)}";
+                fieldPrefijoInternacionalMensajero.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaisesMensajero.Text)}";
                 fieldNumeroTelefonoMensajero.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaisesMensajero.Text);
             };
             btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {

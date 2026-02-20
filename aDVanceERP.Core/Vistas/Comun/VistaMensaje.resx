@@ -123,10 +123,10 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnCerrar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAJ1JREFUOE/l
-        lEEKwjAQRR+0RW9Wz1Vd9Bq6tWs9nvJhBoYhpka761uFzs8jmaGB3XMCZmDIhQLKKDvmQuQCvID7ilS1
-        xbLnXIx0wM2CD+CYA/btaZmr7alSkzbLnJL0Z5kT+6SexnWfw98SpX/LRLxmqadNbHplnUKnkUDD0QDy
-        oA550ydKMqdZWpM5TdLNfz09DtOKzFFG2erjsAPe6CA46xMjhLcAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAKBJREFUOE/t
+        lEEKgzAQRQNV2pvpuWwXvUbd6lqPp/8JA0HMYKwr8cEDE8dPksGEm1p+ZbmMfKihtlpGCT5ykp30QnnX
+        S2rfTKR4yFZSOMiXXMPcKKn5Sb5x8UKzw4yt0MNhRnxOnGn8XMhDxKF/h0G8TUw1ahenbplVsBoCaA4N
+        WDfqKXexFWZkh3phRlbo6b8el0MjvTCDGmrdy+HyhDAD6CA464NzjSkAAAAASUVORK5CYII=
 </value>
   </data>
 </root>

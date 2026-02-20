@@ -179,7 +179,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
-            if (lector.VisibleFieldCount > 9) {
+            if (lector.VisibleFieldCount > 11) {
                 entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
                     NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
                     ImporteTotal = Convert.ToDecimal(lector["total_venta"], CultureInfo.InvariantCulture)

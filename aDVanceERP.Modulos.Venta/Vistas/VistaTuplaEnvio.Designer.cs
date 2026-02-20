@@ -29,14 +29,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaEnvio));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldId = new Label();
             btnCancelar = new Guna2Button();
             fieldEstado = new Label();
             menuEstados = new ContextMenuStrip(components);
+            btnEstadoCompletado = new ToolStripMenuItem();
+            btnEstadoFallido = new ToolStripMenuItem();
             btnAsignado = new ToolStripMenuItem();
             btnEstadoEnRuta = new ToolStripMenuItem();
             btnEstadoEntregado = new ToolStripMenuItem();
@@ -49,8 +51,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaAsignacion = new Label();
             fieldTipoEnvio = new Label();
             simboloPeso4 = new Label();
-            btnEstadoFallido = new ToolStripMenuItem();
-            btnEstadoCompletado = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             menuEstados.SuspendLayout();
@@ -130,7 +130,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges3;
+            btnCancelar.CustomizableEdges = customizableEdges1;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.ForeColor = Color.White;
             btnCancelar.Location = new Point(1204, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnCancelar.Size = new Size(34, 35);
             btnCancelar.TabIndex = 22;
             // 
@@ -163,9 +163,33 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // menuEstados
             // 
             menuEstados.BackColor = Color.White;
-            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoCompletado, btnEstadoFallido, btnAsignado, btnEstadoEnRuta, btnEstadoEntregado, btnEstadoPagoRecibido });
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoCompletado, btnAsignado, btnEstadoEnRuta, btnEstadoEntregado, btnEstadoPagoRecibido, btnEstadoFallido });
             menuEstados.Name = "menuGastoIndirecto";
             menuEstados.Size = new Size(185, 182);
+            // 
+            // btnEstadoCompletado
+            // 
+            btnEstadoCompletado.BackColor = Color.White;
+            btnEstadoCompletado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoCompletado.Image = (Image)resources.GetObject("btnEstadoCompletado.Image");
+            btnEstadoCompletado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoCompletado.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoCompletado.Name = "btnEstadoCompletado";
+            btnEstadoCompletado.Size = new Size(184, 26);
+            btnEstadoCompletado.Text = "Completado";
+            btnEstadoCompletado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoFallido
+            // 
+            btnEstadoFallido.BackColor = Color.White;
+            btnEstadoFallido.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoFallido.Image = (Image)resources.GetObject("btnEstadoFallido.Image");
+            btnEstadoFallido.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoFallido.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoFallido.Name = "btnEstadoFallido";
+            btnEstadoFallido.Size = new Size(184, 26);
+            btnEstadoFallido.Text = "Fallido";
+            btnEstadoFallido.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnAsignado
             // 
@@ -329,30 +353,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             simboloPeso4.TabIndex = 30;
             simboloPeso4.Text = "$";
             simboloPeso4.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnEstadoFallido
-            // 
-            btnEstadoFallido.BackColor = Color.White;
-            btnEstadoFallido.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoFallido.Image = (Image)resources.GetObject("btnEstadoFallido.Image");
-            btnEstadoFallido.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoFallido.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoFallido.Name = "btnEstadoFallido";
-            btnEstadoFallido.Size = new Size(184, 26);
-            btnEstadoFallido.Text = "Fallido";
-            btnEstadoFallido.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoCompletado
-            // 
-            btnEstadoCompletado.BackColor = Color.White;
-            btnEstadoCompletado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoCompletado.Image = (Image)resources.GetObject("btnEstadoCompletado.Image");
-            btnEstadoCompletado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoCompletado.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoCompletado.Name = "btnEstadoCompletado";
-            btnEstadoCompletado.Size = new Size(184, 26);
-            btnEstadoCompletado.Text = "Completado";
-            btnEstadoCompletado.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaTuplaEnvio
             // 
