@@ -243,15 +243,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
-        public string[] ObtenerCodigosPedidosConfirmados() {
+        public string[] ObtenerCodigosPedidos() {
             var consulta = $"""
                 SELECT codigo
                 FROM adv__pedido
-                WHERE estado_pedido = @estado_pedido;
+                WHERE estado_pedido NOT IN ('Pendiente', 'Retirado', 'Cancelado');
                 """;
-            var parametros = new Dictionary<string, object> {
-                { "@estado_pedido", EstadoPedidoEnum.Confirmado.ToString() }
-            };
+            var parametros = new Dictionary<string, object>();
 
             return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearCodigoPedido).Select(result => result.entidadBase).ToArray() ?? [];
         }

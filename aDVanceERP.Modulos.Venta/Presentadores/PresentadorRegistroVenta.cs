@@ -20,7 +20,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.Restaurar();
 
             // Carga inicial de datos
-            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidosConfirmados()]);
+            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidos()]);
             Vista.CargarNombresClientes([.. RepoCliente.Instancia.ObtenerNombres()]);
             Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
             Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
@@ -41,7 +41,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 return;
 
             // Carga inicial de datos
-            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidosConfirmados()]);
+            Vista.CargarNumerosPedidos([.. RepoPedido.Instancia.ObtenerCodigosPedidos()]);
             Vista.CargarNombresClientes([.. RepoCliente.Instancia.ObtenerNombres()]);
             Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
             Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
