@@ -69,8 +69,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.ImporteTotal = entidad.TotalPedido;
             presentadorTupla.Vista.Activo = entidad.Activo;
             presentadorTupla.Vista.EstadoPedido = entidad.EstadoPedido;
+            presentadorTupla.Vista.CambioEstadoPedido += OnCambioEstadoPedido;
 
             return presentadorTupla;
+        }
+
+        private void OnCambioEstadoPedido(object? sender, (long idPedido, EstadoPedidoEnum estado) e) {
+            RepoPedido.Instancia.CambiarEstadoPedido(e.idPedido, e.estado);
         }
     }
 }

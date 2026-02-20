@@ -91,7 +91,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var repoVenta = RepoVenta.Instancia;
             var repoDetalleVentaProducto = RepoDetalleVentaProducto.Instancia;
             var venta = repoVenta.ObtenerPorId(idVenta)!;
-            var detalleVenta = repoDetalleVentaProducto.Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString()).resultadosBusqueda.Select(dv => dv.entidadBase).FirstOrDefault()!;
 
             // Verificar si la venta está asociada a algún pedido y cancelarlo
             if (venta.IdPedido != 0) {
@@ -104,21 +103,30 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Verificar si la venta tiene un envío asociado y solicitar cancelar los pagos desde la ventana de envíos
             var repoSeguimientoEntrega = RepoSeguimientoEntrega.Instancia;
-            var envio = 
+            var envio = repoSeguimientoEntrega.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(rs => rs.entidadBase).FirstOrDefault()!;
 
-            // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
-            var repoPago = RepoPago.Instancia;
-            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
+            if (envio != null && envio.EstadoEntrega != EstadoEntregaEnum.Completado && envio.EstadoEntrega != EstadoEntregaEnum.Cancelado) {
+                CentroNotificaciones.MostrarNotificacion("Esta venta tiene un envío asociado en curso. Por favor, cancele el envío para anular los pagos vinculados a la venta actual.", TipoNotificacion.Advertencia);
+                return;
+            } else {
+                // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
+                var repoPago = RepoPago.Instancia;
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
 
-            if (pagosVenta?.Count > 0) {
-                foreach (var pago in pagosVenta)
-                    repoPago.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Anulado);                
+                if (pagosVenta?.Count > 0) {
+                    foreach (var pago in pagosVenta)
+                        repoPago.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Anulado);
+                }
             }
 
-            // Crear movimiento de inventario
+            // Crear movimiento de inventario para cada detalle de venta y revertir el inventario
+            var repoMovimiento = RepoMovimiento.Instancia;
+            var repoInventario = RepoInventario.Instancia;
+            var detallesVenta = repoDetalleVentaProducto.Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString()).resultadosBusqueda.Select(dv => dv.entidadBase).ToList();
+
             foreach (var detalleVenta in detallesVenta) {
                 var producto = RepoProducto.Instancia.ObtenerPorId(detalleVenta.IdProducto);
-                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
+                var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
                 var movimiento = new Movimiento() {
                     Id = 0,
                     IdProducto = producto!.Id,
@@ -133,19 +141,22 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     SaldoFinal = inventarioProducto.Cantidad + detalleVenta.Cantidad,
                     IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
                     IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = "Devolución para una venta de producto.",
+                    Notas = $"Devolución para la venta del producto: {producto.Nombre}.",
                 };
 
                 // Adicionar a la base de datos local
-                RepoMovimiento.Instancia.Adicionar(movimiento);
+                repoMovimiento.Adicionar(movimiento);
 
                 // Modificar inventario
-                RepoInventario.Instancia.ModificarInventario(
+                repoInventario.ModificarInventario(
                     producto!.Id,
                     0,
                     venta.IdAlmacen,
                     detalleVenta.Cantidad);
             }
+
+            // Finalmente, anular la venta
+            repoVenta.CambiarEstadoVenta(venta.Id, EstadoVentaEnum.Anulada);
         }
     }
 }

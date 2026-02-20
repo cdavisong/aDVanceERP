@@ -130,7 +130,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 RepoPago.Instancia.CambiarEstadoPago(Id, EstadoPagoEnum.Confirmado);
 
                 if (repoVenta.VentaEstaPagadaCompletamente(IdVenta))
-                    repoVenta.CambiarEstadoVenta(IdVenta, EstadoVenta.Completada);
+                    repoVenta.CambiarEstadoVenta(IdVenta, EstadoVentaEnum.Completada);
                 repoVenta.ActualizarMetodoPagoPrincipal(IdVenta);
 
                 FechaConfirmacionPago = DateTime.Now;
@@ -141,7 +141,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                 RepoPago.Instancia.CambiarEstadoPago(Id, EstadoPagoEnum.Anulado);
                 
-                repoVenta.CambiarEstadoVenta(IdVenta, EstadoVenta.Pendiente);
+                repoVenta.CambiarEstadoVenta(IdVenta, EstadoVentaEnum.Pendiente);
                 repoVenta.ActualizarMetodoPagoPrincipal(IdVenta);
 
                 FechaConfirmacionPago = DateTime.MinValue;

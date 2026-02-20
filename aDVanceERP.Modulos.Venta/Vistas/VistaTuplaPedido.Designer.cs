@@ -27,28 +27,32 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
-            btnEditar = new Guna2Button();
             fieldEstado = new Label();
             fieldFechaEntrega = new Label();
             fieldCodigo = new Label();
-            btnConfirmar = new Guna2Button();
             btnCancelar = new Guna2Button();
             simboloPeso4 = new Label();
             fieldImporteTotal = new Label();
             fieldDireccionaEntrega = new Label();
             fieldNombreCliente = new Label();
             fieldFechaPedido = new Label();
+            btnEditar = new Guna2Button();
+            menuEstados = new ContextMenuStrip(components);
+            btnConfirmado = new ToolStripMenuItem();
+            btnEstadoPreparando = new ToolStripMenuItem();
+            btnEstadoListoParaRetirar = new ToolStripMenuItem();
+            btnEstadoRetirado = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
+            menuEstados.SuspendLayout();
             SuspendLayout();
             // 
             // layoutBase
@@ -80,17 +84,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.Controls.Add(btnEditar, 8, 0);
             layoutVista.Controls.Add(fieldEstado, 7, 0);
             layoutVista.Controls.Add(fieldFechaEntrega, 3, 0);
             layoutVista.Controls.Add(fieldCodigo, 0, 0);
-            layoutVista.Controls.Add(btnConfirmar, 9, 0);
             layoutVista.Controls.Add(btnCancelar, 10, 0);
             layoutVista.Controls.Add(simboloPeso4, 6, 0);
             layoutVista.Controls.Add(fieldImporteTotal, 5, 0);
             layoutVista.Controls.Add(fieldDireccionaEntrega, 4, 0);
             layoutVista.Controls.Add(fieldNombreCliente, 2, 0);
             layoutVista.Controls.Add(fieldFechaPedido, 1, 0);
+            layoutVista.Controls.Add(btnEditar, 9, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -100,33 +103,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 19;
             // 
-            // btnEditar
-            // 
-            btnEditar.Animated = true;
-            btnEditar.BorderColor = Color.Gainsboro;
-            btnEditar.BorderRadius = 16;
-            btnEditar.BorderThickness = 1;
-            btnEditar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
-            btnEditar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
-            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges1;
-            btnEditar.Dock = DockStyle.Fill;
-            btnEditar.FillColor = Color.White;
-            btnEditar.Font = new Font("Segoe UI", 9.75F);
-            btnEditar.ForeColor = Color.White;
-            btnEditar.HoverState.BorderColor = Color.PeachPuff;
-            btnEditar.HoverState.FillColor = Color.PeachPuff;
-            btnEditar.Location = new Point(1123, 3);
-            btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnEditar.Size = new Size(34, 35);
-            btnEditar.TabIndex = 39;
-            // 
             // fieldEstado
             // 
             fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Underline, GraphicsUnit.Point, 0);
+            fieldEstado.ForeColor = Color.DodgerBlue;
             fieldEstado.ImeMode = ImeMode.NoControl;
             fieldEstado.Location = new Point(991, 1);
             fieldEstado.Margin = new Padding(1);
@@ -165,36 +146,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldCodigo.Text = "codigo";
             fieldCodigo.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btnConfirmar
-            // 
-            btnConfirmar.Animated = true;
-            btnConfirmar.BorderColor = Color.Gainsboro;
-            btnConfirmar.BorderRadius = 16;
-            btnConfirmar.BorderThickness = 1;
-            btnConfirmar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
-            btnConfirmar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
-            btnConfirmar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnConfirmar.CustomizableEdges = customizableEdges3;
-            btnConfirmar.Dock = DockStyle.Fill;
-            btnConfirmar.FillColor = Color.White;
-            btnConfirmar.Font = new Font("Segoe UI", 9.75F);
-            btnConfirmar.ForeColor = Color.White;
-            btnConfirmar.HoverState.BorderColor = Color.PeachPuff;
-            btnConfirmar.HoverState.FillColor = Color.PeachPuff;
-            btnConfirmar.Location = new Point(1163, 3);
-            btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnConfirmar.Size = new Size(34, 35);
-            btnConfirmar.TabIndex = 21;
-            // 
             // btnCancelar
             // 
             btnCancelar.Animated = true;
             btnCancelar.BorderColor = Color.Gainsboro;
             btnCancelar.BorderRadius = 16;
             btnCancelar.BorderThickness = 1;
-            btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage2");
-            btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
+            btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
+            btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnCancelar.CustomizableEdges = customizableEdges5;
             btnCancelar.Dock = DockStyle.Fill;
@@ -283,6 +242,83 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaPedido.Text = "fecha";
             fieldFechaPedido.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btnEditar
+            // 
+            btnEditar.Animated = true;
+            btnEditar.BorderColor = Color.Gainsboro;
+            btnEditar.BorderRadius = 16;
+            btnEditar.BorderThickness = 1;
+            btnEditar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
+            btnEditar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
+            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEditar.CustomizableEdges = customizableEdges7;
+            btnEditar.Dock = DockStyle.Fill;
+            btnEditar.FillColor = Color.White;
+            btnEditar.Font = new Font("Segoe UI", 9.75F);
+            btnEditar.ForeColor = Color.White;
+            btnEditar.HoverState.BorderColor = Color.PeachPuff;
+            btnEditar.HoverState.FillColor = Color.PeachPuff;
+            btnEditar.Location = new Point(1163, 3);
+            btnEditar.Name = "btnEditar";
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnEditar.Size = new Size(34, 35);
+            btnEditar.TabIndex = 39;
+            // 
+            // menuEstados
+            // 
+            menuEstados.BackColor = Color.White;
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar, btnEstadoRetirado });
+            menuEstados.Name = "menuGastoIndirecto";
+            menuEstados.Size = new Size(190, 130);
+            // 
+            // btnConfirmado
+            // 
+            btnConfirmado.BackColor = Color.White;
+            btnConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
+            btnConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnConfirmado.ImageScaling = ToolStripItemImageScaling.None;
+            btnConfirmado.Name = "btnConfirmado";
+            btnConfirmado.Size = new Size(189, 26);
+            btnConfirmado.Text = "Confirmado";
+            btnConfirmado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoPreparando
+            // 
+            btnEstadoPreparando.BackColor = Color.White;
+            btnEstadoPreparando.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoPreparando.Image = (Image)resources.GetObject("btnEstadoPreparando.Image");
+            btnEstadoPreparando.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoPreparando.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoPreparando.Name = "btnEstadoPreparando";
+            btnEstadoPreparando.Size = new Size(189, 26);
+            btnEstadoPreparando.Text = "Preparando";
+            btnEstadoPreparando.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoListoParaRetirar
+            // 
+            btnEstadoListoParaRetirar.BackColor = Color.White;
+            btnEstadoListoParaRetirar.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoListoParaRetirar.Image = (Image)resources.GetObject("btnEstadoListoParaRetirar.Image");
+            btnEstadoListoParaRetirar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoListoParaRetirar.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoListoParaRetirar.Name = "btnEstadoListoParaRetirar";
+            btnEstadoListoParaRetirar.Size = new Size(189, 26);
+            btnEstadoListoParaRetirar.Text = "Listo para retirar";
+            btnEstadoListoParaRetirar.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoRetirado
+            // 
+            btnEstadoRetirado.BackColor = Color.White;
+            btnEstadoRetirado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoRetirado.Image = (Image)resources.GetObject("btnEstadoRetirado.Image");
+            btnEstadoRetirado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoRetirado.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoRetirado.Name = "btnEstadoRetirado";
+            btnEstadoRetirado.Size = new Size(189, 26);
+            btnEstadoRetirado.Text = "Retirado";
+            btnEstadoRetirado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaTuplaPedido
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -299,6 +335,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Text = "VistaTuplaVenta";
             layoutBase.ResumeLayout(false);
             layoutVista.ResumeLayout(false);
+            menuEstados.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -311,12 +348,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Label fieldFechaPedido;
         private Label fieldNombreCliente;
         private Label fieldImporteTotal;
-        private Guna2Button btnConfirmar;
         private Guna2Button btnCancelar;
         private Label simboloPeso4;
         private Label fieldDireccionaEntrega;
         private Label fieldFechaEntrega;
         private Label fieldEstado;
         private Guna2Button btnEditar;
+        private ContextMenuStrip menuEstados;
+        private ToolStripMenuItem btnConfirmado;
+        private ToolStripMenuItem btnEstadoPreparando;
+        private ToolStripMenuItem btnEstadoListoParaRetirar;
+        private ToolStripMenuItem btnEstadoRetirado;
     }
 }

@@ -29,8 +29,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaEnvio));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldId = new Label();
@@ -41,8 +41,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEstadoEnRuta = new ToolStripMenuItem();
             btnEstadoEntregado = new ToolStripMenuItem();
             btnEstadoPagoRecibido = new ToolStripMenuItem();
-            btnEstadoCompletado = new ToolStripMenuItem();
-            btnEstadoFallido = new ToolStripMenuItem();
             fieldMonto = new Label();
             fieldNombreMensajero = new Label();
             fieldNumeroFactura = new Label();
@@ -51,6 +49,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaAsignacion = new Label();
             fieldTipoEnvio = new Label();
             simboloPeso4 = new Label();
+            btnEstadoFallido = new ToolStripMenuItem();
+            btnEstadoCompletado = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             menuEstados.SuspendLayout();
@@ -130,7 +130,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
             btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges5;
+            btnCancelar.CustomizableEdges = customizableEdges3;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.ForeColor = Color.White;
             btnCancelar.Location = new Point(1204, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnCancelar.Size = new Size(34, 35);
             btnCancelar.TabIndex = 22;
             // 
@@ -163,9 +163,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // menuEstados
             // 
             menuEstados.BackColor = Color.White;
-            menuEstados.Items.AddRange(new ToolStripItem[] { btnAsignado, btnEstadoEnRuta, btnEstadoEntregado, btnEstadoPagoRecibido, btnEstadoCompletado, btnEstadoFallido });
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoCompletado, btnEstadoFallido, btnAsignado, btnEstadoEnRuta, btnEstadoEntregado, btnEstadoPagoRecibido });
             menuEstados.Name = "menuGastoIndirecto";
-            menuEstados.Size = new Size(173, 160);
+            menuEstados.Size = new Size(185, 182);
             // 
             // btnAsignado
             // 
@@ -175,7 +175,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnAsignado.ImageAlign = ContentAlignment.MiddleLeft;
             btnAsignado.ImageScaling = ToolStripItemImageScaling.None;
             btnAsignado.Name = "btnAsignado";
-            btnAsignado.Size = new Size(172, 26);
+            btnAsignado.Size = new Size(184, 26);
             btnAsignado.Text = "Asignado";
             btnAsignado.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -187,7 +187,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEstadoEnRuta.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoEnRuta.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoEnRuta.Name = "btnEstadoEnRuta";
-            btnEstadoEnRuta.Size = new Size(172, 26);
+            btnEstadoEnRuta.Size = new Size(184, 26);
             btnEstadoEnRuta.Text = "En ruta";
             btnEstadoEnRuta.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -199,7 +199,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEstadoEntregado.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoEntregado.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoEntregado.Name = "btnEstadoEntregado";
-            btnEstadoEntregado.Size = new Size(172, 26);
+            btnEstadoEntregado.Size = new Size(184, 26);
             btnEstadoEntregado.Text = "Entregado";
             btnEstadoEntregado.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -211,33 +211,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEstadoPagoRecibido.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoPagoRecibido.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoPagoRecibido.Name = "btnEstadoPagoRecibido";
-            btnEstadoPagoRecibido.Size = new Size(172, 26);
+            btnEstadoPagoRecibido.Size = new Size(184, 26);
             btnEstadoPagoRecibido.Text = "Pago recibido";
             btnEstadoPagoRecibido.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoCompletado
-            // 
-            btnEstadoCompletado.BackColor = Color.White;
-            btnEstadoCompletado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoCompletado.Image = (Image)resources.GetObject("btnEstadoCompletado.Image");
-            btnEstadoCompletado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoCompletado.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoCompletado.Name = "btnEstadoCompletado";
-            btnEstadoCompletado.Size = new Size(172, 26);
-            btnEstadoCompletado.Text = "Completado";
-            btnEstadoCompletado.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoFallido
-            // 
-            btnEstadoFallido.BackColor = Color.White;
-            btnEstadoFallido.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoFallido.Image = (Image)resources.GetObject("btnEstadoFallido.Image");
-            btnEstadoFallido.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoFallido.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoFallido.Name = "btnEstadoFallido";
-            btnEstadoFallido.Size = new Size(172, 26);
-            btnEstadoFallido.Text = "Fallido";
-            btnEstadoFallido.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldMonto
             // 
@@ -354,6 +330,30 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             simboloPeso4.Text = "$";
             simboloPeso4.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btnEstadoFallido
+            // 
+            btnEstadoFallido.BackColor = Color.White;
+            btnEstadoFallido.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoFallido.Image = (Image)resources.GetObject("btnEstadoFallido.Image");
+            btnEstadoFallido.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoFallido.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoFallido.Name = "btnEstadoFallido";
+            btnEstadoFallido.Size = new Size(184, 26);
+            btnEstadoFallido.Text = "Fallido";
+            btnEstadoFallido.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoCompletado
+            // 
+            btnEstadoCompletado.BackColor = Color.White;
+            btnEstadoCompletado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoCompletado.Image = (Image)resources.GetObject("btnEstadoCompletado.Image");
+            btnEstadoCompletado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoCompletado.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoCompletado.Name = "btnEstadoCompletado";
+            btnEstadoCompletado.Size = new Size(184, 26);
+            btnEstadoCompletado.Text = "Completado";
+            btnEstadoCompletado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaTuplaEnvio
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -394,8 +394,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private ToolStripMenuItem btnEstadoEnRuta;
         private ToolStripMenuItem btnEstadoEntregado;
         private ToolStripMenuItem btnEstadoPagoRecibido;
+        private ToolStripMenuItem btnAsignado;
         private ToolStripMenuItem btnEstadoCompletado;
         private ToolStripMenuItem btnEstadoFallido;
-        private ToolStripMenuItem btnAsignado;
     }
 }

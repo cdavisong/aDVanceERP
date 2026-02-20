@@ -70,7 +70,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 ImpuestoTotal = Vista.ImpuestoTotal,
                 ImporteTotal = Vista.ImporteTotal,
                 MetodoPagoPrincipal = string.Empty,
-                EstadoVenta = EstadoVenta.Pendiente, // TODO: Implementar estados de venta dependiendo de pagos y estados de entregas
+                EstadoVenta = EstadoVentaEnum.Pendiente, // TODO: Implementar estados de venta dependiendo de pagos y estados de entregas
                 ObservacionesVenta = Vista.ObservacionesVenta,
                 Activo = true
             };
@@ -109,7 +109,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     Estado = EstadoMovimiento.Completado,
                     FechaCreacion = DateTime.Now,
                     SaldoInicial = inventarioProducto.Cantidad,
-                    FechaTermino = Entidad?.EstadoVenta == EstadoVenta.Completada ? DateTime.Now : DateTime.MinValue,
+                    FechaTermino = Entidad?.EstadoVenta == EstadoVentaEnum.Completada ? DateTime.Now : DateTime.MinValue,
                     CantidadMovida = productoCarrito.Value.Cantidad,
                     SaldoFinal = inventarioProducto.Cantidad - productoCarrito.Value.Cantidad,
                     IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
@@ -152,7 +152,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Actualizar el estado de la venta a completada si el total pagado cubre el importe total de la venta
             if (repositorio.VentaEstaPagadaCompletamente(id))
-                repositorio.CambiarEstadoVenta(id, EstadoVenta.Completada);
+                repositorio.CambiarEstadoVenta(id, EstadoVentaEnum.Completada);
 
             // Actualizar el método de pago principal de la venta
             repositorio.ActualizarMetodoPagoPrincipal(id);

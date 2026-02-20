@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
-        private EstadoVenta _estadoVenta;
+        private EstadoVentaEnum _estadoVenta;
 
         public VistaTuplaVenta() {
             InitializeComponent();
@@ -116,13 +116,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     : "-";
         }
 
-        public EstadoVenta EstadoVenta {
+        public EstadoVentaEnum EstadoVenta {
             get => _estadoVenta;
             set {
                 _estadoVenta = value;
                 fieldEstado.Text = value.ObtenerDisplayName();
-                btnVerFactura.Visible = value == EstadoVenta.Completada;
-                btnAnular.Enabled = value == EstadoVenta.Pendiente || value == EstadoVenta.Entregada;
+                btnVerFactura.Visible = value == EstadoVentaEnum.Completada;
+                btnAnular.Enabled = value == EstadoVentaEnum.Pendiente || value == EstadoVentaEnum.Entregada;
                 layoutVista.BackColor = ObtenerColorFondoTupla(value);
             }
         }
@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnExportarPdf.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.PDF)); };
             btnExportarXlsx.Click += delegate { ExportarFacturaVenta?.Invoke(this, (Id, FormatoDocumento.Excel)); };
             btnAnular.Click += delegate (object? sender, EventArgs e) {
-                EstadoVenta = EstadoVenta.Anulada;
+                EstadoVenta = EstadoVentaEnum.Anulada;
                 AnularVenta?.Invoke(this, Id);
             };
         }
@@ -162,14 +162,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        private Color ObtenerColorFondoTupla(EstadoVenta estado) {
+        private Color ObtenerColorFondoTupla(EstadoVentaEnum estado) {
             if (!Activo)
                 return BackColor;
 
             return estado switch {
-                EstadoVenta.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoVenta.Anulada => ContextoAplicacion.ColorErrorTupla,
-                EstadoVenta.Entregada => ContextoAplicacion.ColorAdvertenciaTupla,
+                EstadoVentaEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
+                EstadoVentaEnum.Anulada => ContextoAplicacion.ColorErrorTupla,
+                EstadoVentaEnum.Entregada => ContextoAplicacion.ColorAdvertenciaTupla,
                 _ => BackColor
             };
         }

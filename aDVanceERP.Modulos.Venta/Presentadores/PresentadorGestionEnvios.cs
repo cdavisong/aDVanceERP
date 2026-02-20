@@ -87,7 +87,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 case EstadoEntregaEnum.EnRuta:
                 case EstadoEntregaEnum.Entregado:
                     // Actualizar datos de la venta con respecto al estado del envío
-                    venta.EstadoVenta = EstadoVenta.Entregada;
+                    venta.EstadoVenta = EstadoVentaEnum.Entregada;
 
                     repoVenta.Editar(venta);
                     break;
@@ -139,7 +139,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 case EstadoEntregaEnum.Completado:
                     // Actualizar datos de la venta con respecto a los pagos
                     venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerDisplayName();
-                    venta.EstadoVenta = EstadoVenta.Completada;
+                    venta.EstadoVenta = EstadoVentaEnum.Completada;
 
                     repoVenta.Editar(venta);
                     break;

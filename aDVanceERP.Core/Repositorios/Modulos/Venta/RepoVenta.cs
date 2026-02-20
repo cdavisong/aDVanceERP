@@ -205,7 +205,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 ImpuestoTotal = Convert.ToDecimal(lector["impuesto_total"], CultureInfo.InvariantCulture),
                 ImporteTotal = Convert.ToDecimal(lector["importe_total"], CultureInfo.InvariantCulture),
                 MetodoPagoPrincipal = lector["metodo_pago_principal"] != DBNull.Value ? Convert.ToString(lector["metodo_pago_principal"]) : null,
-                EstadoVenta = Enum.Parse<EstadoVenta>(Convert.ToString(lector["estado_venta"]) ?? "Pendiente"),
+                EstadoVenta = Enum.Parse<EstadoVentaEnum>(Convert.ToString(lector["estado_venta"]) ?? "Pendiente"),
                 ObservacionesVenta = lector["observaciones_venta"] != DBNull.Value ? Convert.ToString(lector["observaciones_venta"]) : null,
                 Activo = Convert.ToBoolean(lector["activo"])
             };
@@ -251,7 +251,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return ContextoBaseDatos.EjecutarConsultaEscalar<bool>(consulta, parametros);
         }
 
-        public bool CambiarEstadoVenta(long idVenta, EstadoVenta nuevoEstado) {
+        public bool CambiarEstadoVenta(long idVenta, EstadoVentaEnum nuevoEstado) {
             var consulta = $"""
                 UPDATE adv__venta
                 SET estado_venta = @nuevo_estado

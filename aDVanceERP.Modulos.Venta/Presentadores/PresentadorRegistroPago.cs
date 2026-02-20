@@ -88,7 +88,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var venta = repoVenta.Buscar(FiltroBusquedaVenta.Id, Entidad?.IdVenta.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             if (repoVenta.VentaEstaPagadaCompletamente(venta.Id))
-                repoVenta.CambiarEstadoVenta(venta.Id, EstadoVenta.Completada);
+                repoVenta.CambiarEstadoVenta(venta.Id, EstadoVentaEnum.Completada);
 
             // Actualizar el método de pago principal de la venta
             repoVenta.ActualizarMetodoPagoPrincipal(venta.Id);

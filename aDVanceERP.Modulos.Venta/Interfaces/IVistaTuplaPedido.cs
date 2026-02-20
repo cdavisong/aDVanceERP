@@ -12,5 +12,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         public decimal ImporteTotal { get; set; }
         public EstadoPedidoEnum EstadoPedido { get; set; }
         public bool Activo { get; set; }
+
+        event EventHandler<(long idPedido, EstadoPedidoEnum estado)> CambioEstadoPedido;
     }
 }

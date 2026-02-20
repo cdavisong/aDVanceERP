@@ -104,8 +104,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set {
                 _estadoPedido = value;
                 fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Font = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
+                fieldEstado.ForeColor = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? Color.DimGray : Color.DodgerBlue;
+                fieldEstado.Cursor = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? Cursors.Default : Cursors.Hand;
                 btnEditar.Enabled = value == EstadoPedidoEnum.Pendiente;
-                btnConfirmar.Enabled = value == EstadoPedidoEnum.Pendiente;
                 btnCancelar.Enabled = value != EstadoPedidoEnum.Retirado;
                 layoutVista.BackColor = ObtenerColorFondoTupla(value);
             }
@@ -116,23 +118,45 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set {
                 _activo = value;
                 btnEditar.Enabled = value;
-                btnConfirmar.Enabled = value;
                 btnCancelar.Enabled = value;
             }
         }
 
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
+        public event EventHandler<(long idPedido, EstadoPedidoEnum estado)> CambioEstadoPedido;
 
         public void Inicializar() {
             // Eventos
-            btnConfirmar.Click += delegate (object? sender, EventArgs e) { 
-                RepoPedido.Instancia.CambiarEstadoPedido(Id, EstadoPedidoEnum.Confirmado);
+            fieldEstado.Click += delegate {
+                if (EstadoPedido == EstadoPedidoEnum.Retirado || EstadoPedido == EstadoPedidoEnum.Cancelado)
+                    return;
+
+                btnConfirmado.Visible = EstadoPedido == EstadoPedidoEnum.Pendiente;
+                btnEstadoPreparando.Visible = EstadoPedido == EstadoPedidoEnum.Confirmado;
+                btnEstadoListoParaRetirar.Visible = EstadoPedido == EstadoPedidoEnum.Preparando;
+                btnEstadoRetirado.Visible = EstadoPedido == EstadoPedidoEnum.ListoParaRetirar;
+                fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
+            };
+            btnConfirmado.Click += delegate (object? sender, EventArgs e) { 
                 EstadoPedido = EstadoPedidoEnum.Confirmado;
+                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
+            };
+            btnEstadoPreparando.Click += delegate (object? sender, EventArgs e) {
+                EstadoPedido = EstadoPedidoEnum.Preparando;
+                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
+            };
+            btnEstadoListoParaRetirar.Click += delegate (object? sender, EventArgs e) {
+                EstadoPedido = EstadoPedidoEnum.ListoParaRetirar;
+                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
+            };
+            btnEstadoRetirado.Click += delegate (object? sender, EventArgs e) {
+                EstadoPedido = EstadoPedidoEnum.Retirado;
+                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
             };
             btnCancelar.Click += delegate (object? sender, EventArgs e) { 
-                RepoPedido.Instancia.CambiarEstadoPedido(Id, EstadoPedidoEnum.Cancelado);
                 EstadoPedido = EstadoPedidoEnum.Cancelado;
+                CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
             };
         }
 

@@ -13,7 +13,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         decimal DescuentoTotal { get; set; }
         decimal ImpuestoTotal { get; set; }
         decimal ImporteTotal { get; set; }
-        EstadoVenta EstadoVenta { get; set; }
+        EstadoVentaEnum EstadoVenta { get; set; }
         bool Activo { get; set; }
 
         event EventHandler<(long, FormatoDocumento)>? ExportarFacturaVenta;

@@ -133,7 +133,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Inicializar() {
             // Eventos
             fieldEstado.Click += delegate {
-                if (EstadoEntrega == EstadoEntregaEnum.Completado)
+                if (EstadoEntrega == EstadoEntregaEnum.Completado || EstadoEntrega == EstadoEntregaEnum.Cancelado)
                     return;
 
                 btnAsignado.Visible = EstadoEntrega == EstadoEntregaEnum.Fallido;
