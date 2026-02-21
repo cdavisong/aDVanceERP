@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
@@ -100,6 +101,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
+            fieldNumeroFactura.SelectedIndexChanged += delegate {
+                var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, NumeroFacturaVenta).resultadosBusqueda.Select(v => v.entidadBase).FirstOrDefault();
+
+                if (fieldNumeroFactura.SelectedIndex == -1 || venta == null) {
+                    fieldMonto.Text = string.Empty;
+                    return;
+                }
+
+                MontoPagado = venta.ImporteTotal;
+            };
             fieldMetodoPago.SelectedIndexChanged += delegate {
                 separador1.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
                 layoutTitulos2.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;

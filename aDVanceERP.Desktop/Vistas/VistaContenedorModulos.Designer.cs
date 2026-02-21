@@ -46,6 +46,7 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa1 = new PictureBox();
             fieldEmpresa2 = new PictureBox();
             fieldEmpresa3 = new PictureBox();
+            fieldEmpresa4 = new PictureBox();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             layoutMenuLateral.SuspendLayout();
@@ -54,9 +55,10 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutMensajeBienvenida.SuspendLayout();
             panelMensajeBienvenida.SuspendLayout();
             layoutLogotipos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).BeginInit();
             SuspendLayout();
             // 
             // formatoBase
@@ -123,7 +125,7 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             btnGestorModulos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnGestorModulos.CheckedState.FillColor = Color.PeachPuff;
-            btnGestorModulos.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnGestorModulos.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnGestorModulos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnGestorModulos.CustomImages.ImageSize = new Size(24, 24);
             btnGestorModulos.Dock = DockStyle.Fill;
@@ -143,7 +145,7 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             btnConfiguracionGeneral.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnConfiguracionGeneral.CheckedState.FillColor = Color.PeachPuff;
-            btnConfiguracionGeneral.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
+            btnConfiguracionGeneral.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnConfiguracionGeneral.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnConfiguracionGeneral.CustomImages.ImageSize = new Size(24, 24);
             btnConfiguracionGeneral.Dock = DockStyle.Fill;
@@ -175,7 +177,7 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             btnInicio.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnInicio.CheckedState.FillColor = Color.PeachPuff;
-            btnInicio.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
+            btnInicio.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
             btnInicio.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnInicio.CustomImages.ImageSize = new Size(24, 24);
             btnInicio.FillColor = Color.White;
@@ -239,8 +241,10 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             // layoutLogotipos
             // 
-            layoutLogotipos.ColumnCount = 7;
+            layoutLogotipos.ColumnCount = 9;
             layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
+            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
             layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
@@ -250,6 +254,7 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutLogotipos.Controls.Add(fieldEmpresa1, 1, 0);
             layoutLogotipos.Controls.Add(fieldEmpresa2, 3, 0);
             layoutLogotipos.Controls.Add(fieldEmpresa3, 5, 0);
+            layoutLogotipos.Controls.Add(fieldEmpresa4, 7, 0);
             layoutLogotipos.Dock = DockStyle.Fill;
             layoutLogotipos.Location = new Point(153, 388);
             layoutLogotipos.Margin = new Padding(0);
@@ -264,7 +269,7 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa1.BackgroundImage = Properties.Resources.empresa1;
             fieldEmpresa1.BackgroundImageLayout = ImageLayout.Center;
             fieldEmpresa1.Dock = DockStyle.Right;
-            fieldEmpresa1.Location = new Point(240, 0);
+            fieldEmpresa1.Location = new Point(150, 0);
             fieldEmpresa1.Margin = new Padding(0);
             fieldEmpresa1.Name = "fieldEmpresa1";
             fieldEmpresa1.Size = new Size(160, 160);
@@ -276,8 +281,8 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa2.BackgroundImage = Properties.Resources.empresa2;
             fieldEmpresa2.BackgroundImageLayout = ImageLayout.Center;
             fieldEmpresa2.Dock = DockStyle.Fill;
-            fieldEmpresa2.Image = (Image)resources.GetObject("fieldEmpresa2.Image");
-            fieldEmpresa2.Location = new Point(420, 0);
+            fieldEmpresa2.Image = (Image) resources.GetObject("fieldEmpresa2.Image");
+            fieldEmpresa2.Location = new Point(330, 0);
             fieldEmpresa2.Margin = new Padding(0);
             fieldEmpresa2.Name = "fieldEmpresa2";
             fieldEmpresa2.Size = new Size(160, 160);
@@ -288,13 +293,25 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             fieldEmpresa3.BackgroundImageLayout = ImageLayout.Center;
             fieldEmpresa3.Dock = DockStyle.Fill;
-            fieldEmpresa3.Image = (Image)resources.GetObject("fieldEmpresa3.Image");
-            fieldEmpresa3.Location = new Point(600, 0);
+            fieldEmpresa3.Image = (Image) resources.GetObject("fieldEmpresa3.Image");
+            fieldEmpresa3.Location = new Point(510, 0);
             fieldEmpresa3.Margin = new Padding(0);
             fieldEmpresa3.Name = "fieldEmpresa3";
             fieldEmpresa3.Size = new Size(160, 160);
             fieldEmpresa3.TabIndex = 2;
             fieldEmpresa3.TabStop = false;
+            // 
+            // fieldEmpresa4
+            // 
+            fieldEmpresa4.BackgroundImageLayout = ImageLayout.Center;
+            fieldEmpresa4.Dock = DockStyle.Fill;
+            fieldEmpresa4.Image = (Image) resources.GetObject("fieldEmpresa4.Image");
+            fieldEmpresa4.Location = new Point(690, 0);
+            fieldEmpresa4.Margin = new Padding(0);
+            fieldEmpresa4.Name = "fieldEmpresa4";
+            fieldEmpresa4.Size = new Size(160, 160);
+            fieldEmpresa4.TabIndex = 3;
+            fieldEmpresa4.TabStop = false;
             // 
             // VistaContenedorModulos
             // 
@@ -319,9 +336,10 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutMensajeBienvenida.ResumeLayout(false);
             panelMensajeBienvenida.ResumeLayout(false);
             layoutLogotipos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)fieldEmpresa3).EndInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa1).EndInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).EndInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).EndInit();
+            ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).EndInit();
             ResumeLayout(false);
         }
 
@@ -343,5 +361,6 @@ namespace aDVanceERP.Desktop.Vistas {
         private Guna2HtmlLabel fieldTextoBienvenida;
         private Guna2CircleButton btnGestorModulos;
         private Guna2CircleButton btnConfiguracionGeneral;
+        private PictureBox fieldEmpresa4;
     }
 }
