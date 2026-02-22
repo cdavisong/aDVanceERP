@@ -184,6 +184,7 @@
             separador1.Name = "separador1";
             separador1.Size = new Size(1280, 14);
             separador1.TabIndex = 43;
+            separador1.Visible = false;
             // 
             // layoutBotones
             // 
@@ -257,6 +258,7 @@
             layoutTitulos2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutTitulos2.Size = new Size(1286, 35);
             layoutTitulos2.TabIndex = 48;
+            layoutTitulos2.Visible = false;
             // 
             // fieldTituloCoordenadas
             // 
@@ -311,6 +313,7 @@
             layoutDatos2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDatos2.Size = new Size(1286, 45);
             layoutDatos2.TabIndex = 49;
+            layoutDatos2.Visible = false;
             // 
             // btnActuailzarCoordenadas
             // 
