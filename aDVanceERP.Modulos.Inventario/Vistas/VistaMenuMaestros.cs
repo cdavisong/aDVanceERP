@@ -36,6 +36,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnProductos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionProductos", string.Empty); };
             btnAlmacenes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionAlmacenes", string.Empty); };
             btnTiposClasificacionesProducto.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionClasificaciones", string.Empty); };
+            btnUnidadesMedida.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionUnidadesMedida", string.Empty); };
             btnAtras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty); };
         }
 
@@ -46,10 +47,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 btnAlmacenes.PerformClick();
             else if (btnTiposClasificacionesProducto.Visible)
                 btnTiposClasificacionesProducto.PerformClick();
+            else if (btnUnidadesMedida.Visible)
+                btnUnidadesMedida.PerformClick();
         }
 
         public void Mostrar() {
-            
             BringToFront();
             Show();
         }
@@ -57,6 +59,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Restaurar() {
             btnProductos.Checked = false;
             btnAlmacenes.Checked = false;
+            btnTiposClasificacionesProducto.Checked = false;
+            btnUnidadesMedida.Checked = false;
         }
 
         public void Ocultar() {
@@ -66,7 +70,5 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Cerrar() {
             Dispose();
         }
-
-        
     }
 }

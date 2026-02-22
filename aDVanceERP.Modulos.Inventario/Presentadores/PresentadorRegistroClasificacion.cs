@@ -27,12 +27,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             if (string.IsNullOrEmpty(obj))
                 return;
 
-            var almacen = AgregadorEventos.DeserializarPayload<ClasificacionProducto>(obj);
+            var clasificacion = AgregadorEventos.DeserializarPayload<ClasificacionProducto>(obj);
 
-            if (almacen == null)
+            if (clasificacion == null)
                 return;
 
-            PopularVistaDesdeEntidad(almacen);
+            PopularVistaDesdeEntidad(clasificacion);
 
             Vista.Mostrar();
         }

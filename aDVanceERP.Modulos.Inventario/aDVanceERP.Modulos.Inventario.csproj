@@ -10,6 +10,9 @@
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Vistas\VistaGestionUnidadesMedida.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaGestionClasificaciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -22,7 +25,13 @@
     <Compile Update="Vistas\VistaMenuMaestros.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaRegistroUnidadMedida.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaRegistroClasificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaUnidadMedida.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaTuplaClasificacion.cs">

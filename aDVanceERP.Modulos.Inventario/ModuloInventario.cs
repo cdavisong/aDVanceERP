@@ -21,6 +21,8 @@ namespace aDVanceERP.Modulos.Inventario {
         private PresentadorRegistroAlmacen _registroAlmacen = null!;
         private PresentadorGestionClasificaciones _clasificaciones = null!;
         private PresentadorRegistroClasificacion _registroClasificacion = null!;
+        private PresentadorGestionUnidadesMedida _unidadesMedida = null!;
+        private PresentadorRegistroUnidadMedida _registroUnidadMedida = null!;
 
         public ModuloInventario() {
             Nombre = "MOD_INVENTARIO";
@@ -59,6 +61,10 @@ namespace aDVanceERP.Modulos.Inventario {
             _clasificaciones = new PresentadorGestionClasificaciones(new VistaGestionClasificaciones());
             _registroClasificacion = new PresentadorRegistroClasificacion(new VistaRegistroClasificacion());
             _registroClasificacion.EntidadRegistradaActualizada += (s, e) => _clasificaciones.ActualizarResultadosBusqueda();
+            // Unidades de medida
+            _unidadesMedida = new PresentadorGestionUnidadesMedida(new VistaGestionUnidadesMedida());
+            _registroUnidadMedida = new PresentadorRegistroUnidadMedida(new VistaRegistroUnidadMedida());
+            _registroUnidadMedida.EntidadRegistradaActualizada += (s, e) => _unidadesMedida.ActualizarResultadosBusqueda();
 
             base.Inicializar(principal);
         }
@@ -84,6 +90,9 @@ namespace aDVanceERP.Modulos.Inventario {
             // Clasificaciones
             _principal.Modulos.Vista.PanelCentral.Registrar(_clasificaciones.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroClasificacion.Vista);
+            // Unidades de medida
+            _principal.Modulos.Vista.PanelCentral.Registrar(_unidadesMedida.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroUnidadMedida.Vista);
         }
 
         public override void Apagar() {
