@@ -90,6 +90,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         protected override Producto? ObtenerEntidadDesdeVista() {
             var proveedor = RepoProveedor.Instancia.Buscar(FiltroBusquedaProveedor.RazonSocial, Vista.NombreProveedor).resultadosBusqueda.FirstOrDefault().entidadBase;
             var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Nombre, Vista.NombreUnidadMedida).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var clasificacion = RepoClasificacionProducto.Instancia.Buscar(FiltroBusquedaClasificacionProducto.Nombre, Vista.NombreClasificacionProducto).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             // Salvar imagen en el proceso de obtención de la entidad
             Vista.SalvarImagenEnDirectorioLocal();
@@ -102,6 +103,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 Descripcion = Vista.Descripcion,
                 IdProveedor = proveedor?.Id ?? 0,
                 IdUnidadMedida = unidadMedida?.Id ?? 0,
+                IdClasificacionProducto = clasificacion?.Id ?? 1,
                 EsVendible = Vista.EsVendible,
                 CostoAdquisicionUnitario = Vista.CostoAdquisicionUnitario,
                 CostoProduccionUnitario = Vista.CostoProduccionUnitario,

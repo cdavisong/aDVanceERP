@@ -75,7 +75,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public string RutaImagen { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos", $"{Codigo}.{Path.GetExtension(_rutaImagen)}"); }
+        public string RutaImagen { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos", $"{Codigo}{Path.GetExtension(_rutaImagen)}"); }
 
         public CategoriaProducto Categoria {
             get => (CategoriaProducto)fieldCategoriaProducto.SelectedIndex;
