@@ -149,7 +149,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnMovimientos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnMovimientos.CheckedState.FillColor = Color.WhiteSmoke;
             btnMovimientos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnMovimientos.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
+            btnMovimientos.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
             btnMovimientos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnMovimientos.CustomImages.ImageOffset = new Point(0, 32);
             btnMovimientos.CustomImages.ImageSize = new Size(131, 8);

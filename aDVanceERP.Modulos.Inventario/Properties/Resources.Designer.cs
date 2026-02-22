@@ -63,6 +63,16 @@ namespace aDVanceERP.Modulos.Inventario.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap barra_seleccion {
+            get {
+                object obj = ResourceManager.GetObject("barra_seleccion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap inventory_24px {
             get {
                 object obj = ResourceManager.GetObject("inventory_24px", resourceCulture);
