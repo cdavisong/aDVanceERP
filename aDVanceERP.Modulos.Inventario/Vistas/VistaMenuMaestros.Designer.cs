@@ -29,21 +29,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuMaestros));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutDistribucion = new TableLayoutPanel();
             btnAtras = new Guna2Button();
             fieldTitulo = new Label();
             panelRelleno = new Panel();
+            btnTiposClasificacionesProducto = new Guna2Button();
             btnAlmacenes = new Guna2Button();
             btnProductos = new Guna2Button();
-            btnTiposClasificacionesProducto = new Guna2Button();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             panelRelleno.SuspendLayout();
@@ -120,7 +120,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTitulo.BackColor = Color.WhiteSmoke;
             fieldTitulo.Dock = DockStyle.Fill;
             fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            fieldTitulo.ForeColor = Color.Black;
+            fieldTitulo.ForeColor = Color.Firebrick;
             fieldTitulo.ImeMode = ImeMode.NoControl;
             fieldTitulo.Location = new Point(0, 0);
             fieldTitulo.Margin = new Padding(0);
@@ -143,6 +143,30 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelRelleno.Name = "panelRelleno";
             panelRelleno.Size = new Size(799, 50);
             panelRelleno.TabIndex = 0;
+            // 
+            // btnTiposClasificacionesProducto
+            // 
+            btnTiposClasificacionesProducto.Animated = true;
+            btnTiposClasificacionesProducto.BackColor = Color.WhiteSmoke;
+            btnTiposClasificacionesProducto.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnTiposClasificacionesProducto.CheckedState.FillColor = Color.WhiteSmoke;
+            btnTiposClasificacionesProducto.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnTiposClasificacionesProducto.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
+            btnTiposClasificacionesProducto.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnTiposClasificacionesProducto.CustomImages.ImageOffset = new Point(0, 32);
+            btnTiposClasificacionesProducto.CustomImages.ImageSize = new Size(131, 8);
+            btnTiposClasificacionesProducto.CustomizableEdges = customizableEdges3;
+            btnTiposClasificacionesProducto.Dock = DockStyle.Left;
+            btnTiposClasificacionesProducto.FillColor = Color.WhiteSmoke;
+            btnTiposClasificacionesProducto.Font = new Font("Segoe UI", 11.25F);
+            btnTiposClasificacionesProducto.ForeColor = Color.Black;
+            btnTiposClasificacionesProducto.Location = new Point(320, 0);
+            btnTiposClasificacionesProducto.Margin = new Padding(0);
+            btnTiposClasificacionesProducto.Name = "btnTiposClasificacionesProducto";
+            btnTiposClasificacionesProducto.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnTiposClasificacionesProducto.Size = new Size(160, 50);
+            btnTiposClasificacionesProducto.TabIndex = 15;
+            btnTiposClasificacionesProducto.Text = "Clasificaciones";
             // 
             // btnAlmacenes
             // 
@@ -191,30 +215,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnProductos.Size = new Size(160, 50);
             btnProductos.TabIndex = 13;
             btnProductos.Text = "Productos";
-            // 
-            // btnTiposClasificacionesProducto
-            // 
-            btnTiposClasificacionesProducto.Animated = true;
-            btnTiposClasificacionesProducto.BackColor = Color.WhiteSmoke;
-            btnTiposClasificacionesProducto.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnTiposClasificacionesProducto.CheckedState.FillColor = Color.WhiteSmoke;
-            btnTiposClasificacionesProducto.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnTiposClasificacionesProducto.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
-            btnTiposClasificacionesProducto.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnTiposClasificacionesProducto.CustomImages.ImageOffset = new Point(0, 32);
-            btnTiposClasificacionesProducto.CustomImages.ImageSize = new Size(131, 8);
-            btnTiposClasificacionesProducto.CustomizableEdges = customizableEdges3;
-            btnTiposClasificacionesProducto.Dock = DockStyle.Left;
-            btnTiposClasificacionesProducto.FillColor = Color.WhiteSmoke;
-            btnTiposClasificacionesProducto.Font = new Font("Segoe UI", 11.25F);
-            btnTiposClasificacionesProducto.ForeColor = Color.Black;
-            btnTiposClasificacionesProducto.Location = new Point(320, 0);
-            btnTiposClasificacionesProducto.Margin = new Padding(0);
-            btnTiposClasificacionesProducto.Name = "btnTiposClasificacionesProducto";
-            btnTiposClasificacionesProducto.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnTiposClasificacionesProducto.Size = new Size(160, 50);
-            btnTiposClasificacionesProducto.TabIndex = 15;
-            btnTiposClasificacionesProducto.Text = "Clasificaciones";
             // 
             // VistaMenuMaestros
             // 

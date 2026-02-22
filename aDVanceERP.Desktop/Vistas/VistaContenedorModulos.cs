@@ -37,6 +37,8 @@ namespace aDVanceERP.Desktop.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public Label NombreModulo => fieldNombreModulo;
+
         public string MensajePortada {
             get => fieldTextoBienvenida.Text;
             set {
@@ -54,6 +56,15 @@ namespace aDVanceERP.Desktop.Vistas {
             btnInicio.Click += (s, e) => {
                 AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);                
+            };
+            btnInicio.MouseEnter += delegate {
+                NombreModulo.Text = "Inicio";
+                NombreModulo.Location = new Point(5, btnInicio.Top + 12);
+                NombreModulo.BringToFront();
+                NombreModulo.Show();
+            };
+            btnInicio.MouseLeave += delegate {
+                NombreModulo.Hide();
             };
             btnGestorModulos.Click += (s, e) => {
                 AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);

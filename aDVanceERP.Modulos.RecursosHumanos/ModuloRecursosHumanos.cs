@@ -59,7 +59,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
 
         protected override void InicializarVistas() {
             // Agregar botón de acceso al módulo
-            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo, "Recursos humanos");
 
             // Agregar menú del módulo
             _principal.Vista.BarraTitulo.Registrar(_menuRecursosHumanos.Vista);

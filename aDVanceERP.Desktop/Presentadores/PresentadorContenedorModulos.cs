@@ -30,7 +30,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             return [.. _gestorModulos.ObtenerModulosExtension().Select(me => me.Nombre)];
         }
 
-        public void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo) {
+        public void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo, string nombreModulo) {
             Vista.PanelMenuLateral.SuspendLayout();
 
             CustomizableEdges customizableEdges = new CustomizableEdges();
@@ -50,6 +50,15 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnModulo.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             btnModulo.Size = new Size(44, 44);
             btnModulo.TabIndex = Vista.PanelMenuLateral.Controls.Count + 1;
+            btnModulo.MouseEnter += delegate {
+                Vista.NombreModulo.Text = nombreModulo;
+                Vista.NombreModulo.Location = new Point(5, btnModulo.Top + 12);
+                Vista.NombreModulo.BringToFront();
+                Vista.NombreModulo.Show();
+            };
+            btnModulo.MouseLeave += delegate {
+                Vista.NombreModulo.Hide();
+            };
 
             // Agregar al panel lateral
             Vista.PanelMenuLateral.Controls.Add(btnModulo);

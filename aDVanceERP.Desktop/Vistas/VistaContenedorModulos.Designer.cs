@@ -47,6 +47,7 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa2 = new PictureBox();
             fieldEmpresa3 = new PictureBox();
             fieldEmpresa4 = new PictureBox();
+            fieldNombreModulo = new Label();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             layoutMenuLateral.SuspendLayout();
@@ -193,6 +194,7 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             // panelCentral
             // 
+            panelCentral.Controls.Add(fieldNombreModulo);
             panelCentral.Controls.Add(layoutMensajeBienvenida);
             panelCentral.Dock = DockStyle.Fill;
             panelCentral.Location = new Point(50, 10);
@@ -313,6 +315,17 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa4.TabIndex = 3;
             fieldEmpresa4.TabStop = false;
             // 
+            // fieldNombreModulo
+            // 
+            fieldNombreModulo.AutoSize = true;
+            fieldNombreModulo.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldNombreModulo.Location = new Point(7, 16);
+            fieldNombreModulo.Name = "fieldNombreModulo";
+            fieldNombreModulo.Size = new Size(47, 20);
+            fieldNombreModulo.TabIndex = 2;
+            fieldNombreModulo.Text = "Inicio";
+            fieldNombreModulo.Visible = false;
+            // 
             // VistaContenedorModulos
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -333,6 +346,7 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutMenuLateral.ResumeLayout(false);
             layoutModulos.ResumeLayout(false);
             panelCentral.ResumeLayout(false);
+            panelCentral.PerformLayout();
             layoutMensajeBienvenida.ResumeLayout(false);
             panelMensajeBienvenida.ResumeLayout(false);
             layoutLogotipos.ResumeLayout(false);
@@ -362,5 +376,6 @@ namespace aDVanceERP.Desktop.Vistas {
         private Guna2CircleButton btnGestorModulos;
         private Guna2CircleButton btnConfiguracionGeneral;
         private PictureBox fieldEmpresa4;
+        private Label fieldNombreModulo;
     }
 }

@@ -8,6 +8,6 @@ namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
         IVistaPrincipal VistaPrincipal { get; }
 
         string[] ObtenerNombresModulosExtensionCargados();
-        void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo);
+        void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo, string nombreModulo);
     }
 }

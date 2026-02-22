@@ -77,7 +77,7 @@ namespace aDVanceERP.Modulos.Venta {
 
         protected override void InicializarVistas() {
             // Agregar botón de acceso al módulo
-            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo, "Venta");
 
             // Agregar menú del módulo
             _principal.Vista.BarraTitulo.Registrar(_menuVenta.Vista);

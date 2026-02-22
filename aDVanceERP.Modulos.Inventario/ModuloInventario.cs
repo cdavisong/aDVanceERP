@@ -59,7 +59,7 @@ namespace aDVanceERP.Modulos.Inventario {
 
         protected override void InicializarVistas() {
             // Agregar botón de acceso al módulo
-            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo, "Inventario");
 
             // Agregar menú del módulo
             _principal.Vista.BarraTitulo.Registrar(_menuInventario.Vista);

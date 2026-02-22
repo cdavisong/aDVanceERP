@@ -5,6 +5,7 @@ namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
         FlowLayoutPanel PanelMenuLateral { get; }
         RepoVistaBase PanelCentral { get; }
 
+        Label NombreModulo { get; }
         string MensajePortada { get; set; }
     }
 }

@@ -97,7 +97,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTitulo.BackColor = Color.WhiteSmoke;
             fieldTitulo.Dock = DockStyle.Fill;
             fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            fieldTitulo.ForeColor = Color.Black;
+            fieldTitulo.ForeColor = Color.Firebrick;
             fieldTitulo.ImeMode = ImeMode.NoControl;
             fieldTitulo.Location = new Point(0, 0);
             fieldTitulo.Margin = new Padding(0);
@@ -131,7 +131,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnMaestros.CheckedState.FillColor = Color.WhiteSmoke;
             btnMaestros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             btnMaestros.Cursor = Cursors.Hand;
-            btnMaestros.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnMaestros.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnMaestros.CustomImages.ImageAlign = HorizontalAlignment.Left;
             btnMaestros.CustomImages.ImageOffset = new Point(10, 0);
             btnMaestros.CustomImages.ImageSize = new Size(24, 24);
@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnMaestros.CustomizableEdges = customizableEdges1;
             btnMaestros.Dock = DockStyle.Left;
             btnMaestros.FillColor = Color.WhiteSmoke;
-            btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             btnMaestros.ForeColor = Color.Black;
             btnMaestros.HoverState.FillColor = Color.PeachPuff;
             btnMaestros.Location = new Point(640, 0);
@@ -159,7 +159,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEnvios.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnEnvios.CheckedState.FillColor = Color.WhiteSmoke;
             btnEnvios.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnEnvios.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage");
+            btnEnvios.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage");
             btnEnvios.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnEnvios.CustomImages.ImageOffset = new Point(0, 32);
             btnEnvios.CustomImages.ImageSize = new Size(131, 8);
@@ -183,7 +183,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPagos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnPagos.CheckedState.FillColor = Color.WhiteSmoke;
             btnPagos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnPagos.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage1");
+            btnPagos.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage1");
             btnPagos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPagos.CustomImages.ImageOffset = new Point(0, 32);
             btnPagos.CustomImages.ImageSize = new Size(131, 8);
@@ -207,7 +207,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVentas.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnVentas.CheckedState.FillColor = Color.WhiteSmoke;
             btnVentas.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnVentas.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage2");
+            btnVentas.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage2");
             btnVentas.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnVentas.CustomImages.ImageOffset = new Point(0, 32);
             btnVentas.CustomImages.ImageSize = new Size(131, 8);
@@ -231,7 +231,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPedidos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             btnPedidos.CheckedState.FillColor = Color.WhiteSmoke;
             btnPedidos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnPedidos.CustomImages.CheckedImage = (Image)resources.GetObject("resource.CheckedImage3");
+            btnPedidos.CustomImages.CheckedImage = (Image) resources.GetObject("resource.CheckedImage3");
             btnPedidos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPedidos.CustomImages.ImageOffset = new Point(0, 32);
             btnPedidos.CustomImages.ImageSize = new Size(131, 8);
@@ -251,7 +251,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // VistaMenuVenta
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.FromArgb(245, 245, 245);
+            BackColor = Color.FromArgb(  245,   245,   245);
             ClientSize = new Size(1042, 50);
             Controls.Add(layoutBase);
             Font = new Font("Segoe UI", 11.25F);

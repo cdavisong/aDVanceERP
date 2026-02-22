@@ -117,7 +117,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTitulo.BackColor = Color.WhiteSmoke;
             fieldTitulo.Dock = DockStyle.Fill;
             fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            fieldTitulo.ForeColor = Color.Black;
+            fieldTitulo.ForeColor = Color.Firebrick;
             fieldTitulo.ImeMode = ImeMode.NoControl;
             fieldTitulo.Location = new Point(0, 0);
             fieldTitulo.Margin = new Padding(0);
