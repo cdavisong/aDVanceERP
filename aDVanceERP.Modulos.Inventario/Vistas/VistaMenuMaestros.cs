@@ -35,6 +35,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // Eventos
             btnProductos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionProductos", string.Empty); };
             btnAlmacenes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionAlmacenes", string.Empty); };
+            btnTiposClasificacionesProducto.Click += delegate { AgregadorEventos.Publicar("MostrarVistaTiposClasificaciones", string.Empty); };
             btnAtras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty); };
         }
 
@@ -43,6 +44,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 btnProductos.PerformClick();
             else if (btnAlmacenes.Visible)
                 btnAlmacenes.PerformClick();
+            else if (btnTiposClasificacionesProducto.Visible)
+                btnTiposClasificacionesProducto.PerformClick();
         }
 
         public void Mostrar() {
