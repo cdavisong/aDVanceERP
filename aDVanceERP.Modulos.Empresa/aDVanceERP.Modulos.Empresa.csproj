@@ -27,4 +27,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Presentadores\" />
+    <Folder Include="Vistas\" />
+  </ItemGroup>
+
 </Project>

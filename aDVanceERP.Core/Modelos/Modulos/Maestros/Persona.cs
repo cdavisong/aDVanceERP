@@ -1,19 +1,15 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Maestros
-{
-    public class Persona : IEntidadBaseDatos
-    {
-        public Persona()
-        {
+namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
+    public class Persona : IEntidadBaseDatos {
+        public Persona() {
             NombreCompleto = "N/A";
             TipoDocumento = TipoDocumento.CI;
             NumeroDocumento = "N/A";
             FechaRegistro = DateTime.UtcNow;
             Activo = true;
         }
-        public Persona(long id, string nombreCompleto, TipoDocumento tipoDocumento, string numeroDocumento, string? direccionPrincipal, DateTime fechaRegistro, bool activo)
-        {
+        public Persona(long id, string nombreCompleto, TipoDocumento tipoDocumento, string numeroDocumento, string? direccionPrincipal, DateTime fechaRegistro, bool activo) {
             Id = id;
             NombreCompleto = nombreCompleto;
             TipoDocumento = tipoDocumento;
@@ -32,16 +28,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
         public bool Activo { get; set; }
     }
 
-    public enum FiltroBusquedaPersona
-    {
+    public enum FiltroBusquedaPersona {
         Todos,
         Id,
         NombreCompleto,
         NumeroDocumento
     }
 
-    public static class UtilesBusquedaPersona
-    {
+    public static class UtilesBusquedaPersona {
         public static object[] FiltroBusquedaPersona = {
             "Todas las personas",
             "Identificador de BD",
