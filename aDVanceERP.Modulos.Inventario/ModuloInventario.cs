@@ -19,6 +19,8 @@ namespace aDVanceERP.Modulos.Inventario {
         private PresentadorRegistroMovimiento _registroMovimiento = null!;
         private PresentadorGestionAlmacenes _almacenes = null!;
         private PresentadorRegistroAlmacen _registroAlmacen = null!;
+        private PresentadorGestionClasificaciones _clasificaciones = null!;
+        private PresentadorRegistroClasificacion _registroClasificacion = null!;
 
         public ModuloInventario() {
             Nombre = "MOD_INVENTARIO";
@@ -53,6 +55,10 @@ namespace aDVanceERP.Modulos.Inventario {
             _almacenes = new PresentadorGestionAlmacenes(new VistaGestionAlmacenes());
             _registroAlmacen = new PresentadorRegistroAlmacen(new VistaRegistroAlmacen());
             _registroAlmacen.EntidadRegistradaActualizada += (s, e) => _almacenes.ActualizarResultadosBusqueda();
+            // Clasificaciones
+            _clasificaciones = new PresentadorGestionClasificaciones(new VistaGestionClasificaciones());
+            _registroClasificacion = new PresentadorRegistroClasificacion(new VistaRegistroClasificacion());
+            _registroClasificacion.EntidadRegistradaActualizada += (s, e) => _clasificaciones.ActualizarResultadosBusqueda();
 
             base.Inicializar(principal);
         }
@@ -75,6 +81,9 @@ namespace aDVanceERP.Modulos.Inventario {
             // Almacenes
             _principal.Modulos.Vista.PanelCentral.Registrar(_almacenes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroAlmacen.Vista);
+            // Clasificaciones
+            _principal.Modulos.Vista.PanelCentral.Registrar(_clasificaciones.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroClasificacion.Vista);
         }
 
         public override void Apagar() {

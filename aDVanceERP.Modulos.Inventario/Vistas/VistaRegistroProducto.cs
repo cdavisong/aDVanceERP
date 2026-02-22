@@ -326,7 +326,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (File.Exists(RutaImagen))
                 File.Delete(RutaImagen);
 
-            File.Copy(_rutaImagen, RutaImagen);
+            // Convertir la imagen original del producto a un formato compatible con el guardado (por ejemplo, JPEG o PNG)
+            var formatoImagen = Path.GetExtension(_rutaImagen).ToLower() switch {
+                ".jpg" or ".jpeg" => System.Drawing.Imaging.ImageFormat.Jpeg,
+                ".png" => System.Drawing.Imaging.ImageFormat.Png,
+                _ => System.Drawing.Imaging.ImageFormat.Png
+            };
+            
+            var bitmap = Image.FromFile(_rutaImagen) as Bitmap;
+
+            bitmap?.Save(RutaImagen, formatoImagen);
         }
 
         public void CargarNombresProveedores(string[] nombresProvedores) {

@@ -10,6 +10,9 @@
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Vistas\VistaGestionClasificaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaMenuInventario.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -17,6 +20,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="Vistas\VistaMenuMaestros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroClasificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaClasificacion.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
