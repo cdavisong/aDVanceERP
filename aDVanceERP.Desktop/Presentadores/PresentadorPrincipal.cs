@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
+using aDVanceERP.Core.Repositorios.Modulos.Empresas;
 using aDVanceERP.Core.Vistas.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Desktop.Properties;
@@ -21,7 +22,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Registrar(Modulos.Vista);
 
             // Eventos de la vista principal
-            ((Form)Vista).Shown += OnVistaPrincipalMostrada;
+            ((Form) Vista).Shown += OnVistaPrincipalMostrada;
 
             // Eventos de seguridad
             AgregadorEventos.Suscribir("EventoUsuarioAutenticado", OnUsuarioAutenticado);
@@ -31,7 +32,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             InicializarVistasComunes();
 
             // Cargar módulos extensiones de la aplicación
-            ((PresentadorContenedorModulos)Modulos).CargarModulosExtension(this);
+            ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this);
         }
 
         public IVistaPrincipal Vista { get; }
@@ -97,7 +98,6 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnTitulo.ShadowDecoration.CustomizableEdges = customizableEdges;
             btnTitulo.Size = new Size(50, 50);
             btnTitulo.TabIndex = Vista.BotonesTitulo.Controls.Count + 1;
-            btnTitulo.Click += delegate { AgregadorEventos.Publicar("MostrarInicio", string.Empty); };
 
             Vista.BotonesTitulo.Controls.Add(btnTitulo);
             Vista.BotonesTitulo.ResumeLayout(false);

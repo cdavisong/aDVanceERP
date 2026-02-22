@@ -9,7 +9,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
-    public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Core.Modelos.Modulos.Inventario.Producto, RepoProducto, FiltroBusquedaProducto> {
+    public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
         public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
             AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
@@ -115,25 +115,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             };
         }
 
-        protected override bool EntidadCorrecta() {
-            var productosConNombreRepetido = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).cantidad;
-            var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
-            var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
-            var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
-            var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
-
-            if (nombreRepetido)
-                CentroNotificaciones.MostrarNotificacion("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacion.Advertencia);
-            if (!nombreOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
-            if (!codigoOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de código es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
-            if (!unidadMedidaOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
-
-            return nombreOk && codigoOk && unidadMedidaOk;
-        }
-
         protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
             if (!Vista.ModoEdicion) {
                 // Crear inventario inicial en el almacén seleccionado
@@ -171,6 +152,25 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 // Adicionar a la base de datos local
                 RepoMovimiento.Instancia.Adicionar(movimiento);
             }
+        }
+
+        protected override bool EntidadCorrecta() {
+            var productosConNombreRepetido = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).cantidad;
+            var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
+            var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
+            var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
+            var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
+
+            if (nombreRepetido)
+                CentroNotificaciones.MostrarNotificacion("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacion.Advertencia);
+            if (!nombreOk)
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+            if (!codigoOk)
+                CentroNotificaciones.MostrarNotificacion("El campo de código es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+            if (!unidadMedidaOk)
+                CentroNotificaciones.MostrarNotificacion("El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+
+            return nombreOk && codigoOk && unidadMedidaOk;
         }
     }
 }
