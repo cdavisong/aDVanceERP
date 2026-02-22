@@ -11,8 +11,6 @@ using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
-        
-
         public PresentadorPrincipal() {
             Vista = new VistaPrincipal();
             Seguridad = new PresentadorContenedorSeguridad(Vista, new VistaContenedorSeguridad());
@@ -99,6 +97,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnTitulo.ShadowDecoration.CustomizableEdges = customizableEdges;
             btnTitulo.Size = new Size(50, 50);
             btnTitulo.TabIndex = Vista.BotonesTitulo.Controls.Count + 1;
+            btnTitulo.Click += delegate { AgregadorEventos.Publicar("MostrarInicio", string.Empty); };
 
             Vista.BotonesTitulo.Controls.Add(btnTitulo);
             Vista.BotonesTitulo.ResumeLayout(false);

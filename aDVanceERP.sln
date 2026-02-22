@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aDVanceERP.Core.Extension",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.Venta", "aDVanceERP.Modulos.Venta\aDVanceERP.Modulos.Venta.csproj", "{21F08E1B-3395-493F-97B9-59D71F4BD478}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.Empresa", "aDVanceERP.Modulos.Empresa\aDVanceERP.Modulos.Empresa.csproj", "{7E029CC5-378A-4895-B09B-241D0249D8C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{21F08E1B-3395-493F-97B9-59D71F4BD478}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21F08E1B-3395-493F-97B9-59D71F4BD478}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21F08E1B-3395-493F-97B9-59D71F4BD478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E029CC5-378A-4895-B09B-241D0249D8C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E029CC5-378A-4895-B09B-241D0249D8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E029CC5-378A-4895-B09B-241D0249D8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E029CC5-378A-4895-B09B-241D0249D8C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
