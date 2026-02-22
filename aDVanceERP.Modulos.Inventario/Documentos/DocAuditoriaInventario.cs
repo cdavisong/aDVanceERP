@@ -249,8 +249,8 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 // Pie de última página
                 DibujarPiePagina(gfx, paginaActual, numeroPagina, numeroPagina, ObtenerTituloDocumento());
 
-                // Guardar y abrir
-                string rutaDocumento = Path.Combine(Path.GetTempPath(),
+                // Guardar y abrir en la carpeta "Mis Documentos"
+                string rutaDocumento = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     $"Auditoria_Inventario_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
 
                 documento.Save(rutaDocumento);

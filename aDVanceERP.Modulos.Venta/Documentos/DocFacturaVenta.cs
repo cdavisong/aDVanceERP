@@ -235,8 +235,7 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 DibujarPiePagina(gfx, pagina, 1, 1, $"Factura: {_datosVenta["numero_factura_ticket"]}");
 
                 // Guardar archivo
-                string rutaDocumento = Path.Combine(
-                    Path.GetTempPath(),
+                string rutaDocumento = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     $"Factura_{_datosVenta["numero_factura_ticket"].Replace("/", "-")}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf"
                 );
 

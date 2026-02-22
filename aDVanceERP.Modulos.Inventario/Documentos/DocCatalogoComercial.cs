@@ -118,7 +118,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 }
 
                 // Guardar
-                string rutaDocumento = Path.Combine(Path.GetTempPath(),
+                string rutaDocumento = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     $"Catalogo_{NombreEmpresa.Replace(" ", "_")}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
 
                 documento.Save(rutaDocumento);

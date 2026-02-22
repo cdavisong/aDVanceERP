@@ -244,8 +244,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 }
 
                 // Guardar documento
-                string rutaDocumento = Path.Combine(
-                    Path.GetTempPath(),
+                string rutaDocumento = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     $"Inventario_{DateTime.Now:yyyyMMdd_HHmmss}.pdf"
                 );
 
