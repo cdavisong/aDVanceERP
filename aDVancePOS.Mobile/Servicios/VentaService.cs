@@ -26,7 +26,7 @@ namespace aDVancePOS.Mobile.Servicios {
                 }
 
                 var json = await File.ReadAllTextAsync(RutasApp.RutaVentasHoy);
-                _ventasHoy = JsonSerializer.Deserialize<VentasExportacionJson>(json)
+                _ventasHoy = JsonSerializer.Deserialize(json, JsonContexto.Default.VentasExportacionJson)
                              ?? NuevoArchivoVentas();
 
                 _contadorTicketHoy = _ventasHoy.Ventas.Count;
@@ -139,8 +139,8 @@ namespace aDVancePOS.Mobile.Servicios {
             _ventasHoy.Meta.ExportadoEn = DateTime.UtcNow;
             _ventasHoy.Meta.IdAlmacen = _config.IdAlmacen;
 
-            var json = JsonSerializer.Serialize(_ventasHoy,
-                new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(_ventasHoy, JsonContexto.Default.VentasExportacionJson);
+
             await File.WriteAllTextAsync(RutasApp.RutaVentasHoy, json);
         }
 

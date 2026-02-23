@@ -7,7 +7,8 @@
         ///   adb exec-out run-as aDVancePOS.Mobile cat files/ventas_20250222.json
         /// </summary>
         public static string DirectorioBase =>
-            Android.App.Application.Context.FilesDir!.AbsolutePath;
+    Android.App.Application.Context
+        .GetExternalFilesDir(null)!.AbsolutePath;
 
         public static string RutaCatalogo =>
             Path.Combine(DirectorioBase, "catalogo.json");

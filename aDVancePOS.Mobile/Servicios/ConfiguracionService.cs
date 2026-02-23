@@ -1,9 +1,9 @@
-﻿using System.Text.Json;
+using System.Text.Json;
+
+using aDVancePOS.Mobile.Modelos; // JsonContexto
 
 namespace aDVancePOS.Mobile.Servicios {
     public static class ConfiguracionService {
-        private static readonly JsonSerializerOptions _opts =
-            new() { WriteIndented = true };
 
         public static ConfiguracionApp Cargar() {
             try {
@@ -11,7 +11,7 @@ namespace aDVancePOS.Mobile.Servicios {
                     return new ConfiguracionApp();
 
                 var json = File.ReadAllText(RutasApp.RutaConfiguracion);
-                return JsonSerializer.Deserialize<ConfiguracionApp>(json)
+                return JsonSerializer.Deserialize(json, JsonContexto.Default.ConfiguracionApp)
                        ?? new ConfiguracionApp();
             } catch {
                 return new ConfiguracionApp();
@@ -19,7 +19,7 @@ namespace aDVancePOS.Mobile.Servicios {
         }
 
         public static void Guardar(ConfiguracionApp config) {
-            var json = JsonSerializer.Serialize(config, _opts);
+            var json = JsonSerializer.Serialize(config, JsonContexto.Default.ConfiguracionApp);
             File.WriteAllText(RutasApp.RutaConfiguracion, json);
         }
     }

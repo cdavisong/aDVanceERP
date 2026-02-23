@@ -1,8 +1,6 @@
 ﻿// ============================================================
 //  aDVancePOS.Mobile — MainActivity
 //  Archivo: MainActivity.cs
-//
-//  Conecta la UI (activity_main.xml) con los servicios.
 // ============================================================
 
 using aDVancePOS.Mobile.Adaptadores;
@@ -11,9 +9,9 @@ using aDVancePOS.Mobile.Servicios;
 
 using Android;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 using Android.Widget;
 
 namespace aDVancePOS.Mobile {
@@ -22,6 +20,7 @@ namespace aDVancePOS.Mobile {
         MainLauncher = false,
         Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class MainActivity : Activity {
+
         // ── Servicios ────────────────────────────────────────
         private ConfiguracionApp _config = null!;
         private CatalogoService _catalogoService = null!;
@@ -49,6 +48,12 @@ namespace aDVancePOS.Mobile {
         private Button _btnPagarEfectivo = null!;
         private Button _btnPagarTransferencia = null!;
 
+        // ── SMS PAGOxMOVIL ────────────────────────────────────
+        // Se registra al abrir el diálogo y se desregistra al cerrarlo
+        private SmsTransferenciaBroadcastReceiver? _smsReceiver;
+
+        private const int RequestCodeSms = 1001;
+
         // ─────────────────────────────────────────────────────
 
         protected override void OnCreate(Bundle? savedInstanceState) {
@@ -60,6 +65,7 @@ namespace aDVancePOS.Mobile {
             EnlazarControles();
             ConfigurarEventos();
             CargarDatosInicialesAsync();
+            SolicitarPermisosSms();
         }
 
         // ── Inicialización ───────────────────────────────────
@@ -89,21 +95,15 @@ namespace aDVancePOS.Mobile {
         }
 
         private void ConfigurarEventos() {
-            // Búsqueda en tiempo real
             _txtBuscar.TextChanged += (s, e) => {
                 var termino = _txtBuscar.Text ?? "";
-                _btnLimpiarBusqueda.Visibility =
-                    string.IsNullOrEmpty(termino)
+                _btnLimpiarBusqueda.Visibility = string.IsNullOrEmpty(termino)
                     ? Android.Views.ViewStates.Gone
                     : Android.Views.ViewStates.Visible;
                 FiltrarProductos(termino);
             };
 
-            _btnLimpiarBusqueda.Click += (s, e) => {
-                _txtBuscar.Text = "";
-                FiltrarProductos("");
-            };
-
+            _btnLimpiarBusqueda.Click += (s, e) => { _txtBuscar.Text = ""; FiltrarProductos(""); };
             _btnImportar.Click += async (s, e) => await ImportarCatalogoAsync();
             _btnVaciarCarrito.Click += (s, e) => SolicitarVaciarCarrito();
             _btnPagarEfectivo.Click += async (s, e) => await PagarEfectivoAsync();
@@ -113,10 +113,20 @@ namespace aDVancePOS.Mobile {
 
         private async void CargarDatosInicialesAsync() {
             await _ventaService.CargarVentasDelDiaAsync();
-
-            // Si ya existe catalogo.json en disco, cargarlo silenciosamente
             if (System.IO.File.Exists(RutasApp.RutaCatalogo))
                 await ImportarCatalogoAsync(silencioso: true);
+        }
+
+        // ── Permisos SMS ─────────────────────────────────────
+
+        private void SolicitarPermisosSms() {
+            // En Android 6+ los permisos peligrosos se piden en tiempo de ejecución
+            if (CheckSelfPermission(Manifest.Permission.ReceiveSms) != Permission.Granted ||
+                CheckSelfPermission(Manifest.Permission.ReadSms) != Permission.Granted) {
+                RequestPermissions(
+                    new[] { Manifest.Permission.ReceiveSms, Manifest.Permission.ReadSms },
+                    RequestCodeSms);
+            }
         }
 
         // ── Catálogo ─────────────────────────────────────────
@@ -129,7 +139,6 @@ namespace aDVancePOS.Mobile {
                 var catalogo = await _catalogoService.CargarCatalogoAsync();
                 _catalogoCargado = true;
 
-                // Sincronizar idAlmacen desde el catálogo
                 if (_config.IdAlmacen == 1) {
                     _config.IdAlmacen = catalogo.Meta.IdAlmacen;
                     ConfiguracionService.Guardar(_config);
@@ -175,7 +184,7 @@ namespace aDVancePOS.Mobile {
                 $"Total a cobrar: {_carritoService.ImporteTotal:C2}",
                 async () => {
                     var venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
-                    _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
+                    _carritoService.VaciarTrasVenta();
                     ActualizarUI();
                     MostrarMensaje(
                         $"✓ Venta registrada\n" +
@@ -195,7 +204,7 @@ namespace aDVancePOS.Mobile {
             MostrarDialogoTransferencia(async (confirmacion, transaccion) => {
                 var venta = await _ventaService.RegistrarVentaTransferenciaAsync(
                     _carritoService, confirmacion, transaccion);
-                _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
+                _carritoService.VaciarTrasVenta();
                 ActualizarUI();
                 MostrarMensaje(
                     $"✓ Transferencia registrada (pendiente de confirmación)\n" +
@@ -213,7 +222,6 @@ namespace aDVancePOS.Mobile {
                 return;
             }
 
-            // Desglose por método de pago
             var resumen = _ventaService.ObtenerResumenPorMetodo();
 
             var sb = new System.Text.StringBuilder();
@@ -222,7 +230,6 @@ namespace aDVancePOS.Mobile {
             sb.AppendLine($"Ventas completadas: {totalVentas}");
             sb.AppendLine($"Total recaudado:    {totalRecaudado:C2}");
             sb.AppendLine();
-
             if (resumen.Efectivo > 0)
                 sb.AppendLine($"💵 Efectivo:         {resumen.Efectivo:C2}");
             if (resumen.Transferencia > 0)
@@ -242,12 +249,7 @@ namespace aDVancePOS.Mobile {
         // ── Actualización de UI ───────────────────────────────
 
         private void ActualizarListaProductos() {
-            // FIX STOCK: reusar el adapter con NotifyDataSetChanged en lugar de
-            // recrearlo. Recrear el adapter cada vez hace que ListView no redibuje
-            // las filas visibles recicladas, por lo que el stock no se actualiza
-            // en pantalla aunque StockEnSesion sí cambió en el modelo.
             if (_productoAdapter == null || _lstProductos.Adapter == null) {
-                // Primera carga: crear el adapter y asignarlo
                 _productoAdapter = new ProductoAdapter(this, _productosMostrados, producto => {
                     if (!_carritoService.AgregarProducto(producto))
                         Toast.MakeText(this, $"Sin stock: {producto.Nombre}",
@@ -256,8 +258,6 @@ namespace aDVancePOS.Mobile {
                 });
                 _lstProductos.Adapter = _productoAdapter;
             } else {
-                // Actualizaciones posteriores: reemplazar la lista interna y
-                // notificar al adapter para que redibuje TODAS las filas visibles
                 _productoAdapter.ActualizarLista(_productosMostrados);
             }
 
@@ -276,7 +276,6 @@ namespace aDVancePOS.Mobile {
             var items = _carritoService.Items.ToList();
             bool carritoConItems = items.Count > 0;
 
-            // ── Carrito ───────────────────────────────────────────
             _lstCarrito.Adapter = new CarritoAdapter(this, items,
                 onRestar: item => { _carritoService.RestarProducto(item.Producto); ActualizarUI(); },
                 onSumar: item => {
@@ -287,15 +286,12 @@ namespace aDVancePOS.Mobile {
                 onEliminar: item => { _carritoService.EliminarItem(item); ActualizarUI(); }
             );
 
-            // ── Total ─────────────────────────────────────────────
             _lblTotal.Text = _carritoService.ImporteTotal.ToString("C2");
 
-            // ── FIX #4: Sección de pagos — solo habilitada con carrito lleno ──
             _seccionPagos.Alpha = carritoConItems ? 1.0f : 0.35f;
             _btnPagarEfectivo.Enabled = carritoConItems;
             _btnPagarTransferencia.Enabled = carritoConItems;
 
-            // ── Visibilidad carrito vacío ──────────────────────────
             _lblCarritoVacio.Visibility = carritoConItems
                 ? Android.Views.ViewStates.Gone
                 : Android.Views.ViewStates.Visible;
@@ -303,13 +299,8 @@ namespace aDVancePOS.Mobile {
                 ? Android.Views.ViewStates.Visible
                 : Android.Views.ViewStates.Gone;
 
-            // ── FIX #3: Badge ventas del día ──────────────────────
             _lblVentasBadge.Text = _ventaService.TotalVentasHoy.ToString();
 
-            // ── FIX #2: Refrescar lista productos para reflejar stock actualizado ──
-            // Cada vez que el carrito cambia, el stock en sesión cambia.
-            // Redibujar la lista muestra la cantidad disponible actualizada
-            // y deshabilita el botón "+" de productos agotados.
             if (_catalogoCargado)
                 ActualizarListaProductos();
         }
@@ -333,34 +324,125 @@ namespace aDVancePOS.Mobile {
                 .Show();
         }
 
+        // ── Diálogo de transferencia con detección SMS ────────
+
         private void MostrarDialogoTransferencia(Func<string, string, Task> onConfirmar) {
+            var totalCarrito = _carritoService.ImporteTotal;
+
             var layout = new LinearLayout(this) { Orientation = Orientation.Vertical };
-            layout.SetPadding(48, 24, 48, 0);
+            layout.SetPadding(48, 16, 48, 0);
 
-            var txtConfirmacion = new EditText(this) {
-                Hint = "Número de confirmación *",
-                InputType = Android.Text.InputTypes.ClassText
+            // Etiqueta de estado: se actualiza cuando llega el SMS
+            var lblEstadoSms = new TextView(this) {
+                Text = "📱 Esperando SMS de PAGOxMOVIL...",
+                TextSize = 12f
             };
+            lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor("#AAAAAA"));
+            lblEstadoSms.SetPadding(0, 0, 0, 16);
+
+            // Campo principal — se autocompleta con el Nro. Transaccion del SMS
             var txtTransaccion = new EditText(this) {
-                Hint = "Número de transacción (opcional)",
+                Hint = "Nro. Transacción *",
                 InputType = Android.Text.InputTypes.ClassText
             };
-            layout.AddView(txtConfirmacion);
-            layout.AddView(txtTransaccion);
 
-            new AlertDialog.Builder(this)!
-                .SetTitle($"Transferencia — {_carritoService.ImporteTotal:C2}")!
-                .SetView(layout)!
-                .SetPositiveButton("Registrar", async (s, e) => {
-                    var confirmacion = txtConfirmacion.Text?.Trim() ?? "";
-                    if (string.IsNullOrEmpty(confirmacion)) {
-                        MostrarMensaje("El número de confirmación es requerido.");
-                        return;
+            // Campo opcional para confirmación adicional manual
+            var txtConfirmacion = new EditText(this) {
+                Hint = "Confirmación adicional (opcional)",
+                InputType = Android.Text.InputTypes.ClassText
+            };
+
+            layout.AddView(lblEstadoSms);
+            layout.AddView(txtTransaccion);
+            layout.AddView(txtConfirmacion);
+
+            // ── Registrar BroadcastReceiver ───────────────────
+            _smsReceiver = new SmsTransferenciaBroadcastReceiver();
+            _smsReceiver.OnPagoDetectado = resultado => {
+                // Siempre autocompletar, sin importar si el monto coincide
+                RunOnUiThread(() => {
+                    txtTransaccion.Text = resultado.NumeroTransaccion;
+
+                    bool montoCoincide = resultado.Monto == totalCarrito;
+
+                    if (montoCoincide) {
+                        // Verde: todo OK
+                        lblEstadoSms.Text =
+                            $"✓ SMS detectado · {resultado.Monto:N2} CUP" +
+                            (resultado.TelefonoRemitente != null
+                                ? $" · Tel: {resultado.TelefonoRemitente}"
+                                : "");
+                        lblEstadoSms.SetTextColor(
+                            Android.Graphics.Color.ParseColor("#2E7D32"));
+                    } else {
+                        // Naranja: monto distinto, el cajero debe verificar
+                        lblEstadoSms.Text =
+                            $"⚠ Monto SMS: {resultado.Monto:N2} CUP  " +
+                            $"(carrito: {totalCarrito:N2} CUP) · Verifique";
+                        lblEstadoSms.SetTextColor(
+                            Android.Graphics.Color.ParseColor("#E65100"));
                     }
-                    await onConfirmar(confirmacion, txtTransaccion.Text?.Trim() ?? "");
-                })!
-                .SetNegativeButton("Cancelar", (s, e) => { })!
-                .Show();
+                });
+            };
+
+            var filtro = new IntentFilter(
+                Android.Provider.Telephony.Sms.Intents.SmsReceivedAction);
+            RegisterReceiver(_smsReceiver, filtro);
+
+            // ── Mostrar diálogo ───────────────────────────────
+            var dialogo = new AlertDialog.Builder(this)!
+                .SetTitle($"📲 Transferencia — {totalCarrito:N2} CUP")!
+                .SetView(layout)!
+                .SetPositiveButton("Registrar", (IDialogInterfaceOnClickListener?) null)!
+                .SetNegativeButton("Cancelar", (s, e) => DesregistrarSmsReceiver())!
+                .Create()!;
+
+            // SetPositiveButton con null listener para poder validar antes de cerrar
+            dialogo.SetOnShowListener(new DialogShowListener(() => {
+                var btnRegistrar = dialogo.GetButton((int) DialogButtonType.Positive);
+                btnRegistrar!.Click += async (s, e) => {
+                    var transaccion = txtTransaccion.Text?.Trim() ?? "";
+                    if (string.IsNullOrEmpty(transaccion)) {
+                        MostrarMensaje("El número de transacción es requerido.");
+                        return; // No cerrar el diálogo
+                    }
+
+                    var confirmacion = txtConfirmacion.Text?.Trim() ?? "";
+                    DesregistrarSmsReceiver();
+                    dialogo.Dismiss();
+                    await onConfirmar(confirmacion, transaccion);
+                };
+            }));
+
+            dialogo.SetOnCancelListener(new DialogCancelListener(DesregistrarSmsReceiver));
+            dialogo.Show();
         }
+
+        private void DesregistrarSmsReceiver() {
+            if (_smsReceiver == null) return;
+            try { UnregisterReceiver(_smsReceiver); } catch { /* ya desregistrado */ }
+            _smsReceiver = null;
+        }
+
+        // ── Ciclo de vida ─────────────────────────────────────
+
+        protected override void OnDestroy() {
+            DesregistrarSmsReceiver();
+            base.OnDestroy();
+        }
+    }
+
+    // ── Helpers de listeners para AlertDialog ─────────────────
+
+    internal class DialogShowListener : Java.Lang.Object, IDialogInterfaceOnShowListener {
+        private readonly Action _onShow;
+        public DialogShowListener(Action onShow) => _onShow = onShow;
+        public void OnShow(IDialogInterface? dialog) => _onShow();
+    }
+
+    internal class DialogCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener {
+        private readonly Action _onCancel;
+        public DialogCancelListener(Action onCancel) => _onCancel = onCancel;
+        public void OnCancel(IDialogInterface? dialog) => _onCancel();
     }
 }

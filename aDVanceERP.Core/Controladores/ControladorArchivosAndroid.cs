@@ -2,31 +2,29 @@
 
 using System.Diagnostics;
 using System.Text;
-using System.Text.Json;
 
 namespace aDVanceERP.Core.Controladores {
     /// <summary>
     /// Gestiona la transferencia de archivos entre el ERP desktop y
     /// el dispositivo Android con aDVancePOS instalado.
     ///
-    /// ESTRATEGIA DE RUTAS:
-    ///   Push (catálogo → dispositivo):
-    ///     1. adb push → /data/local/tmp/catalogo.json   (tmp público)
-    ///     2. adb shell run-as → cp tmp → files/          (privado app)
+    /// ESTRATEGIA DE RUTAS (compatible con APK Release firmada):
+    ///   La app usa GetExternalFilesDir() → accesible sin root ni run-as:
+    ///     /sdcard/Android/data/cu.davisoft.advancepos/files/
     ///
-    ///   Pull (ventas → PC):
-    ///     adb exec-out run-as → cat files/ventas_*.json
+    ///   Push (catálogo → dispositivo) : adb push directo a ruta externa
+    ///   Pull (ventas   → PC)          : adb pull directo desde ruta externa
     ///
-    ///   Esto evita dependencia de /sdcard/ y no requiere permisos
-    ///   de almacenamiento en el dispositivo.
+    ///   No requiere run-as. Funciona con build Debug y Release.
     /// </summary>
     public class ControladorArchivosAndroid {
         private readonly string _adbPath;
         private readonly string _appPackageName = "cu.davisoft.advancepos";
 
-        // Directorio privado de la app en el dispositivo
-        private const string DeviceFilesDir = "files";
-        private const string DeviceTmpPath = "/data/local/tmp";
+        // Directorio externo privado de la app en el dispositivo.
+        // Visible en Windows Explorer y accesible por ADB sin permisos especiales.
+        private string DeviceFilesDir =>
+            $"/sdcard/Android/data/{_appPackageName}/files";
 
         public ControladorArchivosAndroid(string applicationPath) {
             _adbPath = Path.Combine(applicationPath, "tools", "adb.exe");
@@ -49,7 +47,7 @@ namespace aDVanceERP.Core.Controladores {
         public bool CheckDeviceConnection() {
             try {
                 string output = EjecutarAdb("devices");
-                bool conectado = output.Contains("device") && !output.Contains("unauthorized");
+                bool conectado = output.Contains("\tdevice") && !output.Contains("unauthorized");
 
                 if (!conectado) {
                     if (output.Contains("unauthorized"))
@@ -69,14 +67,13 @@ namespace aDVanceERP.Core.Controladores {
         }
 
         /// <summary>
-        /// Verifica que el paquete de la app esté instalado en modo Debug
-        /// (run-as solo funciona con builds debuggeables).
+        /// Verifica que la app esté instalada comprobando que su directorio
+        /// externo exista. Funciona con Debug y Release.
         /// </summary>
         public bool CheckAppInstalada() {
             try {
-                string output = EjecutarAdb($"shell run-as {_appPackageName} ls {DeviceFilesDir}/");
-                // Si run-as falla devuelve "unknown package" o "exec failed"
-                return !output.Contains("unknown package") && !output.Contains("exec failed");
+                string output = EjecutarAdb($"shell ls \"{DeviceFilesDir}\"");
+                return !output.Contains("No such file") && !output.Contains("not found");
             } catch { return false; }
         }
 
@@ -85,8 +82,8 @@ namespace aDVanceERP.Core.Controladores {
         // ══════════════════════════════════════════════════════
 
         /// <summary>
-        /// Envía catalogo.json al directorio privado de la app.
-        /// Estrategia de dos pasos: tmp público → directorio privado.
+        /// Envía catalogo.json al directorio externo de la app.
+        /// Push directo — no necesita run-as ni paso intermedio por /tmp.
         /// </summary>
         public bool PushCatalogo(string localFilePath) {
             if (!File.Exists(localFilePath)) {
@@ -96,37 +93,21 @@ namespace aDVanceERP.Core.Controladores {
                 return false;
             }
 
-            const string deviceFileName = "catalogo.json";
-            string tmpPath = $"{DeviceTmpPath}/{deviceFileName}";
-
             try {
-                // Paso 1: push al directorio tmp (no requiere permisos especiales)
-                string pushResult = EjecutarAdb($"push \"{localFilePath}\" \"{tmpPath}\"");
-                if (!pushResult.Contains("pushed") && !pushResult.Contains("1 file")) {
+                AsegurarDirectorio();
+
+                string devicePath = $"{DeviceFilesDir}/catalogo.json";
+                string result = EjecutarAdb($"push \"{localFilePath}\" \"{devicePath}\"");
+
+                if (!result.Contains("pushed") && !result.Contains("1 file")) {
                     CentroNotificaciones.MostrarNotificacion(
-                        $"Error al copiar catálogo al dispositivo:\n{pushResult}",
+                        $"Error al copiar catálogo al dispositivo:\n{result}",
                         Modelos.Comun.TipoNotificacion.Error);
                     return false;
                 }
-
-                // Paso 2: mover desde tmp al directorio privado de la app
-                string cpResult = EjecutarAdb(
-                    $"shell run-as {_appPackageName} cp {tmpPath} {DeviceFilesDir}/{deviceFileName}");
-
-                // cp no produce salida en éxito; cualquier salida es error
-                if (!string.IsNullOrWhiteSpace(cpResult) && cpResult.Contains("Permission")) {
-                    CentroNotificaciones.MostrarNotificacion(
-                        "Error de permisos al mover el catálogo. " +
-                        "Asegúrate de que la app esté instalada en modo Debug.",
-                        Modelos.Comun.TipoNotificacion.Error);
-                    return false;
-                }
-
-                // Limpiar tmp
-                EjecutarAdb($"shell rm {tmpPath}");
 
                 CentroNotificaciones.MostrarNotificacion(
-                    $"✓ Catálogo enviado correctamente al dispositivo.",
+                    "✓ Catálogo enviado correctamente al dispositivo.",
                     Modelos.Comun.TipoNotificacion.Info);
 
                 return true;
@@ -147,18 +128,16 @@ namespace aDVanceERP.Core.Controladores {
         /// Formato esperado: ventas_YYYYMMDD.json
         /// </summary>
         public List<(string fileName, DateTime fecha)> ListarArchivosVentas() {
-            var resultado = new List<(string, DateTime fecha)>();
+            var resultado = new List<(string fileName, DateTime fecha)>();
 
             try {
-                string output = EjecutarAdb(
-                    $"shell run-as {_appPackageName} ls {DeviceFilesDir}/");
+                string output = EjecutarAdb($"shell ls \"{DeviceFilesDir}\"");
 
                 foreach (var linea in output.Split('\n', StringSplitOptions.RemoveEmptyEntries)) {
                     var archivo = linea.Trim();
                     if (!archivo.StartsWith("ventas_") || !archivo.EndsWith(".json"))
                         continue;
 
-                    // Extraer fecha del nombre: ventas_YYYYMMDD.json
                     string fechaParte = archivo.Replace("ventas_", "").Replace(".json", "");
                     if (DateTime.TryParseExact(fechaParte, "yyyyMMdd",
                         null, System.Globalization.DateTimeStyles.None, out DateTime fecha)) {
@@ -180,8 +159,8 @@ namespace aDVanceERP.Core.Controladores {
         /// </summary>
         public bool PullVentas(string localDestinationPath, DateTime? fecha = null) {
             var fechaObj = fecha ?? DateTime.Today;
-            var deviceFile = $"ventas_{fechaObj:yyyyMMdd}.json";
-            return PullArchivoPrivado(deviceFile, localDestinationPath);
+            var deviceFileName = $"ventas_{fechaObj:yyyyMMdd}.json";
+            return PullArchivo(deviceFileName, localDestinationPath);
         }
 
         /// <summary>
@@ -195,7 +174,7 @@ namespace aDVanceERP.Core.Controladores {
             if (archivos.Count == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "No hay archivos de ventas en el dispositivo.",
-                    Modelos.Comun.TipoNotificacion.Info);
+                    Modelos.Comun.TipoNotificacion.Advertencia);
                 return descargados;
             }
 
@@ -203,7 +182,7 @@ namespace aDVanceERP.Core.Controladores {
 
             foreach (var (fileName, _) in archivos) {
                 string destino = Path.Combine(carpetaDestino, fileName);
-                if (PullArchivoPrivado(fileName, destino))
+                if (PullArchivo(fileName, destino))
                     descargados.Add(destino);
             }
 
@@ -224,25 +203,19 @@ namespace aDVanceERP.Core.Controladores {
         /// </summary>
         public bool EliminarArchivoVentas(string deviceFileName) {
             try {
-                string result = EjecutarAdb(
-                    $"shell run-as {_appPackageName} rm {DeviceFilesDir}/{deviceFileName}");
-                return string.IsNullOrWhiteSpace(result); // rm no produce salida en éxito
+                string result = EjecutarAdb($"shell rm \"{DeviceFilesDir}/{deviceFileName}\"");
+                return string.IsNullOrWhiteSpace(result);
             } catch { return false; }
         }
 
-        /// <summary>
-        /// Elimina el catálogo del dispositivo para forzar recarga.
-        /// </summary>
+        /// <summary>Elimina el catálogo del dispositivo para forzar recarga.</summary>
         public bool EliminarCatalogo()
             => EliminarArchivoVentas("catalogo.json");
 
-        /// <summary>
-        /// Verifica si el catálogo ya existe en el dispositivo.
-        /// </summary>
+        /// <summary>Verifica si el catálogo ya existe en el dispositivo.</summary>
         public bool ExisteCatalogo() {
             try {
-                string output = EjecutarAdb(
-                    $"shell run-as {_appPackageName} ls {DeviceFilesDir}/catalogo.json");
+                string output = EjecutarAdb($"shell ls \"{DeviceFilesDir}/catalogo.json\"");
                 return !output.Contains("No such file");
             } catch { return false; }
         }
@@ -253,19 +226,12 @@ namespace aDVanceERP.Core.Controladores {
 
         /// <summary>
         /// Flujo completo de inicio de día:
-        ///   1. Verifica conexión y app instalada
-        ///   2. Crea el directorio si no existe
+        ///   1. Verifica conexión
+        ///   2. Asegura que el directorio existe en el dispositivo
         ///   3. Envía el catálogo
         /// </summary>
         public bool FlujoComienzoDia(string rutaCatalogo) {
             if (!CheckDeviceConnection()) return false;
-            if (!CheckAppInstalada()) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "La app aDVancePOS no está instalada o no es una build Debug. " +
-                    "Despliega la app desde Visual Studio en modo Debug.",
-                    Modelos.Comun.TipoNotificacion.Error);
-                return false;
-            }
 
             AsegurarDirectorio();
             return PushCatalogo(rutaCatalogo);
@@ -274,9 +240,8 @@ namespace aDVanceERP.Core.Controladores {
         /// <summary>
         /// Flujo completo de fin de día:
         ///   1. Verifica conexión
-        ///   2. Lista archivos disponibles
-        ///   3. Descarga todos
-        ///   4. (Opcional) elimina del dispositivo tras descarga exitosa
+        ///   2. Descarga todos los archivos de ventas disponibles
+        ///   3. (Opcional) elimina los archivos del dispositivo tras descarga exitosa
         /// </summary>
         public List<string> FlujoFinDia(string carpetaDestino, bool eliminarDelDispositivo = false) {
             var descargados = new List<string>();
@@ -286,8 +251,7 @@ namespace aDVanceERP.Core.Controladores {
             descargados = PullTodasLasVentas(carpetaDestino);
 
             if (eliminarDelDispositivo && descargados.Count > 0) {
-                var archivosEnDispositivo = ListarArchivosVentas();
-                foreach (var (fileName, _) in archivosEnDispositivo)
+                foreach (var (fileName, _) in ListarArchivosVentas())
                     EliminarArchivoVentas(fileName);
             }
 
@@ -299,14 +263,15 @@ namespace aDVanceERP.Core.Controladores {
         // ══════════════════════════════════════════════════════
 
         /// <summary>
-        /// Descarga un archivo del directorio privado de la app usando exec-out.
-        /// exec-out + run-as cat es la forma más confiable para archivos de texto.
+        /// Descarga un archivo del directorio externo de la app con adb pull.
+        /// No necesita run-as — la ruta externa es accesible directamente.
         /// </summary>
-        private bool PullArchivoPrivado(string deviceFileName, string localDestinationPath) {
+        private bool PullArchivo(string deviceFileName, string localDestinationPath) {
             try {
-                // Verificar que existe antes de intentar descargarlo
-                string check = EjecutarAdb(
-                    $"shell run-as {_appPackageName} ls {DeviceFilesDir}/{deviceFileName}");
+                string devicePath = $"{DeviceFilesDir}/{deviceFileName}";
+
+                // Verificar que el archivo existe antes de intentar descargarlo
+                string check = EjecutarAdb($"shell ls \"{devicePath}\"");
                 if (check.Contains("No such file")) {
                     CentroNotificaciones.MostrarNotificacion(
                         $"El archivo {deviceFileName} no existe en el dispositivo.",
@@ -314,19 +279,17 @@ namespace aDVanceERP.Core.Controladores {
                     return false;
                 }
 
-                // exec-out para capturar bytes exactos (correcto para UTF-8 con BOM)
-                byte[] contenido = EjecutarAdbBinario(
-                    $"exec-out run-as {_appPackageName} cat {DeviceFilesDir}/{deviceFileName}");
+                Directory.CreateDirectory(Path.GetDirectoryName(localDestinationPath)!);
 
-                if (contenido.Length < 10) {
+                string result = EjecutarAdb($"pull \"{devicePath}\" \"{localDestinationPath}\"");
+
+                if (!File.Exists(localDestinationPath)) {
                     CentroNotificaciones.MostrarNotificacion(
-                        $"El archivo {deviceFileName} parece vacío o corrupto.",
+                        $"Error al descargar {deviceFileName}:\n{result}",
                         Modelos.Comun.TipoNotificacion.Error);
                     return false;
                 }
 
-                Directory.CreateDirectory(Path.GetDirectoryName(localDestinationPath)!);
-                File.WriteAllBytes(localDestinationPath, contenido);
                 return true;
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
@@ -336,11 +299,16 @@ namespace aDVanceERP.Core.Controladores {
             }
         }
 
+        /// <summary>
+        /// Crea el directorio externo de la app si no existe.
+        /// En la mayoría de los casos Android lo crea al instalar la app,
+        /// pero es buena práctica asegurarlo antes del primer push.
+        /// </summary>
         private void AsegurarDirectorio() {
-            EjecutarAdb($"shell run-as {_appPackageName} mkdir -p {DeviceFilesDir}");
+            EjecutarAdb($"shell mkdir -p \"{DeviceFilesDir}\"");
         }
 
-        /// <summary>Ejecuta un comando ADB y devuelve stdout como string.</summary>
+        /// <summary>Ejecuta un comando ADB y devuelve stdout + stderr como string.</summary>
         private string EjecutarAdb(string arguments) {
             var psi = new ProcessStartInfo {
                 FileName = _adbPath,
@@ -357,29 +325,7 @@ namespace aDVanceERP.Core.Controladores {
             string stderr = process.StandardError.ReadToEnd();
             process.WaitForExit();
 
-            // Combinar stdout y stderr para facilitar diagnóstico
             return string.IsNullOrWhiteSpace(stderr) ? stdout : stdout + stderr;
-        }
-
-        /// <summary>
-        /// Ejecuta ADB y devuelve la salida como bytes crudos.
-        /// Necesario para exec-out (evita corrupción de saltos de línea en Windows).
-        /// </summary>
-        private byte[] EjecutarAdbBinario(string arguments) {
-            var psi = new ProcessStartInfo {
-                FileName = _adbPath,
-                Arguments = arguments,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-
-            using var process = Process.Start(psi)!;
-            using var ms = new MemoryStream();
-            process.StandardOutput.BaseStream.CopyTo(ms);
-            process.WaitForExit();
-            return ms.ToArray();
         }
     }
 }
