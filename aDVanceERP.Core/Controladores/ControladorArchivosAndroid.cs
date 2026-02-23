@@ -44,7 +44,7 @@ namespace aDVanceERP.Core.Controladores {
         /// <summary>
         /// Verifica que haya exactamente un dispositivo autorizado conectado.
         /// </summary>
-        public bool CheckDeviceConnection() {
+        public bool CheckDeviceConnection(bool mostrarAdvertencia = false) {
             try {
                 string output = EjecutarAdb("devices");
                 bool conectado = output.Contains("\tdevice") && !output.Contains("unauthorized");
@@ -55,7 +55,7 @@ namespace aDVanceERP.Core.Controladores {
                             "Dispositivo conectado pero no autorizado. " +
                             "Acepta la solicitud de depuración USB en el teléfono.",
                             Modelos.Comun.TipoNotificacion.Advertencia);
-                    else
+                    else if (mostrarAdvertencia)
                         CentroNotificaciones.MostrarNotificacion(
                             "No se detectó ningún dispositivo. " +
                             "Conecta el teléfono y activa Depuración USB.",
@@ -246,7 +246,7 @@ namespace aDVanceERP.Core.Controladores {
         public List<string> FlujoFinDia(string carpetaDestino, bool eliminarDelDispositivo = false) {
             var descargados = new List<string>();
 
-            if (!CheckDeviceConnection()) return descargados;
+            if (!CheckDeviceConnection(true)) return descargados;
 
             descargados = PullTodasLasVentas(carpetaDestino);
 
