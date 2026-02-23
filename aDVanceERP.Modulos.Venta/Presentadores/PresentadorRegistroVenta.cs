@@ -79,6 +79,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         protected override void RegistroEdicionAuxiliar(RepoVenta repositorio, long id) {
             var repoProducto = RepoProducto.Instancia;
             var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
+            var repoinventario = RepoInventario.Instancia;
             var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             foreach (var productoCarrito in Vista.Carrito) {
@@ -99,7 +100,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 repoDetalleVenta.Adicionar(detalleVenta);
 
                 // Crear movimiento de inventario
-                var inventarioProducto = RepoInventario.Instancia.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenOrigen.Id)).entidadBase;
+                var inventarioProducto = repoinventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenOrigen.Id)).entidadBase;
                 var movimiento = new Movimiento() {
                     Id = 0,
                     IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
@@ -120,7 +121,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 RepoMovimiento.Instancia.Adicionar(movimiento);
 
                 // Modificar inventario
-                RepoInventario.Instancia.ModificarInventario(
+                repoinventario.ModificarInventario(
                     producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
                     almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
                     0,

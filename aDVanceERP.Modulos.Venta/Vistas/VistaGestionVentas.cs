@@ -72,6 +72,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public bool MostrarBotonImportarVentasDispositivo { 
+            get => btnImportarVentasDispositivo.Visible;
+            set => btnImportarVentasDispositivo.Visible = value;
+        }
+
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
         public event EventHandler? MostrarPaginaAnterior;
@@ -83,6 +88,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaVenta, string[])>? BuscarEntidades;
+        public event EventHandler ImportarVentasDesdeDispositivo;
 
         public void Inicializar() {
             // Eventos
@@ -106,6 +112,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             };
             btnRegistrarVentaManual.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(sender, e);
+            };
+            btnImportarVentasDispositivo.Click += delegate (object? sender, EventArgs e) {
+                ImportarVentasDesdeDispositivo?.Invoke(sender, e);
             };
             btnHabilitarDeshabilitarVenta.Click += delegate (object? sender, EventArgs e) {
                 AgregadorEventos.Publicar("HabilitarDeshabilitarVenta", string.Empty);

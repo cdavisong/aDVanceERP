@@ -9,9 +9,9 @@ namespace aDVancePOS.Mobile.Servicios {
         public decimal TotalBruto =>
             _items.Sum(i => Math.Round(i.Producto.PrecioVentaBase * i.Cantidad, 2));
 
-        public decimal TotalImpuesto =>
-            _items.Sum(i => Math.Round(
-                i.Producto.PrecioVentaBase * (i.Producto.ImpuestoVentaPorcentaje / 100) * i.Cantidad, 2));
+        public decimal TotalImpuesto => 0; // Por ahora no se calcula el impuesto, pero si se implementa, sería algo como:
+                                           //_items.Sum(i => Math.Round(
+                                           //    i.Producto.PrecioVentaBase * (i.Producto.ImpuestoVentaPorcentaje / 100) * i.Cantidad, 2));
 
         public decimal ImporteTotal => TotalBruto + TotalImpuesto;
 

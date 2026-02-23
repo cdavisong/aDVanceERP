@@ -63,7 +63,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
             presentadorTupla.Vista.MostrarBotonExportarProductos = _dispositivoConectado;
             presentadorTupla.Vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacen;
-            presentadorTupla.Vista.DescargarProductos += OnDescargarProductos;
+            presentadorTupla.Vista.EnviarProductosAplicacion += OnEnviarProductosAplicacion;
             presentadorTupla.EntidadSeleccionada += CambiarVisibilidadBtnImportarInvntarioVersat;
             presentadorTupla.EntidadDeseleccionada += CambiarVisibilidadBtnImportarInvntarioVersat;
 
@@ -100,7 +100,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 var resultado = await Task.Run(() => ImportarDesdeExcel(rutaArchivo, idAlmacen));
 
                 if (resultado.exito) {
-                    CentroNotificaciones.MostrarNotificacion($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.");
+                    CentroNotificaciones.MostrarNotificacion($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.", TipoNotificacion.Ok);
 
                     Vista.MostrarBtnImportarInventarioVersat = false;
                     ActualizarResultadosBusqueda();
@@ -118,7 +118,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             _docInventarioAlmacen.GenerarDocumento(true, e);
         }
 
-        private void OnDescargarProductos(object? sender, EventArgs e) {
+        private void OnEnviarProductosAplicacion(object? sender, EventArgs e) {
             var id = sender as string;
 
             if (string.IsNullOrEmpty(id)) {
@@ -135,9 +135,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
 
             if (_androidFileManager.FlujoComienzoDia(rutaArchivoProductos)) {
-                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} descargados correctamente", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} enviados correctamente a la aplicación", TipoNotificacion.Info);
             } else {
-                CentroNotificaciones.MostrarNotificacion($"Error al descargar productos del almacén {id}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al enviar productos del almacén {id}", TipoNotificacion.Error);
             }
 
             // Limpiar archivo temporal

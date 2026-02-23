@@ -14,6 +14,6 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         bool MostrarBotonExportarProductos { get; set; }   
 
         event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
-        event EventHandler? DescargarProductos;
+        event EventHandler? EnviarProductosAplicacion;
     }
 }

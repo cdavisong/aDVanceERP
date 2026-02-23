@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace aDVancePOS.Mobile.Modelos {
+namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     /// <summary>
     /// Raíz del JSON de ventas exportado desde el móvil.
     /// Ruta de escritura:

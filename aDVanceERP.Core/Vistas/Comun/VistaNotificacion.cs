@@ -63,11 +63,13 @@ namespace aDVanceERP.Core.Vistas.Comun {
 
                 //layoutDistribucion1.BackColor = value ? Color.LightSalmon : Color.White;
                 fieldIcono.BackgroundImage =
-                    value == TipoNotificacion.Error
-                        ? Resources.error_96px
-                        : value == TipoNotificacion.Advertencia
-                            ? Resources.warning_96px
-                            : Resources.info_96px;
+                    value == TipoNotificacion.Ok
+                        ? Resources.ok_96px
+                        : value == TipoNotificacion.Error
+                            ? Resources.error_96px
+                            : value == TipoNotificacion.Advertencia
+                                ? Resources.warning_96px
+                                : Resources.info_96px;
                 //fieldMensaje.ForeColor = value ? Color.Firebrick : Color.Gray;                
             }
         }

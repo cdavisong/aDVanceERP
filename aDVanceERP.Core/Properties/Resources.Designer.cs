@@ -103,6 +103,16 @@ namespace aDVanceERP.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ok_96px {
+            get {
+                object obj = ResourceManager.GetObject("ok_96px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap p1_48px {
             get {
                 object obj = ResourceManager.GetObject("p1_48px", resourceCulture);
@@ -181,36 +191,32 @@ namespace aDVanceERP.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Albania 00355 
-        ///Alemania 0049 
-        ///Andorra 00376 
-        ///Angola 00244 
-        ///Anguilla 001 264 
-        ///Antigua y Barbuda 001 268 
-        ///Antillas 
-        ///Holandesas 00599 
-        ///Arabia Saudi 00966 
-        ///Área Caribe 001 809 
-        ///Argelia 00213 
-        ///Argentina 0054 
-        ///Armenia 00374 
-        ///Aruba 00297 
-        ///Ascensión 00247 
-        ///Australia 0061 
-        ///Austria 0043 
-        ///Azerbaiyán 00994 
-        ///Bahamas 001 242 
-        ///Bahrein 00973 
-        ///Bangladesh 00880 
-        ///Barbados 001 246 
-        ///Bélgica 0032 
-        ///Belize 00501 
-        ///Bennin 00229 
-        ///Bermudas 001441 
-        ///Bhutan 00975 
-        ///Bielorrusia 00375 
-        ///Bolivia 00591 
-        ///Bosnia 0038 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Albania|00355|al
+        ///Alemania|0049|de
+        ///Andorra|00376|ad
+        ///Angola|00244|ao
+        ///Anguilla|001 264|ai
+        ///Antigua y Barbuda|001 268|ag
+        ///Antillas Holandesas|00599|unknown
+        ///Arabia Saudi|00966|sa
+        ///Área Caribe|001 809|unknown
+        ///Argelia|00213|dz
+        ///Argentina|0054|ar
+        ///Armenia|00374|am
+        ///Aruba|00297|aw
+        ///Ascensión|00247|sh
+        ///Australia|0061|au
+        ///Austria|0043|at
+        ///Azerbaiyán|00994|az
+        ///Bahamas|001 242|bs
+        ///Bahrein|00973|bh
+        ///Bangladesh|00880|bd
+        ///Barbados|001 246|bb
+        ///Bélgica|0032|be
+        ///Belize|00501|bz
+        ///Benín|00229|bj
+        ///Bermudas|001441|bm
+        ///Bhuta [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Prefijos {
             get {

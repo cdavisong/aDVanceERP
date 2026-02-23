@@ -108,7 +108,7 @@ namespace aDVanceERP.Core.Controladores {
 
                 CentroNotificaciones.MostrarNotificacion(
                     "✓ Catálogo enviado correctamente al dispositivo.",
-                    Modelos.Comun.TipoNotificacion.Info);
+                    Modelos.Comun.TipoNotificacion.Ok);
 
                 return true;
             } catch (Exception ex) {
@@ -252,8 +252,10 @@ namespace aDVanceERP.Core.Controladores {
 
             if (eliminarDelDispositivo && descargados.Count > 0) {
                 foreach (var (fileName, _) in ListarArchivosVentas())
-                    EliminarArchivoVentas(fileName);
+                    EliminarArchivoVentas(fileName); // Elimina todos los archivos de ventas tras descargar, para limpiar el dispositivo
             }
+
+            EliminarCatalogo(); // Opcional: fuerza recarga de catálogo al día siguiente
 
             return descargados;
         }

@@ -110,7 +110,7 @@ namespace aDVancePOS.Mobile.Servicios {
                 IdLocal = Guid.NewGuid().ToString(),
                 IdCliente = _config.IdClienteAnonimo,
                 IdAlmacen = _config.IdAlmacen,
-                NumeroTicket = $"{_config.PrefijoTicket}-{DateTime.Now:yyyyMMdd}-{_contadorTicketHoy:D4}",
+                NumeroTicket = $"{_config.PrefijoTicket}{DateTime.Now:yyyyMMdd}{_contadorTicketHoy:D4}",
                 FechaVenta = DateTime.UtcNow,
                 TotalBruto = carrito.TotalBruto,
                 DescuentoTotal = 0,

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
+﻿using aDVanceERP.Core.Controladores;
+using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
@@ -15,11 +16,16 @@ using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
+using System.Text.Json;
+
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
+        private ControladorArchivosAndroid _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
         private DocFacturaVenta _docFacturaVenta = null!;
 
         public PresentadorGestionVentas(IVistaGestionVentas vista) : base(vista) {
+            vista.ImportarVentasDesdeDispositivo += OnImportarVentasDesdeDispositivo;
+
             RegistrarEntidad += OnRegistrarVenta;
             EditarEntidad += OnEditarVenta;
 
@@ -40,9 +46,210 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaEdicionVenta", AgregadorEventos.SerializarPayload(e));
         }
 
+        private void OnImportarVentasDesdeDispositivo(object? sender, EventArgs e) {
+            var rutaArchivoVentas = Path.Combine(Application.StartupPath, "ventas.json");
+            var archivosDescargados = _androidFileManager.FlujoFinDia(rutaArchivoVentas, true);
+
+            if (archivosDescargados.Count == 0) {
+                CentroNotificaciones.MostrarNotificacion("No se encontraron ventas para importar desde el dispositivo. Por favor, asegúrese de que existan archivos de ventas en el dispositivo y que contengan datos válidos.", TipoNotificacion.Advertencia);
+                return;
+            }
+
+            int ventasImportadas = 0;
+            int ventasSaltadasDuplicadas = 0;
+            var errores = new List<string>();
+            var repoVenta = RepoVenta.Instancia;
+            var repoProducto = RepoProducto.Instancia;
+            var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
+            var repoinventario = RepoInventario.Instancia;
+
+            foreach (var archivo in archivosDescargados) {
+                try {
+                    if (!File.Exists(archivo)) continue;
+
+                    var contenido = File.ReadAllText(archivo);
+                    var root = JsonSerializer.Deserialize<VentasExportacionJson>(contenido);
+
+                    if (root?.Ventas == null || root.Ventas.Count == 0) {
+                        // Archivo válido pero sin ventas
+                        continue;
+                    }
+
+                    foreach (var ventaExp in root.Ventas) {
+                        try {
+                            // Evitar duplicados: buscar por número de ticket existente
+                            var existentes = repoVenta.Buscar(FiltroBusquedaVenta.NumeroFactura, ventaExp.NumeroTicket).resultadosBusqueda;
+                            if (existentes != null && existentes.Count > 0) {
+                                ventasSaltadasDuplicadas++;
+                                continue;
+                            }
+
+                            // Construir entidad Venta para la BD
+                            var ventaBD = new Core.Modelos.Modulos.Venta.Venta {
+                                Id = 0,
+                                IdPedido = 0,
+                                IdCliente = ventaExp.IdCliente,
+                                IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0, // TODO: Integrar con empleados autenticados,
+                                IdAlmacen = ventaExp.IdAlmacen,
+                                NumeroFacturaTicket = ventaExp.NumeroTicket,
+                                FechaVenta = ventaExp.FechaVenta,
+                                TotalBruto = ventaExp.TotalBruto,
+                                DescuentoTotal = ventaExp.DescuentoTotal,
+                                ImpuestoTotal = ventaExp.ImpuestoTotal,
+                                ImporteTotal = ventaExp.ImporteTotal,
+                                MetodoPagoPrincipal = ventaExp.Pagos?.FirstOrDefault()?.MetodoPago ?? string.Empty,
+                                EstadoVenta = Enum.TryParse<EstadoVentaEnum>(ventaExp.EstadoVenta, out var ev) ? ev : EstadoVentaEnum.Completada,
+                                ObservacionesVenta = ventaExp.Observaciones ?? string.Empty,
+                                Activo = true
+                            };
+
+                            // Adicionar Venta
+                            long idVenta = repoVenta.Adicionar(ventaBD);
+
+                            // Detalles: insertar y ajustar inventario
+                            if (ventaExp.Detalles != null && ventaExp.Detalles.Count > 0) {
+                                foreach (var det in ventaExp.Detalles) {
+                                    try {
+                                        var producto = repoProducto.ObtenerPorId(det.IdProducto);
+                                        decimal precioCompra = 0m;
+                                        if (producto != null)
+                                            precioCompra = producto.Categoria == CategoriaProducto.ProductoTerminado
+                                                ? producto.CostoProduccionUnitario
+                                                : producto.CostoAdquisicionUnitario;
+
+                                        var detalleBD = new DetalleVentaProducto {
+                                            Id = 0,
+                                            IdVenta = idVenta,
+                                            IdProducto = det.IdProducto,
+                                            Cantidad = det.Cantidad,
+                                            PrecioCompraVigente = precioCompra,
+                                            PrecioVentaUnitario = det.PrecioVentaUnitario,
+                                            DescuentoItem = det.DescuentoItem,
+                                            Subtotal = det.Subtotal
+                                        };
+
+                                        repoDetalleVenta.Adicionar(detalleBD);
+
+                                        // Crear movimiento de inventario
+                                        var inventarioProducto = repoinventario.Buscar(FiltroBusquedaInventario.IdProducto, det.IdProducto.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(ventaBD.IdAlmacen)).entidadBase;
+                                        var movimiento = new Movimiento() {
+                                            Id = 0,
+                                            IdProducto = det.IdProducto,
+                                            CostoUnitario = precioCompra,
+                                            IdAlmacenOrigen = ventaBD.IdAlmacen,
+                                            IdAlmacenDestino = 0,
+                                            Estado = EstadoMovimiento.Completado,
+                                            FechaCreacion = DateTime.Now,
+                                            SaldoInicial = inventarioProducto.Cantidad,
+                                            FechaTermino = ventaBD.EstadoVenta == EstadoVentaEnum.Completada ? DateTime.Now : DateTime.MinValue,
+                                            CantidadMovida = det.Cantidad,
+                                            SaldoFinal = inventarioProducto.Cantidad - det.Cantidad,
+                                            IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                                            IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                            Notas = "Venta de producto importada desde la aplicación.",
+                                        };
+
+                                        RepoMovimiento.Instancia.Adicionar(movimiento);
+
+                                        // Modificar inventario
+                                        repoinventario.ModificarInventario(
+                                            det.IdProducto,
+                                            ventaBD.IdAlmacen,
+                                            0,
+                                            det.Cantidad);
+                                    } catch (Exception dex) {
+                                        // Registrar error pero continuar con otros detalles
+                                        errores.Add($"Archivo '{Path.GetFileName(archivo)}' - detalle producto {det.IdProducto}: {dex.Message}");
+                                    }
+                                }
+                            }
+
+                            // Pagos: insertar y detalle transferencia si aplica
+                            var repoPago = RepoPago.Instancia;
+                            var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
+
+                            if (ventaExp.Pagos != null && ventaExp.Pagos.Count > 0) {
+                                foreach (var pagoExp in ventaExp.Pagos) {
+                                    try {
+                                        var pagoBD = new Pago {
+                                            Id = 0,
+                                            IdVenta = idVenta,
+                                            MetodoPago = Enum.TryParse<MetodoPagoEnum>(pagoExp.MetodoPago, out var mp) ? mp : MetodoPagoEnum.Efectivo,
+                                            MontoPagado = pagoExp.MontoPagado,
+                                            FechaPagoCliente = pagoExp.FechaPagoCliente,
+                                            FechaConfirmacionPago = pagoExp.EstadoPago != null && pagoExp.EstadoPago.Equals("Confirmado", StringComparison.OrdinalIgnoreCase)
+                                                ? DateTime.Now
+                                                : DateTime.MinValue,
+                                            EstadoPago = pagoExp.EstadoPago != null && pagoExp.EstadoPago.Equals("Confirmado", StringComparison.OrdinalIgnoreCase)
+                                                ? EstadoPagoEnum.Confirmado
+                                                : EstadoPagoEnum.Pendiente
+                                        };
+
+                                        long idPago = repoPago.Adicionar(pagoBD);
+
+                                        if (pagoExp.DetalleTransferencia != null) {
+                                            var dt = new DetallePagoTransferencia {
+                                                Id = 0,
+                                                IdPago = idPago,
+                                                NumeroConfirmacion = pagoExp.DetalleTransferencia.NumeroConfirmacion,
+                                                NumeroTransaccion = pagoExp.DetalleTransferencia.NumeroTransaccion,
+                                                MontoTransferencia = pagoExp.MontoPagado
+                                            };
+
+                                            repoDetallePagoTransferencia.Adicionar(dt);
+                                        }
+                                    } catch (Exception pex) {
+                                        errores.Add($"Archivo '{Path.GetFileName(archivo)}' - pago venta {ventaExp.NumeroTicket}: {pex.Message}");
+                                    }
+                                }
+                            }
+
+                            try {
+                                // Actualizar el estado de la venta a completada si el total pagado cubre el importe total de la venta
+                                if (repoVenta.VentaEstaPagadaCompletamente(idVenta))
+                                    repoVenta.CambiarEstadoVenta(idVenta, EstadoVentaEnum.Completada);
+
+                                // Actualizar el método de pago principal de la venta
+                                repoVenta.ActualizarMetodoPagoPrincipal(idVenta);
+                            } catch { /* no crítico */ }
+
+                            ventasImportadas++;
+                        } catch (Exception innerEx) {
+                            errores.Add($"Archivo '{Path.GetFileName(archivo)}' - venta {ventaExp?.NumeroTicket ?? "<sin ticket>"}: {innerEx.Message}");
+                        }
+                    }
+                } catch (Exception exFile) {
+                    errores.Add($"Error procesando archivo '{Path.GetFileName(archivo)}': {exFile.Message}");
+                } finally {
+                    // Eliminar archivo temporal local
+                    try { File.Delete(archivo); } catch { }
+                }
+            }
+
+            // Notificaciones resumen
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"Ventas importadas: {ventasImportadas}");
+            sb.AppendLine($"Ventas duplicadas omitidas: {ventasSaltadasDuplicadas}");
+            if (errores.Count > 0) {
+                sb.AppendLine();
+                sb.AppendLine("Errores (muestras hasta 5):");
+                foreach (var err in errores.Take(5))
+                    sb.AppendLine($"• {err}");
+            }
+
+            CentroNotificaciones.MostrarNotificacion(sb.ToString().TrimEnd(), TipoNotificacion.Info);
+
+            // Refrescar resultados en la vista
+            ActualizarResultadosBusqueda();
+        }
+
         private void OnMostrarVistaGestionVentas(string obj) {
             Vista.CargarFiltrosBusqueda(UtilesBusquedaVenta.FiltroBusquedaVenta);
             Vista.Restaurar();
+
+            // Cambiar visibilidad del botón para importar ventas desde dispositivo según conexión con dispositivo Android
+            Vista.MostrarBotonImportarVentasDispositivo = _androidFileManager.CheckDeviceConnection();
+
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
