@@ -40,12 +40,6 @@
 		<AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="..\..\Resources\icons\icons8_pos_terminal_128.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
 	  <PackageReference Include="ZXing.Net" Version="0.16.11" />
 	</ItemGroup>
 </Project>
