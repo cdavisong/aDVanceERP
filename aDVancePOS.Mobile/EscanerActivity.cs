@@ -1,14 +1,6 @@
 // ============================================================
-//  aDVancePOS.Mobile — EscanerActivity
+//  aDVancePOS.Mobile — EscanerActivity (CON ROTACIÓN INTELIGENTE)
 //  Archivo: EscanerActivity.cs
-//
-//  Escáner de código de barras usando Camera2 API nativa +
-//  ZXing.Net (solo el core, sin UI ni dependencias AndroidX).
-//
-//  PAQUETE NUGET: ZXing.Net 0.16.11
-//  ARCHIVOS REQUERIDOS:
-//    Resources/layout/activity_escaner.xml
-//    Resources/drawable/escaner_marco.xml
 // ============================================================
 
 using Android.App;
@@ -22,6 +14,9 @@ using Android.Views;
 using Android.Widget;
 
 using Java.Util.Concurrent;
+
+using System;
+using System.Collections.Generic;
 
 using ZXing;
 using ZXing.Common;
@@ -37,8 +32,8 @@ namespace aDVancePOS.Mobile {
         public const int RequestCode = 2001;
         public const string ExtraCodigoBarras = "codigo_barras";
 
-        private const int AnchoCapturaAnalisis = 1280;
-        private const int AltoCapturaAnalisis = 720;
+        private const int AnchoCapturaAnalisis = 640;
+        private const int AltoCapturaAnalisis = 480;
 
         // ── Vistas ───────────────────────────────────────────
         private SurfaceView _surfaceView = null!;
@@ -56,7 +51,13 @@ namespace aDVancePOS.Mobile {
         private readonly MultiFormatReader _lector = new();
         private volatile bool _escaneado = false;
 
-        // ─────────────────────────────────────────────────────
+        // ── Modos de escaneo ──────────────────────────────────
+        private bool _modoBarras = false;
+        private int _framesSinExito = 0;
+
+        // ── Rotación ─────────────────────────────────────────
+        private int _rotacionSensor = 0; // Rotación física del sensor
+        private bool _necesitaRotacion = false;
 
         protected override void OnCreate(Bundle? savedInstanceState) {
             base.OnCreate(savedInstanceState);
@@ -73,15 +74,13 @@ namespace aDVancePOS.Mobile {
 
             _lector.Hints = new Dictionary<DecodeHintType, object> {
                 [DecodeHintType.POSSIBLE_FORMATS] = new List<BarcodeFormat> {
-                    BarcodeFormat.EAN_13,
-                    BarcodeFormat.EAN_8,
-                    BarcodeFormat.CODE_128,
-                    BarcodeFormat.CODE_39,
-                    BarcodeFormat.UPC_A,
-                    BarcodeFormat.UPC_E,
+                    BarcodeFormat.EAN_13, BarcodeFormat.EAN_8,
+                    BarcodeFormat.CODE_128, BarcodeFormat.CODE_39,
+                    BarcodeFormat.UPC_A, BarcodeFormat.UPC_E,
                     BarcodeFormat.QR_CODE
                 },
-                [DecodeHintType.TRY_HARDER] = true
+                [DecodeHintType.TRY_HARDER] = true,
+                [DecodeHintType.PURE_BARCODE] = false
             };
 
             _cameraManager = (CameraManager) GetSystemService(CameraService)!;
@@ -89,7 +88,6 @@ namespace aDVancePOS.Mobile {
         }
 
         // ── ISurfaceHolderCallback ────────────────────────────
-
         public void SurfaceCreated(ISurfaceHolder holder) {
             IniciarHiloCamera();
             AbrirCamara();
@@ -99,8 +97,6 @@ namespace aDVancePOS.Mobile {
             int width, int height) { }
 
         public void SurfaceDestroyed(ISurfaceHolder holder) => LiberarCamera();
-
-        // ── Camera2: hilo dedicado ────────────────────────────
 
         private void IniciarHiloCamera() {
             _hiloCamera = new HandlerThread("CameraEscanerThread");
@@ -116,18 +112,22 @@ namespace aDVancePOS.Mobile {
         }
 
         // ── Camera2: apertura ─────────────────────────────────
-
         private void AbrirCamara() {
             string? idCamara = null;
 
             foreach (var id in _cameraManager.GetCameraIdList()!) {
                 var caract = _cameraManager.GetCameraCharacteristics(id);
-
-                // FIX 1: El resultado de Get() es Java.Lang.Object — comparar con int directamente
                 var facingObj = caract.Get(CameraCharacteristics.LensFacing);
+
                 if (facingObj != null &&
                     ((Java.Lang.Integer) facingObj).IntValue() == (int) LensFacing.Back) {
                     idCamara = id;
+
+                    // Obtener orientación del sensor
+                    var sensorOrientation = caract.Get(CameraCharacteristics.SensorOrientation);
+                    if (sensorOrientation != null) {
+                        _rotacionSensor = (int) sensorOrientation;
+                    }
                     break;
                 }
             }
@@ -138,14 +138,11 @@ namespace aDVancePOS.Mobile {
             }
 
             _imageReader = ImageReader.NewInstance(
-                AnchoCapturaAnalisis,
-                AltoCapturaAnalisis,
-                ImageFormatType.Yuv420888,
-                maxImages: 2);
+                AnchoCapturaAnalisis, AltoCapturaAnalisis,
+                ImageFormatType.Yuv420888, maxImages: 1);
 
             _imageReader.SetOnImageAvailableListener(
-                new ImageDisponibleListener(ProcesarFrameYuv),
-                _handlerCamera);
+                new ImageDisponibleListener(ProcesarFrameYuv), _handlerCamera);
 
             _cameraManager.OpenCamera(idCamara, new CameraStateCallback(this), _handlerCamera);
         }
@@ -155,8 +152,7 @@ namespace aDVancePOS.Mobile {
             IniciarSesionPreview();
         }
 
-        // ── Camera2: sesión de preview + análisis ─────────────
-
+        // ── Camera2: sesión de preview ────────────────────────
         private void IniciarSesionPreview() {
             if (_camaraDevice == null || _imageReader == null) return;
 
@@ -168,11 +164,8 @@ namespace aDVancePOS.Mobile {
                 new OutputConfiguration(superficieAnalisis)
             };
 
-            // FIX 3: Usar Executors.NewSingleThreadExecutor() — SerialExecutor no existe
-            //        en los bindings de .NET for Android
             var config = new SessionConfiguration(
-                (int) SessionType.Regular,
-                outputs,
+                (int) SessionType.Regular, outputs,
                 Executors.NewSingleThreadExecutor()!,
                 new CaptureSessionCallback(this));
 
@@ -181,22 +174,32 @@ namespace aDVancePOS.Mobile {
 
         internal void OnSesionConfigurada(CameraCaptureSession sesion) {
             _captureSession = sesion;
-
-            var requestBuilder = _camaraDevice!.CreateCaptureRequest(CameraTemplate.Preview)!;
-            requestBuilder.AddTarget(_surfaceView.Holder!.Surface!);
-            requestBuilder.AddTarget(_imageReader!.Surface!);
-
-            requestBuilder.Set(
-                CaptureRequest.ControlAfMode,
-                (int) ControlAFMode.ContinuousPicture);
-
-            // FIX 4: SetRepeatingRequest no tiene parámetros nombrados —
-            //        pasar null y handler posicionalmente
-            _captureSession.SetRepeatingRequest(requestBuilder.Build()!, null, _handlerCamera);
+            IniciarCapturaContinua();
         }
 
-        // ── Procesamiento de frames YUV con ZXing ─────────────
+        private void IniciarCapturaContinua() {
+            if (_captureSession == null || _camaraDevice == null) return;
 
+            try {
+                var requestBuilder = _camaraDevice.CreateCaptureRequest(CameraTemplate.Preview)!;
+                requestBuilder.AddTarget(_surfaceView.Holder!.Surface!);
+                requestBuilder.AddTarget(_imageReader!.Surface!);
+
+                // Configuración de enfoque
+                requestBuilder.Set(CaptureRequest.ControlAfMode, (int) ControlAFMode.ContinuousPicture);
+                requestBuilder.Set(CaptureRequest.ControlAeMode, (int) ControlAEMode.On);
+                requestBuilder.Set(CaptureRequest.ControlAwbMode, (int) ControlAwbMode.Auto);
+                requestBuilder.Set(CaptureRequest.EdgeMode, (int) EdgeMode.Fast);
+                requestBuilder.Set(CaptureRequest.NoiseReductionMode, (int) NoiseReductionMode.Fast);
+
+                _captureSession.SetRepeatingRequest(requestBuilder.Build()!, null, _handlerCamera);
+
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"Error configurando captura: {ex.Message}");
+            }
+        }
+
+        // ── Procesamiento de frames con rotación inteligente ──
         private void ProcesarFrameYuv(ImageReader reader) {
             if (_escaneado) return;
 
@@ -213,21 +216,53 @@ namespace aDVancePOS.Mobile {
                 int ancho = imagen.Width;
                 int alto = imagen.Height;
 
-                var fuente = new PlanarYUVLuminanceSource(
-                    bytesY, ancho, alto,
-                    0, 0, ancho, alto,
-                    false);
-
-                var bitmap = new BinaryBitmap(new HybridBinarizer(fuente));
-
                 ZXing.Result? resultado = null;
-                try {
-                    resultado = _lector.decode(bitmap);
-                } catch (ReaderException) {
-                    // Frame sin código — normal, ignorar
+
+                // ===== ROTACIÓN INTELIGENTE =====
+                // Si estamos en modo barras, rotamos la imagen 90 grados
+                // porque los códigos de barras necesitan orientación horizontal
+                if (_modoBarras) {
+                    // Rotar la imagen 90 grados para orientación horizontal
+                    byte[] bytesRotados = RotarImagen90(bytesY, ancho, alto);
+
+                    var fuenteRotada = new PlanarYUVLuminanceSource(
+                        bytesRotados, alto, ancho, 0, 0, alto, ancho, false);
+
+                    var bitmap = new BinaryBitmap(new GlobalHistogramBinarizer(fuenteRotada));
+
+                    try {
+                        resultado = _lector.decode(bitmap);
+                    } catch (ReaderException) { }
+
+                } else {
+                    // Modo QR - usar imagen original
+                    var fuente = new PlanarYUVLuminanceSource(
+                        bytesY, ancho, alto, 0, 0, ancho, alto, false);
+
+                    var bitmap = new BinaryBitmap(new HybridBinarizer(fuente));
+
+                    try {
+                        resultado = _lector.decode(bitmap);
+                    } catch (ReaderException) { }
                 }
 
-                if (resultado != null && !string.IsNullOrEmpty(resultado.Text)) {
+                // ===== DETECCIÓN DE MODO =====
+                if (resultado != null) {
+                    _framesSinExito = 0;
+                    _modoBarras = (resultado.BarcodeFormat != BarcodeFormat.QR_CODE);
+                } else {
+                    _framesSinExito++;
+
+                    // Cambiar de modo cada 30 frames sin éxito
+                    if (_framesSinExito > 30) {
+                        _modoBarras = !_modoBarras;
+                        _framesSinExito = 0;
+                        System.Diagnostics.Debug.WriteLine($"Cambiando a modo: {(_modoBarras ? "BARRAS" : "QR")}");
+                    }
+                }
+
+                // ===== RESULTADO =====
+                if (resultado?.Text != null) {
                     _escaneado = true;
                     var codigo = resultado.Text;
                     RunOnUiThread(() => {
@@ -237,21 +272,62 @@ namespace aDVancePOS.Mobile {
                         Finish();
                     });
                 }
+
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"Error procesando frame: {ex.Message}");
             } finally {
-                imagen?.Close(); // Siempre cerrar — si no el ImageReader se bloquea
+                imagen?.Close();
             }
         }
 
-        // ── Limpieza ──────────────────────────────────────────
+        /// <summary>
+        /// Rota una imagen YUV 90 grados (optimizada para rendimiento)
+        /// </summary>
+        private byte[] RotarImagen90(byte[] yuvData, int width, int height) {
+            byte[] rotated = new byte[yuvData.Length];
+            int index = 0;
 
+            // Rotar 90 grados en sentido horario
+            for (int x = 0; x < width; x++) {
+                for (int y = height - 1; y >= 0; y--) {
+                    rotated[index++] = yuvData[y * width + x];
+                }
+            }
+
+            return rotated;
+        }
+
+        /// <summary>
+        /// Versión alternativa: rota 270 grados si es necesario
+        /// </summary>
+        private byte[] RotarImagen270(byte[] yuvData, int width, int height) {
+            byte[] rotated = new byte[yuvData.Length];
+            int index = 0;
+
+            // Rotar 270 grados (o 90 anti-horario)
+            for (int x = width - 1; x >= 0; x--) {
+                for (int y = 0; y < height; y++) {
+                    rotated[index++] = yuvData[y * width + x];
+                }
+            }
+
+            return rotated;
+        }
+
+        // ── Limpieza ──────────────────────────────────────────
         private void LiberarCamera() {
-            _captureSession?.Close();
-            _captureSession = null;
-            _camaraDevice?.Close();
-            _camaraDevice = null;
-            _imageReader?.Close();
-            _imageReader = null;
-            DetenerHiloCamera();
+            try {
+                _captureSession?.Close();
+                _captureSession = null;
+                _camaraDevice?.Close();
+                _camaraDevice = null;
+                _imageReader?.Close();
+                _imageReader = null;
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"Error liberando cámara: {ex.Message}");
+            } finally {
+                DetenerHiloCamera();
+            }
         }
 
         protected override void OnDestroy() {
@@ -268,26 +344,16 @@ namespace aDVancePOS.Mobile {
         }
     }
 
-
-    // ══════════════════════════════════════════════════════════
-    //  CALLBACKS — adaptadores Java callbacks → C#
-    // ══════════════════════════════════════════════════════════
-
+    // Callbacks sin cambios...
     internal sealed class CameraStateCallback : CameraDevice.StateCallback {
         private readonly EscanerActivity _activity;
         public CameraStateCallback(EscanerActivity activity) => _activity = activity;
-
-        public override void OnOpened(CameraDevice camera)
-            => _activity.OnCameraAbierta(camera);
-
-        public override void OnDisconnected(CameraDevice camera)
-            => camera.Close();
-
+        public override void OnOpened(CameraDevice camera) => _activity.OnCameraAbierta(camera);
+        public override void OnDisconnected(CameraDevice camera) => camera.Close();
         public override void OnError(CameraDevice camera, CameraError error) {
             camera.Close();
             _activity.RunOnUiThread(() => {
-                Toast.MakeText(_activity,
-                    $"Error de cámara: {error}", ToastLength.Long)?.Show();
+                Toast.MakeText(_activity, $"Error de cámara: {error}", ToastLength.Long)?.Show();
                 _activity.Finish();
             });
         }
@@ -296,27 +362,18 @@ namespace aDVancePOS.Mobile {
     internal sealed class CaptureSessionCallback : CameraCaptureSession.StateCallback {
         private readonly EscanerActivity _activity;
         public CaptureSessionCallback(EscanerActivity activity) => _activity = activity;
-
-        public override void OnConfigured(CameraCaptureSession session)
-            => _activity.OnSesionConfigurada(session);
-
+        public override void OnConfigured(CameraCaptureSession session) => _activity.OnSesionConfigurada(session);
         public override void OnConfigureFailed(CameraCaptureSession session) {
             _activity.RunOnUiThread(() => {
-                Toast.MakeText(_activity,
-                    "No se pudo configurar la sesión de cámara.", ToastLength.Long)?.Show();
+                Toast.MakeText(_activity, "No se pudo configurar la sesión de cámara.", ToastLength.Long)?.Show();
                 _activity.Finish();
             });
         }
     }
 
-    internal sealed class ImageDisponibleListener : Java.Lang.Object,
-        ImageReader.IOnImageAvailableListener {
-
+    internal sealed class ImageDisponibleListener : Java.Lang.Object, ImageReader.IOnImageAvailableListener {
         private readonly Action<ImageReader> _onDisponible;
-
-        public ImageDisponibleListener(Action<ImageReader> onDisponible)
-            => _onDisponible = onDisponible;
-
+        public ImageDisponibleListener(Action<ImageReader> onDisponible) => _onDisponible = onDisponible;
         public void OnImageAvailable(ImageReader? reader) {
             if (reader != null) _onDisponible(reader);
         }
