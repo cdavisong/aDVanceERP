@@ -52,7 +52,19 @@ namespace aDVanceERP.Modulos.Empresa.Presentadores {
             var telefono = persona != null ? RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona.Id.ToString()).resultadosBusqueda.Select(t => t.entidadBase).FirstOrDefault() : null;
             var correo = persona != null ? RepoCorreoContacto.Instancia.Buscar(FiltroBusquedaCorreoContacto.IdPersona, persona.Id.ToString()).resultadosBusqueda.Select(c => c.entidadBase).FirstOrDefault() : null;
 
-            Vista.Imagen = File.Exists(entidad.RutaLogo) ? Image.FromFile(entidad.RutaLogo) : null;
+            // Cargar la imagen sin bloquear el archivo: crear una copia en memoria (Bitmap).
+            try {
+                if (!string.IsNullOrWhiteSpace(entidad?.RutaLogo) && File.Exists(entidad.RutaLogo)) {
+                    using var fs = File.OpenRead(entidad.RutaLogo);
+                    using var img = Image.FromStream(fs);
+                    Vista.Imagen = new Bitmap(img); // copia desconectada del stream/archivo
+                } else {
+                    Vista.Imagen = null;
+                }
+            } catch {
+                Vista.Imagen = null;
+            }
+
             Vista.Nombre = entidad.Nombre;
             Vista.RazonSocial = entidad.RazonSocial ?? string.Empty;
             Vista.Rif = entidad.Rif;

@@ -68,7 +68,18 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(entidad.IdUnidadMedida);
             var clasificacion = RepoClasificacionProducto.Instancia.ObtenerPorId(entidad.IdClasificacionProducto);
 
-            Vista.Imagen = File.Exists(entidad.RutaImagen) ? Image.FromFile(entidad.RutaImagen) : null;
+            // Cargar la imagen sin bloquear el archivo: crear una copia en memoria (Bitmap).
+            try {
+                if (!string.IsNullOrWhiteSpace(entidad?.RutaImagen) && File.Exists(entidad.RutaImagen)) {
+                    using var fs = File.OpenRead(entidad.RutaImagen);
+                    using var img = Image.FromStream(fs);
+                    Vista.Imagen = new Bitmap(img); // copia desconectada del stream/archivo
+                } else {
+                    Vista.Imagen = null;
+                }
+            } catch {
+                Vista.Imagen = null;
+            }
             Vista.Categoria = entidad.Categoria;
             Vista.NombreProducto = entidad.Nombre;
             Vista.Codigo = entidad.Codigo;

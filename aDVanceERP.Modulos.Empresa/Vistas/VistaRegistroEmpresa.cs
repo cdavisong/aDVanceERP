@@ -4,6 +4,8 @@ using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Modulos.Empresa.Interfaces;
 using aDVanceERP.Modulos.Empresa.Properties;
 
+using System.Drawing.Imaging;
+
 namespace aDVanceERP.Modulos.Empresa.Vistas {
     public partial class VistaRegistroEmpresa : Form, IVIstaRegistroEmpresa {
         private bool _modoEdicion = false;
@@ -215,14 +217,28 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
 
             // Convertir la imagen original del producto a un formato compatible con el guardado (por ejemplo, JPEG o PNG)
             var formatoImagen = Path.GetExtension(_rutaImagen).ToLower() switch {
-                ".jpg" or ".jpeg" => System.Drawing.Imaging.ImageFormat.Jpeg,
-                ".png" => System.Drawing.Imaging.ImageFormat.Png,
-                _ => System.Drawing.Imaging.ImageFormat.Png
+                ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+                ".png" => ImageFormat.Png,
+                _ => ImageFormat.Png
             };
 
-            var bitmap = Image.FromFile(_rutaImagen) as Bitmap;
+            // Cargar la imagen sin bloquear el archivo y guardarla en la ruta destino
+            using (var bitmap = CargarBitmapSinBloquear(_rutaImagen)) {
+                bitmap.Save(RutaLogo, formatoImagen);
+            }
+        }
 
-            bitmap?.Save(RutaLogo, formatoImagen);
+        // Método auxiliar que carga un Bitmap desde archivo sin bloquear el archivo en disco.
+        // Lee todos los bytes, crea un MemoryStream, obtiene una Image desde el stream y
+        // devuelve un nuevo Bitmap copiado en memoria. Esto permite cerrar el stream y
+        // liberar el archivo original inmediatamente.
+        private static Bitmap CargarBitmapSinBloquear(string ruta) {
+            var bytes = File.ReadAllBytes(ruta);
+            using (var ms = new MemoryStream(bytes)) {
+                using (var img = Image.FromStream(ms)) {
+                    return new Bitmap(img);
+                }
+            }
         }
     }
 }

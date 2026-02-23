@@ -10,11 +10,13 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Documentos {
     internal class DocFacturaVenta : DocumentoBase {
+        private string? _rutaLogoEmpresa = null;
         private long _idVenta;
         private Dictionary<string, string> _datosVenta;
         private Dictionary<string, string> _datosCliente;
@@ -29,11 +31,12 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
             // Configurar información de la empresa
             CargarInformacionEmpresa();
 
-            // Intentar cargar el logo (ajusta la ruta según tu aplicación)
-            string rutaLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
-            if (File.Exists(rutaLogo)) {
-                CargarLogo(rutaLogo);
-            }
+            // Usar ruta de BD si existe, si no el fallback local
+            string rutaLogo = !string.IsNullOrEmpty(_rutaLogoEmpresa) && File.Exists(_rutaLogoEmpresa)
+                ? _rutaLogoEmpresa
+                : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "logo.png");
+
+            if (File.Exists(rutaLogo)) CargarLogo(rutaLogo);
         }
 
         #endregion
@@ -608,15 +611,43 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
         #region Métodos para obtener datos de BD
 
         protected override void CargarInformacionEmpresa() {
-            // Implementa la lógica para cargar desde tu BD
-            ConfigurarEmpresa(
-                nombre: "aDVance ERP",
-                direccion: "Tu dirección comercial",
-                telefono: "+58 (XXX) XXX-XXXX",
-                email: "info@advanceerp.com",
-                web: "www.advanceerp.com",
-                rif: "J-XXXXXXXXX-X"
-            );
+            try {
+                using var connection = new MySqlConnection(ContextoBaseDatos.Configuracion.ToStringConexion());
+                connection.Open();
+
+                const string query = """
+                    SELECT nombre, razon_social, rif, direccion, telefono, email, web, ruta_logo
+                    FROM adv__empresa
+                    LIMIT 1
+                    """;
+
+                using var cmd = new MySqlCommand(query, connection);
+                using var reader = cmd.ExecuteReader();
+
+                if (reader.Read()) {
+                    // Preferimos razon_social si existe, si no usamos nombre comercial
+                    string nombre = (!reader.IsDBNull("razon_social") && !string.IsNullOrWhiteSpace(reader["razon_social"].ToString()))
+                        ? reader["razon_social"].ToString()!
+                        : reader["nombre"].ToString()!;
+
+                    ConfigurarEmpresa(
+                        nombre: nombre,
+                        direccion: reader.IsDBNull("direccion") ? string.Empty : reader["direccion"].ToString()!,
+                        telefono: reader.IsDBNull("telefono") ? string.Empty : reader["telefono"].ToString()!,
+                        email: reader.IsDBNull("email") ? string.Empty : reader["email"].ToString()!,
+                        web: reader.IsDBNull("web") ? string.Empty : reader["web"].ToString()!,
+                        rif: reader.IsDBNull("rif") ? string.Empty : reader["rif"].ToString()!
+                    );
+
+                    // Guardar la ruta del logo para cargarlo después del reader
+                    if (!reader.IsDBNull("ruta_logo")) {
+                        _rutaLogoEmpresa = reader["ruta_logo"].ToString();
+                    }
+                }
+            } catch (Exception ex) {
+                // Fallback seguro: si la BD falla, los datos quedan vacíos pero el documento se genera
+                Debug.WriteLine($"[CargarInformacionEmpresa] Error: {ex.Message}");
+            }
         }
 
         /// <summary>
