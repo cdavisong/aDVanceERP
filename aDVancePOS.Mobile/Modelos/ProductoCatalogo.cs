@@ -38,8 +38,7 @@ namespace aDVancePOS.Mobile.Modelos {
 
         /// <summary>Precio final = PrecioVentaBase * (1 + Impuesto/100)</summary>
         [JsonIgnore]
-        public decimal PrecioConImpuesto =>
-            Math.Round(PrecioVentaBase * (1 + ImpuestoVentaPorcentaje / 100), 2);
+        public decimal PrecioConImpuesto => PrecioVentaBase;
 
         /// <summary>Stock restante tras agregar unidades al carrito en sesión.</summary>
         [JsonIgnore]

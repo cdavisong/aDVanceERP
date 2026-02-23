@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    PANTALLA PRINCIPAL POS - activity_main.xml
-
-    Estructura:
-    ┌──────────────────────────────────────┐
-    │  TOOLBAR  (aDVance ERP + badge)      │
-    ├──────────────────────────────────────┤
-    │  BUSCADOR + botón limpiar            │
-    ├────────────────┬─────────────────────┤
-    │  LISTA         │  CARRITO            │
-    │  PRODUCTOS     │  (items)            │
-    │  (izq ~55%)    │  ─────────────────  │
-    │                │  Total + botones    │
-    └────────────────┴─────────────────────┘
-    En pantallas pequeñas (sw < 600dp) la orientación se vuelve vertical.
-    Para eso crea res/layout-sw600dp/activity_main.xml con orientation horizontal.
-    Este archivo usa orientación vertical (móvil estándar).
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -45,52 +27,71 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:baselineAligned="false">
 
 			<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="aDV"
+                android:layout_gravity="center_vertical"
+                android:text="aDVance"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#222222" />
+                android:textColor="#222222"
+                android:includeFontPadding="false" />
 
 			<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ance"
-                android:textSize="20sp"
-                android:textColor="#222222" />
-
-			<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" ERP"
-                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:text="ERP"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:background="#B22222"
                 android:paddingLeft="6dp"
                 android:paddingRight="6dp"
-                android:paddingTop="1dp"
-                android:paddingBottom="2dp"
-                android:layout_marginLeft="4dp" />
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_marginLeft="6dp"
+                android:includeFontPadding="false" />
 		</LinearLayout>
 
-		<!-- Badge contador carrito -->
-		<TextView
-            android:id="@+id/lblCarritoBadge"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:text="0"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="#B22222"
+		<!-- FIX #3: Badge de VENTAS del día (no de items del carrito)
+             Al pulsarlo abre el resumen de ventas del día.
+             Se actualiza con el número de ventas completadas. -->
+		<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/circle_outline"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="12dp">
 
-		<!-- Botón exportar / menú (ícono ≡) -->
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VENTAS"
+                android:textSize="8sp"
+                android:textColor="#AAAAAA"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
+
+			<!-- Círculo clickeable con contador de ventas del día -->
+			<TextView
+                android:id="@+id/lblVentasBadge"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="0"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#B22222"
+                android:gravity="center"
+                android:background="@drawable/circle_outline"
+                android:clickable="true"
+                android:focusable="true" />
+		</LinearLayout>
+
+		<!-- Menú (reservado para futuras opciones) -->
 		<Button
             android:id="@+id/btnMenu"
             android:layout_width="36dp"
@@ -117,7 +118,6 @@
         android:layout_marginTop="1dp"
         android:elevation="2dp">
 
-		<!-- Campo de búsqueda -->
 		<LinearLayout
             android:layout_width="0dp"
             android:layout_height="44dp"
@@ -128,7 +128,6 @@
             android:paddingLeft="12dp"
             android:paddingRight="8dp">
 
-			<!-- Ícono lupa (unicode) -->
 			<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -152,7 +151,6 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp" />
 
-			<!-- Borrar búsqueda -->
 			<Button
                 android:id="@+id/btnLimpiarBusqueda"
                 android:layout_width="28dp"
@@ -165,7 +163,6 @@
                 android:visibility="gone" />
 		</LinearLayout>
 
-		<!-- Botón importar catálogo -->
 		<Button
             android:id="@+id/btnImportar"
             android:layout_width="wrap_content"
@@ -181,7 +178,6 @@
 
 	<!-- ══════════════════════════════════════
          CONTENIDO PRINCIPAL
-         (Lista productos arriba, carrito abajo)
          ══════════════════════════════════════ -->
 	<LinearLayout
         android:layout_width="match_parent"
@@ -201,7 +197,6 @@
             android:layout_marginRight="8dp"
             android:elevation="2dp">
 
-			<!-- Cabecera sección -->
 			<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -230,13 +225,11 @@
                     android:textColor="#AAAAAA" />
 			</LinearLayout>
 
-			<!-- Divisor -->
 			<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
 
-			<!-- Lista de productos -->
 			<ListView
                 android:id="@+id/lstProductos"
                 android:layout_width="match_parent"
@@ -246,7 +239,6 @@
                 android:dividerHeight="1dp"
                 android:scrollbars="vertical" />
 
-			<!-- Estado vacío -->
 			<TextView
                 android:id="@+id/lblProductosVacio"
                 android:layout_width="match_parent"
@@ -292,7 +284,6 @@
                     android:textColor="#999999"
                     android:letterSpacing="0.1" />
 
-				<!-- Vaciar carrito -->
 				<Button
                     android:id="@+id/btnVaciarCarrito"
                     android:layout_width="wrap_content"
@@ -304,13 +295,11 @@
                     android:padding="0dp" />
 			</LinearLayout>
 
-			<!-- Divisor -->
 			<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#F0F0F0" />
 
-			<!-- Items del carrito -->
 			<ListView
                 android:id="@+id/lstCarrito"
                 android:layout_width="match_parent"
@@ -319,7 +308,6 @@
                 android:divider="#F0F0F0"
                 android:dividerHeight="1dp" />
 
-			<!-- Carrito vacío -->
 			<TextView
                 android:id="@+id/lblCarritoVacio"
                 android:layout_width="match_parent"
@@ -371,55 +359,76 @@
                     android:textColor="#222222" />
 			</LinearLayout>
 
-			<!-- Divisor botones -->
+			<!-- Divisor pagos -->
 			<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#EEEEEE" />
 
-			<!-- Botones de pago -->
+			<!-- FIX #4: Sección de pagos con título + habilitación condicional
+                 El LinearLayout completo se habilita/deshabilita desde código.
+                 Cuando está deshabilitado, alpha=0.35 da la apariencia de inactivo. -->
 			<LinearLayout
+                android:id="@+id/seccionPagos"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:background="#FFFFFF">
 
-				<!-- Efectivo -->
-				<Button
-                    android:id="@+id/btnPagarEfectivo"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="💵  Efectivo"
-                    android:textSize="13sp"
+				<!-- Título de sección pagos -->
+				<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MÉTODO DE PAGO"
+                    android:textSize="9sp"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:background="@drawable/btn_firebrick"
-                    android:layout_marginRight="6dp" />
+                    android:textColor="#BBBBBB"
+                    android:letterSpacing="0.15"
+                    android:gravity="center"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="2dp" />
 
-				<!-- Transferencia -->
-				<Button
-                    android:id="@+id/btnPagarTransferencia"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="📲  Transferencia"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#B22222"
-                    android:background="@drawable/btn_peachpuff"
-                    android:layout_marginLeft="6dp" />
+				<!-- Botones de pago -->
+				<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="center_vertical">
+
+					<Button
+                        android:id="@+id/btnPagarEfectivo"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="💵  Efectivo"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/btn_firebrick"
+                        android:layout_marginRight="6dp" />
+
+					<Button
+                        android:id="@+id/btnPagarTransferencia"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="📲  Transferencia"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:textColor="#B22222"
+                        android:background="@drawable/btn_peachpuff"
+                        android:layout_marginLeft="6dp" />
+				</LinearLayout>
 			</LinearLayout>
+			<!-- fin seccionPagos -->
 
 		</LinearLayout>
 		<!-- fin carrito -->
 
 	</LinearLayout>
-	<!-- fin contenido principal -->
 
 </LinearLayout>

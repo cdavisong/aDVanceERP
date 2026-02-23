@@ -119,24 +119,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnDescargarProductos(object? sender, EventArgs e) {
-            var existeDirectorio = false;
-
-            try {
-                // Verificar conexión del dispositivo
-                if (!VerificarConexionDispositivo()) {
-                    CentroNotificaciones.MostrarNotificacion("Conecte un dispositivo Android con depuración USB activada", TipoNotificacion.Advertencia);
-                } else {
-                    existeDirectorio = _androidFileManager.EnsureDirectoryExists();
-
-                    if (!existeDirectorio) {
-                        CentroNotificaciones.MostrarNotificacion("No se pudo crear el directorio en el dispositivo Android", TipoNotificacion.Error);
-                        return;
-                    }
-                }
-            } catch (Exception ex) {
-                MessageBox.Show(ex.Message);
-            }
-
             var id = sender as string;
 
             if (string.IsNullOrEmpty(id)) {
@@ -145,14 +127,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
 
             var productos = RepoProducto.Instancia.ObtenerProductosAlmacenJson(long.Parse(id));
-            var rutaArchivoProductos = Path.Combine(Application.StartupPath, "productos_almacen.json");
+            var rutaArchivoProductos = Path.Combine(Application.StartupPath, "catalogo.json");
 
-            using (var fileStream = new FileStream(rutaArchivoProductos, FileMode.Create))
-            using (var writer = new StreamWriter(fileStream)) {
-                writer.Write(productos);
+            using (var fileStream = new FileStream(rutaArchivoProductos, FileMode.Create)) {
+                using (var writer = new StreamWriter(fileStream))
+                    writer.Write(productos);
             }
 
-            if (_androidFileManager.PushFileToDevice(rutaArchivoProductos, "productos_almacen.json")) {
+            if (_androidFileManager.FlujoComienzoDia(rutaArchivoProductos)) {
                 CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} descargados correctamente", TipoNotificacion.Info);
             } else {
                 CentroNotificaciones.MostrarNotificacion($"Error al descargar productos del almacén {id}", TipoNotificacion.Error);

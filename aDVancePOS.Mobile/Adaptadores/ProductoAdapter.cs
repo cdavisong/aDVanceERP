@@ -5,7 +5,7 @@ using Android.Views;
 namespace aDVancePOS.Mobile.Adaptadores {
     public class ProductoAdapter : BaseAdapter<ProductoCatalogo> {
         private readonly Activity _context;
-        private readonly List<ProductoCatalogo> _productos;
+        private readonly List<ProductoCatalogo> _productos = new();
         private readonly Action<ProductoCatalogo> _onAgregar;
 
         public ProductoAdapter(
@@ -13,13 +13,24 @@ namespace aDVancePOS.Mobile.Adaptadores {
             List<ProductoCatalogo> productos,
             Action<ProductoCatalogo> onAgregar) {
             _context = context;
-            _productos = productos;
+            _productos.AddRange(productos);
             _onAgregar = onAgregar;
         }
 
         public override int Count => _productos.Count;
         public override ProductoCatalogo this[int position] => _productos[position];
         public override long GetItemId(int position) => _productos[position].Id;
+
+        /// <summary>
+        /// Reemplaza la lista interna y fuerza el redibujado de todas las
+        /// filas visibles. Esto actualiza el stock mostrado en cada fila
+        /// sin recrear el adapter (lo que evitaría el redibujado en reciclaje).
+        /// </summary>
+        public void ActualizarLista(List<ProductoCatalogo> nuevaLista) {
+            _productos.Clear();
+            _productos.AddRange(nuevaLista);
+            NotifyDataSetChanged();
+        }
 
         public override View GetView(int position, View? convertView, ViewGroup parent) {
             var producto = _productos[position];

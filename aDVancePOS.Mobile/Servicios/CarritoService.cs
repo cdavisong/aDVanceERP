@@ -54,10 +54,22 @@ namespace aDVancePOS.Mobile.Servicios {
             _items.Remove(item);
         }
 
-        /// <summary>Vacía el carrito devolviendo el stock a cada producto.</summary>
+        /// <summary>
+        /// Vacía el carrito devolviendo el stock a cada producto.
+        /// Usar cuando el cajero CANCELA la operación (botón "Vaciar").
+        /// </summary>
         public void Vaciar() {
             foreach (var item in _items)
                 item.Producto.StockEnSesion += item.Cantidad;
+            _items.Clear();
+        }
+
+        /// <summary>
+        /// Vacía el carrito SIN devolver el stock.
+        /// Usar tras confirmar una VENTA: el stock ya fue descontado
+        /// al agregar cada producto y debe mantenerse reducido.
+        /// </summary>
+        public void VaciarTrasVenta() {
             _items.Clear();
         }
     }

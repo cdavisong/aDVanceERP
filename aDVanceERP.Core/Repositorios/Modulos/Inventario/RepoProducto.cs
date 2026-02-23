@@ -5,6 +5,7 @@ using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
 
+using System.Data;
 using System.Globalization;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
@@ -261,65 +262,130 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
         #region UTILES
 
-        private (object, List<IEntidadBaseDatos>) MapearEntidadJson(MySqlDataReader lector) {
+        public string ObtenerProductosAlmacenJson(long idAlmacen) {
+            var consulta = """
+                SELECT
+                    p.id_producto,
+                    p.codigo,
+                    p.nombre,
+                    p.descripcion,
+                    p.categoria,
+                    p.precio_venta_base,
+                    p.impuesto_venta_porcentaje,
+                    p.id_clasificacion_producto,
+                    inv.cantidad        AS stock_disponible,
+                    inv.costo_promedio,
+                    a.id_almacen,
+                    a.nombre            AS nombre_almacen,
+                    IFNULL(um.nombre, '')       AS unidad_medida,
+                    IFNULL(um.abreviatura, '')  AS abreviatura_medida
+                FROM adv__producto p
+                JOIN adv__inventario inv
+                    ON p.id_producto = inv.id_producto
+                JOIN adv__almacen a
+                    ON inv.id_almacen = a.id_almacen
+                LEFT JOIN adv__unidad_medida um
+                    ON p.id_unidad_medida = um.id_unidad_medida
+                WHERE inv.id_almacen  = @IdAlmacen
+                  AND inv.cantidad    > 0
+                  AND p.es_vendible   = 1
+                  AND p.activo        = 1
+                ORDER BY p.nombre ASC;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@IdAlmacen", idAlmacen }
+            };
+
+            try {
+                var resultado = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidadJson);
+
+                // El mapper devuelve la lista completa como un solo objeto en entidadBase
+                var productos = resultado.FirstOrDefault().entidadBase
+                                as List<Dictionary<string, object>>
+                                ?? new List<Dictionary<string, object>>();
+
+                // Extraer nombre del almacén del primer producto (todos comparten el mismo almacén)
+                string nombreAlmacen = productos.FirstOrDefault()?
+                                           .GetValueOrDefault("nombreAlmacen")?.ToString()
+                                       ?? string.Empty;
+
+                // Limpiar campos internos que no van al JSON final del móvil
+                var productosFinal = productos.Select(p =>
+                {
+                    var limpio = new Dictionary<string, object>(p);
+                    limpio.Remove("nombreAlmacen");
+                    limpio.Remove("idAlmacen");
+                    return limpio;
+                }).ToList();
+
+                // Construir el sobre completo: { meta, productos }
+                // Coincide exactamente con CatalogoJson en Models.cs de la app móvil
+                var catalogo = new {
+                    meta = new {
+                        version = "1.0",
+                        generadoEn = DateTime.UtcNow.ToString("o"),  // ISO 8601
+                        aplicacion = "aDVance ERP",
+                        idAlmacen = idAlmacen,
+                        nombreAlmacen = nombreAlmacen
+                    },
+                    productos = productosFinal
+                };
+
+                return System.Text.Json.JsonSerializer.Serialize(catalogo,
+                    new System.Text.Json.JsonSerializerOptions {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    });
+            } catch (Exception ex) {
+                throw new Exception($"Error al exportar productos del almacén {idAlmacen}: {ex.Message}", ex);
+            }
+        }
+
+        private (object entidadBase, List<IEntidadBaseDatos>) MapearEntidadJson(MySqlDataReader lector) {
             var listaProductos = new List<Dictionary<string, object>>();
 
             do {
                 var producto = new Dictionary<string, object> {
-                    ["id_producto"] = lector.GetInt32("id_producto"),
+                    // ── Identidad ───────────────────────────────────
+                    ["id"] = lector.GetInt64("id_producto"),
                     ["codigo"] = lector.GetString("codigo"),
                     ["nombre"] = lector.GetString("nombre"),
-                    ["categoria"] = lector.GetString("categoria"),
-                    ["precio_compra"] = lector.GetDecimal("precio_compra"),
-                    ["costo_produccion_unitario"] = lector.GetDecimal("costo_produccion_unitario"),
-                    ["precio_venta_base"] = lector.GetDecimal("precio_venta_base"),
-                    ["cantidad"] = lector.GetInt32("cantidad"),
-                    ["nombre_almacen"] = lector.GetString("nombre_almacen"),
-                    ["unidad_medida"] = lector.GetString("unidad_medida"),
-                    ["abreviatura_medida"] = lector.GetString("abreviatura_medida")
+                    ["descripcion"] = lector.GetString("descripcion"),
+                    ["categoria"] = lector.GetString("categoria"),   // enum: Mercancia | ProductoTerminado | MateriaPrima
+
+                    // ── Precios ─────────────────────────────────────
+                    // La app calcula: PrecioConImpuesto = precioVentaBase * (1 + impuestoVentaPorcentaje / 100)
+                    ["precioVentaBase"] = lector.GetDecimal("precio_venta_base"),
+                    ["impuestoVentaPorcentaje"] = lector.GetDecimal("impuesto_venta_porcentaje"),
+
+                    // ── Stock ────────────────────────────────────────
+                    // decimal(10,2) en BD → GetDecimal, no GetInt32
+                    ["stockDisponible"] = lector.GetDecimal("stock_disponible"),
+
+                    // ── Unidad de medida ────────────────────────────
+                    // Prefiere abreviatura; si está vacía usa el nombre completo
+                    ["unidadMedida"] = !lector.IsDBNull(lector.GetOrdinal("abreviatura_medida"))
+                                            && lector.GetString("abreviatura_medida") != ""
+                                                ? lector.GetString("abreviatura_medida")
+                                                : lector.IsDBNull(lector.GetOrdinal("unidad_medida"))
+                                                    ? ""
+                                                    : lector.GetString("unidad_medida"),
+
+                    // ── Almacén (para construir el meta fuera del loop) ──
+                    ["nombreAlmacen"] = lector.GetString("nombre_almacen"),
+                    ["idAlmacen"] = lector.GetInt64("id_almacen"),
+
+                    // ── Trazabilidad (útil al importar ventas de vuelta) ─
+                    ["idClasificacion"] = lector.GetInt64("id_clasificacion_producto"),
+                    ["costoPromedio"] = lector.GetDecimal("costo_promedio")
                 };
 
                 listaProductos.Add(producto);
-            } while (lector.Read());
-
-            return (listaProductos, new List<IEntidadBaseDatos>()); ;
-        }
-
-        public string ObtenerProductosAlmacenJson(long idAlmacen) {
-            var consulta = """
-                SELECT 
-                    p.id_producto,
-                    p.codigo,
-                    p.nombre,
-                    p.categoria,
-                    p.precio_compra,
-                    p.costo_produccion_unitario,
-                    p.precio_venta_base,
-                    pa.cantidad,
-                    a.nombre AS nombre_almacen,
-                    IFNULL(um.nombre, '') AS unidad_medida,
-                    IFNULL(um.abreviatura, '') AS abreviatura_medida
-                FROM adv__producto p
-                JOIN adv__inventario pa ON p.id_producto = pa.id_producto
-                JOIN adv__almacen a ON pa.id_almacen = a.id_almacen
-                LEFT JOIN adv__unidad_medida um ON p.id_unidad_medida = um.id_unidad_medida
-                WHERE pa.id_almacen = @IdAlmacen;
-                """;
-            var parametros = idAlmacen != 0
-                ? new Dictionary<string, object> {
-                    { "@IdAlmacen", idAlmacen }
-                } : null;
-
-            try {
-                var productos = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidadJson);
-
-                return System.Text.Json.JsonSerializer.Serialize(productos.Select(p => p.entidadBase), new System.Text.Json.JsonSerializerOptions {
-                    WriteIndented = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
-            } catch (Exception ex) {
-                throw new Exception($"Error al exportar productos del almacén: {ex.Message}", ex);
             }
+            while (lector.Read());
+
+            return (listaProductos, new List<IEntidadBaseDatos>());
         }
 
         /// <summary>

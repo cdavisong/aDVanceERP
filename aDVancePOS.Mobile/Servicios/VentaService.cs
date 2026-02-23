@@ -81,6 +81,26 @@ namespace aDVancePOS.Mobile.Servicios {
         public int TotalVentasHoy => _ventasHoy.Ventas.Count;
         public decimal TotalRecaudadoHoy => _ventasHoy.Meta.TotalRecaudado;
 
+        /// <summary>
+        /// Devuelve el total recaudado desglosado por método de pago.
+        /// Usado por MostrarResumenVentasDia() en MainActivity.
+        /// </summary>
+        public (decimal Efectivo, decimal Transferencia) ObtenerResumenPorMetodo() {
+            decimal efectivo = 0m;
+            decimal transferencia = 0m;
+
+            foreach (var venta in _ventasHoy.Ventas) {
+                foreach (var pago in venta.Pagos) {
+                    if (pago.MetodoPago == "Efectivo")
+                        efectivo += pago.MontoPagado;
+                    else if (pago.MetodoPago == "TransferenciaBancaria")
+                        transferencia += pago.MontoPagado;
+                }
+            }
+
+            return (efectivo, transferencia);
+        }
+
         // ── Privados ──────────────────────────────────────────
 
         private VentaExportacion ConstruirVenta(CarritoService carrito) {

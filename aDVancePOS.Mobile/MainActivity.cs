@@ -9,8 +9,11 @@ using aDVancePOS.Mobile.Adaptadores;
 using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
+using Android;
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
 using Android.Widget;
 
 namespace aDVancePOS.Mobile {
@@ -28,6 +31,7 @@ namespace aDVancePOS.Mobile {
         // ── Estado ───────────────────────────────────────────
         private List<ProductoCatalogo> _productosMostrados = new();
         private bool _catalogoCargado = false;
+        private ProductoAdapter? _productoAdapter;
 
         // ── Controles UI ─────────────────────────────────────
         private EditText _txtBuscar = null!;
@@ -39,7 +43,8 @@ namespace aDVancePOS.Mobile {
         private ListView _lstCarrito = null!;
         private TextView _lblCarritoVacio = null!;
         private TextView _lblTotal = null!;
-        private TextView _lblCarritoBadge = null!;
+        private TextView _lblVentasBadge = null!;
+        private LinearLayout _seccionPagos = null!;
         private Button _btnVaciarCarrito = null!;
         private Button _btnPagarEfectivo = null!;
         private Button _btnPagarTransferencia = null!;
@@ -76,7 +81,8 @@ namespace aDVancePOS.Mobile {
             _lstCarrito = FindViewById<ListView>(Resource.Id.lstCarrito)!;
             _lblCarritoVacio = FindViewById<TextView>(Resource.Id.lblCarritoVacio)!;
             _lblTotal = FindViewById<TextView>(Resource.Id.lblTotal)!;
-            _lblCarritoBadge = FindViewById<TextView>(Resource.Id.lblCarritoBadge)!;
+            _lblVentasBadge = FindViewById<TextView>(Resource.Id.lblVentasBadge)!;
+            _seccionPagos = FindViewById<LinearLayout>(Resource.Id.seccionPagos)!;
             _btnVaciarCarrito = FindViewById<Button>(Resource.Id.btnVaciarCarrito)!;
             _btnPagarEfectivo = FindViewById<Button>(Resource.Id.btnPagarEfectivo)!;
             _btnPagarTransferencia = FindViewById<Button>(Resource.Id.btnPagarTransferencia)!;
@@ -102,6 +108,7 @@ namespace aDVancePOS.Mobile {
             _btnVaciarCarrito.Click += (s, e) => SolicitarVaciarCarrito();
             _btnPagarEfectivo.Click += async (s, e) => await PagarEfectivoAsync();
             _btnPagarTransferencia.Click += async (s, e) => await PagarTransferenciaAsync();
+            _lblVentasBadge.Click += (s, e) => MostrarResumenVentasDia();
         }
 
         private async void CargarDatosInicialesAsync() {
@@ -168,7 +175,7 @@ namespace aDVancePOS.Mobile {
                 $"Total a cobrar: {_carritoService.ImporteTotal:C2}",
                 async () => {
                     var venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
-                    _carritoService.Vaciar();
+                    _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
                     ActualizarUI();
                     MostrarMensaje(
                         $"✓ Venta registrada\n" +
@@ -188,13 +195,40 @@ namespace aDVancePOS.Mobile {
             MostrarDialogoTransferencia(async (confirmacion, transaccion) => {
                 var venta = await _ventaService.RegistrarVentaTransferenciaAsync(
                     _carritoService, confirmacion, transaccion);
-                _carritoService.Vaciar();
+                _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
                 ActualizarUI();
                 MostrarMensaje(
                     $"✓ Transferencia registrada (pendiente de confirmación)\n" +
                     $"Ticket: {venta.NumeroTicket}\n" +
                     $"Confirmación: {confirmacion}");
             });
+        }
+
+        private void MostrarResumenVentasDia() {
+            int totalVentas = _ventaService.TotalVentasHoy;
+            decimal totalRecaudado = _ventaService.TotalRecaudadoHoy;
+
+            if (totalVentas == 0) {
+                MostrarMensaje("Sin ventas registradas hoy.");
+                return;
+            }
+
+            // Desglose por método de pago
+            var resumen = _ventaService.ObtenerResumenPorMetodo();
+
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"📅 {DateTime.Now:dddd dd/MM/yyyy}");
+            sb.AppendLine();
+            sb.AppendLine($"Ventas completadas: {totalVentas}");
+            sb.AppendLine($"Total recaudado:    {totalRecaudado:C2}");
+            sb.AppendLine();
+
+            if (resumen.Efectivo > 0)
+                sb.AppendLine($"💵 Efectivo:         {resumen.Efectivo:C2}");
+            if (resumen.Transferencia > 0)
+                sb.AppendLine($"📲 Transferencia:    {resumen.Transferencia:C2}");
+
+            MostrarMensaje(sb.ToString().TrimEnd());
         }
 
         private void SolicitarVaciarCarrito() {
@@ -208,14 +242,25 @@ namespace aDVancePOS.Mobile {
         // ── Actualización de UI ───────────────────────────────
 
         private void ActualizarListaProductos() {
-            var adapter = new ProductoAdapter(this, _productosMostrados, producto => {
-                if (!_carritoService.AgregarProducto(producto))
-                    Toast.MakeText(this, $"Sin stock: {producto.Nombre}",
-                        ToastLength.Short)?.Show();
-                ActualizarUI();
-            });
+            // FIX STOCK: reusar el adapter con NotifyDataSetChanged en lugar de
+            // recrearlo. Recrear el adapter cada vez hace que ListView no redibuje
+            // las filas visibles recicladas, por lo que el stock no se actualiza
+            // en pantalla aunque StockEnSesion sí cambió en el modelo.
+            if (_productoAdapter == null || _lstProductos.Adapter == null) {
+                // Primera carga: crear el adapter y asignarlo
+                _productoAdapter = new ProductoAdapter(this, _productosMostrados, producto => {
+                    if (!_carritoService.AgregarProducto(producto))
+                        Toast.MakeText(this, $"Sin stock: {producto.Nombre}",
+                            ToastLength.Short)?.Show();
+                    ActualizarUI();
+                });
+                _lstProductos.Adapter = _productoAdapter;
+            } else {
+                // Actualizaciones posteriores: reemplazar la lista interna y
+                // notificar al adapter para que redibuje TODAS las filas visibles
+                _productoAdapter.ActualizarLista(_productosMostrados);
+            }
 
-            _lstProductos.Adapter = adapter;
             _lblConteoProductos.Text = $"{_productosMostrados.Count} resultado(s)";
 
             var sinResultados = _productosMostrados.Count == 0 && _catalogoCargado;
@@ -229,7 +274,9 @@ namespace aDVancePOS.Mobile {
 
         private void ActualizarUI() {
             var items = _carritoService.Items.ToList();
+            bool carritoConItems = items.Count > 0;
 
+            // ── Carrito ───────────────────────────────────────────
             _lstCarrito.Adapter = new CarritoAdapter(this, items,
                 onRestar: item => { _carritoService.RestarProducto(item.Producto); ActualizarUI(); },
                 onSumar: item => {
@@ -240,18 +287,31 @@ namespace aDVancePOS.Mobile {
                 onEliminar: item => { _carritoService.EliminarItem(item); ActualizarUI(); }
             );
 
+            // ── Total ─────────────────────────────────────────────
             _lblTotal.Text = _carritoService.ImporteTotal.ToString("C2");
-            _lblCarritoBadge.Text = _carritoService.ConteoItems.ToString();
 
-            var carritoVacio = items.Count == 0;
-            _lblCarritoVacio.Visibility = carritoVacio
-                ? Android.Views.ViewStates.Visible
-                : Android.Views.ViewStates.Gone;
-            _lstCarrito.Visibility = carritoVacio
+            // ── FIX #4: Sección de pagos — solo habilitada con carrito lleno ──
+            _seccionPagos.Alpha = carritoConItems ? 1.0f : 0.35f;
+            _btnPagarEfectivo.Enabled = carritoConItems;
+            _btnPagarTransferencia.Enabled = carritoConItems;
+
+            // ── Visibilidad carrito vacío ──────────────────────────
+            _lblCarritoVacio.Visibility = carritoConItems
                 ? Android.Views.ViewStates.Gone
                 : Android.Views.ViewStates.Visible;
+            _lstCarrito.Visibility = carritoConItems
+                ? Android.Views.ViewStates.Visible
+                : Android.Views.ViewStates.Gone;
 
-            if (_catalogoCargado) ActualizarListaProductos();
+            // ── FIX #3: Badge ventas del día ──────────────────────
+            _lblVentasBadge.Text = _ventaService.TotalVentasHoy.ToString();
+
+            // ── FIX #2: Refrescar lista productos para reflejar stock actualizado ──
+            // Cada vez que el carrito cambia, el stock en sesión cambia.
+            // Redibujar la lista muestra la cantidad disponible actualizada
+            // y deshabilita el botón "+" de productos agotados.
+            if (_catalogoCargado)
+                ActualizarListaProductos();
         }
 
         // ── Helpers UI ────────────────────────────────────────

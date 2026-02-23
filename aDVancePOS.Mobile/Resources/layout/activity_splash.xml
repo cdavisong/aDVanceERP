@@ -1,7 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
-    SPLASH SCREEN - activity_splash.xml
--->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -11,59 +8,55 @@
     android:background="#FFFFFF"
     android:padding="48dp">
 
-	<!-- Logo / Marca -->
+	<!-- Logo / Marca
+         FIX #1: baselineAligned="false" + includeFontPadding="false" en cada
+         TextView resuelve la desalineación vertical del badge ERP.
+         Un solo TextView para "aDVance" evita desajustes entre fragmentos. -->
 	<LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:baselineAligned="false">
 
-		<!-- "aDV" en negro -->
 		<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aDV"
+            android:layout_gravity="center_vertical"
+            android:text="aDVance"
             android:textSize="52sp"
             android:textStyle="bold"
             android:textColor="#222222"
-            android:fontFamily="sans-serif-light" />
+            android:includeFontPadding="false" />
 
-		<!-- "ance" en negro -->
+		<Space
+            android:layout_width="10dp"
+            android:layout_height="1dp" />
+
 		<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ance "
-            android:textSize="52sp"
-            android:textStyle="bold"
-            android:textColor="#222222"
-            android:fontFamily="sans-serif-light" />
-
-		<!-- "ERP" badge rojo -->
-		<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" ERP "
-            android:textSize="40sp"
+            android:layout_gravity="center_vertical"
+            android:text="ERP"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:background="#B22222"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="4dp" />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:includeFontPadding="false" />
 	</LinearLayout>
 
-	<!-- Subtítulo -->
 	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="La solución integral para tu empresa"
         android:textSize="14sp"
         android:textColor="#888888"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-light" />
+        android:layout_marginTop="12dp" />
 
-	<!-- Barra de carga animada -->
 	<ProgressBar
         android:layout_width="160dp"
         android:layout_height="3dp"
@@ -73,7 +66,6 @@
         android:indeterminateTint="#FFDAB9"
         android:progressBackgroundTint="#EEEEEE" />
 
-	<!-- Versión -->
 	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
