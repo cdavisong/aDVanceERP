@@ -56,18 +56,18 @@ namespace aDVancePOS.Mobile.Servicios {
         private static Java.Lang.Object[]? ObtenerPdus(Intent intent) {
             try {
                 var rawPdus = intent.GetSerializableExtra("pdus");
-                
-                if (rawPdus is Java.Lang.Object singleObject)
-                    return new Java.Lang.Object[] { singleObject };
 
+                // Caso normal: llega como Array (Object[] en Java)
                 if (rawPdus is Array array) {
                     var result = new Java.Lang.Object[array.Length];
-                    for (int i = 0; i < array.Length; i++) {
-                        result[i] = array.GetValue(i) as Java.Lang.Object;
-                    }
-
+                    for (int i = 0; i < array.Length; i++)
+                        result[i] = (Java.Lang.Object) array.GetValue(i)!;
                     return result;
                 }
+
+                // Fallback: llegó como objeto único
+                if (rawPdus is Java.Lang.Object single)
+                    return new Java.Lang.Object[] { single };
 
                 return null;
             } catch {

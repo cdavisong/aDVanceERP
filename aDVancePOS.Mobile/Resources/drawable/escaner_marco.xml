@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Marco de esquinas blancas para guiar el encuadre del código de barras.
+    Rectángulo apaisado (240x160dp) ideal para códigos EAN-13/Code128.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Línea superior izquierda — horizontal -->
+    <item android:top="0dp" android:bottom="144dp" android:left="0dp" android:right="184dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea superior izquierda — vertical -->
+    <item android:top="0dp" android:bottom="108dp" android:left="0dp" android:right="224dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea superior derecha — horizontal -->
+    <item android:top="0dp" android:bottom="144dp" android:left="184dp" android:right="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea superior derecha — vertical -->
+    <item android:top="0dp" android:bottom="108dp" android:left="224dp" android:right="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea inferior izquierda — horizontal -->
+    <item android:top="144dp" android:bottom="0dp" android:left="0dp" android:right="184dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea inferior izquierda — vertical -->
+    <item android:top="108dp" android:bottom="0dp" android:left="0dp" android:right="224dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea inferior derecha — horizontal -->
+    <item android:top="144dp" android:bottom="0dp" android:left="184dp" android:right="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Línea inferior derecha — vertical -->
+    <item android:top="108dp" android:bottom="0dp" android:left="224dp" android:right="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>

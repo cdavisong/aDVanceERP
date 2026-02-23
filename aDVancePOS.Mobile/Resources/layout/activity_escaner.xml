@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- Preview de cámara — SurfaceView nativo, sin AndroidX -->
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Overlay superior oscuro con instrucción -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#AA000000"
+        android:padding="16dp"
+        android:layout_gravity="top">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Escáner de código de barras"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apunta al código — el escaneo es automático"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+    <!-- Marco visual centrado para guiar el encuadre -->
+    <View
+        android:layout_width="240dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:background="@drawable/escaner_marco" />
+
+    <!-- Botón cancelar -->
+    <Button
+        android:id="@+id/btnCancelarEscaneo"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Cancelar"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:background="#AA333333"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp" />
+
+</FrameLayout>

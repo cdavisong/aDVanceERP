@@ -51,5 +51,18 @@ namespace aDVancePOS.Mobile.Servicios {
 
         public bool EstaDisponible => _catalogoCargado != null;
         public long IdAlmacenCatalogo => _catalogoCatalogo.Meta.IdAlmacen;
+
+        /// <summary>
+        /// Busca un producto por código exacto (case-insensitive).
+        /// Usado por el escáner de código de barras.
+        /// Devuelve null si no existe en el catálogo.
+        /// </summary>
+        public ProductoCatalogo? BuscarPorCodigo(string codigo) {
+            if (_catalogoCargado is null || string.IsNullOrWhiteSpace(codigo))
+                return null;
+
+            return _catalogoCatalogo.Productos.FirstOrDefault(p =>
+                string.Equals(p.Codigo, codigo, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
