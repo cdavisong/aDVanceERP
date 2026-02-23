@@ -198,26 +198,26 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
                     if (_modo == ModoAuditoria.LogCambios) {
                         // Colorear fila según tipo de diferencia
-                        decimal diferencia = decimal.TryParse(registro["diferencia_cantidad"],
-                            NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : 0;
+                        decimal diferencia = decimal.TryParse(registro["diferencia_cantidad"], NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : 0;
 
                         DibujarFilaLogCambios(gfx, yPos, registro, columnas, esAlternada, diferencia);
 
-                        if (diferencia > 0) totalEntradas += diferencia;
+                        if (diferencia > 0)
+                            totalEntradas += diferencia;
                         else totalSalidas += Math.Abs(diferencia);
-                        totalImpacto += decimal.TryParse(registro["diferencia_valor"],
-                            NumberStyles.Any, CultureInfo.InvariantCulture, out var dv) ? dv : 0;
+
+                        totalImpacto += decimal.TryParse(registro["diferencia_valor"], NumberStyles.Any, CultureInfo.InvariantCulture, out var dv) ? dv : 0;
                     } else {
-                        decimal diferencia = decimal.TryParse(registro["diferencia"],
-                            NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : 0;
+                        decimal diferencia = decimal.TryParse(registro["diferencia"], NumberStyles.Any, CultureInfo.InvariantCulture, out var d) ? d : 0;
 
                         DibujarFilaConteoFisico(gfx, yPos, registro, columnas, esAlternada);
 
-                        totalImpacto += decimal.TryParse(registro["valor_diferencia"],
-                            NumberStyles.Any, CultureInfo.InvariantCulture, out var dv) ? dv : 0;
+                        totalImpacto += decimal.TryParse(registro["valor_diferencia"], NumberStyles.Any, CultureInfo.InvariantCulture, out var dv) ? dv : 0;
 
-                        if (diferencia > 0) totalSobrantes++;
-                        else if (diferencia < 0) totalFaltantes++;
+                        if (diferencia > 0)
+                            totalSobrantes++;
+                        else if (diferencia < 0)
+                            totalFaltantes++;
                         else totalExactos++;
                     }
 
@@ -239,16 +239,16 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 var totales = _modo == ModoAuditoria.LogCambios
                     ? new Dictionary<string, string> {
                         ["Total registros"] = filaNum.ToString("N0"),
-                        ["Total entradas (+)"] = totalEntradas.ToString("N2", CultureInfo.InvariantCulture),
-                        ["Total salidas (-)"] = totalSalidas.ToString("N2", CultureInfo.InvariantCulture),
-                        ["Impacto económico"] = totalImpacto.ToString("N2", CultureInfo.InvariantCulture)
+                        ["Total entradas (+)"] = totalEntradas.ToString("N2"),
+                        ["Total salidas (-)"] = totalSalidas.ToString("N2"),
+                        ["Impacto económico"] = totalImpacto.ToString("N2")
                     }
                     : new Dictionary<string, string> {
                         ["Total productos"] = filaNum.ToString("N0"),
                         ["Exactos ✓"] = totalExactos.ToString("N0"),
                         ["Sobrantes (+)"] = totalSobrantes.ToString("N0"),
                         ["Faltantes (-)"] = totalFaltantes.ToString("N0"),
-                        ["Impacto económico"] = totalImpacto.ToString("N2", CultureInfo.InvariantCulture)
+                        ["Impacto económico"] = totalImpacto.ToString("N2")
                     };
 
                 DibujarSeccionTotales(gfx, yPos, totales, 300);
@@ -579,22 +579,24 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
             var query = """
                 SELECT
                     DATE_FORMAT(a.fecha_registro, '%d/%m/%Y %H:%i') AS fecha_registro,
-                    COALESCE(p.nombre, 'N/A')                        AS producto,
-                    COALESCE(al.nombre, 'N/A')                       AS almacen,
+                    COALESCE(p.nombre, '[Producto eliminado]')      AS producto,
+                    COALESCE(al.nombre, '[Almacén eliminado]')      AS almacen,
                     a.cantidad_anterior,
                     a.cantidad_nueva,
                     a.diferencia_cantidad,
                     a.costo_prom_anterior,
                     a.costo_prom_nuevo,
+                    a.valor_total_anterior,
+                    a.valor_total_nuevo,
                     a.diferencia_valor,
                     a.origen,
-                    COALESCE(cu.nombre, 'Sistema')                   AS usuario,
+                    COALESCE(cu.nombre, 'Sistema')                  AS usuario,
+                    a.id_movimiento_ref,
                     a.observacion
                 FROM adv__auditoria_inventario a
-                LEFT JOIN adv__inventario      inv ON a.id_inventario       = inv.id_inventario
-                LEFT JOIN adv__producto        p   ON a.id_producto         = p.id_producto
-                LEFT JOIN adv__almacen         al  ON a.id_almacen          = al.id_almacen
-                LEFT JOIN adv__cuenta_usuario  cu  ON a.id_cuenta_usuario   = cu.id_cuenta_usuario
+                LEFT JOIN adv__producto p ON a.id_producto = p.id_producto
+                LEFT JOIN adv__almacen al ON a.id_almacen = al.id_almacen
+                LEFT JOIN adv__cuenta_usuario cu ON a.id_cuenta_usuario = cu.id_cuenta_usuario
                 WHERE a.fecha_registro BETWEEN @desde AND @hasta
                 """;
 
@@ -611,18 +613,16 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
             using var reader = command.ExecuteReader();
             while (reader.Read()) {
+                int idxDif = reader.GetOrdinal("diferencia_valor");
+
                 _registros.Add(new Dictionary<string, string> {
                     ["fecha_registro"] = reader["fecha_registro"].ToString() ?? string.Empty,
                     ["producto"] = reader["producto"].ToString() ?? string.Empty,
                     ["almacen"] = reader["almacen"].ToString() ?? string.Empty,
-                    ["cantidad_anterior"] = reader.IsDBNull("cantidad_anterior") ? "0.00"
-                                                : reader.GetDecimal("cantidad_anterior").ToString("N2", CultureInfo.InvariantCulture),
-                    ["cantidad_nueva"] = reader.IsDBNull("cantidad_nueva") ? "0.00"
-                                                : reader.GetDecimal("cantidad_nueva").ToString("N2", CultureInfo.InvariantCulture),
-                    ["diferencia_cantidad"] = reader.IsDBNull("diferencia_cantidad") ? "0.00"
-                                                : reader.GetDecimal("diferencia_cantidad").ToString("N2", CultureInfo.InvariantCulture),
-                    ["diferencia_valor"] = reader.IsDBNull("diferencia_valor") ? "0.00"
-                                                : reader.GetDecimal("diferencia_valor").ToString("N2", CultureInfo.InvariantCulture),
+                    ["cantidad_anterior"] = reader.IsDBNull("cantidad_anterior") ? "0.00" : reader.GetDecimal("cantidad_anterior").ToString("N2"),
+                    ["cantidad_nueva"] = reader.IsDBNull("cantidad_nueva") ? "0.00" : reader.GetDecimal("cantidad_nueva").ToString("N2"),
+                    ["diferencia_cantidad"] = reader.IsDBNull("diferencia_cantidad") ? "0.00" : reader.GetDecimal("diferencia_cantidad").ToString("N2"),
+                    ["diferencia_valor"] = reader.IsDBNull(idxDif) ? "0.00" : reader.GetDecimal(idxDif).ToString("N2"),
                     ["origen"] = reader["origen"].ToString() ?? string.Empty,
                     ["usuario"] = reader["usuario"].ToString() ?? string.Empty,
                     ["observacion"] = reader["observacion"].ToString() ?? string.Empty,
@@ -664,10 +664,8 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                     _resumenSesion["Sesión"] = r["nombre"].ToString() ?? string.Empty;
                     _resumenSesion["Almacén"] = _nombreAlmacen;
                     _resumenSesion["Responsable"] = r["responsable"].ToString() ?? "N/A";
-                    _resumenSesion["Inicio"] = r.IsDBNull("fecha_inicio") ? "-"
-                                                      : r.GetDateTime("fecha_inicio").ToString("dd/MM/yyyy HH:mm");
-                    _resumenSesion["Cierre"] = r.IsDBNull("fecha_cierre") ? "En proceso"
-                                                      : r.GetDateTime("fecha_cierre").ToString("dd/MM/yyyy HH:mm");
+                    _resumenSesion["Inicio"] = r.IsDBNull("fecha_inicio") ? "-" : r.GetDateTime("fecha_inicio").ToString("dd/MM/yyyy HH:mm");
+                    _resumenSesion["Cierre"] = r.IsDBNull("fecha_cierre") ? "En proceso" : r.GetDateTime("fecha_cierre").ToString("dd/MM/yyyy HH:mm");
                     _resumenSesion["Estado"] = r["estado"].ToString() ?? string.Empty;
                 }
             }
@@ -699,10 +697,10 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 _registros.Add(new Dictionary<string, string> {
                     ["codigo_producto"] = reader["codigo_producto"].ToString() ?? string.Empty,
                     ["producto"] = reader["producto"].ToString() ?? string.Empty,
-                    ["cantidad_sistema"] = reader.GetDecimal("cantidad_sistema").ToString("N2", CultureInfo.InvariantCulture),
-                    ["cantidad_contada"] = reader.GetDecimal("cantidad_contada").ToString("N2", CultureInfo.InvariantCulture),
-                    ["diferencia"] = reader.GetDecimal("diferencia").ToString("N2", CultureInfo.InvariantCulture),
-                    ["valor_diferencia"] = reader.GetDecimal("valor_diferencia").ToString("N2", CultureInfo.InvariantCulture),
+                    ["cantidad_sistema"] = reader.GetDecimal("cantidad_sistema").ToString("N2"),
+                    ["cantidad_contada"] = reader.GetDecimal("cantidad_contada").ToString("N2"),
+                    ["diferencia"] = reader.GetDecimal("diferencia").ToString("N2"),
+                    ["valor_diferencia"] = reader.GetDecimal("valor_diferencia").ToString("N2"),
                     ["ajuste_aplicado"] = reader.GetInt32("ajuste_aplicado").ToString(),
                     ["contado_por"] = reader["contado_por"].ToString() ?? string.Empty,
                     ["observacion"] = reader["observacion"].ToString() ?? string.Empty,
