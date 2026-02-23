@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#B22222"
+        android:paddingLeft="8dp"
+        android:paddingRight="16dp"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnVolverCobro"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:contentDescription="Volver" />
+
+        <TextView
+            android:id="@+id/lblTotalCobro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cobrar — 0.00 CUP"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp" />
+    </LinearLayout>
+
+    <!-- Selector de método de pago -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:elevation="2dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MÉTODO DE PAGO"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Opción Efectivo -->
+        <LinearLayout
+            android:id="@+id/tarjetaEfectivo"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/btn_outline_firebrick">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_cash"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Efectivo"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#B22222" />
+
+            <RadioButton
+                android:id="@+id/rbEfectivo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#B22222"
+                android:checked="true" />
+        </LinearLayout>
+
+        <!-- Opción Transferencia -->
+        <LinearLayout
+            android:id="@+id/tarjetaTransferencia"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/btn_outline_firebrick">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_transfer"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transferencia"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#B22222" />
+
+            <RadioButton
+                android:id="@+id/rbTransferencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#B22222" />
+        </LinearLayout>
+
+        <!-- Opción Mixto -->
+        <LinearLayout
+            android:id="@+id/tarjetaMixto"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:background="@drawable/btn_outline_firebrick">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_hybrid"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="12dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pago mixto"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#B22222" />
+
+            <RadioButton
+                android:id="@+id/rbMixto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#B22222" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Panel transferencia -->
+    <LinearLayout
+        android:id="@+id/panelTransferencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:elevation="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DATOS DE TRANSFERENCIA"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/lblEstadoSms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📱 Esperando SMS de PAGOxMOVIL..."
+            android:textSize="12sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/txtTransaccion"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nro. Transacción *"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:background="@drawable/search_field_bg"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/txtConfirmacion"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Confirmación adicional (opcional)"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:background="@drawable/search_field_bg"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
+    </LinearLayout>
+
+    <!-- Panel mixto -->
+    <LinearLayout
+        android:id="@+id/panelMixto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:elevation="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DESGLOSE DE PAGO"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:letterSpacing="0.12"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/txtEfectivoMixto"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Monto en efectivo *"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/search_field_bg"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/lblBalanceMixto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#E65100"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/lblEstadoSmsMixto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📱 Esperando SMS de PAGOxMOVIL..."
+            android:textSize="12sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/txtTransaccionMixto"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nro. Transacción (transferencia) *"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:background="@drawable/search_field_bg"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/txtConfirmacionMixto"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Confirmación adicional (opcional)"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:background="@drawable/search_field_bg"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Botón confirmar -->
+    <Button
+        android:id="@+id/btnConfirmarCobro"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Confirmar cobro"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_firebrick"
+        android:layout_margin="16dp" />
+
+</LinearLayout>

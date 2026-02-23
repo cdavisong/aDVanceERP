@@ -3,7 +3,6 @@
 //  Archivo: EscanerActivity.cs
 // ============================================================
 
-using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Hardware.Camera2;
@@ -11,12 +10,8 @@ using Android.Hardware.Camera2.Params;
 using Android.Media;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 
 using Java.Util.Concurrent;
-
-using System;
-using System.Collections.Generic;
 
 using ZXing;
 using ZXing.Common;

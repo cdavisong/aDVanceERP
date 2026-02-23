@@ -91,16 +91,16 @@
                 android:focusable="true" />
 		</LinearLayout>
 
-		<!-- Menú (reservado para futuras opciones) -->
-		<Button
-            android:id="@+id/btnMenu"
+		<!-- Botón Configuración -->
+		<ImageButton
+            android:id="@+id/btnConfiguracion"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:text="⋮"
-            android:textSize="22sp"
-            android:textColor="#555555"
+            android:src="@drawable/ic_settings"
             android:background="@android:color/transparent"
-            android:padding="0dp" />
+            android:scaleType="fitCenter"
+            android:padding="4dp"
+            android:contentDescription="Configuración" />
 	</LinearLayout>
 
 	<!-- ══════════════════════════════════════
@@ -165,27 +165,43 @@
 		</LinearLayout>
 
 		<!-- Botón escáner de código de barras -->
-		<Button
+		<ImageButton
             android:id="@+id/btnEscanear"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:text="📷"
-            android:textSize="20sp"
+            android:src="@drawable/ic_scan"
             android:background="@drawable/btn_outline_firebrick"
-            android:padding="0dp"
-            android:layout_marginLeft="8dp" />
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="Escáner" />
 
-		<Button
+		<LinearLayout
             android:id="@+id/btnImportar"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
-            android:text="＋ Catálogo"
-            android:textSize="13sp"
-            android:textColor="#B22222"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:background="@drawable/btn_outline_firebrick"
-            android:paddingLeft="12dp"
+            android:paddingLeft="10dp"
             android:paddingRight="12dp"
-            android:layout_marginLeft="8dp" />
+            android:layout_marginLeft="8dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_catalog"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Catálogo"
+                android:textSize="13sp"
+                android:textColor="#B22222"
+                android:textStyle="bold" />
+        </LinearLayout>
 	</LinearLayout>
 
 	<!-- ══════════════════════════════════════
@@ -286,11 +302,18 @@
                 android:paddingRight="14dp"
                 android:background="#FAFAFA">
 
-				<TextView
+				<ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_cart"
+                    android:scaleType="fitCenter"
+                    android:layout_marginRight="6dp" />
+
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="🛒  CARRITO"
+                    android:text="CARRITO"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     android:textColor="#999999"
@@ -400,7 +423,7 @@
                     android:paddingTop="6dp"
                     android:paddingBottom="2dp" />
 
-				<!-- Botones de pago -->
+				<!-- Botón único de cobro — abre diálogo con Efectivo / Transferencia / Mixto -->
 				<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
@@ -411,29 +434,29 @@
                     android:paddingBottom="8dp"
                     android:gravity="center_vertical">
 
-					<Button
-                        android:id="@+id/btnPagarEfectivo"
-                        android:layout_width="0dp"
+					<LinearLayout
+                        android:id="@+id/btnCobrar"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="💵  Efectivo"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF"
-                        android:background="@drawable/btn_firebrick"
-                        android:layout_marginRight="6dp" />
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:background="@drawable/btn_firebrick">
 
-					<Button
-                        android:id="@+id/btnPagarTransferencia"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="📲  Transferencia"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="#B22222"
-                        android:background="@drawable/btn_peachpuff"
-                        android:layout_marginLeft="6dp" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_pay"
+                            android:scaleType="fitCenter"
+                            android:layout_marginRight="8dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cobrar"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF" />
+                    </LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
 			<!-- fin seccionPagos -->

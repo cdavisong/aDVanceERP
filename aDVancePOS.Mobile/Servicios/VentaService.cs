@@ -1,4 +1,4 @@
-﻿using aDVancePOS.Mobile.Modelos;
+using aDVancePOS.Mobile.Modelos;
 
 using System.Text.Json;
 
@@ -78,7 +78,51 @@ namespace aDVancePOS.Mobile.Servicios {
             return venta;
         }
 
+        /// <summary>
+        /// Registra una venta con pago híbrido (parte efectivo + parte transferencia).
+        /// La suma de ambos montos debe ser igual al total del carrito.
+        /// </summary>
+        public async Task<VentaExportacion> RegistrarVentaHibridaAsync(
+            CarritoService carrito,
+            decimal montoEfectivo,
+            decimal montoTransferencia,
+            string numeroTransaccion,
+            string numeroConfirmacion) {
+
+            var venta = ConstruirVenta(carrito);
+
+            // Pago en efectivo
+            venta.Pagos.Add(new PagoExportacion {
+                MetodoPago = "Efectivo",
+                MontoPagado = montoEfectivo,
+                FechaPagoCliente = DateTime.UtcNow,
+                EstadoPago = "Confirmado",
+                DetalleTransferencia = null
+            });
+
+            // Pago por transferencia
+            venta.Pagos.Add(new PagoExportacion {
+                MetodoPago = "TransferenciaBancaria",
+                MontoPagado = montoTransferencia,
+                FechaPagoCliente = DateTime.UtcNow,
+                EstadoPago = "Pendiente",
+                DetalleTransferencia = new DetalleTransferenciaExportacion {
+                    NumeroConfirmacion = numeroConfirmacion,
+                    NumeroTransaccion = numeroTransaccion
+                }
+            });
+
+            await GuardarVentaAsync(venta);
+            return venta;
+        }
+
         public int TotalVentasHoy => _ventasHoy.Ventas.Count;
+
+        /// <summary>
+        /// Devuelve la lista de ventas del día en memoria (más reciente primero).
+        /// </summary>
+        public List<VentaExportacion> ObtenerVentasDia() =>
+            _ventasHoy.Ventas.AsEnumerable().Reverse().ToList();
         public decimal TotalRecaudadoHoy => _ventasHoy.Meta.TotalRecaudado;
 
         /// <summary>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#B22222"
+        android:paddingLeft="8dp"
+        android:paddingRight="16dp"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnVolverConfig"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Configuración"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp" />
+
+        <Button
+            android:id="@+id/btnGuardarConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="Guardar"
+            android:textSize="13sp"
+            android:textColor="#B22222"
+            android:background="#FFFFFF"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Sección Almacén -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ALMACÉN"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID de almacén"
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="4dp" />
+                <EditText
+                    android:id="@+id/txtIdAlmacen"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:inputType="number"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Sección Tickets -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TICKETS"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Prefijo del ticket (ej: POS-)"
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="4dp" />
+                <EditText
+                    android:id="@+id/txtPrefijoTicket"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:inputType="text"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Sección Cliente -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CLIENTE ANÓNIMO"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID de cliente anónimo"
+                    android:textSize="12sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="4dp" />
+                <EditText
+                    android:id="@+id/txtIdClienteAnonimo"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:inputType="number"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Sección Info app -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ACERCA DE"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="2dp"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="aDVance POS Mobile"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="2dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Versión 1.0 · DaviSOFT"
+                    android:textSize="13sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="12dp" />
+
+                <Button
+                    android:id="@+id/btnVerLicencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Ver licencia de uso"
+                    android:textSize="12sp"
+                    android:textColor="#B22222"
+                    android:background="@drawable/btn_outline_firebrick"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

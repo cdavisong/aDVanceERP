@@ -1,4 +1,4 @@
-﻿using aDVancePOS.Mobile.Modelos;
+using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
 using System.Text.Json;
@@ -57,6 +57,9 @@ namespace aDVancePOS.Mobile.Servicios {
         /// Usado por el escáner de código de barras.
         /// Devuelve null si no existe en el catálogo.
         /// </summary>
+        public ProductoCatalogo? BuscarPorId(long id) =>
+            _catalogoCargado?.Productos.FirstOrDefault(p => p.Id == id);
+
         public ProductoCatalogo? BuscarPorCodigo(string codigo) {
             if (_catalogoCargado is null || string.IsNullOrWhiteSpace(codigo))
                 return null;

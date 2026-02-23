@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 //  aDVancePOS.Mobile — MainActivity
 //  Archivo: MainActivity.cs
 //
@@ -14,7 +14,6 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 using Android.Widget;
 
 namespace aDVancePOS.Mobile {
@@ -23,11 +22,11 @@ namespace aDVancePOS.Mobile {
         MainLauncher = false,
         Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class MainActivity : Activity {
-        // ── Servicios ────────────────────────────────────────
-        private ConfiguracionApp _config = null!;
-        private CatalogoService _catalogoService = null!;
-        private CarritoService _carritoService = null!;
-        private VentaService _ventaService = null!;
+        // ── Servicios — obtenidos del singleton PosApplication ──
+        private ConfiguracionApp _config       => ((PosApplication)Application!).Config;
+        private CatalogoService  _catalogoService => ((PosApplication)Application!).CatalogoService;
+        private CarritoService   _carritoService  => ((PosApplication)Application!).CarritoService;
+        private VentaService     _ventaService    => ((PosApplication)Application!).VentaService;
 
         // ── Estado ───────────────────────────────────────────
         private List<ProductoCatalogo> _productosMostrados = new();
@@ -36,9 +35,9 @@ namespace aDVancePOS.Mobile {
 
         // ── Controles UI ─────────────────────────────────────
         private EditText _txtBuscar = null!;
-        private Button _btnEscanear = null!;
+        private ImageButton _btnEscanear = null!;
         private Button _btnLimpiarBusqueda = null!;
-        private Button _btnImportar = null!;
+        private LinearLayout _btnImportar = null!;
         private ListView _lstProductos = null!;
         private TextView _lblConteoProductos = null!;
         private TextView _lblProductosVacio = null!;
@@ -48,9 +47,12 @@ namespace aDVancePOS.Mobile {
         private TextView _lblVentasBadge = null!;
         private LinearLayout _seccionPagos = null!;
         private Button _btnVaciarCarrito = null!;
-        private Button _btnPagarEfectivo = null!;
-        private Button _btnPagarTransferencia = null!;
-        
+        private LinearLayout _btnCobrar = null!;
+        private ImageButton _btnConfiguracion = null!;
+
+        // ── SMS PAGOxMOVIL ────────────────────────────────────
+        // Se registra al abrir el diálogo de cobro y se desregistra al cerrarlo
+        private SmsTransferenciaBroadcastReceiver? _smsReceiver;
 
         // ─────────────────────────────────────────────────────
 
@@ -59,27 +61,21 @@ namespace aDVancePOS.Mobile {
             ActionBar?.Hide();
             SetContentView(Resource.Layout.activity_main);
 
-            InicializarServicios();
             EnlazarControles();
             ConfigurarEventos();
             CargarDatosInicialesAsync();
             SolicitarPermisosApp();
+            ActualizarUI(); // arrancar con btnCobrar deshabilitado
         }
 
         // ── Inicialización ───────────────────────────────────
 
-        private void InicializarServicios() {
-            _config = ConfiguracionService.Cargar();
-            _catalogoService = new CatalogoService();
-            _carritoService = new CarritoService();
-            _ventaService = new VentaService(_config);
-
-        }
+        // Los servicios son provistos por PosApplication (singleton)
 
         private void EnlazarControles() {
             _txtBuscar = FindViewById<EditText>(Resource.Id.txtBuscar)!;
             _btnLimpiarBusqueda = FindViewById<Button>(Resource.Id.btnLimpiarBusqueda)!;
-            _btnImportar = FindViewById<Button>(Resource.Id.btnImportar)!;
+            _btnImportar = FindViewById<LinearLayout>(Resource.Id.btnImportar)!;
             _lstProductos = FindViewById<ListView>(Resource.Id.lstProductos)!;
             _lblConteoProductos = FindViewById<TextView>(Resource.Id.lblConteoProductos)!;
             _lblProductosVacio = FindViewById<TextView>(Resource.Id.lblProductosVacio)!;
@@ -89,9 +85,9 @@ namespace aDVancePOS.Mobile {
             _lblVentasBadge = FindViewById<TextView>(Resource.Id.lblVentasBadge)!;
             _seccionPagos = FindViewById<LinearLayout>(Resource.Id.seccionPagos)!;
             _btnVaciarCarrito = FindViewById<Button>(Resource.Id.btnVaciarCarrito)!;
-            _btnPagarEfectivo = FindViewById<Button>(Resource.Id.btnPagarEfectivo)!;
-            _btnPagarTransferencia = FindViewById<Button>(Resource.Id.btnPagarTransferencia)!;
-            _btnEscanear = FindViewById<Button>(Resource.Id.btnEscanear)!;
+            _btnCobrar = FindViewById<LinearLayout>(Resource.Id.btnCobrar)!;
+            _btnEscanear       = FindViewById<ImageButton>(Resource.Id.btnEscanear)!;
+            _btnConfiguracion  = FindViewById<ImageButton>(Resource.Id.btnConfiguracion)!;
         }
 
         private void ConfigurarEventos() {
@@ -112,10 +108,10 @@ namespace aDVancePOS.Mobile {
 
             _btnImportar.Click += async (s, e) => await ImportarCatalogoAsync();
             _btnVaciarCarrito.Click += (s, e) => SolicitarVaciarCarrito();
-            _btnPagarEfectivo.Click += async (s, e) => await PagarEfectivoAsync();
-            _btnPagarTransferencia.Click += async (s, e) => await PagarTransferenciaAsync();
-            _lblVentasBadge.Click += (s, e) => MostrarResumenVentasDia();
-            _btnEscanear.Click += (s, e) => EscanearCodigo();
+            _btnCobrar.Click += (s, e) => StartActivityForResult(new Intent(this, typeof(CobroActivity)), CobroActivity.RequestCode);
+            _lblVentasBadge.Click += (s, e) => StartActivity(new Intent(this, typeof(ResumenVentasActivity)));
+            _btnEscanear.Click      += (s, e) => EscanearCodigo();
+            _btnConfiguracion.Click += (s, e) => StartActivity(new Intent(this, typeof(ConfiguracionActivity)));
         }
 
         private async void CargarDatosInicialesAsync() {
@@ -131,7 +127,7 @@ namespace aDVancePOS.Mobile {
         private async Task ImportarCatalogoAsync(bool silencioso = false) {
             try {
                 _btnImportar.Enabled = false;
-                _btnImportar.Text = "Cargando...";
+                _btnImportar.Alpha = 0.5f;
 
                 var catalogo = await _catalogoService.CargarCatalogoAsync();
                 _catalogoCargado = true;
@@ -158,7 +154,7 @@ namespace aDVancePOS.Mobile {
                 MostrarMensaje($"Error al cargar catálogo:\n{ex.Message}");
             } finally {
                 _btnImportar.Enabled = true;
-                _btnImportar.Text = "＋ Catálogo";
+                _btnImportar.Alpha = 1.0f;
             }
         }
 
@@ -195,12 +191,21 @@ namespace aDVancePOS.Mobile {
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent? data) {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode != EscanerActivity.RequestCode || resultCode != Result.Ok) return;
+            if (requestCode == EscanerActivity.RequestCode && resultCode == Result.Ok) {
+                var codigo = data?.GetStringExtra(EscanerActivity.ExtraCodigoBarras)?.Trim() ?? "";
+                if (!string.IsNullOrEmpty(codigo))
+                    ProcesarCodigoEscaneado(codigo);
+                return;
+            }
 
-            var codigo = data?.GetStringExtra(EscanerActivity.ExtraCodigoBarras)?.Trim() ?? "";
-            if (string.IsNullOrEmpty(codigo)) return;
-
-            ProcesarCodigoEscaneado(codigo);
+            if (requestCode == CobroActivity.RequestCode && resultCode == Result.Ok) {
+                // Venta registrada en CobroActivity — limpiar carrito y refrescar
+                _carritoService.VaciarTrasVenta();
+                ActualizarUI();
+                var resumen = data?.GetStringExtra(CobroActivity.ExtraResumen) ?? "";
+                if (!string.IsNullOrEmpty(resumen))
+                    MostrarMensaje(resumen);
+            }
         }
 
         private void ProcesarCodigoEscaneado(string codigo) {
@@ -235,44 +240,257 @@ namespace aDVancePOS.Mobile {
 
         // ── Pagos ─────────────────────────────────────────────
 
-        private async Task PagarEfectivoAsync() {
+        // ── Cobro unificado ───────────────────────────────────
+
+        private void MostrarDialogoCobro() {
             if (_carritoService.ConteoItems == 0) {
                 MostrarMensaje("El carrito está vacío.");
                 return;
             }
+            var total = _carritoService.ImporteTotal;
+            var layout = new LinearLayout(this) { Orientation = Orientation.Vertical };
+            layout.SetPadding(48, 16, 48, 8);
 
-            ConfirmarAccion(
-                "Confirmar pago en efectivo",
-                $"Total a cobrar: {_carritoService.ImporteTotal:C2}",
-                async () => {
-                    var venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
-                    _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
-                    ActualizarUI();
-                    MostrarMensaje(
-                        $"✓ Venta registrada\n" +
-                        $"Ticket: {venta.NumeroTicket}\n" +
-                        $"Total: {venta.ImporteTotal:C2}\n\n" +
-                        $"Ventas hoy: {_ventaService.TotalVentasHoy}  ·  " +
-                        $"Recaudado: {_ventaService.TotalRecaudadoHoy:C2}");
+            // ── Selector de método ────────────────────────────
+            var lblMetodo = new TextView(this) { Text = "Método de pago:" };
+            lblMetodo.SetTextColor(Android.Graphics.Color.ParseColor("#555555"));
+
+            var rbEfectivo = new RadioButton(this) { Text = "💵  Efectivo" };
+            var rbTransferencia = new RadioButton(this) { Text = "📲  Transferencia" };
+            var rbHibrido = new RadioButton(this) { Text = "💵 + 📲  Pago mixto" };
+
+            var rgMetodo = new RadioGroup(this) { Orientation = Orientation.Vertical };
+            rgMetodo.AddView(rbEfectivo);
+            rgMetodo.AddView(rbTransferencia);
+            rgMetodo.AddView(rbHibrido);
+            rbEfectivo.Checked = true;
+
+            // ── Panel transferencia (Nro. transacción) ─────────
+            var panelTransferencia = new LinearLayout(this) { Orientation = Orientation.Vertical };
+            panelTransferencia.SetPadding(0, 8, 0, 0);
+
+            var lblEstadoSms = new TextView(this) {
+                Text = "📱 Esperando SMS de PAGOxMOVIL...",
+                TextSize = 12f
+            };
+            lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor("#AAAAAA"));
+
+            var txtTransaccion = new EditText(this) {
+                Hint = "Nro. Transacción *",
+                InputType = Android.Text.InputTypes.ClassText
+            };
+            var txtConfirmacion = new EditText(this) {
+                Hint = "Confirmación adicional (opcional)",
+                InputType = Android.Text.InputTypes.ClassText
+            };
+            panelTransferencia.AddView(lblEstadoSms);
+            panelTransferencia.AddView(txtTransaccion);
+            panelTransferencia.AddView(txtConfirmacion);
+            panelTransferencia.Visibility = Android.Views.ViewStates.Gone;
+
+            // ── Panel híbrido ─────────────────────────────────
+            var panelHibrido = new LinearLayout(this) { Orientation = Orientation.Vertical };
+            panelHibrido.SetPadding(0, 8, 0, 0);
+
+            var txtEfectivo = new EditText(this) {
+                Hint = "Monto en efectivo *",
+                InputType = Android.Text.InputTypes.NumberFlagDecimal |
+                            Android.Text.InputTypes.ClassNumber
+            };
+            var txtTransaccionHib = new EditText(this) {
+                Hint = "Nro. Transacción (transferencia) *",
+                InputType = Android.Text.InputTypes.ClassText
+            };
+            var txtConfirmacionHib = new EditText(this) {
+                Hint = "Confirmación adicional (opcional)",
+                InputType = Android.Text.InputTypes.ClassText
+            };
+
+            // Indicador de balance en tiempo real
+            var lblBalance = new TextView(this) {
+                TextSize = 13f,
+                Text = $"Pendiente: {total:N2} CUP"
+            };
+            lblBalance.SetTextColor(Android.Graphics.Color.ParseColor("#E65100"));
+
+            var lblEstadoSmsHib = new TextView(this) {
+                Text = "📱 Esperando SMS de PAGOxMOVIL...",
+                TextSize = 12f
+            };
+            lblEstadoSmsHib.SetTextColor(Android.Graphics.Color.ParseColor("#AAAAAA"));
+
+            panelHibrido.AddView(txtEfectivo);
+            panelHibrido.AddView(lblBalance);
+            panelHibrido.AddView(lblEstadoSmsHib);
+            panelHibrido.AddView(txtTransaccionHib);
+            panelHibrido.AddView(txtConfirmacionHib);
+            panelHibrido.Visibility = Android.Views.ViewStates.Gone;
+
+            layout.AddView(lblMetodo);
+            layout.AddView(rgMetodo);
+            layout.AddView(panelTransferencia);
+            layout.AddView(panelHibrido);
+
+            // ── SMS receiver — detecta PAGOxMOVIL en ambos modos ──
+            _smsReceiver = new SmsTransferenciaBroadcastReceiver();
+            _smsReceiver.OnPagoDetectado = resultado => {
+                RunOnUiThread(() => {
+                    if (rbTransferencia.Checked) {
+                        // ── Modo transferencia pura ───────────────────────────
+                        txtTransaccion.Text = resultado.NumeroTransaccion;
+                        bool coincide = resultado.Monto == total;
+                        lblEstadoSms.Text = coincide
+                            ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                            : $"⚠ SMS: {resultado.Monto:N2} CUP (total: {total:N2})";
+                        lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor(
+                            coincide ? "#2E7D32" : "#E65100"));
+
+                    } else if (rbHibrido.Checked) {
+                        // ── Modo híbrido ──────────────────────────────────────
+                        // Autocompleta el Nro. Transacción del panel mixto
+                        txtTransaccionHib.Text = resultado.NumeroTransaccion;
+
+                        // Calcular monto de transferencia esperado según lo que
+                        // el cajero ya haya escrito en el campo de efectivo
+                        var efectivoStr = txtEfectivo.Text?.Replace(',', '.') ?? "0";
+                        decimal.TryParse(efectivoStr,
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out decimal montoEfectivoActual);
+                        decimal montoTransfEsperado = total - montoEfectivoActual;
+
+                        bool coincideHib = resultado.Monto == montoTransfEsperado;
+                        lblEstadoSmsHib.Text = coincideHib
+                            ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                            : $"⚠ SMS: {resultado.Monto:N2} CUP  (esperado: {montoTransfEsperado:N2})";
+                        lblEstadoSmsHib.SetTextColor(Android.Graphics.Color.ParseColor(
+                            coincideHib ? "#2E7D32" : "#E65100"));
+                    }
                 });
-        }
+            };
+            RegisterReceiver(_smsReceiver,
+                new IntentFilter(Android.Provider.Telephony.Sms.Intents.SmsReceivedAction));
 
-        private async Task PagarTransferenciaAsync() {
-            if (_carritoService.ConteoItems == 0) {
-                MostrarMensaje("El carrito está vacío.");
-                return;
-            }
+            // ── Mostrar/ocultar paneles según método ──────────
+            rgMetodo.CheckedChange += (s, e) => {
+                panelTransferencia.Visibility =
+                    rbTransferencia.Checked || rbHibrido.Checked
+                    ? Android.Views.ViewStates.Visible
+                    : Android.Views.ViewStates.Gone;
+                panelHibrido.Visibility =
+                    rbHibrido.Checked
+                    ? Android.Views.ViewStates.Visible
+                    : Android.Views.ViewStates.Gone;
 
-            MostrarDialogoTransferencia(async (confirmacion, transaccion) => {
-                var venta = await _ventaService.RegistrarVentaTransferenciaAsync(
-                    _carritoService, confirmacion, transaccion);
-                _carritoService.VaciarTrasVenta(); // venta confirmada: no devolver stock
-                ActualizarUI();
-                MostrarMensaje(
-                    $"✓ Transferencia registrada (pendiente de confirmación)\n" +
-                    $"Ticket: {venta.NumeroTicket}\n" +
-                    $"Confirmación: {confirmacion}");
-            });
+                // Al cambiar a híbrido, reusar el txtTransaccion del panel superior
+                // pero mostrar también el campo de efectivo
+            };
+
+            // ── Validar balance en tiempo real (modo híbrido) ─
+            txtEfectivo.TextChanged += (s, e) => {
+                if (!rbHibrido.Checked) return;
+                var efectivoStr = txtEfectivo.Text?.Replace(',', '.') ?? "0";
+                if (!decimal.TryParse(efectivoStr,
+                        System.Globalization.NumberStyles.Any,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out decimal montoEfectivo)) montoEfectivo = 0;
+
+                decimal montoTransf = total - montoEfectivo;
+                if (montoEfectivo <= 0 || montoEfectivo >= total) {
+                    lblBalance.Text = montoEfectivo >= total
+                        ? "El efectivo cubre el total completo — use solo Efectivo"
+                        : $"Pendiente transferencia: {total:N2} CUP";
+                    lblBalance.SetTextColor(Android.Graphics.Color.ParseColor("#E65100"));
+                } else {
+                    lblBalance.Text = $"Transferencia: {montoTransf:N2} CUP  ✓";
+                    lblBalance.SetTextColor(Android.Graphics.Color.ParseColor("#2E7D32"));
+                }
+            };
+
+            // ── Construir diálogo ─────────────────────────────
+            var dialogo = new AlertDialog.Builder(this)!
+                .SetTitle($"💰 Cobrar — {total:N2} CUP")!
+                .SetView(layout)!
+                .SetPositiveButton("Confirmar", (IDialogInterfaceOnClickListener?) null)!
+                .SetNegativeButton("Cancelar", (s, e) => DesregistrarSmsReceiver())!
+                .Create()!;
+
+            dialogo.SetOnShowListener(new DialogShowListener(() => {
+                var btnConfirmar = dialogo.GetButton((int) DialogButtonType.Positive);
+                btnConfirmar!.Click += async (s, e) => {
+                    if (rbEfectivo.Checked) {
+                        // ── EFECTIVO ──────────────────────────
+                        DesregistrarSmsReceiver();
+                        dialogo.Dismiss();
+                        var venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
+                        _carritoService.VaciarTrasVenta();
+                        ActualizarUI();
+                        MostrarMensaje(
+                            $"✓ Venta registrada\n" +
+                            $"Ticket: {venta.NumeroTicket}\n" +
+                            $"Total: {venta.ImporteTotal:N2} CUP");
+
+                    } else if (rbTransferencia.Checked) {
+                        // ── TRANSFERENCIA ─────────────────────
+                        var nroTransaccion = txtTransaccion.Text?.Trim() ?? "";
+                        if (string.IsNullOrEmpty(nroTransaccion)) {
+                            MostrarMensaje("El número de transacción es requerido.");
+                            return;
+                        }
+                        DesregistrarSmsReceiver();
+                        dialogo.Dismiss();
+                        var venta = await _ventaService.RegistrarVentaTransferenciaAsync(
+                            _carritoService,
+                            txtConfirmacion.Text?.Trim() ?? "",
+                            nroTransaccion);
+                        _carritoService.VaciarTrasVenta();
+                        ActualizarUI();
+                        MostrarMensaje(
+                            $"✓ Transferencia registrada\n" +
+                            $"Ticket: {venta.NumeroTicket}\n" +
+                            $"Nro. Transacción: {nroTransaccion}");
+
+                    } else {
+                        // ── HÍBRIDO ───────────────────────────
+                        var efectivoStr = txtEfectivo.Text?.Replace(',', '.') ?? "";
+                        if (!decimal.TryParse(efectivoStr,
+                                System.Globalization.NumberStyles.Any,
+                                System.Globalization.CultureInfo.InvariantCulture,
+                                out decimal montoEfectivo) || montoEfectivo <= 0) {
+                            MostrarMensaje("Ingrese un monto válido en efectivo.");
+                            return;
+                        }
+                        decimal montoTransf = total - montoEfectivo;
+                        if (montoTransf <= 0) {
+                            MostrarMensaje("El efectivo cubre el total — use solo Efectivo.");
+                            return;
+                        }
+                        var nroTransHib = txtTransaccionHib.Text?.Trim() ?? "";
+                        if (string.IsNullOrEmpty(nroTransHib)) {
+                            MostrarMensaje("El número de transacción es requerido.");
+                            return;
+                        }
+                        DesregistrarSmsReceiver();
+                        dialogo.Dismiss();
+                        var venta = await _ventaService.RegistrarVentaHibridaAsync(
+                            _carritoService,
+                            montoEfectivo,
+                            montoTransf,
+                            nroTransHib,
+                            txtConfirmacionHib.Text?.Trim() ?? "");
+                        _carritoService.VaciarTrasVenta();
+                        ActualizarUI();
+                        MostrarMensaje(
+                            $"✓ Pago mixto registrado\n" +
+                            $"Ticket: {venta.NumeroTicket}\n" +
+                            $"💵 Efectivo: {montoEfectivo:N2} CUP\n" +
+                            $"📲 Transferencia: {montoTransf:N2} CUP");
+                    }
+                };
+            }));
+
+            dialogo.SetOnCancelListener(new DialogCancelListener(DesregistrarSmsReceiver));
+            dialogo.Show();
         }
 
         private void MostrarResumenVentasDia() {
@@ -363,8 +581,7 @@ namespace aDVancePOS.Mobile {
 
             // ── FIX #4: Sección de pagos — solo habilitada con carrito lleno ──
             _seccionPagos.Alpha = carritoConItems ? 1.0f : 0.35f;
-            _btnPagarEfectivo.Enabled = carritoConItems;
-            _btnPagarTransferencia.Enabled = carritoConItems;
+            _btnCobrar.Enabled = carritoConItems;
 
             // ── Visibilidad carrito vacío ──────────────────────────
             _lblCarritoVacio.Visibility = carritoConItems
@@ -404,34 +621,33 @@ namespace aDVancePOS.Mobile {
                 .Show();
         }
 
-        private void MostrarDialogoTransferencia(Func<string, string, Task> onConfirmar) {
-            var layout = new LinearLayout(this) { Orientation = Orientation.Vertical };
-            layout.SetPadding(48, 24, 48, 0);
+        // ── SMS: limpieza ─────────────────────────────────────
 
-            var txtConfirmacion = new EditText(this) {
-                Hint = "Número de confirmación *",
-                InputType = Android.Text.InputTypes.ClassText
-            };
-            var txtTransaccion = new EditText(this) {
-                Hint = "Número de transacción (opcional)",
-                InputType = Android.Text.InputTypes.ClassText
-            };
-            layout.AddView(txtConfirmacion);
-            layout.AddView(txtTransaccion);
-
-            new AlertDialog.Builder(this)!
-                .SetTitle($"Transferencia — {_carritoService.ImporteTotal:C2}")!
-                .SetView(layout)!
-                .SetPositiveButton("Registrar", async (s, e) => {
-                    var confirmacion = txtConfirmacion.Text?.Trim() ?? "";
-                    if (string.IsNullOrEmpty(confirmacion)) {
-                        MostrarMensaje("El número de confirmación es requerido.");
-                        return;
-                    }
-                    await onConfirmar(confirmacion, txtTransaccion.Text?.Trim() ?? "");
-                })!
-                .SetNegativeButton("Cancelar", (s, e) => { })!
-                .Show();
+        private void DesregistrarSmsReceiver() {
+            if (_smsReceiver == null) return;
+            try { UnregisterReceiver(_smsReceiver); } catch { /* ya desregistrado */ }
+            _smsReceiver = null;
         }
+
+        protected override void OnDestroy() {
+            DesregistrarSmsReceiver();
+            base.OnDestroy();
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  HELPERS — listeners de AlertDialog
+    // ══════════════════════════════════════════════════════════
+
+    internal class DialogShowListener : Java.Lang.Object, IDialogInterfaceOnShowListener {
+        private readonly Action _onShow;
+        public DialogShowListener(Action onShow) => _onShow = onShow;
+        public void OnShow(IDialogInterface? dialog) => _onShow();
+    }
+
+    internal class DialogCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener {
+        private readonly Action _onCancel;
+        public DialogCancelListener(Action onCancel) => _onCancel = onCancel;
+        public void OnCancel(IDialogInterface? dialog) => _onCancel();
     }
 }
