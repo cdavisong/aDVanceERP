@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Venta.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaGestionPagos : Form, IVistaGestionPagos {

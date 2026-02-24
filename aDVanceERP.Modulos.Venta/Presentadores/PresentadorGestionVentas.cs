@@ -5,10 +5,12 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
@@ -176,7 +178,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                             IdVenta = idVenta,
                                             MetodoPago = Enum.TryParse<MetodoPagoEnum>(pagoExp.MetodoPago, out var mp) ? mp : MetodoPagoEnum.Efectivo,
                                             MontoPagado = pagoExp.MontoPagado,
-                                            FechaPagoCliente = pagoExp.FechaPagoCliente,
+                                            FechaPago = pagoExp.FechaPagoCliente,
                                             FechaConfirmacionPago = pagoExp.EstadoPago != null && pagoExp.EstadoPago.Equals("Confirmado", StringComparison.OrdinalIgnoreCase)
                                                 ? DateTime.Now
                                                 : DateTime.MinValue,
@@ -191,7 +193,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                             var dt = new DetallePagoTransferencia {
                                                 Id = 0,
                                                 IdPago = idPago,
-                                                NumeroConfirmacion = pagoExp.DetalleTransferencia.NumeroConfirmacion,
+                                                NumeroTelefonoRemitente = pagoExp.DetalleTransferencia.NumeroConfirmacion,
                                                 NumeroTransaccion = pagoExp.DetalleTransferencia.NumeroTransaccion,
                                                 MontoTransferencia = pagoExp.MontoPagado
                                             };
@@ -318,7 +320,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             } else {
                 // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
                 var repoPago = RepoPago.Instancia;
-                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
 
                 if (pagosVenta?.Count > 0) {
                     foreach (var pago in pagosVenta)

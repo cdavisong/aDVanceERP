@@ -11,8 +11,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public string NumeroConfirmacion {
-            get => $"{fieldPrefijoInternacional.Text} {fieldNumeroConfirmacion.Text}";
-            set => fieldNumeroConfirmacion.Text = value;
+            get => $"{fieldPrefijoInternacional.Text} {fieldNumeroTelefonoRemitente.Text}";
+            set => fieldNumeroTelefonoRemitente.Text = value;
         }
 
         public string NumeroTransaccion {
@@ -33,7 +33,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private void Inicializar() {
             fieldPaises.SelectedIndexChanged += delegate {
                 fieldPrefijoInternacional.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaises.Text)}";
-                fieldNumeroConfirmacion.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaises.Text);
+                fieldNumeroTelefonoRemitente.IconLeft = PrefijosInternacionales.ObtenerFlag(fieldPaises.Text);
             };
             btnRegistrarPago.Click += delegate (object? sender, EventArgs args) {
                 DialogResult = DialogResult.OK;

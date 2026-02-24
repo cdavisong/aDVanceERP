@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+﻿using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
@@ -8,7 +8,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         public MetodoPagoEnum MetodoPago { get; set; }
         decimal MontoPagado { get; set; }
         bool EstadoPendiente { get; set; }
-        string NumeroConfirmacion { get; set; }
+        string NumeroTelefonoRemitente { get; set; }
         string NumeroTransaccion { get; set; }
 
         void CargarFacturasVentasPendientes(string[] numerosFacturasPendientes);

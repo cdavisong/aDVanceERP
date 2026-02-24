@@ -1,12 +1,13 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.BD;
+
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
+namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
     public class RepoPago : RepoEntidadBaseDatos<Pago, FiltroBusquedaPago> {
         public RepoPago() : base("adv__pago", "id_pago") {
         }
@@ -14,27 +15,30 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override string GenerarComandoAdicionar(Pago entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var comando = $"""
                 INSERT INTO adv__pago (
+                    id_compra,
                     id_venta,
                     metodo_pago,
                     monto_pagado,
-                    fecha_pago_cliente,
+                    fecha_pago,
                     fecha_confirmacion_pago,
                     estado_pago
                 ) VALUES (
+                    @id_compra,
                     @id_venta,
                     @metodo_pago,
                     @monto_pagado,
-                    @fecha_pago_cliente,
+                    @fecha_pago,
                     @fecha_confirmacion_pago,
                     @estado_pago
                 );
                 """;
 
             parametros = new Dictionary<string, object> {
+                { "@id_compra", entidad.IdCompra },
                 { "@id_venta", entidad.IdVenta },
                 { "@metodo_pago", entidad.MetodoPago.ToString() },
                 { "@monto_pagado", entidad.MontoPagado },
-                { "@fecha_pago_cliente", entidad.FechaPagoCliente.HasValue ? entidad.FechaPagoCliente.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
+                { "@fecha_pago", entidad.FechaPago.HasValue ? entidad.FechaPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_confirmacion_pago", entidad.FechaConfirmacionPago.HasValue ? entidad.FechaConfirmacionPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_pago", entidad.EstadoPago.ToString() }
             };
@@ -46,10 +50,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var comando = $"""
                 UPDATE adv__pago 
                 SET 
+                    id_compra = @id_compra,
                     id_venta = @id_venta,
                     metodo_pago = @metodo_pago,
                     monto_pagado = @monto_pagado,
-                    fecha_pago_cliente = @fecha_pago_cliente,
+                    fecha_pago = @fecha_pago,
                     fecha_confirmacion_pago = @fecha_confirmacion_pago,
                     estado_pago = @estado_pago
                 WHERE id_pago = @id_pago
@@ -57,10 +62,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_pago", entidad.Id },
+                { "@id_compra", entidad.IdCompra },
                 { "@id_venta", entidad.IdVenta },
                 { "@metodo_pago", entidad.MetodoPago.ToString() },
                 { "@monto_pagado", entidad.MontoPagado },
-                { "@fecha_pago_cliente", entidad.FechaPagoCliente.HasValue ? entidad.FechaPagoCliente.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
+                { "@fecha_pago", entidad.FechaPago.HasValue ? entidad.FechaPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@fecha_confirmacion_pago", entidad.FechaConfirmacionPago.HasValue ? entidad.FechaConfirmacionPago.Value.ToString("yyyy-MM-dd HH:mm:ss") : DBNull.Value },
                 { "@estado_pago", entidad.EstadoPago.ToString() }
             };
@@ -87,10 +93,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var criterio = criteriosBusqueda.Length == 3 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
 
             var consultaComun = $"""
-                SELECT p.*, v.numero_factura_ticket, v.importe_total as total_venta
+                SELECT p.*, v.numero_factura_ticket, v.importe_total as total_compraventa
                 FROM adv__pago p
+                LEFT JOIN adv__compra c ON p.id_compra = c.id_compra
                 LEFT JOIN adv__venta v ON p.id_venta = v.id_venta
-                {(criteriosBusqueda.Length == 3 ? "WHERE p.fecha_pago_cliente >= @fecha_desde AND p.fecha_pago_cliente <= @fecha_hasta" : string.Empty)}
+                {(criteriosBusqueda.Length == 3 ? "WHERE p.fecha_pago >= @fecha_desde AND p.fecha_pago <= @fecha_hasta" : string.Empty)}
                 """;
 
             var consulta = filtroBusqueda switch {
@@ -98,9 +105,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     {consultaComun}
                     {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.id_pago = @id_pago
                     """,
-                FiltroBusquedaPago.IdVenta => $"""
+                FiltroBusquedaPago.IdCompraVenta => $"""
                     {consultaComun}
-                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.id_venta = @id_venta
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} (p.id_compra = @id_compraventa OR p.id_venta = @id_compraventa)
                     """,
                 FiltroBusquedaPago.Estado => $"""
                     {consultaComun}
@@ -115,8 +122,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
-                FiltroBusquedaPago.IdVenta => new Dictionary<string, object> {
-                    { "@id_venta", long.Parse(criterio) },
+                FiltroBusquedaPago.IdCompraVenta => new Dictionary<string, object> {
+                    { "@id_compraventa", long.Parse(criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
@@ -137,10 +144,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override (Pago, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
             var pago = new Pago {
                 Id = Convert.ToInt64(lector["id_pago"]),
-                IdVenta = Convert.ToInt64(lector["id_venta"]),
+                IdCompra = lector["id_compra"] != DBNull.Value ? Convert.ToInt64(lector["id_compra"]) : 0,
+                IdVenta = lector["id_venta"] != DBNull.Value ? Convert.ToInt64(lector["id_venta"]) : 0,
                 MetodoPago = Enum.Parse<MetodoPagoEnum>(Convert.ToString(lector["metodo_pago"]) ?? "Efectivo"),
                 MontoPagado = Convert.ToDecimal(lector["monto_pagado"], CultureInfo.InvariantCulture),
-                FechaPagoCliente = lector["fecha_pago_cliente"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_pago_cliente"]) : null,
+                FechaPago = lector["fecha_pago"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_pago"]) : null,
                 FechaConfirmacionPago = lector["fecha_confirmacion_pago"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_confirmacion_pago"]) : null,
                 EstadoPago = Enum.Parse<EstadoPagoEnum>(Convert.ToString(lector["estado_pago"]) ?? "Pendiente")
             };
@@ -150,7 +158,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             if (lector.VisibleFieldCount > 7) {
                 entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
                     NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
-                    ImporteTotal = Convert.ToDecimal(lector["total_venta"], CultureInfo.InvariantCulture)
+                    ImporteTotal = Convert.ToDecimal(lector["total_compraventa"], CultureInfo.InvariantCulture)
                 });
             }
 
@@ -202,19 +210,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return resultado;
         }
 
-        private (EstadoPagoVenta, List<IEntidadBaseDatos>) MapearEntidadEstadoPagoVenta(MySqlDataReader reader) {
-            var estadoPagoVenta = new EstadoPagoVenta {
-                ImporteTotal = Convert.ToDecimal(reader["importe_total"]),
-                TotalPagado = Convert.ToDecimal(reader["total_pagado"]),
-                Saldo = Convert.ToDecimal(reader["saldo"]),
-                EstaPagadaCompletamente = Convert.ToDecimal(reader["saldo"]) == 0 && Convert.ToInt32(reader["pagos_pendientes"]) == 0,
-                TienePagosPendientes = Convert.ToInt32(reader["pagos_pendientes"]) > 0,
-                TieneSobrepago = Convert.ToDecimal(reader["saldo"]) < 0
-            };
-
-            return (estadoPagoVenta, new List<IEntidadBaseDatos>());
-        }
-
         public bool ExistePagoParaVenta(long idVenta) {
             var consulta = $"""
                 SELECT COUNT(*) 
@@ -238,7 +233,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 INNER JOIN adv__venta v ON p.id_venta = v.id_venta
                 WHERE v.id_cliente = @id_cliente
                 AND p.estado_pago = 'Pendiente'
-                ORDER BY p.fecha_pago_cliente DESC;
+                ORDER BY p.fecha_pago DESC;
                 """;
 
             var parametros = new Dictionary<string, object> {
@@ -261,6 +256,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             return pagos;
         }
+
+
 
         #endregion
     }

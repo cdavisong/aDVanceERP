@@ -36,6 +36,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // Eventos
             btnSolicitudes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionSolicitudes", string.Empty); };
             btnCompras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCompras", string.Empty); };
+            btnPagos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPagosCompra", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosCompra", string.Empty); };
         }
 
@@ -44,6 +45,8 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                 btnSolicitudes.PerformClick();
             else if (btnCompras.Visible)
                 btnCompras.PerformClick();
+            else if (btnPagos.Visible)
+                btnPagos.PerformClick();
         }
 
         public void Mostrar() {
@@ -54,6 +57,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         public void Restaurar() {
             btnSolicitudes.Checked = false;
             btnCompras.Checked = false;
+            btnPagos.Checked = false;
         }
 
         public void Ocultar() {

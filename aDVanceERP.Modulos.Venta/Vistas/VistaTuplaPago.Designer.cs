@@ -28,10 +28,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPago));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldNumeroFactura = new Label();
@@ -44,7 +44,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldMonto = new Label();
             fieldFechaConfirmacion = new Label();
             fieldFechaPago = new Label();
-            fieldNumeroConfirmacion = new Label();
+            fieldNumeroTelefonoRemitente = new Label();
             fieldMetodoPago = new Label();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
@@ -92,7 +92,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.Controls.Add(fieldMonto, 7, 0);
             layoutVista.Controls.Add(fieldFechaConfirmacion, 6, 0);
             layoutVista.Controls.Add(fieldFechaPago, 5, 0);
-            layoutVista.Controls.Add(fieldNumeroConfirmacion, 3, 0);
+            layoutVista.Controls.Add(fieldNumeroTelefonoRemitente, 3, 0);
             layoutVista.Controls.Add(fieldMetodoPago, 2, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
@@ -137,10 +137,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnConfirmar.BorderColor = Color.Gainsboro;
             btnConfirmar.BorderRadius = 16;
             btnConfirmar.BorderThickness = 1;
-            btnConfirmar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
-            btnConfirmar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnConfirmar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
+            btnConfirmar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnConfirmar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnConfirmar.CustomizableEdges = customizableEdges1;
+            btnConfirmar.CustomizableEdges = customizableEdges5;
             btnConfirmar.Dock = DockStyle.Fill;
             btnConfirmar.FillColor = Color.White;
             btnConfirmar.Font = new Font("Segoe UI", 9.75F);
@@ -149,7 +149,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnConfirmar.HoverState.FillColor = Color.PeachPuff;
             btnConfirmar.Location = new Point(1164, 3);
             btnConfirmar.Name = "btnConfirmar";
-            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnConfirmar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnConfirmar.Size = new Size(34, 35);
             btnConfirmar.TabIndex = 21;
             // 
@@ -159,10 +159,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.BorderColor = Color.Gainsboro;
             btnCancelar.BorderRadius = 16;
             btnCancelar.BorderThickness = 1;
-            btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
-            btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
+            btnCancelar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnCancelar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges3;
+            btnCancelar.CustomizableEdges = customizableEdges7;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -172,7 +172,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.ForeColor = Color.White;
             btnCancelar.Location = new Point(1204, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnCancelar.Size = new Size(34, 35);
             btnCancelar.TabIndex = 22;
             // 
@@ -262,19 +262,19 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFechaPago.Text = "fechaPago";
             fieldFechaPago.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // fieldNumeroConfirmacion
+            // fieldNumeroTelefonoRemitente
             // 
-            fieldNumeroConfirmacion.Dock = DockStyle.Fill;
-            fieldNumeroConfirmacion.Font = new Font("Segoe UI", 11.25F);
-            fieldNumeroConfirmacion.ForeColor = Color.DimGray;
-            fieldNumeroConfirmacion.ImeMode = ImeMode.NoControl;
-            fieldNumeroConfirmacion.Location = new Point(382, 1);
-            fieldNumeroConfirmacion.Margin = new Padding(1);
-            fieldNumeroConfirmacion.Name = "fieldNumeroConfirmacion";
-            fieldNumeroConfirmacion.Size = new Size(118, 39);
-            fieldNumeroConfirmacion.TabIndex = 39;
-            fieldNumeroConfirmacion.Text = "numeroConf";
-            fieldNumeroConfirmacion.TextAlign = ContentAlignment.MiddleCenter;
+            fieldNumeroTelefonoRemitente.Dock = DockStyle.Fill;
+            fieldNumeroTelefonoRemitente.Font = new Font("Segoe UI", 11.25F);
+            fieldNumeroTelefonoRemitente.ForeColor = Color.DimGray;
+            fieldNumeroTelefonoRemitente.ImeMode = ImeMode.NoControl;
+            fieldNumeroTelefonoRemitente.Location = new Point(382, 1);
+            fieldNumeroTelefonoRemitente.Margin = new Padding(1);
+            fieldNumeroTelefonoRemitente.Name = "fieldNumeroTelefonoRemitente";
+            fieldNumeroTelefonoRemitente.Size = new Size(118, 39);
+            fieldNumeroTelefonoRemitente.TabIndex = 39;
+            fieldNumeroTelefonoRemitente.Text = "numeroRem";
+            fieldNumeroTelefonoRemitente.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fieldMetodoPago
             // 
@@ -323,7 +323,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Label fieldNumeroTransferencia;
         private Label fieldFechaConfirmacion;
         private Label fieldEstado;
-        private Label fieldNumeroConfirmacion;
+        private Label fieldNumeroTelefonoRemitente;
         private Label fieldNumeroFactura;
         private Label fieldMetodoPago;
     }

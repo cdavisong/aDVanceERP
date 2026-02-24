@@ -1,7 +1,9 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -61,7 +63,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 IdVenta = venta.Id,
                 MetodoPago = Vista.MetodoPago,
                 MontoPagado = Vista.MontoPagado,
-                FechaPagoCliente = Vista.FechaPagoCliente,
+                FechaPago = Vista.FechaPagoCliente,
                 FechaConfirmacionPago = Vista.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
                 EstadoPago = Vista.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
             };
@@ -75,7 +77,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 var detallePagoTransferencia = new DetallePagoTransferencia() {
                     Id = 0,
                     IdPago = id,
-                    NumeroConfirmacion = Vista.NumeroConfirmacion,
+                    NumeroTelefonoRemitente = Vista.NumeroTelefonoRemitente,
                     NumeroTransaccion = Vista.NumeroTransaccion,
                     MontoTransferencia = Vista.MontoPagado
                 };

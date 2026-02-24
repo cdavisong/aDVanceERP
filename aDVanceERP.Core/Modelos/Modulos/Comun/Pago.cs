@@ -1,30 +1,33 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+
 using System.ComponentModel.DataAnnotations;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Venta {
+namespace aDVanceERP.Core.Modelos.Modulos.Comun {
     public sealed class Pago : IEntidadBaseDatos {
         public Pago() {
             MontoPagado = 0.0m;
             EstadoPago = EstadoPagoEnum.Pendiente;
         }
 
-        public Pago(long id, long idVenta, MetodoPagoEnum metodoPago, decimal montoPagado,
+        public Pago(long id, long idCompra, long idVenta, MetodoPagoEnum metodoPago, decimal montoPagado,
                    DateTime? fechaPagoCliente, DateTime? fechaConfirmacionPago,
                    EstadoPagoEnum estadoPago) {
             Id = id;
+            IdCompra = idCompra;
             IdVenta = idVenta;
             MetodoPago = metodoPago;
             MontoPagado = montoPagado;
-            FechaPagoCliente = fechaPagoCliente;
+            FechaPago = fechaPagoCliente;
             FechaConfirmacionPago = fechaConfirmacionPago;
             EstadoPago = estadoPago;
         }
 
         public long Id { get; set; }
+        public long IdCompra { get; set; }
         public long IdVenta { get; set; }
         public MetodoPagoEnum MetodoPago { get; set; }
         public decimal MontoPagado { get; set; }
-        public DateTime? FechaPagoCliente { get; set; }
+        public DateTime? FechaPago { get; set; }
         public DateTime? FechaConfirmacionPago { get; set; }
         public EstadoPagoEnum EstadoPago { get; set; }
     }
@@ -45,12 +48,19 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public enum FiltroBusquedaPago {
         Todos,
         Id,
-        IdVenta,
+        IdCompraVenta,
         Estado
     }
 
     public static class UtilesBusquedaPago {
-        public static object[] FiltroBusquedaPago = {
+        public static object[] FiltroBusquedaPagoCompra = {
+            "Todos los pagos",
+            "Identificador de BD",
+            "Identificador de la compra",
+            "Estado del pago"
+        };
+
+        public static object[] FiltroBusquedaPagoVenta = {
             "Todos los pagos",
             "Identificador de BD",
             "Identificador de la venta",

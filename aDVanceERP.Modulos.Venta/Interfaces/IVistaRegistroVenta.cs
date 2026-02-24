@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+﻿using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 

@@ -3,8 +3,10 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
@@ -80,7 +82,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 return;
             }
             
-            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta?.Id.ToString() ?? "0").resultadosBusqueda.Select(p => p.entidadBase).ToList();
+            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta?.Id.ToString() ?? "0").resultadosBusqueda.Select(p => p.entidadBase).ToList();
             
             switch (e.estado) {
                 case EstadoEntregaEnum.Asignado:
@@ -99,7 +101,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                 IdVenta = venta.Id,
                                 MetodoPago = MetodoPagoEnum.Efectivo,
                                 MontoPagado = venta.ImporteTotal,
-                                FechaPagoCliente = DateTime.Today,
+                                FechaPago = DateTime.Today,
                                 FechaConfirmacionPago = DateTime.Today,
                                 EstadoPago = EstadoPagoEnum.Confirmado
                             };
@@ -107,7 +109,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                             repoPago.Adicionar(pago);
                         } else {
                             foreach (var pago in pagosVenta) {
-                                pago.FechaPagoCliente = DateTime.Today;
+                                pago.FechaPago = DateTime.Today;
                                 pago.FechaConfirmacionPago = envio.TipoEnvio == TipoEnvioEnum.MensajeriaSinFondo ? DateTime.MinValue : DateTime.Today;
                                 pago.EstadoPago = EstadoPagoEnum.Confirmado;
 
@@ -124,7 +126,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                         IdVenta = venta.Id,
                                         MetodoPago = MetodoPagoEnum.Efectivo,
                                         MontoPagado = diferencia,
-                                        FechaPagoCliente = DateTime.Today,
+                                        FechaPago = DateTime.Today,
                                         FechaConfirmacionPago = DateTime.Today,
                                         EstadoPago = EstadoPagoEnum.Confirmado
                                     };

@@ -24,21 +24,21 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges71 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges72 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges73 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges74 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges75 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges76 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroPagoTransferencia));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges77 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges78 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges79 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges80 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges81 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges82 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges83 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges84 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutDistribucion1 = new TableLayoutPanel();
             layoutBotones = new TableLayoutPanel();
@@ -50,13 +50,13 @@
             btnCerrar = new Guna.UI2.WinForms.Guna2ControlBox();
             layoutTitulos1 = new TableLayoutPanel();
             fieldTituloNumeroTransaccion = new Label();
-            fieldTituloNumeroConfirmacion = new Label();
+            fieldTituloNumeroTelefonoRemitente = new Label();
             fieldTituloMonto = new Label();
             layoutDatos1 = new TableLayoutPanel();
             fieldNumeroTransaccion = new Guna.UI2.WinForms.Guna2TextBox();
             layoutNumeroTelefono = new TableLayoutPanel();
             fieldPrefijoInternacional = new Label();
-            fieldNumeroConfirmacion = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldNumeroTelefonoRemitente = new Guna.UI2.WinForms.Guna2TextBox();
             fieldPaises = new Guna.UI2.WinForms.Guna2ComboBox();
             fieldMonto = new Guna.UI2.WinForms.Guna2TextBox();
             layoutEstadoPago = new TableLayoutPanel();
@@ -65,7 +65,7 @@
             layoutDistribucion1.SuspendLayout();
             layoutBotones.SuspendLayout();
             layoutBarraTitulo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)fieldIcono).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) fieldIcono).BeginInit();
             layoutTitulos1.SuspendLayout();
             layoutDatos1.SuspendLayout();
             layoutNumeroTelefono.SuspendLayout();
@@ -135,7 +135,7 @@
             btnNoCancel.BorderColor = Color.Gainsboro;
             btnNoCancel.BorderRadius = 18;
             btnNoCancel.BorderThickness = 1;
-            btnNoCancel.CustomizableEdges = customizableEdges71;
+            btnNoCancel.CustomizableEdges = customizableEdges15;
             btnNoCancel.Dock = DockStyle.Fill;
             btnNoCancel.FillColor = Color.White;
             btnNoCancel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -145,7 +145,7 @@
             btnNoCancel.HoverState.ForeColor = Color.Black;
             btnNoCancel.Location = new Point(761, 3);
             btnNoCancel.Name = "btnNoCancel";
-            btnNoCancel.ShadowDecoration.CustomizableEdges = customizableEdges72;
+            btnNoCancel.ShadowDecoration.CustomizableEdges = customizableEdges16;
             btnNoCancel.Size = new Size(164, 39);
             btnNoCancel.TabIndex = 14;
             btnNoCancel.Text = "Cancelar";
@@ -154,14 +154,14 @@
             // 
             btnRegistrarPago.Animated = true;
             btnRegistrarPago.BorderRadius = 18;
-            btnRegistrarPago.CustomizableEdges = customizableEdges73;
+            btnRegistrarPago.CustomizableEdges = customizableEdges17;
             btnRegistrarPago.Dock = DockStyle.Fill;
             btnRegistrarPago.FillColor = Color.PeachPuff;
             btnRegistrarPago.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrarPago.ForeColor = Color.Black;
             btnRegistrarPago.Location = new Point(531, 3);
             btnRegistrarPago.Name = "btnRegistrarPago";
-            btnRegistrarPago.ShadowDecoration.CustomizableEdges = customizableEdges74;
+            btnRegistrarPago.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnRegistrarPago.Size = new Size(224, 39);
             btnRegistrarPago.TabIndex = 15;
             btnRegistrarPago.Text = "Registrar el pago";
@@ -191,7 +191,7 @@
             // fieldTitulo
             // 
             fieldTitulo.Dock = DockStyle.Fill;
-            fieldTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fieldTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point,  0);
             fieldTitulo.ForeColor = Color.Black;
             fieldTitulo.ImeMode = ImeMode.NoControl;
             fieldTitulo.Location = new Point(53, 0);
@@ -216,16 +216,16 @@
             // btnCerrar
             // 
             btnCerrar.BorderRadius = 5;
-            btnCerrar.CustomizableEdges = customizableEdges75;
+            btnCerrar.CustomizableEdges = customizableEdges19;
             btnCerrar.Dock = DockStyle.Fill;
             btnCerrar.FillColor = Color.WhiteSmoke;
-            btnCerrar.HoverState.FillColor = Color.FromArgb(192, 0, 0);
+            btnCerrar.HoverState.FillColor = Color.FromArgb(  192,   0,   0);
             btnCerrar.HoverState.IconColor = Color.White;
             btnCerrar.IconColor = Color.Black;
             btnCerrar.Location = new Point(879, 1);
             btnCerrar.Margin = new Padding(1);
             btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges76;
+            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges20;
             btnCerrar.Size = new Size(48, 41);
             btnCerrar.TabIndex = 2;
             // 
@@ -237,7 +237,7 @@
             layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 175F));
             layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTitulos1.Controls.Add(fieldTituloNumeroTransaccion, 0, 0);
-            layoutTitulos1.Controls.Add(fieldTituloNumeroConfirmacion, 0, 0);
+            layoutTitulos1.Controls.Add(fieldTituloNumeroTelefonoRemitente, 0, 0);
             layoutTitulos1.Controls.Add(fieldTituloMonto, 2, 0);
             layoutTitulos1.Dock = DockStyle.Fill;
             layoutTitulos1.Location = new Point(20, 65);
@@ -263,21 +263,21 @@
             fieldTituloNumeroTransaccion.Text = " Número de transacción :";
             fieldTituloNumeroTransaccion.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // fieldTituloNumeroConfirmacion
+            // fieldTituloNumeroTelefonoRemitente
             // 
-            fieldTituloNumeroConfirmacion.Dock = DockStyle.Fill;
-            fieldTituloNumeroConfirmacion.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloNumeroConfirmacion.ForeColor = Color.DimGray;
-            fieldTituloNumeroConfirmacion.Image = (Image)resources.GetObject("fieldTituloNumeroConfirmacion.Image");
-            fieldTituloNumeroConfirmacion.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloNumeroConfirmacion.ImeMode = ImeMode.NoControl;
-            fieldTituloNumeroConfirmacion.Location = new Point(15, 5);
-            fieldTituloNumeroConfirmacion.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloNumeroConfirmacion.Name = "fieldTituloNumeroConfirmacion";
-            fieldTituloNumeroConfirmacion.Size = new Size(484, 27);
-            fieldTituloNumeroConfirmacion.TabIndex = 47;
-            fieldTituloNumeroConfirmacion.Text = "      Número telefónico de confirmación :";
-            fieldTituloNumeroConfirmacion.TextAlign = ContentAlignment.MiddleLeft;
+            fieldTituloNumeroTelefonoRemitente.Dock = DockStyle.Fill;
+            fieldTituloNumeroTelefonoRemitente.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloNumeroTelefonoRemitente.ForeColor = Color.DimGray;
+            fieldTituloNumeroTelefonoRemitente.Image = (Image) resources.GetObject("fieldTituloNumeroTelefonoRemitente.Image");
+            fieldTituloNumeroTelefonoRemitente.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloNumeroTelefonoRemitente.ImeMode = ImeMode.NoControl;
+            fieldTituloNumeroTelefonoRemitente.Location = new Point(15, 5);
+            fieldTituloNumeroTelefonoRemitente.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloNumeroTelefonoRemitente.Name = "fieldTituloNumeroTelefonoRemitente";
+            fieldTituloNumeroTelefonoRemitente.Size = new Size(484, 27);
+            fieldTituloNumeroTelefonoRemitente.TabIndex = 47;
+            fieldTituloNumeroTelefonoRemitente.Text = "      Número telefónico del remitente (Opcional) :";
+            fieldTituloNumeroTelefonoRemitente.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloMonto
             // 
@@ -322,7 +322,7 @@
             fieldNumeroTransaccion.BorderColor = Color.Gainsboro;
             fieldNumeroTransaccion.BorderRadius = 16;
             fieldNumeroTransaccion.Cursor = Cursors.IBeam;
-            fieldNumeroTransaccion.CustomizableEdges = customizableEdges77;
+            fieldNumeroTransaccion.CustomizableEdges = customizableEdges21;
             fieldNumeroTransaccion.DefaultText = "";
             fieldNumeroTransaccion.DisabledState.BorderColor = Color.Gainsboro;
             fieldNumeroTransaccion.DisabledState.FillColor = Color.White;
@@ -330,7 +330,7 @@
             fieldNumeroTransaccion.DisabledState.PlaceholderForeColor = Color.DimGray;
             fieldNumeroTransaccion.Dock = DockStyle.Fill;
             fieldNumeroTransaccion.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNumeroTransaccion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            fieldNumeroTransaccion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
             fieldNumeroTransaccion.ForeColor = Color.Black;
             fieldNumeroTransaccion.HoverState.BorderColor = Color.SandyBrown;
             fieldNumeroTransaccion.IconLeftOffset = new Point(10, 0);
@@ -344,7 +344,7 @@
             fieldNumeroTransaccion.PlaceholderForeColor = Color.DimGray;
             fieldNumeroTransaccion.PlaceholderText = "";
             fieldNumeroTransaccion.SelectedText = "";
-            fieldNumeroTransaccion.ShadowDecoration.CustomizableEdges = customizableEdges78;
+            fieldNumeroTransaccion.ShadowDecoration.CustomizableEdges = customizableEdges22;
             fieldNumeroTransaccion.Size = new Size(240, 35);
             fieldNumeroTransaccion.TabIndex = 54;
             fieldNumeroTransaccion.TextOffset = new Point(5, 0);
@@ -355,7 +355,7 @@
             layoutNumeroTelefono.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));
             layoutNumeroTelefono.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutNumeroTelefono.Controls.Add(fieldPrefijoInternacional, 0, 0);
-            layoutNumeroTelefono.Controls.Add(fieldNumeroConfirmacion, 1, 0);
+            layoutNumeroTelefono.Controls.Add(fieldNumeroTelefonoRemitente, 1, 0);
             layoutNumeroTelefono.Dock = DockStyle.Fill;
             layoutNumeroTelefono.Location = new Point(226, 0);
             layoutNumeroTelefono.Margin = new Padding(0);
@@ -368,7 +368,7 @@
             // fieldPrefijoInternacional
             // 
             fieldPrefijoInternacional.Dock = DockStyle.Fill;
-            fieldPrefijoInternacional.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            fieldPrefijoInternacional.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldPrefijoInternacional.ForeColor = Color.Black;
             fieldPrefijoInternacional.ImeMode = ImeMode.NoControl;
             fieldPrefijoInternacional.Location = new Point(3, 3);
@@ -379,39 +379,39 @@
             fieldPrefijoInternacional.Text = "+0";
             fieldPrefijoInternacional.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // fieldNumeroConfirmacion
+            // fieldNumeroTelefonoRemitente
             // 
-            fieldNumeroConfirmacion.Animated = true;
-            fieldNumeroConfirmacion.AutoRoundedCorners = true;
-            fieldNumeroConfirmacion.BorderColor = Color.Gainsboro;
-            fieldNumeroConfirmacion.BorderRadius = 16;
-            fieldNumeroConfirmacion.Cursor = Cursors.IBeam;
-            fieldNumeroConfirmacion.CustomizableEdges = customizableEdges79;
-            fieldNumeroConfirmacion.DefaultText = "";
-            fieldNumeroConfirmacion.DisabledState.BorderColor = Color.Gainsboro;
-            fieldNumeroConfirmacion.DisabledState.FillColor = Color.White;
-            fieldNumeroConfirmacion.DisabledState.ForeColor = Color.DimGray;
-            fieldNumeroConfirmacion.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldNumeroConfirmacion.Dock = DockStyle.Fill;
-            fieldNumeroConfirmacion.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNumeroConfirmacion.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            fieldNumeroConfirmacion.ForeColor = Color.Black;
-            fieldNumeroConfirmacion.HoverState.BorderColor = Color.SandyBrown;
-            fieldNumeroConfirmacion.IconLeftOffset = new Point(10, 0);
-            fieldNumeroConfirmacion.IconLeftSize = new Size(16, 12);
-            fieldNumeroConfirmacion.IconRightOffset = new Point(6, 0);
-            fieldNumeroConfirmacion.IconRightSize = new Size(12, 12);
-            fieldNumeroConfirmacion.Location = new Point(75, 5);
-            fieldNumeroConfirmacion.Margin = new Padding(5);
-            fieldNumeroConfirmacion.Name = "fieldNumeroConfirmacion";
-            fieldNumeroConfirmacion.PasswordChar = '\0';
-            fieldNumeroConfirmacion.PlaceholderForeColor = Color.DimGray;
-            fieldNumeroConfirmacion.PlaceholderText = "0";
-            fieldNumeroConfirmacion.SelectedText = "";
-            fieldNumeroConfirmacion.ShadowDecoration.CustomizableEdges = customizableEdges80;
-            fieldNumeroConfirmacion.Size = new Size(196, 35);
-            fieldNumeroConfirmacion.TabIndex = 2;
-            fieldNumeroConfirmacion.TextOffset = new Point(5, 0);
+            fieldNumeroTelefonoRemitente.Animated = true;
+            fieldNumeroTelefonoRemitente.AutoRoundedCorners = true;
+            fieldNumeroTelefonoRemitente.BorderColor = Color.Gainsboro;
+            fieldNumeroTelefonoRemitente.BorderRadius = 16;
+            fieldNumeroTelefonoRemitente.Cursor = Cursors.IBeam;
+            fieldNumeroTelefonoRemitente.CustomizableEdges = customizableEdges23;
+            fieldNumeroTelefonoRemitente.DefaultText = "";
+            fieldNumeroTelefonoRemitente.DisabledState.BorderColor = Color.Gainsboro;
+            fieldNumeroTelefonoRemitente.DisabledState.FillColor = Color.White;
+            fieldNumeroTelefonoRemitente.DisabledState.ForeColor = Color.DimGray;
+            fieldNumeroTelefonoRemitente.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldNumeroTelefonoRemitente.Dock = DockStyle.Fill;
+            fieldNumeroTelefonoRemitente.FocusedState.BorderColor = Color.SandyBrown;
+            fieldNumeroTelefonoRemitente.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            fieldNumeroTelefonoRemitente.ForeColor = Color.Black;
+            fieldNumeroTelefonoRemitente.HoverState.BorderColor = Color.SandyBrown;
+            fieldNumeroTelefonoRemitente.IconLeftOffset = new Point(10, 0);
+            fieldNumeroTelefonoRemitente.IconLeftSize = new Size(16, 12);
+            fieldNumeroTelefonoRemitente.IconRightOffset = new Point(6, 0);
+            fieldNumeroTelefonoRemitente.IconRightSize = new Size(12, 12);
+            fieldNumeroTelefonoRemitente.Location = new Point(75, 5);
+            fieldNumeroTelefonoRemitente.Margin = new Padding(5);
+            fieldNumeroTelefonoRemitente.Name = "fieldNumeroTelefonoRemitente";
+            fieldNumeroTelefonoRemitente.PasswordChar = '\0';
+            fieldNumeroTelefonoRemitente.PlaceholderForeColor = Color.DimGray;
+            fieldNumeroTelefonoRemitente.PlaceholderText = "0";
+            fieldNumeroTelefonoRemitente.SelectedText = "";
+            fieldNumeroTelefonoRemitente.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            fieldNumeroTelefonoRemitente.Size = new Size(196, 35);
+            fieldNumeroTelefonoRemitente.TabIndex = 2;
+            fieldNumeroTelefonoRemitente.TextOffset = new Point(5, 0);
             // 
             // fieldPaises
             // 
@@ -419,7 +419,7 @@
             fieldPaises.BackColor = Color.Transparent;
             fieldPaises.BorderColor = Color.Gainsboro;
             fieldPaises.BorderRadius = 16;
-            fieldPaises.CustomizableEdges = customizableEdges81;
+            fieldPaises.CustomizableEdges = customizableEdges25;
             fieldPaises.Dock = DockStyle.Fill;
             fieldPaises.DrawMode = DrawMode.OwnerDrawFixed;
             fieldPaises.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -432,7 +432,7 @@
             fieldPaises.Location = new Point(5, 5);
             fieldPaises.Margin = new Padding(5);
             fieldPaises.Name = "fieldPaises";
-            fieldPaises.ShadowDecoration.CustomizableEdges = customizableEdges82;
+            fieldPaises.ShadowDecoration.CustomizableEdges = customizableEdges26;
             fieldPaises.Size = new Size(216, 35);
             fieldPaises.TabIndex = 52;
             fieldPaises.TextOffset = new Point(10, 0);
@@ -444,7 +444,7 @@
             fieldMonto.BorderColor = Color.Gainsboro;
             fieldMonto.BorderRadius = 16;
             fieldMonto.Cursor = Cursors.IBeam;
-            fieldMonto.CustomizableEdges = customizableEdges83;
+            fieldMonto.CustomizableEdges = customizableEdges27;
             fieldMonto.DefaultText = "";
             fieldMonto.DisabledState.BorderColor = Color.White;
             fieldMonto.DisabledState.ForeColor = Color.DimGray;
@@ -455,7 +455,7 @@
             fieldMonto.ForeColor = Color.Black;
             fieldMonto.HoverState.BorderColor = Color.SandyBrown;
             fieldMonto.IconLeftOffset = new Point(10, 0);
-            fieldMonto.IconRight = (Image)resources.GetObject("fieldMonto.IconRight");
+            fieldMonto.IconRight = (Image) resources.GetObject("fieldMonto.IconRight");
             fieldMonto.IconRightOffset = new Point(6, 0);
             fieldMonto.IconRightSize = new Size(12, 12);
             fieldMonto.Location = new Point(757, 5);
@@ -465,7 +465,7 @@
             fieldMonto.PlaceholderForeColor = Color.DimGray;
             fieldMonto.PlaceholderText = "0.00";
             fieldMonto.SelectedText = "";
-            fieldMonto.ShadowDecoration.CustomizableEdges = customizableEdges84;
+            fieldMonto.ShadowDecoration.CustomizableEdges = customizableEdges28;
             fieldMonto.Size = new Size(165, 35);
             fieldMonto.TabIndex = 51;
             fieldMonto.TextAlign = HorizontalAlignment.Right;
@@ -536,7 +536,7 @@
             layoutDistribucion1.ResumeLayout(false);
             layoutBotones.ResumeLayout(false);
             layoutBarraTitulo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)fieldIcono).EndInit();
+            ((System.ComponentModel.ISupportInitialize) fieldIcono).EndInit();
             layoutTitulos1.ResumeLayout(false);
             layoutDatos1.ResumeLayout(false);
             layoutNumeroTelefono.ResumeLayout(false);
@@ -559,11 +559,11 @@
         private Label fieldTituloMonto;
         private TableLayoutPanel layoutDatos1;
         private Guna.UI2.WinForms.Guna2TextBox fieldMonto;
-        private Label fieldTituloNumeroConfirmacion;
+        private Label fieldTituloNumeroTelefonoRemitente;
         private Guna.UI2.WinForms.Guna2ComboBox fieldPaises;
         private TableLayoutPanel layoutNumeroTelefono;
         private Label fieldPrefijoInternacional;
-        private Guna.UI2.WinForms.Guna2TextBox fieldNumeroConfirmacion;
+        private Guna.UI2.WinForms.Guna2TextBox fieldNumeroTelefonoRemitente;
         private Guna.UI2.WinForms.Guna2TextBox fieldNumeroTransaccion;
         private Label fieldTituloNumeroTransaccion;
         private TableLayoutPanel layoutEstadoPago;

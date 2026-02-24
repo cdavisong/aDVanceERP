@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -213,7 +214,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         IdVenta = 0, // Se asignará al registrar la venta
                         MetodoPago = MetodoPagoEnum.Efectivo,
                         MontoPagado = vistaPagoEfectivo.MontoPagado,
-                        FechaPagoCliente = DateTime.Now,
+                        FechaPago = DateTime.Now,
                         FechaConfirmacionPago = vistaPagoEfectivo.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
                         EstadoPago = vistaPagoEfectivo.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
                     };
@@ -242,7 +243,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         IdVenta = 0, // Se asignará al registrar la venta
                         MetodoPago = MetodoPagoEnum.TransferenciaBancaria,
                         MontoPagado = vistaPagoTransferencia.MontoPagado,
-                        FechaPagoCliente = DateTime.Now,
+                        FechaPago = DateTime.Now,
                         FechaConfirmacionPago = vistaPagoTransferencia.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
                         EstadoPago = vistaPagoTransferencia.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
                     };
@@ -250,7 +251,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     var detallePagoTransferencia = new DetallePagoTransferencia() {
                         Id = 0,
                         IdPago = 0, // Se asignará al registrar el pago
-                        NumeroConfirmacion = vistaPagoTransferencia.NumeroConfirmacion,
+                        NumeroTelefonoRemitente = vistaPagoTransferencia.NumeroConfirmacion,
                         NumeroTransaccion = vistaPagoTransferencia.NumeroTransaccion,
                         MontoTransferencia = vistaPagoTransferencia.MontoPagado
                     };

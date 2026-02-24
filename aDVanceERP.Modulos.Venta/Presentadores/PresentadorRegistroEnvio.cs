@@ -2,8 +2,10 @@
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
@@ -168,7 +170,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             // Si el tipo de envío es mensajería con fondo, verificar si existe un pago pendiente de la venta y completarlo, de no
             // existir un pago pendiente, registrar un nuevo pago.
             if (Vista.TipoEnvio != TipoEnvioEnum.RetiroEnLocal) {
-                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
 
                 if (CentroNotificaciones.MostrarMensaje("Desea adicionar o confirmar los pagos recibidos en la venta correspondiente?", TipoMensaje.Info, BotonesMensaje.SiNo) == DialogResult.Yes) {
                     if (pagosVenta.Count == 0) {
@@ -177,7 +179,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                             IdVenta = venta.Id,
                             MetodoPago = MetodoPagoEnum.Efectivo,
                             MontoPagado = venta.ImporteTotal,
-                            FechaPagoCliente = DateTime.Today,
+                            FechaPago = DateTime.Today,
                             FechaConfirmacionPago = DateTime.Today,
                             EstadoPago = EstadoPagoEnum.Confirmado
                         };
@@ -185,7 +187,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                         repoPago.Adicionar(pago);
                     } else {
                         foreach (var pago in pagosVenta) {
-                            pago.FechaPagoCliente = DateTime.Today;
+                            pago.FechaPago = DateTime.Today;
                             pago.FechaConfirmacionPago = envio.TipoEnvio == TipoEnvioEnum.MensajeriaSinFondo ? DateTime.MinValue : DateTime.Today;
                             pago.EstadoPago = EstadoPagoEnum.Confirmado;
 
@@ -202,7 +204,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                     IdVenta = venta.Id,
                                     MetodoPago = MetodoPagoEnum.Efectivo,
                                     MontoPagado = diferencia,
-                                    FechaPagoCliente = DateTime.Today,
+                                    FechaPago = DateTime.Today,
                                     FechaConfirmacionPago = DateTime.Today,
                                     EstadoPago = EstadoPagoEnum.Confirmado
                                 };

@@ -1,12 +1,13 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.BD;
+
 using MySql.Data.MySqlClient;
 
 using System.Globalization;
 
-namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
+namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
     public class RepoDetallePagoTransferencia : RepoEntidadBaseDatos<DetallePagoTransferencia, FiltroBusquedaDetalleTransferencia> {
         public RepoDetallePagoTransferencia() : base("adv__detalle_pago_transferencia", "id_detalle_pago_transferencia") {
         }
@@ -15,12 +16,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var comando = $"""
                 INSERT INTO adv__detalle_pago_transferencia (
                     id_pago,
-                    numero_confirmacion,
+                    numero_telefono_remitente,
                     numero_transaccion,
                     monto_transferencia
                 ) VALUES (
                     @id_pago,
-                    @numero_confirmacion,
+                    @numero_telefono_remitente,
                     @numero_transaccion,
                     @monto_transferencia
                 );
@@ -28,7 +29,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_pago", entidad.IdPago },
-                { "@numero_confirmacion", entidad.NumeroConfirmacion },
+                { "@numero_telefono_remitente", entidad.NumeroTelefonoRemitente },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
             };
@@ -41,7 +42,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 UPDATE adv__detalle_pago_transferencia 
                 SET 
                     id_pago = @id_pago,
-                    numero_confirmacion = @numero_confirmacion,
+                    numero_telefono_remitente = @numero_telefono_remitente,
                     numero_transaccion = @numero_transaccion,
                     monto_transferencia = @monto_transferencia
                 WHERE id_detalle_pago_transferencia = @id_detalle
@@ -50,7 +51,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = new Dictionary<string, object> {
                 { "@id_detalle", entidad.Id },
                 { "@id_pago", entidad.IdPago },
-                { "@numero_confirmacion", entidad.NumeroConfirmacion },
+                { "@numero_telefono_remitente", entidad.NumeroTelefonoRemitente },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
             };
@@ -85,9 +86,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     {consultaComun}
                     WHERE dpt.id_pago = @id_pago
                     """,
-                FiltroBusquedaDetalleTransferencia.PorNumeroConfirmacion => $"""
+                FiltroBusquedaDetalleTransferencia.PorNumeroTelefonoRemitente => $"""
                     {consultaComun}
-                    WHERE dpt.numero_confirmacion = @numero_confirmacion
+                    WHERE dpt.numero_telefono_remitente = @numero_telefono_remitente
                     """,
                 FiltroBusquedaDetalleTransferencia.PorNumeroTransaccion => $"""
                     {consultaComun}
@@ -100,8 +101,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 FiltroBusquedaDetalleTransferencia.PorPago => new Dictionary<string, object> {
                     { "@id_pago", long.Parse(criterio) }
                 },
-                FiltroBusquedaDetalleTransferencia.PorNumeroConfirmacion => new Dictionary<string, object> {
-                    { "@numero_confirmacion", criterio }
+                FiltroBusquedaDetalleTransferencia.PorNumeroTelefonoRemitente => new Dictionary<string, object> {
+                    { "@numero_telefono_remitente", criterio }
                 },
                 FiltroBusquedaDetalleTransferencia.PorNumeroTransaccion => new Dictionary<string, object> {
                     { "@numero_transaccion", criterio }
@@ -116,7 +117,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var detalle = new DetallePagoTransferencia {
                 Id = Convert.ToInt64(lector["id_detalle_pago_transferencia"]),
                 IdPago = Convert.ToInt64(lector["id_pago"]),
-                NumeroConfirmacion = Convert.ToString(lector["numero_confirmacion"]) ?? "",
+                NumeroTelefonoRemitente = Convert.ToString(lector["numero_telefono_remitente"]) ?? "",
                 NumeroTransaccion = Convert.ToString(lector["numero_transaccion"]) ?? "",
                 MontoTransferencia = Convert.ToDecimal(lector["monto_transferencia"], CultureInfo.InvariantCulture)
             };
@@ -169,11 +170,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var consulta = $"""
                 SELECT COUNT(*) 
                 FROM adv__detalle_pago_transferencia
-                WHERE numero_confirmacion = @numero_confirmacion;
+                WHERE numero_telefono_remitente = @numero_telefono_remitente;
                 """;
 
             var parametros = new Dictionary<string, object> {
-                { "@numero_confirmacion", numeroConfirmacion }
+                { "@numero_telefono_remitente", numeroConfirmacion }
             };
 
             var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta, parametros);

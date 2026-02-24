@@ -2,8 +2,10 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
@@ -37,7 +39,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnMostrarVistaGestionPagosVenta(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPago);
+            Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPagoVenta);
             Vista.Restaurar();
             Vista.Mostrar();
 
@@ -53,10 +55,10 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.IdVenta = entidad.IdVenta;
             presentadorTupla.Vista.NumeroFacturaVenta = venta?.NumeroFacturaTicket ?? "-";
             presentadorTupla.Vista.MetodoPago = entidad.MetodoPago;
-            presentadorTupla.Vista.NumeroConfirmacion = detallePagoTransferencia?.NumeroConfirmacion ?? string.Empty;
+            presentadorTupla.Vista.NumeroTelefonoRemitente = detallePagoTransferencia?.NumeroTelefonoRemitente ?? string.Empty;
             presentadorTupla.Vista.NumeroTransaccion = detallePagoTransferencia?.NumeroTransaccion ?? string.Empty;
             presentadorTupla.Vista.MontoPagado = entidad.MontoPagado;
-            presentadorTupla.Vista.FechaPagoCliente = entidad.FechaPagoCliente ?? DateTime.MinValue;
+            presentadorTupla.Vista.FechaPagoCliente = entidad.FechaPago ?? DateTime.MinValue;
             presentadorTupla.Vista.FechaConfirmacionPago = entidad.FechaConfirmacionPago ?? DateTime.MinValue;
             presentadorTupla.Vista.EstadoPago = entidad.EstadoPago;
 

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+﻿using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Interfaces {
@@ -7,7 +7,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         long IdVenta { get; set; }
         string NumeroFacturaVenta { get; set; }
         public MetodoPagoEnum MetodoPago { get; set; }
-        string NumeroConfirmacion { get; set; }
+        string NumeroTelefonoRemitente { get; set; }
         string NumeroTransaccion { get; set; }
         decimal MontoPagado { get; set; }
         DateTime FechaPagoCliente { get; set; }

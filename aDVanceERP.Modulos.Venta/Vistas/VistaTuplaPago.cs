@@ -1,6 +1,8 @@
 ﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using System.Globalization;
@@ -63,9 +65,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldMetodoPago.Text = value.ObtenerDisplayName();
         }
 
-        public string NumeroConfirmacion { 
-            get => fieldNumeroConfirmacion.Text;
-            set => fieldNumeroConfirmacion.Text = string.IsNullOrEmpty(value)
+        public string NumeroTelefonoRemitente { 
+            get => fieldNumeroTelefonoRemitente.Text;
+            set => fieldNumeroTelefonoRemitente.Text = string.IsNullOrEmpty(value)
                 ? "-"
                 : value;
         }
