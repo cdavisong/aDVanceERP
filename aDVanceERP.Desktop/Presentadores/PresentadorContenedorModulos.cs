@@ -49,6 +49,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnModulo.ShadowDecoration.CustomizableEdges = customizableEdges;
             btnModulo.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             btnModulo.Size = new Size(44, 44);
+            btnModulo.TabIndex = Vista.PanelMenuLateral.Controls.Count + 1;
             btnModulo.MouseEnter += delegate {
                 Vista.NombreModulo.Text = nombreModulo;
                 Vista.NombreModulo.Location = new Point(5, btnModulo.Top + 12);
@@ -61,7 +62,6 @@ namespace aDVanceERP.Desktop.Presentadores {
 
             // Agregar al panel lateral
             Vista.PanelMenuLateral.Controls.Add(btnModulo);
-            Vista.PanelMenuLateral.Controls.SetChildIndex(btnModulo, btnModulo.TabIndex);
             Vista.PanelMenuLateral.ResumeLayout(false);
         }
 
