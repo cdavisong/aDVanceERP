@@ -379,7 +379,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                         ELSE 0 
                     END as esta_pagada
                 FROM adv__venta v
-                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                LEFT JOIN adv__pago_venta p ON v.id_venta = p.id_venta 
                     AND p.estado_pago IN ('Confirmado', 'Pendiente')
                 WHERE v.id_venta = @id_venta
                 GROUP BY v.id_venta, v.importe_total;
@@ -402,7 +402,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     v.importe_total - COALESCE(SUM(p.monto_pagado), 0) as saldo,
                     COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) as pagos_pendientes
                 FROM adv__venta v
-                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                LEFT JOIN adv__pago_venta p ON v.id_venta = p.id_venta 
                     AND p.estado_pago IN ('Confirmado', 'Pendiente')
                 WHERE v.id_venta = @id_venta
                 GROUP BY v.id_venta, v.importe_total;
@@ -448,7 +448,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 FROM adv__venta v
                 LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
                 LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
-                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
+                LEFT JOIN adv__pago_venta p ON v.id_venta = p.id_venta 
                     AND p.estado_pago IN ('Confirmado', 'Pendiente')
                 WHERE v.estado_venta NOT IN ('Anulada')
                     AND v.activo = 1
@@ -492,10 +492,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 FROM adv__venta v
                 LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
                 LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
-                LEFT JOIN adv__pago p ON v.id_venta = p.id_venta
+                LEFT JOIN adv__pago_venta p ON v.id_venta = p.id_venta
                 WHERE v.estado_venta NOT IN ('Anulada')
                     AND v.activo = 1
-                    AND p.id_pago IS NULL
+                    AND p.id_pago_venta IS NULL
                 ORDER BY v.fecha_venta ASC;
                 """;
 
@@ -527,13 +527,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     v.importe_total,
                     SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END) as total_pagado,
                     v.importe_total - SUM(CASE WHEN p.estado_pago = 'Confirmado' THEN p.monto_pagado ELSE 0 END) as saldo_pendiente,
-                    COUNT(p.id_pago) as cantidad_pagos,
+                    COUNT(p.id_pago_venta) as cantidad_pagos,
                     c.codigo_cliente,
                     per.nombre_completo as nombre_cliente
                 FROM adv__venta v
                 LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente
                 LEFT JOIN adv__persona per ON c.id_persona = per.id_persona
-                INNER JOIN adv__pago p ON v.id_venta = p.id_venta
+                INNER JOIN adv__pago_venta p ON v.id_venta = p.id_venta
                 WHERE v.estado_venta NOT IN ('Anulada')
                     AND v.activo = 1
                     AND p.estado_pago = 'Confirmado'
@@ -575,7 +575,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 SELECT 
                     metodo_pago,
                     SUM(monto_pagado) as total_por_metodo
-                FROM adv__pago
+                FROM adv__pago_venta
                 WHERE id_venta = @id_venta
                 AND estado_pago = 'Confirmado'
                 GROUP BY metodo_pago

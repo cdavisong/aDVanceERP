@@ -14,12 +14,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override string GenerarComandoAdicionar(DetallePagoTransferencia entidad, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var comando = $"""
                 INSERT INTO adv__detalle_pago_transferencia (
-                    id_pago,
+                    id_pago_venta,
                     numero_confirmacion,
                     numero_transaccion,
                     monto_transferencia
                 ) VALUES (
-                    @id_pago,
+                    @id_pago_venta,
                     @numero_confirmacion,
                     @numero_transaccion,
                     @monto_transferencia
@@ -27,7 +27,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 """;
 
             parametros = new Dictionary<string, object> {
-                { "@id_pago", entidad.IdPago },
+                { "@id_pago_venta", entidad.IdPago },
                 { "@numero_confirmacion", entidad.NumeroConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
@@ -40,7 +40,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var comando = $"""
                 UPDATE adv__detalle_pago_transferencia 
                 SET 
-                    id_pago = @id_pago,
+                    id_pago_venta = @id_pago_venta,
                     numero_confirmacion = @numero_confirmacion,
                     numero_transaccion = @numero_transaccion,
                     monto_transferencia = @monto_transferencia
@@ -49,7 +49,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = new Dictionary<string, object> {
                 { "@id_detalle", entidad.Id },
-                { "@id_pago", entidad.IdPago },
+                { "@id_pago_venta", entidad.IdPago },
                 { "@numero_confirmacion", entidad.NumeroConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
@@ -77,13 +77,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var consultaComun = $"""
                 SELECT dpt.*, p.metodo_pago, p.estado_pago, p.monto_pagado
                 FROM adv__detalle_pago_transferencia dpt
-                LEFT JOIN adv__pago p ON dpt.id_pago = p.id_pago
+                LEFT JOIN adv__pago_venta p ON dpt.id_pago_venta = p.id_pago_venta
                 """;
 
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaDetalleTransferencia.PorPago => $"""
                     {consultaComun}
-                    WHERE dpt.id_pago = @id_pago
+                    WHERE dpt.id_pago_venta = @id_pago_venta
                     """,
                 FiltroBusquedaDetalleTransferencia.PorNumeroConfirmacion => $"""
                     {consultaComun}
@@ -98,7 +98,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaDetalleTransferencia.PorPago => new Dictionary<string, object> {
-                    { "@id_pago", long.Parse(criterio) }
+                    { "@id_pago_venta", long.Parse(criterio) }
                 },
                 FiltroBusquedaDetalleTransferencia.PorNumeroConfirmacion => new Dictionary<string, object> {
                     { "@numero_confirmacion", criterio }
@@ -115,7 +115,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         protected override (DetallePagoTransferencia, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
             var detalle = new DetallePagoTransferencia {
                 Id = Convert.ToInt64(lector["id_detalle_pago_transferencia"]),
-                IdPago = Convert.ToInt64(lector["id_pago"]),
+                IdPago = Convert.ToInt64(lector["id_pago_venta"]),
                 NumeroConfirmacion = Convert.ToString(lector["numero_confirmacion"]) ?? "",
                 NumeroTransaccion = Convert.ToString(lector["numero_transaccion"]) ?? "",
                 MontoTransferencia = Convert.ToDecimal(lector["monto_transferencia"], CultureInfo.InvariantCulture)
@@ -145,12 +145,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         public DetallePagoTransferencia? ObtenerPorPago(long idPago) {
             var consulta = $"""
                 SELECT * FROM adv__detalle_pago_transferencia
-                WHERE id_pago = @id_pago
+                WHERE id_pago_venta = @id_pago_venta
                 LIMIT 1;
                 """;
 
             var parametros = new Dictionary<string, object> {
-                { "@id_pago", idPago }
+                { "@id_pago_venta", idPago }
             };
 
             var resultados = ContextoBaseDatos.EjecutarConsulta(
