@@ -18,7 +18,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             RegistrarEntidad += OnRegistrarPedido;
             EditarEntidad += OnEditarPedido;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionPedidos", OnMostrarVistaGestionPedidos);
+            AgregadorEventos.Suscribir("MostrarVistaGestionPedidosVenta", OnMostrarVistaGestionPedidosVenta);
             AgregadorEventos.Suscribir("HabilitarDeshabilitarPedido", OnHabilitarDeshabilitarPedido);
         }
 
@@ -35,7 +35,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaEdicionPedido", AgregadorEventos.SerializarPayload(e));
         }
 
-        private void OnMostrarVistaGestionPedidos(string obj) {
+        private void OnMostrarVistaGestionPedidosVenta(string obj) {
             Vista.CargarFiltrosBusqueda(UtilesBusquedaPedido.FiltroBusquedaPedido);
             Vista.Restaurar();
             Vista.Mostrar();

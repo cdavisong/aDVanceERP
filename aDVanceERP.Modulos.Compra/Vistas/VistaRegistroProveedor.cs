@@ -2,12 +2,12 @@
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
-using aDVanceERP.Modulos.RecursosHumanos.Interfaces;
-using aDVanceERP.Modulos.RecursosHumanos.Properties;
+using aDVanceERP.Modulos.Compra.Interfaces;
+using aDVanceERP.Modulos.Compra.Properties;
 
 using Guna.UI2.WinForms;
 
-namespace aDVanceERP.Modulos.RecursosHumanos.Vistas
+namespace aDVanceERP.Modulos.Compra.Vistas
 {
     public partial class VistaRegistroProveedor : Form, IVistaRegistroProveedor {
         private bool _modoEdicion = false;

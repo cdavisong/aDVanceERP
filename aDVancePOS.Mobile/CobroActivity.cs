@@ -31,31 +31,31 @@ namespace aDVancePOS.Mobile {
     public class CobroActivity : Activity {
 
         public const string ExtraTotalFormateado = "total_formateado";
-        public const string ExtraTicket          = "ticket";
-        public const string ExtraResumen         = "resumen";
-        public const int    RequestCode          = 3001;
+        public const string ExtraTicket = "ticket";
+        public const string ExtraResumen = "resumen";
+        public const int RequestCode = 3001;
 
         // ── Servicios ────────────────────────────────────────
         private CarritoService _carritoService = null!;
-        private VentaService   _ventaService   = null!;
-        private decimal        _total;
+        private VentaService _ventaService = null!;
+        private decimal _total;
 
         // ── UI ───────────────────────────────────────────────
-        private TextView     _lblTotalCobro      = null!;
-        private RadioButton  _rbEfectivo         = null!;
-        private RadioButton  _rbTransferencia    = null!;
-        private RadioButton  _rbMixto            = null!;
+        private TextView _lblTotalCobro = null!;
+        private RadioButton _rbEfectivo = null!;
+        private RadioButton _rbTransferencia = null!;
+        private RadioButton _rbMixto = null!;
         private LinearLayout _panelTransferencia = null!;
-        private LinearLayout _panelMixto         = null!;
-        private TextView     _lblEstadoSms       = null!;
-        private EditText     _txtTransaccion      = null!;
-        private EditText     _txtConfirmacion     = null!;
-        private TextView     _lblEstadoSmsMixto  = null!;
-        private TextView     _lblBalanceMixto     = null!;
-        private EditText     _txtEfectivoMixto   = null!;
-        private EditText     _txtTransaccionMixto = null!;
-        private EditText     _txtConfirmacionMixto = null!;
-        private Button       _btnConfirmar        = null!;
+        private LinearLayout _panelMixto = null!;
+        private TextView _lblEstadoSms = null!;
+        private EditText _txtTransaccion = null!;
+        private EditText _txtConfirmacion = null!;
+        private TextView _lblEstadoSmsMixto = null!;
+        private TextView _lblBalanceMixto = null!;
+        private EditText _txtEfectivoMixto = null!;
+        private EditText _txtTransaccionMixto = null!;
+        private EditText _txtConfirmacionMixto = null!;
+        private Button _btnConfirmar = null!;
 
         // ── SMS ──────────────────────────────────────────────
         private SmsTransferenciaBroadcastReceiver? _smsReceiver;
@@ -66,10 +66,10 @@ namespace aDVancePOS.Mobile {
             SetContentView(Resource.Layout.activity_cobro);
 
             // Obtener servicios desde el Application (singleton compartido con MainActivity)
-            var app = (PosApplication)Application!;
+            var app = (PosApplication) Application!;
             _carritoService = app.CarritoService;
-            _ventaService   = app.VentaService;
-            _total          = _carritoService.ImporteTotal;
+            _ventaService = app.VentaService;
+            _total = _carritoService.ImporteTotal;
 
             EnlazarVistas();
             ConfigurarMetodosPago();
@@ -85,42 +85,83 @@ namespace aDVancePOS.Mobile {
         }
 
         private void EnlazarVistas() {
-            _lblTotalCobro       = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
-            _rbEfectivo          = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
-            _rbTransferencia     = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
-            _rbMixto             = FindViewById<RadioButton>(Resource.Id.rbMixto)!;
-            _panelTransferencia  = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
-            _panelMixto          = FindViewById<LinearLayout>(Resource.Id.panelMixto)!;
-            _lblEstadoSms        = FindViewById<TextView>(Resource.Id.lblEstadoSms)!;
-            _txtTransaccion      = FindViewById<EditText>(Resource.Id.txtTransaccion)!;
-            _txtConfirmacion     = FindViewById<EditText>(Resource.Id.txtConfirmacion)!;
-            _lblEstadoSmsMixto   = FindViewById<TextView>(Resource.Id.lblEstadoSmsMixto)!;
-            _lblBalanceMixto     = FindViewById<TextView>(Resource.Id.lblBalanceMixto)!;
-            _txtEfectivoMixto    = FindViewById<EditText>(Resource.Id.txtEfectivoMixto)!;
+            _lblTotalCobro = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
+            _rbEfectivo = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
+            _rbTransferencia = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
+            _rbMixto = FindViewById<RadioButton>(Resource.Id.rbMixto)!;
+            _panelTransferencia = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
+            _panelMixto = FindViewById<LinearLayout>(Resource.Id.panelMixto)!;
+            _lblEstadoSms = FindViewById<TextView>(Resource.Id.lblEstadoSms)!;
+            _txtTransaccion = FindViewById<EditText>(Resource.Id.txtTransaccion)!;
+            _txtConfirmacion = FindViewById<EditText>(Resource.Id.txtConfirmacion)!;
+            _lblEstadoSmsMixto = FindViewById<TextView>(Resource.Id.lblEstadoSmsMixto)!;
+            _lblBalanceMixto = FindViewById<TextView>(Resource.Id.lblBalanceMixto)!;
+            _txtEfectivoMixto = FindViewById<EditText>(Resource.Id.txtEfectivoMixto)!;
             _txtTransaccionMixto = FindViewById<EditText>(Resource.Id.txtTransaccionMixto)!;
             _txtConfirmacionMixto = FindViewById<EditText>(Resource.Id.txtConfirmacionMixto)!;
-            _btnConfirmar        = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
+            _btnConfirmar = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
         }
 
         private void ConfigurarMetodosPago() {
-            // Tarjetas táctiles — tocar la fila activa el radio
-            FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!.Click +=
-                (s, e) => { _rbEfectivo.Checked = true; ActualizarPaneles(); };
-            FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!.Click +=
-                (s, e) => { _rbTransferencia.Checked = true; ActualizarPaneles(); };
-            FindViewById<LinearLayout>(Resource.Id.tarjetaMixto)!.Click +=
-                (s, e) => { _rbMixto.Checked = true; ActualizarPaneles(); };
+            // Desactivar clicks directos en los RadioButton — la TARJETA completa es el control
+            _rbEfectivo.Clickable = false;
+            _rbTransferencia.Clickable = false;
+            _rbMixto.Clickable = false;
+            _rbEfectivo.Focusable = false;
+            _rbTransferencia.Focusable = false;
+            _rbMixto.Focusable = false;
 
-            _rbEfectivo.CheckedChange      += (s, e) => { if (e.IsChecked) ActualizarPaneles(); };
-            _rbTransferencia.CheckedChange += (s, e) => { if (e.IsChecked) ActualizarPaneles(); };
-            _rbMixto.CheckedChange         += (s, e) => { if (e.IsChecked) ActualizarPaneles(); };
+            // Tocar cualquier parte de la tarjeta selecciona ese método
+            FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!.Click +=
+                (s, e) => SeleccionarMetodo(0);
+            FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!.Click +=
+                (s, e) => SeleccionarMetodo(1);
+            FindViewById<LinearLayout>(Resource.Id.tarjetaMixto)!.Click +=
+                (s, e) => SeleccionarMetodo(2);
+
+            // Seleccionar Efectivo por defecto
+            SeleccionarMetodo(0);
 
             // Validación en tiempo real del monto efectivo en modo mixto
             _txtEfectivoMixto.TextChanged += (s, e) => ActualizarBalanceMixto();
         }
 
+        /// <summary>
+        /// Gestiona la selección mutuamente excluyente de los tres métodos de pago.
+        /// metodo: 0=Efectivo, 1=Transferencia, 2=Mixto
+        /// </summary>
+        private void SeleccionarMetodo(int metodo) {
+            // Actualizar estado de RadioButtons manualmente
+            _rbEfectivo.Checked = metodo == 0;
+            _rbTransferencia.Checked = metodo == 1;
+            _rbMixto.Checked = metodo == 2;
+
+            // Resaltar visualmente la tarjeta activa vs inactivas
+            ActualizarAparienciaTarjetas(metodo);
+
+            // Mostrar/ocultar paneles adicionales
+            ActualizarPaneles();
+        }
+
+        private void ActualizarAparienciaTarjetas(int metodoActivo) {
+            var tarjetas = new[] {
+                FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!,
+                FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!,
+                FindViewById<LinearLayout>(Resource.Id.tarjetaMixto)!
+            };
+
+            for (int i = 0; i < tarjetas.Length; i++) {
+                // Tarjeta activa: fondo rojo sólido suave; inactiva: borde outline
+                tarjetas[i].SetBackgroundResource(i == metodoActivo
+                    ? Resource.Drawable.btn_peachpuff      // fondo seleccionado
+                    : Resource.Drawable.btn_outline_firebrick); // borde inactivo
+            }
+        }
+
         private void ActualizarPaneles() {
-            _panelTransferencia.Visibility = _rbTransferencia.Checked || _rbMixto.Checked
+            // panelTransferencia: SOLO en modo transferencia pura
+            // panelMixto:         SOLO en modo mixto (tiene sus propios campos de transacción)
+            _panelTransferencia.Visibility = _rbTransferencia.Checked
                 ? ViewStates.Visible : ViewStates.Gone;
             _panelMixto.Visibility = _rbMixto.Checked
                 ? ViewStates.Visible : ViewStates.Gone;
@@ -246,7 +287,7 @@ namespace aDVancePOS.Mobile {
                 DesregistrarSmsReceiver();
 
                 var resultado = new Intent();
-                resultado.PutExtra(ExtraTicket,  venta.NumeroTicket);
+                resultado.PutExtra(ExtraTicket, venta.NumeroTicket);
                 resultado.PutExtra(ExtraResumen, resumen);
                 SetResult(Result.Ok, resultado);
                 Finish();

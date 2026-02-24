@@ -62,7 +62,6 @@ namespace aDVanceERP.Desktop.Presentadores {
 
             // Agregar al panel lateral
             Vista.PanelMenuLateral.Controls.Add(btnModulo);
-
             Vista.PanelMenuLateral.ResumeLayout(false);
         }
 

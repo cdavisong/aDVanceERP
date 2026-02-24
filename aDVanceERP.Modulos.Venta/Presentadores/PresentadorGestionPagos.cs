@@ -16,7 +16,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             RegistrarEntidad += OnRegistrarPago;
             EditarEntidad += OnEditarPago;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionPagos", OnMostrarVistaGestionPagos);
+            AgregadorEventos.Suscribir("MostrarVistaGestionPagosVenta", OnMostrarVistaGestionPagosVenta);
         }
 
         private void OnRegistrarPago(object? sender, EventArgs e) {
@@ -36,7 +36,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaEdicionPago", AgregadorEventos.SerializarPayload(e));
         }
 
-        private void OnMostrarVistaGestionPagos(string obj) {
+        private void OnMostrarVistaGestionPagosVenta(string obj) {
             Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPago);
             Vista.Restaurar();
             Vista.Mostrar();

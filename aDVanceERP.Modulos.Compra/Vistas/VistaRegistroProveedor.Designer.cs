@@ -1,4 +1,4 @@
-﻿namespace aDVanceERP.Modulos.RecursosHumanos.Vistas {
+﻿namespace aDVanceERP.Modulos.Compra.Vistas {
     partial class VistaRegistroProveedor {
         /// <summary>
         /// Required designer variable.
@@ -503,7 +503,7 @@
             // 
             // fieldIcono
             // 
-            fieldIcono.BackgroundImage = Properties.Resources.businessmanB_24px;
+            fieldIcono.BackgroundImage = Properties.Resources.buyingB_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
             fieldIcono.Location = new Point(20, 6);

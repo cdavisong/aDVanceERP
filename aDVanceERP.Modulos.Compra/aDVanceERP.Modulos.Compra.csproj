@@ -1,40 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <StartupObject>aDVanceERP.Desktop.Program</StartupObject>
-    <ApplicationIcon>icons8_erp_system.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="icons8_erp_system.ico" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Compra\aDVanceERP.Modulos.Compra.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Empresa\aDVanceERP.Modulos.Empresa.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Inventario\aDVanceERP.Modulos.Inventario.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Servicios\aDVanceERP.Modulos.Servicios.csproj" />
-    <ProjectReference Include="..\aDVanceERP.Modulos.Venta\aDVanceERP.Modulos.Venta.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Vistas\VistaContenedorExtensiones.cs">
+    <Compile Update="Vistas\VistaGestionProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaMenuMaestros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaMenuCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
 </Project>

@@ -1,0 +1,67 @@
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Compra;
+using aDVanceERP.Core.Modelos.Modulos.Maestros;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Compra;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
+using aDVanceERP.Modulos.Compra.Interfaces;
+using aDVanceERP.Modulos.Compra.Vistas;
+
+namespace aDVanceERP.Modulos.Compra.Presentadores {
+    public class PresentadorGestionProveedores : PresentadorVistaGestion<PresentadorTuplaProveedor, IVistaGestionProveedores, IVistaTuplaProveedor, Proveedor, RepoProveedor, FiltroBusquedaProveedor> {
+        public PresentadorGestionProveedores(IVistaGestionProveedores vista) : base(vista) {
+            RegistrarEntidad += OnRegistrarProveedor;
+            EditarEntidad += OnEditarProveedor;
+
+            AgregadorEventos.Suscribir("MostrarVistaGestionProveedores", OnMostrarVistaGestionProveedores);
+            AgregadorEventos.Suscribir("ActivarDesactivarProveedor", OnActivarDesactivarProveedor);
+        }
+
+        private void OnRegistrarProveedor(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaRegistroProveedor", string.Empty);
+        }
+
+        private void OnEditarProveedor(object? sender, Proveedor e) {
+            AgregadorEventos.Publicar("MostrarVistaEdicionProveedor", AgregadorEventos.SerializarPayload(e));
+        }
+
+        private void OnMostrarVistaGestionProveedores(string obj) {
+            Vista.CargarFiltrosBusqueda(UtilesBusquedaProveedor.FiltroBusquedaProveedor);
+            Vista.Restaurar();
+            Vista.Mostrar();
+
+            ActualizarResultadosBusqueda();
+        }
+
+        private void OnActivarDesactivarProveedor(string obj) {
+            var idProveedorSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
+
+            if (idProveedorSeleccionado != 0) {
+                var estado = RepoProveedor.Instancia.HabilitarDeshabilitarProveedor(idProveedorSeleccionado);
+
+                ActualizarResultadosBusqueda();
+
+                CentroNotificaciones.MostrarNotificacion($"El proveedor ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacion.Info);
+            }
+        }
+
+        protected override PresentadorTuplaProveedor ObtenerValoresTupla(Proveedor entidad, List<IEntidadBaseDatos> entidadesExtra) {
+            var presentadorTupla = new PresentadorTuplaProveedor(new VistaTuplaProveedor(), entidad);
+            var persona = entidadesExtra.Count > 0 ? entidadesExtra.FirstOrDefault() as Persona : null!;
+            var telefonos = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, persona?.Id.ToString() ?? "0").resultadosBusqueda.Select(t => t.entidadBase);
+
+            presentadorTupla.Vista.Id = entidad.Id;
+            presentadorTupla.Vista.CodigoProveedor = entidad.CodigoProveedor;
+            presentadorTupla.Vista.RazonSocial = string.IsNullOrEmpty(entidad.RazonSocial) ? "N/A" : entidad.RazonSocial;
+            presentadorTupla.Vista.Telefonos = string.Concat(telefonos.Select(t => $"{t.PrefijoPais} {t.NumeroTelefono}, ")).TrimEnd(',', ' ');
+            presentadorTupla.Vista.Direccion = persona?.DireccionPrincipal ?? "N/A";
+            presentadorTupla.Vista.NombreRepresentante = persona?.NombreCompleto ?? "N/A";
+            presentadorTupla.Vista.Activo = entidad.Activo;
+
+            return presentadorTupla;
+        }
+    }
+}
