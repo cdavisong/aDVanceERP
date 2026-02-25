@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Cabecera -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#B22222"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Acuerdo de licencia"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Texto de licencia con scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/lblTextoLicencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#333333"
+            android:lineSpacingMultiplier="1.5"
+            android:text="ACUERDO DE LICENCIA DE USUARIO FINAL — aDVance POS Mobile\n\nVersión 1.0 · DaviSOFT\n\nPor favor lea detenidamente este acuerdo antes de utilizar el software.\n\n1. CONCESIÓN DE LICENCIA\nDaviSOFT le otorga una licencia no exclusiva, intransferible y revocable para instalar y utilizar aDVance POS Mobile únicamente en dispositivos autorizados y en conexión con el sistema aDVance ERP.\n\n2. RESTRICCIONES\nUsted no podrá: (a) copiar, modificar o distribuir el software; (b) realizar ingeniería inversa; (c) sublicenciar o transferir el software a terceros; (d) utilizar el software para fines distintos a los expresamente permitidos.\n\n3. DATOS Y PRIVACIDAD\nEl software procesa datos de ventas, catálogo de productos e información de transacciones bancarias exclusivamente en el dispositivo local. No se transmite información a servidores externos sin consentimiento explícito del usuario.\n\n4. PERMISOS REQUERIDOS\nEl software solicita acceso a: (a) cámara, para el escaneo de códigos de barras; (b) mensajes SMS, para la detección automática de confirmaciones de PAGOxMOVIL. Estos permisos son opcionales y el software funciona sin ellos con funcionalidad reducida.\n\n5. LIMITACIÓN DE RESPONSABILIDAD\nEn ningún caso DaviSOFT será responsable por daños indirectos, incidentales o consecuentes derivados del uso o imposibilidad de uso del software.\n\n6. TERMINACIÓN\nEsta licencia es efectiva hasta su terminación. Se terminará automáticamente si usted incumple cualquiera de sus términos.\n\n7. LEY APLICABLE\nEste acuerdo se rige por las leyes de la República de Cuba.\n\nAl pulsar 'Acepto y comenzar' usted confirma que ha leído, entendido y acepta los términos de este acuerdo." />
+    </ScrollView>
+
+    <!-- Checkbox y botón -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FAFAFA"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <CheckBox
+                android:id="@+id/chkAceptoLicencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="He leído y acepto los términos del acuerdo de licencia"
+                android:textSize="13sp"
+                android:textColor="#333333" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAceptarLicencia"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Acepto y comenzar"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/btn_firebrick"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

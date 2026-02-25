@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/drawable/splash_background.xml
+
+    Este drawable es el windowBackground del tema Theme.Splash.
+    Se muestra INMEDIATAMENTE al abrir la app (antes del layout),
+    eliminando el flash negro de arranque.
+
+    Muestra el fondo blanco con el nombre centrado como marcador
+    de posición mientras el layout real carga.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!-- Fondo blanco -->
+	<item>
+		<shape android:shape="rectangle">
+			<solid android:color="#FFFFFF" />
+		</shape>
+	</item>
+
+	<!--
+        Puedes agregar aquí tu logo como imagen si lo tienes en res/drawable.
+        Descomenta y ajusta el nombre del archivo:
+
+    <item
+        android:gravity="center"
+        android:width="180dp"
+        android:height="60dp">
+        <bitmap
+            android:src="@drawable/logo_advance"
+            android:gravity="center"
+            android:tileMode="disabled" />
+    </item>
+    -->
+
+</layer-list>

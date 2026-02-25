@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	  <TargetFramework>net10.0-android</TargetFramework>
+	  <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+	  <OutputType>Exe</OutputType>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <ApplicationId>com.companyname.aDVanceSTOCK.Mobile</ApplicationId>
+	  <ApplicationVersion>1</ApplicationVersion>
+	  <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+	  <!--
+      Enables trim analyzers and full trimming during Release mode.
+      To learn more, see: https://learn.microsoft.com/dotnet/core/deploying/trimming/trimming-options#trimming-granularity
+    -->
+	  <TrimMode>full</TrimMode>
+	  <!--
+      Deshabilita reflexión JSON en runtime — obliga a usar source generators.
+      Sin esto el linker puede eliminar código del JsonContexto en Release.
+    -->
+	  <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+	  <AssemblyTitle>aDVance STOCK</AssemblyTitle>
+	  <Title>aDVance STOCK</Title>
+	  <Company>DaviSOFT</Company>
+	  <Authors>Carlos Davidson</Authors>
+	  <Product>$(Title)</Product>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
+  </ItemGroup>
+</Project>

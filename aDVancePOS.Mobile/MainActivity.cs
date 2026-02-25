@@ -142,14 +142,13 @@ namespace aDVancePOS.Mobile {
 
                 if (!silencioso)
                     MostrarMensaje(
-                        $"✓ Catálogo cargado\n" +
+                        $"Catálogo cargado\n" +
                         $"{catalogo.Productos.Count} productos · {catalogo.Meta.NombreAlmacen}");
             } catch (System.IO.FileNotFoundException) {
                 if (!silencioso)
                     MostrarMensaje(
                         "No se encontró catalogo.json.\n\n" +
-                        "Exporta el catálogo desde el ERP desktop y cópialo al dispositivo con:\n\n" +
-                        $"adb push catalogo.json \"{RutasApp.RutaCatalogo}\"");
+                        "Exporta el catálogo desde la aplicación de escritorio de aDVance ERP, desde el módulo de inventario, pestaña de maestros, sección de almacenes");
             } catch (Exception ex) {
                 MostrarMensaje($"Error al cargar catálogo:\n{ex.Message}");
             } finally {
@@ -216,7 +215,7 @@ namespace aDVancePOS.Mobile {
                 if (_carritoService.AgregarProducto(producto)) {
                     ActualizarUI();
                     Toast.MakeText(this,
-                        $"✓ {producto.Nombre} agregado",
+                        $"{producto.Nombre} agregado",
                         ToastLength.Short)?.Show();
                 } else {
                     MostrarMensaje($"Sin stock disponible para: {producto.Nombre}");
@@ -340,7 +339,7 @@ namespace aDVancePOS.Mobile {
                         txtTransaccion.Text = resultado.NumeroTransaccion;
                         bool coincide = resultado.Monto == total;
                         lblEstadoSms.Text = coincide
-                            ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                            ? $"SMS · {resultado.Monto:N2} CUP"
                             : $"⚠ SMS: {resultado.Monto:N2} CUP (total: {total:N2})";
                         lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor(
                             coincide ? "#2E7D32" : "#E65100"));
@@ -361,7 +360,7 @@ namespace aDVancePOS.Mobile {
 
                         bool coincideHib = resultado.Monto == montoTransfEsperado;
                         lblEstadoSmsHib.Text = coincideHib
-                            ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                            ? $"SMS · {resultado.Monto:N2} CUP"
                             : $"⚠ SMS: {resultado.Monto:N2} CUP  (esperado: {montoTransfEsperado:N2})";
                         lblEstadoSmsHib.SetTextColor(Android.Graphics.Color.ParseColor(
                             coincideHib ? "#2E7D32" : "#E65100"));
@@ -426,7 +425,7 @@ namespace aDVancePOS.Mobile {
                         _carritoService.VaciarTrasVenta();
                         ActualizarUI();
                         MostrarMensaje(
-                            $"✓ Venta registrada\n" +
+                            $"Venta registrada\n" +
                             $"Ticket: {venta.NumeroTicket}\n" +
                             $"Total: {venta.ImporteTotal:N2} CUP");
 
@@ -446,7 +445,7 @@ namespace aDVancePOS.Mobile {
                         _carritoService.VaciarTrasVenta();
                         ActualizarUI();
                         MostrarMensaje(
-                            $"✓ Transferencia registrada\n" +
+                            $"Transferencia registrada\n" +
                             $"Ticket: {venta.NumeroTicket}\n" +
                             $"Nro. Transacción: {nroTransaccion}");
 
@@ -481,7 +480,7 @@ namespace aDVancePOS.Mobile {
                         _carritoService.VaciarTrasVenta();
                         ActualizarUI();
                         MostrarMensaje(
-                            $"✓ Pago mixto registrado\n" +
+                            $"Pago mixto registrado\n" +
                             $"Ticket: {venta.NumeroTicket}\n" +
                             $"💵 Efectivo: {montoEfectivo:N2} CUP\n" +
                             $"📲 Transferencia: {montoTransf:N2} CUP");

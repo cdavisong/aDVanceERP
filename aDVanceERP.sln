@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.Compra",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.Servicios", "aDVanceERP.Modulos.Servicios\aDVanceERP.Modulos.Servicios.csproj", "{DC80386D-5564-4AF3-87DD-33EDB5452924}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceSTOCK.Mobile", "aDVanceSTOCK.Mobile\aDVanceSTOCK.Mobile.csproj", "{FC0B7A0F-D984-4FB6-BE87-330051ADB891}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,12 @@ Global
 		{DC80386D-5564-4AF3-87DD-33EDB5452924}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC80386D-5564-4AF3-87DD-33EDB5452924}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC80386D-5564-4AF3-87DD-33EDB5452924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC0B7A0F-D984-4FB6-BE87-330051ADB891}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -72,7 +72,7 @@ namespace aDVancePOS.Mobile {
             // Actualizar el singleton de la app también
             ((PosApplication)Application!).RefrescarConfig(_config);
 
-            Toast.MakeText(this, "✓ Configuración guardada", ToastLength.Short)?.Show();
+            Toast.MakeText(this, "Configuración guardada", ToastLength.Short)?.Show();
             Finish();
         }
 

@@ -107,7 +107,7 @@ namespace aDVanceERP.Core.Controladores {
                 }
 
                 CentroNotificaciones.MostrarNotificacion(
-                    "✓ Catálogo enviado correctamente al dispositivo.",
+                    "Catálogo enviado correctamente al dispositivo.",
                     Modelos.Comun.TipoNotificacion.Ok);
 
                 return true;
@@ -187,8 +187,8 @@ namespace aDVanceERP.Core.Controladores {
             }
 
             CentroNotificaciones.MostrarNotificacion(
-                $"✓ {descargados.Count} de {archivos.Count} archivos descargados.",
-                Modelos.Comun.TipoNotificacion.Info);
+                $"{descargados.Count} de {archivos.Count} archivos descargados.",
+                Modelos.Comun.TipoNotificacion.Ok);
 
             return descargados;
         }

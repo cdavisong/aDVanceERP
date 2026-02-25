@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+	<!-- TOOLBAR -->
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#B22222"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:elevation="4dp">
+
+		<TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aDVance Stock"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+		<!-- Importar catálogos -->
+		<LinearLayout
+            android:id="@+id/btnImportar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↓ Catálogos"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+		</LinearLayout>
+
+		<ImageButton
+            android:id="@+id/btnConfiguracion"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_settings"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:scaleType="fitCenter" />
+	</LinearLayout>
+
+	<!-- TARJETA ALMACÉN ACTIVO -->
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:elevation="2dp">
+
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALMACÉN ACTIVO"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="#AAAAAA"
+            android:letterSpacing="0.12" />
+
+		<TextView
+            android:id="@+id/lblAlmacen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sin configurar"
+            android:textSize="15sp"
+            android:textColor="#1A1A1A"
+            android:textStyle="bold"
+            android:layout_marginTop="2dp" />
+	</LinearLayout>
+
+	<!-- CONTADORES DE SESIÓN -->
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp">
+
+		<!-- Total -->
+		<LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+			<TextView
+                android:id="@+id/lblTotalItems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#B22222" />
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TOTAL"
+                android:textSize="10sp"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+		</LinearLayout>
+
+		<View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#E0E0E0" />
+
+		<!-- Nuevos -->
+		<LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+			<TextView
+                android:id="@+id/lblNuevos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#2E7D32" />
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NUEVOS"
+                android:textSize="10sp"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+		</LinearLayout>
+
+		<View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#E0E0E0" />
+
+		<!-- Entradas -->
+		<LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+			<TextView
+                android:id="@+id/lblEntradas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#1565C0" />
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ENTRADAS"
+                android:textSize="10sp"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<!-- SECCIÓN LISTA -->
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SESIÓN ACTUAL"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:textColor="#AAAAAA"
+        android:letterSpacing="0.12"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="6dp" />
+
+	<TextView
+        android:id="@+id/lblSesionVacia"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Sin productos registrados.\nPulsa el botón + para comenzar."
+        android:textColor="#AAAAAA"
+        android:textSize="14sp"/>
+
+	<ListView
+        android:id="@+id/lstSesion"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="4dp"
+        android:padding="8dp"
+        android:visibility="gone" />
+
+	<!-- BOTONES DE ACCIÓN -->
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="#FFFFFF"
+        android:elevation="8dp">
+
+		<!-- Exportar -->
+		<LinearLayout
+            android:id="@+id/btnExportar"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/btn_outline_firebrick"
+            android:gravity="center"
+            android:orientation="horizontal">
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="↑ Exportar"
+                android:textColor="#B22222"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+		</LinearLayout>
+
+		<!-- Registrar (primario) -->
+		<LinearLayout
+            android:id="@+id/btnRegistrar"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1.6"
+            android:background="@drawable/btn_firebrick"
+            android:gravity="center"
+            android:orientation="horizontal">
+			<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Registrar producto"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

@@ -198,7 +198,7 @@ namespace aDVancePOS.Mobile {
                     _txtTransaccion.Text = resultado.NumeroTransaccion;
                     bool ok = resultado.Monto == _total;
                     _lblEstadoSms.Text = ok
-                        ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                        ? $"SMS · {resultado.Monto:N2} CUP"
                         : $"⚠ SMS: {resultado.Monto:N2} CUP (total: {_total:N2})";
                     _lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor(
                         ok ? "#2E7D32" : "#E65100"));
@@ -213,7 +213,7 @@ namespace aDVancePOS.Mobile {
                     decimal esperado = _total - ef;
                     bool ok = resultado.Monto == esperado;
                     _lblEstadoSmsMixto.Text = ok
-                        ? $"✓ SMS · {resultado.Monto:N2} CUP"
+                        ? $"SMS · {resultado.Monto:N2} CUP"
                         : $"⚠ SMS: {resultado.Monto:N2} (esperado: {esperado:N2})";
                     _lblEstadoSmsMixto.SetTextColor(Android.Graphics.Color.ParseColor(
                         ok ? "#2E7D32" : "#E65100"));
@@ -246,7 +246,7 @@ namespace aDVancePOS.Mobile {
 
                 if (_rbEfectivo.Checked) {
                     venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
-                    resumen = $"✓ Venta registrada\nTicket: {venta.NumeroTicket}\nTotal: {venta.ImporteTotal:N2} CUP";
+                    resumen = $"Venta registrada\nTicket: {venta.NumeroTicket}\nTotal: {venta.ImporteTotal:N2} CUP";
 
                 } else if (_rbTransferencia.Checked) {
                     var nro = _txtTransaccion.Text?.Trim() ?? "";
@@ -256,7 +256,7 @@ namespace aDVancePOS.Mobile {
                     }
                     venta = await _ventaService.RegistrarVentaTransferenciaAsync(
                         _carritoService, _txtConfirmacion.Text?.Trim() ?? "", nro);
-                    resumen = $"✓ Transferencia registrada\nTicket: {venta.NumeroTicket}\nNro. Transacción: {nro}";
+                    resumen = $"Transferencia registrada\nTicket: {venta.NumeroTicket}\nNro. Transacción: {nro}";
 
                 } else {
                     // Mixto
@@ -281,7 +281,7 @@ namespace aDVancePOS.Mobile {
                     venta = await _ventaService.RegistrarVentaHibridaAsync(
                         _carritoService, ef, transf,
                         nroMixto, _txtConfirmacionMixto.Text?.Trim() ?? "");
-                    resumen = $"✓ Pago mixto registrado\nTicket: {venta.NumeroTicket}\n💵 Efectivo: {ef:N2} CUP\n📲 Transferencia: {transf:N2} CUP";
+                    resumen = $"Pago mixto registrado\nTicket: {venta.NumeroTicket}\n💵 Efectivo: {ef:N2} CUP\n📲 Transferencia: {transf:N2} CUP";
                 }
 
                 DesregistrarSmsReceiver();

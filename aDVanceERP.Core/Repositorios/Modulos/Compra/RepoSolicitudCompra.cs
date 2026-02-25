@@ -93,7 +93,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             return consulta;
         }
 
-        protected override string GenerarComandoObtener(FiltroBusquedaSolicitudCompra? filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
+        protected override string GenerarComandoObtener(FiltroBusquedaSolicitudCompra filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
             var criterio = criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
             var consultaComun = """
                 SELECT s.*, u.nombre as nombre_solicitante

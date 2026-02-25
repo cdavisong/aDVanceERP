@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- PANEL PREVIEW (camera live) -->
+    <LinearLayout
+        android:id="@+id/panelPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <SurfaceView
+            android:id="@+id/surfaceFoto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Controles preview -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#CC000000">
+
+            <ImageButton
+                android:id="@+id/btnCancelarFoto"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_back"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/btnCapturar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/btn_firebrick"
+                android:text="📷"
+                android:textSize="28sp" />
+
+            <!-- Spacer -->
+            <View
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- PANEL REVISIÓN (foto capturada) -->
+    <LinearLayout
+        android:id="@+id/panelRevision"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgRevision"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop" />
+
+        <!-- Controles revisión -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#CC000000"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/btnReintentar"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/btn_outline_firebrick"
+                android:text="Reintentar"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnConfirmar"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_firebrick"
+                android:text="✓ Usar foto"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

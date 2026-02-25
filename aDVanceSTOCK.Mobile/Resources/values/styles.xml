@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/values/styles.xml
+-->
+<resources>
+
+	<!-- Tema base de la app (sin ActionBar) -->
+	<style name="Theme.AppCompat.Light.NoActionBar"
+           parent="@android:style/Theme.Material.Light.NoActionBar">
+		<item name="android:windowBackground">@android:color/white</item>
+		<item name="android:statusBarColor">#B22222</item>
+	</style>
+
+	<!--
+        Tema del Splash.
+        windowBackground apunta a un drawable que se muestra
+        ANTES incluso de que OnCreate termine de inflar el layout,
+        evitando el flash negro inicial.
+    -->
+	<style name="Theme.Splash"
+           parent="@android:style/Theme.Material.Light.NoActionBar">
+		<item name="android:windowBackground">@drawable/splash_background</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowFullscreen">false</item>
+		<item name="android:statusBarColor">#FFFFFF</item>
+	</style>
+
+</resources>

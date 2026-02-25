@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TOOLBAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#B22222"
+            android:paddingLeft="8dp"
+            android:paddingRight="16dp"
+            android:elevation="4dp">
+
+            <ImageButton
+                android:id="@+id/btnVolver"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/ic_back"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Registrar producto"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_marginLeft="4dp" />
+        </LinearLayout>
+
+        <!-- BADGE TIPO REGISTRO -->
+        <TextView
+            android:id="@+id/lblTipoRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Escanea o escribe el código para comenzar"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="#888888" />
+
+        <!-- SECCIÓN: CÓDIGO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CÓDIGO DE PRODUCTO *"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/txtCodigo"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:hint="Código de barras o manual"
+                    android:inputType="text"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp"
+                    android:textColor="#1A1A1A"
+                    android:imeOptions="actionDone" />
+
+                <ImageButton
+                    android:id="@+id/btnEscanear"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/ic_scan"
+                    android:background="@drawable/btn_firebrick"
+                    android:scaleType="fitCenter"
+                    android:padding="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- SECCIÓN: DATOS DEL NUEVO PRODUCTO -->
+        <LinearLayout
+            android:id="@+id/seccionNuevo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DATOS DEL PRODUCTO"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+
+            <!-- Nombre -->
+            <EditText
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:hint="Nombre *"
+                android:inputType="textCapWords"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+                android:textColor="#1A1A1A" />
+
+            <!-- Descripción -->
+            <EditText
+                android:id="@+id/txtDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:hint="Descripción (opcional)"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:textSize="14sp"
+                android:textColor="#1A1A1A" />
+
+            <!-- Categoría -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categoría"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="8dp" />
+
+            <!-- Proveedor -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Proveedor"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerProveedor"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="8dp" />
+
+            <!-- Unidad de medida -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unidad de medida"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerUnidad"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="8dp" />
+
+            <!-- Clasificación -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clasificación"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerClasificacion"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/search_field_bg"
+                android:paddingLeft="8dp" />
+
+            <!-- Es vendible -->
+            <CheckBox
+                android:id="@+id/chkEsVendible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Es vendible"
+                android:checked="true"
+                android:textSize="14sp"
+                android:textColor="#1A1A1A"
+                android:buttonTint="#B22222" />
+
+            <!-- Precios -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+
+                <EditText
+                    android:id="@+id/txtCosto"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:hint="Costo adquisición *"
+                    android:inputType="numberDecimal"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp"
+                    android:textColor="#1A1A1A" />
+
+                <EditText
+                    android:id="@+id/txtPrecio"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:hint="Precio de venta *"
+                    android:inputType="numberDecimal"
+                    android:background="@drawable/search_field_bg"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:textSize="14sp"
+                    android:textColor="#1A1A1A" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- SECCIÓN: CANTIDAD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/lblCantidadHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CANTIDAD *"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+
+            <EditText
+                android:id="@+id/txtCantidad"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:gravity="center"
+                android:background="@drawable/search_field_bg"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1A1A1A" />
+        </LinearLayout>
+
+        <!-- SECCIÓN: FOTO (OPCIONAL) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FOTO DEL PRODUCTO (OPCIONAL)"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12" />
+
+            <!-- Miniatura -->
+            <ImageView
+                android:id="@+id/imgFoto"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:background="#F2F2F2"
+                android:visibility="gone" />
+
+            <!-- Botones foto -->
+            <LinearLayout
+                android:id="@+id/btnTomarFoto"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_outline_firebrick"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📷  Tomar foto"
+                    android:textColor="#B22222"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnQuitarFoto"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✕  Quitar foto"
+                    android:textColor="#888888"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- BOTÓN GUARDAR -->
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/btn_firebrick"
+            android:text="Guardar en sesión"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

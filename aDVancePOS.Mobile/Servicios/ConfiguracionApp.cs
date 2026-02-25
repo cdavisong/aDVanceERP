@@ -2,6 +2,6 @@
     public class ConfiguracionApp {
         public long IdAlmacen { get; set; } = 1;
         public long IdClienteAnonimo { get; set; } = 1;
-        public string PrefijoTicket { get; set; } = "MOB";
+        public string PrefijoTicket { get; set; } = "POS";
     }
 }

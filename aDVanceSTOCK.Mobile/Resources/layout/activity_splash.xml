@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF"
+    android:padding="48dp">
+
+	<!-- Logo / Marca
+         FIX #1: baselineAligned="false" + includeFontPadding="false" en cada
+         TextView resuelve la desalineación vertical del badge ERP.
+         Un solo TextView para "aDVance" evita desajustes entre fragmentos. -->
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:baselineAligned="false">
+
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="aDVance"
+            android:textSize="52sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:includeFontPadding="false" />
+
+		<Space
+            android:layout_width="10dp"
+            android:layout_height="1dp" />
+
+		<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="ERP"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="#B22222"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:includeFontPadding="false" />
+	</LinearLayout>
+
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="La solución integral para tu empresa"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginTop="12dp" />
+
+	<ProgressBar
+        android:layout_width="160dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="56dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:indeterminateTint="#FFDAB9"
+        android:progressBackgroundTint="#EEEEEE" />
+
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="versión 0.4 · beta"
+        android:textSize="11sp"
+        android:textColor="#BBBBBB"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

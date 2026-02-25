@@ -23,7 +23,6 @@
 		<Company>DaviSOFT</Company>
 		<Authors>Carlos Davidson</Authors>
 		<Product>$(Title)</Product>
-		<PackageIcon>icons8_pos_terminal_128.png</PackageIcon>
 		<AndroidSigningKeyStore>advancepos.keystore</AndroidSigningKeyStore>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
