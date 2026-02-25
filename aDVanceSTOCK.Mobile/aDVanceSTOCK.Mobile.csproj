@@ -5,7 +5,7 @@
 	  <OutputType>Exe</OutputType>
 	  <Nullable>enable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
-	  <ApplicationId>com.companyname.aDVanceSTOCK.Mobile</ApplicationId>
+	  <ApplicationId>aDVanceSTOCK.Mobile</ApplicationId>
 	  <ApplicationVersion>1</ApplicationVersion>
 	  <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 	  <!--
@@ -23,6 +23,20 @@
 	  <Company>DaviSOFT</Company>
 	  <Authors>Carlos Davidson</Authors>
 	  <Product>$(Title)</Product>
+	  <AndroidSigningKeyStore>advancestock.keystore</AndroidSigningKeyStore>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningStorePass>solrac0809</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>advancestock</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>solrac0809</AndroidSigningKeyPass>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningStorePass>solrac0809</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>advancestock</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>solrac0809</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

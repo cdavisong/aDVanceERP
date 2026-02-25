@@ -23,14 +23,14 @@ namespace aDVanceSTOCK.Mobile {
         ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class ConfiguracionActivity : Activity {
 
-        private StockApplication App      => (StockApplication)Application!;
-        private CatalogoService  Catalogo => App.CatalogoService;
+        private StockApplication App => (StockApplication) Application!;
+        private CatalogoService Catalogo => App.CatalogoService;
 
-        private Spinner   _spinnerAlmacen  = null!;
-        private Button    _btnGuardar      = null!;
-        private ImageButton _btnVolver     = null!;
-        private TextView  _lblRutaBase     = null!;
-        private Button    _btnVerLicencia  = null!;
+        private Spinner _spinnerAlmacen = null!;
+        private Button _btnGuardar = null!;
+        private ImageButton _btnVolver = null!;
+        private TextView _lblRutaBase = null!;
+        private Button _btnVerLicencia = null!;
 
         private ConfiguracionApp _config = null!;
 
@@ -42,17 +42,17 @@ namespace aDVanceSTOCK.Mobile {
             _config = ConfiguracionService.Cargar();
 
             _spinnerAlmacen = FindViewById<Spinner>(Resource.Id.spinnerAlmacen)!;
-            _btnGuardar     = FindViewById<Button>(Resource.Id.btnGuardarConfig)!;
-            _btnVolver      = FindViewById<ImageButton>(Resource.Id.btnVolverConfig)!;
-            _lblRutaBase    = FindViewById<TextView>(Resource.Id.lblRutaBase)!;
+            _btnGuardar = FindViewById<Button>(Resource.Id.btnGuardarConfig)!;
+            _btnVolver = FindViewById<ImageButton>(Resource.Id.btnVolverConfig)!;
+            _lblRutaBase = FindViewById<TextView>(Resource.Id.lblRutaBase)!;
             _btnVerLicencia = FindViewById<Button>(Resource.Id.btnVerLicencia)!;
 
             PopularSpinnerAlmacenes();
 
             _lblRutaBase.Text = RutasApp.DirectorioBase;
 
-            _btnVolver.Click     += (s, e) => Finish();
-            _btnGuardar.Click    += (s, e) => Guardar();
+            _btnVolver.Click += (s, e) => Finish();
+            _btnGuardar.Click += (s, e) => Guardar();
             _btnVerLicencia.Click += (s, e) =>
                 StartActivity(new Intent(this, typeof(LicenciaVistaActivity)));
         }
@@ -68,7 +68,7 @@ namespace aDVanceSTOCK.Mobile {
             var nombres = Catalogo.Almacenes.Select(a => a.ToString()).ToList();
             _spinnerAlmacen.Adapter = new ArrayAdapter<string>(
                 this, Android.Resource.Layout.SimpleSpinnerItem, nombres);
-            ((ArrayAdapter)_spinnerAlmacen.Adapter)
+            ((ArrayAdapter) _spinnerAlmacen.Adapter)
                 .SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
 
             // Pre-seleccionar el almacén guardado
@@ -89,7 +89,7 @@ namespace aDVanceSTOCK.Mobile {
             }
 
             var almacenSeleccionado = Catalogo.Almacenes[_spinnerAlmacen.SelectedItemPosition];
-            _config.IdAlmacen     = almacenSeleccionado.Id;
+            _config.IdAlmacen = almacenSeleccionado.Id;
             _config.NombreAlmacen = almacenSeleccionado.Nombre;
 
             ConfiguracionService.Guardar(_config);
@@ -117,10 +117,10 @@ namespace aDVanceSTOCK.Mobile {
                 .Visibility = Android.Views.ViewStates.Gone;
 
             var btn = FindViewById<Button>(Resource.Id.btnAceptarLicencia)!;
-            btn.Text    = "← Volver";
+            btn.Text = "← Volver";
             btn.Enabled = true;
-            btn.Alpha   = 1.0f;
-            btn.Click  += (s, e) => Finish();
+            btn.Alpha = 1.0f;
+            btn.Click += (s, e) => Finish();
         }
     }
 }

@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="ERP"
+                android:text="POS"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"

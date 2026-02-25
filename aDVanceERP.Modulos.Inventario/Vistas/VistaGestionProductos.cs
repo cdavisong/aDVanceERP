@@ -96,6 +96,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public bool MostrarBotonesAplicacionStock {
+            get => btnActualizarCatalogoApp.Visible;
+            set { 
+                btnActualizarCatalogoApp.Visible = value; 
+                btnImportarProductosDispositivo.Visible = value;
+            }
+        }
+
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
         public event EventHandler? MostrarPaginaAnterior;
@@ -108,7 +116,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaProducto, string[])>? BuscarEntidades;
-        
+        public event EventHandler? ActualizarCatalogoApp;
+        public event EventHandler? ImportarProductosDispositivo;
 
         public async void Inicializar() {
             // Eventos
@@ -128,12 +137,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 args.SuppressKeyPress = true;
             };
-            btnGenerarCatalogo.Click += delegate { GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty); };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(sender, e);
 
                 ActualizarValorTotalInventario();
             };
+            btnGenerarCatalogo.Click += delegate { GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty); };
+            btnImportarProductosDispositivo.Click += delegate { ImportarProductosDispositivo?.Invoke(this, EventArgs.Empty); };
+            btnActualizarCatalogoApp.Click += delegate { ActualizarCatalogoApp?.Invoke(this, EventArgs.Empty); };
             btnHabilitarDeshabilitarProducto.Click += delegate (object? sender, EventArgs e) {
                 AgregadorEventos.Publicar("HabilitarDeshabilitarProducto", string.Empty);
             };

@@ -19,7 +19,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes, IVistaTuplaAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-        private ControladorArchivosAndroid _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
+        private ControladorArchivosAndroidPos _androidPos = new ControladorArchivosAndroidPos(Application.StartupPath);
         private DocInventarioAlmacen _docInventarioAlmacen = new DocInventarioAlmacen();
         private bool _dispositivoConectado;
 
@@ -134,7 +134,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     writer.Write(productos);
             }
 
-            if (_androidFileManager.FlujoComienzoDia(rutaArchivoProductos)) {
+            if (_androidPos.FlujoComienzoDia(rutaArchivoProductos)) {
                 CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} enviados correctamente a la aplicación", TipoNotificacion.Info);
             } else {
                 CentroNotificaciones.MostrarNotificacion($"Error al enviar productos del almacén {id}", TipoNotificacion.Error);
@@ -379,7 +379,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             try {
                 // Verificar conexión del dispositivo
-                if (!_androidFileManager.CheckDeviceConnection())
+                if (!_androidPos.CheckDeviceConnection())
                     conexionOk = false;
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacion.Error);

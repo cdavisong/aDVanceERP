@@ -206,7 +206,7 @@ namespace aDVanceSTOCK.Mobile {
         }
 
         private void OnFotoDisponible(ImageReader reader) {
-            Android.Media.Image? img = null;
+            Image? img = null;
             try {
                 img = reader.AcquireNextImage();
                 if (img == null) return;
@@ -230,7 +230,10 @@ namespace aDVanceSTOCK.Mobile {
             _panelRevision.Visibility = ViewStates.Visible;
 
             if (_bytesCapturados != null) {
-                var bmp = BitmapFactory.DecodeByteArray(_bytesCapturados, 0, _bytesCapturados.Length);
+                // Rotar 90 grados la imagen (ajusta según necesites)
+                var imagenRotada = RotarImagen(_bytesCapturados, 90);
+                
+                var bmp = BitmapFactory.DecodeByteArray(imagenRotada, 0, imagenRotada.Length);
                 _imgPreview.SetImageBitmap(bmp);
             }
         }
@@ -251,7 +254,11 @@ namespace aDVanceSTOCK.Mobile {
             if (_bytesCapturados == null) return;
             try {
                 Directory.CreateDirectory(System.IO.Path.GetDirectoryName(_rutaDestino)!);
-                File.WriteAllBytes(_rutaDestino, _bytesCapturados);
+
+                // Rotar 90 grados la imagen (ajusta según necesites)
+                byte[] imagenRotada = RotarImagen(_bytesCapturados, 90);
+
+                File.WriteAllBytes(_rutaDestino, imagenRotada);
 
                 var result = new Intent();
                 result.PutExtra(ExtraRutaDestino, _rutaDestino);
@@ -259,6 +266,32 @@ namespace aDVanceSTOCK.Mobile {
                 Finish();
             } catch (Exception ex) {
                 Toast.MakeText(this, "Error al guardar foto: " + ex.Message, ToastLength.Long)?.Show();
+            }
+        }
+
+        private byte[] RotarImagen(byte[] imagenOriginal, int grados) {
+            try {
+                // Decodificar la imagen original
+                Bitmap bmpOriginal = BitmapFactory.DecodeByteArray(imagenOriginal, 0, imagenOriginal.Length);
+
+                // Crear matriz de rotación
+                Matrix matrix = new Matrix();
+                matrix.PostRotate(grados);
+
+                // Crear bitmap rotado
+                Bitmap bmpRotado = Bitmap.CreateBitmap(bmpOriginal, 0, 0,
+                    bmpOriginal.Width, bmpOriginal.Height, matrix, true);
+
+                // Convertir a byte array
+                using (var stream = new MemoryStream()) {
+                    bmpRotado.Compress(Bitmap.CompressFormat.Jpeg, 85, stream);
+                    bmpOriginal.Recycle();
+                    bmpRotado.Recycle();
+                    return stream.ToArray();
+                }
+            } catch (Exception ex) {
+                System.Diagnostics.Debug.WriteLine($"Error rotando imagen: {ex.Message}");
+                return imagenOriginal; // Devolver original si hay error
             }
         }
 

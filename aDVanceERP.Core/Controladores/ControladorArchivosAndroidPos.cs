@@ -17,7 +17,7 @@ namespace aDVanceERP.Core.Controladores {
     ///
     ///   No requiere run-as. Funciona con build Debug y Release.
     /// </summary>
-    public class ControladorArchivosAndroid {
+    public class ControladorArchivosAndroidPos {
         private readonly string _adbPath;
         private readonly string _appPackageName = "cu.davisoft.advancepos";
 
@@ -26,7 +26,7 @@ namespace aDVanceERP.Core.Controladores {
         private string DeviceFilesDir =>
             $"/sdcard/Android/data/{_appPackageName}/files";
 
-        public ControladorArchivosAndroid(string applicationPath) {
+        public ControladorArchivosAndroidPos(string applicationPath) {
             _adbPath = Path.Combine(applicationPath, "tools", "adb.exe");
 
             if (!File.Exists(_adbPath)) {

@@ -6,7 +6,10 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaGestionProductos : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaProducto>, INavegadorTuplasEntidades {
         string? NombreAlmacen { get; }
         decimal ValorTotalInventario { get; }
+        bool MostrarBotonesAplicacionStock { get; set; }
 
+        event EventHandler? ActualizarCatalogoApp;
+        event EventHandler? ImportarProductosDispositivo;
         event EventHandler? GenerarCatalogoProductos;
 
         void CargarFiltroAlmacenes(object[] nombresAlmacenes);

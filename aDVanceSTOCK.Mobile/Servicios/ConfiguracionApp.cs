@@ -11,7 +11,7 @@ namespace aDVanceSTOCK.Mobile.Servicios {
 
     public class ConfiguracionApp {
         /// <summary>ID del almacén seleccionado para la sesión.</summary>
-        public long   IdAlmacen     { get; set; } = 1;
+        public long IdAlmacen { get; set; } = 0;
 
         /// <summary>Nombre del almacén (desnormalizado para UI y JSON de salida).</summary>
         public string NombreAlmacen { get; set; } = "";

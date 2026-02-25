@@ -41,7 +41,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/btn_firebrick"
-                android:text="📷"
+                android:text=""
                 android:textSize="28sp" />
 
             <!-- Spacer -->
@@ -82,7 +82,7 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/btn_outline_firebrick"
                 android:text="Reintentar"
-                android:textColor="#FFFFFF"
+                android:textColor="#B22222"
                 android:textSize="14sp" />
 
             <Button
@@ -91,7 +91,7 @@
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_firebrick"
-                android:text="✓ Usar foto"
+                android:text="Usar foto"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />

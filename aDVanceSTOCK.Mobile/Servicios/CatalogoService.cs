@@ -10,6 +10,7 @@
 // ============================================================
 
 using System.Text.Json;
+
 using aDVanceSTOCK.Mobile.Modelos;
 
 namespace aDVanceSTOCK.Mobile.Servicios {
@@ -17,17 +18,17 @@ namespace aDVanceSTOCK.Mobile.Servicios {
     public class CatalogoService {
 
         // ── Caché en memoria ──────────────────────────────────────────
-        private List<ProductoExistente>      _productos       = new();
-        private List<ProveedorCatalogo>      _proveedores     = new();
-        private List<UnidadMedidaCatalogo>   _unidades        = new();
-        private List<ClasificacionCatalogo>  _clasificaciones = new();
-        private List<AlmacenCatalogo>        _almacenes       = new();
+        private List<ProductoExistente> _productos = new();
+        private List<ProveedorCatalogo> _proveedores = new();
+        private List<UnidadMedidaCatalogo> _unidades = new();
+        private List<ClasificacionCatalogo> _clasificaciones = new();
+        private List<AlmacenCatalogo> _almacenes = new();
 
         // ── Propiedades de acceso ─────────────────────────────────────
-        public IReadOnlyList<ProveedorCatalogo>     Proveedores     => _proveedores;
-        public IReadOnlyList<UnidadMedidaCatalogo>  Unidades        => _unidades;
+        public IReadOnlyList<ProveedorCatalogo> Proveedores => _proveedores;
+        public IReadOnlyList<UnidadMedidaCatalogo> Unidades => _unidades;
         public IReadOnlyList<ClasificacionCatalogo> Clasificaciones => _clasificaciones;
-        public IReadOnlyList<AlmacenCatalogo>       Almacenes       => _almacenes;
+        public IReadOnlyList<AlmacenCatalogo> Almacenes => _almacenes;
 
         public bool CatalogosListos { get; private set; } = false;
 
@@ -40,17 +41,17 @@ namespace aDVanceSTOCK.Mobile.Servicios {
         /// opcionales (devuelven lista vacía si no existen).
         /// </summary>
         public async Task CargarTodosAsync() {
-            _productos       = await CargarListaAsync(
+            _productos = await CargarListaAsync(
                                    RutasApp.RutaCatalogoProductos,
                                    JsonContexto.Default.ListProductoExistente,
                                    obligatorio: true);
 
-            _proveedores     = await CargarListaAsync(
+            _proveedores = await CargarListaAsync(
                                    RutasApp.RutaCatalogoProveedores,
                                    JsonContexto.Default.ListProveedorCatalogo,
                                    obligatorio: false);
 
-            _unidades        = await CargarListaAsync(
+            _unidades = await CargarListaAsync(
                                    RutasApp.RutaCatalogoUnidades,
                                    JsonContexto.Default.ListUnidadMedidaCatalogo,
                                    obligatorio: false);
@@ -60,7 +61,7 @@ namespace aDVanceSTOCK.Mobile.Servicios {
                                    JsonContexto.Default.ListClasificacionCatalogo,
                                    obligatorio: false);
 
-            _almacenes       = await CargarListaAsync(
+            _almacenes = await CargarListaAsync(
                                    RutasApp.RutaCatalogoAlmacenes,
                                    JsonContexto.Default.ListAlmacenCatalogo,
                                    obligatorio: false);

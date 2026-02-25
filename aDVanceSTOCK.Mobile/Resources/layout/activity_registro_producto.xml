@@ -90,15 +90,16 @@
                     android:textColor="#1A1A1A"
                     android:imeOptions="actionDone" />
 
-                <ImageButton
+				<ImageButton
                     android:id="@+id/btnEscanear"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:src="@drawable/ic_scan"
-                    android:background="@drawable/btn_firebrick"
+                    android:background="@drawable/btn_outline_firebrick"
                     android:scaleType="fitCenter"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:layout_marginLeft="8dp"
+                    android:contentDescription="Escáner" />
             </LinearLayout>
         </LinearLayout>
 
@@ -340,7 +341,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📷  Tomar foto"
+                    android:text="Tomar foto"
                     android:textColor="#B22222"
                     android:textSize="14sp" />
             </LinearLayout>

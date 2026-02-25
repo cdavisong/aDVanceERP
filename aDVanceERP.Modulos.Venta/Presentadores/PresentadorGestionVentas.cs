@@ -22,7 +22,7 @@ using System.Text.Json;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
-        private ControladorArchivosAndroid _androidFileManager = new ControladorArchivosAndroid(Application.StartupPath);
+        private ControladorArchivosAndroidPos _androidPos = new ControladorArchivosAndroidPos(Application.StartupPath);
         private DocFacturaVenta _docFacturaVenta = null!;
 
         public PresentadorGestionVentas(IVistaGestionVentas vista) : base(vista) {
@@ -50,7 +50,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
         private void OnImportarVentasDesdeDispositivo(object? sender, EventArgs e) {
             var rutaArchivoVentas = Path.Combine(Application.StartupPath, "ventas.json");
-            var archivosDescargados = _androidFileManager.FlujoFinDia(rutaArchivoVentas, true);
+            var archivosDescargados = _androidPos.FlujoFinDia(rutaArchivoVentas, true);
 
             if (archivosDescargados.Count == 0) {
                 CentroNotificaciones.MostrarNotificacion("No se encontraron ventas para importar desde el dispositivo. Por favor, asegúrese de que existan archivos de ventas en el dispositivo y que contengan datos válidos.", TipoNotificacion.Advertencia);
@@ -250,7 +250,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.Restaurar();
 
             // Cambiar visibilidad del botón para importar ventas desde dispositivo según conexión con dispositivo Android
-            Vista.MostrarBotonImportarVentasDispositivo = _androidFileManager.CheckDeviceConnection();
+            Vista.MostrarBotonImportarVentasDispositivo = _androidPos.CheckDeviceConnection()&& _androidPos.CheckAppInstalada();
 
             Vista.Mostrar();
 
