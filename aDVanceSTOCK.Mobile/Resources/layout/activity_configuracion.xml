@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -81,52 +82,56 @@
                     android:paddingLeft="8dp" />
             </LinearLayout>
 
-            <!-- RUTA ADB -->
-            <LinearLayout
+			<!-- Sección Info app -->
+			<TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ACERCA DE"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#AAAAAA"
+                android:letterSpacing="0.12"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="6dp" />
+
+			<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#FFFFFF"
+                android:elevation="2dp"
                 android:padding="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DIRECTORIO ADB"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:textColor="#AAAAAA"
-                    android:letterSpacing="0.12" />
-
-                <TextView
-                    android:id="@+id/lblRutaBase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textSize="12sp"
-                    android:textColor="#888888"
-                    android:fontFamily="monospace" />
-            </LinearLayout>
-
-            <!-- LICENCIA -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#FFFFFF"
-                android:padding="16dp"
-                android:layout_marginTop="8dp">
-
-                <Button
-                    android:id="@+id/btnVerLicencia"
+				<!-- LICENCIA -->
+				<TextView
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:background="@android:color/transparent"
-                    android:text="Ver licencia de uso"
+                    android:layout_height="wrap_content"
+                    android:text="aDVance STOCK Mobile"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"
+                    android:layout_marginBottom="2dp" />
+				<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Versión 1.0 · DaviSOFT"
+                    android:textSize="13sp"
                     android:textColor="#888888"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:layout_marginBottom="12dp" />
+
+				<Button
+                    android:id="@+id/btnVerLicencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Ver licencia de uso"
+                    android:textSize="12sp"
+                    android:textColor="#B22222"
+                    android:background="@drawable/btn_outline_firebrick"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp" />
+			</LinearLayout>
         </LinearLayout>
     </ScrollView>
 

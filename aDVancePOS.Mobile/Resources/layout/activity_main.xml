@@ -57,14 +57,12 @@
                 android:includeFontPadding="false" />
 		</LinearLayout>
 
-		<!-- FIX #3: Badge de VENTAS del día (no de items del carrito)
-             Al pulsarlo abre el resumen de ventas del día.
-             Se actualiza con el número de ventas completadas. -->
+		<!-- Badge ventas: label a la izquierda, círculo a la derecha -->
 		<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginRight="12dp">
 
 			<TextView
@@ -73,8 +71,7 @@
                 android:text="VENTAS"
                 android:textSize="8sp"
                 android:textColor="#AAAAAA"
-                android:gravity="center"
-                android:layout_marginBottom="1dp" />
+                android:layout_marginRight="4dp" />
 
 			<!-- Círculo clickeable con contador de ventas del día -->
 			<TextView
@@ -187,21 +184,21 @@
             android:paddingRight="12dp"
             android:layout_marginLeft="8dp">
 
-            <ImageView
+			<ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:src="@drawable/ic_catalog"
                 android:scaleType="fitCenter"
                 android:layout_marginRight="5dp" />
 
-            <TextView
+			<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Catálogo"
                 android:textSize="13sp"
                 android:textColor="#B22222"
                 android:textStyle="bold" />
-        </LinearLayout>
+		</LinearLayout>
 	</LinearLayout>
 
 	<!-- ══════════════════════════════════════
@@ -309,7 +306,7 @@
                     android:scaleType="fitCenter"
                     android:layout_marginRight="6dp" />
 
-                <TextView
+				<TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -442,21 +439,21 @@
                         android:gravity="center"
                         android:background="@drawable/btn_firebrick">
 
-                        <ImageView
+						<ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_pay"
                             android:scaleType="fitCenter"
                             android:layout_marginRight="8dp" />
 
-                        <TextView
+						<TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cobrar"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="#FFFFFF" />
-                    </LinearLayout>
+					</LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
 			<!-- fin seccionPagos -->

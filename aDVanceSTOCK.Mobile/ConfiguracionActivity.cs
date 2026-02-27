@@ -29,7 +29,6 @@ namespace aDVanceSTOCK.Mobile {
         private Spinner _spinnerAlmacen = null!;
         private Button _btnGuardar = null!;
         private ImageButton _btnVolver = null!;
-        private TextView _lblRutaBase = null!;
         private Button _btnVerLicencia = null!;
 
         private ConfiguracionApp _config = null!;
@@ -44,12 +43,9 @@ namespace aDVanceSTOCK.Mobile {
             _spinnerAlmacen = FindViewById<Spinner>(Resource.Id.spinnerAlmacen)!;
             _btnGuardar = FindViewById<Button>(Resource.Id.btnGuardarConfig)!;
             _btnVolver = FindViewById<ImageButton>(Resource.Id.btnVolverConfig)!;
-            _lblRutaBase = FindViewById<TextView>(Resource.Id.lblRutaBase)!;
             _btnVerLicencia = FindViewById<Button>(Resource.Id.btnVerLicencia)!;
 
             PopularSpinnerAlmacenes();
-
-            _lblRutaBase.Text = RutasApp.DirectorioBase;
 
             _btnVolver.Click += (s, e) => Finish();
             _btnGuardar.Click += (s, e) => Guardar();
