@@ -46,6 +46,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             ActualizarResultadosBusqueda();
         }
 
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaPago.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), string.Empty, "Venta"];            
+
+            base.ActualizarResultadosBusqueda();
+        }
+
         protected override PresentadorTuplaPago ObtenerValoresTupla(Pago entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaPago(new VistaTuplaPago(), entidad);
             var venta = RepoVenta.Instancia.ObtenerPorId(entidad.IdVenta);

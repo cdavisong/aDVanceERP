@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Maestros;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -41,6 +42,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
+        }
+
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaPedido.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), string.Empty];
+
+            base.ActualizarResultadosBusqueda();
         }
 
         private void OnHabilitarDeshabilitarPedido(string obj) {

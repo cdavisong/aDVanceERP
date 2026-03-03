@@ -257,6 +257,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             ActualizarResultadosBusqueda();
         }
 
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaVenta.Todas && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), string.Empty];
+
+            base.ActualizarResultadosBusqueda();
+        }
+
         private void OnHabilitarDeshabilitarVenta(string obj) {
             var idVentaSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
 
@@ -320,7 +327,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             } else {
                 // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos
                 var repoPago = RepoPago.Instancia;
-                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString()).resultadosBusqueda.Select(p => p.entidadBase).ToList();
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString(), "Venta").resultadosBusqueda.Select(p => p.entidadBase).ToList();
 
                 if (pagosVenta?.Count > 0) {
                     foreach (var pago in pagosVenta)

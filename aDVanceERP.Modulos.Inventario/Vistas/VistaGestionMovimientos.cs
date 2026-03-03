@@ -190,8 +190,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // ...
         }
 
-        
-
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;
             btnPaginaAnterior.Enabled = PaginaActual > 1;

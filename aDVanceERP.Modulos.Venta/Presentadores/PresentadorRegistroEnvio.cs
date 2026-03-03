@@ -170,7 +170,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             // Si el tipo de envío es mensajería con fondo, verificar si existe un pago pendiente de la venta y completarlo, de no
             // existir un pago pendiente, registrar un nuevo pago.
             if (Vista.TipoEnvio != TipoEnvioEnum.RetiroEnLocal) {
-                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
+                var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta.Id.ToString(), "Venta").resultadosBusqueda.Select(r => r.entidadBase).ToList();
 
                 if (CentroNotificaciones.MostrarMensaje("Desea adicionar o confirmar los pagos recibidos en la venta correspondiente?", TipoMensaje.Info, BotonesMensaje.SiNo) == DialogResult.Yes) {
                     if (pagosVenta.Count == 0) {

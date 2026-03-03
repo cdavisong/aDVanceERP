@@ -82,7 +82,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 return;
             }
             
-            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta?.Id.ToString() ?? "0").resultadosBusqueda.Select(p => p.entidadBase).ToList();
+            var pagosVenta = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, venta?.Id.ToString() ?? "0", "Venta").resultadosBusqueda.Select(p => p.entidadBase).ToList();
             
             switch (e.estado) {
                 case EstadoEntregaEnum.Asignado:

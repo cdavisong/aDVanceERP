@@ -96,7 +96,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0], "Venta" }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
@@ -139,7 +139,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
             if (valorFechaDesde <= valorFechaHasta)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0], "Venta" }));
             else {
                 fieldFiltroBusquedaFechaDesde.Value = valorFechaHasta;
 
@@ -152,7 +152,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
             if (valorFechaHasta >= valorFechaDesde && valorFechaHasta <= DateTime.Now)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] , "Venta" }));
             else {
                 fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
 
@@ -167,7 +167,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             if (fieldDatoBusqueda.Visible)
                 fieldDatoBusqueda.Focus();
 
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), string.Empty }));
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), string.Empty, "Venta" }));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;

@@ -88,42 +88,43 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaPago filtroBusqueda, out Dictionary<string, object> parametros, params string[] criteriosBusqueda) {
-            var fechaDesde = criteriosBusqueda.Length == 3 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var fechaHasta = criteriosBusqueda.Length == 3 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            var criterio = criteriosBusqueda.Length == 3 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+            var fechaDesde = criteriosBusqueda.Length == 4 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length == 4 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length == 4 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+            var pagoVenta = criteriosBusqueda.Length == 4 ? criteriosBusqueda[3].Equals("Venta") : criteriosBusqueda.Length > 0 ? criteriosBusqueda[1].Equals("Venta") : criteriosBusqueda[0].Equals("Venta");
 
             var consultaComun = $"""
                 SELECT p.*, v.numero_factura_ticket, v.importe_total as total_compraventa
                 FROM adv__pago p
-                LEFT JOIN adv__compra c ON p.id_compra = c.id_compra
-                LEFT JOIN adv__venta v ON p.id_venta = v.id_venta
-                {(criteriosBusqueda.Length == 3 ? "WHERE p.fecha_pago >= @fecha_desde AND p.fecha_pago <= @fecha_hasta" : string.Empty)}
+                {(pagoVenta ? string.Empty : "LEFT JOIN adv__compra c ON p.id_compra = c.id_compra")}
+                {(pagoVenta ? "LEFT JOIN adv__venta v ON p.id_venta = v.id_venta" : string.Empty)}
+                {(criteriosBusqueda.Length == 4 && filtroBusqueda == FiltroBusquedaPago.Todos ? "WHERE p.fecha_pago >= @fecha_desde AND p.fecha_pago <= @fecha_hasta" : string.Empty)}
                 """;
 
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaPago.Id => $"""
                     {consultaComun}
-                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.id_pago = @id_pago
+                    {(criteriosBusqueda.Length == 4 && filtroBusqueda == FiltroBusquedaPago.Todos ? "AND" : "WHERE")} p.id_pago = @id_pago
                     """,
                 FiltroBusquedaPago.IdCompraVenta => $"""
                     {consultaComun}
-                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} (p.id_compra = @id_compraventa OR p.id_venta = @id_compraventa)
+                    {(criteriosBusqueda.Length == 4 && filtroBusqueda == FiltroBusquedaPago.Todos ? "AND" : "WHERE")} {(pagoVenta ? "p.id_venta = @id_compraventa" : "p.id_compra = @id_compraventa")}
                     """,
                 FiltroBusquedaPago.Estado => $"""
                     {consultaComun}
-                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} p.estado_pago = @estado_pago
+                    {(criteriosBusqueda.Length == 4 && filtroBusqueda == FiltroBusquedaPago.Todos ? "AND" : "WHERE")} p.estado_pago = @estado_pago
                     """,
                 _ => consultaComun
             };
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPago.Id => new Dictionary<string, object> {
-                    { "@id_pago", long.Parse(criterio) },
+                    { "@id_pago", long.TryParse(criterio, out var id) ? id : 0L },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPago.IdCompraVenta => new Dictionary<string, object> {
-                    { "@id_compraventa", long.Parse(criterio) },
+                    { "@id_compraventa", long.TryParse(criterio, out var id) ? id : 0L },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
