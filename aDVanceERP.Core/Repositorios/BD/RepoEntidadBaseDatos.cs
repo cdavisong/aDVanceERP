@@ -1,16 +1,18 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
+
 using Microsoft.Extensions.Caching.Memory;
 
 using MySql.Data.MySqlClient;
+
 using System.Text.RegularExpressions;
 
 namespace aDVanceERP.Core.Repositorios.BD {
     public abstract class RepoEntidadBaseDatos<En, Fb> : IRepoEntidadBaseDatos<En, Fb>
         where En : class, IEntidadBaseDatos, new()
         where Fb : Enum {
-        private readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
+        private static readonly MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
         private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(5);
 
         protected RepoEntidadBaseDatos(string nombreTabla, string columnaId) {
@@ -35,8 +37,8 @@ namespace aDVanceERP.Core.Repositorios.BD {
                 return cachedEntity;
 
             var consulta = $"SELECT * FROM {NombreTabla} WHERE {ColumnaId} = @id LIMIT 1";
-            var parametros = new Dictionary<string, object> { 
-                { "@id", id } 
+            var parametros = new Dictionary<string, object> {
+                { "@id", id }
             };
 
             var entidad = ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearEntidad).FirstOrDefault().entidadBase;
@@ -58,7 +60,7 @@ namespace aDVanceERP.Core.Repositorios.BD {
             return resultados;
         }
 
-        public (int cantidad, List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> resultadosBusqueda) Buscar(Fb? filtroBusqueda, params string[] criteriosBusqueda  ) {
+        public (int cantidad, List<(En entidadBase, List<IEntidadBaseDatos> entidadesExtra)> resultadosBusqueda) Buscar(Fb? filtroBusqueda, params string[] criteriosBusqueda) {
             var comando = GenerarComandoObtener(filtroBusqueda, out var parametros, criteriosBusqueda);
 
             return Buscar(comando, parametros);
@@ -72,7 +74,7 @@ namespace aDVanceERP.Core.Repositorios.BD {
             var parametrosConsulta = parametros ?? new Dictionary<string, object>();
             var consultaCantidad = GenerarConsultaConteo(consulta);
             var consultaResultados = string.IsNullOrEmpty(consulta) ? GenerarComandoObtener(default, out parametrosConsulta, string.Empty) : consulta;
-               
+
             if (Limite > 0) {
                 consultaResultados = consultaResultados.TrimEnd(';');
                 consultaResultados += " LIMIT @limite OFFSET @desplazamiento;";
@@ -101,16 +103,20 @@ namespace aDVanceERP.Core.Repositorios.BD {
         #region CRUD
 
         public virtual long Adicionar(En objeto, params IEntidadBaseDatos[] entidadesExtra) {
-            return ContextoBaseDatos.EjecutarComandoInsert(GenerarComandoAdicionar(objeto, out var parametros, entidadesExtra), parametros);
+            var id = ContextoBaseDatos.EjecutarComandoInsert(GenerarComandoAdicionar(objeto, out var parametros, entidadesExtra), parametros);
+            _cache.Remove($"{NombreTabla}_Id_{id}"); // limpiar si por alguna razón existía
+            return id;
         }
 
         public virtual bool Editar(En objeto, params IEntidadBaseDatos[] entidadesExtra) {
             ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEditar(objeto, out var parametros, entidadesExtra), parametros);
+            _cache.Remove($"{NombreTabla}_Id_{objeto.Id}"); // invalidar entrada editada
             return true;
         }
 
         public virtual bool Eliminar(long id) {
-            ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEliminar(id, out var parametros), parametros );
+            ContextoBaseDatos.EjecutarComandoNoQuery(GenerarComandoEliminar(id, out var parametros), parametros);
+            _cache.Remove($"{NombreTabla}_Id_{id}");
             return true;
         }
 
