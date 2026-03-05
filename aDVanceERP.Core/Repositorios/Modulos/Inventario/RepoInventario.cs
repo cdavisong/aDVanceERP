@@ -20,7 +20,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 id_almacen, 
                 cantidad,
                 costo_promedio,
-                valor_total
+                valor_total 
             ) 
             VALUES (
                 @id_producto,
@@ -148,12 +148,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             ModificarInventario(_producto?.Id ?? 0, almacenOrigen?.Id ?? 0, almacenDestino?.Id ?? 0, cantidad);
         }
 
-        public void ModificarInventario(long idProducto, long idAlmacenOrigen, long idAlmacenDestino, decimal cantidad) {
+        public void ModificarInventario(long idProducto, long idAlmacenOrigen, long idAlmacenDestino, decimal cantidad, decimal? costoUnitarioReal = null) {
             var producto = _producto ?? RepoProducto.Instancia.ObtenerPorId(idProducto);
 
-            var costoUnitario = (producto?.Categoria == CategoriaProducto.ProductoTerminado 
-                ? (producto?.CostoProduccionUnitario ?? 0) 
-                : (producto?.CostoAdquisicionUnitario ?? 0));
+            var costoUnitario = costoUnitarioReal ?? (
+                producto!.Categoria == CategoriaProducto.ProductoTerminado
+                    ? producto.CostoProduccionUnitario
+                    : producto.CostoAdquisicionUnitario
+            );
 
             var consulta = string.Empty;
             var parametros = new Dictionary<string, object>();
@@ -170,6 +172,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     ELSE 0 END
                 WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
                 """;
+
                 parametros.Add("@Cantidad", cantidad);
                 parametros.Add("@CostoUnitario", costoUnitario);
                 parametros.Add("@IdProducto", idProducto);
