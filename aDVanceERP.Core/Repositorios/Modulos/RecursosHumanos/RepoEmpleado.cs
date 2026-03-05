@@ -127,10 +127,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaEmpleado.Id => new Dictionary<string, object> {
-                        { "@id_empleado", Convert.ToInt64(criterio) }
+                        { "@id_empleado", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                     },
                 FiltroBusquedaEmpleado.IdPersona => new Dictionary<string, object> {
-                        { "@id_persona", Convert.ToInt64(criterio) }
+                        { "@id_persona", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                     },
                 FiltroBusquedaEmpleado.CodigoEmpleado => new Dictionary<string, object> {
                         { "@codigo_empleado", criterio }

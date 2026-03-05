@@ -119,12 +119,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPago.Id => new Dictionary<string, object> {
-                    { "@id_pago", long.TryParse(criterio, out var id) ? id : 0L },
+                    { "@id_pago", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPago.IdCompraVenta => new Dictionary<string, object> {
-                    { "@id_compraventa", long.TryParse(criterio, out var id) ? id : 0L },
+                    { "@id_compraventa", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },

@@ -110,7 +110,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
             parametros = filtroBusqueda switch
             {
                 FiltroBusquedaTelefonoContacto.Id => new Dictionary<string, object> {
-                    { "@id_telefono_contacto", Convert.ToInt64(criterio) }
+                    { "@id_telefono_contacto", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                 },
                 FiltroBusquedaTelefonoContacto.PrefijoPais => new Dictionary<string, object> {
                     { "@prefijo", criterio }
@@ -122,7 +122,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
                     { "@categoria", criterio }
                 },
                 FiltroBusquedaTelefonoContacto.IdPersona => new Dictionary<string, object> {
-                    { "@id_persona", Convert.ToInt64(criterio) }
+                    { "@id_persona", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                 },
                 _ => new Dictionary<string, object>()
             };

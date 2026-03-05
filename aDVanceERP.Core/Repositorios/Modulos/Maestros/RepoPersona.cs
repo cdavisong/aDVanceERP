@@ -108,7 +108,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPersona.Id => new Dictionary<string, object> {
-                    { "@id_persona", Convert.ToInt64(criterio) }
+                    { "@id_persona", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                 },
                 FiltroBusquedaPersona.NombreCompleto => new Dictionary<string, object> {
                     { "@nombre_completo", $"%{criterio}%" }

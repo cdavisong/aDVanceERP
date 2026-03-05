@@ -212,16 +212,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaCompra.Id => new Dictionary<string, object> {
-                    { "@id_compra", long.Parse(criterio) }
+                    { "@id_compra", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                 },
                 FiltroBusquedaCompra.Codigo => new Dictionary<string, object> {
                     { "@codigo", criterio }
                 },
                 FiltroBusquedaCompra.IdProveedor => new Dictionary<string, object> {
-                    { "@id_proveedor", long.Parse(criterio) }
+                    { "@id_proveedor", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                 },
                 FiltroBusquedaCompra.IdSolicitudCompra => new Dictionary<string, object> {
-                    { "@id_solicitud_compra", long.Parse(criterio) }
+                    { "@id_solicitud_compra", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) } ,
                 },
                 FiltroBusquedaCompra.Estado => new Dictionary<string, object> {
                     { "@estado", criterio }

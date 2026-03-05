@@ -161,34 +161,34 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var whereClause = condiciones.Count > 0 ? $"WHERE {string.Join(" AND ", condiciones)}" : "";
             var consultaComun = $"""
                 SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-            FROM adv__producto p
-            {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-            """;
+                FROM adv__producto p
+                {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
+                """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaProducto.Id => $"""
                     {consultaComun}
-                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                p.id_producto = @id;
-                """,
+                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                    p.id_producto = @id;
+                    """,
                 FiltroBusquedaProducto.Codigo => $"""
                     {consultaComun}
-                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                LOWER(p.codigo) LIKE LOWER(@codigo);
-                """,
+                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                    LOWER(p.codigo) LIKE LOWER(@codigo);
+                    """,
                 FiltroBusquedaProducto.Nombre => $"""
                     {consultaComun}
-                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                LOWER(p.nombre) LIKE LOWER(@nombre);
-                """,
+                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                    LOWER(p.nombre) LIKE LOWER(@nombre);
+                    """,
                 FiltroBusquedaProducto.Descripcion => $"""
                     {consultaComun}
-                {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                LOWER(p.descripcion) LIKE LOWER(@descripcion);
-                """,
+                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                    LOWER(p.descripcion) LIKE LOWER(@descripcion);
+                    """,
                 _ => $"""
                     {consultaComun}
-                {whereClause};
-                """
+                    {whereClause};
+                    """
             };
 
             parametros = filtroBusqueda switch {

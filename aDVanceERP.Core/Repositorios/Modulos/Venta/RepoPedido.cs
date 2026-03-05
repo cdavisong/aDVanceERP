@@ -140,7 +140,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaPedido.Id => new Dictionary<string, object> {
-                    { "@id_pedido", long.Parse(criterio) },
+                    { "@id_pedido", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
@@ -152,7 +152,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
                 },
                 FiltroBusquedaPedido.IdCliente => new Dictionary<string, object> {
-                    { "@id_cliente", long.Parse(criterio) },
+                    { "@id_cliente", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
                     { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
