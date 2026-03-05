@@ -1,4 +1,6 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Repositorios.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -50,33 +52,39 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             if (!EntidadCorrecta())
                 return;
 
-            var entidad = ObtenerEntidadDesdeVista();
+            try {
+                var entidad = ObtenerEntidadDesdeVista();
 
-            if (entidad == null)
-                return;
+                if (entidad == null)
+                    return;
 
-            if (Vista.ModoEdicion) {
-                if (_entidad != null) {
-                    entidad.Id = _entidad.Id;
+                if (Vista.ModoEdicion) {
+                    if (_entidad != null) {
+                        entidad.Id = _entidad.Id;
 
-                    Repositorio.Editar(entidad);
-                }            
-            } else
-                entidad.Id = Repositorio.Adicionar(entidad);
+                        Repositorio.Editar(entidad);
+                    }
+                } else
+                    entidad.Id = Repositorio.Adicionar(entidad);
 
-            // Actualizar la entidad global
-            _entidad = entidad;
+                // Actualizar la entidad global
+                _entidad = entidad;
 
-            RegistroEdicionAuxiliar(_repositorio, entidad.Id);
+                RegistroEdicionAuxiliar(_repositorio, entidad.Id);
 
-            EntidadRegistradaActualizada?.Invoke(sender, e);
-            Salir?.Invoke(sender, e);
+                EntidadRegistradaActualizada?.Invoke(sender, e);
+                Salir?.Invoke(sender, e);
 
-            Vista.ModoEdicion = false;
-            Vista.Ocultar();
+                Vista.ModoEdicion = false;
+                Vista.Ocultar();
 
-            // Limpiar entidad después de la edición o registro 
-            _entidad = null;
+                // Limpiar entidad después de la edición o registro 
+                _entidad = null;
+            } catch (ArgumentException ex) {
+                CentroNotificaciones.MostrarNotificacion(ex.Message, TipoNotificacionEnum.Advertencia);
+            } catch (Exception ex) {
+                CentroNotificaciones.MostrarNotificacion($"Error al registrar o editar la entidad: {ex.Message}", TipoNotificacionEnum.Error);
+            }
         }
 
         private void OnSalir(object? sender, EventArgs e) {
