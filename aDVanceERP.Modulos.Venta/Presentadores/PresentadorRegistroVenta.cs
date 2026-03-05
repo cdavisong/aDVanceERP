@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
@@ -159,6 +160,38 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Actualizar el método de pago principal de la venta
             repositorio.ActualizarMetodoPagoPrincipal(id);
+        }
+
+        protected override bool EntidadCorrecta() {
+            var almacen = RepoAlmacen.Instancia
+                .Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen)
+                .resultadosBusqueda.FirstOrDefault().entidadBase;
+
+            if (almacen == null) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "El almacén de origen no es válido.", TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            foreach (var item in Vista.Carrito) {
+                var inventario = RepoInventario.Instancia
+                    .Buscar(FiltroBusquedaInventario.IdProducto, item.Key.ToString())
+                    .resultadosBusqueda
+                    .FirstOrDefault(i => i.entidadBase.IdAlmacen == almacen.Id).entidadBase;
+
+                var stockDisponible = inventario?.Cantidad ?? 0;
+
+                if (item.Value.Cantidad > stockDisponible) {
+                    var producto = RepoProducto.Instancia.ObtenerPorId(item.Key);
+                    CentroNotificaciones.MostrarNotificacion(
+                        $"Stock insuficiente para '{producto?.Nombre}'. " +
+                        $"Disponible: {stockDisponible}, solicitado: {item.Value.Cantidad}.",
+                        TipoNotificacionEnum.Advertencia);
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
