@@ -45,14 +45,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoEditar(Modelos.Modulos.Inventario.Inventario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var consulta = $"""
                 UPDATE adv__inventario 
-            SET 
-                id_producto = @id_producto, 
-                id_almacen = @id_almacen, 
-                cantidad = @cantidad,
-                costo_promedio = @costo_promedio,
-                valor_total = @valor_total
-            WHERE id_inventario = @id_inventario;
-            """;
+                SET 
+                    id_producto = @id_producto, 
+                    id_almacen = @id_almacen, 
+                    cantidad = @cantidad,
+                    costo_promedio = @costo_promedio,
+                    valor_total = @valor_total
+                WHERE id_inventario = @id_inventario;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id_producto", objeto.IdProducto },
@@ -69,8 +69,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 DELETE FROM adv__inventario 
-            WHERE id_inventario = @id_inventario;
-            """;
+                WHERE id_inventario = @id_inventario;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id_inventario", id }
@@ -148,6 +148,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             ModificarInventario(_producto?.Id ?? 0, almacenOrigen?.Id ?? 0, almacenDestino?.Id ?? 0, cantidad);
         }
 
+        /// <summary>
+        /// Si viene costo real (recepción de compra), usar costoUnitarioReal.
+        /// Si no (venta, traslado), usar costo del catálogo de producto.
+        /// </summary>
         public void ModificarInventario(long idProducto, long idAlmacenOrigen, long idAlmacenDestino, decimal cantidad, decimal? costoUnitarioReal = null) {
             var producto = _producto ?? RepoProducto.Instancia.ObtenerPorId(idProducto);
 
@@ -165,8 +169,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 consulta = """
                 UPDATE adv__inventario
                 SET 
-                  cantidad = cantidad - @Cantidad,
                   valor_total = valor_total - (@Cantidad * @CostoUnitario),
+                  cantidad = cantidad - @Cantidad,
                   costo_promedio = CASE WHEN (cantidad - @Cantidad) > 0 
                     THEN (valor_total - (@Cantidad * @CostoUnitario)) / (cantidad - @Cantidad)
                     ELSE 0 END
@@ -186,10 +190,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             if (idAlmacenDestino > 0) {
                 // Verificar primeramente si el producto existe en el almacén de destino
                 consulta = """
-                SELECT COUNT(*)
-                FROM adv__inventario
-                WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino;
-                """;
+                    SELECT COUNT(*)
+                    FROM adv__inventario
+                    WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino;
+                    """;
+
                 parametros.Add("@IdProducto", idProducto);
                 parametros.Add("@IdAlmacenDestino", idAlmacenDestino);
 
@@ -198,13 +203,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
                 if (count > 0) {
                     consulta = """
-                    UPDATE adv__inventario
-                    SET 
-                      cantidad = cantidad + @Cantidad,
-                      valor_total = valor_total + (@Cantidad * @CostoUnitario),
-                      costo_promedio = valor_total / cantidad
-                    WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino;
-                    """;
+                        UPDATE adv__inventario
+                        SET 
+                            valor_total = valor_total + (@Cantidad * @CostoUnitario),
+                            cantidad = cantidad + @Cantidad,
+                            costo_promedio = (valor_total + (@Cantidad * @CostoUnitario)) / (cantidad + @Cantidad)
+                        WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino
+                        """;
+
                     parametros.Add("@Cantidad", cantidad);
                     parametros.Add("@CostoUnitario", costoUnitario);
                     parametros.Add("@IdProducto", idProducto);

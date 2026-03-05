@@ -158,15 +158,25 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         }
 
         protected virtual void OnEliminarEntidad(object? sender, En entidad) {
-            if (entidad != null)
-                try {
-                    Repositorio.Eliminar(entidad.Id);
-                    Vista.PaginaActual = 1;
+            if (entidad == null)
+                return;
 
-                    ActualizarResultadosBusqueda();
-                } catch (Exception ex) {
-                    throw new Exception($"Error al eliminar el objeto: {ex.Message}");
-                }
+            var respuesta = CentroNotificaciones.MostrarMensaje(
+                $"¿Está seguro de que desea eliminar este registro? Esta acción no se puede deshacer.",
+                TipoMensaje.Advertencia,
+                BotonesMensaje.ContinuarAbortar);
+
+            if (respuesta != DialogResult.OK) 
+                return;
+
+            try {
+                Repositorio.Eliminar(entidad.Id);
+                Vista.PaginaActual = 1;
+
+                ActualizarResultadosBusqueda();
+            } catch (Exception ex) {
+                throw new Exception($"Error al eliminar el objeto: {ex.Message}");
+            }
         }
 
         private void OnBuscarEntidad(object? sender, (Fb filtro, string[] criterios) e) {
