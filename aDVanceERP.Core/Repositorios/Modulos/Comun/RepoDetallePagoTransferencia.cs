@@ -29,7 +29,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
 
             parametros = new Dictionary<string, object> {
                 { "@id_pago", entidad.IdPago },
-                { "@numero_telefono_remitente", entidad.NumeroTelefonoRemitente },
+                { "@numero_telefono_remitente", entidad.NumeroTelefonoConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
             };
@@ -51,7 +51,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             parametros = new Dictionary<string, object> {
                 { "@id_detalle", entidad.Id },
                 { "@id_pago", entidad.IdPago },
-                { "@numero_telefono_remitente", entidad.NumeroTelefonoRemitente },
+                { "@numero_telefono_remitente", entidad.NumeroTelefonoConfirmacion },
                 { "@numero_transaccion", entidad.NumeroTransaccion },
                 { "@monto_transferencia", entidad.MontoTransferencia }
             };
@@ -117,7 +117,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             var detalle = new DetallePagoTransferencia {
                 Id = Convert.ToInt64(lector["id_detalle_pago_transferencia"]),
                 IdPago = Convert.ToInt64(lector["id_pago"]),
-                NumeroTelefonoRemitente = Convert.ToString(lector["numero_telefono_remitente"]) ?? "",
+                NumeroTelefonoConfirmacion = Convert.ToString(lector["numero_telefono_remitente"]) ?? "",
                 NumeroTransaccion = Convert.ToString(lector["numero_transaccion"]) ?? "",
                 MontoTransferencia = Convert.ToDecimal(lector["monto_transferencia"], CultureInfo.InvariantCulture)
             };

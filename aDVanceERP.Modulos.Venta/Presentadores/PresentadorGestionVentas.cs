@@ -193,7 +193,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                                             var dt = new DetallePagoTransferencia {
                                                 Id = 0,
                                                 IdPago = idPago,
-                                                NumeroTelefonoRemitente = pagoExp.DetalleTransferencia.NumeroConfirmacion,
+                                                NumeroTelefonoConfirmacion = pagoExp.DetalleTransferencia.NumeroConfirmacion,
                                                 NumeroTransaccion = pagoExp.DetalleTransferencia.NumeroTransaccion,
                                                 MontoTransferencia = pagoExp.MontoPagado
                                             };

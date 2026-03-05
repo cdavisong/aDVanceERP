@@ -10,14 +10,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Comun {
                                        string numeroTransaccion, decimal montoTransferencia) {
             Id = id;
             IdPago = idPago;
-            NumeroTelefonoRemitente = numeroTelefonoRemitente;
+            NumeroTelefonoConfirmacion = numeroTelefonoRemitente;
             NumeroTransaccion = numeroTransaccion;
             MontoTransferencia = montoTransferencia;
         }
 
         public long Id { get; set; }
         public long IdPago { get; set; }
-        public string NumeroTelefonoRemitente { get; set; }
+        public string NumeroTelefonoConfirmacion { get; set; }
         public string NumeroTransaccion { get; set; }
         public decimal MontoTransferencia { get; set; }
     }

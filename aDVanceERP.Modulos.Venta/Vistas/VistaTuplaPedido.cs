@@ -4,7 +4,6 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 
 using System.Globalization;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
-using aDVanceERP.Core.Repositorios.Modulos.Venta;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaPedido : Form, IVistaTuplaPedido {
@@ -132,12 +131,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 if (EstadoPedido == EstadoPedidoEnum.Retirado || EstadoPedido == EstadoPedidoEnum.Cancelado)
                     return;
 
-                btnConfirmado.Visible = EstadoPedido == EstadoPedidoEnum.Pendiente;
+                btnEstadoConfirmado.Visible = EstadoPedido == EstadoPedidoEnum.Pendiente;
                 btnEstadoPreparando.Visible = EstadoPedido == EstadoPedidoEnum.Confirmado;
                 btnEstadoListoParaRetirar.Visible = EstadoPedido == EstadoPedidoEnum.Preparando;
                 fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
             };
-            btnConfirmado.Click += delegate (object? sender, EventArgs e) { 
+            btnEstadoConfirmado.Click += delegate (object? sender, EventArgs e) { 
                 EstadoPedido = EstadoPedidoEnum.Confirmado;
                 CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
             };
@@ -149,6 +148,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 EstadoPedido = EstadoPedidoEnum.ListoParaRetirar;
                 CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));
             };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
             btnCancelar.Click += delegate (object? sender, EventArgs e) { 
                 EstadoPedido = EstadoPedidoEnum.Cancelado;
                 CambioEstadoPedido?.Invoke(this, (Id, EstadoPedido));

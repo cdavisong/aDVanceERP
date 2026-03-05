@@ -18,7 +18,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Vistas\VistaGestionSolicitudesCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaGestionPagos.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaGestionProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaGestionCompras.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaMenuMaestros.cs">
@@ -27,10 +36,34 @@
     <Compile Update="Vistas\VistaMenuCompra.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaRegistroPago.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroPagoEfectivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroPagoTransferencia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaRegistroSolicitudCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaRegistroProveedor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Vistas\VistaTuplaCarrito.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaSolicitudCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaPago.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaTuplaProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Vistas\VistaTuplaCompra.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

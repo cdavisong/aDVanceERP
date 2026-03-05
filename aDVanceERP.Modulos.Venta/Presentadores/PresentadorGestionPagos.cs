@@ -29,13 +29,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 return;
             }
 
-            AgregadorEventos.Publicar("MostrarVistaRegistroPago", string.Empty);
+            AgregadorEventos.Publicar("MostrarVistaRegistroPagoVenta", string.Empty);
         }
 
         private void OnEditarPago(object? sender, Pago e) {
             _ventasPendientesPago = RepoVenta.Instancia.ObtenerVentasPendientesDePago();
 
-            AgregadorEventos.Publicar("MostrarVistaEdicionPago", AgregadorEventos.SerializarPayload(e));
+            AgregadorEventos.Publicar("MostrarVistaEdicionPagoVenta", AgregadorEventos.SerializarPayload(e));
         }
 
         private void OnMostrarVistaGestionPagosVenta(string obj) {
@@ -62,7 +62,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.IdVenta = entidad.IdVenta;
             presentadorTupla.Vista.NumeroFacturaVenta = venta?.NumeroFacturaTicket ?? "-";
             presentadorTupla.Vista.MetodoPago = entidad.MetodoPago;
-            presentadorTupla.Vista.NumeroTelefonoRemitente = detallePagoTransferencia?.NumeroTelefonoRemitente ?? string.Empty;
+            presentadorTupla.Vista.NumeroTelefonoRemitente = detallePagoTransferencia?.NumeroTelefonoConfirmacion ?? string.Empty;
             presentadorTupla.Vista.NumeroTransaccion = detallePagoTransferencia?.NumeroTransaccion ?? string.Empty;
             presentadorTupla.Vista.MontoPagado = entidad.MontoPagado;
             presentadorTupla.Vista.FechaPagoCliente = entidad.FechaPago ?? DateTime.MinValue;

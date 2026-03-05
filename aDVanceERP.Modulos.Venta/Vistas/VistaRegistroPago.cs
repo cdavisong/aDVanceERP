@@ -14,7 +14,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public VistaRegistroPago() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaRegistroPago);
+            NombreVista = $"{nameof(VistaRegistroPago)}Venta";
 
             Inicializar();
             InicializarPaisesPrefijos();

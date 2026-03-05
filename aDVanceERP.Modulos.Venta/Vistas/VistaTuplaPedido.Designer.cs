@@ -37,7 +37,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
             menuEstados = new ContextMenuStrip(components);
-            btnConfirmado = new ToolStripMenuItem();
+            btnEstadoConfirmado = new ToolStripMenuItem();
             btnEstadoPreparando = new ToolStripMenuItem();
             btnEstadoListoParaRetirar = new ToolStripMenuItem();
             fieldFechaEntrega = new Label();
@@ -120,21 +120,21 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // menuEstados
             // 
             menuEstados.BackColor = Color.White;
-            menuEstados.Items.AddRange(new ToolStripItem[] { btnConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar });
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar });
             menuEstados.Name = "menuGastoIndirecto";
             menuEstados.Size = new Size(190, 104);
             // 
             // btnConfirmado
             // 
-            btnConfirmado.BackColor = Color.White;
-            btnConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
-            btnConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
-            btnConfirmado.ImageScaling = ToolStripItemImageScaling.None;
-            btnConfirmado.Name = "btnConfirmado";
-            btnConfirmado.Size = new Size(189, 26);
-            btnConfirmado.Text = "Confirmado";
-            btnConfirmado.TextAlign = ContentAlignment.MiddleLeft;
+            btnEstadoConfirmado.BackColor = Color.White;
+            btnEstadoConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEstadoConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
+            btnEstadoConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoConfirmado.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoConfirmado.Name = "btnConfirmado";
+            btnEstadoConfirmado.Size = new Size(189, 26);
+            btnEstadoConfirmado.Text = "Confirmado";
+            btnEstadoConfirmado.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnEstadoPreparando
             // 
@@ -343,7 +343,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Label fieldEstado;
         private Guna2Button btnEditar;
         private ContextMenuStrip menuEstados;
-        private ToolStripMenuItem btnConfirmado;
+        private ToolStripMenuItem btnEstadoConfirmado;
         private ToolStripMenuItem btnEstadoPreparando;
         private ToolStripMenuItem btnEstadoListoParaRetirar;
     }

@@ -12,12 +12,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         protected override string GenerarComandoAdicionar(CuentaUsuario objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidades) {
             var consulta = $"""
                 INSERT INTO adv__cuenta_usuario (
+                id_persona,
                 nombre, 
                 password_hash, 
                 password_salt,
                 administrador, 
                 aprobado
             ) VALUES (
+                @id_persona,
                 @nombre, 
                 @password_hash, 
                 @password_salt, 
@@ -27,6 +29,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
             """;
 
             parametros = new Dictionary<string, object> {
+                { "@id_persona", objeto.IdPersona },
                 { "@nombre", objeto.Nombre },
                 { "@password_hash", objeto.PasswordHash },
                 { "@password_salt", objeto.PasswordSalt },
@@ -41,12 +44,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
             var consulta = $"""
                 UPDATE adv__cuenta_usuario 
                 SET 
+                    id_persona = @id_persona,
                     nombre = @nombre,
                     aprobado = @aprobado 
                 WHERE id_cuenta_usuario = @id;
                 """;
 
             parametros = new Dictionary<string, object> {
+                { "@id_persona", objeto.IdPersona  },
                 { "@nombre", objeto.Nombre },
                 { "@aprobado", Convert.ToInt32(objeto.Aprobado) },
                 { "@id", objeto.Id }
@@ -95,6 +100,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         protected override (CuentaUsuario, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
             return (new CuentaUsuario(
                 id: Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),
+                idPersona: Convert.ToInt64(lectorDatos["id_persona"]),
                 nombre: Convert.ToString(lectorDatos["nombre"]),
                 passwordHash: Convert.ToString(lectorDatos["password_hash"]),
                 passwordSalt: Convert.ToString(lectorDatos["password_salt"])) {

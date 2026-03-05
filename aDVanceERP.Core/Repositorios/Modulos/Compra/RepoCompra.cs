@@ -211,28 +211,22 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             };
 
             parametros = filtroBusqueda switch {
-                FiltroBusquedaCompra.Id => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.Id => new Dictionary<string, object> {
                     { "@id_compra", long.Parse(criterio) }
                 },
-                FiltroBusquedaCompra.Codigo => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.Codigo => new Dictionary<string, object> {
                     { "@codigo", criterio }
                 },
-                FiltroBusquedaCompra.IdProveedor => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.IdProveedor => new Dictionary<string, object> {
                     { "@id_proveedor", long.Parse(criterio) }
                 },
-                FiltroBusquedaCompra.IdSolicitudCompra => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.IdSolicitudCompra => new Dictionary<string, object> {
                     { "@id_solicitud_compra", long.Parse(criterio) }
                 },
-                FiltroBusquedaCompra.Estado => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.Estado => new Dictionary<string, object> {
                     { "@estado", criterio }
                 },
-                FiltroBusquedaCompra.FechaOrden => new Dictionary<string, object>
-                {
+                FiltroBusquedaCompra.FechaOrden => new Dictionary<string, object> {
                     { "@fecha_orden", criterio }
                 },
                 _ => new Dictionary<string, object>()
@@ -256,7 +250,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 Subtotal = Convert.ToDecimal(lector["subtotal"]),
                 ImpuestoTotal = Convert.ToDecimal(lector["impuesto_total"]),
                 TotalCompra = Convert.ToDecimal(lector["total_compra"]),
-                EstadoCompra = Convert.ToString(lector["estado_compra"]) ?? "Borrador",
+                EstadoCompra = Enum.Parse<EstadoCompraEnum>(Convert.ToString(lector["estado_compra"]) ?? "Borrador"),
                 FechaAprobacion = lector["fecha_aprobacion"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_aprobacion"]) : null,
                 AprobadoPor = lector["aprobado_por"] != DBNull.Value ? Convert.ToInt64(lector["aprobado_por"]) : null,
                 Observaciones = lector["observaciones"] != DBNull.Value ? Convert.ToString(lector["observaciones"]) ?? "N/A" : "N/A",
@@ -343,8 +337,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 WHERE id_compra = @id_compra 
                   AND estado_compra = 'Aprobada'
                 """;
-            var parametros = new Dictionary<string, object>
-            {
+            var parametros = new Dictionary<string, object> {
                 { "@id_compra", idCompra }
             };
 
@@ -359,8 +352,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 WHERE id_compra = @id_compra 
                   AND estado_compra NOT IN ('Recibida_Completa', 'Facturada')
                 """;
-            var parametros = new Dictionary<string, object>
-            {
+            var parametros = new Dictionary<string, object> {
                 { "@id_compra", idCompra },
                 { "@motivo", motivo }
             };

@@ -1,11 +1,12 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Compra {
     public sealed class Compra : IEntidadBaseDatos {
         public Compra() {
             Codigo = "N/A";
             CondicionesPago = "N/A";
-            EstadoCompra = "Borrador";
             Observaciones = "N/A";
             Activo = true;
             FechaOrden = DateTime.UtcNow;
@@ -28,7 +29,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             decimal subtotal,
             decimal impuestoTotal,
             decimal totalCompra,
-            string estadoCompra,
+            EstadoCompraEnum estadoCompra,
             DateTime? fechaAprobacion,
             long? aprobadoPor,
             string observaciones,
@@ -66,7 +67,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public decimal Subtotal { get; set; }
         public decimal ImpuestoTotal { get; set; }
         public decimal TotalCompra { get; set; }
-        public string EstadoCompra { get; set; } // Borrador, Pendiente_Aprobacion, Aprobada, Enviada, Recibida_Parcial, Recibida_Completa, Cancelada, Facturada
+        public EstadoCompraEnum EstadoCompra { get; set; }
         public DateTime? FechaAprobacion { get; set; }
         public long? AprobadoPor { get; set; }
         public string Observaciones { get; set; }
@@ -77,12 +78,15 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public List<RecepcionCompra> Recepciones { get; set; } = new();
     }
 
-    public enum EstadoCompra {
+    public enum EstadoCompraEnum {
         Borrador,
+        [Display(Name = "Pendiente de aprobación")]
         Pendiente_Aprobacion,
         Aprobada,
         Enviada,
+        [Display(Name = "Recibida parcialmente")]
         Recibida_Parcial,
+        [Display(Name = "Recibida completamente")]
         Recibida_Completa,
         Cancelada,
         Facturada

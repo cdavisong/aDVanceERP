@@ -11,7 +11,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public VistaGestionPagos() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaGestionPagos);
+            NombreVista = $"{nameof(VistaGestionPagos)}Venta";
             PanelCentral = new RepoVistaBase(contenedorVistas);
 
             Inicializar();

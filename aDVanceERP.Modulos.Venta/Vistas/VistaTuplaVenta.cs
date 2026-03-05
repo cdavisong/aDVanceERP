@@ -1,10 +1,7 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
-using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;

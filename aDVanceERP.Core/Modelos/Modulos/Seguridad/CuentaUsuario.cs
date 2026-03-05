@@ -7,6 +7,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
     public class CuentaUsuario : IEntidadBaseDatos {
         public CuentaUsuario() {
             Id = 0;
+            IdPersona = 0;
             Nombre = string.Empty;
             PasswordHash = null;
             PasswordSalt = null;
@@ -14,8 +15,9 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
             Aprobado = false;
         }
 
-        public CuentaUsuario(long id, string nombre, string passwordHash, string passwordSalt) {
+        public CuentaUsuario(long id, long idPersona, string nombre, string passwordHash, string passwordSalt) {
             Id = id;
+            IdPersona = idPersona;
             Nombre = nombre;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
@@ -24,6 +26,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
         }
 
         public long Id { get; set; }
+        public long IdPersona { get; set; }
         public string Nombre { get; set; }
         public string? PasswordHash { get; set; }
         public string? PasswordSalt { get; set; }

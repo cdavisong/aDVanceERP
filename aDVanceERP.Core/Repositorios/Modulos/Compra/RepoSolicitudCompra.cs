@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
@@ -130,24 +131,19 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             };
 
             parametros = filtroBusqueda switch {
-                FiltroBusquedaSolicitudCompra.Id => new Dictionary<string, object>
-                {
+                FiltroBusquedaSolicitudCompra.Id => new Dictionary<string, object> {
                     { "@id_solicitud_compra", long.Parse(criterio) }
                 },
-                FiltroBusquedaSolicitudCompra.Codigo => new Dictionary<string, object>
-                {
+                FiltroBusquedaSolicitudCompra.Codigo => new Dictionary<string, object> {
                     { "@codigo", criterio }
                 },
-                FiltroBusquedaSolicitudCompra.IdSolicitante => new Dictionary<string, object>
-                {
+                FiltroBusquedaSolicitudCompra.IdSolicitante => new Dictionary<string, object> {
                     { "@id_solicitante", long.Parse(criterio) }
                 },
-                FiltroBusquedaSolicitudCompra.Estado => new Dictionary<string, object>
-                {
+                FiltroBusquedaSolicitudCompra.Estado => new Dictionary<string, object> {
                     { "@estado", criterio }
                 },
-                FiltroBusquedaSolicitudCompra.FechaSolicitud => new Dictionary<string, object>
-                {
+                FiltroBusquedaSolicitudCompra.FechaSolicitud => new Dictionary<string, object> {
                     { "@fecha_solicitud", criterio }
                 },
                 _ => new Dictionary<string, object>()
@@ -164,7 +160,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 FechaSolicitud = Convert.ToDateTime(lector["fecha_solicitud"]),
                 FechaRequerida = lector["fecha_requerida"] != DBNull.Value ? Convert.ToDateTime(lector["fecha_requerida"]) : null,
                 Observaciones = lector["observaciones"] != DBNull.Value ? Convert.ToString(lector["observaciones"]) ?? "N/A" : "N/A",
-                Estado = Convert.ToString(lector["estado"]) ?? "Borrador",
+                Estado = Enum.Parse<EstadoSolicitudCompraEnum>(Convert.ToString(lector["estado"]) ?? "Borrador"),
                 Activo = Convert.ToBoolean(lector["activo"])
             };
 

@@ -10,8 +10,8 @@ using aDVanceERP.Modulos.Venta.Interfaces;
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorRegistroPago : PresentadorVistaRegistro<IVistaRegistroPago, Pago, RepoPago, FiltroBusquedaPago> {
         public PresentadorRegistroPago(IVistaRegistroPago vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroPago", OnMostrarVistaRegistroPago);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionPago", OnMostrarVistaEdicionPago);
+            AgregadorEventos.Suscribir("MostrarVistaRegistroPagoVenta", OnMostrarVistaRegistroPago);
+            AgregadorEventos.Suscribir("MostrarVistaEdicionPagoVenta", OnMostrarVistaEdicionPago);
         }
 
         private void OnMostrarVistaRegistroPago(string obj) {
@@ -77,7 +77,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 var detallePagoTransferencia = new DetallePagoTransferencia() {
                     Id = 0,
                     IdPago = id,
-                    NumeroTelefonoRemitente = Vista.NumeroTelefonoRemitente,
+                    NumeroTelefonoConfirmacion = Vista.NumeroTelefonoRemitente,
                     NumeroTransaccion = Vista.NumeroTransaccion,
                     MontoTransferencia = Vista.MontoPagado
                 };

@@ -48,6 +48,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             
             return new CuentaUsuario(
                 Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                0, // IdPersona se asignará posteriormente
                 Vista.NombreUsuario,
                 passwordSeguro.hash,
                 passwordSeguro.salt

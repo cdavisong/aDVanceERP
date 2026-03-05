@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Compra.Presentadores;
@@ -14,6 +13,10 @@ namespace aDVanceERP.Modulos.Compra {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuCompra _menuCompra = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
+        private PresentadorGestionSolicitudesCompra _solicitudesCompra = null!;
+        private PresentadorGestionCompras _compras = null!;
+        private PresentadorGestionPagos _pagos = null!;
+        private PresentadorRegistroPago _registroPago = null!;
         private PresentadorGestionProveedores _proveedores = null!;
         private PresentadorRegistroProveedor _registroProveedor = null!;
 
@@ -40,6 +43,14 @@ namespace aDVanceERP.Modulos.Compra {
             _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
             // Contenedor de módulos
+            // Solicitudes de compra
+            _solicitudesCompra = new PresentadorGestionSolicitudesCompra(new VistaGestionSolicitudesCompra());
+            // Compras
+            _compras = new PresentadorGestionCompras(new VistaGestionCompras());
+            // Pagos
+            _pagos = new PresentadorGestionPagos(new VistaGestionPagos());
+            _registroPago = new PresentadorRegistroPago(new VistaRegistroPago());
+            _registroPago.EntidadRegistradaActualizada += (s, e) => _pagos.ActualizarResultadosBusqueda();
             // Proveedores
             _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
             _registroProveedor = new PresentadorRegistroProveedor(new VistaRegistroProveedor());
@@ -57,6 +68,13 @@ namespace aDVanceERP.Modulos.Compra {
             _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
             // Contenedor de módulos
+            // Solicitudes de compra
+            _principal.Modulos.Vista.PanelCentral.Registrar(_solicitudesCompra.Vista);
+            // Compras
+            _principal.Modulos.Vista.PanelCentral.Registrar(_compras.Vista);
+            // Pagos
+            _principal.Modulos.Vista.PanelCentral.Registrar(_pagos.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroPago.Vista);
             // Proveedores
             _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroProveedor.Vista);

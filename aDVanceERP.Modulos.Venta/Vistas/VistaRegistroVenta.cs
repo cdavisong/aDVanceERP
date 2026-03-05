@@ -251,7 +251,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     var detallePagoTransferencia = new DetallePagoTransferencia() {
                         Id = 0,
                         IdPago = 0, // Se asignará al registrar el pago
-                        NumeroTelefonoRemitente = vistaPagoTransferencia.NumeroConfirmacion,
+                        NumeroTelefonoConfirmacion = vistaPagoTransferencia.NumeroConfirmacion,
                         NumeroTransaccion = vistaPagoTransferencia.NumeroTransaccion,
                         MontoTransferencia = vistaPagoTransferencia.MontoPagado
                     };

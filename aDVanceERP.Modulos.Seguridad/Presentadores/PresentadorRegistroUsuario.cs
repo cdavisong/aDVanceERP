@@ -21,9 +21,9 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             Vista.Mostrar();
         }
 
-        public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Seguridad.CuentaUsuario objeto) { }
+        public override void PopularVistaDesdeEntidad(CuentaUsuario objeto) { }
 
-        protected override Core.Modelos.Modulos.Seguridad.CuentaUsuario? ObtenerEntidadDesdeVista() {
+        protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para registrarse en el sistema. Por favor, rellene los campos correctamente.",
@@ -36,6 +36,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
             var usuario = new CuentaUsuario(
                 Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                0, // IdPersona se asignará posteriormente
                 Vista.NombreUsuario,
                 passwordSeguro.hash,
                 passwordSeguro.salt

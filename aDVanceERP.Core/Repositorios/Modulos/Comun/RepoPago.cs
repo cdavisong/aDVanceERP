@@ -94,7 +94,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             var pagoVenta = criteriosBusqueda.Length == 4 ? criteriosBusqueda[3].Equals("Venta") : criteriosBusqueda.Length > 0 ? criteriosBusqueda[1].Equals("Venta") : criteriosBusqueda[0].Equals("Venta");
 
             var consultaComun = $"""
-                SELECT p.*, v.numero_factura_ticket, v.importe_total as total_compraventa
+                SELECT p.*, {(pagoVenta ? "v.numero_factura_ticket, v.importe_total" : "c.codigo, c.total_compra")} as total_compraventa
                 FROM adv__pago p
                 {(pagoVenta ? string.Empty : "LEFT JOIN adv__compra c ON p.id_compra = c.id_compra")}
                 {(pagoVenta ? "LEFT JOIN adv__venta v ON p.id_venta = v.id_venta" : string.Empty)}
@@ -156,11 +156,17 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
 
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
-            if (lector.VisibleFieldCount > 7) {
-                entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
-                    NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
-                    ImporteTotal = Convert.ToDecimal(lector["total_compraventa"], CultureInfo.InvariantCulture)
-                });
+            if (lector.VisibleFieldCount > 8) {
+                if (pago.IdVenta != 0)
+                    entidadesExtra.Add(new Modelos.Modulos.Venta.Venta {
+                        NumeroFacturaTicket = lector["numero_factura_ticket"] != DBNull.Value ? Convert.ToString(lector["numero_factura_ticket"]) : null,
+                        ImporteTotal = Convert.ToDecimal(lector["total_compraventa"], CultureInfo.InvariantCulture)
+                    });
+                else if (pago.IdCompra != 0)
+                    entidadesExtra.Add(new Modelos.Modulos.Compra.Compra {
+                        Codigo = lector["codigo"] != DBNull.Value ? Convert.ToString(lector["codigo"]) : null,
+                        TotalCompra = Convert.ToDecimal(lector["total_compraventa"], CultureInfo.InvariantCulture)
+                    });
             }
 
             return (pago, entidadesExtra);
@@ -257,8 +263,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
 
             return pagos;
         }
-
-
 
         #endregion
     }

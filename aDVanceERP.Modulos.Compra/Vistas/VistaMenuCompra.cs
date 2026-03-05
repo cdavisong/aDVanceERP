@@ -34,7 +34,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnSolicitudes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionSolicitudes", string.Empty); };
+            btnSolicitudes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionSolicitudesCompra", string.Empty); };
             btnCompras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCompras", string.Empty); };
             btnPagos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPagosCompra", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosCompra", string.Empty); };
