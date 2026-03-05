@@ -15,6 +15,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         where Re : class, IRepoEntidadBaseDatos<En, Fb>, new()
         where En : class, IEntidadBaseDatos, new()
         where Fb : Enum {
+        private bool _actualizando = false; // Para evitar actualizaciones concurrentes de la vista
         private bool _disposed; // Para evitar llamadas redundantes a Dispose
 
         protected readonly VistaCargaDatos _cargaDatos;
@@ -56,53 +57,60 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         }
 
         public virtual void ActualizarResultadosBusqueda() {
-            if (!Vista.Habilitada)
-                return;
+            if (!Vista.Habilitada || _actualizando) return;
+            _actualizando = true;
 
             try {
                 if (Vista.TuplasMaximasContenedor == 0) return;
 
-                Vista.PanelCentral.CerrarTodos();
-
-                // Desuscribir eventos del presentador de tuplas
-                foreach (var presentadorTupla in _tuplasEntidades) {
-                    presentadorTupla.EntidadSeleccionada -= OnEntidadSeleccionada;
-                    presentadorTupla.EditarEntidad -= OnEditarEntidad;
-                    presentadorTupla.EliminarEntidad -= OnEliminarEntidad;
-                    presentadorTupla.Dispose();
-                }
-
-                _tuplasEntidades.Clear();
-
-                ContextoAplicacion.CoordenadaYUltimaTupla = 0;
-
-                var incremento = (Vista.PaginaActual - 1) * Vista.TuplasMaximasContenedor;
+                // Limpiar tuplas anteriores en el hilo de UI
+                (Vista as Control)?.Invoke(() => {
+                    Vista.PanelCentral.CerrarTodos();
+                    foreach (var p in _tuplasEntidades) {
+                        p.EntidadSeleccionada -= OnEntidadSeleccionada;
+                        p.EditarEntidad -= OnEditarEntidad;
+                        p.EliminarEntidad -= OnEliminarEntidad;
+                        p.Dispose();
+                    }
+                    _tuplasEntidades.Clear();
+                    ContextoAplicacion.CoordenadaYUltimaTupla = 0;
+                });
 
                 Repositorio.Limite = Vista.TuplasMaximasContenedor;
-                Repositorio.Desplazamiento = incremento;
+                Repositorio.Desplazamiento = (Vista.PaginaActual - 1) * Vista.TuplasMaximasContenedor;
 
-                var datos = Repositorio.Buscar(FiltroBusqueda, CriteriosBusqueda);
-                var resultados = datos.resultadosBusqueda.ToList();
-                var calculoPaginas = datos.cantidad / Vista.TuplasMaximasContenedor;
-                var entero = datos.cantidad % Vista.TuplasMaximasContenedor == 0;
-
-                Vista.PaginasTotales = calculoPaginas < 1 ? 1 : entero ? calculoPaginas : calculoPaginas + 1;
-
-                _cargaDatos.Mostrar();
-
-                for (var i = 0; i < resultados.Count && i < Vista.TuplasMaximasContenedor; i++) {
-                    var resultado = resultados[i];
+                // Consulta en hilo de fondo
+                Task.Run(() => {
+                    var datos = Repositorio.Buscar(FiltroBusqueda, CriteriosBusqueda);
 
                     (Vista as Control)?.Invoke(() => {
-                        AdicionarTuplaEntidad(resultado.entidadBase, resultado.entidadesExtra);
+                        var calc = datos.cantidad / Vista.TuplasMaximasContenedor;
+                        var exacto = datos.cantidad % Vista.TuplasMaximasContenedor == 0;
+                        Vista.PaginasTotales = calc < 1 ? 1 : exacto ? calc : calc + 1;
+
+                        _cargaDatos.Mostrar();
+
+                        foreach (var resultado in datos.resultadosBusqueda)
+                            AdicionarTuplaEntidad(resultado.entidadBase, resultado.entidadesExtra);
+
+                        AgregadorEventos.Publicar("ResultadosBusquedaActualizados",
+                            AgregadorEventos.SerializarPayload(datos.resultadosBusqueda));
+
+                        _actualizando = false;
                     });
-
-                    Application.DoEvents();
-                }
-
-                AgregadorEventos.Publicar("ResultadosBusquedaActualizados", AgregadorEventos.SerializarPayload(resultados));
-            } catch (Exception ex) {
-                CentroNotificaciones.MostrarNotificacion($"Error al refrescar la lista de objetos: {ex.Message}", TipoNotificacionEnum.Error);
+                }).ContinueWith(t => {
+                    if (t.IsFaulted) {
+                        (Vista as Control)?.Invoke(() => {
+                            _actualizando = false;
+                            CentroNotificaciones.MostrarNotificacion(
+                                $"Error al refrescar la lista: {t.Exception?.InnerException?.Message}",
+                                TipoNotificacionEnum.Error);
+                        });
+                    }
+                });
+            } catch {
+                _actualizando = false;
+                throw;
             }
         }
 
