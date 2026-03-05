@@ -67,9 +67,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
 
             if (nombreRepetido)
-                CentroNotificaciones.MostrarNotificacion("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacionEnum.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
             return nombreOk;
         }

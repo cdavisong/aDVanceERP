@@ -45,7 +45,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.MostrarNotificacion($"El mensajero ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"El mensajero ha sido {(estado ? "activado" : "desactivado")} satisfactoriamente.", TipoNotificacionEnum.Info);
             }
         }
 

@@ -30,7 +30,7 @@ namespace aDVanceERP.Core.Eventos {
                         handler(jsonPayload);
                     }
                     catch (Exception ex) {
-                        CentroNotificaciones.MostrarNotificacion($"Error manejando el evento {eventType}: {ex.Message}", Modelos.Comun.TipoNotificacion.Error);
+                        CentroNotificaciones.MostrarNotificacion($"Error manejando el evento {eventType}: {ex.Message}", Modelos.Comun.TipoNotificacionEnum.Error);
                     }
                 }
             }

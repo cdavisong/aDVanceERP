@@ -2,7 +2,7 @@
     public class Notificacion {
         public Notificacion() { }
 
-        public Notificacion(string mensaje, TipoNotificacion tipo) {
+        public Notificacion(string mensaje, TipoNotificacionEnum tipo) {
             Mensaje = mensaje;
             Tipo = tipo;
         }
@@ -18,6 +18,6 @@
             }
         }
 
-        public TipoNotificacion Tipo { get; set; }
+        public TipoNotificacionEnum Tipo { get; set; }
     }
 }

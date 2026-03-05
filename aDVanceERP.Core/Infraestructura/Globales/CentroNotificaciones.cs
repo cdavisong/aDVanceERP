@@ -12,7 +12,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
             return VistaMensaje.Instancia.Mostrar(mensaje, tipo, botones);
         }
 
-        public static void MostrarNotificacion(string mensaje, TipoNotificacion tipo = TipoNotificacion.Info) {
+        public static void MostrarNotificacion(string mensaje, TipoNotificacionEnum tipo = TipoNotificacionEnum.Info) {
             var areaTrabajo = Screen.PrimaryScreen?.WorkingArea;
             var modelo = new Notificacion(mensaje, tipo);
             var vista = new VistaNotificacion(modelo);

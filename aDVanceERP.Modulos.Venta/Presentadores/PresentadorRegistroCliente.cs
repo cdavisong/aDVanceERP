@@ -135,9 +135,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreCompleto) && !nombreRepetido;
 
             if (nombreRepetido)
-                CentroNotificaciones.MostrarNotificacion("Ye existe un mensajero con el mismo nombre registrado en el sistema, los nombres de mensajeros deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe un mensajero con el mismo nombre registrado en el sistema, los nombres de mensajeros deben ser únicos.", TipoNotificacionEnum.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el mensajero, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el mensajero, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
             return nombreOk;
         }

@@ -84,7 +84,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 if (_almacenes.Count == 0 || _inventario.Count == 0) {
                     CentroNotificaciones.MostrarNotificacion(
                         "No se encontraron datos para el reporte.",
-                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                        Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -261,13 +261,13 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
                 CentroNotificaciones.MostrarNotificacion(
                     "Documento PDF generado exitosamente.",
-                    Core.Modelos.Comun.TipoNotificacion.Info
+                    Core.Modelos.Comun.TipoNotificacionEnum.Info
                 );
 
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al generar el documento: {ex.Message}",
-                    Core.Modelos.Comun.TipoNotificacion.Error
+                    Core.Modelos.Comun.TipoNotificacionEnum.Error
                 );
             }
         }
@@ -288,7 +288,7 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
                 if (_almacenes.Count == 0 || _inventario.Count == 0) {
                     CentroNotificaciones.MostrarNotificacion(
                         "No se encontraron datos para el reporte.",
-                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                        Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -399,13 +399,13 @@ namespace aDVanceERP.Modulos.Inventario.Documentos {
 
                 CentroNotificaciones.MostrarNotificacion(
                     "Documento Excel generado exitosamente.",
-                    Core.Modelos.Comun.TipoNotificacion.Info
+                    Core.Modelos.Comun.TipoNotificacionEnum.Info
                 );
 
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al generar el documento: {ex.Message}",
-                    Core.Modelos.Comun.TipoNotificacion.Error
+                    Core.Modelos.Comun.TipoNotificacionEnum.Error
                 );
             }
         }

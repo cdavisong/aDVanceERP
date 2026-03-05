@@ -61,7 +61,7 @@ namespace aDVanceERP.Core.Extension.Controladores {
 
         private bool VerificarDependencias(IModuloExtension modulo) {
             var tipo = modulo.GetType();
-            var dependencias = tipo.GetCustomAttributes(typeof(DependencyAttribute), true)
+            var dependencias = tipo.GetCustomAttributes(typeof(DependenciaModulo), true)
                                    .Cast<DependenciaModulo>();
 
             foreach (var dependencia in dependencias) {
@@ -70,14 +70,14 @@ namespace aDVanceERP.Core.Extension.Controladores {
 
                 if (moduloDependiente == null) {
                     CentroNotificaciones.MostrarNotificacion($"Faltan dependencias para el módulo {modulo.Nombre}: " +
-                                    $"El módulo requerido {dependencia.NombreModulo} no ha sido cargado", Modelos.Comun.TipoNotificacion.Error);
+                                    $"El módulo requerido {dependencia.NombreModulo} no ha sido cargado", Modelos.Comun.TipoNotificacionEnum.Error);
                     return false;
                 }
 
                 if (CompararVersiones(moduloDependiente.Version, dependencia.VersionMinima) < 0) {
                     CentroNotificaciones.MostrarNotificacion($"La versión de dependencia requerida no coincide para el módulo {modulo.Nombre}: " +
                                     $"Se requiere {dependencia.NombreModulo} v{dependencia.VersionMinima}, " +
-                                    $"Encontrado v{moduloDependiente.Version}", Modelos.Comun.TipoNotificacion.Error);
+                                    $"Encontrado v{moduloDependiente.Version}", Modelos.Comun.TipoNotificacionEnum.Error);
                     return false;
                 }
             }

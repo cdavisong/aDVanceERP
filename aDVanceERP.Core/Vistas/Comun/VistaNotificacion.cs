@@ -19,7 +19,7 @@ namespace aDVanceERP.Core.Vistas.Comun {
         private Timer? _timerVisualizacion;
 
         // Notificacion.
-        private TipoNotificacion _tipo;
+        private TipoNotificacionEnum _tipo;
 
         public VistaNotificacion(Notificacion notificacion) {
             _notificacion = notificacion;
@@ -56,18 +56,18 @@ namespace aDVanceERP.Core.Vistas.Comun {
             set => fieldMensaje.Text = value;
         }
 
-        public TipoNotificacion Tipo {
+        public TipoNotificacionEnum Tipo {
             get => _tipo;
             set {
                 _tipo = value;
 
                 //layoutDistribucion1.BackColor = value ? Color.LightSalmon : Color.White;
                 fieldIcono.BackgroundImage =
-                    value == TipoNotificacion.Ok
+                    value == TipoNotificacionEnum.Ok
                         ? Resources.ok_96px
-                        : value == TipoNotificacion.Error
+                        : value == TipoNotificacionEnum.Error
                             ? Resources.error_96px
-                            : value == TipoNotificacion.Advertencia
+                            : value == TipoNotificacionEnum.Advertencia
                                 ? Resources.warning_96px
                                 : Resources.info_96px;
                 //fieldMensaje.ForeColor = value ? Color.Firebrick : Color.Gray;                

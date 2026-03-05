@@ -167,7 +167,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _unidadMedidaProductoSeleccionado = _productoSeleccionado != null ? RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Id, _productoSeleccionado.IdUnidadMedida.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase : null;
 
             if (_productoSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("No se ha especificado un nombre de producto válido. Corrija los datos antes de rellenar otro campo del carrito.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se ha especificado un nombre de producto válido. Corrija los datos antes de rellenar otro campo del carrito.", TipoNotificacionEnum.Advertencia);
 
                 _productoSeleccionado = null;
                 _unidadMedidaProductoSeleccionado = null;
@@ -200,7 +200,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                 CentroNotificaciones.MostrarNotificacion(
                     $"Stock insuficiente para {_productoSeleccionado.Nombre}. El máximo disponible es de {maximoPermitido} {_unidadMedidaProductoSeleccionado?.Abreviatura}, la cantidad en inventario es de {disponible} {_unidadMedidaProductoSeleccionado?.Abreviatura} y están comprometidas {comprometido} {_unidadMedidaProductoSeleccionado?.Abreviatura}",
-                    TipoNotificacion.Advertencia
+                    TipoNotificacionEnum.Advertencia
                 );
 
                 // Ofrecer agregar el máximo disponible

@@ -202,7 +202,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             };
             btnPagoEfectivo.Click += delegate {
                 if (Carrito.Count == 0) {
-                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -231,7 +231,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             };
             btnPagoTransferencia.Click += delegate {
                 if (Carrito.Count == 0) {
-                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -284,7 +284,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _pedidoSeleccionado = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             if (_pedidoSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("El número de pedido seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El número de pedido seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacionEnum.Advertencia);
                 return false;
             }
 
@@ -320,7 +320,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _almacenSeleccionado = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             if (_almacenSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("Debe seleccionar un almacén de origen para la venta antes de agregar productos al carrito.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Debe seleccionar un almacén de origen para la venta antes de agregar productos al carrito.", TipoNotificacionEnum.Advertencia);
                 return false;
             }
 
@@ -335,7 +335,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _unidadMedidaProductoSeleccionado = _productoSeleccionado != null ? RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Id, _productoSeleccionado.IdUnidadMedida.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase : null;
 
             if (_productoSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("No se ha especificado un nombre de producto válido. Corrija los datos antes de rellenar otro campo del carrito.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se ha especificado un nombre de producto válido. Corrija los datos antes de rellenar otro campo del carrito.", TipoNotificacionEnum.Advertencia);
 
                 _productoSeleccionado = null;
                 _unidadMedidaProductoSeleccionado = null;
@@ -451,7 +451,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // Mostrar notificación de éxito
             CentroNotificaciones.MostrarNotificacion(
                 $"Se agregaron {disponibilidadPedido.disponibilidad.Count} productos del pedido al carrito",
-                TipoNotificacion.Info
+                TipoNotificacionEnum.Info
             );
 
             // Calcular totales de la venta
@@ -494,7 +494,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                 CentroNotificaciones.MostrarNotificacion(
                     $"Stock insuficiente para {_productoSeleccionado.Nombre}. El máximo disponible es de {maximoPermitido} {_unidadMedidaProductoSeleccionado?.Abreviatura}, la cantidad en inventario es de {disponible} {_unidadMedidaProductoSeleccionado?.Abreviatura} y están comprometidas {comprometido} {_unidadMedidaProductoSeleccionado?.Abreviatura}",
-                    TipoNotificacion.Advertencia
+                    TipoNotificacionEnum.Advertencia
                 );
 
                 // Ofrecer agregar el máximo disponible

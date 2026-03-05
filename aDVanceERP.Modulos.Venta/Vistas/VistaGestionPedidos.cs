@@ -163,7 +163,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             else {
                 fieldFiltroBusquedaFechaDesde.Value = valorFechaHasta;
 
-                CentroNotificaciones.MostrarNotificacion("La fecha de inicio no puede ser mayor que la fecha final o fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La fecha de inicio no puede ser mayor que la fecha final o fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
             }
         }
 
@@ -176,7 +176,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             else {
                 fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
 
-                CentroNotificaciones.MostrarNotificacion("La fecha final no puede ser menor que la fecha inicial o mayor que la fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("La fecha final no puede ser menor que la fecha inicial o mayor que la fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
             }
         }
 

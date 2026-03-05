@@ -81,7 +81,7 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 if (_datosVenta.Count == 0) {
                     CentroNotificaciones.MostrarNotificacion(
                         "No se encontraron datos para la factura.",
-                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                        Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -253,13 +253,13 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
 
                 CentroNotificaciones.MostrarNotificacion(
                     "Factura generada exitosamente.",
-                    Core.Modelos.Comun.TipoNotificacion.Info
+                    Core.Modelos.Comun.TipoNotificacionEnum.Info
                 );
 
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al generar la factura: {ex.Message}",
-                    Core.Modelos.Comun.TipoNotificacion.Error
+                    Core.Modelos.Comun.TipoNotificacionEnum.Error
                 );
             }
         }
@@ -278,7 +278,7 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
                 if (_datosVenta.Count == 0) {
                     CentroNotificaciones.MostrarNotificacion(
                         "No se encontraron datos para la factura.",
-                        Core.Modelos.Comun.TipoNotificacion.Advertencia);
+                        Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     return;
                 }
 
@@ -492,13 +492,13 @@ namespace aDVanceERP.Modulos.Venta.Documentos {
 
                 CentroNotificaciones.MostrarNotificacion(
                     "Factura en Excel generada exitosamente.",
-                    Core.Modelos.Comun.TipoNotificacion.Info
+                    Core.Modelos.Comun.TipoNotificacionEnum.Info
                 );
 
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al generar la factura en Excel: {ex.Message}",
-                    Core.Modelos.Comun.TipoNotificacion.Error
+                    Core.Modelos.Comun.TipoNotificacionEnum.Error
                 );
             }
         }

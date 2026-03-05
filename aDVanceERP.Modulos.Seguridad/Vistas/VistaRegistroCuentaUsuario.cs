@@ -48,7 +48,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         public SecureString? Password {
             get {
                 if (!fieldPassword.Text.Equals(fieldConfirmarPassword.Text)) {
-                    CentroNotificaciones.MostrarNotificacion($"Las contraseñas no coinciden, rectifique los datos y presiones al botón \"{btnRegistrar.Text}\"", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion($"Las contraseñas no coinciden, rectifique los datos y presiones al botón \"{btnRegistrar.Text}\"", TipoNotificacionEnum.Advertencia);
                     return null;
                 }
 
@@ -99,7 +99,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnRegistrar.Click += delegate (object? sender, EventArgs args) {
                 if (ModoEdicion && fieldPassword.Text != "test-password1") {
                     if (!fieldPassword.Text.Equals(fieldConfirmarPassword.Text)) {
-                        CentroNotificaciones.MostrarNotificacion($"Las contraseñas no coinciden, rectifique los datos y presiones al botón \"{btnRegistrar.Text}\"", TipoNotificacion.Advertencia);
+                        CentroNotificaciones.MostrarNotificacion($"Las contraseñas no coinciden, rectifique los datos y presiones al botón \"{btnRegistrar.Text}\"", TipoNotificacionEnum.Advertencia);
                         return;
                     }
                 

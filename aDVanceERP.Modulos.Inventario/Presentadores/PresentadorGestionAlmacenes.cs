@@ -100,12 +100,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 var resultado = await Task.Run(() => ImportarDesdeExcel(rutaArchivo, idAlmacen));
 
                 if (resultado.exito) {
-                    CentroNotificaciones.MostrarNotificacion($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.", TipoNotificacion.Ok);
+                    CentroNotificaciones.MostrarNotificacion($"Se ha importado el archivo correctamente. Se han actualizado {resultado.registrosProcesados} registros.", TipoNotificacionEnum.Ok);
 
                     Vista.MostrarBtnImportarInventarioVersat = false;
                     ActualizarResultadosBusqueda();
                 } else {
-                    CentroNotificaciones.MostrarNotificacion($"Error al importar el archivo: {resultado.mensaje}", TipoNotificacion.Error);
+                    CentroNotificaciones.MostrarNotificacion($"Error al importar el archivo: {resultado.mensaje}", TipoNotificacionEnum.Error);
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var id = sender as string;
 
             if (string.IsNullOrEmpty(id)) {
-                CentroNotificaciones.MostrarNotificacion("ID del almacén no proporcionado", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("ID del almacén no proporcionado", TipoNotificacionEnum.Error);
                 return;
             }
 
@@ -135,9 +135,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
 
             if (_androidPos.FlujoComienzoDia(rutaArchivoProductos)) {
-                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} enviados correctamente a la aplicación", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} enviados correctamente a la aplicación", TipoNotificacionEnum.Info);
             } else {
-                CentroNotificaciones.MostrarNotificacion($"Error al enviar productos del almacén {id}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al enviar productos del almacén {id}", TipoNotificacionEnum.Error);
             }
 
             // Limpiar archivo temporal
@@ -324,7 +324,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     return true;
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.MostrarNotificacion($"Error al procesar fila: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al procesar fila: {ex.Message}", TipoNotificacionEnum.Error);
 
                 return false;
             }
@@ -369,7 +369,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     return dt;
                 }
             } catch (Exception ex) {
-                CentroNotificaciones.MostrarNotificacion($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacionEnum.Error);
                 return null;
             }
         }
@@ -382,7 +382,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 if (!_androidPos.CheckDeviceConnection())
                     conexionOk = false;
             } catch (Exception ex) {
-                CentroNotificaciones.MostrarNotificacion($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacionEnum.Error);
             }
 
             return conexionOk;

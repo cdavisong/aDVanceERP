@@ -34,7 +34,7 @@ namespace aDVanceERP.Core.Controladores {
                 CentroNotificaciones.MostrarNotificacion(
                     "No se encontró adb.exe en el directorio tools. " +
                     "Descárgalo desde developer.android.com/tools/releases/platform-tools",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
             }
         }
 
@@ -55,12 +55,12 @@ namespace aDVanceERP.Core.Controladores {
                         CentroNotificaciones.MostrarNotificacion(
                             "Dispositivo conectado pero no autorizado. " +
                             "Acepta la solicitud de depuración USB en el teléfono.",
-                            Modelos.Comun.TipoNotificacion.Advertencia);
+                            Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     else if (mostrarAdvertencia)
                         CentroNotificaciones.MostrarNotificacion(
                             "No se detectó ningún dispositivo. " +
                             "Conecta el teléfono y activa Depuración USB.",
-                            Modelos.Comun.TipoNotificacion.Advertencia);
+                            Modelos.Comun.TipoNotificacionEnum.Advertencia);
                 }
 
                 return conectado;
@@ -119,12 +119,12 @@ namespace aDVanceERP.Core.Controladores {
                     $"Unidades: {Si(resultado.Unidades)}\n" +
                     $"Clasificaciones: {Si(resultado.Clasificaciones)}  " +
                     $"Almacenes: {Si(resultado.Almacenes)}",
-                    Modelos.Comun.TipoNotificacion.Ok);
+                    Modelos.Comun.TipoNotificacionEnum.Ok);
             else
                 CentroNotificaciones.MostrarNotificacion(
                     "No se pudo enviar el catálogo de productos (requerido). " +
                     "Verifica que el archivo exista y que el dispositivo esté conectado.",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
 
             return resultado;
         }
@@ -157,7 +157,7 @@ namespace aDVanceERP.Core.Controladores {
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al listar archivos de stock: {ex.Message}",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
             }
 
             return resultado.OrderByDescending(r => r.fechaHora).ToList();
@@ -183,7 +183,7 @@ namespace aDVanceERP.Core.Controladores {
             if (archivos.Count == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "No hay sesiones de stock pendientes en el dispositivo.",
-                    Modelos.Comun.TipoNotificacion.Advertencia);
+                    Modelos.Comun.TipoNotificacionEnum.Advertencia);
                 return resultado;
             }
 
@@ -203,8 +203,8 @@ namespace aDVanceERP.Core.Controladores {
                 $"  {resultado.JsonDescargados.Count}/{archivos.Count} sesiones descargadas\n" +
                 $"  {resultado.ImagenesDescargadas} imagen(es) descargada(s)",
                 resultado.Exitoso
-                    ? Modelos.Comun.TipoNotificacion.Ok
-                    : Modelos.Comun.TipoNotificacion.Advertencia);
+                    ? Modelos.Comun.TipoNotificacionEnum.Ok
+                    : Modelos.Comun.TipoNotificacionEnum.Advertencia);
 
             return resultado;
         }
@@ -259,7 +259,7 @@ namespace aDVanceERP.Core.Controladores {
                 CentroNotificaciones.MostrarNotificacion(
                     "aDVance Stock no está instalado en el dispositivo. " +
                     "Instala el APK primero.",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
                 return new ResultadoPushCatalogos { Exitoso = false };
             }
 

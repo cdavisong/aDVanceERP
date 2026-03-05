@@ -28,7 +28,7 @@ namespace aDVanceERP.Core.Modelos.Comun {
             get => _latitud;
             set {
                 if (value < -90 || value > 90) {
-                    CentroNotificaciones.MostrarNotificacion("La latitud debe estar entre -90 y 90 grados", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("La latitud debe estar entre -90 y 90 grados", TipoNotificacionEnum.Advertencia);
                 }
 
                 if (_latitud != value) {
@@ -45,7 +45,7 @@ namespace aDVanceERP.Core.Modelos.Comun {
             get => _longitud;
             set {
                 if (value < -180 || value > 180) {
-                    CentroNotificaciones.MostrarNotificacion("La longitud debe estar entre -180 y 180 grados", TipoNotificacion.Advertencia);
+                    CentroNotificaciones.MostrarNotificacion("La longitud debe estar entre -180 y 180 grados", TipoNotificacionEnum.Advertencia);
                 }
 
                 if (_longitud != value) {
@@ -127,14 +127,14 @@ namespace aDVanceERP.Core.Modelos.Comun {
         /// </summary>
         public static CoordenadasGeograficas Parse(string coordenadasString) {
             if (string.IsNullOrWhiteSpace(coordenadasString)) {
-                CentroNotificaciones.MostrarNotificacion("El string de coordenadas no puede estar vacío", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El string de coordenadas no puede estar vacío", TipoNotificacionEnum.Advertencia);
                 throw new ArgumentNullException(nameof(coordenadasString));
             }
 
             var partes = coordenadasString.Split(',');
 
             if (partes.Length < 2) {
-                CentroNotificaciones.MostrarNotificacion("Formato de coordenadas inválido", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("Formato de coordenadas inválido", TipoNotificacionEnum.Error);
                 throw new FormatException("Formato de coordenadas inválido. Se espera 'latitud,longitud[,altitud]'");
             }
 

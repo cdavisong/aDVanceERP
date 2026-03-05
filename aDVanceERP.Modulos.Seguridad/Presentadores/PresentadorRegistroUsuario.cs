@@ -27,7 +27,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para registrarse en el sistema. Por favor, rellene los campos correctamente.",
-                    TipoNotificacion.Advertencia);
+                    TipoNotificacionEnum.Advertencia);
 
                 return null;
             }
@@ -55,7 +55,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     return null;
                 }
             } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacionEnum.Error);
             }
 
             AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));

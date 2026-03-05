@@ -220,7 +220,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _telefonoContactoClienteSeleccionado = null;
 
             if (_ventaSelecionada == null) {
-                CentroNotificaciones.MostrarNotificacion("El número de factura o tícket seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("El número de factura o tícket seleccionado no es válido u ocurrió un error durante la selección.", TipoNotificacionEnum.Error);
                 return;
             }
 
@@ -241,7 +241,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _telefonoContactoClienteSeleccionado = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _personaClienteSeleccionada?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault(t => t.entidadBase.Categoria == CategoriaTelefonoContacto.Movil).entidadBase;
 
             if (_clienteSeleccionado == null || _personaClienteSeleccionada == null) {
-                CentroNotificaciones.MostrarNotificacion("El cliente seleccionado no es válido o no existe en el sistema.", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("El cliente seleccionado no es válido o no existe en el sistema.", TipoNotificacionEnum.Error);
                 return;
             }
 
@@ -264,7 +264,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             _telefonoContactoMensajeroSeleccionado = RepoTelefonoContacto.Instancia.Buscar(FiltroBusquedaTelefonoContacto.IdPersona, _personaMensajeroSeleccionado?.Id.ToString() ?? "0").resultadosBusqueda.FirstOrDefault(t => t.entidadBase.Categoria == CategoriaTelefonoContacto.Movil).entidadBase;
 
             if (_mensajeroSeleccionado == null || _personaMensajeroSeleccionado == null) {
-                CentroNotificaciones.MostrarNotificacion("El mensajero seleccionado no es válido o no existe en el sistema.", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("El mensajero seleccionado no es válido o no existe en el sistema.", TipoNotificacionEnum.Error);
                 return;
             }
 

@@ -5,8 +5,8 @@ namespace aDVanceERP.Core.Modelos.BD {
         public static ConfiguracionBaseDatos Default => new() {
             Servidor = "localhost",
             BaseDatos = "advanceerp",
-            Usuario = "admin",
-            Password = "admin",
+            Usuario = string.Empty,
+            Password = string.Empty,
             RecordarConfiguracion = false
         };
 

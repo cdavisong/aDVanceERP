@@ -25,7 +25,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             _ventasPendientesPago = RepoVenta.Instancia.ObtenerVentasPendientesDePago();
 
             if (_ventasPendientesPago.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo pago puesto que no existen ventas pendientes por pago en el sistema.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo pago puesto que no existen ventas pendientes por pago en el sistema.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 

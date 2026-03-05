@@ -145,7 +145,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 else
                     CentroNotificaciones.MostrarNotificacion(
                         $"No se puede eliminar el producto {NombreProducto}, existen registros de movimientos asociados al mismo y podría dañar la integridad y trazabilidad de los datos.",
-                        TipoNotificacion.Advertencia);
+                        TipoNotificacionEnum.Advertencia);
             };
         }
 

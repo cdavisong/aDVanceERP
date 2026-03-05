@@ -53,7 +53,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
 
             if (tuplaSeleccionada == null) {
-                CentroNotificaciones.MostrarNotificacion("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             ActualizarResultadosBusqueda();
 
-            CentroNotificaciones.MostrarNotificacion("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacion.Info);
+            CentroNotificaciones.MostrarNotificacion("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacionEnum.Info);
         }
 
         private void OnCambioSeleccionEntidad(object? sender, CuentaUsuario e) {

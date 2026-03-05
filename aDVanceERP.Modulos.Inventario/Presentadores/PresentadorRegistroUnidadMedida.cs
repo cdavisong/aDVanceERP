@@ -59,9 +59,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
 
             if (nombreRepetido)
-                CentroNotificaciones.MostrarNotificacion("Ye existe una unidad de medida con el mismo nombre registrado en el sistema, los nombres deben ser únicos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Ye existe una unidad de medida con el mismo nombre registrado en el sistema, los nombres deben ser únicos.", TipoNotificacionEnum.Advertencia);
             if (!nombreOk)
-                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio, por favor, corrija los datos entrados", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
             return nombreOk;
         }

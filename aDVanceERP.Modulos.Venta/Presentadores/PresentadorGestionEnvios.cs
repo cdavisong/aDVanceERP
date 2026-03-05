@@ -27,7 +27,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             _ventasPendientesPago = RepoVenta.Instancia.ObtenerVentasPendientesDePago();
 
             if (_ventasPendientesPago.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo envío puesto que no existen ventas pendientes en el sistema.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo envío puesto que no existen ventas pendientes en el sistema.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 
@@ -78,7 +78,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var venta = repoVenta.ObtenerPorId(e.idVenta)!;
             
             if (venta == null) {
-                CentroNotificaciones.MostrarNotificacion("Ha ocurrido un error al obtener la venta correspondiente al envío. Datos corruptos en la base de datos.", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("Ha ocurrido un error al obtener la venta correspondiente al envío. Datos corruptos en la base de datos.", TipoNotificacionEnum.Error);
                 return;
             }
             

@@ -165,7 +165,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 SET 
                   cantidad = cantidad - @Cantidad,
                   valor_total = valor_total - (@Cantidad * @CostoUnitario),
-                  costo_promedio = valor_total / cantidad
+                  costo_promedio = CASE WHEN (cantidad - @Cantidad) > 0 
+                    THEN (valor_total - (@Cantidad * @CostoUnitario)) / (cantidad - @Cantidad)
+                    ELSE 0 END
                 WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
                 """;
                 parametros.Add("@Cantidad", cantidad);

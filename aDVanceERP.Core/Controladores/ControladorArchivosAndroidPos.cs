@@ -33,7 +33,7 @@ namespace aDVanceERP.Core.Controladores {
                 CentroNotificaciones.MostrarNotificacion(
                     "No se encontró adb.exe en el directorio tools. " +
                     "Descárgalo desde developer.android.com/tools/releases/platform-tools",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
             }
         }
 
@@ -54,12 +54,12 @@ namespace aDVanceERP.Core.Controladores {
                         CentroNotificaciones.MostrarNotificacion(
                             "Dispositivo conectado pero no autorizado. " +
                             "Acepta la solicitud de depuración USB en el teléfono.",
-                            Modelos.Comun.TipoNotificacion.Advertencia);
+                            Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     else if (mostrarAdvertencia)
                         CentroNotificaciones.MostrarNotificacion(
                             "No se detectó ningún dispositivo. " +
                             "Conecta el teléfono y activa Depuración USB.",
-                            Modelos.Comun.TipoNotificacion.Advertencia);
+                            Modelos.Comun.TipoNotificacionEnum.Advertencia);
                 }
 
                 return conectado;
@@ -89,7 +89,7 @@ namespace aDVanceERP.Core.Controladores {
             if (!File.Exists(localFilePath)) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"No se encontró el archivo de catálogo: {localFilePath}",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
                 return false;
             }
 
@@ -102,19 +102,19 @@ namespace aDVanceERP.Core.Controladores {
                 if (!result.Contains("pushed") && !result.Contains("1 file")) {
                     CentroNotificaciones.MostrarNotificacion(
                         $"Error al copiar catálogo al dispositivo:\n{result}",
-                        Modelos.Comun.TipoNotificacion.Error);
+                        Modelos.Comun.TipoNotificacionEnum.Error);
                     return false;
                 }
 
                 CentroNotificaciones.MostrarNotificacion(
                     "Catálogo enviado correctamente al dispositivo.",
-                    Modelos.Comun.TipoNotificacion.Ok);
+                    Modelos.Comun.TipoNotificacionEnum.Ok);
 
                 return true;
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error inesperado al enviar catálogo: {ex.Message}",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
                 return false;
             }
         }
@@ -147,7 +147,7 @@ namespace aDVanceERP.Core.Controladores {
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al listar ventas en dispositivo: {ex.Message}",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
             }
 
             return resultado.OrderByDescending(r => r.fecha).ToList();
@@ -174,7 +174,7 @@ namespace aDVanceERP.Core.Controladores {
             if (archivos.Count == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "No hay archivos de ventas en el dispositivo.",
-                    Modelos.Comun.TipoNotificacion.Advertencia);
+                    Modelos.Comun.TipoNotificacionEnum.Advertencia);
                 return descargados;
             }
 
@@ -188,7 +188,7 @@ namespace aDVanceERP.Core.Controladores {
 
             CentroNotificaciones.MostrarNotificacion(
                 $"{descargados.Count} de {archivos.Count} archivos descargados.",
-                Modelos.Comun.TipoNotificacion.Ok);
+                Modelos.Comun.TipoNotificacionEnum.Ok);
 
             return descargados;
         }
@@ -277,7 +277,7 @@ namespace aDVanceERP.Core.Controladores {
                 if (check.Contains("No such file")) {
                     CentroNotificaciones.MostrarNotificacion(
                         $"El archivo {deviceFileName} no existe en el dispositivo.",
-                        Modelos.Comun.TipoNotificacion.Advertencia);
+                        Modelos.Comun.TipoNotificacionEnum.Advertencia);
                     return false;
                 }
 
@@ -288,7 +288,7 @@ namespace aDVanceERP.Core.Controladores {
                 if (!File.Exists(localDestinationPath)) {
                     CentroNotificaciones.MostrarNotificacion(
                         $"Error al descargar {deviceFileName}:\n{result}",
-                        Modelos.Comun.TipoNotificacion.Error);
+                        Modelos.Comun.TipoNotificacionEnum.Error);
                     return false;
                 }
 
@@ -296,7 +296,7 @@ namespace aDVanceERP.Core.Controladores {
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"Error al descargar {deviceFileName}: {ex.Message}",
-                    Modelos.Comun.TipoNotificacion.Error);
+                    Modelos.Comun.TipoNotificacionEnum.Error);
                 return false;
             }
         }

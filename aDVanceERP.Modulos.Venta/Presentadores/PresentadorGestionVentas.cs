@@ -37,7 +37,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
         private void OnRegistrarVenta(object? sender, EventArgs e) {
             if (RepoProducto.Instancia.Cantidad() == 0) {
-                CentroNotificaciones.MostrarNotificacion("No es posible registrar una venta manual porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar una venta manual porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var archivosDescargados = _androidPos.FlujoFinDia(rutaArchivoVentas, true);
 
             if (archivosDescargados.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion("No se encontraron ventas para importar desde el dispositivo. Por favor, asegúrese de que existan archivos de ventas en el dispositivo y que contengan datos válidos.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No se encontraron ventas para importar desde el dispositivo. Por favor, asegúrese de que existan archivos de ventas en el dispositivo y que contengan datos válidos.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 
@@ -239,7 +239,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     sb.AppendLine($"• {err}");
             }
 
-            CentroNotificaciones.MostrarNotificacion(sb.ToString().TrimEnd(), TipoNotificacion.Info);
+            CentroNotificaciones.MostrarNotificacion(sb.ToString().TrimEnd(), TipoNotificacionEnum.Info);
 
             // Refrescar resultados en la vista
             ActualizarResultadosBusqueda();
@@ -272,7 +272,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.MostrarNotificacion($"La venta ha sido {(estado ? "habilitada" : "deshabilitada")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"La venta ha sido {(estado ? "habilitada" : "deshabilitada")} satisfactoriamente.", TipoNotificacionEnum.Info);
             }
         }
 
@@ -322,7 +322,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var envio = repoSeguimientoEntrega.Buscar(FiltroBusquedaSeguimientoEntrega.IdVenta, venta.Id.ToString()).resultadosBusqueda.Select(rs => rs.entidadBase).FirstOrDefault()!;
 
             if (envio != null && envio.EstadoEntrega != EstadoEntregaEnum.Completado && envio.EstadoEntrega != EstadoEntregaEnum.Cancelado) {
-                CentroNotificaciones.MostrarNotificacion("Esta venta tiene un envío asociado en curso. Por favor, cancele el envío para anular los pagos vinculados a la venta actual.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("Esta venta tiene un envío asociado en curso. Por favor, cancele el envío para anular los pagos vinculados a la venta actual.", TipoNotificacionEnum.Advertencia);
                 return;
             } else {
                 // Verificar si la venta tiene pagos asociados (pendientes o no) y anularlos

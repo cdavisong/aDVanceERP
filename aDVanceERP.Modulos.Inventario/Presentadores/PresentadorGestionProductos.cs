@@ -37,7 +37,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnRegistrarProducto(object? sender, EventArgs e) {
             if (RepoAlmacen.Instancia.Cantidad() == 0) {
-                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo producto porque no hay almacenes registrados en el sistema. Por favor, registre al menos un almacén antes de continuar.", TipoNotificacion.Advertencia);
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo producto porque no hay almacenes registrados en el sistema. Por favor, registre al menos un almacén antes de continuar.", TipoNotificacionEnum.Advertencia);
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 exportador.RutaAlmacenes
                 );
 
-            CentroNotificaciones.MostrarNotificacion("El catálogo de productos y datos relacionados ha sido actualizado exitosamente en la aplicación móvil.", TipoNotificacion.Info);
+            CentroNotificaciones.MostrarNotificacion("El catálogo de productos y datos relacionados ha sido actualizado exitosamente en la aplicación móvil.", TipoNotificacionEnum.Info);
         }
 
         private void OnImportarProductosDesdeDispositivo(object? sender, EventArgs e) {
@@ -213,14 +213,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                         }
                     }
 
-                    CentroNotificaciones.MostrarNotificacion("Los productos y movimientos de entrada han sido importados exitosamente desde la aplicación móvil.", TipoNotificacion.Info);
+                    CentroNotificaciones.MostrarNotificacion("Los productos y movimientos de entrada han sido importados exitosamente desde la aplicación móvil.", TipoNotificacionEnum.Info);
 
                     ActualizarResultadosBusqueda();
                 } catch (Exception) {
-                    CentroNotificaciones.MostrarNotificacion($"Ocurrieron errores durante la importación.", TipoNotificacion.Error);
+                    CentroNotificaciones.MostrarNotificacion($"Ocurrieron errores durante la importación.", TipoNotificacionEnum.Error);
                 }
             } else {
-                CentroNotificaciones.MostrarNotificacion("No se pudieron descargar los archivos de productos desde el dispositivo móvil. Por favor, asegúrese de que el dispositivo esté conectado correctamente y que la aplicación móvil esté instalada.", TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion("No se pudieron descargar los archivos de productos desde el dispositivo móvil. Por favor, asegúrese de que el dispositivo esté conectado correctamente y que la aplicación móvil esté instalada.", TipoNotificacionEnum.Error);
             }
         }
 
@@ -238,7 +238,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
                 ActualizarResultadosBusqueda();
 
-                CentroNotificaciones.MostrarNotificacion($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacion.Info);
+                CentroNotificaciones.MostrarNotificacion($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacionEnum.Info);
             }
         }
 

@@ -24,7 +24,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para autenticarse en el sistema. Por favor, rellene los campos correctamente.",
-                    TipoNotificacion.Advertencia);
+                    TipoNotificacionEnum.Advertencia);
 
                 return;
             }
@@ -36,7 +36,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     if (usuario == null) {
                         CentroNotificaciones.MostrarNotificacion(
                             "El usuario especificado no existe en la base de datos o no se ha registrado aún en el sistema, verifique los datos entrados.",
-                            TipoNotificacion.Advertencia);
+                            TipoNotificacionEnum.Advertencia);
 
                         return;
                     }
@@ -50,11 +50,11 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     } else {
                         CentroNotificaciones.MostrarNotificacion(
                             "La contraseña especificada es incorrecta para el usuario especificado, verifique los datos entrados.",
-                            TipoNotificacion.Advertencia);
+                            TipoNotificacionEnum.Advertencia);
                     }
                 }
             } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacion.Error);
+                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacionEnum.Error);
             }
         }
 
