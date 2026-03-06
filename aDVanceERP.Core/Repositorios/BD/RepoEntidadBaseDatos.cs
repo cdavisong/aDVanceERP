@@ -155,15 +155,13 @@ namespace aDVanceERP.Core.Repositorios.BD {
         #region Auxiliares
 
         private string GenerarConsultaConteo(string consultaOriginal) {
-            // Quitar ORDER BY final si existe, ya que no es válido en subquery de conteo
-            var sinOrden = Regex.Replace(
-                consultaOriginal.TrimEnd(';'),
-                @"\s+ORDER\s+BY\s+.+$",
-                string.Empty,
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            // Regex para capturar toda la cláusula SELECT (desde SELECT hasta FROM)
+            var regex = new Regex(@"SELECT\s+.*?(?=\s+FROM)", RegexOptions.IgnoreCase);
 
-            // Envolver como subquery en lugar de mutar el SELECT
-            return $"SELECT COUNT(*) AS total_filas FROM ({sinOrden}) AS _conteo_subquery";
+            // Reemplazar toda la cláusula SELECT por COUNT(*)
+            var consultaModificada = regex.Replace(consultaOriginal, "SELECT COUNT(*) AS total_filas");
+
+            return consultaModificada;
         }
 
         #endregion
