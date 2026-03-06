@@ -163,6 +163,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 // Adicionar a la base de datos local
                 RepoMovimiento.Instancia.Adicionar(movimiento);
             }
+
+            // Evento de registro del nuevo producto
+            AgregadorEventos.Publicar("NuevoProductoRegistrado", AgregadorEventos.SerializarPayload(Entidad));
         }
 
         protected override bool EntidadCorrecta() {

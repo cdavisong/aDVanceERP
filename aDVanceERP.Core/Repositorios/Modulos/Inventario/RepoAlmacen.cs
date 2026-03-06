@@ -13,26 +13,26 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoAdicionar(Almacen objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var consulta = $"""
                 INSERT INTO adv__almacen (
-                nombre, 
-                descripcion,
-                direccion, 
-                capacidad,
-                tipo,
-                estado,
-                coordenadas_latitud,
-                coordenadas_longitud
-            ) 
-            VALUES (
-                @nombre,
-                @descripcion,
-                @direccion,
-                @capacidad,
-                @tipo,
-                @estado,
-                @coordenadas_latitud,
-                @coordenadas_longitud
-            );
-            """;
+                    nombre, 
+                    descripcion,
+                    direccion, 
+                    capacidad,
+                    tipo,
+                    estado,
+                    coordenadas_latitud,
+                    coordenadas_longitud
+                ) 
+                VALUES (
+                    @nombre,
+                    @descripcion,
+                    @direccion,
+                    @capacidad,
+                    @tipo,
+                    @estado,
+                    @coordenadas_latitud,
+                    @coordenadas_longitud
+                );
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@nombre", objeto.Nombre },
@@ -51,17 +51,17 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoEditar(Almacen objeto, out Dictionary<string, object> parametros, params IEntidadBaseDatos[] entidadesExtra) {
             var consulta = $"""
                 UPDATE adv__almacen 
-            SET 
-               nombre = @nombre, 
-               descripcion = @descripcion, 
-               direccion = @direccion, 
-               capacidad = @capacidad, 
-               tipo = @tipo, 
-               estado = @estado, 
-               coordenadas_latitud = @coordenadas_latitud, 
-               coordenadas_longitud = @coordenadas_longitud
-            WHERE id_almacen = @id_almacen;
-            """;
+                SET 
+                   nombre = @nombre, 
+                   descripcion = @descripcion, 
+                   direccion = @direccion, 
+                   capacidad = @capacidad, 
+                   tipo = @tipo, 
+                   estado = @estado, 
+                   coordenadas_latitud = @coordenadas_latitud, 
+                   coordenadas_longitud = @coordenadas_longitud
+                WHERE id_almacen = @id_almacen;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@nombre", objeto.Nombre },
@@ -81,8 +81,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 DELETE FROM adv__almacen 
-            WHERE id_almacen = @id_almacen;
-            """;
+                WHERE id_almacen = @id_almacen;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id_almacen", id }
@@ -97,12 +97,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaAlmacen.Id => $"""
                     SELECT * FROM adv__almacen 
-                WHERE id_almacen = @id_almacen;
-                """,
+                    WHERE id_almacen = @id_almacen;
+                    """,
                 FiltroBusquedaAlmacen.Nombre => $"""
                     SELECT * FROM adv__almacen 
-                WHERE nombre LIKE @nombre;
-                """,
+                    WHERE nombre LIKE @nombre;
+                    """,
                 _ => "SELECT * FROM adv__almacen;"
 
             };

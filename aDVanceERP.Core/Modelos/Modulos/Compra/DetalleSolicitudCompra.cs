@@ -7,19 +7,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             PrecioAdquisicionReferencia = 0;
         }
 
-        public DetalleSolicitudCompra(
-            long id,
-            long idSolicitudCompra,
-            long idProducto,
-            decimal cantidadSolicitada,
-            decimal precioAdquisicionReferencia) {
-            Id = id;
-            IdSolicitudCompra = idSolicitudCompra;
-            IdProducto = idProducto;
-            CantidadSolicitada = cantidadSolicitada;
-            PrecioAdquisicionReferencia = precioAdquisicionReferencia;
-        }
-
         public long Id { get; set; }
         public long IdSolicitudCompra { get; set; }
         public long IdProducto { get; set; }

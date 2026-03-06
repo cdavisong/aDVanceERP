@@ -29,6 +29,20 @@ namespace aDVanceERP.Core.Repositorios.BD {
                 var contenido = File.ReadAllText(rutaArchivo);
 
                 _configuraciones = System.Text.Json.JsonSerializer.Deserialize<List<ConfiguracionBaseDatos>>(contenido) ?? new List<ConfiguracionBaseDatos>();
+
+                // Descifrar la contraseña después de cargarla
+                foreach (var config in _configuraciones) {
+                    if (!string.IsNullOrEmpty(config.Password)) {
+                        try {
+                            var cifradoBytes = Convert.FromBase64String(config.Password);
+                            var descifradoBytes = ProtectedData.Unprotect(cifradoBytes, null, DataProtectionScope.CurrentUser);
+
+                            config.Password = Encoding.UTF8.GetString(descifradoBytes);
+                        } catch {
+                            // Si ocurre un error al descifrar, dejar la contraseña como está
+                        }
+                    }
+                }
             } else {
                 return ConfiguracionBaseDatos.Default;
             }

@@ -45,10 +45,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public bool EstadoSeleccion { get; set; }
 
-        public long Id {
-            get => Convert.ToInt64(fieldId.Text);
-            set => fieldId.Text = value.ToString();
-        }
+        public long Id { get; set; }
 
         public string Codigo {
             get => fieldCodigo.Text;
@@ -76,7 +73,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             get => fieldFechaRequerida.Text.Equals("-")
                         ? DateTime.MinValue
                         : DateTime.ParseExact(fieldFechaRequerida.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            set => fieldFechaSolicitud.Text = value.Equals(DateTime.MinValue)
+            set => fieldFechaRequerida.Text = value.Equals(DateTime.MinValue)
                 ? "-"
                 : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
@@ -87,6 +84,16 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                 fieldObservaciones.Text = value;
                 fieldObservaciones.Margin = fieldObservaciones.AjusteAutomaticoMargenTexto();
             }
+        }
+
+        public decimal ImporteTotal {
+            get => decimal.TryParse(fieldImporteTotal.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
+                                    out var value)
+                                    ? value
+                                    : 0m;
+            set => fieldImporteTotal.Text = value > 0
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
+                    : "-";
         }
 
         public EstadoSolicitudCompraEnum Estado {

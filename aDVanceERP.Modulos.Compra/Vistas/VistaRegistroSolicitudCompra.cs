@@ -1,8 +1,8 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Modulos.Compra.Interfaces;
 
 using System.Globalization;
@@ -56,11 +56,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             get => $"SOL{DateTime.Now:yyMMddHHmmss}{Random.Shared.Next(10, 99)}";
         }
 
-        public string NombreSolicitante {
-            get => fieldNombreCompletoSolicitante.Text;
-            set => fieldNombreCompletoSolicitante.Text = value;
-        }
-
         public DateTime FechaRequerida {
             get => fieldFechaRequerida.Value;
             set => fieldFechaRequerida.Value = value;
@@ -103,19 +98,13 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public Dictionary<long, VistaTuplaCarrito> Carrito { get => _carrito; }
 
+        public event EventHandler? RegistrarNuevoProducto;
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
-            fieldNombreCompletoSolicitante.KeyDown += delegate (object? sender, KeyEventArgs args) {
-                if (args.KeyCode != Keys.Enter)
-                    return;
-
-                var persona = RepoPersona.Instancia.Buscar(Core.Modelos.Modulos.Maestros.FiltroBusquedaPersona.NombreCompleto, NombreSolicitante).resultadosBusqueda.FirstOrDefault().entidadBase;
-
-                args.SuppressKeyPress = true;
-            };
+            // Eventos
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
@@ -123,6 +112,15 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                 ObtenerProductoSeleccionado();                
 
                 args.SuppressKeyPress = true;
+            };
+            btnRegistrarNuevoProducto.Click += delegate {
+                RegistrarNuevoProducto?.Invoke(this, EventArgs.Empty);
+
+                _productoSeleccionado = null;
+                _unidadMedidaProductoSeleccionado = null;
+
+                fieldNombreProducto.Text = string.Empty;
+                fieldNombreProducto.Focus();
             };
             fieldCantidad.Click += delegate {
                 ObtenerProductoSeleccionado();
@@ -180,40 +178,8 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             if (!ObtenerProductoSeleccionado())
                 return;
 
-            var disponibilidadProducto = RepoProducto.Instancia.ObtenerDisponibilidadProducto(_productoSeleccionado!.Id, 0, 0);
-            var disponible = disponibilidadProducto.disponible;
-            var comprometido = disponibilidadProducto.comprometido;
-            var cantidadReal = disponible - comprometido;
-            var cantidadEnCarrito = _carrito.ContainsKey(_productoSeleccionado.Id) ? _carrito[_productoSeleccionado.Id].Cantidad : 0;
-            var cantidadTotalFinal = cantidadEnCarrito + Cantidad;
-
-            // Verificar la cantidad disponible
-            if (cantidadTotalFinal > cantidadReal + cantidadEnCarrito) {
-                var maximoPermitido = cantidadReal;
-
-                CentroNotificaciones.MostrarNotificacion(
-                    $"Stock insuficiente para {_productoSeleccionado.Nombre}. El máximo disponible es de {maximoPermitido} {_unidadMedidaProductoSeleccionado?.Abreviatura}, la cantidad en inventario es de {disponible} {_unidadMedidaProductoSeleccionado?.Abreviatura} y están comprometidas {comprometido} {_unidadMedidaProductoSeleccionado?.Abreviatura}",
-                    TipoNotificacionEnum.Advertencia
-                );
-
-                // Ofrecer agregar el máximo disponible
-                if (maximoPermitido > 0) {
-                    var resultado = CentroNotificaciones.MostrarMensaje(
-                        $"¿Desea agregar la cantidad máxima disponible ({maximoPermitido} {_unidadMedidaProductoSeleccionado?.Abreviatura})?",
-                        TipoMensaje.Info,
-                        BotonesMensaje.SiNo
-                    );
-
-                    if (resultado == DialogResult.Yes) {
-                        Cantidad = maximoPermitido - cantidadEnCarrito;
-                        if (Cantidad <= 0)
-                            return; // Ya está en carrito
-                    } else return;
-                } else return;
-            }
-
             // Agregar o actualizar el carrito
-            if (_carrito.ContainsKey(_productoSeleccionado.Id)) {
+            if (_carrito.ContainsKey(_productoSeleccionado!.Id)) {
                 var productoCarrito = _carrito[_productoSeleccionado.Id];
 
                 productoCarrito.Cantidad += Cantidad;
@@ -297,7 +263,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public void Restaurar() {
             FechaRequerida = DateTime.Today;
-            NombreSolicitante = string.Empty;
             NombreProducto = string.Empty;
             SubTotal = 0;
             Cantidad = 0;
@@ -316,13 +281,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public void Cerrar() {
             Dispose();
-        }
-
-        public void CargarNombresTrabajadores(string[] nombresTrabajadores) {
-            fieldNombreCompletoSolicitante.AutoCompleteCustomSource.Clear();
-            fieldNombreCompletoSolicitante.AutoCompleteCustomSource.AddRange(nombresTrabajadores);
-            fieldNombreCompletoSolicitante.AutoCompleteMode = AutoCompleteMode.Suggest;
-            fieldNombreCompletoSolicitante.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         public void CargarNombresProductos(string[] nombresProductos) {

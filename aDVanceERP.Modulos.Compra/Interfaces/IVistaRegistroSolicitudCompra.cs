@@ -1,13 +1,15 @@
 ﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.Compra.Vistas;
 
 namespace aDVanceERP.Modulos.Compra.Interfaces {
     internal interface IVistaRegistroSolicitudCompra : IVistaRegistro {
         string Codigo { get; }
-        string NombreSolicitante { get; set; }
         DateTime FechaRequerida { get; set; }
         string Observaciones { get; set; }
+        Dictionary<long, VistaTuplaCarrito> Carrito { get; }
 
-        void CargarNombresTrabajadores(string[] nombresTrabajadores);
+        event EventHandler? RegistrarNuevoProducto;
+
         void CargarNombresProductos(string[] nombresProductos);
     }
 }

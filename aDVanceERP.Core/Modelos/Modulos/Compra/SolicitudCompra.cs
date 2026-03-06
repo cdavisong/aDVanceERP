@@ -11,25 +11,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             FechaSolicitud = DateTime.UtcNow;
         }
 
-        public SolicitudCompra(
-            long id,
-            string codigo,
-            long idSolicitante,
-            DateTime fechaSolicitud,
-            DateTime? fechaRequerida,
-            string observaciones,
-            EstadoSolicitudCompraEnum estado,
-            bool activo) {
-            Id = id;
-            Codigo = codigo;
-            IdSolicitante = idSolicitante;
-            FechaSolicitud = fechaSolicitud;
-            FechaRequerida = fechaRequerida;
-            Observaciones = observaciones;
-            Estado = estado;
-            Activo = activo;
-        }
-
         public long Id { get; set; }
         public string Codigo { get; set; }
         public long IdSolicitante { get; set; }

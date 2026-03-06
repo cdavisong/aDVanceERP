@@ -44,13 +44,15 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var presentadorTupla = new PresentadorTuplaSolicitudCompra(new VistaTuplaSolicitudCompra(), entidad);
             var cuentaUsuario = RepoCuentaUsuario.Instancia.ObtenerPorId(entidad.IdSolicitante);
             var persona = RepoPersona.Instancia.ObtenerPorId(cuentaUsuario?.IdPersona ?? 0);
+            var detallesSolicitud = RepoDetalleSolicitudCompra.Instancia.Buscar(FiltroBusquedaDetalleSolicitudCompra.IdSolicitudCompra, entidad.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToList();
 
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.Codigo = entidad.Codigo;
-            presentadorTupla.Vista.NombreSolicitante = persona != null ? persona.NombreCompleto : cuentaUsuario != null ? $"Cuenta Usuario: {cuentaUsuario.Nombre}" : "Desconocido";
+            presentadorTupla.Vista.NombreSolicitante = persona != null ? persona.NombreCompleto : cuentaUsuario != null ? $"Cuenta de usuario: {cuentaUsuario.Nombre}" : "Desconocido";
             presentadorTupla.Vista.FechaSolicitud = entidad.FechaSolicitud;
             presentadorTupla.Vista.FechaRequerida = entidad.FechaRequerida ?? DateTime.MinValue;
             presentadorTupla.Vista.Observaciones = entidad.Observaciones;
+            presentadorTupla.Vista.ImporteTotal = detallesSolicitud.Sum(d => d.Subtotal);
             presentadorTupla.Vista.Estado = entidad.Estado;
             presentadorTupla.Vista.Activo = entidad.Activo;
             presentadorTupla.Vista.CambioEstadoSolicitudCompra += OnCambioEstadoSolicitudCompra;

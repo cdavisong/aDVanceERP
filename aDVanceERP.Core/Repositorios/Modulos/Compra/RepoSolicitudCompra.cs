@@ -39,7 +39,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@fecha_solicitud", entidad.FechaSolicitud.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@fecha_requerida", entidad.FechaRequerida?.ToString("yyyy-MM-dd") },
                 { "@observaciones", entidad.Observaciones },
-                { "@estado", entidad.Estado },
+                { "@estado", entidad.Estado.ToString() },
                 { "@activo", entidad.Activo }
             };
 
@@ -67,7 +67,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@fecha_solicitud", entidad.FechaSolicitud.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@fecha_requerida", entidad.FechaRequerida?.ToString("yyyy-MM-dd") },
                 { "@observaciones", entidad.Observaciones },
-                { "@estado", entidad.Estado },
+                { "@estado", entidad.Estado.ToString() },
                 { "@activo", entidad.Activo },
                 { "@id_solicitud_compra", entidad.Id }
             };

@@ -24,6 +24,8 @@ namespace aDVanceERP.Core.Extension.Interfaces.BaseConcreta {
             _principal = principal;
 
             InicializarVistas();
+
+            Application.DoEvents();
         }
 
         protected abstract void InicializarVistas();

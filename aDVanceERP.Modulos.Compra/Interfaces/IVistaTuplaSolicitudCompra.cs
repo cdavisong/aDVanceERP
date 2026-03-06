@@ -9,6 +9,7 @@ namespace aDVanceERP.Modulos.Compra.Interfaces {
         DateTime FechaSolicitud { get; set; }
         DateTime FechaRequerida { get; set; }
         string Observaciones { get; set; }
+        decimal ImporteTotal { get; set; }
         EstadoSolicitudCompraEnum Estado { get; set; }
         bool Activo { get; set; }
 

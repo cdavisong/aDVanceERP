@@ -35,18 +35,19 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
-            fieldEstado = new Label();
-            menuEstados = new ContextMenuStrip(components);
-            btnEstadoAprobada = new ToolStripMenuItem();
-            btnEstadoRechazada = new ToolStripMenuItem();
+            simboloPeso4 = new Label();
+            fieldImporteTotal = new Label();
             fieldObservaciones = new Label();
             btnEliminar = new Guna2Button();
             fieldCodigo = new Label();
-            fieldId = new Label();
             btnEditar = new Guna2Button();
             fieldNombreSolicitante = new Label();
             fieldFechaSolicitud = new Label();
             fieldFechaRequerida = new Label();
+            fieldEstado = new Label();
+            menuEstados = new ContextMenuStrip(components);
+            btnEstadoAprobada = new ToolStripMenuItem();
+            btnEstadoRechazada = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             menuEstados.SuspendLayout();
@@ -77,26 +78,28 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // layoutVista
             // 
             layoutVista.BackColor = Color.White;
-            layoutVista.ColumnCount = 10;
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
+            layoutVista.ColumnCount = 11;
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.51613F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.48387F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.Controls.Add(fieldEstado, 6, 0);
-            layoutVista.Controls.Add(fieldObservaciones, 5, 0);
-            layoutVista.Controls.Add(btnEliminar, 9, 0);
-            layoutVista.Controls.Add(fieldCodigo, 1, 0);
-            layoutVista.Controls.Add(fieldId, 0, 0);
-            layoutVista.Controls.Add(btnEditar, 8, 0);
-            layoutVista.Controls.Add(fieldNombreSolicitante, 2, 0);
-            layoutVista.Controls.Add(fieldFechaSolicitud, 3, 0);
-            layoutVista.Controls.Add(fieldFechaRequerida, 4, 0);
+            layoutVista.Controls.Add(simboloPeso4, 6, 0);
+            layoutVista.Controls.Add(fieldImporteTotal, 5, 0);
+            layoutVista.Controls.Add(fieldObservaciones, 4, 0);
+            layoutVista.Controls.Add(btnEliminar, 10, 0);
+            layoutVista.Controls.Add(fieldCodigo, 0, 0);
+            layoutVista.Controls.Add(btnEditar, 9, 0);
+            layoutVista.Controls.Add(fieldNombreSolicitante, 1, 0);
+            layoutVista.Controls.Add(fieldFechaSolicitud, 2, 0);
+            layoutVista.Controls.Add(fieldFechaRequerida, 3, 0);
+            layoutVista.Controls.Add(fieldEstado, 7, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(0, 0, 0, 1);
@@ -106,51 +109,34 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             layoutVista.Size = new Size(1241, 41);
             layoutVista.TabIndex = 18;
             // 
-            // fieldEstado
+            // simboloPeso4
             // 
-            fieldEstado.ContextMenuStrip = menuEstados;
-            fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
-            fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(991, 1);
-            fieldEstado.Margin = new Padding(1);
-            fieldEstado.Name = "fieldEstado";
-            fieldEstado.Size = new Size(128, 39);
-            fieldEstado.TabIndex = 20;
-            fieldEstado.Text = "estado";
-            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            simboloPeso4.Dock = DockStyle.Fill;
+            simboloPeso4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            simboloPeso4.ForeColor = Color.Black;
+            simboloPeso4.ImageAlign = ContentAlignment.MiddleLeft;
+            simboloPeso4.ImeMode = ImeMode.NoControl;
+            simboloPeso4.Location = new Point(913, 5);
+            simboloPeso4.Margin = new Padding(3, 5, 3, 3);
+            simboloPeso4.Name = "simboloPeso4";
+            simboloPeso4.Size = new Size(14, 33);
+            simboloPeso4.TabIndex = 31;
+            simboloPeso4.Text = "$";
+            simboloPeso4.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // menuEstados
+            // fieldImporteTotal
             // 
-            menuEstados.BackColor = Color.White;
-            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoAprobada, btnEstadoRechazada });
-            menuEstados.Name = "menuGastoIndirecto";
-            menuEstados.Size = new Size(185, 78);
-            // 
-            // btnEstadoAprobada
-            // 
-            btnEstadoAprobada.BackColor = Color.White;
-            btnEstadoAprobada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnEstadoAprobada.Image = (Image) resources.GetObject("btnEstadoAprobada.Image");
-            btnEstadoAprobada.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoAprobada.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoAprobada.Name = "btnEstadoAprobada";
-            btnEstadoAprobada.Size = new Size(184, 26);
-            btnEstadoAprobada.Text = "Aprobada";
-            btnEstadoAprobada.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnEstadoRechazada
-            // 
-            btnEstadoRechazada.BackColor = Color.White;
-            btnEstadoRechazada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnEstadoRechazada.Image = (Image) resources.GetObject("btnEstadoRechazada.Image");
-            btnEstadoRechazada.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEstadoRechazada.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoRechazada.Name = "btnEstadoRechazada";
-            btnEstadoRechazada.Size = new Size(189, 26);
-            btnEstadoRechazada.Text = "Rechazada";
-            btnEstadoRechazada.TextAlign = ContentAlignment.MiddleLeft;
+            fieldImporteTotal.Dock = DockStyle.Fill;
+            fieldImporteTotal.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldImporteTotal.ForeColor = Color.Black;
+            fieldImporteTotal.ImeMode = ImeMode.NoControl;
+            fieldImporteTotal.Location = new Point(801, 1);
+            fieldImporteTotal.Margin = new Padding(1);
+            fieldImporteTotal.Name = "fieldImporteTotal";
+            fieldImporteTotal.Size = new Size(108, 39);
+            fieldImporteTotal.TabIndex = 21;
+            fieldImporteTotal.Text = "importeTotal";
+            fieldImporteTotal.TextAlign = ContentAlignment.MiddleRight;
             // 
             // fieldObservaciones
             // 
@@ -159,10 +145,10 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldObservaciones.Font = new Font("Segoe UI", 11.25F);
             fieldObservaciones.ForeColor = Color.DimGray;
             fieldObservaciones.ImeMode = ImeMode.NoControl;
-            fieldObservaciones.Location = new Point(789, 1);
+            fieldObservaciones.Location = new Point(581, 1);
             fieldObservaciones.Margin = new Padding(1);
             fieldObservaciones.Name = "fieldObservaciones";
-            fieldObservaciones.Size = new Size(200, 39);
+            fieldObservaciones.Size = new Size(218, 39);
             fieldObservaciones.TabIndex = 18;
             fieldObservaciones.Text = "observaciones";
             fieldObservaciones.TextAlign = ContentAlignment.MiddleLeft;
@@ -196,27 +182,13 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldCodigo.Font = new Font("Segoe UI", 11.25F);
             fieldCodigo.ForeColor = Color.DimGray;
             fieldCodigo.ImeMode = ImeMode.NoControl;
-            fieldCodigo.Location = new Point(61, 1);
+            fieldCodigo.Location = new Point(1, 1);
             fieldCodigo.Margin = new Padding(1);
             fieldCodigo.Name = "fieldCodigo";
-            fieldCodigo.Size = new Size(118, 39);
+            fieldCodigo.Size = new Size(158, 39);
             fieldCodigo.TabIndex = 4;
             fieldCodigo.Text = "codigo";
             fieldCodigo.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldId
-            // 
-            fieldId.Dock = DockStyle.Fill;
-            fieldId.Font = new Font("Segoe UI", 11.25F);
-            fieldId.ForeColor = Color.DimGray;
-            fieldId.ImeMode = ImeMode.NoControl;
-            fieldId.Location = new Point(1, 1);
-            fieldId.Margin = new Padding(1);
-            fieldId.Name = "fieldId";
-            fieldId.Size = new Size(58, 39);
-            fieldId.TabIndex = 13;
-            fieldId.Text = "id";
-            fieldId.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnEditar
             // 
@@ -247,10 +219,10 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldNombreSolicitante.Font = new Font("Segoe UI", 11.25F);
             fieldNombreSolicitante.ForeColor = Color.DimGray;
             fieldNombreSolicitante.ImeMode = ImeMode.NoControl;
-            fieldNombreSolicitante.Location = new Point(181, 1);
+            fieldNombreSolicitante.Location = new Point(161, 1);
             fieldNombreSolicitante.Margin = new Padding(1);
             fieldNombreSolicitante.Name = "fieldNombreSolicitante";
-            fieldNombreSolicitante.Size = new Size(366, 39);
+            fieldNombreSolicitante.Size = new Size(178, 39);
             fieldNombreSolicitante.TabIndex = 6;
             fieldNombreSolicitante.Text = "nombreSolicitante";
             fieldNombreSolicitante.TextAlign = ContentAlignment.MiddleLeft;
@@ -261,7 +233,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldFechaSolicitud.Font = new Font("Segoe UI", 11.25F);
             fieldFechaSolicitud.ForeColor = Color.DimGray;
             fieldFechaSolicitud.ImeMode = ImeMode.NoControl;
-            fieldFechaSolicitud.Location = new Point(549, 1);
+            fieldFechaSolicitud.Location = new Point(341, 1);
             fieldFechaSolicitud.Margin = new Padding(1);
             fieldFechaSolicitud.Name = "fieldFechaSolicitud";
             fieldFechaSolicitud.Size = new Size(118, 39);
@@ -275,13 +247,59 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldFechaRequerida.Font = new Font("Segoe UI", 11.25F);
             fieldFechaRequerida.ForeColor = Color.DimGray;
             fieldFechaRequerida.ImeMode = ImeMode.NoControl;
-            fieldFechaRequerida.Location = new Point(669, 1);
+            fieldFechaRequerida.Location = new Point(461, 1);
             fieldFechaRequerida.Margin = new Padding(1);
             fieldFechaRequerida.Name = "fieldFechaRequerida";
             fieldFechaRequerida.Size = new Size(118, 39);
             fieldFechaRequerida.TabIndex = 17;
             fieldFechaRequerida.Text = "fechaRequerida";
             fieldFechaRequerida.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // fieldEstado
+            // 
+            fieldEstado.ContextMenuStrip = menuEstados;
+            fieldEstado.Dock = DockStyle.Fill;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Underline);
+            fieldEstado.ForeColor = Color.DodgerBlue;
+            fieldEstado.ImeMode = ImeMode.NoControl;
+            fieldEstado.Location = new Point(931, 1);
+            fieldEstado.Margin = new Padding(1);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.Size = new Size(188, 39);
+            fieldEstado.TabIndex = 20;
+            fieldEstado.Text = "Pendiente de aprobación";
+            fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // menuEstados
+            // 
+            menuEstados.BackColor = Color.White;
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoAprobada, btnEstadoRechazada });
+            menuEstados.Name = "menuGastoIndirecto";
+            menuEstados.Size = new Size(153, 56);
+            // 
+            // btnEstadoAprobada
+            // 
+            btnEstadoAprobada.BackColor = Color.White;
+            btnEstadoAprobada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoAprobada.Image = (Image) resources.GetObject("btnEstadoAprobada.Image");
+            btnEstadoAprobada.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoAprobada.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoAprobada.Name = "btnEstadoAprobada";
+            btnEstadoAprobada.Size = new Size(152, 26);
+            btnEstadoAprobada.Text = "Aprobada";
+            btnEstadoAprobada.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoRechazada
+            // 
+            btnEstadoRechazada.BackColor = Color.White;
+            btnEstadoRechazada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoRechazada.Image = (Image) resources.GetObject("btnEstadoRechazada.Image");
+            btnEstadoRechazada.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoRechazada.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoRechazada.Name = "btnEstadoRechazada";
+            btnEstadoRechazada.Size = new Size(152, 26);
+            btnEstadoRechazada.Text = "Rechazada";
+            btnEstadoRechazada.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaTuplaSolicitudCompra
             // 
@@ -310,7 +328,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private TableLayoutPanel layoutVista;
         private Guna2Button btnEliminar;
         private Label fieldCodigo;
-        private Label fieldId;
         private Guna2Button btnEditar;
         private Label fieldNombreSolicitante;
         private Label fieldFechaSolicitud;
@@ -320,5 +337,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private ContextMenuStrip menuEstados;
         private ToolStripMenuItem btnEstadoAprobada;
         private ToolStripMenuItem btnEstadoRechazada;
+        private Label fieldImporteTotal;
+        private Label simboloPeso4;
     }
 }

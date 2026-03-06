@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
-using aDVanceERP.Core.Repositorios.Modulos.Empresas;
 using aDVanceERP.Core.Vistas.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Desktop.Properties;
@@ -12,7 +12,11 @@ using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
+        private readonly VistaCargaDatos _cargaDatos;
+
         public PresentadorPrincipal() {
+            _cargaDatos = new VistaCargaDatos();
+
             Vista = new VistaPrincipal();
             Seguridad = new PresentadorContenedorSeguridad(Vista, new VistaContenedorSeguridad());
             Modulos = new PresentadorContenedorModulos(Vista, new VistaContenedorModulos());
@@ -30,9 +34,6 @@ namespace aDVanceERP.Desktop.Presentadores {
 
             // Adicionar vistas comunes
             InicializarVistasComunes();
-
-            // Cargar módulos extensiones de la aplicación
-            ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this);
         }
 
         public IVistaPrincipal Vista { get; }
@@ -43,14 +44,36 @@ namespace aDVanceERP.Desktop.Presentadores {
 
         private void OnVistaPrincipalMostrada(object? sender, EventArgs e) {
             Vista.BarraTitulo.OcultarTodos();
+            Vista.BarraEstado.OcultarTodos();
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
-            Vista.BarraEstado.OcultarTodos();
 
-            // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
-            Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += (s, args) => {
-                if (!Modulos.ObtenerNombresModulosExtensionCargados().Any(m => m.Equals("MOD_SEGURIDAD")))
-                    AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
+            Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += async (s, args) => {
+                await Task.Run(() => {
+                    // Cargar módulos extensiones de la aplicación
+                    (Vista as Control)?.Invoke(() => {
+                        _cargaDatos.TextoProgreso = "Cargando módulos y extensiones de la aplicación...";
+                        _cargaDatos.Mostrar();
+
+                        ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this);
+                    });
+                }).ContinueWith(t => {
+                    if (t.IsFaulted) {
+                        (Vista as Control)?.Invoke(() => {
+                            CentroNotificaciones.MostrarNotificacion(
+                                $"Error al cargar los módulos: {t.Exception?.InnerException?.Message}",
+                                TipoNotificacionEnum.Error);
+                        });
+                    }
+
+                    (Vista as Control)?.Invoke(() => {
+                        // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
+                        if (!Modulos.ObtenerNombresModulosExtensionCargados().Any(m => m.Equals("MOD_SEGURIDAD")))
+                            AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
+
+                        _cargaDatos.Ocultar();
+                    });
+                });
             };
         }
 

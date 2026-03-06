@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -217,7 +218,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 else
                     RegistrarEntidad?.Invoke(sender, args);
             };
-            btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
+            btnSalir.Click += delegate (object? sender, EventArgs args) {
+                // Evento de cancelación del registro
+                AgregadorEventos.Publicar("RegistroProductoCancelado", string.Empty);
+
+                Ocultar(); 
+            };
         }
 
         private void ObtenerImagenProducto(object? sender, EventArgs e) {

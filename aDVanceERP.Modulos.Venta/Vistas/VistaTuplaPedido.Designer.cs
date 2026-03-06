@@ -29,10 +29,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPedido));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldEstado = new Label();
@@ -106,7 +106,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // 
             fieldEstado.ContextMenuStrip = menuEstados;
             fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Underline, GraphicsUnit.Point, 0);
+            fieldEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Underline, GraphicsUnit.Point,  0);
             fieldEstado.ForeColor = Color.DodgerBlue;
             fieldEstado.ImeMode = ImeMode.NoControl;
             fieldEstado.Location = new Point(991, 1);
@@ -122,16 +122,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             menuEstados.BackColor = Color.White;
             menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoConfirmado, btnEstadoPreparando, btnEstadoListoParaRetirar });
             menuEstados.Name = "menuGastoIndirecto";
-            menuEstados.Size = new Size(190, 104);
+            menuEstados.Size = new Size(190, 82);
             // 
-            // btnConfirmado
+            // btnEstadoConfirmado
             // 
             btnEstadoConfirmado.BackColor = Color.White;
-            btnEstadoConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoConfirmado.Image = (Image)resources.GetObject("btnConfirmado.Image");
+            btnEstadoConfirmado.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoConfirmado.Image = (Image) resources.GetObject("btnEstadoConfirmado.Image");
             btnEstadoConfirmado.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoConfirmado.ImageScaling = ToolStripItemImageScaling.None;
-            btnEstadoConfirmado.Name = "btnConfirmado";
+            btnEstadoConfirmado.Name = "btnEstadoConfirmado";
             btnEstadoConfirmado.Size = new Size(189, 26);
             btnEstadoConfirmado.Text = "Confirmado";
             btnEstadoConfirmado.TextAlign = ContentAlignment.MiddleLeft;
@@ -139,8 +139,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // btnEstadoPreparando
             // 
             btnEstadoPreparando.BackColor = Color.White;
-            btnEstadoPreparando.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoPreparando.Image = (Image)resources.GetObject("btnEstadoPreparando.Image");
+            btnEstadoPreparando.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoPreparando.Image = (Image) resources.GetObject("btnEstadoPreparando.Image");
             btnEstadoPreparando.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoPreparando.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoPreparando.Name = "btnEstadoPreparando";
@@ -151,8 +151,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // btnEstadoListoParaRetirar
             // 
             btnEstadoListoParaRetirar.BackColor = Color.White;
-            btnEstadoListoParaRetirar.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEstadoListoParaRetirar.Image = (Image)resources.GetObject("btnEstadoListoParaRetirar.Image");
+            btnEstadoListoParaRetirar.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoListoParaRetirar.Image = (Image) resources.GetObject("btnEstadoListoParaRetirar.Image");
             btnEstadoListoParaRetirar.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoListoParaRetirar.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoListoParaRetirar.Name = "btnEstadoListoParaRetirar";
@@ -195,10 +195,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.BorderColor = Color.Gainsboro;
             btnCancelar.BorderRadius = 16;
             btnCancelar.BorderThickness = 1;
-            btnCancelar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
-            btnCancelar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
+            btnCancelar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
+            btnCancelar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnCancelar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCancelar.CustomizableEdges = customizableEdges1;
+            btnCancelar.CustomizableEdges = customizableEdges5;
             btnCancelar.Dock = DockStyle.Fill;
             btnCancelar.FillColor = Color.White;
             btnCancelar.Font = new Font("Segoe UI", 9.75F);
@@ -208,7 +208,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnCancelar.HoverState.ForeColor = Color.White;
             btnCancelar.Location = new Point(1203, 3);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnCancelar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnCancelar.Size = new Size(35, 35);
             btnCancelar.TabIndex = 22;
             // 
@@ -291,10 +291,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEditar.BorderColor = Color.Gainsboro;
             btnEditar.BorderRadius = 16;
             btnEditar.BorderThickness = 1;
-            btnEditar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
-            btnEditar.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
+            btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges3;
+            btnEditar.CustomizableEdges = customizableEdges7;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -303,7 +303,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1163, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnEditar.Size = new Size(34, 35);
             btnEditar.TabIndex = 39;
             // 
