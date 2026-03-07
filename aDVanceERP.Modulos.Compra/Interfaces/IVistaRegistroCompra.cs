@@ -11,9 +11,7 @@ namespace aDVanceERP.Modulos.Compra.Interfaces {
         string ObservacionesCompra { get; set; }
         decimal TotalBruto { get; }
         decimal ImpuestoTotal { get; }
-        decimal MontoPagado { get; }
         decimal ImporteTotal { get; }
-        Dictionary<Pago, DetallePagoTransferencia> Pagos { get; }
         Dictionary<long, VistaTuplaCarrito> Carrito { get; }
 
         event EventHandler? RegistrarNuevoProducto;

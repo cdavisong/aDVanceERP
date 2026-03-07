@@ -2,7 +2,6 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
-using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compra;

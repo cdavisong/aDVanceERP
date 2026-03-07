@@ -16,6 +16,7 @@ namespace aDVanceERP.Modulos.Compra {
         private PresentadorGestionSolicitudesCompra _solicitudesCompra = null!;
         private PresentadorRegistroSolicitudCompra _registroSolicitudCompra = null!;
         private PresentadorGestionCompras _compras = null!;
+        private PresentadorRegistroCompra _registroCompra = null!;
         private PresentadorGestionPagos _pagos = null!;
         private PresentadorRegistroPago _registroPago = null!;
         private PresentadorGestionProveedores _proveedores = null!;
@@ -50,6 +51,8 @@ namespace aDVanceERP.Modulos.Compra {
             _registroSolicitudCompra.EntidadRegistradaActualizada += (s, e) => _solicitudesCompra.ActualizarResultadosBusqueda();
             // Compras
             _compras = new PresentadorGestionCompras(new VistaGestionCompras());
+            _registroCompra = new PresentadorRegistroCompra(new VistaRegistroCompra());
+            _registroCompra.EntidadRegistradaActualizada += (s, e) => _compras.ActualizarResultadosBusqueda();
             // Pagos
             _pagos = new PresentadorGestionPagos(new VistaGestionPagos());
             _registroPago = new PresentadorRegistroPago(new VistaRegistroPago());
@@ -76,6 +79,7 @@ namespace aDVanceERP.Modulos.Compra {
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroSolicitudCompra.Vista);
             // Compras
             _principal.Modulos.Vista.PanelCentral.Registrar(_compras.Vista);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroCompra.Vista);
             // Pagos
             _principal.Modulos.Vista.PanelCentral.Registrar(_pagos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroPago.Vista);

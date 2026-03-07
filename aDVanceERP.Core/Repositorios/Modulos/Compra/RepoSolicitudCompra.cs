@@ -260,7 +260,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             var consulta = $"""
                 SELECT codigo
                 FROM adv__solicitud_compra
-                WHERE estado_pedido NOT IN ('Borrador', 'Pendiente_Aprobacion', 'Rechazada', 'Convertida', 'Cancelada');
+                WHERE estado NOT IN ('Borrador', 'Pendiente_Aprobacion', 'Rechazada', 'Convertida', 'Cancelada');
                 """;
             var parametros = new Dictionary<string, object>();
 

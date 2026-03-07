@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Compra.Interfaces;
@@ -150,6 +149,20 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void LimpiarCarrito() {
+            var tuplas = panelProductosCompra.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            foreach (var tupla in tuplas) {
+                tupla.EliminarDatosTupla -= EliminarProductoCarrito;
+                tupla.Cerrar();
+            }
+
+            panelProductosCompra.Controls.Clear();
+            _carrito.Clear();
+        }
+
         private bool ObtenerProductoSeleccionado() {
             if (_productoSeleccionado != null)
                 return true;
@@ -268,15 +281,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             Cantidad = 0;
             ImporteEstimado = 0;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosCompra.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }            
+            LimpiarCarrito();
         }
 
         public void Cerrar() {

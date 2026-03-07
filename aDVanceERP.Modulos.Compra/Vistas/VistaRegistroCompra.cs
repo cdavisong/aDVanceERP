@@ -17,7 +17,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private Producto? _productoSeleccionado = null;
         private UnidadMedida? _unidadMedidaProductoSeleccionado = null;
         private Dictionary<long, VistaTuplaCarrito> _carrito = new Dictionary<long, VistaTuplaCarrito>();
-        private Dictionary<Pago, DetallePagoTransferencia> _pagos = new Dictionary<Pago, DetallePagoTransferencia>();
 
         public VistaRegistroCompra() {
             InitializeComponent();
@@ -127,18 +126,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             private set => fieldImpuestoTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public decimal MontoPagado {
-            get => decimal.TryParse(fieldMontoPagado.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
-            private set => fieldMontoPagado.Text = value.ToString("N2", CultureInfo.InvariantCulture);
-        }
-
         public decimal ImporteTotal {
             get => decimal.TryParse(fieldImporteTotal.Text, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             private set => fieldImporteTotal.Text = value.ToString("N2", CultureInfo.InvariantCulture);
-        }
-
-        public Dictionary<Pago, DetallePagoTransferencia> Pagos {
-            get => _pagos;
         }
 
         public Dictionary<long, VistaTuplaCarrito> Carrito { get => _carrito; }
@@ -186,72 +176,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnAdicionarAlCarrito.Click += delegate {
                 AgregarProductoAlCarrito();
             };
-            btnPagoEfectivo.Click += delegate {
-                if (Carrito.Count == 0) {
-                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la compra actual.", TipoNotificacionEnum.Advertencia);
-                    return;
-                }
-
-                var vistaPagoEfectivo = new VistaRegistroPagoEfectivo();
-
-                if (vistaPagoEfectivo.ShowDialog() == DialogResult.OK) {
-                    var pago = new Pago() {
-                        Id = 0,
-                        IdCompra = 0, // Se asignará al registrar la compra
-                        MetodoPago = MetodoPagoEnum.Efectivo,
-                        MontoPagado = vistaPagoEfectivo.MontoPagado,
-                        FechaPago = DateTime.Now,
-                        FechaConfirmacionPago = vistaPagoEfectivo.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
-                        EstadoPago = vistaPagoEfectivo.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
-                    };
-
-                    _pagos.Add(pago, null!);
-                }
-
-                // Calcular totales de la venta
-                CalcularTotales();
-
-                // Verificar que los pagos satisfacen el monto total de la venta
-                btnPagoEfectivo.Enabled = MontoPagado < ImporteTotal;
-                btnPagoTransferencia.Enabled = MontoPagado < ImporteTotal;
-            };
-            btnPagoTransferencia.Click += delegate {
-                if (Carrito.Count == 0) {
-                    CentroNotificaciones.MostrarNotificacion("Debe agregar al menos un producto al carrito para registrar el pago correspondiente a la venta actual.", TipoNotificacionEnum.Advertencia);
-                    return;
-                }
-
-                var vistaPagoTransferencia = new VistaRegistroPagoTransferencia();
-
-                if (vistaPagoTransferencia.ShowDialog() == DialogResult.OK) {
-                    var pago = new Pago() {
-                        Id = 0,
-                        IdCompra = 0, // Se asignará al registrar la venta
-                        MetodoPago = MetodoPagoEnum.TransferenciaBancaria,
-                        MontoPagado = vistaPagoTransferencia.MontoPagado,
-                        FechaPago = DateTime.Now,
-                        FechaConfirmacionPago = vistaPagoTransferencia.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
-                        EstadoPago = vistaPagoTransferencia.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
-                    };
-
-                    var detallePagoTransferencia = new DetallePagoTransferencia() {
-                        Id = 0,
-                        IdPago = 0, // Se asignará al registrar el pago
-                        NumeroTelefonoConfirmacion = vistaPagoTransferencia.NumeroConfirmacion,
-                        NumeroTransaccion = vistaPagoTransferencia.NumeroTransaccion,
-                        MontoTransferencia = vistaPagoTransferencia.MontoPagado
-                    };
-
-                    _pagos.Add(pago, detallePagoTransferencia);
-                }
-
-                // Calcular totales de la venta
-                CalcularTotales();
-
-                // Verificar que los pagos satisfacen el monto total de la venta
-                btnPagoEfectivo.Enabled = MontoPagado < ImporteTotal;
-                btnPagoTransferencia.Enabled = MontoPagado < ImporteTotal;
-            };
             btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
                 if (ModoEdicion)
                     EditarEntidad?.Invoke(sender, args);
@@ -266,6 +190,20 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void LimpiarCarrito() {
+            var tuplas = panelProductosCompra.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            foreach (var tupla in tuplas) {
+                tupla.EliminarDatosTupla -= EliminarProductoCarrito;
+                tupla.Cerrar();
+            }
+
+            panelProductosCompra.Controls.Clear();
+            _carrito.Clear();
+        }
+
         private bool ObtenerSolicitudCompraSeleccionada() {
             _solicitudCompraSeleccionada = RepoSolicitudCompra.Instancia.Buscar(FiltroBusquedaSolicitudCompra.Codigo, CodigoSolicitud).resultadosBusqueda.FirstOrDefault().entidadBase;
 
@@ -277,16 +215,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // Rellenar automáticamente los campos relacionados con la solicitud
             ObservacionesCompra = _solicitudCompraSeleccionada.Observaciones ?? string.Empty;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosCompra.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }
-
+            LimpiarCarrito();
             AgregarSolicitudCompraAlCarrito();
 
             fieldNombreProducto.Text = string.Empty;
@@ -394,13 +323,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
             // Calcular totales de la compra
             CalcularTotales();
-
-            // Habilitar botones de pago
-            btnPagoEfectivo.Enabled = true;
-            btnPagoTransferencia.Enabled = true;
-
-            // Eliminar pagos al modificar el carrito
-            _pagos.Clear();
         }
 
         private void AgregarProductoAlCarrito() {
@@ -452,13 +374,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
             // Calcular totales de la compra
             CalcularTotales();
-
-            // Habilitar botones de pago
-            btnPagoEfectivo.Enabled = true;
-            btnPagoTransferencia.Enabled = true;
-
-            // Eliminar pagos al modificar el carrito
-            _pagos.Clear();
         }
 
         private void EliminarProductoCarrito(object? sender, EventArgs e) {
@@ -481,15 +396,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
             // Calcular totales de la venta
             CalcularTotales();
-
-            // Deshabilitar botones de pago si el carrito está vacío
-            if (_carrito.Count == 0) {
-                btnPagoEfectivo.Enabled = false;
-                btnPagoTransferencia.Enabled = false;
-            }
-
-            // Eliminar pagos al modificar el carrito
-            _pagos.Clear();
         }
 
         private void CalcularTotales() {
@@ -507,7 +413,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // Actualizar campos correspondientes
             TotalBruto = totalBruto;
             ImpuestoTotal = impuestoTotal;
-            MontoPagado = _pagos.Sum(p => p.Key.MontoPagado);
             ImporteTotal = totalBruto + impuestoTotal;
         }
 
@@ -537,18 +442,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             Cantidad = 0;
             ImporteTotal = 0;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosCompra.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }
-
-            // Eliminar pagos
-            _pagos.Clear();
+            LimpiarCarrito();
         }
 
         public void Cerrar() {

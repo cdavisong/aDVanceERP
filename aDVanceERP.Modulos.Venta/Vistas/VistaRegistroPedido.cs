@@ -159,6 +159,20 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void LimpiarCarrito() {
+            var tuplas = panelProductosVenta.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            foreach (var tupla in tuplas) {
+                tupla.EliminarDatosTupla -= EliminarProductoCarrito;
+                tupla.Cerrar();
+            }
+
+            panelProductosVenta.Controls.Clear();
+            _carrito.Clear();
+        }
+
         private bool ObtenerProductoSeleccionado() {
             if (_productoSeleccionado != null)
                 return true;
@@ -309,15 +323,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Cantidad = 0;
             ImporteEstimado = 0;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosVenta.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }            
+            LimpiarCarrito();
         }
 
         public void Cerrar() {

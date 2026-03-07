@@ -199,7 +199,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
 
         public string[] ObtenerNombres() {
             var consulta = $"""
-                SELECT p.nombre_completo
+                SELECT per.nombre_completo
                 FROM adv__persona per
                 LEFT JOIN adv__proveedor p ON per.id_persona = p.id_persona
                 WHERE per.activo = 1; -- Opcional: solo personas activas

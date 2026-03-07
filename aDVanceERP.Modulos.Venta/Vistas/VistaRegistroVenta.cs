@@ -280,6 +280,20 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void LimpiarCarrito() {
+            var tuplas = panelProductosVenta.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            foreach (var tupla in tuplas) {
+                tupla.EliminarDatosTupla -= EliminarProductoCarrito;
+                tupla.Cerrar();
+            }
+
+            panelProductosVenta.Controls.Clear();
+            _carrito.Clear();
+        }
+
         private bool ObtenerPedidoSeleccionado() {
             _pedidoSeleccionado = RepoPedido.Instancia.Buscar(FiltroBusquedaPedido.Codigo, NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
 
@@ -295,16 +309,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             NombreCliente = persona?.NombreCompleto ?? string.Empty;
             ObservacionesVenta = _pedidoSeleccionado.ObservacionesPedido ?? string.Empty;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosVenta.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }
-
+            LimpiarCarrito();
             AgregarPedidoAlCarrito();
 
             fieldNombreProducto.Text = string.Empty;
@@ -640,15 +645,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Cantidad = 0;
             ImporteTotal = 0;
 
-            // Limpiar el carrito
-            foreach (var control in panelProductosVenta.Controls) {
-                if (control is VistaTuplaCarrito tuplaCarrito) {
-                    tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                    tuplaCarrito.Cerrar();
-
-                    _carrito.Remove(tuplaCarrito.IdProducto);
-                }
-            }
+            LimpiarCarrito();
 
             // Eliminar pagos
             _pagos.Clear();

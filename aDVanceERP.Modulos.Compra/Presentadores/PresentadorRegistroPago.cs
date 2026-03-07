@@ -24,7 +24,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
                  metodosPago.Add(metodo.ObtenerDisplayName());            
 
-            //Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
+            Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(c => c.CodigoCompra)]);
             Vista.CargarMetodosPago([.. metodosPago]);
 
             Vista.Mostrar();
@@ -47,7 +47,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
                 metodosPago.Add(metodo.ObtenerDisplayName());
 
-            //Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
+            Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(c => c.CodigoCompra)]);
             Vista.CargarMetodosPago([.. metodosPago]);
 
             PopularVistaDesdeEntidad(pago);
@@ -61,6 +61,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             return new Pago() { 
                 Id = 0,
                 IdCompra = compra.Id,
+                IdVenta = 0,
                 MetodoPago = Vista.MetodoPago,
                 MontoPagado = Vista.MontoPagado,
                 FechaPago = Vista.FechaPagoProveedor,
@@ -89,11 +90,8 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var repoCompra = RepoCompra.Instancia;
             var compra = repoCompra.Buscar(FiltroBusquedaCompra.Id, Entidad?.IdCompra.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
 
-            //if (repoCompra.CompraEstaPagadaCompletamente(compra.Id))
-            //    repoCompra.CambiarEstadoCompra(compra.Id, EstadoCompraEnum.Completada);
-
-            // Actualizar el método de pago principal de la compra
-            //repoCompra.ActualizarMetodoPagoPrincipal(compra.Id);
+            if (repoCompra.CompraEstaPagadaCompletamente(compra.Id))
+                repoCompra.CambiarEstadoCompra(compra.Id, EstadoCompraEnum.Facturada);
         }
     }
 }
