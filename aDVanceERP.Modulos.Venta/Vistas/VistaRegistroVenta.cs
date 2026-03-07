@@ -172,6 +172,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldNumeroPedido.SelectedValueChanged += delegate {
                 ObtenerPedidoSeleccionado();
             };
+            fieldAlmacenOrigen.SelectedValueChanged += delegate {
+                _almacenSeleccionado = null;   // invalidar caché
+
+                if (_carrito.Count > 0) {
+                    LimpiarCarrito();
+
+                    CentroNotificaciones.MostrarNotificacion(
+                        "El carrito fue limpiado porque cambió el almacén de origen.",
+                        TipoNotificacionEnum.Advertencia);
+                }
+            };  
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
@@ -476,7 +487,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             void LimpiarDatos() {
                 // Limpiar datos
-                _pedidoSeleccionado = null;
                 _productoSeleccionado = null;
                 NombreProducto = string.Empty;
                 Descuento = 0;
@@ -564,34 +574,38 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private void EliminarProductoCarrito(object? sender, EventArgs e) {
-            if (sender is VistaTuplaCarrito tuplaCarrito) {
-                tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                tuplaCarrito.Cerrar();
+            if (sender is not VistaTuplaCarrito tuplaCarrito)
+                return;
 
-                _carrito.Remove(tuplaCarrito.IdProducto);
-            }
+            tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
 
-            // Ajustar posiciones de elementos del carrito
-            for (int i = 0; i < panelProductosVenta.Controls.Count; i++) {
-                object? control = panelProductosVenta.Controls[i];
+            _carrito.Remove(tuplaCarrito.IdProducto);
 
-                if (control is IVistaTuplaCarrito tupla)
-                    tupla.Coordenadas = new Point(0, i * 42);
-            }
+            tuplaCarrito.Cerrar();
+
+            // Reindexar SOLO los que quedan, después del Dispose
+            var restantes = panelProductosVenta.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            for (int i = 0; i < restantes.Count; i++)
+                restantes[i].Coordenadas = new Point(0, i * 42);
 
             fieldNombreProducto.Focus();
-
-            // Calcular totales de la venta
             CalcularTotales();
 
-            // Deshabilitar botones de pago si el carrito está vacío
             if (_carrito.Count == 0) {
                 btnPagoEfectivo.Enabled = false;
                 btnPagoTransferencia.Enabled = false;
-            }
 
-            // Eliminar pagos al modificar el carrito
-            _pagos.Clear();
+                _pagos.Clear();
+
+                MontoPagado = 0;
+
+                CentroNotificaciones.MostrarNotificacion(
+                    "Los pagos registrados fueron eliminados porque el carrito fue modificado.",
+                    TipoNotificacionEnum.Advertencia);
+            }
         }
 
         private void CalcularTotales() {

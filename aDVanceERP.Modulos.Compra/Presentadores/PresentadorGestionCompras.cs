@@ -79,6 +79,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var detallesCompra = repoDetalleCompraProducto.Buscar(FiltroBusquedaDetalleCompra.IdCompra, e.idCompra.ToString()).resultadosBusqueda.Select(dc => dc.entidadBase).ToList();
             var repoProducto = RepoProducto.Instancia;
             var repoMovimiento = RepoMovimiento.Instancia;
+            var tipoMovimientoDevolucion = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución a Proveedor").resultadosBusqueda.FirstOrDefault().entidadBase;
             var repoInventario = RepoInventario.Instancia;
 
             switch (e.estado) {
@@ -152,9 +153,9 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                                 FechaTermino = DateTime.Now,
                                 CantidadMovida = detalleCompra.CantidadRecibida,
                                 SaldoFinal = inventarioProducto.Cantidad + detalleCompra.CantidadRecibida,
-                                IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                                IdTipoMovimiento = tipoMovimientoDevolucion?.Id ?? 0,
                                 IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                                Notas = $"Devolución para la venta del producto: {producto.Nombre}.",
+                                Notas = $"Devolución al proveedor para la compra del producto: {producto.Nombre}.",
                             };
 
                             // Adicionar a la base de datos local
@@ -207,6 +208,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
 
             // Crear movimiento de inventario para cada detalle de compra y revertir el inventario
             var repoMovimiento = RepoMovimiento.Instancia;
+            var tipoMovimientoDevolucion = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución a Proveedor").resultadosBusqueda.FirstOrDefault().entidadBase;
             var repoInventario = RepoInventario.Instancia;
             var detallesCompra = repoDetalleCompraProducto.Buscar(FiltroBusquedaDetalleCompra.IdCompra, compra.Id.ToString()).resultadosBusqueda.Select(dv => dv.entidadBase).ToList();
 
@@ -225,9 +227,9 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     FechaTermino = DateTime.Now,
                     CantidadMovida = detalleCompra.CantidadRecibida,
                     SaldoFinal = inventarioProducto.Cantidad - detalleCompra.CantidadRecibida,
-                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución a Proveedor").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    IdTipoMovimiento = tipoMovimientoDevolucion?.Id ?? 0,
                     IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Devolución para la compra del producto: {producto.Nombre}.",
+                    Notas = $"Devolución al proveedor para la compra del producto: {producto.Nombre}.",
                 };
 
                 // Adicionar a la base de datos local

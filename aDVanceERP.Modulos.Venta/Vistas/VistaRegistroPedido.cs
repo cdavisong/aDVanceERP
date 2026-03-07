@@ -270,24 +270,25 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private void EliminarProductoCarrito(object? sender, EventArgs e) {
-            if (sender is VistaTuplaCarrito tuplaCarrito) {
-                tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
-                tuplaCarrito.Cerrar();
+            if (sender is not VistaTuplaCarrito tuplaCarrito)
+                return;
 
-                _carrito.Remove(tuplaCarrito.IdProducto);
-            }
+            tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
 
-            // Ajustar posiciones de elementos del carrito
-            for (int i = 0; i < panelProductosVenta.Controls.Count; i++) {
-                object? control = panelProductosVenta.Controls[i];
-                
-                if (control is IVistaTuplaCarrito tupla)
-                    tupla.Coordenadas = new Point(0, i * 42);
-            }
+            _carrito.Remove(tuplaCarrito.IdProducto);
+
+            tuplaCarrito.Cerrar();
+
+            // Reindexar SOLO los que quedan, después del Dispose
+            var restantes = panelProductosVenta.Controls
+                .OfType<VistaTuplaCarrito>()
+                .ToList();
+
+            for (int i = 0; i < restantes.Count; i++)
+                restantes[i].Coordenadas = new Point(0, i * 42);
 
             fieldNombreProducto.Focus();
 
-            // Calcular totales de la venta
             CalcularTotales();
         }
 

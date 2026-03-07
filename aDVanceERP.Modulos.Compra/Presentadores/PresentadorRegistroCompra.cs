@@ -83,6 +83,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var repoProducto = RepoProducto.Instancia;
             var repoDetalleCompra = RepoDetalleCompraProducto.Instancia;
             var repoinventario = RepoInventario.Instancia;
+            var tipoMovimientoCompra = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Compra").resultadosBusqueda.FirstOrDefault().entidadBase;
             var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             foreach (var productoCarrito in Vista.Carrito) {
@@ -119,8 +120,8 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     SaldoInicial = inventarioProducto.Cantidad,
                     FechaTermino = Entidad?.EstadoCompra == EstadoCompraEnum.Facturada ? DateTime.Now : DateTime.MinValue,
                     CantidadMovida = productoCarrito.Value.Cantidad,
-                    SaldoFinal = inventarioProducto.Cantidad - productoCarrito.Value.Cantidad,
-                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Compra").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    SaldoFinal = inventarioProducto.Cantidad + productoCarrito.Value.Cantidad,
+                    IdTipoMovimiento = tipoMovimientoCompra?.Id ?? 0,
                     IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                     Notas = "Compra de producto.",
                 };
