@@ -104,8 +104,6 @@ namespace aDVanceERP.Desktop.Presentadores {
         }
 
         public void AdicionarBotonBarraTitulo(Guna2Button btnTitulo) {
-            Vista.BotonesTitulo.SuspendLayout();
-
             CustomizableEdges customizableEdges = new CustomizableEdges();
 
             btnTitulo.Animated = true;
@@ -118,12 +116,12 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnTitulo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnTitulo.ForeColor = Color.White;
             btnTitulo.ImageSize = new Size(20, 20);
+            btnTitulo.Margin = new Padding(1);
             btnTitulo.ShadowDecoration.CustomizableEdges = customizableEdges;
             btnTitulo.Size = new Size(50, 50);
             btnTitulo.TabIndex = Vista.BotonesTitulo.Controls.Count + 1;
 
             Vista.BotonesTitulo.Controls.Add(btnTitulo);
-            Vista.BotonesTitulo.ResumeLayout(false);
         }
 
         public void Dispose() {

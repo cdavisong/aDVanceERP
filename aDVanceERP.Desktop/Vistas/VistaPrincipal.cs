@@ -67,7 +67,7 @@ namespace aDVanceERP.Desktop.Vistas {
         }
 
         public void ModificarVisibilidadBotonesBarraTitulo(bool visible) {
-            BotonesTitulo.Controls.OfType<Guna2Button>().ToList().ForEach(b => b.Visible = visible);
+            BotonesTitulo.Visible = visible;
         }
 
         public void Mostrar() {

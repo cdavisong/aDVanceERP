@@ -31,8 +31,6 @@ namespace aDVanceERP.Desktop.Presentadores {
         }
 
         public void AdicionarBotonAccesoModulo(Guna2CircleButton btnModulo, string nombreModulo) {
-            Vista.PanelMenuLateral.SuspendLayout();
-
             CustomizableEdges customizableEdges = new CustomizableEdges();
 
             // Propiedades comunes
@@ -62,7 +60,6 @@ namespace aDVanceERP.Desktop.Presentadores {
             // Agregar al panel lateral
             Vista.PanelMenuLateral.Controls.Add(btnModulo);
             Vista.PanelMenuLateral.Controls.SetChildIndex(btnModulo, btnModulo.TabIndex);
-            Vista.PanelMenuLateral.ResumeLayout(false);
         }
 
         public IVistaPrincipal VistaPrincipal { get; }
