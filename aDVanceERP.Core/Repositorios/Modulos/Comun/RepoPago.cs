@@ -96,8 +96,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             var consultaComun = $"""
                 SELECT p.*, {(pagoVenta ? "v.numero_factura_ticket, v.importe_total" : "c.codigo, c.total_compra")} as total_compraventa
                 FROM adv__pago p
-                {(pagoVenta ? string.Empty : "LEFT JOIN adv__compra c ON p.id_compra = c.id_compra")}
-                {(pagoVenta ? "LEFT JOIN adv__venta v ON p.id_venta = v.id_venta" : string.Empty)}
+                {(pagoVenta ? string.Empty : "JOIN adv__compra c ON p.id_compra = c.id_compra")}
+                {(pagoVenta ? "JOIN adv__venta v ON p.id_venta = v.id_venta" : string.Empty)}
                 {(criteriosBusqueda.Length == 4 && filtroBusqueda == FiltroBusquedaPago.Todos ? "WHERE p.fecha_pago >= @fecha_desde AND p.fecha_pago <= @fecha_hasta" : string.Empty)}
                 """;
 
