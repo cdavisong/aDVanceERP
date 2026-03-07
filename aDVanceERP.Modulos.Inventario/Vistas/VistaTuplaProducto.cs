@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 EditarDatosTupla?.Invoke(new object[] { NombreAlmacen }, e);
             };
             btnEliminar.Click += async delegate (object? sender, EventArgs e) {
-                if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.Producto, NombreProducto).cantidad > 0)
+                if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.NombreProducto, NombreProducto).cantidad > 0)
                     EliminarDatosTupla?.Invoke(this, e);
                 else
                     CentroNotificaciones.MostrarNotificacion(

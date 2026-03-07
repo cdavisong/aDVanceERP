@@ -2,13 +2,9 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
-using aDVanceERP.Core.Modelos.Modulos.Maestros;
-using aDVanceERP.Core.Modelos.Modulos.RecursosHumanos;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compra;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Repositorios.Modulos.Maestros;
-using aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos;
 using aDVanceERP.Modulos.Compra.Interfaces;
 
 namespace aDVanceERP.Modulos.Compra.Presentadores {

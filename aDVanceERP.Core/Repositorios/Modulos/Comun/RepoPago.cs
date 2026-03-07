@@ -121,21 +121,21 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
                 FiltroBusquedaPago.Id => new Dictionary<string, object> {
                     { "@id_pago", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
                 },
                 FiltroBusquedaPago.IdCompraVenta => new Dictionary<string, object> {
                     { "@id_compraventa", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
                 },
                 FiltroBusquedaPago.Estado => new Dictionary<string, object> {
                     { "@estado_pago", criterio },
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
                 },
                 _ => new Dictionary<string, object>() {
                     { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 00:00:00") }
+                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
                 }
             };
 

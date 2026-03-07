@@ -160,9 +160,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         private Color ObtenerColorFondoTupla(EstadoVentaEnum estado) {
-            if (!Activo)
-                return BackColor;
-
             return estado switch {
                 EstadoVentaEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
                 EstadoVentaEnum.Anulada => ContextoAplicacion.ColorErrorTupla,

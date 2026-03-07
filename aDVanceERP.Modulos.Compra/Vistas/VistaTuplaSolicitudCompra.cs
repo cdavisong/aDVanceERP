@@ -162,9 +162,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         }
 
         private Color ObtenerColorFondoTupla(EstadoSolicitudCompraEnum estado) {
-            if (!Activo)
-                return BackColor;
-
             return estado switch {
                 EstadoSolicitudCompraEnum.Pendiente_Aprobacion => ContextoAplicacion.ColorAdvertenciaTupla,
                 EstadoSolicitudCompraEnum.Cancelada => ContextoAplicacion.ColorErrorTupla,

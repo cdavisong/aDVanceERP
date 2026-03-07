@@ -32,8 +32,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 )
                 """;
 
-            parametros = new Dictionary<string, object>
-            {
+            parametros = new Dictionary<string, object> {
                 { "@codigo", entidad.Codigo },
                 { "@id_solicitante", entidad.IdSolicitante },
                 { "@fecha_solicitud", entidad.FechaSolicitud.ToString("yyyy-MM-dd HH:mm:ss") },

@@ -31,8 +31,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 )
                 """;
 
-            parametros = new Dictionary<string, object>
-            {
+            parametros = new Dictionary<string, object> {
                 { "@id_compra", entidad.IdCompra },
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_ordenada", entidad.CantidadOrdenada },
@@ -59,8 +58,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 WHERE id_detalle_compra_producto = @id_detalle
                 """;
 
-            parametros = new Dictionary<string, object>
-            {
+            parametros = new Dictionary<string, object> {
                 { "@id_compra", entidad.IdCompra },
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_ordenada", entidad.CantidadOrdenada },

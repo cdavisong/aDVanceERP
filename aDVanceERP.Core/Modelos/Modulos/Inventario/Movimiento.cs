@@ -62,7 +62,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public enum FiltroBusquedaMovimiento {
         Todos,
         Id,
-        Producto,
+        NombreProducto,
         AlmacenOrigen,
         AlmacenDestino,
         Fecha,

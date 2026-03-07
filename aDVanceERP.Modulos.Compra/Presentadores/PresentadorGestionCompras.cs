@@ -73,8 +73,10 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
         }
 
         private void OnCambioEstadoCompra(object? sender, (long idCompra, EstadoCompraEnum estado) e) {
+            var repoSolicitudCompra = RepoSolicitudCompra.Instancia;
             var repoCompra = RepoCompra.Instancia;
             var compra = repoCompra.ObtenerPorId(e.idCompra)!;
+            var solicitudCompra = repoSolicitudCompra.ObtenerPorId(compra.IdSolicitudCompra)!;
             var repoDetalleCompraProducto = RepoDetalleCompraProducto.Instancia;
             var detallesCompra = repoDetalleCompraProducto.Buscar(FiltroBusquedaDetalleCompra.IdCompra, e.idCompra.ToString()).resultadosBusqueda.Select(dc => dc.entidadBase).ToList();
             var repoProducto = RepoProducto.Instancia;
@@ -83,6 +85,13 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var repoInventario = RepoInventario.Instancia;
 
             switch (e.estado) {
+                case EstadoCompraEnum.Aprobada:
+                    // Convertir la solicitud de compra si se consumió una en la compra actual
+                    if (solicitudCompra != null)
+                        repoSolicitudCompra.CambiarEstadoSolicitudCompra(solicitudCompra.Id, EstadoSolicitudCompraEnum.Convertida);
+
+                    repoCompra.CambiarEstadoCompra(compra.Id, EstadoCompraEnum.Aprobada);
+                    break;
                 case EstadoCompraEnum.Recibida_Completa:
                     foreach (var detalleCompra in detallesCompra) {
                         // Actualizar la cantidad recibida
@@ -93,7 +102,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                         // Completar los movimientos pendientes
                         var producto = repoProducto.ObtenerPorId(detalleCompra.IdProducto);
                         var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.Producto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.NombreProducto, producto!.Nombre).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Completado;
@@ -108,16 +117,13 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                                 detalleCompra.CantidadRecibida);
                         }
                     }
+
+                    repoCompra.CambiarEstadoCompra(compra.Id, EstadoCompraEnum.Recibida_Completa);
                     break;
                 case EstadoCompraEnum.Cancelada:
                     // Verificar si la compra está asociada a alguna solicitud de compra y cancelarla
-                    if (compra.IdSolicitudCompra != 0) {
-                        var repoSolicitudCompra = RepoSolicitudCompra.Instancia;
-                        var solicitudCompra = repoSolicitudCompra.ObtenerPorId(compra.IdSolicitudCompra);
-
-                        if (solicitudCompra != null)
-                            repoSolicitudCompra.CambiarEstadoSolicitudCompra(solicitudCompra.Id, EstadoSolicitudCompraEnum.Cancelada);
-                    }
+                    if (solicitudCompra != null)
+                        repoSolicitudCompra.CambiarEstadoSolicitudCompra(solicitudCompra.Id, EstadoSolicitudCompraEnum.Cancelada);
 
                     // Verificar si la compra tiene pagos asociados (pendientes o no) y anularlos
                     var repoPago = RepoPago.Instancia;
@@ -132,7 +138,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     foreach (var detalleCompra in detallesCompra) {
                         var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompra.IdProducto);
                         var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.Producto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.NombreProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Cancelado;

@@ -119,7 +119,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoObtener(FiltroBusquedaMovimiento filtroBusqueda, out Dictionary<string, object> parametros, string[]? criteriosBusqueda) {
             var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
             var consultaComun = $"""
-                    SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
+                SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
                 FROM adv__movimiento m
                 JOIN adv__producto p ON m.id_producto = p.id_producto
                 LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
@@ -129,16 +129,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaMovimiento.Id => $"""
                     {consultaComun}
-                WHERE id_movimiento = @id_movimiento;
-                """,
-                FiltroBusquedaMovimiento.Producto => $"""
+                    WHERE id_movimiento = @id_movimiento;
+                    """,
+                FiltroBusquedaMovimiento.NombreProducto => $"""
                     {consultaComun}
-                WHERE LOWER(p.nombre) LIKE LOWER(@nombre_producto);
-                """,
+                    WHERE LOWER(p.nombre) LIKE LOWER(@nombre_producto);
+                    """,
                 FiltroBusquedaMovimiento.AlmacenOrigen => $"""
                     {consultaComun}
-                WHERE LOWER(ao.nombre) LIKE LOWER(@nombre_almacen_origen);
-                """,
+                    WHERE LOWER(ao.nombre) LIKE LOWER(@nombre_almacen_origen);
+                    """,
                 FiltroBusquedaMovimiento.AlmacenDestino => $"""
                     {consultaComun}
                 WHERE LOWER(ad.nombre) LIKE LOWER(@nombre_almacen_destino);
@@ -160,7 +160,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 FiltroBusquedaMovimiento.Id => new Dictionary<string, object> {
                     { "@id_movimiento", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                 },
-                FiltroBusquedaMovimiento.Producto => new Dictionary<string, object> {
+                FiltroBusquedaMovimiento.NombreProducto => new Dictionary<string, object> {
                     { "@nombre_producto", $"%{criterio}%" }
                 },
                 FiltroBusquedaMovimiento.AlmacenOrigen => new Dictionary<string, object> {
