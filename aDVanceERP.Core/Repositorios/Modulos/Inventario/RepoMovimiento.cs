@@ -141,19 +141,19 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     """,
                 FiltroBusquedaMovimiento.AlmacenDestino => $"""
                     {consultaComun}
-                WHERE LOWER(ad.nombre) LIKE LOWER(@nombre_almacen_destino);
-                """,
+                    WHERE LOWER(ad.nombre) LIKE LOWER(@nombre_almacen_destino);
+                    """,
                 FiltroBusquedaMovimiento.Fecha => $"""
                     {consultaComun}
-                WHERE DATE(fecha) = @fecha;
-                """,
+                    WHERE DATE(m.fecha_creacion) = @fecha;
+                    """,
                 FiltroBusquedaMovimiento.TipoMovimiento => $"""
                     {consultaComun}
-                WHERE LOWER(tm.nombre) LIKE LOWER(@nombre_tipo_movimiento);
-                """,
+                    WHERE LOWER(tm.nombre) LIKE LOWER(@nombre_tipo_movimiento);
+                    """,
                 _ => $"""
                     {consultaComun};
-                """,
+                    """,
             };
 
             parametros = filtroBusqueda switch {
