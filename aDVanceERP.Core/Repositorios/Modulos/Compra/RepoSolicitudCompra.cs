@@ -241,6 +241,36 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
         }
 
+        public bool CambiarEstadoSolicitudCompra(long idSolicitudCompra, EstadoSolicitudCompraEnum nuevoEstado) {
+            var consulta = $"""
+                UPDATE adv__solicitud_compra
+                SET estado = @nuevo_estado
+                WHERE id_solicitud_compra = @id_solicitud_compra;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_solicitud_compra", idSolicitudCompra },
+                { "@nuevo_estado", nuevoEstado.ToString() }
+            };
+
+            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
+        }
+
+        public string[] ObtenerCodigosSolicitudes() {
+            var consulta = $"""
+                SELECT codigo
+                FROM adv__solicitud_compra
+                WHERE estado_pedido NOT IN ('Borrador', 'Pendiente_Aprobacion', 'Rechazada', 'Convertida', 'Cancelada');
+                """;
+            var parametros = new Dictionary<string, object>();
+
+            return ContextoBaseDatos.EjecutarConsulta(consulta, parametros, MapearCodigoSolicitud).Select(result => result.entidadBase).ToArray() ?? [];
+        }
+
+        private (string, List<IEntidadBaseDatos>) MapearCodigoSolicitud(MySqlDataReader lector) {
+            return (Convert.ToString(lector["codigo"]) ?? string.Empty, []);
+        }
+
         #endregion
     }
 }

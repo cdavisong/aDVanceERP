@@ -115,6 +115,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             set {
                 _estadoCompra = value;
                 fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Font = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
+                fieldEstado.ForeColor = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? Color.DimGray : Color.DodgerBlue;
+                fieldEstado.Cursor = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? Cursors.Default : Cursors.Hand;
                 btnVerFactura.Visible = value == EstadoCompraEnum.Facturada;
                 btnAnular.Enabled = value != EstadoCompraEnum.Recibida_Completa && value != EstadoCompraEnum.Facturada;
                 layoutVista.BackColor = ObtenerColorFondoTupla(value);
@@ -132,6 +135,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public bool Activo { get; set; }
 
+        public event EventHandler<(long idCompra, EstadoCompraEnum estado)> CambioEstadoCompra;
         public event EventHandler<(long, FormatoDocumento)>? ExportarFacturaCompra;
         public event EventHandler<long>? AnularCompra;
         public event EventHandler? EditarDatosTupla;
@@ -139,6 +143,27 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public void Inicializar() {
             // Eventos
+            fieldEstado.Click += delegate {
+                if (EstadoCompra == EstadoCompraEnum.Facturada || EstadoCompra == EstadoCompraEnum.Cancelada)
+                    return;
+
+                btnEstadoAprobada.Visible = EstadoCompra == EstadoCompraEnum.Pendiente_Aprobacion;
+                btnEstadoRechazada.Visible = EstadoCompra == EstadoCompraEnum.Pendiente_Aprobacion;
+                btnEstadoRecibida.Visible = EstadoCompra == EstadoCompraEnum.Aprobada;
+                fieldEstado.ContextMenuStrip?.Show(fieldEstado, new Point(0, 40));
+            };
+            btnEstadoAprobada.Click += delegate (object? sender, EventArgs e) {
+                EstadoCompra = EstadoCompraEnum.Aprobada;
+                CambioEstadoCompra?.Invoke(this, (Id, EstadoCompra));
+            };
+            btnEstadoRechazada.Click += delegate (object? sender, EventArgs e) {
+                EstadoCompra = EstadoCompraEnum.Cancelada;
+                CambioEstadoCompra?.Invoke(this, (Id, EstadoCompra));
+            };
+            btnEstadoRecibida.Click += delegate (object? sender, EventArgs e) {
+                EstadoCompra = EstadoCompraEnum.Recibida_Completa;
+                CambioEstadoCompra?.Invoke(this, (Id, EstadoCompra));
+            };
             btnVerFactura.Click += delegate { btnVerFactura.ContextMenuStrip?.Show(btnVerFactura, new Point(0, 40)); };
             btnExportarPdf.Click += delegate { ExportarFacturaCompra?.Invoke(this, (Id, FormatoDocumento.PDF)); };
             btnExportarXlsx.Click += delegate { ExportarFacturaCompra?.Invoke(this, (Id, FormatoDocumento.Excel)); };

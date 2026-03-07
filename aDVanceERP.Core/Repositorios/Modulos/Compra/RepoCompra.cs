@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
@@ -312,33 +313,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             }
         }
 
-        public bool AprobarCompra(long idCompra, long idAprobador) {
-            var consulta = """
+        public bool CambiarEstadoCompra(long idCompra, EstadoCompraEnum nuevoEstado) {
+            var consulta = $"""
                 UPDATE adv__compra
-                SET estado_compra = 'Aprobada',
-                    fecha_aprobacion = NOW(),
-                    aprobado_por = @aprobado_por
-                WHERE id_compra = @id_compra 
-                  AND estado_compra IN ('Borrador', 'Pendiente_Aprobacion')
+                SET estado_compra = @nuevo_estado
+                WHERE id_compra = @id_compra;
                 """;
-            var parametros = new Dictionary<string, object>
-            {
-                { "@id_compra", idCompra },
-                { "@aprobado_por", idAprobador }
-            };
 
-            return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
-        }
-
-        public bool EnviarCompra(long idCompra) {
-            var consulta = """
-                UPDATE adv__compra
-                SET estado_compra = 'Enviada'
-                WHERE id_compra = @id_compra 
-                  AND estado_compra = 'Aprobada'
-                """;
             var parametros = new Dictionary<string, object> {
-                { "@id_compra", idCompra }
+                { "@id_compra", idCompra },
+                { "@nuevo_estado", nuevoEstado.ToString() }
             };
 
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
@@ -381,6 +365,31 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
 
             var totalPagado = ObtenerTotalPagado(idCompra);
             return compra.TotalCompra - totalPagado;
+        }
+
+        public bool CompraEstaPagadaCompletamente(long idCompra) {
+            var consulta = $"""
+                SELECT 
+                    CASE 
+                        WHEN c.total_compra <= COALESCE(SUM(p.monto_pagado), 0) 
+                            AND COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) = 0
+                        THEN 1 
+                        ELSE 0 
+                    END as esta_pagada
+                FROM adv__compra c
+                LEFT JOIN adv__pago p ON c.id_compra = p.id_compra 
+                    AND p.estado_pago IN ('Confirmado', 'Pendiente')
+                WHERE c.id_compra = @id_compra
+                GROUP BY c.id_compra, c.total_compra;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id_compra", idCompra }
+            };
+
+            var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta, parametros);
+
+            return resultado == 1;
         }
 
         #endregion

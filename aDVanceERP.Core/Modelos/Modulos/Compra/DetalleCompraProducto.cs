@@ -10,25 +10,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             ImpuestoPorcentaje = 0;
         }
 
-        public DetalleCompraProducto(
-            long id,
-            long idCompra,
-            long idProducto,
-            decimal cantidadOrdenada,
-            decimal cantidadRecibida,
-            decimal costoUnitario,
-            decimal descuento,
-            decimal impuestoPorcentaje) {
-            Id = id;
-            IdCompra = idCompra;
-            IdProducto = idProducto;
-            CantidadOrdenada = cantidadOrdenada;
-            CantidadRecibida = cantidadRecibida;
-            CostoUnitario = costoUnitario;
-            Descuento = descuento;
-            ImpuestoPorcentaje = impuestoPorcentaje;
-        }
-
         public long Id { get; set; }
         public long IdCompra { get; set; }
         public long IdProducto { get; set; }

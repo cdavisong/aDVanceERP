@@ -28,15 +28,19 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaCompra));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaCompra));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
             fieldObservaciones = new Label();
             fieldEstado = new Label();
+            menuEstados = new ContextMenuStrip(components);
+            btnEstadoAprobada = new ToolStripMenuItem();
+            btnEstadoRechazada = new ToolStripMenuItem();
+            btnEstadoRecibida = new ToolStripMenuItem();
             fieldCondicionPago = new Label();
             fieldCodigo = new Label();
             btnVerFactura = new Guna2Button();
@@ -51,13 +55,10 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldImpuestoTotal = new Label();
             fieldSubtotal = new Label();
             fieldFechaCompra = new Label();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            toolStripMenuItem1 = new ToolStripMenuItem();
-            toolStripMenuItem2 = new ToolStripMenuItem();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
+            menuEstados.SuspendLayout();
             menuFormatoDocumento.SuspendLayout();
-            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // layoutBase
@@ -88,11 +89,10 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.Controls.Add(fieldObservaciones, 9, 0);
             layoutVista.Controls.Add(fieldEstado, 10, 0);
             layoutVista.Controls.Add(fieldCondicionPago, 2, 0);
@@ -122,27 +122,71 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldObservaciones.Font = new Font("Segoe UI", 11.25F);
             fieldObservaciones.ForeColor = Color.DimGray;
             fieldObservaciones.ImeMode = ImeMode.NoControl;
-            fieldObservaciones.Location = new Point(819, 1);
+            fieldObservaciones.Location = new Point(792, 1);
             fieldObservaciones.Margin = new Padding(5, 1, 1, 1);
             fieldObservaciones.Name = "fieldObservaciones";
-            fieldObservaciones.Size = new Size(170, 39);
+            fieldObservaciones.Size = new Size(137, 39);
             fieldObservaciones.TabIndex = 39;
             fieldObservaciones.Text = "observaciones";
             fieldObservaciones.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldEstado
             // 
+            fieldEstado.ContextMenuStrip = menuEstados;
             fieldEstado.Dock = DockStyle.Fill;
-            fieldEstado.Font = new Font("Segoe UI", 11.25F);
-            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Underline);
+            fieldEstado.ForeColor = Color.DodgerBlue;
             fieldEstado.ImeMode = ImeMode.NoControl;
-            fieldEstado.Location = new Point(991, 1);
+            fieldEstado.Location = new Point(931, 1);
             fieldEstado.Margin = new Padding(1);
             fieldEstado.Name = "fieldEstado";
-            fieldEstado.Size = new Size(128, 39);
+            fieldEstado.Size = new Size(188, 39);
             fieldEstado.TabIndex = 38;
             fieldEstado.Text = "estado";
             fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // menuEstados
+            // 
+            menuEstados.BackColor = Color.White;
+            menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoAprobada, btnEstadoRechazada, btnEstadoRecibida });
+            menuEstados.Name = "menuGastoIndirecto";
+            menuEstados.Size = new Size(153, 82);
+            // 
+            // btnEstadoAprobada
+            // 
+            btnEstadoAprobada.BackColor = Color.White;
+            btnEstadoAprobada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoAprobada.Image = (Image) resources.GetObject("btnEstadoAprobada.Image");
+            btnEstadoAprobada.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoAprobada.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoAprobada.Name = "btnEstadoAprobada";
+            btnEstadoAprobada.Size = new Size(152, 26);
+            btnEstadoAprobada.Text = "Aprobada";
+            btnEstadoAprobada.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoRechazada
+            // 
+            btnEstadoRechazada.BackColor = Color.White;
+            btnEstadoRechazada.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoRechazada.Image = (Image) resources.GetObject("btnEstadoRechazada.Image");
+            btnEstadoRechazada.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoRechazada.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoRechazada.Name = "btnEstadoRechazada";
+            btnEstadoRechazada.Size = new Size(152, 26);
+            btnEstadoRechazada.Text = "Rechazada";
+            btnEstadoRechazada.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnEstadoRecibida
+            // 
+            btnEstadoRecibida.BackColor = Color.White;
+            btnEstadoRecibida.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnEstadoRecibida.Image = (Image) resources.GetObject("btnEstadoRecibida.Image");
+            btnEstadoRecibida.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEstadoRecibida.ImageScaling = ToolStripItemImageScaling.None;
+            btnEstadoRecibida.Name = "btnEstadoRecibida";
+            btnEstadoRecibida.Size = new Size(152, 26);
+            btnEstadoRecibida.Text = "Recibida";
+            btnEstadoRecibida.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldCondicionPago
             // 
@@ -154,7 +198,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldCondicionPago.Location = new Point(285, 1);
             fieldCondicionPago.Margin = new Padding(5, 1, 1, 1);
             fieldCondicionPago.Name = "fieldCondicionPago";
-            fieldCondicionPago.Size = new Size(138, 39);
+            fieldCondicionPago.Size = new Size(111, 39);
             fieldCondicionPago.TabIndex = 37;
             fieldCondicionPago.Text = "condicionPago";
             fieldCondicionPago.TextAlign = ContentAlignment.MiddleLeft;
@@ -183,7 +227,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnVerFactura.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnVerFactura.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnVerFactura.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnVerFactura.CustomizableEdges = customizableEdges1;
+            btnVerFactura.CustomizableEdges = customizableEdges5;
             btnVerFactura.Dock = DockStyle.Fill;
             btnVerFactura.FillColor = Color.White;
             btnVerFactura.Font = new Font("Segoe UI", 9.75F);
@@ -192,7 +236,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnVerFactura.HoverState.FillColor = Color.PeachPuff;
             btnVerFactura.Location = new Point(1163, 3);
             btnVerFactura.Name = "btnVerFactura";
-            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnVerFactura.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnVerFactura.Size = new Size(34, 35);
             btnVerFactura.TabIndex = 21;
             btnVerFactura.Visible = false;
@@ -237,7 +281,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnAnular.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnAnular.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnAnular.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnAnular.CustomizableEdges = customizableEdges3;
+            btnAnular.CustomizableEdges = customizableEdges1;
             btnAnular.Dock = DockStyle.Fill;
             btnAnular.FillColor = Color.White;
             btnAnular.Font = new Font("Segoe UI", 9.75F);
@@ -247,7 +291,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnAnular.HoverState.ForeColor = Color.White;
             btnAnular.Location = new Point(1203, 3);
             btnAnular.Name = "btnAnular";
-            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnAnular.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnAnular.Size = new Size(35, 35);
             btnAnular.TabIndex = 22;
             // 
@@ -258,7 +302,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             simboloPeso4.ForeColor = Color.Black;
             simboloPeso4.ImageAlign = ContentAlignment.MiddleLeft;
             simboloPeso4.ImeMode = ImeMode.NoControl;
-            simboloPeso4.Location = new Point(797, 5);
+            simboloPeso4.Location = new Point(770, 5);
             simboloPeso4.Margin = new Padding(3, 5, 3, 3);
             simboloPeso4.Name = "simboloPeso4";
             simboloPeso4.Size = new Size(14, 33);
@@ -272,7 +316,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldImporteTotal.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldImporteTotal.ForeColor = Color.Black;
             fieldImporteTotal.ImeMode = ImeMode.NoControl;
-            fieldImporteTotal.Location = new Point(685, 1);
+            fieldImporteTotal.Location = new Point(658, 1);
             fieldImporteTotal.Margin = new Padding(1);
             fieldImporteTotal.Name = "fieldImporteTotal";
             fieldImporteTotal.Size = new Size(108, 39);
@@ -287,7 +331,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             simboloPeso3.ForeColor = Color.Black;
             simboloPeso3.ImageAlign = ContentAlignment.MiddleLeft;
             simboloPeso3.ImeMode = ImeMode.NoControl;
-            simboloPeso3.Location = new Point(667, 5);
+            simboloPeso3.Location = new Point(640, 5);
             simboloPeso3.Margin = new Padding(3, 5, 3, 3);
             simboloPeso3.Name = "simboloPeso3";
             simboloPeso3.Size = new Size(14, 33);
@@ -302,7 +346,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             simboloPeso1.ForeColor = Color.Black;
             simboloPeso1.ImageAlign = ContentAlignment.MiddleLeft;
             simboloPeso1.ImeMode = ImeMode.NoControl;
-            simboloPeso1.Location = new Point(537, 5);
+            simboloPeso1.Location = new Point(510, 5);
             simboloPeso1.Margin = new Padding(3, 5, 3, 3);
             simboloPeso1.Name = "simboloPeso1";
             simboloPeso1.Size = new Size(14, 33);
@@ -316,7 +360,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldImpuestoTotal.Font = new Font("Segoe UI", 11.25F);
             fieldImpuestoTotal.ForeColor = Color.Black;
             fieldImpuestoTotal.ImeMode = ImeMode.NoControl;
-            fieldImpuestoTotal.Location = new Point(555, 1);
+            fieldImpuestoTotal.Location = new Point(528, 1);
             fieldImpuestoTotal.Margin = new Padding(1);
             fieldImpuestoTotal.Name = "fieldImpuestoTotal";
             fieldImpuestoTotal.Size = new Size(108, 39);
@@ -330,7 +374,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldSubtotal.Font = new Font("Segoe UI", 11.25F);
             fieldSubtotal.ForeColor = Color.Black;
             fieldSubtotal.ImeMode = ImeMode.NoControl;
-            fieldSubtotal.Location = new Point(425, 1);
+            fieldSubtotal.Location = new Point(398, 1);
             fieldSubtotal.Margin = new Padding(1);
             fieldSubtotal.Name = "fieldSubtotal";
             fieldSubtotal.Size = new Size(108, 39);
@@ -352,37 +396,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldFechaCompra.Text = "fecha";
             fieldFechaCompra.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.BackColor = Color.White;
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, toolStripMenuItem2 });
-            contextMenuStrip1.Name = "menuGastoIndirecto";
-            contextMenuStrip1.Size = new Size(114, 56);
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.BackColor = Color.White;
-            toolStripMenuItem1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            toolStripMenuItem1.Image = (Image) resources.GetObject("toolStripMenuItem1.Image");
-            toolStripMenuItem1.ImageAlign = ContentAlignment.MiddleLeft;
-            toolStripMenuItem1.ImageScaling = ToolStripItemImageScaling.None;
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(113, 26);
-            toolStripMenuItem1.Text = "PDF";
-            toolStripMenuItem1.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // toolStripMenuItem2
-            // 
-            toolStripMenuItem2.BackColor = Color.White;
-            toolStripMenuItem2.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            toolStripMenuItem2.Image = (Image) resources.GetObject("toolStripMenuItem2.Image");
-            toolStripMenuItem2.ImageAlign = ContentAlignment.MiddleLeft;
-            toolStripMenuItem2.ImageScaling = ToolStripItemImageScaling.None;
-            toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(113, 26);
-            toolStripMenuItem2.Text = "XLSX";
-            toolStripMenuItem2.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // VistaTuplaCompra
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -399,8 +412,8 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             Text = "VistaTuplaCompra";
             layoutBase.ResumeLayout(false);
             layoutVista.ResumeLayout(false);
+            menuEstados.ResumeLayout(false);
             menuFormatoDocumento.ResumeLayout(false);
-            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -425,8 +438,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private ToolStripMenuItem btnExportarPdf;
         private ToolStripMenuItem btnExportarXlsx;
         private Label fieldObservaciones;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
+        private ContextMenuStrip menuEstados;
+        private ToolStripMenuItem btnEstadoAprobada;
+        private ToolStripMenuItem btnEstadoRechazada;
+        private ToolStripMenuItem btnEstadoRecibida;
     }
 }

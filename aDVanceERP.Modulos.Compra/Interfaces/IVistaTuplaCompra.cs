@@ -23,6 +23,7 @@ namespace aDVanceERP.Modulos.Compra.Interfaces {
         string Observaciones { get; set; }
         bool Activo { get; set; }
 
+        event EventHandler<(long idCompra, EstadoCompraEnum estado)> CambioEstadoCompra;
         event EventHandler<(long, FormatoDocumento)>? ExportarFacturaCompra;
         event EventHandler<long>? AnularCompra;
     }

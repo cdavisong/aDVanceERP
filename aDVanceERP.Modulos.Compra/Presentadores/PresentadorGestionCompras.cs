@@ -5,10 +5,12 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compra;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Compra.Interfaces;
 using aDVanceERP.Modulos.Compra.Vistas;
 
@@ -56,7 +58,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             presentadorTupla.Vista.IdTipoCompra = entidad.IdTipoCompra;
             presentadorTupla.Vista.FechaOrden = entidad.FechaOrden;
             presentadorTupla.Vista.FechaEntregaEsperada = entidad.FechaEntregaEsperada ?? DateTime.MinValue;
-            presentadorTupla.Vista.CondicionesPago = entidad.CondicionesPago;  
+            presentadorTupla.Vista.CondicionesPago = entidad.CondicionesPago;
             presentadorTupla.Vista.Subtotal = entidad.Subtotal;
             presentadorTupla.Vista.ImpuestoTotal = entidad.ImpuestoTotal;
             presentadorTupla.Vista.TotalCompra = entidad.TotalCompra;
@@ -65,10 +67,114 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             presentadorTupla.Vista.AprobadoPor = entidad.AprobadoPor;
             presentadorTupla.Vista.Observaciones = entidad.Observaciones;
             presentadorTupla.Vista.Activo = entidad.Activo;
+            presentadorTupla.Vista.CambioEstadoCompra += OnCambioEstadoCompra;
             presentadorTupla.Vista.ExportarFacturaCompra += OnExportarDocumentoFacturaCompra;
             presentadorTupla.Vista.AnularCompra += OnCancelarCompra;
 
             return presentadorTupla;
+        }
+
+        private void OnCambioEstadoCompra(object? sender, (long idCompra, EstadoCompraEnum estado) e) {
+            var repoCompra = RepoCompra.Instancia;
+            var compra = repoCompra.ObtenerPorId(e.idCompra)!;
+            var repoDetalleCompraProducto = RepoDetalleCompraProducto.Instancia;
+            var detallesCompra = repoDetalleCompraProducto.Buscar(FiltroBusquedaDetalleCompra.IdCompra, e.idCompra.ToString()).resultadosBusqueda.Select(dc => dc.entidadBase).ToList();
+            var repoProducto = RepoProducto.Instancia;
+            var repoMovimiento = RepoMovimiento.Instancia;
+            var repoInventario = RepoInventario.Instancia;
+
+            switch (e.estado) {
+                case EstadoCompraEnum.Recibida_Completa:
+                    foreach (var detalleCompra in detallesCompra) {
+                        // Actualizar la cantidad recibida
+                        detalleCompra.CantidadRecibida = detalleCompra.CantidadOrdenada;
+
+                        repoDetalleCompraProducto.Editar(detalleCompra);
+
+                        // Completar los movimientos pendientes
+                        var producto = repoProducto.ObtenerPorId(detalleCompra.IdProducto);
+                        var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.Producto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+
+                        if (movimientoPendiente != null) {
+                            movimientoPendiente.Estado = EstadoMovimiento.Completado;
+
+                            repoMovimiento.Editar(movimientoPendiente);
+
+                            // Modificar inventario
+                            repoInventario.ModificarInventario(
+                                producto!.Id,
+                                0,
+                                compra.IdAlmacenDestino,
+                                detalleCompra.CantidadRecibida);
+                        }
+                    }
+                    break;
+                case EstadoCompraEnum.Cancelada:
+                    // Verificar si la compra está asociada a alguna solicitud de compra y cancelarla
+                    if (compra.IdSolicitudCompra != 0) {
+                        var repoSolicitudCompra = RepoSolicitudCompra.Instancia;
+                        var solicitudCompra = repoSolicitudCompra.ObtenerPorId(compra.IdSolicitudCompra);
+
+                        if (solicitudCompra != null)
+                            repoSolicitudCompra.CambiarEstadoSolicitudCompra(solicitudCompra.Id, EstadoSolicitudCompraEnum.Cancelada);
+                    }
+
+                    // Verificar si la compra tiene pagos asociados (pendientes o no) y anularlos
+                    var repoPago = RepoPago.Instancia;
+                    var pagosCompra = repoPago.Buscar(FiltroBusquedaPago.IdCompraVenta, e.idCompra.ToString(), "Compra").resultadosBusqueda.Select(p => p.entidadBase).ToList();
+
+                    if (pagosCompra?.Count > 0) {
+                        foreach (var pago in pagosCompra)
+                            repoPago.CambiarEstadoPago(pago.Id, EstadoPagoEnum.Anulado);
+                    }
+
+                    // Crear movimiento de inventario para cada detalle de compra y revertir el inventario
+                    foreach (var detalleCompra in detallesCompra) {
+                        var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompra.IdProducto);
+                        var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.Producto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+
+                        if (movimientoPendiente != null) {
+                            movimientoPendiente.Estado = EstadoMovimiento.Cancelado;
+
+                            repoMovimiento.Editar(movimientoPendiente);
+                        } else {
+                            var movimiento = new Movimiento() {
+                                Id = 0,
+                                IdProducto = producto!.Id,
+                                CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
+                                    ? producto.CostoProduccionUnitario
+                                    : producto.CostoAdquisicionUnitario,
+                                IdAlmacenOrigen = compra.IdAlmacenDestino,
+                                IdAlmacenDestino = 0,
+                                Estado = EstadoMovimiento.Completado,
+                                FechaCreacion = DateTime.Now,
+                                SaldoInicial = inventarioProducto.Cantidad,
+                                FechaTermino = DateTime.Now,
+                                CantidadMovida = detalleCompra.CantidadRecibida,
+                                SaldoFinal = inventarioProducto.Cantidad + detalleCompra.CantidadRecibida,
+                                IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                Notas = $"Devolución para la venta del producto: {producto.Nombre}.",
+                            };
+
+                            // Adicionar a la base de datos local
+                            repoMovimiento.Adicionar(movimiento);
+
+                            // Modificar inventario
+                            repoInventario.ModificarInventario(
+                                producto!.Id,
+                                compra.IdAlmacenDestino,
+                                0,
+                                detalleCompra.CantidadRecibida);
+                        }
+                    }
+
+                    // Finalmente, cancelar la compra
+                    repoCompra.CancelarCompra(compra.Id, $"Compra cancelada por el usuario.");
+                    break;
+            }
         }
 
         private void OnExportarDocumentoFacturaCompra(object? sender, (long id, FormatoDocumento formato) e) {

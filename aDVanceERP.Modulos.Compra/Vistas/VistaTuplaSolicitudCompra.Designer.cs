@@ -267,7 +267,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             fieldEstado.Name = "fieldEstado";
             fieldEstado.Size = new Size(188, 39);
             fieldEstado.TabIndex = 20;
-            fieldEstado.Text = "Pendiente de aprobación";
+            fieldEstado.Text = "estado";
             fieldEstado.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // menuEstados
@@ -275,7 +275,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             menuEstados.BackColor = Color.White;
             menuEstados.Items.AddRange(new ToolStripItem[] { btnEstadoAprobada, btnEstadoRechazada });
             menuEstados.Name = "menuGastoIndirecto";
-            menuEstados.Size = new Size(153, 56);
+            menuEstados.Size = new Size(185, 78);
             // 
             // btnEstadoAprobada
             // 
@@ -285,7 +285,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnEstadoAprobada.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoAprobada.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoAprobada.Name = "btnEstadoAprobada";
-            btnEstadoAprobada.Size = new Size(152, 26);
+            btnEstadoAprobada.Size = new Size(184, 26);
             btnEstadoAprobada.Text = "Aprobada";
             btnEstadoAprobada.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -297,7 +297,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnEstadoRechazada.ImageAlign = ContentAlignment.MiddleLeft;
             btnEstadoRechazada.ImageScaling = ToolStripItemImageScaling.None;
             btnEstadoRechazada.Name = "btnEstadoRechazada";
-            btnEstadoRechazada.Size = new Size(152, 26);
+            btnEstadoRechazada.Size = new Size(184, 26);
             btnEstadoRechazada.Text = "Rechazada";
             btnEstadoRechazada.TextAlign = ContentAlignment.MiddleLeft;
             // 

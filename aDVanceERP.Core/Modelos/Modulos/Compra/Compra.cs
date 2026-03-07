@@ -15,45 +15,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             TotalCompra = 0;
         }
 
-        public Compra(
-            long id,
-            string codigo,
-            long idProveedor,
-            long? idSolicitudCompra,
-            long? idEmpleadoComprador,
-            long idAlmacenDestino,
-            long? idTipoCompra,
-            DateTime fechaOrden,
-            DateTime? fechaEntregaEsperada,
-            string condicionesPago,
-            decimal subtotal,
-            decimal impuestoTotal,
-            decimal totalCompra,
-            EstadoCompraEnum estadoCompra,
-            DateTime? fechaAprobacion,
-            long? aprobadoPor,
-            string observaciones,
-            bool activo) {
-            Id = id;
-            Codigo = codigo;
-            IdProveedor = idProveedor;
-            IdSolicitudCompra = idSolicitudCompra;
-            IdEmpleadoComprador = idEmpleadoComprador;
-            IdAlmacenDestino = idAlmacenDestino;
-            IdTipoCompra = idTipoCompra;
-            FechaOrden = fechaOrden;
-            FechaEntregaEsperada = fechaEntregaEsperada;
-            CondicionesPago = condicionesPago;
-            Subtotal = subtotal;
-            ImpuestoTotal = impuestoTotal;
-            TotalCompra = totalCompra;
-            EstadoCompra = estadoCompra;
-            FechaAprobacion = fechaAprobacion;
-            AprobadoPor = aprobadoPor;
-            Observaciones = observaciones;
-            Activo = activo;
-        }
-
         public long Id { get; set; }
         public string Codigo { get; set; }
         public long IdProveedor { get; set; }
