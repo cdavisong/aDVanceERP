@@ -6,10 +6,13 @@ using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compra;
 using aDVanceERP.Modulos.Compra.Interfaces;
 using aDVanceERP.Modulos.Compra.Vistas;
+using aDVanceERP.Core.Modelos.Modulos.Compra;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 
 namespace aDVanceERP.Modulos.Compra.Presentadores {
     internal class PresentadorGestionPagos : PresentadorVistaGestion<PresentadorTuplaPago, IVistaGestionPagos, IVistaTuplaPago, Pago, RepoPago, FiltroBusquedaPago> {
-        //private List<CompraPendientePago> _comprasPendientesPago = new List<CompraPendientePago>();
+        private List<CompraPendientePago> _comprasPendientesPago = new List<CompraPendientePago>();
 
         public PresentadorGestionPagos(IVistaGestionPagos vista) : base(vista) {
             RegistrarEntidad += OnRegistrarPago;
@@ -19,18 +22,18 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
         }
 
         private void OnRegistrarPago(object? sender, EventArgs e) {
-            //_comprasPendientesPago = RepoCompra.Instancia.ObtenerComprasPendientesDePago();
+            _comprasPendientesPago = RepoCompra.Instancia.ObtenerComprasPendientesDePago();
 
-            //if (_comprasPendientesPago.Count == 0) {
-            //    CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo pago puesto que no existen compras pendientes por pago en el sistema.", TipoNotificacion.Advertencia);
-            //    return;
-            //}
+            if (_comprasPendientesPago.Count == 0) {
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar un nuevo pago puesto que no existen compras pendientes por pago en el sistema.", TipoNotificacionEnum.Advertencia);
+                return;
+            }
 
             AgregadorEventos.Publicar("MostrarVistaRegistroPagoCompra", string.Empty);
         }
 
         private void OnEditarPago(object? sender, Pago e) {
-            //_comprasPendientesPago = RepoCompra.Instancia.ObtenerComprasPendientesDePago();
+            _comprasPendientesPago = RepoCompra.Instancia.ObtenerComprasPendientesDePago();
 
             AgregadorEventos.Publicar("MostrarVistaEdicionPagoCompra", AgregadorEventos.SerializarPayload(e));
         }

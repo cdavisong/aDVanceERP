@@ -56,7 +56,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
         }
 
         protected override Pago? ObtenerEntidadDesdeVista() {
-            var compra = RepoCompra.Instancia.Buscar(FiltroBusquedaCompra.IdSolicitudCompra, Vista.NumeroSolicitudCompra).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var compra = RepoCompra.Instancia.Buscar(FiltroBusquedaCompra.Codigo, Vista.CodigoCompra).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             return new Pago() { 
                 Id = 0,

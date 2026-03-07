@@ -26,13 +26,13 @@
             components = new System.ComponentModel.Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroPago));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -47,9 +47,9 @@
             layoutVista = new TableLayoutPanel();
             layoutDatos1 = new TableLayoutPanel();
             fieldMetodoPago = new Guna.UI2.WinForms.Guna2ComboBox();
-            fieldNumeroSolicitud = new Guna.UI2.WinForms.Guna2ComboBox();
-            fieldFechaPago = new Guna.UI2.WinForms.Guna2DateTimePicker();
             fieldMonto = new Guna.UI2.WinForms.Guna2TextBox();
+            fieldFechaPago = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            fieldCodigoCompra = new Guna.UI2.WinForms.Guna2ComboBox();
             layoutTitulos1 = new TableLayoutPanel();
             fieldTituloMonto = new Label();
             fieldTituloMetodoPago = new Label();
@@ -139,7 +139,7 @@
             layoutDatos1.Controls.Add(fieldMetodoPago, 2, 0);
             layoutDatos1.Controls.Add(fieldMonto, 3, 0);
             layoutDatos1.Controls.Add(fieldFechaPago, 1, 0);
-            layoutDatos1.Controls.Add(fieldNumeroSolicitud, 0, 0);
+            layoutDatos1.Controls.Add(fieldCodigoCompra, 0, 0);
             layoutDatos1.Dock = DockStyle.Fill;
             layoutDatos1.Location = new Point(50, 125);
             layoutDatos1.Margin = new Padding(0);
@@ -171,58 +171,6 @@
             fieldMetodoPago.Size = new Size(240, 35);
             fieldMetodoPago.TabIndex = 51;
             fieldMetodoPago.TextOffset = new Point(10, 0);
-            // 
-            // fieldNumeroSolicitud
-            // 
-            fieldNumeroSolicitud.Animated = true;
-            fieldNumeroSolicitud.BackColor = Color.Transparent;
-            fieldNumeroSolicitud.BorderColor = Color.Gainsboro;
-            fieldNumeroSolicitud.BorderRadius = 16;
-            fieldNumeroSolicitud.CustomizableEdges = customizableEdges7;
-            fieldNumeroSolicitud.Dock = DockStyle.Fill;
-            fieldNumeroSolicitud.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldNumeroSolicitud.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldNumeroSolicitud.FocusedColor = Color.SandyBrown;
-            fieldNumeroSolicitud.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNumeroSolicitud.Font = new Font("Segoe UI", 11.25F);
-            fieldNumeroSolicitud.ForeColor = Color.Black;
-            fieldNumeroSolicitud.ItemHeight = 29;
-            fieldNumeroSolicitud.Location = new Point(5, 5);
-            fieldNumeroSolicitud.Margin = new Padding(5);
-            fieldNumeroSolicitud.Name = "fieldNumeroSolicitud";
-            fieldNumeroSolicitud.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            fieldNumeroSolicitud.Size = new Size(290, 35);
-            fieldNumeroSolicitud.TabIndex = 50;
-            fieldNumeroSolicitud.TextOffset = new Point(10, 0);
-            // 
-            // fieldFechaPago
-            // 
-            fieldFechaPago.Animated = true;
-            fieldFechaPago.AutoRoundedCorners = true;
-            fieldFechaPago.BackColor = Color.White;
-            fieldFechaPago.BorderColor = Color.Gainsboro;
-            fieldFechaPago.BorderRadius = 16;
-            fieldFechaPago.BorderThickness = 1;
-            fieldFechaPago.Checked = true;
-            fieldFechaPago.CheckedState.BorderColor = Color.Gainsboro;
-            fieldFechaPago.CheckedState.FillColor = Color.White;
-            fieldFechaPago.CheckedState.ForeColor = Color.Black;
-            fieldFechaPago.CustomFormat = "yyyy-MM-dd";
-            fieldFechaPago.CustomizableEdges = customizableEdges5;
-            fieldFechaPago.Dock = DockStyle.Fill;
-            fieldFechaPago.FillColor = Color.White;
-            fieldFechaPago.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaPago.ForeColor = Color.Black;
-            fieldFechaPago.Format = DateTimePickerFormat.Custom;
-            fieldFechaPago.Location = new Point(305, 5);
-            fieldFechaPago.Margin = new Padding(5);
-            fieldFechaPago.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            fieldFechaPago.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            fieldFechaPago.Name = "fieldFechaPago";
-            fieldFechaPago.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            fieldFechaPago.Size = new Size(240, 35);
-            fieldFechaPago.TabIndex = 49;
-            fieldFechaPago.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
             // 
             // fieldMonto
             // 
@@ -257,6 +205,58 @@
             fieldMonto.TabIndex = 51;
             fieldMonto.TextAlign = HorizontalAlignment.Right;
             fieldMonto.TextOffset = new Point(5, 0);
+            // 
+            // fieldFechaPago
+            // 
+            fieldFechaPago.Animated = true;
+            fieldFechaPago.AutoRoundedCorners = true;
+            fieldFechaPago.BackColor = Color.White;
+            fieldFechaPago.BorderColor = Color.Gainsboro;
+            fieldFechaPago.BorderRadius = 16;
+            fieldFechaPago.BorderThickness = 1;
+            fieldFechaPago.Checked = true;
+            fieldFechaPago.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFechaPago.CheckedState.FillColor = Color.White;
+            fieldFechaPago.CheckedState.ForeColor = Color.Black;
+            fieldFechaPago.CustomFormat = "yyyy-MM-dd";
+            fieldFechaPago.CustomizableEdges = customizableEdges5;
+            fieldFechaPago.Dock = DockStyle.Fill;
+            fieldFechaPago.FillColor = Color.White;
+            fieldFechaPago.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaPago.ForeColor = Color.Black;
+            fieldFechaPago.Format = DateTimePickerFormat.Custom;
+            fieldFechaPago.Location = new Point(305, 5);
+            fieldFechaPago.Margin = new Padding(5);
+            fieldFechaPago.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFechaPago.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFechaPago.Name = "fieldFechaPago";
+            fieldFechaPago.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldFechaPago.Size = new Size(240, 35);
+            fieldFechaPago.TabIndex = 49;
+            fieldFechaPago.Value = new DateTime(2025, 8, 21, 0, 0, 0, 0);
+            // 
+            // fieldCodigoCompra
+            // 
+            fieldCodigoCompra.Animated = true;
+            fieldCodigoCompra.BackColor = Color.Transparent;
+            fieldCodigoCompra.BorderColor = Color.Gainsboro;
+            fieldCodigoCompra.BorderRadius = 16;
+            fieldCodigoCompra.CustomizableEdges = customizableEdges7;
+            fieldCodigoCompra.Dock = DockStyle.Fill;
+            fieldCodigoCompra.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldCodigoCompra.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldCodigoCompra.FocusedColor = Color.SandyBrown;
+            fieldCodigoCompra.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCodigoCompra.Font = new Font("Segoe UI", 11.25F);
+            fieldCodigoCompra.ForeColor = Color.Black;
+            fieldCodigoCompra.ItemHeight = 29;
+            fieldCodigoCompra.Location = new Point(5, 5);
+            fieldCodigoCompra.Margin = new Padding(5);
+            fieldCodigoCompra.Name = "fieldCodigoCompra";
+            fieldCodigoCompra.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldCodigoCompra.Size = new Size(290, 35);
+            fieldCodigoCompra.TabIndex = 50;
+            fieldCodigoCompra.TextOffset = new Point(10, 0);
             // 
             // layoutTitulos1
             // 
@@ -322,7 +322,7 @@
             fieldTituloNumeroSolicitud.Name = "fieldTituloNumeroSolicitud";
             fieldTituloNumeroSolicitud.Size = new Size(282, 27);
             fieldTituloNumeroSolicitud.TabIndex = 44;
-            fieldTituloNumeroSolicitud.Text = "      Número de solicitud de compra :";
+            fieldTituloNumeroSolicitud.Text = "      Código de orden de compra :";
             fieldTituloNumeroSolicitud.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloFecha
@@ -694,7 +694,7 @@
         private PictureBox fieldIcono;
         private TableLayoutPanel layoutDatos1;
         private Guna.UI2.WinForms.Guna2ComboBox fieldMetodoPago;
-        private Guna.UI2.WinForms.Guna2ComboBox fieldNumeroSolicitud;
+        private Guna.UI2.WinForms.Guna2ComboBox fieldCodigoCompra;
         private Guna.UI2.WinForms.Guna2DateTimePicker fieldFechaPago;
         private Guna.UI2.WinForms.Guna2TextBox fieldMonto;
         private TableLayoutPanel layoutTitulos1;

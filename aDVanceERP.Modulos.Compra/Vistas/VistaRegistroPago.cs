@@ -56,13 +56,13 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             set => Size = value;
         }
 
-        public string NumeroSolicitudCompra {
-            get => fieldNumeroSolicitud.SelectedItem?.ToString() ?? string.Empty;
+        public string CodigoCompra {
+            get => fieldCodigoCompra.SelectedItem?.ToString() ?? string.Empty;
             set {
-                if (fieldNumeroSolicitud.Items.Contains(value)) {
-                    fieldNumeroSolicitud.SelectedItem = value;
+                if (fieldCodigoCompra.Items.Contains(value)) {
+                    fieldCodigoCompra.SelectedItem = value;
                 } else {
-                    fieldNumeroSolicitud.SelectedIndex = -1;
+                    fieldCodigoCompra.SelectedIndex = -1;
                 }
             }
         }
@@ -97,15 +97,15 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
-            fieldNumeroSolicitud.SelectedIndexChanged += delegate {
-                //var compra = RepoCompra.Instancia.Buscar(FiltroBusquedaCompra.NumeroFactura, NumeroFacturaCompra).resultadosBusqueda.Select(v => v.entidadBase).FirstOrDefault();
+            fieldCodigoCompra.SelectedIndexChanged += delegate {
+                var compra = RepoCompra.Instancia.Buscar(FiltroBusquedaCompra.Codigo, CodigoCompra).resultadosBusqueda.Select(c => c.entidadBase).FirstOrDefault();
 
-                //if (fieldNumeroFactura.SelectedIndex == -1 || compra == null) {
-                //    fieldMonto.Text = string.Empty;
-                //    return;
-                //}
+                if (fieldCodigoCompra.SelectedIndex == -1 || compra == null) {
+                    fieldMonto.Text = string.Empty;
+                    return;
+                }
 
-                //MontoPagado = compra.ImporteTotal;
+                MontoPagado = compra.TotalCompra;
             };
             fieldMetodoPago.SelectedIndexChanged += delegate {
                 separador1.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
@@ -140,7 +140,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             NumeroTelefonoConfirmacion = string.Empty;
             NumeroTransaccion = string.Empty;
 
-            fieldNumeroSolicitud.SelectedIndex = -1;
+            fieldCodigoCompra.SelectedIndex = -1;
             fieldMonto.Text = string.Empty;
             fieldPaises.SelectedIndex = 53;
             fieldNumeroTelefonoRemitente.Text = string.Empty;
@@ -151,9 +151,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         }
 
         public void CargarSolicitudesComprasPendientes(string[] numerosSolicitudesPendientes) {
-            fieldNumeroSolicitud.Items.Clear();
-            fieldNumeroSolicitud.Items.AddRange(numerosSolicitudesPendientes);
-            fieldNumeroSolicitud.SelectedIndex = -1;
+            fieldCodigoCompra.Items.Clear();
+            fieldCodigoCompra.Items.AddRange(numerosSolicitudesPendientes);
+            fieldCodigoCompra.SelectedIndex = -1;
         }
 
         public void CargarMetodosPago(string[] metodosPago) {

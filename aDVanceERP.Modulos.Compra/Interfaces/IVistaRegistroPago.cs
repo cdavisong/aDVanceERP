@@ -3,7 +3,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Compra.Interfaces {
     internal interface IVistaRegistroPago : IVistaRegistro {
-        string NumeroSolicitudCompra { get; set; }
+        string CodigoCompra { get; set; }
         DateTime FechaPagoProveedor { get; set; }
         public MetodoPagoEnum MetodoPago { get; set; }
         decimal MontoPagado { get; set; }
