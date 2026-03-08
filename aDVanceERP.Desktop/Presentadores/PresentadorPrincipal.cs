@@ -52,7 +52,7 @@ namespace aDVanceERP.Desktop.Presentadores {
                 await Task.Run(() => {
                     // Cargar módulos extensiones de la aplicación
                     (Vista as Control)?.Invoke(() => {
-                        _cargaDatos.TextoProgreso = "Cargando módulos y extensiones de la aplicación...";
+                        _cargaDatos.TextoProgreso = " Cargando la aplicación... Espere unos segundos";
                         _cargaDatos.Mostrar();
 
                         ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this);
