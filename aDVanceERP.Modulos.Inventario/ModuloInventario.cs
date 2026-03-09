@@ -11,6 +11,7 @@ using Guna.UI2.WinForms;
 namespace aDVanceERP.Modulos.Inventario { 
     public sealed class ModuloInventario : ModuloExtensionBase {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+        private PresentadorEstadisticasGenerales _estadisticasGenerales = null!;
         private PresentadorMenuInventario _menuInventario = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorGestionProductos _productos = null!;
@@ -46,6 +47,8 @@ namespace aDVanceERP.Modulos.Inventario {
             _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
             // Contenedor de módulos
+            // Estadísticas generales
+            _estadisticasGenerales = new PresentadorEstadisticasGenerales(new VistaEstadisticasGenerales());
             // Productos
             _productos = new PresentadorGestionProductos(new VistaGestionProductos());
             _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());        
@@ -79,6 +82,8 @@ namespace aDVanceERP.Modulos.Inventario {
             _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
             // Contenedor de módulos
+            // Estadísticas generales
+            _principal.Modulos.Vista.PanelCentral.Registrar(_estadisticasGenerales.Vista);
             // Productos
             _principal.Modulos.Vista.PanelCentral.Registrar(_productos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroProducto.Vista);

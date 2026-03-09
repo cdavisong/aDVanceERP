@@ -40,7 +40,7 @@
             // 
             // layoutDistribucion
             // 
-            layoutDistribucion.BackColor = Color.Gainsboro;
+            layoutDistribucion.BackColor = SystemColors.ButtonFace;
             layoutDistribucion.ColumnCount = 3;
             layoutDistribucion.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutDistribucion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 500F));
@@ -69,7 +69,7 @@
             BackColor = Color.White;
             ClientSize = new Size(1356, 608);
             Controls.Add(layoutDistribucion);
-            Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI", 11.25F);
             ForeColor = Color.Black;
             FormBorderStyle = FormBorderStyle.None;
             Name = "VistaContenedorSeguridad";

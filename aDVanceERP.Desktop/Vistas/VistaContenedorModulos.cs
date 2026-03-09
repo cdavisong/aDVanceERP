@@ -61,7 +61,7 @@ namespace aDVanceERP.Desktop.Vistas {
             };
             btnInicio.MouseEnter += delegate {
                 NombreModulo.Text = "Inicio";
-                NombreModulo.Location = new Point(5, btnInicio.Top + 12);
+                NombreModulo.Location = new Point(5, btnInicio.Top + 22);
                 NombreModulo.BringToFront();
                 NombreModulo.Show();
             };

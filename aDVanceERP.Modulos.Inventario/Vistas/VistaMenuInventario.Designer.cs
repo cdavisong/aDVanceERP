@@ -26,6 +26,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuInventario));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -36,6 +38,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutDistribucion = new TableLayoutPanel();
             fieldTitulo = new Label();
             panelRelleno = new Panel();
+            btnEstadisticas = new Guna2Button();
             btnMaestros = new Guna2Button();
             btnMovimientos = new Guna2Button();
             layoutBase.SuspendLayout();
@@ -105,6 +108,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelRelleno.BackColor = Color.WhiteSmoke;
             panelRelleno.Controls.Add(btnMaestros);
             panelRelleno.Controls.Add(btnMovimientos);
+            panelRelleno.Controls.Add(btnEstadisticas);
             panelRelleno.Dock = DockStyle.Fill;
             panelRelleno.Font = new Font("Segoe UI", 11.25F);
             panelRelleno.Location = new Point(160, 0);
@@ -112,6 +116,30 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelRelleno.Name = "panelRelleno";
             panelRelleno.Size = new Size(834, 50);
             panelRelleno.TabIndex = 0;
+            // 
+            // btnEstadisticas
+            // 
+            btnEstadisticas.Animated = true;
+            btnEstadisticas.BackColor = Color.WhiteSmoke;
+            btnEstadisticas.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnEstadisticas.CheckedState.FillColor = Color.WhiteSmoke;
+            btnEstadisticas.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnEstadisticas.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
+            btnEstadisticas.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEstadisticas.CustomImages.ImageOffset = new Point(0, 32);
+            btnEstadisticas.CustomImages.ImageSize = new Size(131, 8);
+            btnEstadisticas.CustomizableEdges = customizableEdges5;
+            btnEstadisticas.Dock = DockStyle.Left;
+            btnEstadisticas.FillColor = Color.WhiteSmoke;
+            btnEstadisticas.Font = new Font("Segoe UI", 11.25F);
+            btnEstadisticas.ForeColor = Color.Black;
+            btnEstadisticas.Location = new Point(0, 0);
+            btnEstadisticas.Margin = new Padding(0);
+            btnEstadisticas.Name = "btnEstadisticas";
+            btnEstadisticas.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnEstadisticas.Size = new Size(160, 50);
+            btnEstadisticas.TabIndex = 17;
+            btnEstadisticas.Text = "Estadísticas";
             // 
             // btnMaestros
             // 
@@ -133,12 +161,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             btnMaestros.ForeColor = Color.Black;
             btnMaestros.HoverState.FillColor = Color.PeachPuff;
-            btnMaestros.Location = new Point(160, 0);
+            btnMaestros.Location = new Point(320, 0);
             btnMaestros.Margin = new Padding(0);
             btnMaestros.Name = "btnMaestros";
             btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnMaestros.Size = new Size(160, 50);
-            btnMaestros.TabIndex = 16;
+            btnMaestros.TabIndex = 19;
             btnMaestros.Text = "Maestros";
             btnMaestros.TextOffset = new Point(5, 0);
             // 
@@ -158,12 +186,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnMovimientos.FillColor = Color.WhiteSmoke;
             btnMovimientos.Font = new Font("Segoe UI", 11.25F);
             btnMovimientos.ForeColor = Color.Black;
-            btnMovimientos.Location = new Point(0, 0);
+            btnMovimientos.Location = new Point(160, 0);
             btnMovimientos.Margin = new Padding(0);
             btnMovimientos.Name = "btnMovimientos";
             btnMovimientos.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnMovimientos.Size = new Size(160, 50);
-            btnMovimientos.TabIndex = 11;
+            btnMovimientos.TabIndex = 18;
             btnMovimientos.Text = "Movimientos";
             // 
             // VistaMenuInventario
@@ -193,7 +221,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private TableLayoutPanel layoutDistribucion;
         private Panel panelRelleno;
         private Label fieldTitulo;
-        private Guna2Button btnMovimientos;
         private Guna2Button btnMaestros;
+        private Guna2Button btnMovimientos;
+        private Guna2Button btnEstadisticas;
     }
 }

@@ -39,6 +39,7 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutModulos = new FlowLayoutPanel();
             btnInicio = new Guna2CircleButton();
             panelCentral = new Panel();
+            fieldNombreModulo = new Label();
             layoutMensajeBienvenida = new TableLayoutPanel();
             panelMensajeBienvenida = new Panel();
             fieldTextoBienvenida = new Guna2HtmlLabel();
@@ -47,7 +48,6 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa2 = new PictureBox();
             fieldEmpresa3 = new PictureBox();
             fieldEmpresa4 = new PictureBox();
-            fieldNombreModulo = new Label();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             layoutMenuLateral.SuspendLayout();
@@ -197,11 +197,22 @@ namespace aDVanceERP.Desktop.Vistas {
             panelCentral.Controls.Add(fieldNombreModulo);
             panelCentral.Controls.Add(layoutMensajeBienvenida);
             panelCentral.Dock = DockStyle.Fill;
-            panelCentral.Location = new Point(50, 10);
-            panelCentral.Margin = new Padding(0, 10, 0, 0);
+            panelCentral.Location = new Point(50, 0);
+            panelCentral.Margin = new Padding(0);
             panelCentral.Name = "panelCentral";
-            panelCentral.Size = new Size(1306, 598);
+            panelCentral.Size = new Size(1306, 608);
             panelCentral.TabIndex = 1;
+            // 
+            // fieldNombreModulo
+            // 
+            fieldNombreModulo.AutoSize = true;
+            fieldNombreModulo.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldNombreModulo.Location = new Point(7, 16);
+            fieldNombreModulo.Name = "fieldNombreModulo";
+            fieldNombreModulo.Size = new Size(47, 20);
+            fieldNombreModulo.TabIndex = 2;
+            fieldNombreModulo.Text = "Inicio";
+            fieldNombreModulo.Visible = false;
             // 
             // layoutMensajeBienvenida
             // 
@@ -218,7 +229,7 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Absolute, 160F));
             layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            layoutMensajeBienvenida.Size = new Size(1306, 598);
+            layoutMensajeBienvenida.Size = new Size(1306, 608);
             layoutMensajeBienvenida.TabIndex = 1;
             // 
             // panelMensajeBienvenida
@@ -227,7 +238,7 @@ namespace aDVanceERP.Desktop.Vistas {
             panelMensajeBienvenida.Dock = DockStyle.Fill;
             panelMensajeBienvenida.Location = new Point(156, 3);
             panelMensajeBienvenida.Name = "panelMensajeBienvenida";
-            panelMensajeBienvenida.Size = new Size(994, 382);
+            panelMensajeBienvenida.Size = new Size(994, 392);
             panelMensajeBienvenida.TabIndex = 2;
             // 
             // fieldTextoBienvenida
@@ -237,7 +248,7 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldTextoBienvenida.Dock = DockStyle.Fill;
             fieldTextoBienvenida.Location = new Point(0, 0);
             fieldTextoBienvenida.Name = "fieldTextoBienvenida";
-            fieldTextoBienvenida.Size = new Size(994, 382);
+            fieldTextoBienvenida.Size = new Size(994, 392);
             fieldTextoBienvenida.TabIndex = 1;
             fieldTextoBienvenida.Text = null;
             // 
@@ -258,7 +269,7 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutLogotipos.Controls.Add(fieldEmpresa3, 5, 0);
             layoutLogotipos.Controls.Add(fieldEmpresa4, 7, 0);
             layoutLogotipos.Dock = DockStyle.Fill;
-            layoutLogotipos.Location = new Point(153, 388);
+            layoutLogotipos.Location = new Point(153, 398);
             layoutLogotipos.Margin = new Padding(0);
             layoutLogotipos.Name = "layoutLogotipos";
             layoutLogotipos.RowCount = 1;
@@ -314,17 +325,6 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa4.Size = new Size(160, 160);
             fieldEmpresa4.TabIndex = 3;
             fieldEmpresa4.TabStop = false;
-            // 
-            // fieldNombreModulo
-            // 
-            fieldNombreModulo.AutoSize = true;
-            fieldNombreModulo.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
-            fieldNombreModulo.Location = new Point(7, 16);
-            fieldNombreModulo.Name = "fieldNombreModulo";
-            fieldNombreModulo.Size = new Size(47, 20);
-            fieldNombreModulo.TabIndex = 2;
-            fieldNombreModulo.Text = "Inicio";
-            fieldNombreModulo.Visible = false;
             // 
             // VistaContenedorModulos
             // 

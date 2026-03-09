@@ -49,7 +49,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             btnModulo.Size = new Size(44, 44);
             btnModulo.MouseEnter += delegate {
                 Vista.NombreModulo.Text = nombreModulo;
-                Vista.NombreModulo.Location = new Point(5, btnModulo.Top + 12);
+                Vista.NombreModulo.Location = new Point(5, btnModulo.Top + 22);
                 Vista.NombreModulo.BringToFront();
                 Vista.NombreModulo.Show();
             };

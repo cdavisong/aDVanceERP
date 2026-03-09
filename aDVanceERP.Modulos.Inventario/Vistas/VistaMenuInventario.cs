@@ -37,12 +37,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
+            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasGenerales", string.Empty); };
             btnMovimientos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMovimientos", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosInventario", string.Empty); };
         }
 
         public void SeleccionarVistaInicial() {
-            if (btnMovimientos.Visible)
+            if (btnEstadisticas.Visible)
+                btnEstadisticas.PerformClick();
+            else if (btnMovimientos.Visible)
                 btnMovimientos.PerformClick();
         }
 
