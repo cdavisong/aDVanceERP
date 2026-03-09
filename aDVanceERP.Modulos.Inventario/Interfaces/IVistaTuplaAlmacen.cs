@@ -10,10 +10,8 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string Direccion { get; set; }
         CoordenadasGeograficas CoordenadasGeograficas { get; set; }
         string Descripcion { get; set; }
-        bool Estado { get; set; }
-        bool MostrarBotonExportarProductos { get; set; }   
+        bool Estado { get; set; } 
 
         event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
-        event EventHandler? EnviarProductosAplicacion;
     }
 }

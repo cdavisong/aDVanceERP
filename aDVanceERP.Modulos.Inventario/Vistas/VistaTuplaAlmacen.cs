@@ -94,13 +94,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public bool MostrarBotonExportarProductos {
-            get => btnExportarProductos.Visible;
-            set => btnExportarProductos.Visible = value;
-        }
-
         public event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
-        public event EventHandler? EnviarProductosAplicacion;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
 
@@ -109,7 +103,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnExportarDocumentoInventario.Click += delegate { btnExportarDocumentoInventario.ContextMenuStrip?.Show(btnExportarDocumentoInventario, new Point(0, 40)); };
             btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.PDF)); };
             btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.Excel)); };
-            btnExportarProductos.Click += delegate (object? sender, EventArgs e) { EnviarProductosAplicacion?.Invoke(Id, e); };
             btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
             btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
         }

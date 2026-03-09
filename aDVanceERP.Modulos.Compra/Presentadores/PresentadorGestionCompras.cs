@@ -39,7 +39,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
 
         public override void ActualizarResultadosBusqueda() {
             if (FiltroBusqueda == FiltroBusquedaCompra.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
-                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd"), DateTime.Today.ToString("yyyy-MM-dd"), string.Empty];
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty];
 
             base.ActualizarResultadosBusqueda();
         }

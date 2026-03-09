@@ -187,25 +187,6 @@
         haZdrmS3+X194L3QdHM2YqjNNk5wWugoBn6UJWVUXzlO9xppAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="btnImportarProductosDispositivo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAOFJREFUOE/V
-        1DtKBEEURuFvDQMyE7gDwQnNjAwE0UDwERgYugMxcR9uQXQCZwmjYOICDExFDFzAjKIUlFBcqKab6UAP
-        /NC3u+pw+3X5b6zjHu/4CHnDHUZxUxPPuMU2tkJ28YibuKnGAN+5yxrHeI0na6xk4Vq8UHCQH0crasId
-        bOTjpYUnWOAo10sJz/CJ02LNEJtF3UgpTJ184QnXLXIZZYlSeJiFM1y1yEWUJeIt72OO82LNKvaKupEo
-        TPT6Un7p9bOJdBL2/usl0nCY5E5ikqzTcEiM8YCXSqZdx9ff4wdksknm1FxxcgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="btnActualizarCatalogoApp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAOtJREFUOE/V
-        1DFKA0EUh/EfIlhYCIKFrWAlmMILaLDwAp7CQgvTWXgJizSS1kBSJWBnoZ5BROwsxMLS2CkTplie2ewG
-        YpEP/rDMvPcxw8wOi8YuHvCBz5AXnMeGKp7RwxEOQ07wjWZsKmMdP3mVZdzjIg6WsZGFO3GiwB0u42AZ
-        swjXcIblWFBkFuEm3nEzTVpHuIet/L2NNwyxEurGFIWruEa3IrcYYRBliSi8QrsiSfqVV/mHOlveL8yn
-        7acL38FSqBtTRzj3Q/m3a1OLuf96ifQ49HE8Iaf5cTiITdNo4BGvE/KEVmxYPH4B835If7rl7ysAAAAA
-        SUVORK5CYII=
-</value>
-  </data>
   <data name="btnRegistrar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAGVJREFUOE9j

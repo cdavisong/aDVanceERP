@@ -20,7 +20,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            //...
+            AgregadorEventos.Desuscribir("EventoCambioMenu", OnEventoCambioMenu);
+            AgregadorEventos.Desuscribir("MostrarVistaMenuInventario", OnMostrarVistaMenuInventario);
+
+            Vista.Cerrar();
         }
     }
 }

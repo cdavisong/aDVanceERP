@@ -14,9 +14,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
         private PresentadorMenuRecursosHumanos _menuRecursosHumanos = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorGestionEmpleados _empleados = null!;
-        private PresentadorRegistroEmpleado _registroEmpleado = null!;
-        private PresentadorGestionProveedores _proveedores = null!;
-        private PresentadorRegistroProveedor _registroProveedor = null!;    
+        private PresentadorRegistroEmpleado _registroEmpleado = null!;    
         private PresentadorGestionPersonas _personas = null!;
         private PresentadorRegistroPersona _registroPersona = null!;
 
@@ -45,10 +43,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
             _empleados = new PresentadorGestionEmpleados(new VistaGestionEmpleados());
             _registroEmpleado = new PresentadorRegistroEmpleado(new VistaRegistroEmpleado());
             _registroEmpleado.EntidadRegistradaActualizada += (s, e) => _empleados.ActualizarResultadosBusqueda();
-            // Proveedores
-            _proveedores = new PresentadorGestionProveedores(new VistaGestionProveedores());
-            _registroProveedor = new PresentadorRegistroProveedor(new VistaRegistroProveedor());
-            _registroProveedor.EntidadRegistradaActualizada += (s, e) => _proveedores.ActualizarResultadosBusqueda();
             // Personas
             _personas = new PresentadorGestionPersonas(new VistaGestionPersonas());
             _registroPersona = new PresentadorRegistroPersona(new VistaRegistroPersona());
@@ -69,9 +63,6 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
             // Empleados
             _principal.Modulos.Vista.PanelCentral.Registrar(_empleados.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroEmpleado.Vista);
-            // Proveedores
-            _principal.Modulos.Vista.PanelCentral.Registrar(_proveedores.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(_registroProveedor.Vista);
             // Personas
             _principal.Modulos.Vista.PanelCentral.Registrar(_personas.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroPersona.Vista);

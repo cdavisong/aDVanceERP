@@ -127,22 +127,46 @@ namespace aDVanceERP.Core.Controladores {
         /// Lista los archivos de ventas disponibles en el dispositivo.
         /// Formato esperado: ventas_YYYYMMDD.json
         /// </summary>
-        public List<(string fileName, DateTime fecha)> ListarArchivosVentas() {
-            var resultado = new List<(string fileName, DateTime fecha)>();
+        /// <returns>
+        /// Tupla con: nombre del archivo, fecha extraída del nombre
+        /// y tamaño estimado en KB (redondeado a 1 decimal).
+        /// </returns>
+        public List<(string fileName, DateTime fecha, double tamanoKb)> ListarArchivosVentas() {
+            var resultado = new List<(string fileName, DateTime fecha, double tamanoKb)>();
 
             try {
-                string output = EjecutarAdb($"shell ls \"{DeviceFilesDir}\"");
+                // "ls -la" devuelve una línea por archivo con el tamaño en bytes:
+                // -rw-rw---- 1 root sdcard_rw 12487 2026-03-08 14:30 ventas_20260308.json
+                string output = EjecutarAdb($"shell ls -la \"{DeviceFilesDir}\"");
 
                 foreach (var linea in output.Split('\n', StringSplitOptions.RemoveEmptyEntries)) {
-                    var archivo = linea.Trim();
+                    // Descartar la línea "total N" que ls -la incluye al inicio
+                    var lineaTrim = linea.Trim();
+                    if (!lineaTrim.Contains("ventas_") || !lineaTrim.EndsWith(".json"))
+                        continue;
+
+                    // Columnas: permisos links owner group SIZE fecha hora nombre
+                    var partes = lineaTrim.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (partes.Length < 8)
+                        continue;
+
+                    // El nombre del archivo siempre es el último token
+                    var archivo = partes[^1];
                     if (!archivo.StartsWith("ventas_") || !archivo.EndsWith(".json"))
                         continue;
 
+                    // Fecha del nombre del archivo
                     string fechaParte = archivo.Replace("ventas_", "").Replace(".json", "");
-                    if (DateTime.TryParseExact(fechaParte, "yyyyMMdd",
-                        null, System.Globalization.DateTimeStyles.None, out DateTime fecha)) {
-                        resultado.Add((archivo, fecha));
-                    }
+                    if (!DateTime.TryParseExact(fechaParte, "yyyyMMdd",
+                        null, System.Globalization.DateTimeStyles.None, out DateTime fecha))
+                        continue;
+
+                    // Tamaño en bytes está en la columna 4 (índice 4)
+                    double tamanoKb = 0;
+                    if (long.TryParse(partes[4], out long bytes))
+                        tamanoKb = Math.Round(bytes / 1024.0, 1);
+
+                    resultado.Add((archivo, fecha, tamanoKb));
                 }
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
@@ -180,7 +204,7 @@ namespace aDVanceERP.Core.Controladores {
 
             Directory.CreateDirectory(carpetaDestino);
 
-            foreach (var (fileName, _) in archivos) {
+            foreach (var (fileName, _, _) in archivos) {
                 string destino = Path.Combine(carpetaDestino, fileName);
                 if (PullArchivo(fileName, destino))
                     descargados.Add(destino);
@@ -196,6 +220,37 @@ namespace aDVanceERP.Core.Controladores {
         // ══════════════════════════════════════════════════════
         //  GESTIÓN DE ARCHIVOS EN DISPOSITIVO
         // ══════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Obtiene el estado del catálogo en el dispositivo: si existe y cuándo
+        /// fue modificado por última vez. Una sola llamada ADB con ls -la.
+        /// Devuelve null si el catálogo no existe o no se puede leer la fecha.
+        /// </summary>
+        public (bool existe, DateTime? fechaModificacion) ObtenerInfoCatalogo() {
+            try {
+                string output = EjecutarAdb($"shell ls -la \"{DeviceFilesDir}/catalogo.json\"");
+
+                if (output.Contains("No such file") || output.Contains("not found"))
+                    return (false, null);
+
+                // Formato: -rw-rw---- 1 root sdcard_rw 48291 2026-03-08 14:30 catalogo.json
+                var partes = output.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (partes.Length < 7)
+                    return (true, null); // existe pero no se pudo leer la fecha
+
+                // partes[5] = "2026-03-08", partes[6] = "14:30"
+                if (DateTime.TryParse($"{partes[5]} {partes[6]}",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None,
+                    out DateTime fecha)) {
+                    return (true, fecha);
+                }
+
+                return (true, null);
+            } catch {
+                return (false, null);
+            }
+        }   
 
         /// <summary>
         /// Elimina un archivo de ventas del dispositivo tras importarlo.
@@ -251,7 +306,7 @@ namespace aDVanceERP.Core.Controladores {
             descargados = PullTodasLasVentas(carpetaDestino);
 
             if (eliminarDelDispositivo && descargados.Count > 0) {
-                foreach (var (fileName, _) in ListarArchivosVentas())
+                foreach (var (fileName, _, _) in ListarArchivosVentas())
                     EliminarArchivoVentas(fileName); // Elimina todos los archivos de ventas tras descargar, para limpiar el dispositivo
             }
 

@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Controladores;
-using aDVanceERP.Core.Documentos.Comun;
+﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
@@ -19,9 +18,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes, IVistaTuplaAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-        private ControladorArchivosAndroidPos _androidPos = new ControladorArchivosAndroidPos(Application.StartupPath);
         private DocInventarioAlmacen _docInventarioAlmacen = new DocInventarioAlmacen();
-        private bool _dispositivoConectado;
 
         public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
             vista.ImportarInventarioVersat += OnImportarInventarioVersat;
@@ -61,19 +58,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.CoordenadasGeograficas = entidad.Coordenadas ?? new CoordenadasGeograficas { Latitud = 0, Longitud = 0 };
             presentadorTupla.Vista.Estado = entidad.Estado;
             presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
-            presentadorTupla.Vista.MostrarBotonExportarProductos = _dispositivoConectado;
             presentadorTupla.Vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacen;
-            presentadorTupla.Vista.EnviarProductosAplicacion += OnEnviarProductosAplicacion;
             presentadorTupla.EntidadSeleccionada += CambiarVisibilidadBtnImportarInvntarioVersat;
             presentadorTupla.EntidadDeseleccionada += CambiarVisibilidadBtnImportarInvntarioVersat;
 
             return presentadorTupla;
-        }
-
-        public override void ActualizarResultadosBusqueda() {
-            _dispositivoConectado = VerificarConexionDispositivo();
-
-            base.ActualizarResultadosBusqueda();
         }
 
         private async void OnImportarInventarioVersat(object? sender, string rutaArchivo) {
@@ -116,32 +105,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnExportarDocumentoInventarioAlmacenes(object? sender, FormatoDocumento e) {
             _docInventarioAlmacen.GenerarDocumento(true, e);
-        }
-
-        private void OnEnviarProductosAplicacion(object? sender, EventArgs e) {
-            var id = sender as string;
-
-            if (string.IsNullOrEmpty(id)) {
-                CentroNotificaciones.MostrarNotificacion("ID del almacén no proporcionado", TipoNotificacionEnum.Error);
-                return;
-            }
-
-            var productos = RepoProducto.Instancia.ObtenerProductosAlmacenJson(long.Parse(id));
-            var rutaArchivoProductos = Path.Combine(Application.StartupPath, "catalogo.json");
-
-            using (var fileStream = new FileStream(rutaArchivoProductos, FileMode.Create)) {
-                using (var writer = new StreamWriter(fileStream))
-                    writer.Write(productos);
-            }
-
-            if (_androidPos.FlujoComienzoDia(rutaArchivoProductos)) {
-                CentroNotificaciones.MostrarNotificacion($"Productos del almacén {id} enviados correctamente a la aplicación", TipoNotificacionEnum.Info);
-            } else {
-                CentroNotificaciones.MostrarNotificacion($"Error al enviar productos del almacén {id}", TipoNotificacionEnum.Error);
-            }
-
-            // Limpiar archivo temporal
-            try { File.Delete(rutaArchivoProductos); } catch { }
         }
 
         public (bool exito, string mensaje, int registrosProcesados) ImportarDesdeExcel(string rutaArchivo, long idAlmacen) {
@@ -372,20 +335,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CentroNotificaciones.MostrarNotificacion($"Error al leer el archivo Excel: {ex.Message}", TipoNotificacionEnum.Error);
                 return null;
             }
-        }
-
-        public bool VerificarConexionDispositivo() {
-            var conexionOk = true;
-
-            try {
-                // Verificar conexión del dispositivo
-                if (!_androidPos.CheckDeviceConnection())
-                    conexionOk = false;
-            } catch (Exception ex) {
-                CentroNotificaciones.MostrarNotificacion($"Error al verificar conexión del dispositivo: {ex.Message}", TipoNotificacionEnum.Error);
-            }
-
-            return conexionOk;
         }
 
         private void CambiarVisibilidadBtnImportarInvntarioVersat(object? sender, Almacen e) {

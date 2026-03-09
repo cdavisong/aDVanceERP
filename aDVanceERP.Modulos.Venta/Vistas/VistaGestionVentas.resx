@@ -166,15 +166,6 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="btnImportarVentasDispositivo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAOFJREFUOE/V
-        1DtKBEEURuFvDQMyE7gDwQnNjAwE0UDwERgYugMxcR9uQXQCZwmjYOICDExFDFzAjKIUlFBcqKab6UAP
-        /NC3u+pw+3X5b6zjHu/4CHnDHUZxUxPPuMU2tkJ28YibuKnGAN+5yxrHeI0na6xk4Vq8UHCQH0crasId
-        bOTjpYUnWOAo10sJz/CJ02LNEJtF3UgpTJ184QnXLXIZZYlSeJiFM1y1yEWUJeIt72OO82LNKvaKupEo
-        TPT6Un7p9bOJdBL2/usl0nCY5E5ikqzTcEiM8YCXSqZdx9ff4wdksknm1FxxcgAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="btnRegistrarVentaManual.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAGVJREFUOE9j

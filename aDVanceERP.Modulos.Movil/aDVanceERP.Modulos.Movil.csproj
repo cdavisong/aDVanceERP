@@ -1,51 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Documentos\**" />
-    <EmbeddedResource Remove="Documentos\**" />
-    <None Remove="Documentos\**" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\aDVanceERP.Core.Extension\aDVanceERP.Core.Extension.csproj" />
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Vistas\VistaGestionPersonas.cs">
+    <Compile Update="Vistas\VistaGestionAdvanceStock.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaGestionEmpleados.cs">
+    <Compile Update="Vistas\VistaGestionAdvancePos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaMenuMaestros.cs">
+    <Compile Update="Vistas\VistaMenuMovil.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaRegistroEmpleado.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroPersona.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaTuplaPersona.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaTuplaEmpleado.cs">
+    <Compile Update="Vistas\VistaTuplaArchivoVenta.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
 </Project>

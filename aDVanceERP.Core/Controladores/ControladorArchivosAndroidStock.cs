@@ -83,6 +83,39 @@ namespace aDVanceERP.Core.Controladores {
         // ══════════════════════════════════════════════════════
 
         /// <summary>
+        /// Comprueba si el catálogo principal de productos existe en el dispositivo
+        /// y cuándo fue modificado por última vez. Una sola llamada ADB.
+        /// Devuelve (false, null) si no existe o no se puede leer la fecha.
+        /// </summary>
+        public (bool existen, DateTime? fechaModificacion) ObtenerInfoCatalogos() {
+            try {
+                // El catálogo de productos es el obligatorio; usarlo como referencia.
+                string output = EjecutarAdb(
+                    $"shell ls -la \"{DeviceFilesDir}/catalogo_productos.json\"");
+
+                if (output.Contains("No such file") || output.Contains("not found"))
+                    return (false, null);
+
+                // Formato: -rw-rw---- 1 root sdcard_rw 34102 2026-03-09 08:15 catalogo_productos.json
+                var partes = output.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (partes.Length < 7)
+                    return (true, null);
+
+                // partes[5] = "2026-03-09", partes[6] = "08:15"
+                if (DateTime.TryParse($"{partes[5]} {partes[6]}",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None,
+                    out DateTime fecha)) {
+                    return (true, fecha);
+                }
+
+                return (true, null);
+            } catch {
+                return (false, null);
+            }
+        }
+
+        /// <summary>
         /// Envía los 5 catálogos de apoyo al dispositivo de una sola vez.
         /// Llama esto antes de que el almacenero inicie el registro de productos.
         ///
@@ -134,25 +167,41 @@ namespace aDVanceERP.Core.Controladores {
         // ══════════════════════════════════════════════════════
 
         /// <summary>
-        /// Lista los archivos de stock disponibles en el dispositivo.
-        /// Formato: stock_YYYYMMDD_HHmmss.json
+        /// Lista los archivos de sesión de stock en el dispositivo incluyendo
+        /// el tamaño aproximado en KB. Reemplaza al ListarArchivosStock() anterior.
+        /// Formato de nombre esperado: stock_YYYYMMDD_HHmmss.json
         /// </summary>
-        public List<(string fileName, DateTime fechaHora)> ListarArchivosStock() {
-            var resultado = new List<(string filename, DateTime fechaHora)>();
+        public List<(string fileName, DateTime fechaHora, double tamanoKb)> ListarArchivosStock() {
+            var resultado = new List<(string fileName, DateTime fechaHora, double tamanoKb)>();
 
             try {
-                string output = EjecutarAdb($"shell ls \"{DeviceFilesDir}\"");
+                // ls -la incluye el tamaño en la misma pasada — sin llamadas ADB extra.
+                string output = EjecutarAdb($"shell ls -la \"{DeviceFilesDir}\"");
 
                 foreach (var linea in output.Split('\n', StringSplitOptions.RemoveEmptyEntries)) {
-                    var archivo = linea.Trim();
+                    var lineaTrim = linea.Trim();
+                    if (!lineaTrim.Contains("stock_") || !lineaTrim.EndsWith(".json"))
+                        continue;
+
+                    // Columnas: permisos links owner group SIZE fecha hora nombre
+                    var partes = lineaTrim.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (partes.Length < 8)
+                        continue;
+
+                    var archivo = partes[^1];
                     if (!archivo.StartsWith("stock_") || !archivo.EndsWith(".json"))
                         continue;
 
-                    // stock_20250225_103045.json → "20250225_103045"
                     string fechaParte = archivo.Replace("stock_", "").Replace(".json", "");
-                    if (DateTime.TryParseExact(fechaParte, "yyyyMMdd_HHmmss",
+                    if (!DateTime.TryParseExact(fechaParte, "yyyyMMdd_HHmmss",
                         null, System.Globalization.DateTimeStyles.None, out DateTime fechaHora))
-                        resultado.Add((archivo, fechaHora));
+                        continue;
+
+                    double tamanoKb = 0;
+                    if (long.TryParse(partes[4], out long bytes))
+                        tamanoKb = Math.Round(bytes / 1024.0, 1);
+
+                    resultado.Add((archivo, fechaHora, tamanoKb));
                 }
             } catch (Exception ex) {
                 CentroNotificaciones.MostrarNotificacion(
@@ -161,6 +210,29 @@ namespace aDVanceERP.Core.Controladores {
             }
 
             return resultado.OrderByDescending(r => r.fechaHora).ToList();
+        }
+
+        /// <summary>
+        /// Descarga un único archivo de sesión del dispositivo.
+        /// Útil cuando el usuario importa una sesión individual desde la tabla.
+        /// </summary>
+        public ResultadoPullStock PullSesionIndividual(string deviceFileName, string localDestPath) {
+            var resultado = new ResultadoPullStock();
+
+            if (!CheckDeviceConnection(mostrarAdvertencia: true))
+                return resultado;
+
+            Directory.CreateDirectory(Path.GetDirectoryName(localDestPath)!);
+
+            if (PullArchivo(deviceFileName, localDestPath)) {
+                resultado.JsonDescargados.Add(localDestPath);
+                resultado.Exitoso = true;
+
+                // Eliminar del dispositivo tras descargar
+                LimpiarSesionesImportadas(new[] { deviceFileName });
+            }
+
+            return resultado;
         }
 
         /// <summary>
@@ -187,7 +259,7 @@ namespace aDVanceERP.Core.Controladores {
                 return resultado;
             }
 
-            foreach (var (fileName, _) in archivos) {
+            foreach (var (fileName, _, _) in archivos) {
                 string destino = Path.Combine(carpetaDestino, fileName);
                 if (PullArchivo(fileName, destino))
                     resultado.JsonDescargados.Add(destino);
