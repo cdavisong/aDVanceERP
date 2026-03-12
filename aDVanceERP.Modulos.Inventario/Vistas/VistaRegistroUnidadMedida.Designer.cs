@@ -25,16 +25,16 @@
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroUnidadMedida));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulos1 = new TableLayoutPanel();
@@ -74,25 +74,24 @@
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(layoutTitulos1, 2, 2);
-            layoutVista.Controls.Add(layoutTitulo, 2, 0);
-            layoutVista.Controls.Add(layoutDatos1, 2, 3);
-            layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
+            layoutVista.Controls.Add(layoutTitulos1, 2, 3);
+            layoutVista.Controls.Add(layoutTitulo, 2, 1);
+            layoutVista.Controls.Add(layoutDatos1, 2, 4);
+            layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
             layoutVista.Controls.Add(layoutBotones, 2, 5);
-            layoutVista.Controls.Add(fieldIcono, 1, 0);
+            layoutVista.Controls.Add(fieldIcono, 1, 1);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 7;
+            layoutVista.RowCount = 8;
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.Size = new Size(1356, 685);
             layoutVista.TabIndex = 5;
@@ -135,7 +134,7 @@
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
-            layoutTitulo.Location = new Point(50, 0);
+            layoutTitulo.Location = new Point(50, 10);
             layoutTitulo.Margin = new Padding(0);
             layoutTitulo.Name = "layoutTitulo";
             layoutTitulo.RowCount = 1;
@@ -180,7 +179,7 @@
             fieldAbreviatura.BorderColor = Color.Gainsboro;
             fieldAbreviatura.BorderRadius = 16;
             fieldAbreviatura.Cursor = Cursors.IBeam;
-            fieldAbreviatura.CustomizableEdges = customizableEdges11;
+            fieldAbreviatura.CustomizableEdges = customizableEdges1;
             fieldAbreviatura.DefaultText = "";
             fieldAbreviatura.DisabledState.BorderColor = Color.White;
             fieldAbreviatura.DisabledState.ForeColor = Color.DimGray;
@@ -199,7 +198,7 @@
             fieldAbreviatura.PlaceholderForeColor = Color.DimGray;
             fieldAbreviatura.PlaceholderText = "Abreviatura";
             fieldAbreviatura.SelectedText = "";
-            fieldAbreviatura.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            fieldAbreviatura.ShadowDecoration.CustomizableEdges = customizableEdges2;
             fieldAbreviatura.Size = new Size(150, 35);
             fieldAbreviatura.TabIndex = 10;
             fieldAbreviatura.TextOffset = new Point(5, 0);
@@ -210,7 +209,7 @@
             fieldDescripcion.BorderColor = Color.Gainsboro;
             fieldDescripcion.BorderRadius = 16;
             fieldDescripcion.Cursor = Cursors.IBeam;
-            fieldDescripcion.CustomizableEdges = customizableEdges13;
+            fieldDescripcion.CustomizableEdges = customizableEdges3;
             fieldDescripcion.DefaultText = "";
             fieldDescripcion.DisabledState.BorderColor = Color.White;
             fieldDescripcion.DisabledState.ForeColor = Color.DimGray;
@@ -229,7 +228,7 @@
             fieldDescripcion.PlaceholderForeColor = Color.DimGray;
             fieldDescripcion.PlaceholderText = "Descripción ";
             fieldDescripcion.SelectedText = "";
-            fieldDescripcion.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            fieldDescripcion.ShadowDecoration.CustomizableEdges = customizableEdges4;
             fieldDescripcion.Size = new Size(779, 35);
             fieldDescripcion.TabIndex = 9;
             fieldDescripcion.TextOffset = new Point(5, 0);
@@ -240,7 +239,7 @@
             fieldNombre.BorderColor = Color.Gainsboro;
             fieldNombre.BorderRadius = 16;
             fieldNombre.Cursor = Cursors.IBeam;
-            fieldNombre.CustomizableEdges = customizableEdges15;
+            fieldNombre.CustomizableEdges = customizableEdges5;
             fieldNombre.DefaultText = "";
             fieldNombre.DisabledState.BorderColor = Color.White;
             fieldNombre.DisabledState.ForeColor = Color.DimGray;
@@ -259,7 +258,7 @@
             fieldNombre.PlaceholderForeColor = Color.DimGray;
             fieldNombre.PlaceholderText = "Nombre o identificador";
             fieldNombre.SelectedText = "";
-            fieldNombre.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            fieldNombre.ShadowDecoration.CustomizableEdges = customizableEdges6;
             fieldNombre.Size = new Size(327, 35);
             fieldNombre.TabIndex = 8;
             fieldNombre.TextOffset = new Point(5, 0);
@@ -270,10 +269,10 @@
             fieldSubtitulo.Font = new Font("Segoe UI", 11.25F);
             fieldSubtitulo.ForeColor = Color.Gray;
             fieldSubtitulo.ImeMode = ImeMode.NoControl;
-            fieldSubtitulo.Location = new Point(55, 50);
+            fieldSubtitulo.Location = new Point(55, 60);
             fieldSubtitulo.Margin = new Padding(5, 5, 1, 1);
             fieldSubtitulo.Name = "fieldSubtitulo";
-            fieldSubtitulo.Size = new Size(1280, 39);
+            fieldSubtitulo.Size = new Size(1280, 29);
             fieldSubtitulo.TabIndex = 2;
             fieldSubtitulo.Text = "Registro";
             // 
@@ -288,12 +287,12 @@
             layoutBotones.Controls.Add(btnSalir, 2, 0);
             layoutBotones.Controls.Add(btnRegistrarActualizar, 1, 0);
             layoutBotones.Dock = DockStyle.Fill;
-            layoutBotones.Location = new Point(53, 620);
+            layoutBotones.Location = new Point(53, 170);
             layoutBotones.Margin = new Padding(3, 0, 0, 0);
             layoutBotones.Name = "layoutBotones";
             layoutBotones.RowCount = 1;
             layoutBotones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutBotones.Size = new Size(1283, 45);
+            layoutBotones.Size = new Size(1283, 450);
             layoutBotones.TabIndex = 45;
             // 
             // btnSalir
@@ -302,7 +301,7 @@
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges17;
+            btnSalir.CustomizableEdges = customizableEdges7;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -312,8 +311,8 @@
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(1116, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnSalir.Size = new Size(164, 39);
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnSalir.Size = new Size(164, 444);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
             // 
@@ -321,15 +320,15 @@
             // 
             btnRegistrarActualizar.Animated = true;
             btnRegistrarActualizar.BorderRadius = 18;
-            btnRegistrarActualizar.CustomizableEdges = customizableEdges19;
+            btnRegistrarActualizar.CustomizableEdges = customizableEdges9;
             btnRegistrarActualizar.Dock = DockStyle.Fill;
             btnRegistrarActualizar.FillColor = Color.PeachPuff;
             btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrarActualizar.ForeColor = Color.Black;
             btnRegistrarActualizar.Location = new Point(886, 3);
             btnRegistrarActualizar.Name = "btnRegistrarActualizar";
-            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            btnRegistrarActualizar.Size = new Size(224, 39);
+            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnRegistrarActualizar.Size = new Size(224, 444);
             btnRegistrarActualizar.TabIndex = 15;
             btnRegistrarActualizar.Text = "Registrar unidad de medida";
             // 
@@ -338,7 +337,7 @@
             fieldIcono.BackgroundImage = Properties.Resources.inventory_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
-            fieldIcono.Location = new Point(20, 6);
+            fieldIcono.Location = new Point(20, 16);
             fieldIcono.Margin = new Padding(0, 6, 0, 0);
             fieldIcono.Name = "fieldIcono";
             fieldIcono.Size = new Size(30, 39);

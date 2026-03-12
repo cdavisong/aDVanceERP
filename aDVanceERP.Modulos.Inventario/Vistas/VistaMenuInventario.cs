@@ -37,7 +37,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasGenerales", string.Empty); };
+            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasInventario", string.Empty); };
             btnMovimientos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMovimientos", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosInventario", string.Empty); };
         }

@@ -54,9 +54,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutTituloHerramientas = new TableLayoutPanel();
             fieldTituloFiltrosBusqueda = new Label();
             panelBotonesGestion = new Panel();
-            menuFormatoDocumento = new ContextMenuStrip(components);
-            btnExportarPdf = new ToolStripMenuItem();
-            btnExportarXlsx = new ToolStripMenuItem();
             btnRegistrar = new Guna2Button();
             layoutControlesTabla = new TableLayoutPanel();
             btnPaginaAnterior = new Guna2Button();
@@ -75,16 +72,19 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloId = new Label();
             fieldTituloDescripcion = new Label();
             contenedorVistas = new Panel();
+            menuFormatoDocumento = new ContextMenuStrip(components);
+            btnExportarPdf = new ToolStripMenuItem();
+            btnExportarXlsx = new ToolStripMenuItem();
             fieldImportarArchivo = new OpenFileDialog();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
             panelBotonesGestion.SuspendLayout();
-            menuFormatoDocumento.SuspendLayout();
             layoutControlesTabla.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
             layoutEncabezadosTabla.SuspendLayout();
+            menuFormatoDocumento.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -103,23 +103,24 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(separador1, 2, 5);
-            layoutVista.Controls.Add(layoutHerramientas, 2, 4);
-            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 3);
-            layoutVista.Controls.Add(panelBotonesGestion, 2, 6);
-            layoutVista.Controls.Add(layoutControlesTabla, 2, 11);
-            layoutVista.Controls.Add(layoutTitulo, 2, 0);
-            layoutVista.Controls.Add(fieldIcono, 1, 0);
-            layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
-            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 8);
-            layoutVista.Controls.Add(contenedorVistas, 2, 10);
+            layoutVista.Controls.Add(separador1, 2, 6);
+            layoutVista.Controls.Add(layoutHerramientas, 2, 5);
+            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 4);
+            layoutVista.Controls.Add(panelBotonesGestion, 2, 7);
+            layoutVista.Controls.Add(layoutControlesTabla, 2, 12);
+            layoutVista.Controls.Add(layoutTitulo, 2, 1);
+            layoutVista.Controls.Add(fieldIcono, 1, 1);
+            layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
+            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 9);
+            layoutVista.Controls.Add(contenedorVistas, 2, 11);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 13;
+            layoutVista.RowCount = 14;
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
@@ -260,37 +261,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelBotonesGestion.Padding = new Padding(3);
             panelBotonesGestion.Size = new Size(1286, 45);
             panelBotonesGestion.TabIndex = 38;
-            // 
-            // menuFormatoDocumento
-            // 
-            menuFormatoDocumento.BackColor = Color.White;
-            menuFormatoDocumento.Items.AddRange(new ToolStripItem[] { btnExportarPdf, btnExportarXlsx });
-            menuFormatoDocumento.Name = "menuGastoIndirecto";
-            menuFormatoDocumento.Size = new Size(114, 56);
-            // 
-            // btnExportarPdf
-            // 
-            btnExportarPdf.BackColor = Color.White;
-            btnExportarPdf.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnExportarPdf.Image = (Image) resources.GetObject("btnExportarPdf.Image");
-            btnExportarPdf.ImageAlign = ContentAlignment.MiddleLeft;
-            btnExportarPdf.ImageScaling = ToolStripItemImageScaling.None;
-            btnExportarPdf.Name = "btnExportarPdf";
-            btnExportarPdf.Size = new Size(113, 26);
-            btnExportarPdf.Text = "PDF";
-            btnExportarPdf.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnExportarXlsx
-            // 
-            btnExportarXlsx.BackColor = Color.White;
-            btnExportarXlsx.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnExportarXlsx.Image = (Image) resources.GetObject("btnExportarXlsx.Image");
-            btnExportarXlsx.ImageAlign = ContentAlignment.MiddleLeft;
-            btnExportarXlsx.ImageScaling = ToolStripItemImageScaling.None;
-            btnExportarXlsx.Name = "btnExportarXlsx";
-            btnExportarXlsx.Size = new Size(113, 26);
-            btnExportarXlsx.Text = "XLSX";
-            btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // btnRegistrar
             // 
@@ -500,7 +470,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
-            layoutTitulo.Location = new Point(50, 0);
+            layoutTitulo.Location = new Point(50, 10);
             layoutTitulo.Margin = new Padding(0);
             layoutTitulo.Name = "layoutTitulo";
             layoutTitulo.RowCount = 1;
@@ -526,7 +496,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldIcono.BackgroundImage = Properties.Resources.inventory_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
-            fieldIcono.Location = new Point(20, 6);
+            fieldIcono.Location = new Point(20, 16);
             fieldIcono.Margin = new Padding(0, 6, 0, 0);
             fieldIcono.Name = "fieldIcono";
             fieldIcono.Size = new Size(30, 39);
@@ -539,10 +509,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldSubtitulo.Font = new Font("Segoe UI", 11.25F);
             fieldSubtitulo.ForeColor = Color.Gray;
             fieldSubtitulo.ImeMode = ImeMode.NoControl;
-            fieldSubtitulo.Location = new Point(55, 50);
+            fieldSubtitulo.Location = new Point(55, 60);
             fieldSubtitulo.Margin = new Padding(5, 5, 1, 1);
             fieldSubtitulo.Name = "fieldSubtitulo";
-            fieldSubtitulo.Size = new Size(1280, 39);
+            fieldSubtitulo.Size = new Size(1280, 29);
             fieldSubtitulo.TabIndex = 2;
             fieldSubtitulo.Text = "Registro, edición, eliminación, búsqueda de clasificaciones o tipos de productos.";
             // 
@@ -624,6 +594,37 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             contenedorVistas.Size = new Size(1286, 218);
             contenedorVistas.TabIndex = 13;
             // 
+            // menuFormatoDocumento
+            // 
+            menuFormatoDocumento.BackColor = Color.White;
+            menuFormatoDocumento.Items.AddRange(new ToolStripItem[] { btnExportarPdf, btnExportarXlsx });
+            menuFormatoDocumento.Name = "menuGastoIndirecto";
+            menuFormatoDocumento.Size = new Size(114, 56);
+            // 
+            // btnExportarPdf
+            // 
+            btnExportarPdf.BackColor = Color.White;
+            btnExportarPdf.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnExportarPdf.Image = (Image) resources.GetObject("btnExportarPdf.Image");
+            btnExportarPdf.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExportarPdf.ImageScaling = ToolStripItemImageScaling.None;
+            btnExportarPdf.Name = "btnExportarPdf";
+            btnExportarPdf.Size = new Size(113, 26);
+            btnExportarPdf.Text = "PDF";
+            btnExportarPdf.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnExportarXlsx
+            // 
+            btnExportarXlsx.BackColor = Color.White;
+            btnExportarXlsx.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            btnExportarXlsx.Image = (Image) resources.GetObject("btnExportarXlsx.Image");
+            btnExportarXlsx.ImageAlign = ContentAlignment.MiddleLeft;
+            btnExportarXlsx.ImageScaling = ToolStripItemImageScaling.None;
+            btnExportarXlsx.Name = "btnExportarXlsx";
+            btnExportarXlsx.Size = new Size(113, 26);
+            btnExportarXlsx.Text = "XLSX";
+            btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // fieldImportarArchivo
             // 
             fieldImportarArchivo.DefaultExt = "xls";
@@ -648,11 +649,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutHerramientas.ResumeLayout(false);
             layoutTituloHerramientas.ResumeLayout(false);
             panelBotonesGestion.ResumeLayout(false);
-            menuFormatoDocumento.ResumeLayout(false);
             layoutControlesTabla.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
             ((ISupportInitialize) fieldIcono).EndInit();
             layoutEncabezadosTabla.ResumeLayout(false);
+            menuFormatoDocumento.ResumeLayout(false);
             ResumeLayout(false);
         }
 

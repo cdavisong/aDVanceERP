@@ -10,7 +10,7 @@
     <ProjectReference Include="..\aDVanceERP.Core\aDVanceERP.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Vistas\VistaEstadisticasGenerales.cs">
+    <Compile Update="Vistas\VistaEstadisticasInventario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaGestionUnidadesMedida.cs">
