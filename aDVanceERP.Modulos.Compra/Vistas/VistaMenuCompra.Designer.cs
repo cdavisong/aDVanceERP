@@ -25,6 +25,8 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuCompra));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -37,11 +39,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             layoutBase = new TableLayoutPanel();
             layoutDistribucion = new TableLayoutPanel();
             panelRelleno = new Panel();
+            fieldTitulo = new Label();
+            btnEstadisticas = new Guna2Button();
             btnMaestros = new Guna2Button();
             btnPagos = new Guna2Button();
             btnCompras = new Guna2Button();
             btnSolicitudes = new Guna2Button();
-            fieldTitulo = new Label();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             panelRelleno.SuspendLayout();
@@ -87,6 +90,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelRelleno.Controls.Add(btnPagos);
             panelRelleno.Controls.Add(btnCompras);
             panelRelleno.Controls.Add(btnSolicitudes);
+            panelRelleno.Controls.Add(btnEstadisticas);
             panelRelleno.Dock = DockStyle.Fill;
             panelRelleno.Font = new Font("Segoe UI", 11.25F);
             panelRelleno.Location = new Point(160, 0);
@@ -94,6 +98,45 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelRelleno.Name = "panelRelleno";
             panelRelleno.Size = new Size(802, 50);
             panelRelleno.TabIndex = 5;
+            // 
+            // fieldTitulo
+            // 
+            fieldTitulo.BackColor = Color.WhiteSmoke;
+            fieldTitulo.Dock = DockStyle.Fill;
+            fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            fieldTitulo.ForeColor = Color.Firebrick;
+            fieldTitulo.ImeMode = ImeMode.NoControl;
+            fieldTitulo.Location = new Point(0, 0);
+            fieldTitulo.Margin = new Padding(0);
+            fieldTitulo.Name = "fieldTitulo";
+            fieldTitulo.Size = new Size(160, 50);
+            fieldTitulo.TabIndex = 4;
+            fieldTitulo.Text = "Compra";
+            fieldTitulo.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnEstadisticas
+            // 
+            btnEstadisticas.Animated = true;
+            btnEstadisticas.BackColor = Color.WhiteSmoke;
+            btnEstadisticas.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnEstadisticas.CheckedState.FillColor = Color.WhiteSmoke;
+            btnEstadisticas.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnEstadisticas.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
+            btnEstadisticas.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEstadisticas.CustomImages.ImageOffset = new Point(0, 32);
+            btnEstadisticas.CustomImages.ImageSize = new Size(131, 8);
+            btnEstadisticas.CustomizableEdges = customizableEdges9;
+            btnEstadisticas.Dock = DockStyle.Left;
+            btnEstadisticas.FillColor = Color.WhiteSmoke;
+            btnEstadisticas.Font = new Font("Segoe UI", 11.25F);
+            btnEstadisticas.ForeColor = Color.Black;
+            btnEstadisticas.Location = new Point(0, 0);
+            btnEstadisticas.Margin = new Padding(0);
+            btnEstadisticas.Name = "btnEstadisticas";
+            btnEstadisticas.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnEstadisticas.Size = new Size(160, 50);
+            btnEstadisticas.TabIndex = 21;
+            btnEstadisticas.Text = "Estadísticas";
             // 
             // btnMaestros
             // 
@@ -115,12 +158,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             btnMaestros.ForeColor = Color.Black;
             btnMaestros.HoverState.FillColor = Color.PeachPuff;
-            btnMaestros.Location = new Point(480, 0);
+            btnMaestros.Location = new Point(640, 0);
             btnMaestros.Margin = new Padding(0);
             btnMaestros.Name = "btnMaestros";
             btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnMaestros.Size = new Size(160, 50);
-            btnMaestros.TabIndex = 20;
+            btnMaestros.TabIndex = 25;
             btnMaestros.Text = "Maestros";
             btnMaestros.TextOffset = new Point(5, 0);
             // 
@@ -140,12 +183,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnPagos.FillColor = Color.WhiteSmoke;
             btnPagos.Font = new Font("Segoe UI", 11.25F);
             btnPagos.ForeColor = Color.Black;
-            btnPagos.Location = new Point(320, 0);
+            btnPagos.Location = new Point(480, 0);
             btnPagos.Margin = new Padding(0);
             btnPagos.Name = "btnPagos";
             btnPagos.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnPagos.Size = new Size(160, 50);
-            btnPagos.TabIndex = 19;
+            btnPagos.TabIndex = 24;
             btnPagos.Text = "Pagos";
             // 
             // btnCompras
@@ -164,12 +207,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnCompras.FillColor = Color.WhiteSmoke;
             btnCompras.Font = new Font("Segoe UI", 11.25F);
             btnCompras.ForeColor = Color.Black;
-            btnCompras.Location = new Point(160, 0);
+            btnCompras.Location = new Point(320, 0);
             btnCompras.Margin = new Padding(0);
             btnCompras.Name = "btnCompras";
             btnCompras.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnCompras.Size = new Size(160, 50);
-            btnCompras.TabIndex = 14;
+            btnCompras.TabIndex = 23;
             btnCompras.Text = "Compras";
             // 
             // btnSolicitudes
@@ -188,28 +231,13 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnSolicitudes.FillColor = Color.WhiteSmoke;
             btnSolicitudes.Font = new Font("Segoe UI", 11.25F);
             btnSolicitudes.ForeColor = Color.Black;
-            btnSolicitudes.Location = new Point(0, 0);
+            btnSolicitudes.Location = new Point(160, 0);
             btnSolicitudes.Margin = new Padding(0);
             btnSolicitudes.Name = "btnSolicitudes";
             btnSolicitudes.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnSolicitudes.Size = new Size(160, 50);
-            btnSolicitudes.TabIndex = 13;
+            btnSolicitudes.TabIndex = 22;
             btnSolicitudes.Text = "Solicitudes";
-            // 
-            // fieldTitulo
-            // 
-            fieldTitulo.BackColor = Color.WhiteSmoke;
-            fieldTitulo.Dock = DockStyle.Fill;
-            fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            fieldTitulo.ForeColor = Color.Firebrick;
-            fieldTitulo.ImeMode = ImeMode.NoControl;
-            fieldTitulo.Location = new Point(0, 0);
-            fieldTitulo.Margin = new Padding(0);
-            fieldTitulo.Name = "fieldTitulo";
-            fieldTitulo.Size = new Size(160, 50);
-            fieldTitulo.TabIndex = 4;
-            fieldTitulo.Text = "Compra";
-            fieldTitulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaMenuCompra
             // 
@@ -238,9 +266,10 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private TableLayoutPanel layoutDistribucion;
         private Label fieldTitulo;
         private Panel panelRelleno;
-        private Guna2Button btnCompras;
-        private Guna2Button btnSolicitudes;
         private Guna2Button btnMaestros;
         private Guna2Button btnPagos;
+        private Guna2Button btnCompras;
+        private Guna2Button btnSolicitudes;
+        private Guna2Button btnEstadisticas;
     }
 }

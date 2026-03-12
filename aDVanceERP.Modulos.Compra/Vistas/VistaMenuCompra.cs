@@ -34,6 +34,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public void Inicializar() {
             // Eventos
+            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasCompras", string.Empty); };
             btnSolicitudes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionSolicitudesCompra", string.Empty); };
             btnCompras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCompras", string.Empty); };
             btnPagos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPagosCompra", string.Empty); };
@@ -41,7 +42,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         }
 
         public void SeleccionarVistaInicial() {
-            if (btnSolicitudes.Visible)
+            if (btnEstadisticas.Visible)
+                btnEstadisticas.PerformClick();
+            else if (btnSolicitudes.Visible)
                 btnSolicitudes.PerformClick();
             else if (btnCompras.Visible)
                 btnCompras.PerformClick();
@@ -55,6 +58,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         }
 
         public void Restaurar() {
+            btnEstadisticas.Checked = false;
             btnSolicitudes.Checked = false;
             btnCompras.Checked = false;
             btnPagos.Checked = false;
