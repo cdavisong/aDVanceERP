@@ -156,7 +156,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnProveedores.Margin = new Padding(0);
             btnProveedores.Name = "btnProveedores";
             btnProveedores.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnProveedores.Size = new Size(160, 50);
+            btnProveedores.Size = new Size(140, 50);
             btnProveedores.TabIndex = 10;
             btnProveedores.Text = "Proveedores";
             // 

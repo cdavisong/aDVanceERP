@@ -96,6 +96,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloNumeroProducto = new Label();
             fieldTituloNombreProducto = new Label();
             fieldTituloValorProducto = new Label();
+            panelTuplasTopProductosValor = new Panel();
             panelValorPorAlmacen = new Guna2Panel();
             layoutValorPorAlmacen = new TableLayoutPanel();
             fieldTituloValorPorAlmacen = new Label();
@@ -104,7 +105,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutEvolucionMovimientos = new TableLayoutPanel();
             fieldTituloEvolucionMovimientos = new Label();
             fieldEvolucionMovimientos = new PictureBox();
-            panelTuplasTopProductosValor = new Panel();
             layoutVista.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
@@ -277,7 +277,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelMovimientosHoy
             // 
             panelMovimientosHoy.BackColor = Color.Transparent;
+            panelMovimientosHoy.BorderColor = Color.Gainsboro;
             panelMovimientosHoy.BorderRadius = 8;
+            panelMovimientosHoy.BorderThickness = 1;
             panelMovimientosHoy.Controls.Add(layoutMovimientosHoy);
             panelMovimientosHoy.CustomBorderColor = Color.PeachPuff;
             panelMovimientosHoy.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -290,7 +292,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelMovimientosHoy.ShadowDecoration.BorderRadius = 8;
             panelMovimientosHoy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             panelMovimientosHoy.ShadowDecoration.Depth = 10;
-            panelMovimientosHoy.ShadowDecoration.Enabled = true;
             panelMovimientosHoy.Size = new Size(181, 130);
             panelMovimientosHoy.TabIndex = 3;
             // 
@@ -344,7 +345,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelAlmacenesActivos
             // 
             panelAlmacenesActivos.BackColor = Color.Transparent;
+            panelAlmacenesActivos.BorderColor = Color.Gainsboro;
             panelAlmacenesActivos.BorderRadius = 8;
+            panelAlmacenesActivos.BorderThickness = 1;
             panelAlmacenesActivos.Controls.Add(layoutAlmacenesActivos);
             panelAlmacenesActivos.CustomBorderColor = Color.LightBlue;
             panelAlmacenesActivos.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -357,7 +360,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelAlmacenesActivos.ShadowDecoration.BorderRadius = 8;
             panelAlmacenesActivos.ShadowDecoration.CustomizableEdges = customizableEdges6;
             panelAlmacenesActivos.ShadowDecoration.Depth = 10;
-            panelAlmacenesActivos.ShadowDecoration.Enabled = true;
             panelAlmacenesActivos.Size = new Size(178, 130);
             panelAlmacenesActivos.TabIndex = 2;
             // 
@@ -411,7 +413,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelValorTotalInventario
             // 
             panelValorTotalInventario.BackColor = Color.Transparent;
+            panelValorTotalInventario.BorderColor = Color.Gainsboro;
             panelValorTotalInventario.BorderRadius = 8;
+            panelValorTotalInventario.BorderThickness = 1;
             panelValorTotalInventario.Controls.Add(layoutValorTotalInventario);
             panelValorTotalInventario.CustomBorderColor = Color.PeachPuff;
             panelValorTotalInventario.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -424,7 +428,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelValorTotalInventario.ShadowDecoration.BorderRadius = 8;
             panelValorTotalInventario.ShadowDecoration.CustomizableEdges = customizableEdges8;
             panelValorTotalInventario.ShadowDecoration.Depth = 10;
-            panelValorTotalInventario.ShadowDecoration.Enabled = true;
             panelValorTotalInventario.Size = new Size(273, 130);
             panelValorTotalInventario.TabIndex = 4;
             // 
@@ -523,7 +526,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelSinStock
             // 
             panelSinStock.BackColor = Color.Transparent;
+            panelSinStock.BorderColor = Color.Gainsboro;
             panelSinStock.BorderRadius = 8;
+            panelSinStock.BorderThickness = 1;
             panelSinStock.Controls.Add(layoutSinStock);
             panelSinStock.CustomBorderColor = Color.Firebrick;
             panelSinStock.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -536,7 +541,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelSinStock.ShadowDecoration.BorderRadius = 8;
             panelSinStock.ShadowDecoration.CustomizableEdges = customizableEdges10;
             panelSinStock.ShadowDecoration.Depth = 10;
-            panelSinStock.ShadowDecoration.Enabled = true;
             panelSinStock.Size = new Size(178, 130);
             panelSinStock.TabIndex = 3;
             // 
@@ -606,7 +610,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelBajoStockMinimo
             // 
             panelBajoStockMinimo.BackColor = Color.Transparent;
+            panelBajoStockMinimo.BorderColor = Color.Gainsboro;
             panelBajoStockMinimo.BorderRadius = 8;
+            panelBajoStockMinimo.BorderThickness = 1;
             panelBajoStockMinimo.Controls.Add(layoutBajoStockMinimo);
             panelBajoStockMinimo.CustomBorderColor = Color.Peru;
             panelBajoStockMinimo.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -619,7 +625,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelBajoStockMinimo.ShadowDecoration.BorderRadius = 8;
             panelBajoStockMinimo.ShadowDecoration.CustomizableEdges = customizableEdges12;
             panelBajoStockMinimo.ShadowDecoration.Depth = 10;
-            panelBajoStockMinimo.ShadowDecoration.Enabled = true;
             panelBajoStockMinimo.Size = new Size(178, 130);
             panelBajoStockMinimo.TabIndex = 2;
             // 
@@ -690,7 +695,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelProductosActivos
             // 
             panelProductosActivos.BackColor = Color.Transparent;
+            panelProductosActivos.BorderColor = Color.Gainsboro;
             panelProductosActivos.BorderRadius = 8;
+            panelProductosActivos.BorderThickness = 1;
             panelProductosActivos.Controls.Add(layoutPanelProductosActivos);
             panelProductosActivos.CustomBorderColor = Color.PeachPuff;
             panelProductosActivos.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -703,7 +710,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelProductosActivos.ShadowDecoration.BorderRadius = 8;
             panelProductosActivos.ShadowDecoration.CustomizableEdges = customizableEdges14;
             panelProductosActivos.ShadowDecoration.Depth = 10;
-            panelProductosActivos.ShadowDecoration.Enabled = true;
             panelProductosActivos.Size = new Size(178, 130);
             panelProductosActivos.TabIndex = 1;
             // 
@@ -790,7 +796,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelTopProductosValor
             // 
             panelTopProductosValor.BackColor = Color.Transparent;
+            panelTopProductosValor.BorderColor = Color.Gainsboro;
             panelTopProductosValor.BorderRadius = 8;
+            panelTopProductosValor.BorderThickness = 1;
             panelTopProductosValor.Controls.Add(layoutTopProductosValor);
             panelTopProductosValor.CustomizableEdges = customizableEdges15;
             panelTopProductosValor.Dock = DockStyle.Fill;
@@ -801,7 +809,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelTopProductosValor.ShadowDecoration.BorderRadius = 8;
             panelTopProductosValor.ShadowDecoration.CustomizableEdges = customizableEdges16;
             panelTopProductosValor.ShadowDecoration.Depth = 10;
-            panelTopProductosValor.ShadowDecoration.Enabled = true;
             panelTopProductosValor.Size = new Size(326, 308);
             panelTopProductosValor.TabIndex = 2;
             // 
@@ -916,10 +923,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloValorProducto.Text = "Valor $";
             fieldTituloValorProducto.TextAlign = ContentAlignment.MiddleRight;
             // 
+            // panelTuplasTopProductosValor
+            // 
+            panelTuplasTopProductosValor.Dock = DockStyle.Fill;
+            panelTuplasTopProductosValor.Location = new Point(0, 40);
+            panelTuplasTopProductosValor.Margin = new Padding(0);
+            panelTuplasTopProductosValor.Name = "panelTuplasTopProductosValor";
+            panelTuplasTopProductosValor.Size = new Size(296, 218);
+            panelTuplasTopProductosValor.TabIndex = 21;
+            // 
             // panelValorPorAlmacen
             // 
             panelValorPorAlmacen.BackColor = Color.Transparent;
+            panelValorPorAlmacen.BorderColor = Color.Gainsboro;
             panelValorPorAlmacen.BorderRadius = 8;
+            panelValorPorAlmacen.BorderThickness = 1;
             panelValorPorAlmacen.Controls.Add(layoutValorPorAlmacen);
             panelValorPorAlmacen.CustomizableEdges = customizableEdges17;
             panelValorPorAlmacen.Dock = DockStyle.Fill;
@@ -930,7 +948,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelValorPorAlmacen.ShadowDecoration.BorderRadius = 8;
             panelValorPorAlmacen.ShadowDecoration.CustomizableEdges = customizableEdges18;
             panelValorPorAlmacen.ShadowDecoration.Depth = 10;
-            panelValorPorAlmacen.ShadowDecoration.Enabled = true;
             panelValorPorAlmacen.Size = new Size(325, 308);
             panelValorPorAlmacen.TabIndex = 0;
             // 
@@ -980,7 +997,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // panelEvolucionMovimientos
             // 
             panelEvolucionMovimientos.BackColor = Color.Transparent;
+            panelEvolucionMovimientos.BorderColor = Color.Gainsboro;
             panelEvolucionMovimientos.BorderRadius = 8;
+            panelEvolucionMovimientos.BorderThickness = 1;
             panelEvolucionMovimientos.Controls.Add(layoutEvolucionMovimientos);
             panelEvolucionMovimientos.CustomizableEdges = customizableEdges19;
             panelEvolucionMovimientos.Dock = DockStyle.Fill;
@@ -991,7 +1010,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelEvolucionMovimientos.ShadowDecoration.BorderRadius = 8;
             panelEvolucionMovimientos.ShadowDecoration.CustomizableEdges = customizableEdges20;
             panelEvolucionMovimientos.ShadowDecoration.Depth = 10;
-            panelEvolucionMovimientos.ShadowDecoration.Enabled = true;
             panelEvolucionMovimientos.Size = new Size(575, 308);
             panelEvolucionMovimientos.TabIndex = 1;
             // 
@@ -1037,15 +1055,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldEvolucionMovimientos.Size = new Size(545, 252);
             fieldEvolucionMovimientos.TabIndex = 6;
             fieldEvolucionMovimientos.TabStop = false;
-            // 
-            // panelTuplasTopProductosValor
-            // 
-            panelTuplasTopProductosValor.Dock = DockStyle.Fill;
-            panelTuplasTopProductosValor.Location = new Point(0, 40);
-            panelTuplasTopProductosValor.Margin = new Padding(0);
-            panelTuplasTopProductosValor.Name = "panelTuplasTopProductosValor";
-            panelTuplasTopProductosValor.Size = new Size(296, 218);
-            panelTuplasTopProductosValor.TabIndex = 21;
             // 
             // VistaEstadisticasInventario
             // 

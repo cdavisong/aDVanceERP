@@ -25,8 +25,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaMenuCompra));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -36,15 +34,17 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutDistribucion = new TableLayoutPanel();
             panelRelleno = new Panel();
-            fieldTitulo = new Label();
-            btnEstadisticas = new Guna2Button();
             btnMaestros = new Guna2Button();
             btnPagos = new Guna2Button();
             btnCompras = new Guna2Button();
             btnSolicitudes = new Guna2Button();
+            btnEstadisticas = new Guna2Button();
+            fieldTitulo = new Label();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             panelRelleno.SuspendLayout();
@@ -99,20 +99,106 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelRelleno.Size = new Size(802, 50);
             panelRelleno.TabIndex = 5;
             // 
-            // fieldTitulo
+            // btnMaestros
             // 
-            fieldTitulo.BackColor = Color.WhiteSmoke;
-            fieldTitulo.Dock = DockStyle.Fill;
-            fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            fieldTitulo.ForeColor = Color.Firebrick;
-            fieldTitulo.ImeMode = ImeMode.NoControl;
-            fieldTitulo.Location = new Point(0, 0);
-            fieldTitulo.Margin = new Padding(0);
-            fieldTitulo.Name = "fieldTitulo";
-            fieldTitulo.Size = new Size(160, 50);
-            fieldTitulo.TabIndex = 4;
-            fieldTitulo.Text = "Compra";
-            fieldTitulo.TextAlign = ContentAlignment.MiddleCenter;
+            btnMaestros.Animated = true;
+            btnMaestros.BackColor = Color.WhiteSmoke;
+            btnMaestros.BorderRadius = 12;
+            btnMaestros.CheckedState.FillColor = Color.WhiteSmoke;
+            btnMaestros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnMaestros.Cursor = Cursors.Hand;
+            btnMaestros.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnMaestros.CustomImages.ImageAlign = HorizontalAlignment.Left;
+            btnMaestros.CustomImages.ImageOffset = new Point(10, 0);
+            btnMaestros.CustomImages.ImageSize = new Size(24, 24);
+            customizableEdges1.TopLeft = false;
+            customizableEdges1.TopRight = false;
+            btnMaestros.CustomizableEdges = customizableEdges1;
+            btnMaestros.Dock = DockStyle.Left;
+            btnMaestros.FillColor = Color.WhiteSmoke;
+            btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            btnMaestros.ForeColor = Color.Black;
+            btnMaestros.HoverState.FillColor = Color.PeachPuff;
+            btnMaestros.Location = new Point(560, 0);
+            btnMaestros.Margin = new Padding(0);
+            btnMaestros.Name = "btnMaestros";
+            btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnMaestros.Size = new Size(140, 50);
+            btnMaestros.TabIndex = 25;
+            btnMaestros.Text = "Maestros";
+            btnMaestros.TextOffset = new Point(14, 0);
+            // 
+            // btnPagos
+            // 
+            btnPagos.Animated = true;
+            btnPagos.BackColor = Color.WhiteSmoke;
+            btnPagos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnPagos.CheckedState.FillColor = Color.WhiteSmoke;
+            btnPagos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnPagos.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
+            btnPagos.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnPagos.CustomImages.ImageOffset = new Point(0, 32);
+            btnPagos.CustomImages.ImageSize = new Size(131, 8);
+            btnPagos.CustomizableEdges = customizableEdges3;
+            btnPagos.Dock = DockStyle.Left;
+            btnPagos.FillColor = Color.WhiteSmoke;
+            btnPagos.Font = new Font("Segoe UI", 11.25F);
+            btnPagos.ForeColor = Color.Black;
+            btnPagos.Location = new Point(420, 0);
+            btnPagos.Margin = new Padding(0);
+            btnPagos.Name = "btnPagos";
+            btnPagos.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnPagos.Size = new Size(140, 50);
+            btnPagos.TabIndex = 24;
+            btnPagos.Text = "Pagos";
+            // 
+            // btnCompras
+            // 
+            btnCompras.Animated = true;
+            btnCompras.BackColor = Color.WhiteSmoke;
+            btnCompras.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnCompras.CheckedState.FillColor = Color.WhiteSmoke;
+            btnCompras.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnCompras.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
+            btnCompras.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnCompras.CustomImages.ImageOffset = new Point(0, 32);
+            btnCompras.CustomImages.ImageSize = new Size(131, 8);
+            btnCompras.CustomizableEdges = customizableEdges5;
+            btnCompras.Dock = DockStyle.Left;
+            btnCompras.FillColor = Color.WhiteSmoke;
+            btnCompras.Font = new Font("Segoe UI", 11.25F);
+            btnCompras.ForeColor = Color.Black;
+            btnCompras.Location = new Point(280, 0);
+            btnCompras.Margin = new Padding(0);
+            btnCompras.Name = "btnCompras";
+            btnCompras.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnCompras.Size = new Size(140, 50);
+            btnCompras.TabIndex = 23;
+            btnCompras.Text = "Compras";
+            // 
+            // btnSolicitudes
+            // 
+            btnSolicitudes.Animated = true;
+            btnSolicitudes.BackColor = Color.WhiteSmoke;
+            btnSolicitudes.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnSolicitudes.CheckedState.FillColor = Color.WhiteSmoke;
+            btnSolicitudes.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnSolicitudes.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
+            btnSolicitudes.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnSolicitudes.CustomImages.ImageOffset = new Point(0, 32);
+            btnSolicitudes.CustomImages.ImageSize = new Size(131, 8);
+            btnSolicitudes.CustomizableEdges = customizableEdges7;
+            btnSolicitudes.Dock = DockStyle.Left;
+            btnSolicitudes.FillColor = Color.WhiteSmoke;
+            btnSolicitudes.Font = new Font("Segoe UI", 11.25F);
+            btnSolicitudes.ForeColor = Color.Black;
+            btnSolicitudes.Location = new Point(140, 0);
+            btnSolicitudes.Margin = new Padding(0);
+            btnSolicitudes.Name = "btnSolicitudes";
+            btnSolicitudes.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnSolicitudes.Size = new Size(140, 50);
+            btnSolicitudes.TabIndex = 22;
+            btnSolicitudes.Text = "Solicitudes";
             // 
             // btnEstadisticas
             // 
@@ -134,110 +220,24 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnEstadisticas.Margin = new Padding(0);
             btnEstadisticas.Name = "btnEstadisticas";
             btnEstadisticas.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnEstadisticas.Size = new Size(160, 50);
+            btnEstadisticas.Size = new Size(140, 50);
             btnEstadisticas.TabIndex = 21;
             btnEstadisticas.Text = "Estadísticas";
             // 
-            // btnMaestros
+            // fieldTitulo
             // 
-            btnMaestros.Animated = true;
-            btnMaestros.BackColor = Color.WhiteSmoke;
-            btnMaestros.BorderRadius = 12;
-            btnMaestros.CheckedState.FillColor = Color.WhiteSmoke;
-            btnMaestros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnMaestros.Cursor = Cursors.Hand;
-            btnMaestros.CustomImages.Image = (Image) resources.GetObject("resource.Image");
-            btnMaestros.CustomImages.ImageAlign = HorizontalAlignment.Left;
-            btnMaestros.CustomImages.ImageOffset = new Point(10, 0);
-            btnMaestros.CustomImages.ImageSize = new Size(24, 24);
-            customizableEdges1.TopLeft = false;
-            customizableEdges1.TopRight = false;
-            btnMaestros.CustomizableEdges = customizableEdges1;
-            btnMaestros.Dock = DockStyle.Left;
-            btnMaestros.FillColor = Color.WhiteSmoke;
-            btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
-            btnMaestros.ForeColor = Color.Black;
-            btnMaestros.HoverState.FillColor = Color.PeachPuff;
-            btnMaestros.Location = new Point(640, 0);
-            btnMaestros.Margin = new Padding(0);
-            btnMaestros.Name = "btnMaestros";
-            btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnMaestros.Size = new Size(160, 50);
-            btnMaestros.TabIndex = 25;
-            btnMaestros.Text = "Maestros";
-            btnMaestros.TextOffset = new Point(5, 0);
-            // 
-            // btnPagos
-            // 
-            btnPagos.Animated = true;
-            btnPagos.BackColor = Color.WhiteSmoke;
-            btnPagos.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnPagos.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPagos.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnPagos.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
-            btnPagos.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnPagos.CustomImages.ImageOffset = new Point(0, 32);
-            btnPagos.CustomImages.ImageSize = new Size(131, 8);
-            btnPagos.CustomizableEdges = customizableEdges3;
-            btnPagos.Dock = DockStyle.Left;
-            btnPagos.FillColor = Color.WhiteSmoke;
-            btnPagos.Font = new Font("Segoe UI", 11.25F);
-            btnPagos.ForeColor = Color.Black;
-            btnPagos.Location = new Point(480, 0);
-            btnPagos.Margin = new Padding(0);
-            btnPagos.Name = "btnPagos";
-            btnPagos.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnPagos.Size = new Size(160, 50);
-            btnPagos.TabIndex = 24;
-            btnPagos.Text = "Pagos";
-            // 
-            // btnCompras
-            // 
-            btnCompras.Animated = true;
-            btnCompras.BackColor = Color.WhiteSmoke;
-            btnCompras.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnCompras.CheckedState.FillColor = Color.WhiteSmoke;
-            btnCompras.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnCompras.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
-            btnCompras.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnCompras.CustomImages.ImageOffset = new Point(0, 32);
-            btnCompras.CustomImages.ImageSize = new Size(131, 8);
-            btnCompras.CustomizableEdges = customizableEdges5;
-            btnCompras.Dock = DockStyle.Left;
-            btnCompras.FillColor = Color.WhiteSmoke;
-            btnCompras.Font = new Font("Segoe UI", 11.25F);
-            btnCompras.ForeColor = Color.Black;
-            btnCompras.Location = new Point(320, 0);
-            btnCompras.Margin = new Padding(0);
-            btnCompras.Name = "btnCompras";
-            btnCompras.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnCompras.Size = new Size(160, 50);
-            btnCompras.TabIndex = 23;
-            btnCompras.Text = "Compras";
-            // 
-            // btnSolicitudes
-            // 
-            btnSolicitudes.Animated = true;
-            btnSolicitudes.BackColor = Color.WhiteSmoke;
-            btnSolicitudes.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnSolicitudes.CheckedState.FillColor = Color.WhiteSmoke;
-            btnSolicitudes.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnSolicitudes.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
-            btnSolicitudes.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnSolicitudes.CustomImages.ImageOffset = new Point(0, 32);
-            btnSolicitudes.CustomImages.ImageSize = new Size(131, 8);
-            btnSolicitudes.CustomizableEdges = customizableEdges7;
-            btnSolicitudes.Dock = DockStyle.Left;
-            btnSolicitudes.FillColor = Color.WhiteSmoke;
-            btnSolicitudes.Font = new Font("Segoe UI", 11.25F);
-            btnSolicitudes.ForeColor = Color.Black;
-            btnSolicitudes.Location = new Point(160, 0);
-            btnSolicitudes.Margin = new Padding(0);
-            btnSolicitudes.Name = "btnSolicitudes";
-            btnSolicitudes.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnSolicitudes.Size = new Size(160, 50);
-            btnSolicitudes.TabIndex = 22;
-            btnSolicitudes.Text = "Solicitudes";
+            fieldTitulo.BackColor = Color.WhiteSmoke;
+            fieldTitulo.Dock = DockStyle.Fill;
+            fieldTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            fieldTitulo.ForeColor = Color.Firebrick;
+            fieldTitulo.ImeMode = ImeMode.NoControl;
+            fieldTitulo.Location = new Point(0, 0);
+            fieldTitulo.Margin = new Padding(0);
+            fieldTitulo.Name = "fieldTitulo";
+            fieldTitulo.Size = new Size(160, 50);
+            fieldTitulo.TabIndex = 4;
+            fieldTitulo.Text = "Compra";
+            fieldTitulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // VistaMenuCompra
             // 

@@ -147,14 +147,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnMaestros.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             btnMaestros.ForeColor = Color.Black;
             btnMaestros.HoverState.FillColor = Color.PeachPuff;
-            btnMaestros.Location = new Point(800, 0);
+            btnMaestros.Location = new Point(650, 0);
             btnMaestros.Margin = new Padding(0);
             btnMaestros.Name = "btnMaestros";
             btnMaestros.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnMaestros.Size = new Size(160, 50);
+            btnMaestros.Size = new Size(140, 50);
             btnMaestros.TabIndex = 27;
             btnMaestros.Text = "Maestros";
-            btnMaestros.TextOffset = new Point(5, 0);
+            btnMaestros.TextOffset = new Point(14, 0);
             // 
             // btnEnvios
             // 
@@ -172,11 +172,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEnvios.FillColor = Color.WhiteSmoke;
             btnEnvios.Font = new Font("Segoe UI", 11.25F);
             btnEnvios.ForeColor = Color.Black;
-            btnEnvios.Location = new Point(640, 0);
+            btnEnvios.Location = new Point(520, 0);
             btnEnvios.Margin = new Padding(0);
             btnEnvios.Name = "btnEnvios";
             btnEnvios.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnEnvios.Size = new Size(160, 50);
+            btnEnvios.Size = new Size(130, 50);
             btnEnvios.TabIndex = 26;
             btnEnvios.Text = "Envíos";
             // 
@@ -196,11 +196,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPagos.FillColor = Color.WhiteSmoke;
             btnPagos.Font = new Font("Segoe UI", 11.25F);
             btnPagos.ForeColor = Color.Black;
-            btnPagos.Location = new Point(480, 0);
+            btnPagos.Location = new Point(390, 0);
             btnPagos.Margin = new Padding(0);
             btnPagos.Name = "btnPagos";
             btnPagos.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnPagos.Size = new Size(160, 50);
+            btnPagos.Size = new Size(130, 50);
             btnPagos.TabIndex = 25;
             btnPagos.Text = "Pagos";
             // 
@@ -220,11 +220,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnVentas.FillColor = Color.WhiteSmoke;
             btnVentas.Font = new Font("Segoe UI", 11.25F);
             btnVentas.ForeColor = Color.Black;
-            btnVentas.Location = new Point(320, 0);
+            btnVentas.Location = new Point(260, 0);
             btnVentas.Margin = new Padding(0);
             btnVentas.Name = "btnVentas";
             btnVentas.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnVentas.Size = new Size(160, 50);
+            btnVentas.Size = new Size(130, 50);
             btnVentas.TabIndex = 24;
             btnVentas.Text = "Ventas";
             // 
@@ -244,11 +244,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnPedidos.FillColor = Color.WhiteSmoke;
             btnPedidos.Font = new Font("Segoe UI", 11.25F);
             btnPedidos.ForeColor = Color.Black;
-            btnPedidos.Location = new Point(160, 0);
+            btnPedidos.Location = new Point(130, 0);
             btnPedidos.Margin = new Padding(0);
             btnPedidos.Name = "btnPedidos";
             btnPedidos.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnPedidos.Size = new Size(160, 50);
+            btnPedidos.Size = new Size(130, 50);
             btnPedidos.TabIndex = 23;
             btnPedidos.Text = "Pedidos";
             // 
@@ -272,7 +272,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnEstadisticas.Margin = new Padding(0);
             btnEstadisticas.Name = "btnEstadisticas";
             btnEstadisticas.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            btnEstadisticas.Size = new Size(160, 50);
+            btnEstadisticas.Size = new Size(130, 50);
             btnEstadisticas.TabIndex = 22;
             btnEstadisticas.Text = "Estadísticas";
             // 

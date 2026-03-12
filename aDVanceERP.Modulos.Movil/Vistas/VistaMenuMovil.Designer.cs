@@ -128,11 +128,11 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             btnAdvanceStock.FillColor = Color.WhiteSmoke;
             btnAdvanceStock.Font = new Font("Segoe UI", 11.25F);
             btnAdvanceStock.ForeColor = Color.Black;
-            btnAdvanceStock.Location = new Point(160, 0);
+            btnAdvanceStock.Location = new Point(140, 0);
             btnAdvanceStock.Margin = new Padding(0);
             btnAdvanceStock.Name = "btnAdvanceStock";
             btnAdvanceStock.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnAdvanceStock.Size = new Size(160, 50);
+            btnAdvanceStock.Size = new Size(140, 50);
             btnAdvanceStock.TabIndex = 12;
             btnAdvanceStock.Text = "aDVance STOCK";
             // 
@@ -156,7 +156,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             btnAdvancePos.Margin = new Padding(0);
             btnAdvancePos.Name = "btnAdvancePos";
             btnAdvancePos.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnAdvancePos.Size = new Size(160, 50);
+            btnAdvancePos.Size = new Size(140, 50);
             btnAdvancePos.TabIndex = 11;
             btnAdvancePos.Text = "aDVance POS";
             // 

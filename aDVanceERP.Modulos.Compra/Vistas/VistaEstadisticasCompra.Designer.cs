@@ -280,7 +280,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelGastoMesAnterior
             // 
             panelGastoMesAnterior.BackColor = Color.Transparent;
+            panelGastoMesAnterior.BorderColor = Color.Gainsboro;
             panelGastoMesAnterior.BorderRadius = 8;
+            panelGastoMesAnterior.BorderThickness = 1;
             panelGastoMesAnterior.Controls.Add(layoutGastoMesAnterior);
             panelGastoMesAnterior.CustomBorderColor = Color.PeachPuff;
             panelGastoMesAnterior.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -293,7 +295,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelGastoMesAnterior.ShadowDecoration.BorderRadius = 8;
             panelGastoMesAnterior.ShadowDecoration.CustomizableEdges = customizableEdges4;
             panelGastoMesAnterior.ShadowDecoration.Depth = 10;
-            panelGastoMesAnterior.ShadowDecoration.Enabled = true;
             panelGastoMesAnterior.Size = new Size(228, 130);
             panelGastoMesAnterior.TabIndex = 3;
             // 
@@ -377,7 +378,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelSolicitudesPendientes
             // 
             panelSolicitudesPendientes.BackColor = Color.Transparent;
+            panelSolicitudesPendientes.BorderColor = Color.Gainsboro;
             panelSolicitudesPendientes.BorderRadius = 8;
+            panelSolicitudesPendientes.BorderThickness = 1;
             panelSolicitudesPendientes.Controls.Add(layoutSolicitudesPendientes);
             panelSolicitudesPendientes.CustomBorderColor = Color.Firebrick;
             panelSolicitudesPendientes.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -390,7 +393,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelSolicitudesPendientes.ShadowDecoration.BorderRadius = 8;
             panelSolicitudesPendientes.ShadowDecoration.CustomizableEdges = customizableEdges6;
             panelSolicitudesPendientes.ShadowDecoration.Depth = 10;
-            panelSolicitudesPendientes.ShadowDecoration.Enabled = true;
             panelSolicitudesPendientes.Size = new Size(178, 130);
             panelSolicitudesPendientes.TabIndex = 2;
             // 
@@ -459,7 +461,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelGastoMesActual
             // 
             panelGastoMesActual.BackColor = Color.Transparent;
+            panelGastoMesActual.BorderColor = Color.Gainsboro;
             panelGastoMesActual.BorderRadius = 8;
+            panelGastoMesActual.BorderThickness = 1;
             panelGastoMesActual.Controls.Add(layoutGastoMesActual);
             panelGastoMesActual.CustomBorderColor = Color.PeachPuff;
             panelGastoMesActual.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -472,7 +476,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelGastoMesActual.ShadowDecoration.BorderRadius = 8;
             panelGastoMesActual.ShadowDecoration.CustomizableEdges = customizableEdges8;
             panelGastoMesActual.ShadowDecoration.Depth = 10;
-            panelGastoMesActual.ShadowDecoration.Enabled = true;
             panelGastoMesActual.Size = new Size(226, 130);
             panelGastoMesActual.TabIndex = 4;
             // 
@@ -573,7 +576,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelRecibidasParcial
             // 
             panelRecibidasParcial.BackColor = Color.Transparent;
+            panelRecibidasParcial.BorderColor = Color.Gainsboro;
             panelRecibidasParcial.BorderRadius = 8;
+            panelRecibidasParcial.BorderThickness = 1;
             panelRecibidasParcial.Controls.Add(layoutRecibidasParcial);
             panelRecibidasParcial.CustomBorderColor = Color.PeachPuff;
             panelRecibidasParcial.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -586,7 +591,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelRecibidasParcial.ShadowDecoration.BorderRadius = 8;
             panelRecibidasParcial.ShadowDecoration.CustomizableEdges = customizableEdges10;
             panelRecibidasParcial.ShadowDecoration.Depth = 10;
-            panelRecibidasParcial.ShadowDecoration.Enabled = true;
             panelRecibidasParcial.Size = new Size(178, 130);
             panelRecibidasParcial.TabIndex = 3;
             // 
@@ -640,7 +644,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelPendientesAprobacion
             // 
             panelPendientesAprobacion.BackColor = Color.Transparent;
+            panelPendientesAprobacion.BorderColor = Color.Gainsboro;
             panelPendientesAprobacion.BorderRadius = 8;
+            panelPendientesAprobacion.BorderThickness = 1;
             panelPendientesAprobacion.Controls.Add(layoutPendientesAprobacion);
             panelPendientesAprobacion.CustomBorderColor = Color.Peru;
             panelPendientesAprobacion.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -653,7 +659,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelPendientesAprobacion.ShadowDecoration.BorderRadius = 8;
             panelPendientesAprobacion.ShadowDecoration.CustomizableEdges = customizableEdges12;
             panelPendientesAprobacion.ShadowDecoration.Depth = 10;
-            panelPendientesAprobacion.ShadowDecoration.Enabled = true;
             panelPendientesAprobacion.Size = new Size(178, 130);
             panelPendientesAprobacion.TabIndex = 2;
             // 
@@ -724,7 +729,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelAprobadas
             // 
             panelAprobadas.BackColor = Color.Transparent;
+            panelAprobadas.BorderColor = Color.Gainsboro;
             panelAprobadas.BorderRadius = 8;
+            panelAprobadas.BorderThickness = 1;
             panelAprobadas.Controls.Add(layoutAprobadas);
             panelAprobadas.CustomBorderColor = Color.LightBlue;
             panelAprobadas.CustomBorderThickness = new Padding(0, 5, 0, 0);
@@ -737,7 +744,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelAprobadas.ShadowDecoration.BorderRadius = 8;
             panelAprobadas.ShadowDecoration.CustomizableEdges = customizableEdges14;
             panelAprobadas.ShadowDecoration.Depth = 10;
-            panelAprobadas.ShadowDecoration.Enabled = true;
             panelAprobadas.Size = new Size(178, 130);
             panelAprobadas.TabIndex = 1;
             // 
@@ -824,7 +830,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelTopProveedores
             // 
             panelTopProveedores.BackColor = Color.Transparent;
+            panelTopProveedores.BorderColor = Color.Gainsboro;
             panelTopProveedores.BorderRadius = 8;
+            panelTopProveedores.BorderThickness = 1;
             panelTopProveedores.Controls.Add(layoutTopProveedores);
             panelTopProveedores.CustomizableEdges = customizableEdges15;
             panelTopProveedores.Dock = DockStyle.Fill;
@@ -835,7 +843,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelTopProveedores.ShadowDecoration.BorderRadius = 8;
             panelTopProveedores.ShadowDecoration.CustomizableEdges = customizableEdges16;
             panelTopProveedores.ShadowDecoration.Depth = 10;
-            panelTopProveedores.ShadowDecoration.Enabled = true;
             panelTopProveedores.Size = new Size(326, 308);
             panelTopProveedores.TabIndex = 2;
             // 
@@ -964,7 +971,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelDistribucionPorEstado
             // 
             panelDistribucionPorEstado.BackColor = Color.Transparent;
+            panelDistribucionPorEstado.BorderColor = Color.Gainsboro;
             panelDistribucionPorEstado.BorderRadius = 8;
+            panelDistribucionPorEstado.BorderThickness = 1;
             panelDistribucionPorEstado.Controls.Add(layoutDistribucionPorEstado);
             panelDistribucionPorEstado.CustomizableEdges = customizableEdges17;
             panelDistribucionPorEstado.Dock = DockStyle.Fill;
@@ -975,7 +984,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelDistribucionPorEstado.ShadowDecoration.BorderRadius = 8;
             panelDistribucionPorEstado.ShadowDecoration.CustomizableEdges = customizableEdges18;
             panelDistribucionPorEstado.ShadowDecoration.Depth = 10;
-            panelDistribucionPorEstado.ShadowDecoration.Enabled = true;
             panelDistribucionPorEstado.Size = new Size(325, 308);
             panelDistribucionPorEstado.TabIndex = 0;
             // 
@@ -1026,7 +1034,9 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // panelEvolucionGasto6Meses
             // 
             panelEvolucionGasto6Meses.BackColor = Color.Transparent;
+            panelEvolucionGasto6Meses.BorderColor = Color.Gainsboro;
             panelEvolucionGasto6Meses.BorderRadius = 8;
+            panelEvolucionGasto6Meses.BorderThickness = 1;
             panelEvolucionGasto6Meses.Controls.Add(layoutEvolucionGasto6Meses);
             panelEvolucionGasto6Meses.CustomizableEdges = customizableEdges19;
             panelEvolucionGasto6Meses.Dock = DockStyle.Fill;
@@ -1037,7 +1047,6 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             panelEvolucionGasto6Meses.ShadowDecoration.BorderRadius = 8;
             panelEvolucionGasto6Meses.ShadowDecoration.CustomizableEdges = customizableEdges20;
             panelEvolucionGasto6Meses.ShadowDecoration.Depth = 10;
-            panelEvolucionGasto6Meses.ShadowDecoration.Enabled = true;
             panelEvolucionGasto6Meses.Size = new Size(575, 308);
             panelEvolucionGasto6Meses.TabIndex = 1;
             // 

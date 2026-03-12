@@ -156,11 +156,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnMensajeros.FillColor = Color.WhiteSmoke;
             btnMensajeros.Font = new Font("Segoe UI", 11.25F);
             btnMensajeros.ForeColor = Color.Black;
-            btnMensajeros.Location = new Point(160, 0);
+            btnMensajeros.Location = new Point(140, 0);
             btnMensajeros.Margin = new Padding(0);
             btnMensajeros.Name = "btnMensajeros";
             btnMensajeros.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnMensajeros.Size = new Size(160, 50);
+            btnMensajeros.Size = new Size(140, 50);
             btnMensajeros.TabIndex = 11;
             btnMensajeros.Text = "Mensajeros";
             // 
@@ -184,7 +184,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnClientes.Margin = new Padding(0);
             btnClientes.Name = "btnClientes";
             btnClientes.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnClientes.Size = new Size(160, 50);
+            btnClientes.Size = new Size(140, 50);
             btnClientes.TabIndex = 10;
             btnClientes.Text = "Clientes";
             // 
