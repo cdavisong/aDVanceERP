@@ -146,10 +146,13 @@
            font-weight: bold;
        }
        .erp {
+           align-items: center; 
+           justify-content: center;
            background-color: Firebrick;
+           border-radius: 5px;           
            color: white;
            font-weight: bold;
-           padding: 2px;
+           padding: 6px;
        }
        .version {                        
            color: Lightgray;
@@ -210,10 +213,13 @@
             font-weight: bold;
         }
         .erp {
-            background-color: Firebrick;
-            color: white;
-            font-weight: bold;
-            padding: 2px;
+           align-items: center; 
+           justify-content: center;
+           background-color: Firebrick;
+           border-radius: 5px;           
+           color: white;
+           font-weight: bold;
+           padding: 6px;
         }
         .version {
             color: Gray;

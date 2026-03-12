@@ -18,6 +18,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Vistas\VistaEstadisticasVenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Vistas\VistaGestionClientes.cs">
       <SubType>Form</SubType>
     </Compile>

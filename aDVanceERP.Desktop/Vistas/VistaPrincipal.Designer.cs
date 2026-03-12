@@ -24,13 +24,13 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaPrincipal));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             notificacionMensajes = new Guna.UI2.WinForms.Guna2NotificationPaint(components);
             notificacionesModulos = new Guna.UI2.WinForms.Guna2NotificationPaint(components);
@@ -121,7 +121,7 @@
             layoutBarraTitulo.ColumnCount = 6;
             layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
+            layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutBarraTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
@@ -147,13 +147,13 @@
             layoutBotonesTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutBotonesTitulo.Controls.Add(layoutBotones, 0, 0);
             layoutBotonesTitulo.Dock = DockStyle.Fill;
-            layoutBotonesTitulo.Location = new Point(1056, 0);
+            layoutBotonesTitulo.Location = new Point(1106, 0);
             layoutBotonesTitulo.Margin = new Padding(0);
             layoutBotonesTitulo.Name = "layoutBotonesTitulo";
             layoutBotonesTitulo.RowCount = 1;
             layoutBotonesTitulo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutBotonesTitulo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutBotonesTitulo.Size = new Size(150, 53);
+            layoutBotonesTitulo.Size = new Size(100, 53);
             layoutBotonesTitulo.TabIndex = 1;
             // 
             // layoutBotones
@@ -164,21 +164,21 @@
             layoutBotones.Location = new Point(0, 0);
             layoutBotones.Margin = new Padding(0);
             layoutBotones.Name = "layoutBotones";
-            layoutBotones.Size = new Size(150, 53);
+            layoutBotones.Size = new Size(100, 53);
             layoutBotones.TabIndex = 0;
             // 
             // btnMinimizar
             // 
             btnMinimizar.BorderRadius = 5;
             btnMinimizar.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
-            btnMinimizar.CustomizableEdges = customizableEdges13;
+            btnMinimizar.CustomizableEdges = customizableEdges1;
             btnMinimizar.Dock = DockStyle.Fill;
             btnMinimizar.FillColor = Color.WhiteSmoke;
             btnMinimizar.IconColor = Color.Black;
             btnMinimizar.Location = new Point(1207, 1);
             btnMinimizar.Margin = new Padding(1);
             btnMinimizar.Name = "btnMinimizar";
-            btnMinimizar.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnMinimizar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnMinimizar.Size = new Size(48, 51);
             btnMinimizar.TabIndex = 3;
             // 
@@ -201,7 +201,7 @@
             barraTitulo.Location = new Point(50, 0);
             barraTitulo.Margin = new Padding(0);
             barraTitulo.Name = "barraTitulo";
-            barraTitulo.Size = new Size(1006, 49);
+            barraTitulo.Size = new Size(1056, 49);
             barraTitulo.TabIndex = 1;
             // 
             // fieldTitulo
@@ -211,7 +211,7 @@
             fieldTitulo.Location = new Point(0, 0);
             fieldTitulo.Margin = new Padding(0);
             fieldTitulo.Name = "fieldTitulo";
-            fieldTitulo.Size = new Size(1006, 49);
+            fieldTitulo.Size = new Size(3, 2);
             fieldTitulo.TabIndex = 0;
             fieldTitulo.Text = null;
             fieldTitulo.TextAlignment = ContentAlignment.MiddleLeft;
@@ -220,7 +220,7 @@
             // btnCerrar
             // 
             btnCerrar.BorderRadius = 5;
-            btnCerrar.CustomizableEdges = customizableEdges15;
+            btnCerrar.CustomizableEdges = customizableEdges3;
             btnCerrar.Dock = DockStyle.Fill;
             btnCerrar.FillColor = Color.WhiteSmoke;
             btnCerrar.HoverState.FillColor = Color.FromArgb(  192,   0,   0);
@@ -229,7 +229,7 @@
             btnCerrar.Location = new Point(1307, 1);
             btnCerrar.Margin = new Padding(1);
             btnCerrar.Name = "btnCerrar";
-            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnCerrar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnCerrar.Size = new Size(48, 51);
             btnCerrar.TabIndex = 2;
             // 
@@ -237,14 +237,14 @@
             // 
             btnMaximizarRestaurar.BorderRadius = 5;
             btnMaximizarRestaurar.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MaximizeBox;
-            btnMaximizarRestaurar.CustomizableEdges = customizableEdges17;
+            btnMaximizarRestaurar.CustomizableEdges = customizableEdges5;
             btnMaximizarRestaurar.Dock = DockStyle.Fill;
             btnMaximizarRestaurar.FillColor = Color.WhiteSmoke;
             btnMaximizarRestaurar.IconColor = Color.Black;
             btnMaximizarRestaurar.Location = new Point(1257, 1);
             btnMaximizarRestaurar.Margin = new Padding(1);
             btnMaximizarRestaurar.Name = "btnMaximizarRestaurar";
-            btnMaximizarRestaurar.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            btnMaximizarRestaurar.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnMaximizarRestaurar.Size = new Size(48, 51);
             btnMaximizarRestaurar.TabIndex = 4;
             // 

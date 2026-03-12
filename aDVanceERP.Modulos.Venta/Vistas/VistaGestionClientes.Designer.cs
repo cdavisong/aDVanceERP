@@ -43,10 +43,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutHerramientas = new TableLayoutPanel();
@@ -69,6 +69,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldPaginaActual = new Label();
             fieldPaginasTotales = new Label();
             panelBotonesGestion = new Panel();
+            btnActivarDesactivarCliente = new Guna2Button();
             btnRegistrar = new Guna2Button();
             layoutEncabezadosTabla = new TableLayoutPanel();
             fieldTituloEstado = new Label();
@@ -78,7 +79,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             label3 = new Label();
             fieldTituloNombre = new Label();
             fieldTituloCodigo = new Label();
-            btnActivarDesactivarCliente = new Guna2Button();
             layoutVista.SuspendLayout();
             layoutHerramientas.SuspendLayout();
             layoutTituloHerramientas.SuspendLayout();
@@ -105,23 +105,24 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(layoutHerramientas, 2, 4);
-            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 3);
-            layoutVista.Controls.Add(separador1, 2, 5);
-            layoutVista.Controls.Add(layoutTitulo, 2, 0);
-            layoutVista.Controls.Add(fieldIcono, 1, 0);
-            layoutVista.Controls.Add(fieldSubtitulo, 2, 1);
-            layoutVista.Controls.Add(contenedorVistas, 2, 10);
-            layoutVista.Controls.Add(layoutControlesTabla, 2, 11);
-            layoutVista.Controls.Add(panelBotonesGestion, 2, 6);
-            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 8);
+            layoutVista.Controls.Add(layoutHerramientas, 2, 5);
+            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 4);
+            layoutVista.Controls.Add(separador1, 2, 6);
+            layoutVista.Controls.Add(layoutTitulo, 2, 1);
+            layoutVista.Controls.Add(fieldIcono, 1, 1);
+            layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
+            layoutVista.Controls.Add(contenedorVistas, 2, 11);
+            layoutVista.Controls.Add(layoutControlesTabla, 2, 12);
+            layoutVista.Controls.Add(panelBotonesGestion, 2, 7);
+            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 9);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 13;
+            layoutVista.RowCount = 14;
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
@@ -257,7 +258,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutTitulo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50F));
             layoutTitulo.Controls.Add(fieldTitulo, 0, 0);
             layoutTitulo.Dock = DockStyle.Fill;
-            layoutTitulo.Location = new Point(50, 0);
+            layoutTitulo.Location = new Point(50, 10);
             layoutTitulo.Margin = new Padding(0);
             layoutTitulo.Name = "layoutTitulo";
             layoutTitulo.RowCount = 1;
@@ -283,7 +284,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldIcono.BackgroundImage = Properties.Resources.best_salesB_24px;
             fieldIcono.BackgroundImageLayout = ImageLayout.Center;
             fieldIcono.Dock = DockStyle.Fill;
-            fieldIcono.Location = new Point(20, 6);
+            fieldIcono.Location = new Point(20, 16);
             fieldIcono.Margin = new Padding(0, 6, 0, 0);
             fieldIcono.Name = "fieldIcono";
             fieldIcono.Size = new Size(30, 39);
@@ -296,10 +297,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldSubtitulo.Font = new Font("Segoe UI", 11.25F);
             fieldSubtitulo.ForeColor = Color.Gray;
             fieldSubtitulo.ImeMode = ImeMode.NoControl;
-            fieldSubtitulo.Location = new Point(55, 50);
+            fieldSubtitulo.Location = new Point(55, 60);
             fieldSubtitulo.Margin = new Padding(5, 5, 1, 1);
             fieldSubtitulo.Name = "fieldSubtitulo";
-            fieldSubtitulo.Size = new Size(1280, 39);
+            fieldSubtitulo.Size = new Size(1280, 29);
             fieldSubtitulo.TabIndex = 2;
             fieldSubtitulo.Text = "Registro, edición, eliminación, búsqueda de clientes.";
             // 
@@ -505,6 +506,27 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             panelBotonesGestion.Size = new Size(1286, 45);
             panelBotonesGestion.TabIndex = 18;
             // 
+            // btnActivarDesactivarCliente
+            // 
+            btnActivarDesactivarCliente.Animated = true;
+            btnActivarDesactivarCliente.BackColor = Color.White;
+            btnActivarDesactivarCliente.BorderRadius = 18;
+            btnActivarDesactivarCliente.CustomizableEdges = customizableEdges15;
+            btnActivarDesactivarCliente.Dock = DockStyle.Left;
+            btnActivarDesactivarCliente.FillColor = Color.PeachPuff;
+            btnActivarDesactivarCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnActivarDesactivarCliente.ForeColor = Color.Black;
+            btnActivarDesactivarCliente.Image = (Image) resources.GetObject("btnActivarDesactivarCliente.Image");
+            btnActivarDesactivarCliente.ImageOffset = new Point(-5, 0);
+            btnActivarDesactivarCliente.Location = new Point(323, 3);
+            btnActivarDesactivarCliente.Margin = new Padding(0);
+            btnActivarDesactivarCliente.Name = "btnActivarDesactivarCliente";
+            btnActivarDesactivarCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnActivarDesactivarCliente.Size = new Size(320, 39);
+            btnActivarDesactivarCliente.TabIndex = 11;
+            btnActivarDesactivarCliente.Text = "Activar/Desactivar cliente";
+            btnActivarDesactivarCliente.Visible = false;
+            // 
             // btnRegistrar
             // 
             btnRegistrar.Animated = true;
@@ -653,27 +675,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTituloCodigo.TabIndex = 15;
             fieldTituloCodigo.Text = "Código";
             fieldTituloCodigo.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnActivarDesactivarCliente
-            // 
-            btnActivarDesactivarCliente.Animated = true;
-            btnActivarDesactivarCliente.BackColor = Color.White;
-            btnActivarDesactivarCliente.BorderRadius = 18;
-            btnActivarDesactivarCliente.CustomizableEdges = customizableEdges15;
-            btnActivarDesactivarCliente.Dock = DockStyle.Left;
-            btnActivarDesactivarCliente.FillColor = Color.PeachPuff;
-            btnActivarDesactivarCliente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnActivarDesactivarCliente.ForeColor = Color.Black;
-            btnActivarDesactivarCliente.Image = (Image) resources.GetObject("btnActivarDesactivarCliente.Image");
-            btnActivarDesactivarCliente.ImageOffset = new Point(-5, 0);
-            btnActivarDesactivarCliente.Location = new Point(323, 3);
-            btnActivarDesactivarCliente.Margin = new Padding(0);
-            btnActivarDesactivarCliente.Name = "btnActivarDesactivarCliente";
-            btnActivarDesactivarCliente.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            btnActivarDesactivarCliente.Size = new Size(320, 39);
-            btnActivarDesactivarCliente.TabIndex = 11;
-            btnActivarDesactivarCliente.Text = "Activar/Desactivar cliente";
-            btnActivarDesactivarCliente.Visible = false;
             // 
             // VistaGestionClientes
             // 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -123,10 +123,10 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="fieldMonto.IconRight" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABGdBTUEAALGPC/xhBQAAAJ9JREFUKFON
-        0DEOAUEYhuFRSHAEjUZcYCuJuIKGVtQqlTNsFGpOQCn2AiJRKBRKiUYnJFzB+8+nkpldb/IkXyZT/S5S
-        goFmcSVMsUHFHvKq44wT9nigjWgzbDV9KXaa4ebINH1NjDXDNXDFEX2UUVgVIxxwRxfR7Jw1TZ9d66IZ
-        7oahpq+Hp2Y4+/zGAku8MEFudpkV1mjZwz91vn5y7gMP2RgL2pLtPAAAAABJRU5ErkJggg==
+        iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABGdBTUEAALGPC/xhBQAAAKNJREFUKFN1
+        0KFqQmEYx+FnYaBewopleAOmgXgLK1pl2WTyGmRheV6BRpk3IIMFg8EoWGyisN3COGB4eb/jAyf8zvdP
+        L/W6GOaf9zxgihUa+TF7wh47fOOClzyK3vEVeoZN6MIH1qGfMQ5daOOILQZ4zIM6TbzhB2f08yCqztkK
+        XV3rELpwwij0K66hC9X4D5+Y4xeTPMqqyyywRCc/3tO7fYV/D9kYC25pt4MAAAAASUVORK5CYII=
 </value>
   </data>
 </root>

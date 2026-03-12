@@ -1,10 +1,13 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Estadisticas;
 using aDVanceERP.Modulos.Compra.Interfaces;
 
 using System.Drawing.Drawing2D;
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Compra.Presentadores {
     internal class PresentadorEstadisticasCompra : PresentadorVistaBase<IVistaEstadisticasCompra> {
@@ -174,7 +177,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                 g.FillPath(brush, path);
 
                 // ── Etiqueta mes abajo ─────────────────────────────────────
-                string etiqMes = mes.Mes.ToString("MMM", new System.Globalization.CultureInfo("es-MX"));
+                string etiqMes = ((Mes) mes.Mes).ObtenerDisplayName();
                 etiqMes = char.ToUpper(etiqMes[0]) + etiqMes[1..]; // "oct" → "Oct"
                 var tam = g.MeasureString(etiqMes, fuenteEje);
                 float xCentro = x + barWidth / 2f;
@@ -368,7 +371,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             using var f = new Font("Segoe UI", 9.5f);
             using var b = new SolidBrush(ColorEjeTexto);
             var tam = g.MeasureString(mensaje, f);
-            
+
             g.DrawString(mensaje, f, b,
                 (rect.Width - tam.Width) / 2f,
                 (rect.Height - tam.Height) / 2f);

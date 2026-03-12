@@ -13,6 +13,7 @@ namespace aDVanceERP.Modulos.Venta {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuVenta _menuVenta = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
+        private PresentadorEstadisticasVenta _estadisticasVenta = null!;
         private PresentadorGestionPedidos _pedidos = null!;
         private PresentadorRegistroPedido _registroPedido = null!;
         private PresentadorGestionVentas _ventas = null!;
@@ -48,6 +49,8 @@ namespace aDVanceERP.Modulos.Venta {
             _menuMaestros = new PresentadorMenuMaestros(new VistaMenuMaestros());
 
             // Contenedor de módulos
+            // Estadísticas
+            _estadisticasVenta = new PresentadorEstadisticasVenta(new VistaEstadisticasVenta());
             // Pedidos
             _pedidos = new PresentadorGestionPedidos(new VistaGestionPedidos());
             _registroPedido = new PresentadorRegistroPedido(new VistaRegistroPedido());
@@ -85,6 +88,8 @@ namespace aDVanceERP.Modulos.Venta {
             _principal.Vista.BarraTitulo.Registrar(_menuMaestros.Vista);
 
             // Contenedor de módulos
+            // Estadísticas
+            _principal.Modulos.Vista.PanelCentral.Registrar(_estadisticasVenta.Vista);
             // Pedidos
             _principal.Modulos.Vista.PanelCentral.Registrar(_pedidos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroPedido.Vista);

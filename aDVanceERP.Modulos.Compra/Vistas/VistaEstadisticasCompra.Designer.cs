@@ -953,6 +953,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // 
             // panelTuplasTopProveedores
             // 
+            panelTuplasTopProveedores.BackColor = Color.Transparent;
             panelTuplasTopProveedores.Dock = DockStyle.Fill;
             panelTuplasTopProveedores.Location = new Point(0, 40);
             panelTuplasTopProveedores.Margin = new Padding(0);

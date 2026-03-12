@@ -34,6 +34,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             // Eventos
+            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasVentas", string.Empty); };
             btnPedidos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPedidosVenta", string.Empty); };
             btnVentas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionVentas", string.Empty); };
             btnPagos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPagosVenta", string.Empty); };
@@ -42,7 +43,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void SeleccionarVistaInicial() {
-            if (btnPedidos.Visible)
+            if (btnEstadisticas.Visible)
+                btnEstadisticas.PerformClick();
+            else if (btnPedidos.Visible)
                 btnPedidos.PerformClick();
             else if (btnVentas.Visible)
                 btnVentas.PerformClick();
@@ -58,6 +61,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
+            btnEstadisticas.Checked = false;
             btnPedidos.Checked = false;
             btnVentas.Checked = false;
             btnPagos.Checked = false;
@@ -71,7 +75,5 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Cerrar() {
             Dispose();
         }
-
-        
     }
 }
