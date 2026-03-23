@@ -155,13 +155,49 @@ namespace aDVanceERP.Core.Repositorios.BD {
         #region Auxiliares
 
         private string GenerarConsultaConteo(string consultaOriginal) {
-            // Regex para capturar toda la cláusula SELECT (desde SELECT hasta FROM)
-            var regex = new Regex(@"SELECT\s+.*?(?=\s+FROM)", RegexOptions.IgnoreCase);
+            // Eliminar ORDER BY si existe
+            string consultaLimpia = consultaOriginal;
+            var orderByMatch = Regex.Match(consultaOriginal, @"\s+ORDER\s+BY\s+.+$",
+                RegexOptions.IgnoreCase);
 
-            // Reemplazar toda la cláusula SELECT por COUNT(*)
-            var consultaModificada = regex.Replace(consultaOriginal, "SELECT COUNT(*) AS total_filas");
+            if (orderByMatch.Success) {
+                consultaLimpia = consultaOriginal.Substring(0, orderByMatch.Index);
+            }
 
-            return consultaModificada;
+            // Encontrar la posición del primer FROM
+            var fromIndex = FindFromPosition(consultaLimpia);
+
+            if (fromIndex >= 0) {
+                // Construir nueva consulta con COUNT(*)
+                return "SELECT COUNT(*) AS total_filas " +
+                       consultaLimpia.Substring(fromIndex);
+            }
+
+            return "SELECT COUNT(*) AS total_filas FROM (" + consultaOriginal + ") AS subconsulta";
+        }
+
+        private int FindFromPosition(string consulta) {
+            int nivelParentesis = 0;
+
+            for (int i = 0; i < consulta.Length; i++) {
+                char c = consulta[i];
+
+                if (c == '(') nivelParentesis++;
+                else if (c == ')') nivelParentesis--;
+
+                // Buscar "FROM" solo cuando no estamos dentro de paréntesis
+                if (nivelParentesis == 0 &&
+                    i + 4 < consulta.Length &&
+                    consulta.Substring(i, 4).Equals("FROM", StringComparison.OrdinalIgnoreCase)) {
+
+                    // Verificar que no sea parte de una palabra más larga
+                    if (i > 0 && char.IsLetterOrDigit(consulta[i - 1])) continue;
+
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         #endregion

@@ -198,8 +198,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutHerramientas.ColumnCount = 5;
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutHerramientas.Controls.Add(layoutFechaHasta, 1, 0);
             layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 2, 0);
@@ -290,7 +290,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldFiltroBusqueda.Margin = new Padding(5);
             fieldFiltroBusqueda.Name = "fieldFiltroBusqueda";
             fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            fieldFiltroBusqueda.Size = new Size(290, 35);
+            fieldFiltroBusqueda.Size = new Size(240, 35);
             fieldFiltroBusqueda.TabIndex = 27;
             fieldFiltroBusqueda.TextOffset = new Point(10, 0);
             // 
@@ -298,10 +298,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // 
             panelDatosComplementariosBusqueda.Controls.Add(fieldDatoBusqueda);
             panelDatosComplementariosBusqueda.Dock = DockStyle.Fill;
-            panelDatosComplementariosBusqueda.Location = new Point(745, 5);
+            panelDatosComplementariosBusqueda.Location = new Point(695, 5);
             panelDatosComplementariosBusqueda.Margin = new Padding(5);
             panelDatosComplementariosBusqueda.Name = "panelDatosComplementariosBusqueda";
-            panelDatosComplementariosBusqueda.Size = new Size(320, 35);
+            panelDatosComplementariosBusqueda.Size = new Size(240, 35);
             panelDatosComplementariosBusqueda.TabIndex = 28;
             // 
             // fieldDatoBusqueda
@@ -328,10 +328,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldDatoBusqueda.Name = "fieldDatoBusqueda";
             fieldDatoBusqueda.PasswordChar = '\0';
             fieldDatoBusqueda.PlaceholderForeColor = Color.DimGray;
-            fieldDatoBusqueda.PlaceholderText = "Datos complementarios de búsqueda";
+            fieldDatoBusqueda.PlaceholderText = "Criterio de búsqueda";
             fieldDatoBusqueda.SelectedText = "";
             fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            fieldDatoBusqueda.Size = new Size(320, 35);
+            fieldDatoBusqueda.Size = new Size(240, 35);
             fieldDatoBusqueda.TabIndex = 9;
             fieldDatoBusqueda.TextOffset = new Point(5, 0);
             fieldDatoBusqueda.Visible = false;
@@ -397,8 +397,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // 
             layoutTituloHerramientas.ColumnCount = 4;
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 440F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutTituloHerramientas.Controls.Add(fieldTituloRangoFechaVentas, 0, 0);
@@ -439,7 +439,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTituloFiltrosBusqueda.Location = new Point(455, 5);
             fieldTituloFiltrosBusqueda.Margin = new Padding(15, 5, 3, 3);
             fieldTituloFiltrosBusqueda.Name = "fieldTituloFiltrosBusqueda";
-            fieldTituloFiltrosBusqueda.Size = new Size(282, 27);
+            fieldTituloFiltrosBusqueda.Size = new Size(232, 27);
             fieldTituloFiltrosBusqueda.TabIndex = 24;
             fieldTituloFiltrosBusqueda.Text = "      Filtro de búsqueda :";
             fieldTituloFiltrosBusqueda.TextAlign = ContentAlignment.MiddleLeft;
@@ -468,11 +468,11 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnHabilitarDeshabilitarPedido.ForeColor = Color.Black;
             btnHabilitarDeshabilitarPedido.Image = (Image) resources.GetObject("btnHabilitarDeshabilitarPedido.Image");
             btnHabilitarDeshabilitarPedido.ImageOffset = new Point(-5, 0);
-            btnHabilitarDeshabilitarPedido.Location = new Point(323, 3);
+            btnHabilitarDeshabilitarPedido.Location = new Point(237, 3);
             btnHabilitarDeshabilitarPedido.Margin = new Padding(0);
             btnHabilitarDeshabilitarPedido.Name = "btnHabilitarDeshabilitarPedido";
             btnHabilitarDeshabilitarPedido.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnHabilitarDeshabilitarPedido.Size = new Size(320, 39);
+            btnHabilitarDeshabilitarPedido.Size = new Size(272, 39);
             btnHabilitarDeshabilitarPedido.TabIndex = 11;
             btnHabilitarDeshabilitarPedido.Text = "Habilitar/Deshabilitar pedido";
             btnHabilitarDeshabilitarPedido.Visible = false;
@@ -493,7 +493,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnRegistrarPedidoManual.Margin = new Padding(0);
             btnRegistrarPedidoManual.Name = "btnRegistrarPedidoManual";
             btnRegistrarPedidoManual.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            btnRegistrarPedidoManual.Size = new Size(320, 39);
+            btnRegistrarPedidoManual.Size = new Size(234, 39);
             btnRegistrarPedidoManual.TabIndex = 7;
             btnRegistrarPedidoManual.Text = "Registrar pedido manual";
             // 
@@ -843,7 +843,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // fieldPaginaActual
             // 
             fieldPaginaActual.Dock = DockStyle.Fill;
-            fieldPaginaActual.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginaActual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginaActual.ForeColor = Color.Black;
             fieldPaginaActual.ImeMode = ImeMode.NoControl;
             fieldPaginaActual.Location = new Point(81, 1);
@@ -857,7 +857,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // fieldPaginasTotales
             // 
             fieldPaginasTotales.Dock = DockStyle.Fill;
-            fieldPaginasTotales.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginasTotales.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginasTotales.ForeColor = Color.Black;
             fieldPaginasTotales.ImeMode = ImeMode.NoControl;
             fieldPaginasTotales.Location = new Point(200, 1);

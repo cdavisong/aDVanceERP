@@ -4,7 +4,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Empresas {
     public class Empresa : IEntidadBaseDatos {
         public Empresa() {
             Nombre = string.Empty;
-            FechaRegistro = DateTime.UtcNow;
+            FechaRegistro = DateTime.Now;
         }
 
         public Empresa(long id, string nombre, string? razonSocial, string? rif, string? direccion, string? telefono, string? email, string? web, string? rutaLogo, DateTime fechaRegistro) {

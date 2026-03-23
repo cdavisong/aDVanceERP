@@ -59,7 +59,9 @@ namespace aDVanceERP.Desktop.Presentadores {
 
             // Agregar al panel lateral
             Vista.PanelMenuLateral.Controls.Add(btnModulo);
-            Vista.PanelMenuLateral.Controls.SetChildIndex(btnModulo, btnModulo.TabIndex);
+
+            // Reordenar los controles basado en TabIndex
+            ReordenarControlesPorTabIndex();
         }
 
         public IVistaPrincipal VistaPrincipal { get; }
@@ -70,6 +72,17 @@ namespace aDVanceERP.Desktop.Presentadores {
             _gestorModulos.ApagarModulos();
 
             Vista.Dispose();
+        }
+
+        private void ReordenarControlesPorTabIndex() {
+            // Obtener todos los botones del panel
+            var botones = Vista.PanelMenuLateral.Controls.Cast<Control>()
+                             .OrderBy(c => c.TabIndex)
+                             .ToList();
+
+            // Reasignar el índice de cada control en el orden correcto
+            for (int i = 0; i < botones.Count; i++)
+                Vista.PanelMenuLateral.Controls.SetChildIndex(botones[i], i);
         }
     }
 }

@@ -5,7 +5,7 @@
         public const int AlturaBarraPiePagina = 25;
         public const int AnchoBarraMenuLateral = 50;
 
-        public static readonly Color ColorResaltadoTupla = Color.Gainsboro;
+        public static readonly Color ColorResaltadoTupla = Color.FromArgb(255, 253, 247);
         public static readonly Color ColorOkTupla = Color.FromArgb(196, 255, 196);
         public static readonly Color ColorAdvertenciaTupla = Color.FromArgb(255, 255, 196);
         public static readonly Color ColorErrorTupla = Color.FromArgb(255, 196, 196);

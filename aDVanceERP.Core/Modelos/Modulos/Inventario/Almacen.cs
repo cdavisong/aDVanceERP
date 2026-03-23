@@ -28,6 +28,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public TipoAlmacen Tipo {  get; set; }
         public bool Estado { get; set; } //  Indicador de actividad (activo/inactivo) para control operativo
         public CoordenadasGeograficas? Coordenadas { get; set; } // Para optimizar enrutamiento en cadenas de suministro
+
+        public override string ToString() {
+            return $"{Id:000} : {Nombre}";
+        }
     }
 
     public enum FiltroBusquedaAlmacen {

@@ -83,9 +83,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Restaurar(nameof(VistaContenedorModulos));
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorModulos));
 
-            Modulos.Vista.MensajePortada = Resources.MensajePortada
-                .Replace("[version]", $"{Program.Version}-beta")
-                .Replace("[user]", ContextoSeguridad.UsuarioAutenticado?.Nombre ?? "invitado");
+            Modulos.Vista.ActualizarPortadaInicio($"{Program.Version}-beta", ContextoSeguridad.UsuarioAutenticado?.Nombre ?? "invitado");
         }
 
         private void OnSesionCerrada(string obj) {

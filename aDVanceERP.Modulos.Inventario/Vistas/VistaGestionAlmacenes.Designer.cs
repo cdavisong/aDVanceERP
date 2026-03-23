@@ -35,10 +35,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -49,21 +45,19 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
-            separador1 = new Guna2Separator();
-            layoutHerramientas = new TableLayoutPanel();
             fieldDatoBusqueda = new Guna2TextBox();
             fieldFiltroBusqueda = new Guna2ComboBox();
-            layoutTituloHerramientas = new TableLayoutPanel();
-            fieldTituloFiltrosBusqueda = new Label();
             panelBotonesGestion = new Panel();
             btnExportarInventarioAlmacenes = new Guna2Button();
             menuFormatoDocumento = new ContextMenuStrip(components);
             btnExportarPdf = new ToolStripMenuItem();
             btnExportarXlsx = new ToolStripMenuItem();
-            btnImportarInventarioVersat = new Guna2Button();
-            btnRegistrar = new Guna2Button();
             layoutControlesTabla = new TableLayoutPanel();
             btnPaginaAnterior = new Guna2Button();
             btnPrimeraPagina = new Guna2Button();
@@ -85,15 +79,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloEstado = new Label();
             contenedorVistas = new Panel();
             fieldImportarArchivo = new OpenFileDialog();
+            separador1 = new Guna2Separator();
+            btnImportarInventarioVersat = new Guna2Button();
+            btnRegistrar = new Guna2Button();
+            layoutHerramientas = new TableLayoutPanel();
+            fieldTituloFiltrosBusqueda = new Label();
+            layoutTituloHerramientas = new TableLayoutPanel();
             layoutVista.SuspendLayout();
-            layoutHerramientas.SuspendLayout();
-            layoutTituloHerramientas.SuspendLayout();
             panelBotonesGestion.SuspendLayout();
             menuFormatoDocumento.SuspendLayout();
             layoutControlesTabla.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
             layoutEncabezadosTabla.SuspendLayout();
+            layoutHerramientas.SuspendLayout();
+            layoutTituloHerramientas.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -144,33 +144,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.Size = new Size(1356, 608);
             layoutVista.TabIndex = 4;
             // 
-            // separador1
-            // 
-            separador1.Dock = DockStyle.Fill;
-            separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(53, 193);
-            separador1.Name = "separador1";
-            separador1.Size = new Size(1280, 14);
-            separador1.TabIndex = 38;
-            // 
-            // layoutHerramientas
-            // 
-            layoutHerramientas.ColumnCount = 3;
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutHerramientas.Controls.Add(fieldDatoBusqueda, 1, 0);
-            layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 0, 0);
-            layoutHerramientas.Dock = DockStyle.Fill;
-            layoutHerramientas.Location = new Point(50, 145);
-            layoutHerramientas.Margin = new Padding(0);
-            layoutHerramientas.Name = "layoutHerramientas";
-            layoutHerramientas.RowCount = 1;
-            layoutHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutHerramientas.Size = new Size(1286, 45);
-            layoutHerramientas.TabIndex = 38;
-            // 
             // fieldDatoBusqueda
             // 
             fieldDatoBusqueda.Animated = true;
@@ -196,7 +169,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldDatoBusqueda.Name = "fieldDatoBusqueda";
             fieldDatoBusqueda.PasswordChar = '\0';
             fieldDatoBusqueda.PlaceholderForeColor = Color.DimGray;
-            fieldDatoBusqueda.PlaceholderText = "Datos complementarios de búsqueda";
+            fieldDatoBusqueda.PlaceholderText = "Criterio de búsqueda";
             fieldDatoBusqueda.SelectedText = "";
             fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges2;
             fieldDatoBusqueda.Size = new Size(320, 35);
@@ -226,39 +199,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda.Size = new Size(290, 35);
             fieldFiltroBusqueda.TabIndex = 27;
             fieldFiltroBusqueda.TextOffset = new Point(10, 0);
-            // 
-            // layoutTituloHerramientas
-            // 
-            layoutTituloHerramientas.ColumnCount = 3;
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 0, 0);
-            layoutTituloHerramientas.Dock = DockStyle.Fill;
-            layoutTituloHerramientas.Location = new Point(50, 110);
-            layoutTituloHerramientas.Margin = new Padding(0);
-            layoutTituloHerramientas.Name = "layoutTituloHerramientas";
-            layoutTituloHerramientas.RowCount = 1;
-            layoutTituloHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutTituloHerramientas.Size = new Size(1286, 35);
-            layoutTituloHerramientas.TabIndex = 37;
-            // 
-            // fieldTituloFiltrosBusqueda
-            // 
-            fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
-            fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
-            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
-            fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
-            fieldTituloFiltrosBusqueda.Location = new Point(15, 5);
-            fieldTituloFiltrosBusqueda.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloFiltrosBusqueda.Name = "fieldTituloFiltrosBusqueda";
-            fieldTituloFiltrosBusqueda.Size = new Size(282, 27);
-            fieldTituloFiltrosBusqueda.TabIndex = 24;
-            fieldTituloFiltrosBusqueda.Text = "      Filtro de búsqueda :";
-            fieldTituloFiltrosBusqueda.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // panelBotonesGestion
             // 
@@ -324,46 +264,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnExportarXlsx.Size = new Size(113, 26);
             btnExportarXlsx.Text = "XLSX";
             btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnImportarInventarioVersat
-            // 
-            btnImportarInventarioVersat.Animated = true;
-            btnImportarInventarioVersat.BackColor = Color.White;
-            btnImportarInventarioVersat.BorderRadius = 18;
-            btnImportarInventarioVersat.CustomizableEdges = customizableEdges7;
-            btnImportarInventarioVersat.Dock = DockStyle.Left;
-            btnImportarInventarioVersat.FillColor = Color.PeachPuff;
-            btnImportarInventarioVersat.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnImportarInventarioVersat.ForeColor = Color.Black;
-            btnImportarInventarioVersat.Image = (Image) resources.GetObject("btnImportarInventarioVersat.Image");
-            btnImportarInventarioVersat.ImageOffset = new Point(-5, 0);
-            btnImportarInventarioVersat.Location = new Point(323, 3);
-            btnImportarInventarioVersat.Margin = new Padding(0);
-            btnImportarInventarioVersat.Name = "btnImportarInventarioVersat";
-            btnImportarInventarioVersat.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnImportarInventarioVersat.Size = new Size(320, 39);
-            btnImportarInventarioVersat.TabIndex = 13;
-            btnImportarInventarioVersat.Text = "Importar inventario desde Versat";
-            // 
-            // btnRegistrar
-            // 
-            btnRegistrar.Animated = true;
-            btnRegistrar.BackColor = Color.White;
-            btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges9;
-            btnRegistrar.Dock = DockStyle.Left;
-            btnRegistrar.FillColor = Color.PeachPuff;
-            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnRegistrar.ForeColor = Color.Black;
-            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
-            btnRegistrar.ImageOffset = new Point(-5, 0);
-            btnRegistrar.Location = new Point(3, 3);
-            btnRegistrar.Margin = new Padding(0);
-            btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnRegistrar.Size = new Size(320, 39);
-            btnRegistrar.TabIndex = 7;
-            btnRegistrar.Text = "Registrar un nuevo almacén";
             // 
             // layoutControlesTabla
             // 
@@ -521,7 +421,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldPaginaActual
             // 
             fieldPaginaActual.Dock = DockStyle.Fill;
-            fieldPaginaActual.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginaActual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginaActual.ForeColor = Color.Black;
             fieldPaginaActual.ImeMode = ImeMode.NoControl;
             fieldPaginaActual.Location = new Point(81, 1);
@@ -535,7 +435,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldPaginasTotales
             // 
             fieldPaginasTotales.Dock = DockStyle.Fill;
-            fieldPaginasTotales.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginasTotales.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginasTotales.ForeColor = Color.Black;
             fieldPaginasTotales.ImeMode = ImeMode.NoControl;
             fieldPaginasTotales.Location = new Point(200, 1);
@@ -729,6 +629,106 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldImportarArchivo.FilterIndex = 2;
             fieldImportarArchivo.Title = "Importar inventario desde archivo XLS";
             // 
+            // separador1
+            // 
+            separador1.Dock = DockStyle.Fill;
+            separador1.FillColor = Color.Gainsboro;
+            separador1.Location = new Point(53, 193);
+            separador1.Name = "separador1";
+            separador1.Size = new Size(1280, 14);
+            separador1.TabIndex = 38;
+            // 
+            // btnImportarInventarioVersat
+            // 
+            btnImportarInventarioVersat.Animated = true;
+            btnImportarInventarioVersat.BackColor = Color.White;
+            btnImportarInventarioVersat.BorderRadius = 18;
+            btnImportarInventarioVersat.CustomizableEdges = customizableEdges7;
+            btnImportarInventarioVersat.Dock = DockStyle.Left;
+            btnImportarInventarioVersat.FillColor = Color.PeachPuff;
+            btnImportarInventarioVersat.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnImportarInventarioVersat.ForeColor = Color.Black;
+            btnImportarInventarioVersat.Image = (Image) resources.GetObject("btnImportarInventarioVersat.Image");
+            btnImportarInventarioVersat.ImageOffset = new Point(-5, 0);
+            btnImportarInventarioVersat.Location = new Point(323, 3);
+            btnImportarInventarioVersat.Margin = new Padding(0);
+            btnImportarInventarioVersat.Name = "btnImportarInventarioVersat";
+            btnImportarInventarioVersat.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnImportarInventarioVersat.Size = new Size(320, 39);
+            btnImportarInventarioVersat.TabIndex = 13;
+            btnImportarInventarioVersat.Text = "Importar inventario desde Versat";
+            // 
+            // btnRegistrar
+            // 
+            btnRegistrar.Animated = true;
+            btnRegistrar.BackColor = Color.White;
+            btnRegistrar.BorderRadius = 18;
+            btnRegistrar.CustomizableEdges = customizableEdges9;
+            btnRegistrar.Dock = DockStyle.Left;
+            btnRegistrar.FillColor = Color.PeachPuff;
+            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnRegistrar.ForeColor = Color.Black;
+            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
+            btnRegistrar.ImageOffset = new Point(-5, 0);
+            btnRegistrar.Location = new Point(3, 3);
+            btnRegistrar.Margin = new Padding(0);
+            btnRegistrar.Name = "btnRegistrar";
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnRegistrar.Size = new Size(320, 39);
+            btnRegistrar.TabIndex = 7;
+            btnRegistrar.Text = "Registrar un nuevo almacén";
+            // 
+            // layoutHerramientas
+            // 
+            layoutHerramientas.ColumnCount = 3;
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutHerramientas.Controls.Add(fieldDatoBusqueda, 1, 0);
+            layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 0, 0);
+            layoutHerramientas.Dock = DockStyle.Fill;
+            layoutHerramientas.Location = new Point(50, 145);
+            layoutHerramientas.Margin = new Padding(0);
+            layoutHerramientas.Name = "layoutHerramientas";
+            layoutHerramientas.RowCount = 1;
+            layoutHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutHerramientas.Size = new Size(1286, 45);
+            layoutHerramientas.TabIndex = 38;
+            // 
+            // fieldTituloFiltrosBusqueda
+            // 
+            fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
+            fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
+            fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
+            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
+            fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
+            fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
+            fieldTituloFiltrosBusqueda.Location = new Point(15, 5);
+            fieldTituloFiltrosBusqueda.Margin = new Padding(15, 5, 3, 3);
+            fieldTituloFiltrosBusqueda.Name = "fieldTituloFiltrosBusqueda";
+            fieldTituloFiltrosBusqueda.Size = new Size(282, 27);
+            fieldTituloFiltrosBusqueda.TabIndex = 24;
+            fieldTituloFiltrosBusqueda.Text = "      Filtro de búsqueda :";
+            fieldTituloFiltrosBusqueda.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // layoutTituloHerramientas
+            // 
+            layoutTituloHerramientas.ColumnCount = 3;
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 0, 0);
+            layoutTituloHerramientas.Dock = DockStyle.Fill;
+            layoutTituloHerramientas.Location = new Point(50, 110);
+            layoutTituloHerramientas.Margin = new Padding(0);
+            layoutTituloHerramientas.Name = "layoutTituloHerramientas";
+            layoutTituloHerramientas.RowCount = 1;
+            layoutTituloHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutTituloHerramientas.Size = new Size(1286, 35);
+            layoutTituloHerramientas.TabIndex = 37;
+            // 
             // VistaGestionAlmacenes
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -743,14 +743,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             StartPosition = FormStartPosition.Manual;
             Text = "VistaGestionAlmacenes";
             layoutVista.ResumeLayout(false);
-            layoutHerramientas.ResumeLayout(false);
-            layoutTituloHerramientas.ResumeLayout(false);
             panelBotonesGestion.ResumeLayout(false);
             menuFormatoDocumento.ResumeLayout(false);
             layoutControlesTabla.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
             ((ISupportInitialize) fieldIcono).EndInit();
             layoutEncabezadosTabla.ResumeLayout(false);
+            layoutHerramientas.ResumeLayout(false);
+            layoutTituloHerramientas.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -776,21 +776,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Guna2Button btnSincronizarDatos;
         private Label fieldPaginaActual;
         private Label fieldPaginasTotales;
-        private Guna2Separator separador1;
         private Panel panelBotonesGestion;
-        private Guna2Button btnRegistrar;
-        private TableLayoutPanel layoutTituloHerramientas;
-        private Label fieldTituloFiltrosBusqueda;
-        private TableLayoutPanel layoutHerramientas;
         private Guna2TextBox fieldDatoBusqueda;
         private Guna2ComboBox fieldFiltroBusqueda;
         private ContextMenuStrip menuFormatoDocumento;
         private ToolStripMenuItem btnExportarPdf;
         private ToolStripMenuItem btnExportarXlsx;
-        private Guna2Button btnImportarInventarioVersat;
         private OpenFileDialog fieldImportarArchivo;
         private Guna2Button btnExportarInventarioAlmacenes;
         private Label fieldTituloDescripcion;
         private Label fieldTituloEstado;
+        private Guna2Separator separador1;
+        private Guna2Button btnImportarInventarioVersat;
+        private Guna2Button btnRegistrar;
+        private TableLayoutPanel layoutHerramientas;
+        private TableLayoutPanel layoutTituloHerramientas;
+        private Label fieldTituloFiltrosBusqueda;
     }
 }

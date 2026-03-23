@@ -6,7 +6,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         public string Version { get; set; } = "1.0";
 
         [JsonPropertyName("exportadoEn")]
-        public DateTime ExportadoEn { get; set; } = DateTime.UtcNow;
+        public DateTime ExportadoEn { get; set; } = DateTime.Now;
 
         [JsonPropertyName("aplicacion")]
         public string Aplicacion { get; set; } = "aDVance ERP Mobile";

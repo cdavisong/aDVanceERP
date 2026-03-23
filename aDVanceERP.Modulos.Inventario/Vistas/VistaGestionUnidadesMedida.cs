@@ -57,7 +57,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             get => _paginaActual;
             set {
                 _paginaActual = value;
-                fieldPaginaActual.Text = $"Página {value}";
+                fieldPaginaActual.Text = $"PÁGINA {value}";
             }
         }
 
@@ -65,7 +65,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             get => _paginasTotales;
             set {
                 _paginasTotales = value;
-                fieldPaginasTotales.Text = $"de {value}";
+                fieldPaginasTotales.Text = $"DE {value}";
                 HabilitarBotonesPaginacion();
             }
         }

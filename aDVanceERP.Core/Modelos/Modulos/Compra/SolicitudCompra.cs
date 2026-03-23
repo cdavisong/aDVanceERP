@@ -8,7 +8,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             Codigo = "N/A";
             Observaciones = "N/A";
             Activo = true;
-            FechaSolicitud = DateTime.UtcNow;
+            FechaSolicitud = DateTime.Now;
         }
 
         public long Id { get; set; }

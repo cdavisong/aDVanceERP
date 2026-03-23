@@ -169,8 +169,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutHerramientas.Controls.Add(separador2, 4, 0);
             layoutHerramientas.Controls.Add(layoutFechaDesde, 0, 0);
@@ -317,7 +317,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldDatoBusqueda.Name = "fieldDatoBusqueda";
             fieldDatoBusqueda.PasswordChar = '\0';
             fieldDatoBusqueda.PlaceholderForeColor = Color.DimGray;
-            fieldDatoBusqueda.PlaceholderText = "Datos complementarios de búsqueda";
+            fieldDatoBusqueda.PlaceholderText = "Criterio de búsqueda";
             fieldDatoBusqueda.SelectedText = "";
             fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
             fieldDatoBusqueda.Size = new Size(320, 35);
@@ -456,8 +456,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutTituloHerramientas.ColumnCount = 5;
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 580F));
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 330F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutTituloHerramientas.Controls.Add(fieldTituloRangoFechaAuditoriaInventario, 0, 0);
             layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 2, 0);
@@ -912,7 +912,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldPaginaActual
             // 
             fieldPaginaActual.Dock = DockStyle.Fill;
-            fieldPaginaActual.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginaActual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginaActual.ForeColor = Color.Black;
             fieldPaginaActual.ImeMode = ImeMode.NoControl;
             fieldPaginaActual.Location = new Point(81, 1);
@@ -926,7 +926,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldPaginasTotales
             // 
             fieldPaginasTotales.Dock = DockStyle.Fill;
-            fieldPaginasTotales.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldPaginasTotales.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldPaginasTotales.ForeColor = Color.Black;
             fieldPaginasTotales.ImeMode = ImeMode.NoControl;
             fieldPaginasTotales.Location = new Point(200, 1);

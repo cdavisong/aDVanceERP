@@ -42,12 +42,12 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldNombreModulo = new Label();
             layoutMensajeBienvenida = new TableLayoutPanel();
             panelMensajeBienvenida = new Panel();
-            fieldTextoBienvenida = new Guna2HtmlLabel();
             layoutLogotipos = new TableLayoutPanel();
             fieldEmpresa1 = new PictureBox();
             fieldEmpresa2 = new PictureBox();
             fieldEmpresa3 = new PictureBox();
             fieldEmpresa4 = new PictureBox();
+            pbPortada = new PictureBox();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             layoutMenuLateral.SuspendLayout();
@@ -60,6 +60,7 @@ namespace aDVanceERP.Desktop.Vistas {
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).BeginInit();
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).BeginInit();
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) pbPortada).BeginInit();
             SuspendLayout();
             // 
             // formatoBase
@@ -234,23 +235,12 @@ namespace aDVanceERP.Desktop.Vistas {
             // 
             // panelMensajeBienvenida
             // 
-            panelMensajeBienvenida.Controls.Add(fieldTextoBienvenida);
+            panelMensajeBienvenida.Controls.Add(pbPortada);
             panelMensajeBienvenida.Dock = DockStyle.Fill;
             panelMensajeBienvenida.Location = new Point(156, 3);
             panelMensajeBienvenida.Name = "panelMensajeBienvenida";
             panelMensajeBienvenida.Size = new Size(994, 392);
             panelMensajeBienvenida.TabIndex = 2;
-            // 
-            // fieldTextoBienvenida
-            // 
-            fieldTextoBienvenida.AutoSize = false;
-            fieldTextoBienvenida.BackColor = Color.White;
-            fieldTextoBienvenida.Dock = DockStyle.Fill;
-            fieldTextoBienvenida.Location = new Point(0, 0);
-            fieldTextoBienvenida.Name = "fieldTextoBienvenida";
-            fieldTextoBienvenida.Size = new Size(994, 392);
-            fieldTextoBienvenida.TabIndex = 1;
-            fieldTextoBienvenida.Text = null;
             // 
             // layoutLogotipos
             // 
@@ -326,6 +316,15 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldEmpresa4.TabIndex = 3;
             fieldEmpresa4.TabStop = false;
             // 
+            // fieldTextoBienvenida
+            // 
+            pbPortada.Dock = DockStyle.Fill;
+            pbPortada.Location = new Point(0, 0);
+            pbPortada.Name = "fieldTextoBienvenida";
+            pbPortada.Size = new Size(994, 392);
+            pbPortada.TabIndex = 0;
+            pbPortada.TabStop = false;
+            // 
             // VistaContenedorModulos
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -354,6 +353,7 @@ namespace aDVanceERP.Desktop.Vistas {
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).EndInit();
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).EndInit();
             ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).EndInit();
+            ((System.ComponentModel.ISupportInitialize) pbPortada).EndInit();
             ResumeLayout(false);
         }
 
@@ -372,10 +372,10 @@ namespace aDVanceERP.Desktop.Vistas {
         private PictureBox fieldEmpresa2;
         private PictureBox fieldEmpresa3;
         private Panel panelMensajeBienvenida;
-        private Guna2HtmlLabel fieldTextoBienvenida;
         private Guna2CircleButton btnGestorModulos;
         private Guna2CircleButton btnConfiguracionGeneral;
         private PictureBox fieldEmpresa4;
         private Label fieldNombreModulo;
+        private PictureBox pbPortada;
     }
 }

@@ -42,12 +42,12 @@
             btnMinimizar = new Guna.UI2.WinForms.Guna2ControlBox();
             fieldIcono = new PictureBox();
             barraTitulo = new Panel();
-            fieldTitulo = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnCerrar = new Guna.UI2.WinForms.Guna2ControlBox();
             btnMaximizarRestaurar = new Guna.UI2.WinForms.Guna2ControlBox();
             layoutBarraEstado = new TableLayoutPanel();
             barraEstado = new Panel();
             panelCentral = new Panel();
+            pbBannerTitulo = new PictureBox();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             layoutBarraTitulo.SuspendLayout();
@@ -55,6 +55,7 @@
             ((System.ComponentModel.ISupportInitialize) fieldIcono).BeginInit();
             barraTitulo.SuspendLayout();
             layoutBarraEstado.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize) pbBannerTitulo).BeginInit();
             SuspendLayout();
             // 
             // formatoBase
@@ -196,26 +197,13 @@
             // 
             // barraTitulo
             // 
-            barraTitulo.Controls.Add(fieldTitulo);
+            barraTitulo.Controls.Add(pbBannerTitulo);
             barraTitulo.Dock = DockStyle.Top;
             barraTitulo.Location = new Point(50, 0);
             barraTitulo.Margin = new Padding(0);
             barraTitulo.Name = "barraTitulo";
             barraTitulo.Size = new Size(1056, 49);
             barraTitulo.TabIndex = 1;
-            // 
-            // fieldTitulo
-            // 
-            fieldTitulo.BackColor = Color.WhiteSmoke;
-            fieldTitulo.Dock = DockStyle.Fill;
-            fieldTitulo.Location = new Point(0, 0);
-            fieldTitulo.Margin = new Padding(0);
-            fieldTitulo.Name = "fieldTitulo";
-            fieldTitulo.Size = new Size(3, 2);
-            fieldTitulo.TabIndex = 0;
-            fieldTitulo.Text = null;
-            fieldTitulo.TextAlignment = ContentAlignment.MiddleLeft;
-            fieldTitulo.UseGdiPlusTextRendering = true;
             // 
             // btnCerrar
             // 
@@ -285,6 +273,16 @@
             panelCentral.Size = new Size(1356, 603);
             panelCentral.TabIndex = 2;
             // 
+            // pbBannerTitulo
+            // 
+            pbBannerTitulo.Dock = DockStyle.Fill;
+            pbBannerTitulo.Location = new Point(0, 0);
+            pbBannerTitulo.Margin = new Padding(0);
+            pbBannerTitulo.Name = "pbBannerTitulo";
+            pbBannerTitulo.Size = new Size(1056, 49);
+            pbBannerTitulo.TabIndex = 0;
+            pbBannerTitulo.TabStop = false;
+            // 
             // VistaPrincipal
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -306,8 +304,8 @@
             layoutBotonesTitulo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) fieldIcono).EndInit();
             barraTitulo.ResumeLayout(false);
-            barraTitulo.PerformLayout();
             layoutBarraEstado.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize) pbBannerTitulo).EndInit();
             ResumeLayout(false);
         }
 
@@ -326,9 +324,9 @@
         private Panel panelCentral;
         private Guna.UI2.WinForms.Guna2ControlBox btnMinimizar;
         private Guna.UI2.WinForms.Guna2ControlBox btnMaximizarRestaurar;
-        private Guna.UI2.WinForms.Guna2HtmlLabel fieldTitulo;
         private Panel barraEstado;
         private TableLayoutPanel layoutBotonesTitulo;
         private FlowLayoutPanel layoutBotones;
+        private PictureBox pbBannerTitulo;
     }
 }

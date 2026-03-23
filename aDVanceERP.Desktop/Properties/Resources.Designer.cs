@@ -131,69 +131,12 @@ namespace aDVanceERP.Desktop.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html lang=&quot;es&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
-        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        ///    &lt;style&gt;
-        ///        body {
-        ///            font-family: Segoe UI, sans-serif;
-        ///            text-align: center;
-        ///            padding: 10px;
-        ///        }
-        ///        .header {
-        ///            color: #FFFFFF;
-        ///            padding: 20px;
-        ///            border-radius: 8px;
-        ///        }
-        ///        .logo {
-        ///            font-family: Segoe UI, sans-serif;
-        ///            font-size: 24px; /* [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string MensajePortada {
-            get {
-                return ResourceManager.GetString("MensajePortada", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap productE_96px {
             get {
                 object obj = ResourceManager.GetObject("productE_96px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html lang=&quot;es&quot;&gt;
-        ///&lt;head&gt;
-        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
-        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        ///    &lt;title&gt;aDVance ERP&lt;/title&gt;
-        ///    &lt;style&gt;
-        ///       .logo {
-        ///           font-family: Segoe UI, sans-serif;
-        ///           font-size: 16px;
-        ///           margin-top: 14px;
-        ///       }
-        ///       .dv {
-        ///           color: Gray;
-        ///           font-weight: bold;
-        ///       }
-        ///       .advance {
-        ///           color: #333333;
-        ///           font-weight: bold;
-        ///       }
-        ///       .erp {
-        ///      [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TituloAplicacion {
-            get {
-                return ResourceManager.GetString("TituloAplicacion", resourceCulture);
             }
         }
     }

@@ -271,8 +271,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacen).resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0);
         }
 
-        
-
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;
             btnPaginaAnterior.Enabled = PaginaActual > 1;

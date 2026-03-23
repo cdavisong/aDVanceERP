@@ -183,7 +183,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                 IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                                 IdAlmacen = ventaExp.IdAlmacen,
                                 NumeroFacturaTicket = ventaExp.NumeroTicket,
-                                FechaVenta = ventaExp.FechaVenta.ToLocalTime(),
+                                FechaVenta = ventaExp.FechaVenta,
                                 TotalBruto = ventaExp.TotalBruto,
                                 DescuentoTotal = ventaExp.DescuentoTotal,
                                 ImpuestoTotal = ventaExp.ImpuestoTotal,
@@ -267,7 +267,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                                                         ? mp
                                                                         : MetodoPagoEnum.Efectivo,
                                             MontoPagado = pagoExp.MontoPagado,
-                                            FechaPago = pagoExp.FechaPagoCliente.ToLocalTime(),
+                                            FechaPago = pagoExp.FechaPagoCliente,
                                             FechaConfirmacionPago = confirmado ? DateTime.Now : DateTime.MinValue,
                                             EstadoPago = confirmado ? EstadoPagoEnum.Confirmado : EstadoPagoEnum.Pendiente
                                         };

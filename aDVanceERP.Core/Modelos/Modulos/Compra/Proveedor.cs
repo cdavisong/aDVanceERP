@@ -7,7 +7,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             RazonSocial = "N/A";
             NIT = "N/A";
             CondicionesPago = "N/A";
-            FechaRegistro = DateTime.UtcNow;
+            FechaRegistro = DateTime.Now;
             Activo = true;
         }
 

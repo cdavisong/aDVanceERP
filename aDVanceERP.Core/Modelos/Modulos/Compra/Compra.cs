@@ -9,7 +9,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             CondicionesPago = "N/A";
             Observaciones = "N/A";
             Activo = true;
-            FechaOrden = DateTime.UtcNow;
+            FechaOrden = DateTime.Now;
             Subtotal = 0;
             ImpuestoTotal = 0;
             TotalCompra = 0;

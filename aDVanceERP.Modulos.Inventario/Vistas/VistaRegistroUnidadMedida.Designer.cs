@@ -78,8 +78,8 @@
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(layoutDatos1, 2, 4);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
-            layoutVista.Controls.Add(layoutBotones, 2, 5);
             layoutVista.Controls.Add(fieldIcono, 1, 1);
+            layoutVista.Controls.Add(layoutBotones, 2, 6);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
@@ -287,12 +287,12 @@
             layoutBotones.Controls.Add(btnSalir, 2, 0);
             layoutBotones.Controls.Add(btnRegistrarActualizar, 1, 0);
             layoutBotones.Dock = DockStyle.Fill;
-            layoutBotones.Location = new Point(53, 170);
+            layoutBotones.Location = new Point(53, 620);
             layoutBotones.Margin = new Padding(3, 0, 0, 0);
             layoutBotones.Name = "layoutBotones";
             layoutBotones.RowCount = 1;
             layoutBotones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutBotones.Size = new Size(1283, 450);
+            layoutBotones.Size = new Size(1283, 45);
             layoutBotones.TabIndex = 45;
             // 
             // btnSalir
@@ -312,7 +312,7 @@
             btnSalir.Location = new Point(1116, 3);
             btnSalir.Name = "btnSalir";
             btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnSalir.Size = new Size(164, 444);
+            btnSalir.Size = new Size(164, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
             // 
@@ -328,7 +328,7 @@
             btnRegistrarActualizar.Location = new Point(886, 3);
             btnRegistrarActualizar.Name = "btnRegistrarActualizar";
             btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnRegistrarActualizar.Size = new Size(224, 444);
+            btnRegistrarActualizar.Size = new Size(224, 39);
             btnRegistrarActualizar.TabIndex = 15;
             btnRegistrarActualizar.Text = "Registrar unidad de medida";
             // 

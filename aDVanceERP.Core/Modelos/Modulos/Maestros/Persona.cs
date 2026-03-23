@@ -6,9 +6,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
             NombreCompleto = "N/A";
             TipoDocumento = TipoDocumento.CI;
             NumeroDocumento = "N/A";
-            FechaRegistro = DateTime.UtcNow;
+            FechaRegistro = DateTime.Now;
             Activo = true;
         }
+
         public Persona(long id, string nombreCompleto, TipoDocumento tipoDocumento, string numeroDocumento, string? direccionPrincipal, DateTime fechaRegistro, bool activo) {
             Id = id;
             NombreCompleto = nombreCompleto;

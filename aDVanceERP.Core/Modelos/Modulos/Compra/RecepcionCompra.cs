@@ -4,7 +4,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
     public sealed class RecepcionCompra : IEntidadBaseDatos {
         public RecepcionCompra() {
             Observaciones = "N/A";
-            FechaRecepcion = DateTime.UtcNow;
+            FechaRecepcion = DateTime.Now;
         }
 
         public RecepcionCompra(

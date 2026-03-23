@@ -2,8 +2,6 @@
 
 namespace aDVanceERP.Core.Vistas.Comun.Interfaces {
     public interface IVistaPrincipal : IVistaBase {
-        string Titulo { get; }
-
         #region Barra de título
 
         RepoVistaBase BarraTitulo { get; }

@@ -324,7 +324,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 var catalogo = new {
                     meta = new {
                         version = "1.0",
-                        generadoEn = DateTime.UtcNow.ToString("o"),  // ISO 8601
+                        generadoEn = DateTime.Now.ToString("o"),  // ISO 8601
                         aplicacion = "aDVance ERP",
                         idAlmacen = idAlmacen,
                         nombreAlmacen = nombreAlmacen

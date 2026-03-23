@@ -1,17 +1,13 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Maestros
-{
-    public sealed class PersonaRol : IEntidadBaseDatos
-    {
-        public PersonaRol()
-        {
-            FechaAsignacion = DateTime.UtcNow;
+namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
+    public sealed class PersonaRol : IEntidadBaseDatos {
+        public PersonaRol() {
+            FechaAsignacion = DateTime.Now;
             Activo = true;
         }
 
-        public PersonaRol(long id, long idPersona, long idRolContacto, DateTime fechaAsignacion, bool activo)
-        {
+        public PersonaRol(long id, long idPersona, long idRolContacto, DateTime fechaAsignacion, bool activo) {
             Id = id;
             IdPersona = idPersona;
             IdRolContacto = idRolContacto;
@@ -26,16 +22,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
         public bool Activo { get; set; }
     }
 
-    public enum FiltroBusquedaPersonaRol
-    {
+    public enum FiltroBusquedaPersonaRol {
         Todos,
         Id,
         IdPersona,
         IdRolContacto
     }
 
-    public static class UtilesBusquedaPersonaRol
-    {
+    public static class UtilesBusquedaPersonaRol {
         public static object[] FiltroBusquedaPersonaRol = {
             "Todos los roles asignados a personas",
             "Identificador de BD",

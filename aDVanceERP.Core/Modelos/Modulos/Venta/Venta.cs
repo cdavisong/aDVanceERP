@@ -3,7 +3,7 @@
 namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class Venta : IEntidadBaseDatos {
         public Venta() {
-            FechaVenta = DateTime.UtcNow;
+            FechaVenta = DateTime.Now;
             TotalBruto = 0.0m;
             DescuentoTotal = 0.0m;
             ImpuestoTotal = 0.0m;

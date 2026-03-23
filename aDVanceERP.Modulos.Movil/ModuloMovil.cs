@@ -26,7 +26,7 @@ namespace aDVanceERP.Modulos.Movil {
             // Botón de acceso al módulo
             _btnAccesoModulo.Name = "btnAccesoModuloMovil";
             _btnAccesoModulo.CustomImages.Image = Resources.smartphone_tablet_24px;
-            _btnAccesoModulo.TabIndex = 5;
+            _btnAccesoModulo.TabIndex = 6;
             _btnAccesoModulo.Click += delegate {
                 AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
                 AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);

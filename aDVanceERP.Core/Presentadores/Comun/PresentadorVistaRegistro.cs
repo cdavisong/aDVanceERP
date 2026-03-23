@@ -55,22 +55,21 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             try {
                 var entidad = ObtenerEntidadDesdeVista();
 
-                if (entidad == null)
-                    return;
+                if (entidad != null) {
+                    if (Vista.ModoEdicion) {
+                        if (_entidad != null) {
+                            entidad.Id = _entidad.Id;
 
-                if (Vista.ModoEdicion) {
-                    if (_entidad != null) {
-                        entidad.Id = _entidad.Id;
+                            Repositorio.Editar(entidad);
+                        }
+                    } else
+                        entidad.Id = Repositorio.Adicionar(entidad);
 
-                        Repositorio.Editar(entidad);
-                    }
-                } else
-                    entidad.Id = Repositorio.Adicionar(entidad);
+                    // Actualizar la entidad global
+                    _entidad = entidad;
+                }
 
-                // Actualizar la entidad global
-                _entidad = entidad;
-
-                RegistroEdicionAuxiliar(_repositorio, entidad.Id);
+                RegistroEdicionAuxiliar(_repositorio, entidad?.Id ?? 0);
 
                 EntidadRegistradaActualizada?.Invoke(sender, e);
                 Salir?.Invoke(sender, e);

@@ -6,7 +6,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public sealed class Pedido : IEntidadBaseDatos {
         public Pedido() {
             Codigo = "00000000000000";
-            FechaPedido = DateTime.UtcNow;
+            FechaPedido = DateTime.Now;
             TotalPedido = 0.0m;
             EstadoPedido = EstadoPedidoEnum.Pendiente;
             Activo = true;

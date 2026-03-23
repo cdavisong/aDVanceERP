@@ -5,7 +5,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         public Cliente() {
             CodigoCliente = "N/A";
             LimiteCredito = 0.0m;
-            FechaRegistro = DateTime.UtcNow;
+            FechaRegistro = DateTime.Now;
             Activo = true;
         }
 

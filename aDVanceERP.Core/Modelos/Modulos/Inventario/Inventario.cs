@@ -21,6 +21,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public decimal CostoPromedio { get; set; }
         public decimal ValorTotal { get; set; }
         public DateTime UltimaActualizacion { get; set; }
+
+        public override string ToString() {
+            return $"{Id:000}, ID_ALM: {IdAlmacen}, ID_PROD: {IdProducto}, CANT: {Cantidad}, COST: {CostoPromedio}";
+        }
     }
 
     public enum FiltroBusquedaInventario {
