@@ -1,10 +1,13 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
@@ -65,7 +68,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
         protected override SeguimientoEntrega? ObtenerEntidadDesdeVista() {
             var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
-
+            
             return new SeguimientoEntrega() {
                 Id = 0,
                 IdVenta = venta.Id,
@@ -91,6 +94,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var repoTelefonoContacto = RepoTelefonoContacto.Instancia;
             var repoVenta = RepoVenta.Instancia;
             var repoPago = RepoPago.Instancia;
+            var repoCaja = RepoCajaTurno.Instancia;
+            var repoMovimientoCaja = RepoCajaMovimiento.Instancia;
 
             // Persona-Cliente:
             var personaCliente = Vista.Cliente.persona;
@@ -125,6 +130,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Actualizar el id de cliente en la venta asociada
             var venta = repoVenta.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var turno = repoCaja.ObtenerTurnoAbierto(venta.IdAlmacen);
 
             venta.IdCliente = cliente!.Id;
             repoVenta.Editar(venta);
@@ -185,6 +191,24 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                         };
 
                         repoPago.Adicionar(pago);
+
+                        // Registrar pago de venta en caja automáticamente
+                        if (ContextoModulos.NombresModulosCargados.Exists(nm => nm.Equals("MOD_CAJA"))
+                            && turno != null) {
+                            var movimiento = new CajaMovimiento() {
+                                Id = 0,
+                                IdTurno = turno.Id,
+                                Tipo = TipoMovimientoCajaEnum.Venta,
+                                CanalPago = (CanalPagoCajaEnum) ((int) pago.MetodoPago),
+                                IdVenta = venta.Id,
+                                Monto = pago.MontoPagado,
+                                Descripcion = $"Pago de factura {venta.NumeroFacturaTicket}",
+                                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                FechaMovimiento = pago.FechaConfirmacionPago ?? DateTime.Now,
+                            };
+
+                            repoMovimientoCaja.Adicionar(movimiento);
+                        }
                     } else {
                         foreach (var pago in pagosVenta) {
                             pago.FechaPago = DateTime.Today;
@@ -211,6 +235,24 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
                                 pagosVenta.Add(pago);
                                 repoPago.Adicionar(pago);
+
+                                // Registrar pago de venta en caja automáticamente
+                                if (ContextoModulos.NombresModulosCargados.Exists(nm => nm.Equals("MOD_CAJA"))
+                                    && turno != null) {
+                                    var movimiento = new CajaMovimiento() {
+                                        Id = 0,
+                                        IdTurno = turno.Id,
+                                        Tipo = TipoMovimientoCajaEnum.Venta,
+                                        CanalPago = (CanalPagoCajaEnum) ((int) pago.MetodoPago),
+                                        IdVenta = venta.Id,
+                                        Monto = pago.MontoPagado,
+                                        Descripcion = $"Pago de factura {venta.NumeroFacturaTicket}",
+                                        IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                        FechaMovimiento = pago.FechaConfirmacionPago ?? DateTime.Now,
+                                    };
+
+                                    repoMovimientoCaja.Adicionar(movimiento);
+                                }
                             }
                         } else return;
                     }

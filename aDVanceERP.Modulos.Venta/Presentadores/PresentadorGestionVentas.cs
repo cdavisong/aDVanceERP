@@ -18,8 +18,6 @@ using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
-using System.Text.Json;
-
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionVentas : PresentadorVistaGestion<PresentadorTuplaVenta, IVistaGestionVentas, IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
         private ControladorArchivosAndroidPos _androidPos = new ControladorArchivosAndroidPos(Application.StartupPath);

@@ -22,6 +22,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Presentadores {
             // Carga de datos
             _turno = AgregadorEventos.DeserializarPayload<CajaTurno>(obj);
 
+            Vista.CargarDatosGeneralesTurno(_turno);
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();

@@ -1,8 +1,12 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
@@ -87,7 +91,28 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Verificar si el pago actual satisface la venta y completar la misma
             var repoVenta = RepoVenta.Instancia;
+            var repoCaja = RepoCajaTurno.Instancia;
+            var repoMovimientoCaja = RepoCajaMovimiento.Instancia;
             var venta = repoVenta.Buscar(FiltroBusquedaVenta.Id, Entidad?.IdVenta.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
+            var turno = repoCaja.ObtenerTurnoAbierto(venta.IdAlmacen);
+
+            // Registrar pago de venta en caja automáticamente
+            if (ContextoModulos.NombresModulosCargados.Exists(nm => nm.Equals("MOD_CAJA"))
+                && turno != null) {
+                var movimiento = new CajaMovimiento() {
+                    Id = 0,
+                    IdTurno = turno.Id,
+                    Tipo = TipoMovimientoCajaEnum.Venta,
+                    CanalPago = (CanalPagoCajaEnum) ((int) Entidad.MetodoPago),
+                    IdVenta = venta.Id,
+                    Monto = Entidad.MontoPagado,
+                    Descripcion = $"Pago de factura {venta.NumeroFacturaTicket}",
+                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    FechaMovimiento = Entidad.FechaConfirmacionPago ?? DateTime.Now,
+                };
+
+                repoMovimientoCaja.Adicionar(movimiento);
+            }
 
             if (repoVenta.VentaEstaPagadaCompletamente(venta.Id))
                 repoVenta.CambiarEstadoVenta(venta.Id, EstadoVentaEnum.Completada);

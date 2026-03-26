@@ -42,6 +42,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         public Re Repositorio => _repositorio;
         public Fb FiltroBusqueda { get; protected set; } = default!;
         public string[] CriteriosBusqueda { get; protected set; } = Array.Empty<string>();
+        public List<En> EntidadesExtra { get; } = new List<En>();
         public IEnumerable<Pt> TuplasSeleccionadas => _tuplasEntidades.Where(t => t.EstadoSeleccion);
 
         public event EventHandler? RegistrarEntidad;
@@ -90,6 +91,8 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
                         _cargaDatos.Mostrar();
 
+                        foreach (var entidadExtra in EntidadesExtra)
+                            AdicionarTuplaEntidad(entidadExtra, []);
                         foreach (var resultado in datos.resultadosBusqueda)
                             AdicionarTuplaEntidad(resultado.entidadBase, resultado.entidadesExtra);
 

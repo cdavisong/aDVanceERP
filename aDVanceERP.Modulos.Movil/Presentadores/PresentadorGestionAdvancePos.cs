@@ -1,11 +1,14 @@
 ﻿using aDVanceERP.Core.Controladores;
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
@@ -148,7 +151,9 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             var repoInventario = RepoInventario.Instancia;
             var repoPago = RepoPago.Instancia;
             var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
-
+            var repoCaja = RepoCajaTurno.Instancia;
+            var repoMovimientoCaja = RepoCajaMovimiento.Instancia;
+            
             // Resolver el IdTipoMovimiento "Venta" una sola vez fuera del loop
             var idTipoMovimientoVenta = RepoTipoMovimiento.Instancia
                 .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta")
@@ -196,7 +201,8 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                 Activo = true
                             };
 
-                            long idVenta = repoVenta.Adicionar(ventaBD);
+                            var idVenta = repoVenta.Adicionar(ventaBD);
+                            var turno = repoCaja.ObtenerTurnoAbierto(ventaBD.IdAlmacen);
 
                             // ── Detalles + movimientos de inventario ──
                             if (ventaExp.Detalles != null) {
@@ -282,6 +288,24 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                                 NumeroTransaccion = pagoExp.DetalleTransferencia.NumeroTransaccion,
                                                 MontoTransferencia = pagoExp.MontoPagado
                                             });
+                                        }
+
+                                        // Registrar pago de venta en caja automáticamente
+                                        if (ContextoModulos.NombresModulosCargados.Exists(nm => nm.Equals("MOD_CAJA"))
+                                            && turno != null) {
+                                            var movimiento = new CajaMovimiento() {
+                                                Id = 0,
+                                                IdTurno = turno.Id,
+                                                Tipo = TipoMovimientoCajaEnum.Venta,
+                                                CanalPago = (CanalPagoCajaEnum) ((int) pagoBD.MetodoPago),
+                                                IdVenta = ventaBD.Id,
+                                                Monto = pagoBD.MontoPagado,
+                                                Descripcion = $"Pago de factura {ventaBD.NumeroFacturaTicket}",
+                                                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                                FechaMovimiento = pagoBD.FechaConfirmacionPago ?? DateTime.Now,
+                                            };
+
+                                            repoMovimientoCaja.Adicionar(movimiento);
                                         }
                                     } catch (Exception pex) {
                                         errores.Add($"'{Path.GetFileName(archivo)}' — pago {ventaExp.NumeroTicket}: {pex.Message}");

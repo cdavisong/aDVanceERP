@@ -1,10 +1,14 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
@@ -143,6 +147,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             // Registrar los pagos asociados a la venta
             var repoPago = RepoPago.Instancia;
             var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
+            var repoCaja = RepoCajaTurno.Instancia;
+            var repoMovimientoCaja = RepoCajaMovimiento.Instancia;
+            var turno = repoCaja.ObtenerTurnoAbierto(almacenOrigen.Id);
 
             foreach (var pago in Vista.Pagos) {
                 pago.Key.IdVenta = id;
@@ -151,6 +158,24 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 if (pago.Key.MetodoPago == MetodoPagoEnum.TransferenciaBancaria && pago.Value != null) {
                     pago.Value.IdPago = idPago;
                     repoDetallePagoTransferencia.Adicionar(pago.Value);
+                }
+
+                // Registrar pago de venta en caja automáticamente
+                if (ContextoModulos.NombresModulosCargados.Exists(nm => nm.Equals("MOD_CAJA"))
+                    && turno != null) {                    
+                    var movimiento = new CajaMovimiento() {
+                        Id = 0,
+                        IdTurno = turno.Id,
+                        Tipo = TipoMovimientoCajaEnum.Venta,
+                        CanalPago = (CanalPagoCajaEnum)((int) pago.Key.MetodoPago),
+                        IdVenta = Entidad!.Id,
+                        Monto = pago.Key.MontoPagado,
+                        Descripcion = $"Pago de factura {Entidad.NumeroFacturaTicket}",
+                        IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                        FechaMovimiento = pago.Key.FechaConfirmacionPago ?? DateTime.Now,
+                    };
+
+                    repoMovimientoCaja.Adicionar(movimiento);
                 }
             }
 

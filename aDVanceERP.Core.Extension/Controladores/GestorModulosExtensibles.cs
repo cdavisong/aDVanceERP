@@ -1,12 +1,12 @@
 ﻿using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Extension.Atributos;
+using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Extension.Interfaces;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace aDVanceERP.Core.Extension.Controladores {
     public sealed class GestorModulosExtensibles {
@@ -19,6 +19,8 @@ namespace aDVanceERP.Core.Extension.Controladores {
         public IEnumerable<IModuloExtension> ObtenerModulosExtension() => _modulosCargados.Values;
 
         public void CargarModulos(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
+            ContextoModulos.NombresModulosCargados.Clear();
+
             var archivosDll = Directory.GetFiles(".\\", "*.dll");
 
             foreach (var rutaArchivo in archivosDll) {
@@ -34,6 +36,8 @@ namespace aDVanceERP.Core.Extension.Controladores {
                             moduloExtension.Inicializar(principal);
 
                             _modulosCargados.Add(moduloExtension.Nombre, moduloExtension);
+
+                            ContextoModulos.NombresModulosCargados.Add(moduloExtension.Nombre);
                         }
                     }
                 }

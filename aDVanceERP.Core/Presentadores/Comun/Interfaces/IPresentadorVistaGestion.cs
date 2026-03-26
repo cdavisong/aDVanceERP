@@ -11,6 +11,7 @@ namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
         Re Repositorio { get; }
         Fb FiltroBusqueda { get; }
         string[] CriteriosBusqueda { get; }
+        List<En> EntidadesExtra { get; }
 
         event EventHandler? RegistrarEntidad;
         event EventHandler<En>? EditarEntidad;

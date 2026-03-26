@@ -1,6 +1,8 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Modulos.CajaRegistradora.Interfaces;
 using aDVanceERP.Modulos.CajaRegistradora.Properties;
 
@@ -114,6 +116,9 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             contenedorVistas.Resize += delegate {
                 AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty);
             };
+            btnSalir.Click += delegate {
+                Ocultar();
+            };
         }
 
         public void CargarFiltrosBusqueda(object[] criteriosBusqueda) { 
@@ -126,6 +131,9 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         }
 
         public void Restaurar() {
+
+
+            PanelCentral.CerrarTodos();
             PaginaActual = 1;
             PaginasTotales = 1;
         }
@@ -136,6 +144,41 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
 
         public void Cerrar() {
             // ...
+        }
+
+        public void CargarDatosGeneralesTurno(CajaTurno turno) {
+            var (colorFondo, colorFuente) = ObtenerColorEstado(turno.Estado);
+            var totalesCalculados = RepoCajaMovimiento.Instancia.ObtenerTotalesPorCanal(turno.Id);
+
+            fieldSubtitulo.Text = turno.Codigo;
+            fieldCodigo.Text = turno.Codigo;
+            fieldEstado.DisabledState.BorderColor = colorFondo;
+            fieldEstado.DisabledState.FillColor = colorFondo;
+            fieldEstado.DisabledState.ForeColor = colorFuente;
+            fieldEstado.Text = $"{(turno.Estado == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {turno.Estado.ObtenerDisplayName()}";
+            fieldFechaHoraApertura.Text = turno.FechaApertura.ToString("dd/MM/yyyy HH:mm");
+            fieldFechaHoraCierre.Text = turno.FechaCierre.HasValue ? turno.FechaCierre.Value.ToString("dd/MM/yyyy HH:mm") : "N/A";
+            fieldEfectivoCalculado.Text = totalesCalculados.TotalEfectivo.ToString("N2");
+            fieldDiferenciaEfectivo.Text = turno.DiferenciaEfectivo.HasValue ? turno.DiferenciaEfectivo.Value.ToString("N2") : "N/A";
+            
+            fieldTotalEfectivo.Text = turno.MontoEfectivoCalculado.HasValue && turno.DiferenciaEfectivo.HasValue
+                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value).ToString("N2")
+                : totalesCalculados.TotalEfectivo.ToString("N2");
+            fieldTotalTransferencias.Text = turno.MontoTransferenciasCalculado.HasValue && turno.DiferenciaTransferencias.HasValue
+                ? (turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2")
+                : totalesCalculados.TotalTransferencias.ToString("N2");
+            fieldTotalGeneral.Text = turno.MontoEfectivoCalculado.HasValue && turno.DiferenciaEfectivo.HasValue && turno.MontoTransferenciasCalculado.HasValue && turno.DiferenciaTransferencias.HasValue
+                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value + turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2")
+                : (totalesCalculados.TotalEfectivo + totalesCalculados.TotalTransferencias).ToString("N2"); ;
+        }
+
+        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(EstadoCajaTurnoEnum estado) {
+            return estado switch {
+                EstadoCajaTurnoEnum.Abierto => (Color.FromArgb(232, 245, 233), Color.FromArgb(45, 125, 50)),
+                EstadoCajaTurnoEnum.Cerrado => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 192)),
+                EstadoCajaTurnoEnum.Anulado => (Color.FromArgb(253, 236, 242), Color.FromArgb(215, 104, 104)),
+                _ => (Color.DimGray, Color.Black),
+            };
         }
 
         private void HabilitarBotonesPaginacion() {

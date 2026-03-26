@@ -137,9 +137,9 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
 
         private (Color colorFondo, Color colorFuente) ObtenerColorCanal(CanalPagoCajaEnum estado) {
             return estado switch {
-                CanalPagoCajaEnum.Efectivo => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),             // Verde
+                CanalPagoCajaEnum.Efectivo => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),              // Ambar
                 CanalPagoCajaEnum.Transferencia => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),       // Azul
-                CanalPagoCajaEnum.Mixto => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),                 // Ambar
+                CanalPagoCajaEnum.Mixto => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),                // Verde
                 _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
             };
         }
