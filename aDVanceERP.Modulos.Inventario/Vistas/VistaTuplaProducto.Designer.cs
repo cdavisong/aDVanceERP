@@ -28,31 +28,32 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaProducto));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
-            layoutVista = new TableLayoutPanel();
-            fieldFechaUltimoMovimiento = new Label();
-            fieldId = new Label();
-            btnEditar = new Guna2Button();
-            btnMovimientoNegativo = new Guna2Button();
-            btnMovimientoPositivo = new Guna2Button();
-            fieldDescripcion = new Label();
-            fieldPrecioVentaBase = new Label();
-            fieldCodigo = new Label();
-            btnEliminar = new Guna2Button();
-            fieldCostoUnitario = new Label();
-            fieldStock = new Label();
-            fieldUnidadMedida = new Label();
             fieldNombre = new Label();
+            fieldUnidadMedida = new Label();
+            fieldStock = new Label();
+            fieldCostoUnitario = new Label();
+            btnEliminar = new Guna2Button();
+            fieldCodigo = new Label();
+            fieldPrecioVentaBase = new Label();
+            fieldDescripcion = new Label();
+            btnMovimientoPositivo = new Guna2Button();
+            btnMovimientoNegativo = new Guna2Button();
+            btnEditar = new Guna2Button();
+            fieldId = new Label();
+            fieldFechaUltimoMovimiento = new Label();
+            layoutVista = new TableLayoutPanel();
+            separador1 = new Guna2Separator();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -67,17 +68,241 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             // layoutBase
             // 
-            layoutBase.BackColor = Color.Gainsboro;
+            layoutBase.BackColor = Color.White;
             layoutBase.ColumnCount = 1;
-            layoutBase.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutBase.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutBase.Controls.Add(separador1, 0, 1);
             layoutBase.Controls.Add(layoutVista, 0, 0);
             layoutBase.Dock = DockStyle.Fill;
             layoutBase.Location = new Point(0, 0);
             layoutBase.Name = "layoutBase";
-            layoutBase.RowCount = 1;
-            layoutBase.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            layoutBase.RowCount = 2;
+            layoutBase.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutBase.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             layoutBase.Size = new Size(1241, 42);
             layoutBase.TabIndex = 1;
+            // 
+            // fieldNombre
+            // 
+            fieldNombre.AutoEllipsis = true;
+            fieldNombre.Dock = DockStyle.Fill;
+            fieldNombre.Font = new Font("Segoe UI", 11.25F);
+            fieldNombre.ForeColor = Color.DimGray;
+            fieldNombre.ImeMode = ImeMode.NoControl;
+            fieldNombre.Location = new Point(301, 1);
+            fieldNombre.Margin = new Padding(1);
+            fieldNombre.Name = "fieldNombre";
+            fieldNombre.Size = new Size(151, 35);
+            fieldNombre.TabIndex = 4;
+            fieldNombre.Text = "nombre";
+            fieldNombre.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldUnidadMedida
+            // 
+            fieldUnidadMedida.Dock = DockStyle.Fill;
+            fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F);
+            fieldUnidadMedida.ForeColor = Color.DimGray;
+            fieldUnidadMedida.ImeMode = ImeMode.NoControl;
+            fieldUnidadMedida.Location = new Point(1013, 1);
+            fieldUnidadMedida.Margin = new Padding(1);
+            fieldUnidadMedida.Name = "fieldUnidadMedida";
+            fieldUnidadMedida.Size = new Size(78, 35);
+            fieldUnidadMedida.TabIndex = 22;
+            fieldUnidadMedida.Text = "u.m.";
+            fieldUnidadMedida.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // fieldStock
+            // 
+            fieldStock.Dock = DockStyle.Fill;
+            fieldStock.Font = new Font("Segoe UI", 11.25F);
+            fieldStock.ForeColor = Color.DimGray;
+            fieldStock.ImeMode = ImeMode.NoControl;
+            fieldStock.Location = new Point(903, 1);
+            fieldStock.Margin = new Padding(1);
+            fieldStock.Name = "fieldStock";
+            fieldStock.Size = new Size(108, 35);
+            fieldStock.TabIndex = 16;
+            fieldStock.Text = "cantidad";
+            fieldStock.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldCostoUnitario
+            // 
+            fieldCostoUnitario.Dock = DockStyle.Fill;
+            fieldCostoUnitario.Font = new Font("Segoe UI", 11.25F);
+            fieldCostoUnitario.ForeColor = Color.Black;
+            fieldCostoUnitario.ImeMode = ImeMode.NoControl;
+            fieldCostoUnitario.Location = new Point(683, 1);
+            fieldCostoUnitario.Margin = new Padding(1);
+            fieldCostoUnitario.Name = "fieldCostoUnitario";
+            fieldCostoUnitario.Size = new Size(108, 35);
+            fieldCostoUnitario.TabIndex = 14;
+            fieldCostoUnitario.Text = "precioCompra.";
+            fieldCostoUnitario.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.Animated = true;
+            btnEliminar.AutoRoundedCorners = true;
+            btnEliminar.BorderColor = Color.Gainsboro;
+            btnEliminar.BorderRadius = 14;
+            btnEliminar.BorderThickness = 1;
+            btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage3");
+            btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
+            btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEliminar.CustomizableEdges = customizableEdges15;
+            btnEliminar.Dock = DockStyle.Fill;
+            btnEliminar.FillColor = Color.White;
+            btnEliminar.Font = new Font("Segoe UI", 9.75F);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.HoverState.BorderColor = Color.PeachPuff;
+            btnEliminar.HoverState.FillColor = Color.PeachPuff;
+            btnEliminar.HoverState.ForeColor = Color.White;
+            btnEliminar.Location = new Point(1206, 3);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnEliminar.Size = new Size(32, 31);
+            btnEliminar.TabIndex = 21;
+            // 
+            // fieldCodigo
+            // 
+            fieldCodigo.Dock = DockStyle.Fill;
+            fieldCodigo.Font = new Font("Segoe UI", 11.25F);
+            fieldCodigo.ForeColor = Color.Black;
+            fieldCodigo.ImeMode = ImeMode.NoControl;
+            fieldCodigo.Location = new Point(61, 1);
+            fieldCodigo.Margin = new Padding(1);
+            fieldCodigo.Name = "fieldCodigo";
+            fieldCodigo.Size = new Size(118, 35);
+            fieldCodigo.TabIndex = 15;
+            fieldCodigo.Text = "codigo";
+            fieldCodigo.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldPrecioVentaBase
+            // 
+            fieldPrecioVentaBase.Dock = DockStyle.Fill;
+            fieldPrecioVentaBase.Font = new Font("Segoe UI", 11.25F);
+            fieldPrecioVentaBase.ForeColor = Color.Black;
+            fieldPrecioVentaBase.ImeMode = ImeMode.NoControl;
+            fieldPrecioVentaBase.Location = new Point(793, 1);
+            fieldPrecioVentaBase.Margin = new Padding(1);
+            fieldPrecioVentaBase.Name = "fieldPrecioVentaBase";
+            fieldPrecioVentaBase.Size = new Size(108, 35);
+            fieldPrecioVentaBase.TabIndex = 17;
+            fieldPrecioVentaBase.Text = "precioVenta";
+            fieldPrecioVentaBase.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldDescripcion
+            // 
+            fieldDescripcion.AutoEllipsis = true;
+            fieldDescripcion.Dock = DockStyle.Fill;
+            fieldDescripcion.Font = new Font("Segoe UI", 11.25F);
+            fieldDescripcion.ForeColor = Color.DimGray;
+            fieldDescripcion.ImeMode = ImeMode.NoControl;
+            fieldDescripcion.Location = new Point(454, 1);
+            fieldDescripcion.Margin = new Padding(1);
+            fieldDescripcion.Name = "fieldDescripcion";
+            fieldDescripcion.Size = new Size(227, 35);
+            fieldDescripcion.TabIndex = 6;
+            fieldDescripcion.Text = "descripcion";
+            fieldDescripcion.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // btnMovimientoPositivo
+            // 
+            btnMovimientoPositivo.Animated = true;
+            btnMovimientoPositivo.AutoRoundedCorners = true;
+            btnMovimientoPositivo.BorderColor = Color.Gainsboro;
+            btnMovimientoPositivo.BorderRadius = 14;
+            btnMovimientoPositivo.BorderThickness = 1;
+            btnMovimientoPositivo.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage2");
+            btnMovimientoPositivo.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
+            btnMovimientoPositivo.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnMovimientoPositivo.CustomizableEdges = customizableEdges13;
+            btnMovimientoPositivo.Dock = DockStyle.Fill;
+            btnMovimientoPositivo.FillColor = Color.White;
+            btnMovimientoPositivo.Font = new Font("Segoe UI", 9.75F);
+            btnMovimientoPositivo.ForeColor = Color.White;
+            btnMovimientoPositivo.HoverState.BorderColor = Color.PeachPuff;
+            btnMovimientoPositivo.HoverState.FillColor = Color.PeachPuff;
+            btnMovimientoPositivo.Location = new Point(1095, 3);
+            btnMovimientoPositivo.Name = "btnMovimientoPositivo";
+            btnMovimientoPositivo.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnMovimientoPositivo.Size = new Size(31, 31);
+            btnMovimientoPositivo.TabIndex = 19;
+            // 
+            // btnMovimientoNegativo
+            // 
+            btnMovimientoNegativo.Animated = true;
+            btnMovimientoNegativo.AutoRoundedCorners = true;
+            btnMovimientoNegativo.BorderColor = Color.Gainsboro;
+            btnMovimientoNegativo.BorderRadius = 14;
+            btnMovimientoNegativo.BorderThickness = 1;
+            btnMovimientoNegativo.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnMovimientoNegativo.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnMovimientoNegativo.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnMovimientoNegativo.CustomizableEdges = customizableEdges11;
+            btnMovimientoNegativo.Dock = DockStyle.Fill;
+            btnMovimientoNegativo.FillColor = Color.White;
+            btnMovimientoNegativo.Font = new Font("Segoe UI", 9.75F);
+            btnMovimientoNegativo.ForeColor = Color.White;
+            btnMovimientoNegativo.HoverState.BorderColor = Color.PeachPuff;
+            btnMovimientoNegativo.HoverState.FillColor = Color.PeachPuff;
+            btnMovimientoNegativo.Location = new Point(1132, 3);
+            btnMovimientoNegativo.Name = "btnMovimientoNegativo";
+            btnMovimientoNegativo.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnMovimientoNegativo.Size = new Size(31, 31);
+            btnMovimientoNegativo.TabIndex = 18;
+            // 
+            // btnEditar
+            // 
+            btnEditar.Animated = true;
+            btnEditar.AutoRoundedCorners = true;
+            btnEditar.BorderColor = Color.Gainsboro;
+            btnEditar.BorderRadius = 14;
+            btnEditar.BorderThickness = 1;
+            btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
+            btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnEditar.CustomizableEdges = customizableEdges9;
+            btnEditar.Dock = DockStyle.Fill;
+            btnEditar.FillColor = Color.White;
+            btnEditar.Font = new Font("Segoe UI", 9.75F);
+            btnEditar.ForeColor = Color.White;
+            btnEditar.HoverState.BorderColor = Color.PeachPuff;
+            btnEditar.HoverState.FillColor = Color.PeachPuff;
+            btnEditar.Location = new Point(1169, 3);
+            btnEditar.Name = "btnEditar";
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnEditar.Size = new Size(31, 31);
+            btnEditar.TabIndex = 9;
+            // 
+            // fieldId
+            // 
+            fieldId.Dock = DockStyle.Fill;
+            fieldId.Font = new Font("Segoe UI", 11.25F);
+            fieldId.ForeColor = Color.DimGray;
+            fieldId.ImeMode = ImeMode.NoControl;
+            fieldId.Location = new Point(1, 1);
+            fieldId.Margin = new Padding(1);
+            fieldId.Name = "fieldId";
+            fieldId.Size = new Size(58, 35);
+            fieldId.TabIndex = 13;
+            fieldId.Text = "id";
+            fieldId.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldFechaUltimoMovimiento
+            // 
+            fieldFechaUltimoMovimiento.AutoEllipsis = true;
+            fieldFechaUltimoMovimiento.Dock = DockStyle.Fill;
+            fieldFechaUltimoMovimiento.Font = new Font("Segoe UI", 11.25F);
+            fieldFechaUltimoMovimiento.ForeColor = Color.DimGray;
+            fieldFechaUltimoMovimiento.ImeMode = ImeMode.NoControl;
+            fieldFechaUltimoMovimiento.Location = new Point(181, 1);
+            fieldFechaUltimoMovimiento.Margin = new Padding(1);
+            fieldFechaUltimoMovimiento.Name = "fieldFechaUltimoMovimiento";
+            fieldFechaUltimoMovimiento.Size = new Size(118, 35);
+            fieldFechaUltimoMovimiento.TabIndex = 23;
+            fieldFechaUltimoMovimiento.Text = "ultimoMov";
+            fieldFechaUltimoMovimiento.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // layoutVista
             // 
@@ -92,10 +317,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 37F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 37F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 37F));
+            layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 37F));
             layoutVista.Controls.Add(fieldFechaUltimoMovimiento, 2, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
             layoutVista.Controls.Add(btnEditar, 11, 0);
@@ -111,230 +336,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.Controls.Add(fieldNombre, 3, 0);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
-            layoutVista.Margin = new Padding(0, 0, 0, 1);
+            layoutVista.Margin = new Padding(0);
             layoutVista.Name = "layoutVista";
             layoutVista.RowCount = 1;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutVista.Size = new Size(1241, 41);
+            layoutVista.Size = new Size(1241, 37);
             layoutVista.TabIndex = 18;
             // 
-            // fieldFechaUltimoMovimiento
+            // separador1
             // 
-            fieldFechaUltimoMovimiento.AutoEllipsis = true;
-            fieldFechaUltimoMovimiento.Dock = DockStyle.Fill;
-            fieldFechaUltimoMovimiento.Font = new Font("Segoe UI", 11.25F);
-            fieldFechaUltimoMovimiento.ForeColor = Color.DimGray;
-            fieldFechaUltimoMovimiento.ImeMode = ImeMode.NoControl;
-            fieldFechaUltimoMovimiento.Location = new Point(181, 1);
-            fieldFechaUltimoMovimiento.Margin = new Padding(1);
-            fieldFechaUltimoMovimiento.Name = "fieldFechaUltimoMovimiento";
-            fieldFechaUltimoMovimiento.Size = new Size(118, 39);
-            fieldFechaUltimoMovimiento.TabIndex = 23;
-            fieldFechaUltimoMovimiento.Text = "ultimoMov";
-            fieldFechaUltimoMovimiento.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldId
-            // 
-            fieldId.Dock = DockStyle.Fill;
-            fieldId.Font = new Font("Segoe UI", 11.25F);
-            fieldId.ForeColor = Color.DimGray;
-            fieldId.ImeMode = ImeMode.NoControl;
-            fieldId.Location = new Point(1, 1);
-            fieldId.Margin = new Padding(1);
-            fieldId.Name = "fieldId";
-            fieldId.Size = new Size(58, 39);
-            fieldId.TabIndex = 13;
-            fieldId.Text = "id";
-            fieldId.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnEditar
-            // 
-            btnEditar.Animated = true;
-            btnEditar.BorderColor = Color.Gainsboro;
-            btnEditar.BorderRadius = 16;
-            btnEditar.BorderThickness = 1;
-            btnEditar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage");
-            btnEditar.CustomImages.Image = (Image)resources.GetObject("resource.Image");
-            btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges1;
-            btnEditar.Dock = DockStyle.Fill;
-            btnEditar.FillColor = Color.White;
-            btnEditar.Font = new Font("Segoe UI", 9.75F);
-            btnEditar.ForeColor = Color.White;
-            btnEditar.HoverState.BorderColor = Color.PeachPuff;
-            btnEditar.HoverState.FillColor = Color.PeachPuff;
-            btnEditar.Location = new Point(1163, 3);
-            btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnEditar.Size = new Size(34, 35);
-            btnEditar.TabIndex = 9;
-            // 
-            // btnMovimientoNegativo
-            // 
-            btnMovimientoNegativo.Animated = true;
-            btnMovimientoNegativo.BorderColor = Color.Gainsboro;
-            btnMovimientoNegativo.BorderRadius = 16;
-            btnMovimientoNegativo.BorderThickness = 1;
-            btnMovimientoNegativo.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage1");
-            btnMovimientoNegativo.CustomImages.Image = (Image)resources.GetObject("resource.Image1");
-            btnMovimientoNegativo.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMovimientoNegativo.CustomizableEdges = customizableEdges3;
-            btnMovimientoNegativo.Dock = DockStyle.Fill;
-            btnMovimientoNegativo.FillColor = Color.White;
-            btnMovimientoNegativo.Font = new Font("Segoe UI", 9.75F);
-            btnMovimientoNegativo.ForeColor = Color.White;
-            btnMovimientoNegativo.HoverState.BorderColor = Color.PeachPuff;
-            btnMovimientoNegativo.HoverState.FillColor = Color.PeachPuff;
-            btnMovimientoNegativo.Location = new Point(1123, 3);
-            btnMovimientoNegativo.Name = "btnMovimientoNegativo";
-            btnMovimientoNegativo.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnMovimientoNegativo.Size = new Size(34, 35);
-            btnMovimientoNegativo.TabIndex = 18;
-            // 
-            // btnMovimientoPositivo
-            // 
-            btnMovimientoPositivo.Animated = true;
-            btnMovimientoPositivo.BorderColor = Color.Gainsboro;
-            btnMovimientoPositivo.BorderRadius = 16;
-            btnMovimientoPositivo.BorderThickness = 1;
-            btnMovimientoPositivo.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage2");
-            btnMovimientoPositivo.CustomImages.Image = (Image)resources.GetObject("resource.Image2");
-            btnMovimientoPositivo.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMovimientoPositivo.CustomizableEdges = customizableEdges5;
-            btnMovimientoPositivo.Dock = DockStyle.Fill;
-            btnMovimientoPositivo.FillColor = Color.White;
-            btnMovimientoPositivo.Font = new Font("Segoe UI", 9.75F);
-            btnMovimientoPositivo.ForeColor = Color.White;
-            btnMovimientoPositivo.HoverState.BorderColor = Color.PeachPuff;
-            btnMovimientoPositivo.HoverState.FillColor = Color.PeachPuff;
-            btnMovimientoPositivo.Location = new Point(1083, 3);
-            btnMovimientoPositivo.Name = "btnMovimientoPositivo";
-            btnMovimientoPositivo.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnMovimientoPositivo.Size = new Size(34, 35);
-            btnMovimientoPositivo.TabIndex = 19;
-            // 
-            // fieldDescripcion
-            // 
-            fieldDescripcion.AutoEllipsis = true;
-            fieldDescripcion.Dock = DockStyle.Fill;
-            fieldDescripcion.Font = new Font("Segoe UI", 11.25F);
-            fieldDescripcion.ForeColor = Color.DimGray;
-            fieldDescripcion.ImeMode = ImeMode.NoControl;
-            fieldDescripcion.Location = new Point(449, 1);
-            fieldDescripcion.Margin = new Padding(1);
-            fieldDescripcion.Name = "fieldDescripcion";
-            fieldDescripcion.Size = new Size(220, 39);
-            fieldDescripcion.TabIndex = 6;
-            fieldDescripcion.Text = "descripcion";
-            fieldDescripcion.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldPrecioVentaBase
-            // 
-            fieldPrecioVentaBase.Dock = DockStyle.Fill;
-            fieldPrecioVentaBase.Font = new Font("Segoe UI", 11.25F);
-            fieldPrecioVentaBase.ForeColor = Color.DimGray;
-            fieldPrecioVentaBase.ImeMode = ImeMode.NoControl;
-            fieldPrecioVentaBase.Location = new Point(781, 1);
-            fieldPrecioVentaBase.Margin = new Padding(1);
-            fieldPrecioVentaBase.Name = "fieldPrecioVentaBase";
-            fieldPrecioVentaBase.Size = new Size(108, 39);
-            fieldPrecioVentaBase.TabIndex = 17;
-            fieldPrecioVentaBase.Text = "precioVenta";
-            fieldPrecioVentaBase.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldCodigo
-            // 
-            fieldCodigo.Dock = DockStyle.Fill;
-            fieldCodigo.Font = new Font("Segoe UI", 11.25F);
-            fieldCodigo.ForeColor = Color.DimGray;
-            fieldCodigo.ImeMode = ImeMode.NoControl;
-            fieldCodigo.Location = new Point(61, 1);
-            fieldCodigo.Margin = new Padding(1);
-            fieldCodigo.Name = "fieldCodigo";
-            fieldCodigo.Size = new Size(118, 39);
-            fieldCodigo.TabIndex = 15;
-            fieldCodigo.Text = "codigo";
-            fieldCodigo.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btnEliminar
-            // 
-            btnEliminar.Animated = true;
-            btnEliminar.BorderColor = Color.Gainsboro;
-            btnEliminar.BorderRadius = 16;
-            btnEliminar.BorderThickness = 1;
-            btnEliminar.CustomImages.HoveredImage = (Image)resources.GetObject("resource.HoveredImage3");
-            btnEliminar.CustomImages.Image = (Image)resources.GetObject("resource.Image3");
-            btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges7;
-            btnEliminar.Dock = DockStyle.Fill;
-            btnEliminar.FillColor = Color.White;
-            btnEliminar.Font = new Font("Segoe UI", 9.75F);
-            btnEliminar.ForeColor = Color.White;
-            btnEliminar.HoverState.BorderColor = Color.PeachPuff;
-            btnEliminar.HoverState.FillColor = Color.PeachPuff;
-            btnEliminar.HoverState.ForeColor = Color.White;
-            btnEliminar.Location = new Point(1203, 3);
-            btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnEliminar.Size = new Size(35, 35);
-            btnEliminar.TabIndex = 21;
-            // 
-            // fieldCostoUnitario
-            // 
-            fieldCostoUnitario.Dock = DockStyle.Fill;
-            fieldCostoUnitario.Font = new Font("Segoe UI", 11.25F);
-            fieldCostoUnitario.ForeColor = Color.DimGray;
-            fieldCostoUnitario.ImeMode = ImeMode.NoControl;
-            fieldCostoUnitario.Location = new Point(671, 1);
-            fieldCostoUnitario.Margin = new Padding(1);
-            fieldCostoUnitario.Name = "fieldCostoUnitario";
-            fieldCostoUnitario.Size = new Size(108, 39);
-            fieldCostoUnitario.TabIndex = 14;
-            fieldCostoUnitario.Text = "precioCompra.";
-            fieldCostoUnitario.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldStock
-            // 
-            fieldStock.Dock = DockStyle.Fill;
-            fieldStock.Font = new Font("Segoe UI", 11.25F);
-            fieldStock.ForeColor = Color.DimGray;
-            fieldStock.ImeMode = ImeMode.NoControl;
-            fieldStock.Location = new Point(891, 1);
-            fieldStock.Margin = new Padding(1);
-            fieldStock.Name = "fieldStock";
-            fieldStock.Size = new Size(108, 39);
-            fieldStock.TabIndex = 16;
-            fieldStock.Text = "cantidad";
-            fieldStock.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldUnidadMedida
-            // 
-            fieldUnidadMedida.Dock = DockStyle.Fill;
-            fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F);
-            fieldUnidadMedida.ForeColor = Color.DimGray;
-            fieldUnidadMedida.ImeMode = ImeMode.NoControl;
-            fieldUnidadMedida.Location = new Point(1001, 1);
-            fieldUnidadMedida.Margin = new Padding(1);
-            fieldUnidadMedida.Name = "fieldUnidadMedida";
-            fieldUnidadMedida.Size = new Size(78, 39);
-            fieldUnidadMedida.TabIndex = 22;
-            fieldUnidadMedida.Text = "u.m.";
-            fieldUnidadMedida.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldNombre
-            // 
-            fieldNombre.AutoEllipsis = true;
-            fieldNombre.Dock = DockStyle.Fill;
-            fieldNombre.Font = new Font("Segoe UI", 11.25F);
-            fieldNombre.ForeColor = Color.DimGray;
-            fieldNombre.ImeMode = ImeMode.NoControl;
-            fieldNombre.Location = new Point(301, 1);
-            fieldNombre.Margin = new Padding(1);
-            fieldNombre.Name = "fieldNombre";
-            fieldNombre.Size = new Size(146, 39);
-            fieldNombre.TabIndex = 4;
-            fieldNombre.Text = "nombre";
-            fieldNombre.TextAlign = ContentAlignment.MiddleLeft;
+            separador1.Dock = DockStyle.Fill;
+            separador1.FillColor = Color.Gainsboro;
+            separador1.Location = new Point(1, 38);
+            separador1.Margin = new Padding(1);
+            separador1.Name = "separador1";
+            separador1.Size = new Size(1239, 3);
+            separador1.TabIndex = 74;
             // 
             // VistaTuplaProducto
             // 
@@ -360,18 +377,19 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Guna2BorderlessForm formatoBase;
         private TableLayoutPanel layoutBase;
         private TableLayoutPanel layoutVista;
-        private Label fieldNombre;
+        private Label fieldFechaUltimoMovimiento;
         private Label fieldId;
         private Guna2Button btnEditar;
-        private Label fieldCostoUnitario;
-        private Label fieldDescripcion;
-        private Label fieldCodigo;
-        private Label fieldStock;
-        private Label fieldPrecioVentaBase;
         private Guna2Button btnMovimientoNegativo;
         private Guna2Button btnMovimientoPositivo;
+        private Label fieldDescripcion;
+        private Label fieldPrecioVentaBase;
+        private Label fieldCodigo;
         private Guna2Button btnEliminar;
+        private Label fieldCostoUnitario;
+        private Label fieldStock;
         private Label fieldUnidadMedida;
-        private Label fieldFechaUltimoMovimiento;
+        private Label fieldNombre;
+        private Guna2Separator separador1;
     }
 }

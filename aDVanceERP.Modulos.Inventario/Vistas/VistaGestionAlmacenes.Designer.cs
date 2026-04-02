@@ -49,8 +49,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             panelEncabezadosTabla = new Guna2Panel();
@@ -82,7 +80,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda = new Guna2ComboBox();
             fieldCriterioBusqueda = new Guna2TextBox();
             btnRegistrar = new Guna2Button();
-            btnExportarInventarioAlmacenes = new Guna2Button();
             menuFormatoDocumento = new ContextMenuStrip(components);
             btnExportarPdf = new ToolStripMenuItem();
             btnExportarXlsx = new ToolStripMenuItem();
@@ -129,13 +126,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.Size = new Size(1356, 608);
             layoutVista.TabIndex = 4;
@@ -153,7 +149,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelEncabezadosTabla.CustomizableEdges = customizableEdges1;
             panelEncabezadosTabla.Dock = DockStyle.Fill;
             panelEncabezadosTabla.FillColor = SystemColors.ButtonFace;
-            panelEncabezadosTabla.Location = new Point(50, 165);
+            panelEncabezadosTabla.Location = new Point(50, 155);
             panelEncabezadosTabla.Margin = new Padding(0);
             panelEncabezadosTabla.Name = "panelEncabezadosTabla";
             panelEncabezadosTabla.ShadowDecoration.BorderRadius = 8;
@@ -350,12 +346,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutContenedorVistas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutContenedorVistas.Controls.Add(contenedorVistas, 0, 0);
             layoutContenedorVistas.Dock = DockStyle.Fill;
-            layoutContenedorVistas.Location = new Point(50, 207);
+            layoutContenedorVistas.Location = new Point(50, 197);
             layoutContenedorVistas.Margin = new Padding(0);
             layoutContenedorVistas.Name = "layoutContenedorVistas";
             layoutContenedorVistas.RowCount = 1;
             layoutContenedorVistas.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            layoutContenedorVistas.Size = new Size(1286, 339);
+            layoutContenedorVistas.Size = new Size(1286, 349);
             layoutContenedorVistas.TabIndex = 74;
             // 
             // contenedorVistas
@@ -365,7 +361,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             contenedorVistas.Location = new Point(1, 1);
             contenedorVistas.Margin = new Padding(1, 1, 1, 0);
             contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(1284, 338);
+            contenedorVistas.Size = new Size(1284, 348);
             contenedorVistas.TabIndex = 13;
             // 
             // panelControlesTabla
@@ -584,9 +580,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutFiltroHerramientas.Controls.Add(fieldFiltroBusqueda);
             layoutFiltroHerramientas.Controls.Add(fieldCriterioBusqueda);
             layoutFiltroHerramientas.Controls.Add(btnRegistrar);
-            layoutFiltroHerramientas.Controls.Add(btnExportarInventarioAlmacenes);
             layoutFiltroHerramientas.Dock = DockStyle.Fill;
-            layoutFiltroHerramientas.Location = new Point(50, 110);
+            layoutFiltroHerramientas.Location = new Point(50, 100);
             layoutFiltroHerramientas.Margin = new Padding(0);
             layoutFiltroHerramientas.Name = "layoutFiltroHerramientas";
             layoutFiltroHerramientas.Size = new Size(1286, 45);
@@ -679,26 +674,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Nuevo almacén";
             // 
-            // btnExportarInventarioAlmacenes
-            // 
-            btnExportarInventarioAlmacenes.Animated = true;
-            btnExportarInventarioAlmacenes.BackColor = Color.White;
-            btnExportarInventarioAlmacenes.BorderRadius = 18;
-            btnExportarInventarioAlmacenes.ContextMenuStrip = menuFormatoDocumento;
-            btnExportarInventarioAlmacenes.CustomizableEdges = customizableEdges21;
-            btnExportarInventarioAlmacenes.FillColor = Color.PeachPuff;
-            btnExportarInventarioAlmacenes.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnExportarInventarioAlmacenes.ForeColor = Color.Black;
-            btnExportarInventarioAlmacenes.Image = (Image) resources.GetObject("btnExportarInventarioAlmacenes.Image");
-            btnExportarInventarioAlmacenes.ImageOffset = new Point(-5, 0);
-            btnExportarInventarioAlmacenes.Location = new Point(728, 5);
-            btnExportarInventarioAlmacenes.Margin = new Padding(3, 5, 3, 5);
-            btnExportarInventarioAlmacenes.Name = "btnExportarInventarioAlmacenes";
-            btnExportarInventarioAlmacenes.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            btnExportarInventarioAlmacenes.Size = new Size(204, 35);
-            btnExportarInventarioAlmacenes.TabIndex = 14;
-            btnExportarInventarioAlmacenes.Text = "Exportar inventario";
-            // 
             // menuFormatoDocumento
             // 
             menuFormatoDocumento.BackColor = Color.White;
@@ -779,6 +754,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Guna2Button btnRegistrar;
         private TableLayoutPanel layoutContenedorVistas;
         private Panel contenedorVistas;
+        private Guna2Panel panelEncabezadosTabla;
+        private FlowLayoutPanel layoutFiltroHerramientas;
+        private Label fieldTituloFiltroBusqueda;
+        private Label fieldTituloAcciones;
         private Guna2Panel panelControlesTabla;
         private TableLayoutPanel layoutControlesTabla;
         private Guna2Button btnPaginaAnterior;
@@ -788,10 +767,5 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Guna2Button btnSincronizarDatos;
         private Label fieldPaginaActual;
         private Label fieldPaginasTotales;
-        private Guna2Panel panelEncabezadosTabla;
-        private Guna2Button btnExportarInventarioAlmacenes;
-        private FlowLayoutPanel layoutFiltroHerramientas;
-        private Label fieldTituloFiltroBusqueda;
-        private Label fieldTituloAcciones;
     }
 }

@@ -28,18 +28,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaAlmacen));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaAlmacen));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
+            separador1 = new Guna2Separator();
             layoutVista = new TableLayoutPanel();
+            fieldEstado = new Guna2Button();
             fieldTipo = new Label();
             btnEliminar = new Guna2Button();
             fieldId = new Label();
@@ -52,8 +54,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldDireccion = new Label();
             fieldNombre = new Label();
             fieldCoordenadasGeograficas = new PictureBox();
-            separador1 = new Guna2Separator();
-            fieldEstado = new Guna2Button();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             menuFormatoDocumento.SuspendLayout();
@@ -83,6 +83,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutBase.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             layoutBase.Size = new Size(1241, 42);
             layoutBase.TabIndex = 1;
+            // 
+            // separador1
+            // 
+            separador1.Dock = DockStyle.Fill;
+            separador1.FillColor = Color.Gainsboro;
+            separador1.Location = new Point(1, 38);
+            separador1.Margin = new Padding(1);
+            separador1.Name = "separador1";
+            separador1.Size = new Size(1239, 3);
+            separador1.TabIndex = 73;
             // 
             // layoutVista
             // 
@@ -117,6 +127,34 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.Size = new Size(1241, 37);
             layoutVista.TabIndex = 18;
             // 
+            // fieldEstado
+            // 
+            fieldEstado.AutoRoundedCorners = true;
+            fieldEstado.BorderColor = Color.Gainsboro;
+            fieldEstado.BorderRadius = 11;
+            fieldEstado.BorderThickness = 1;
+            fieldEstado.CustomizableEdges = customizableEdges7;
+            fieldEstado.DisabledState.BorderColor = Color.Gainsboro;
+            fieldEstado.DisabledState.CustomBorderColor = Color.Gainsboro;
+            fieldEstado.DisabledState.FillColor = Color.Gainsboro;
+            fieldEstado.DisabledState.ForeColor = Color.DimGray;
+            fieldEstado.Dock = DockStyle.Left;
+            fieldEstado.Enabled = false;
+            fieldEstado.FillColor = Color.Gainsboro;
+            fieldEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldEstado.ForeColor = Color.DimGray;
+            fieldEstado.HoverState.BorderColor = Color.PeachPuff;
+            fieldEstado.HoverState.FillColor = Color.PeachPuff;
+            fieldEstado.HoverState.ForeColor = Color.Black;
+            fieldEstado.Location = new Point(1016, 6);
+            fieldEstado.Margin = new Padding(6);
+            fieldEstado.Name = "fieldEstado";
+            fieldEstado.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            fieldEstado.Size = new Size(108, 25);
+            fieldEstado.TabIndex = 43;
+            fieldEstado.Text = "● estado";
+            fieldEstado.TextOffset = new Point(0, -1);
+            // 
             // fieldTipo
             // 
             fieldTipo.Dock = DockStyle.Fill;
@@ -140,7 +178,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges3;
+            btnEliminar.CustomizableEdges = customizableEdges17;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -150,7 +188,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(1207, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnEliminar.Size = new Size(31, 31);
             btnEliminar.TabIndex = 11;
             // 
@@ -177,7 +215,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges5;
+            btnEditar.CustomizableEdges = customizableEdges19;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -186,7 +224,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1170, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges20;
             btnEditar.Size = new Size(31, 31);
             btnEditar.TabIndex = 9;
             // 
@@ -215,7 +253,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnExportarDocumentoInventario.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage2");
             btnExportarDocumentoInventario.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
             btnExportarDocumentoInventario.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnExportarDocumentoInventario.CustomizableEdges = customizableEdges7;
+            btnExportarDocumentoInventario.CustomizableEdges = customizableEdges21;
             btnExportarDocumentoInventario.Dock = DockStyle.Fill;
             btnExportarDocumentoInventario.FillColor = Color.White;
             btnExportarDocumentoInventario.Font = new Font("Segoe UI", 9.75F);
@@ -224,7 +262,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnExportarDocumentoInventario.HoverState.FillColor = Color.PeachPuff;
             btnExportarDocumentoInventario.Location = new Point(1133, 3);
             btnExportarDocumentoInventario.Name = "btnExportarDocumentoInventario";
-            btnExportarDocumentoInventario.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnExportarDocumentoInventario.ShadowDecoration.CustomizableEdges = customizableEdges22;
             btnExportarDocumentoInventario.Size = new Size(31, 31);
             btnExportarDocumentoInventario.TabIndex = 16;
             // 
@@ -299,44 +337,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldCoordenadasGeograficas.Size = new Size(40, 34);
             fieldCoordenadasGeograficas.TabIndex = 19;
             fieldCoordenadasGeograficas.TabStop = false;
-            // 
-            // separador1
-            // 
-            separador1.Dock = DockStyle.Fill;
-            separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(1, 38);
-            separador1.Margin = new Padding(1);
-            separador1.Name = "separador1";
-            separador1.Size = new Size(1239, 3);
-            separador1.TabIndex = 73;
-            // 
-            // fieldEstado
-            // 
-            fieldEstado.AutoRoundedCorners = true;
-            fieldEstado.BorderColor = Color.Gainsboro;
-            fieldEstado.BorderRadius = 11;
-            fieldEstado.BorderThickness = 1;
-            fieldEstado.CustomizableEdges = customizableEdges1;
-            fieldEstado.DisabledState.BorderColor = Color.Gainsboro;
-            fieldEstado.DisabledState.CustomBorderColor = Color.Gainsboro;
-            fieldEstado.DisabledState.FillColor = Color.Gainsboro;
-            fieldEstado.DisabledState.ForeColor = Color.DimGray;
-            fieldEstado.Dock = DockStyle.Left;
-            fieldEstado.Enabled = false;
-            fieldEstado.FillColor = Color.Gainsboro;
-            fieldEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            fieldEstado.ForeColor = Color.DimGray;
-            fieldEstado.HoverState.BorderColor = Color.PeachPuff;
-            fieldEstado.HoverState.FillColor = Color.PeachPuff;
-            fieldEstado.HoverState.ForeColor = Color.Black;
-            fieldEstado.Location = new Point(1016, 6);
-            fieldEstado.Margin = new Padding(6);
-            fieldEstado.Name = "fieldEstado";
-            fieldEstado.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            fieldEstado.Size = new Size(108, 25);
-            fieldEstado.TabIndex = 43;
-            fieldEstado.Text = "● estado";
-            fieldEstado.TextOffset = new Point(0, -1);
             // 
             // VistaTuplaAlmacen
             // 

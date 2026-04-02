@@ -23,7 +23,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             EditarEntidad += OnEditarProducto;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
-            AgregadorEventos.Suscribir("HabilitarDeshabilitarProducto", OnHabilitarDeshabilitarProducto);
         }
 
         private void OnRegistrarProducto(object? sender, EventArgs e) {
@@ -52,18 +51,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var docCatalogoProductos = new DocCatalogoComercial();
 
             docCatalogoProductos.GenerarDocumento();
-        }
-
-        private void OnHabilitarDeshabilitarProducto(string obj) {
-            var idProductoSeleccionado = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion)?.Vista.Id ?? 0;
-
-            if (idProductoSeleccionado != 0) {
-                var estado = RepoProducto.Instancia.HabilitarDeshabilitarProducto(idProductoSeleccionado);
-
-                ActualizarResultadosBusqueda();
-
-                CentroNotificaciones.MostrarNotificacion($"El producto ha sido {(estado ? "habilitado" : "deshabilitado")} satisfactoriamente.", TipoNotificacionEnum.Info);
-            }
         }
 
         protected override PresentadorTuplaProducto ObtenerValoresTupla(Producto entidad, List<IEntidadBaseDatos> entidadesExtra) {

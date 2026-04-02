@@ -101,9 +101,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 args.SuppressKeyPress = true;
             };
-            btnExportarInventarioAlmacenes.Click += delegate {
-                btnExportarInventarioAlmacenes.ContextMenuStrip?.Show(btnExportarInventarioAlmacenes, new Point(0, 40));
-            };
             btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.PDF); };
             btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.Excel); };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };

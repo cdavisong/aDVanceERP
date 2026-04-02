@@ -41,10 +41,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void SeleccionarVistaInicial() {
-            if (btnProductos.Visible)
-                btnProductos.PerformClick();
-            else if (btnAlmacenes.Visible)
+            if (btnAlmacenes.Visible)
                 btnAlmacenes.PerformClick();
+            else if (btnProductos.Visible)
+                btnProductos.PerformClick();
             else if (btnTiposClasificacionesProducto.Visible)
                 btnTiposClasificacionesProducto.PerformClick();
             else if (btnUnidadesMedida.Visible)
@@ -57,8 +57,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Restaurar() {
-            btnProductos.Checked = false;
             btnAlmacenes.Checked = false;
+            btnProductos.Checked = false;
             btnTiposClasificacionesProducto.Checked = false;
             btnUnidadesMedida.Checked = false;
         }

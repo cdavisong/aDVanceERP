@@ -4,6 +4,7 @@ using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
+using aDVanceERP.Modulos.Inventario.Properties;
 
 using System.Globalization;
 
@@ -89,7 +90,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public decimal ValorTotalInventario {
             get => decimal.TryParse(fieldValorTotalInventario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorTotal) ? valorTotal : 0m;
             set {
-                layoutValorBrutoInversion.Visible = value > 0;
+                layoutVista.RowStyles[10].Height = value > 0 ? 25 : 0;
+                layoutVista.RowStyles[11].Height = value > 0 ? 35 : 0;
                 fieldValorTotalInventario.Text = value.ToString("N2", CultureInfo.InvariantCulture);
             }
         }
@@ -103,18 +105,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? MostrarUltimaPagina;
         public event EventHandler? SincronizarDatos;
 
-        public event EventHandler? GenerarCatalogoProductos;
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaProducto, string[])>? BuscarEntidades;
 
+        public event EventHandler? GenerarCatalogoProductos;
+
         public async void Inicializar() {
             // Eventos
-            AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarProducto);
-            AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarProducto);
-
-            fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
+           fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
             fieldFiltroCategoriaProducto.SelectedIndexChanged += OnCambioIndiceCategoriaProducto;
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
             fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
@@ -133,9 +133,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 ActualizarValorTotalInventario();
             };
             btnGenerarCatalogo.Click += delegate { GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty); };
-            btnHabilitarDeshabilitarProducto.Click += delegate (object? sender, EventArgs e) {
-                AgregadorEventos.Publicar("HabilitarDeshabilitarProducto", string.Empty);
-            };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);
@@ -166,19 +163,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 ActualizarValorTotalInventario();
             };
             contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
-        }
-
-        private void OcultarMostrarBotonActivarDesactivarProducto(string obj) {
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            try {
-                var visibilidadBoton = Convert.ToBoolean(obj.ToString());
-
-                btnHabilitarDeshabilitarProducto.Visible = visibilidadBoton;
-            } catch (FormatException) {
-                btnHabilitarDeshabilitarProducto.Visible = false;
-            }
         }
 
         private void OnCambioIndiceFiltroAlmacen(object? sender, EventArgs e) {
@@ -242,7 +226,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-            
+
             BringToFront();
             Show();
         }
@@ -251,7 +235,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             PaginaActual = 1;
             PaginasTotales = 1;
 
-            btnHabilitarDeshabilitarProducto.Hide();
             if (fieldFiltroAlmacen.Items.Count > 0)
                 fieldFiltroAlmacen.SelectedIndex = 0;
             if (fieldFiltroBusqueda.Items.Count > 0)
@@ -276,6 +259,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaAnterior.Enabled = PaginaActual > 1;
             btnUltimaPagina.Enabled = PaginaActual < PaginasTotales;
             btnPaginaSiguiente.Enabled = PaginaActual < PaginasTotales;
+
+            // Iconos
+            btnPrimeraPagina.CustomImages.Image = PaginaActual > 1
+                ? Resources.page_first_24px
+                : Resources.page_first_disabled_24px;
+            btnPaginaAnterior.CustomImages.Image = PaginaActual > 1
+                ? Resources.page_previous_24px
+                : Resources.page_previous_disabled_24px;
+            btnUltimaPagina.CustomImages.Image = PaginaActual < PaginasTotales
+                ? Resources.page_last_24px
+                : Resources.page_last_disabled_24px;
+            btnPaginaSiguiente.CustomImages.Image = PaginaActual < PaginasTotales
+                ? Resources.page_next_24px
+                : Resources.page_next_disabled_24px;
         }
     }
 }
