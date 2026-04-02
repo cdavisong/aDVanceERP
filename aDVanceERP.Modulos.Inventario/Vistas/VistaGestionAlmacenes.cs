@@ -1,8 +1,9 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.Inventario.Interfaces;
+using aDVanceERP.Modulos.Inventario.Properties;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
@@ -46,13 +47,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public string[] CriteriosBusqueda {
-            get => new[] { fieldDatoBusqueda.Text };
-            set => fieldDatoBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
-        }
-
-        public bool MostrarBtnImportarInventarioVersat {
-            get => btnImportarInventarioVersat.Visible;
-            set => btnImportarInventarioVersat.Visible = value;
+            get => new[] { fieldCriterioBusqueda.Text };
+            set => fieldCriterioBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
         }
 
         public int TuplasMaximasContenedor {
@@ -78,11 +74,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
-        public bool DispositivoConectado { get; private set; }
-
-        public event EventHandler<FormatoDocumento>? ExportarDocumentoInventario;
-        public event EventHandler<string>? ImportarInventarioVersat;
-
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
         public event EventHandler? MostrarPaginaAnterior;
@@ -95,10 +86,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaAlmacen, string[])>? BuscarEntidades;
 
+        public event EventHandler<FormatoDocumento>? ExportarDocumentoInventario;
+
         public void Inicializar() {
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
+            fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
@@ -113,15 +106,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             };
             btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.PDF); };
             btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.Excel); };
-            btnImportarInventarioVersat.Click += delegate {
-                var resultado = fieldImportarArchivo.ShowDialog(this);
-
-                if (resultado == DialogResult.OK) {
-                    var rutaArchivo = fieldImportarArchivo.FileName;
-
-                    ImportarInventarioVersat?.Invoke(this, rutaArchivo);
-                }
-            };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
@@ -156,11 +140,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
-            fieldDatoBusqueda.Text = string.Empty;
-            fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
+            fieldCriterioBusqueda.Text = string.Empty;
+            fieldCriterioBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
 
-            if (fieldDatoBusqueda.Visible)
-                fieldDatoBusqueda.Focus();
+            if (fieldCriterioBusqueda.Visible)
+                fieldCriterioBusqueda.Focus();
 
             BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
 
@@ -176,15 +160,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda.Items.Clear();
             fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
 
-            if (fieldFiltroBusqueda.Items.Count > 0)
+            if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;
+                fieldCriterioBusqueda.Visible = false;
+            }
 
             // Reasignar el evento SelectedIndexChanged
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
         }
 
         public void Mostrar() {
-            
             BringToFront();
             Show();
         }
@@ -192,10 +177,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Restaurar() {
             PaginaActual = 1;
             PaginasTotales = 1;
-            MostrarBtnImportarInventarioVersat = false;
 
-            if (fieldFiltroBusqueda.Items.Count > 0)
+            if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;
+                fieldCriterioBusqueda.Visible = false;
+            }
         }
 
         public void Ocultar() {
@@ -206,13 +192,25 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // ...
         }
 
-        
-
         private void HabilitarBotonesPaginacion() {
             btnPrimeraPagina.Enabled = PaginaActual > 1;
             btnPaginaAnterior.Enabled = PaginaActual > 1;
             btnUltimaPagina.Enabled = PaginaActual < PaginasTotales;
             btnPaginaSiguiente.Enabled = PaginaActual < PaginasTotales;
+
+            // Iconos
+            btnPrimeraPagina.CustomImages.Image = PaginaActual > 1
+                ? Resources.page_first_24px
+                : Resources.page_first_disabled_24px;
+            btnPaginaAnterior.CustomImages.Image = PaginaActual > 1
+                ? Resources.page_previous_24px
+                : Resources.page_previous_disabled_24px;
+            btnUltimaPagina.CustomImages.Image = PaginaActual < PaginasTotales
+                ? Resources.page_last_24px
+                : Resources.page_last_disabled_24px;
+            btnPaginaSiguiente.CustomImages.Image = PaginaActual < PaginasTotales
+                ? Resources.page_next_24px
+                : Resources.page_next_disabled_24px;
         }
     }
 }

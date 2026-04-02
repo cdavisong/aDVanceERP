@@ -61,7 +61,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutHerramientas = new TableLayoutPanel();
             fieldFiltroCategoriaProducto = new Guna2ComboBox();
             fieldFiltroAlmacen = new Guna2ComboBox();
-            fieldDatoBusqueda = new Guna2TextBox();
+            fieldCriterioBusqueda = new Guna2TextBox();
             fieldFiltroBusqueda = new Guna2ComboBox();
             layoutTituloHerramientas = new TableLayoutPanel();
             fieldTituloFiltroCategoria = new Label();
@@ -202,7 +202,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutHerramientas.Controls.Add(fieldFiltroCategoriaProducto, 1, 0);
             layoutHerramientas.Controls.Add(fieldFiltroAlmacen, 0, 0);
-            layoutHerramientas.Controls.Add(fieldDatoBusqueda, 3, 0);
+            layoutHerramientas.Controls.Add(fieldCriterioBusqueda, 3, 0);
             layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 2, 0);
             layoutHerramientas.Dock = DockStyle.Fill;
             layoutHerramientas.Location = new Point(50, 145);
@@ -261,38 +261,38 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroAlmacen.TabIndex = 28;
             fieldFiltroAlmacen.TextOffset = new Point(10, 0);
             // 
-            // fieldDatoBusqueda
+            // fieldCriterioBusqueda
             // 
-            fieldDatoBusqueda.Animated = true;
-            fieldDatoBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
-            fieldDatoBusqueda.BorderColor = Color.Gainsboro;
-            fieldDatoBusqueda.BorderRadius = 18;
-            fieldDatoBusqueda.Cursor = Cursors.IBeam;
-            fieldDatoBusqueda.CustomizableEdges = customizableEdges5;
-            fieldDatoBusqueda.DefaultText = "";
-            fieldDatoBusqueda.DisabledState.BorderColor = Color.White;
-            fieldDatoBusqueda.DisabledState.ForeColor = Color.DimGray;
-            fieldDatoBusqueda.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldDatoBusqueda.Dock = DockStyle.Fill;
-            fieldDatoBusqueda.FocusedState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.Font = new Font("Segoe UI", 11.25F);
-            fieldDatoBusqueda.ForeColor = Color.Black;
-            fieldDatoBusqueda.HoverState.BorderColor = Color.SandyBrown;
-            fieldDatoBusqueda.IconLeft = (Image) resources.GetObject("fieldDatoBusqueda.IconLeft");
-            fieldDatoBusqueda.IconLeftOffset = new Point(10, 1);
-            fieldDatoBusqueda.IconRightOffset = new Point(10, 0);
-            fieldDatoBusqueda.Location = new Point(825, 5);
-            fieldDatoBusqueda.Margin = new Padding(5);
-            fieldDatoBusqueda.Name = "fieldDatoBusqueda";
-            fieldDatoBusqueda.PasswordChar = '\0';
-            fieldDatoBusqueda.PlaceholderForeColor = Color.DimGray;
-            fieldDatoBusqueda.PlaceholderText = "Criterio de búsqueda";
-            fieldDatoBusqueda.SelectedText = "";
-            fieldDatoBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            fieldDatoBusqueda.Size = new Size(320, 35);
-            fieldDatoBusqueda.TabIndex = 9;
-            fieldDatoBusqueda.TextOffset = new Point(5, 0);
-            fieldDatoBusqueda.Visible = false;
+            fieldCriterioBusqueda.Animated = true;
+            fieldCriterioBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
+            fieldCriterioBusqueda.BorderColor = Color.Gainsboro;
+            fieldCriterioBusqueda.BorderRadius = 18;
+            fieldCriterioBusqueda.Cursor = Cursors.IBeam;
+            fieldCriterioBusqueda.CustomizableEdges = customizableEdges5;
+            fieldCriterioBusqueda.DefaultText = "";
+            fieldCriterioBusqueda.DisabledState.BorderColor = Color.White;
+            fieldCriterioBusqueda.DisabledState.ForeColor = Color.DimGray;
+            fieldCriterioBusqueda.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldCriterioBusqueda.Dock = DockStyle.Fill;
+            fieldCriterioBusqueda.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCriterioBusqueda.Font = new Font("Segoe UI", 11.25F);
+            fieldCriterioBusqueda.ForeColor = Color.Black;
+            fieldCriterioBusqueda.HoverState.BorderColor = Color.SandyBrown;
+            fieldCriterioBusqueda.IconLeft = (Image) resources.GetObject("fieldCriterioBusqueda.IconLeft");
+            fieldCriterioBusqueda.IconLeftOffset = new Point(10, 1);
+            fieldCriterioBusqueda.IconRightOffset = new Point(10, 0);
+            fieldCriterioBusqueda.Location = new Point(825, 5);
+            fieldCriterioBusqueda.Margin = new Padding(5);
+            fieldCriterioBusqueda.Name = "fieldCriterioBusqueda";
+            fieldCriterioBusqueda.PasswordChar = '\0';
+            fieldCriterioBusqueda.PlaceholderForeColor = Color.DimGray;
+            fieldCriterioBusqueda.PlaceholderText = "Criterio de búsqueda";
+            fieldCriterioBusqueda.SelectedText = "";
+            fieldCriterioBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldCriterioBusqueda.Size = new Size(320, 35);
+            fieldCriterioBusqueda.TabIndex = 9;
+            fieldCriterioBusqueda.TextOffset = new Point(5, 0);
+            fieldCriterioBusqueda.Visible = false;
             // 
             // fieldFiltroBusqueda
             // 
@@ -989,7 +989,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Label fieldTituloFiltrosBusqueda;
         private TableLayoutPanel layoutHerramientas;
         private Guna2ComboBox fieldFiltroAlmacen;
-        private Guna2TextBox fieldDatoBusqueda;
+        private Guna2TextBox fieldCriterioBusqueda;
         private Guna2ComboBox fieldFiltroBusqueda;
         private TableLayoutPanel layoutSeparadores;
         private Guna2Separator separador2;

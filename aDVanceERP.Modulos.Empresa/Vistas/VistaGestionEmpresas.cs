@@ -47,8 +47,8 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
         }
 
         public string[] CriteriosBusqueda {
-            get => new[] { fieldDatoBusqueda.Text };
-            set => fieldDatoBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
+            get => new[] { fieldCriterioBusqueda.Text };
+            set => fieldCriterioBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
         }
 
         public int TuplasMaximasContenedor {
@@ -89,7 +89,7 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
         public void Inicializar() {
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldDatoBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+            fieldCriterioBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
@@ -129,11 +129,11 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
         }
 
         private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
-            fieldDatoBusqueda.Text = string.Empty;
-            fieldDatoBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
+            fieldCriterioBusqueda.Text = string.Empty;
+            fieldCriterioBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
 
-            if (fieldDatoBusqueda.Visible)
-                fieldDatoBusqueda.Focus();
+            if (fieldCriterioBusqueda.Visible)
+                fieldCriterioBusqueda.Focus();
 
             BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.Empty }));
 
@@ -149,8 +149,10 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
             fieldFiltroBusqueda.Items.Clear();
             fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
 
-            if (fieldFiltroBusqueda.Items.Count > 0)
+            if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;
+                fieldCriterioBusqueda.Visible = false;
+            }
 
             // Reasignar el evento SelectedIndexChanged
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
@@ -165,7 +167,10 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
             PaginaActual = 1;
             PaginasTotales = 1;
 
-            fieldFiltroBusqueda.SelectedIndex = 0;
+            if (fieldFiltroBusqueda.Items.Count > 0) {
+                fieldFiltroBusqueda.SelectedIndex = 0;
+                fieldCriterioBusqueda.Visible = false;
+            }
         }
 
         public void Ocultar() {

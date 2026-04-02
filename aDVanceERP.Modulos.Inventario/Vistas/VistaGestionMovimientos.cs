@@ -47,8 +47,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public string[] CriteriosBusqueda {
-            get => new[] { fieldDatoBusqueda.Text };
-            set => fieldDatoBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
+            get => new[] { fieldCriterioBusqueda.Text };
+            set => fieldCriterioBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
         }
 
         public int TuplasMaximasContenedor {
@@ -90,7 +90,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Inicializar() {
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldDatoBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
+            fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
@@ -100,8 +100,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 args.SuppressKeyPress = true;
             };
-            fieldDatoBusquedaFecha.ValueChanged += delegate (object? sender, EventArgs e) {
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldDatoBusquedaFecha.Value.ToString("yyyy-MM-dd") }));
+            fieldCriterioBusquedaFecha.ValueChanged += delegate (object? sender, EventArgs e) {
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldCriterioBusquedaFecha.Value.ToString("yyyy-MM-dd") }));
             };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
             btnAuditarInventarioPdf.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.PDF)); };
@@ -136,15 +136,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
             if (FiltroBusqueda == FiltroBusquedaMovimiento.Fecha) {
-                fieldDatoBusquedaFecha.Value = DateTime.Now;
-                fieldDatoBusquedaFecha.Focus();
+                fieldCriterioBusquedaFecha.Value = DateTime.Now;
+                fieldCriterioBusquedaFecha.Focus();
             } else {
-                fieldDatoBusqueda.Text = string.Empty;
-                fieldDatoBusqueda.Focus();
+                fieldCriterioBusqueda.Text = string.Empty;
+                fieldCriterioBusqueda.Focus();
             }
 
-            fieldDatoBusqueda.Visible = FiltroBusqueda != FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
-            fieldDatoBusquedaFecha.Visible = FiltroBusqueda == FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
+            fieldCriterioBusqueda.Visible = FiltroBusqueda != FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
+            fieldCriterioBusquedaFecha.Visible = FiltroBusqueda == FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
 
             if (FiltroBusqueda != FiltroBusquedaMovimiento.Fecha)
                 BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));

@@ -89,8 +89,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public bool Estado { 
             get => fieldEstado.Text.Equals("Activo");
             set {
-                fieldEstado.Text = value ? "Activo" : "Inactivo";
-                fieldEstado.ForeColor = value ? Color.FromArgb(46, 204, 113) : Color.FromArgb(231, 76, 60);
+                var (colorFondo, colorFuente) = ObtenerColorEstado(value);
+
+                fieldEstado.Text = value ? "● Activo" : "● Inactivo";
+                fieldEstado.DisabledState.BorderColor = colorFondo;
+                fieldEstado.DisabledState.FillColor = colorFondo;
+                fieldEstado.DisabledState.ForeColor = colorFuente;
             }
         }
 
@@ -110,6 +114,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Mostrar() {
             BringToFront();
             Show();
+        }
+
+        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(bool estado) {
+            return estado
+                ? (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50))  // Verde
+                : (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)); // Rojo
         }
 
         public void Restaurar() {

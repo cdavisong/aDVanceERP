@@ -45,8 +45,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         }
 
         public string[] CriteriosBusqueda {
-            get => [fieldDatoBusqueda.Text];
-            set => fieldDatoBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
+            get => [fieldCriterioBusqueda.Text];
+            set => fieldCriterioBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
         }
 
         public int TuplasMaximasContenedor {
