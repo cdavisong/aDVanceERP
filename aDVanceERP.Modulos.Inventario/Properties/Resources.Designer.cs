@@ -213,6 +213,26 @@ namespace aDVanceERP.Modulos.Inventario.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sort_down_green_16px {
+            get {
+                object obj = ResourceManager.GetObject("sort_down_green_16px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sort_up_16px {
+            get {
+                object obj = ResourceManager.GetObject("sort_up_16px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap transfer_20px {
             get {
                 object obj = ResourceManager.GetObject("transfer_20px", resourceCulture);

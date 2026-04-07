@@ -131,9 +131,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     {consultaComun}
                     WHERE id_movimiento = @id_movimiento;
                     """,
-                FiltroBusquedaMovimiento.NombreProducto => $"""
+                FiltroBusquedaMovimiento.IdProducto => $"""
                     {consultaComun}
-                    WHERE LOWER(p.nombre) LIKE LOWER(@nombre_producto);
+                    WHERE m.id_producto = @id_producto;
                     """,
                 FiltroBusquedaMovimiento.AlmacenOrigen => $"""
                     {consultaComun}
@@ -160,8 +160,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 FiltroBusquedaMovimiento.Id => new Dictionary<string, object> {
                     { "@id_movimiento", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
                 },
-                FiltroBusquedaMovimiento.NombreProducto => new Dictionary<string, object> {
-                    { "@nombre_producto", $"%{criterio}%" }
+                FiltroBusquedaMovimiento.IdProducto => new Dictionary<string, object> {
+                    { "@id_producto", criterio }
                 },
                 FiltroBusquedaMovimiento.AlmacenOrigen => new Dictionary<string, object> {
                     { "@nombre_almacen_origen", $"%{criterio}%" }

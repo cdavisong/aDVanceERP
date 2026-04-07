@@ -226,7 +226,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
-
             BringToFront();
             Show();
         }
@@ -259,20 +258,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaAnterior.Enabled = PaginaActual > 1;
             btnUltimaPagina.Enabled = PaginaActual < PaginasTotales;
             btnPaginaSiguiente.Enabled = PaginaActual < PaginasTotales;
-
-            // Iconos
-            btnPrimeraPagina.CustomImages.Image = PaginaActual > 1
-                ? Resources.page_first_24px
-                : Resources.page_first_disabled_24px;
-            btnPaginaAnterior.CustomImages.Image = PaginaActual > 1
-                ? Resources.page_previous_24px
-                : Resources.page_previous_disabled_24px;
-            btnUltimaPagina.CustomImages.Image = PaginaActual < PaginasTotales
-                ? Resources.page_last_24px
-                : Resources.page_last_disabled_24px;
-            btnPaginaSiguiente.CustomImages.Image = PaginaActual < PaginasTotales
-                ? Resources.page_next_24px
-                : Resources.page_next_disabled_24px;
         }
     }
 }

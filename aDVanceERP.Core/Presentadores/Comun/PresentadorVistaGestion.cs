@@ -169,7 +169,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                 TipoMensaje.Advertencia,
                 BotonesMensaje.ContinuarAbortar);
 
-            if (respuesta != DialogResult.OK) 
+            if (respuesta != DialogResult.Yes) 
                 return;
 
             try {

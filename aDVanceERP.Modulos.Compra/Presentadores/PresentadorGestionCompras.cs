@@ -102,7 +102,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                         // Completar los movimientos pendientes
                         var producto = repoProducto.ObtenerPorId(detalleCompra.IdProducto);
                         var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.NombreProducto, producto!.Nombre).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Completado;
@@ -138,7 +138,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     foreach (var detalleCompra in detallesCompra) {
                         var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompra.IdProducto);
                         var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.NombreProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Cancelado;

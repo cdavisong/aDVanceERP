@@ -80,6 +80,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             } catch {
                 Vista.Imagen = null;
             }
+
             Vista.Categoria = entidad.Categoria;
             Vista.NombreProducto = entidad.Nombre;
             Vista.Codigo = entidad.Codigo;

@@ -80,9 +80,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldCantidadMovida.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public string NombreTipoMovimiento { 
+        public string NombreTipoMovimiento {
             get => fieldTipoMovimiento.SelectedItem?.ToString() ?? string.Empty;
-            set => fieldTipoMovimiento.SelectedItem = value;
+            set {
+                var idx = fieldTipoMovimiento.FindStringExact(value);
+
+                fieldTipoMovimiento.SelectedIndex = idx; // -1 si no encontró, explícito y seguro
+            }
         }
 
         public string Notas {
@@ -193,7 +197,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldNombreProducto.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        public void CargarNombresAlmacenes(object[] nombresAlmacenes) {
+        public void CargarNombresAlmacenes(string[] nombresAlmacenes) {
             fieldAlmacenOrigen.Items.Clear();
             fieldAlmacenOrigen.Items.Add("Ninguno");
             fieldAlmacenOrigen.Items.AddRange(nombresAlmacenes);

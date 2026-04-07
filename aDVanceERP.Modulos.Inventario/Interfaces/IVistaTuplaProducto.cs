@@ -6,13 +6,14 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string NombreAlmacen { get; set; }
         string Codigo { get; set; }
         DateTime FechaUltimoMovimiento { get; set; }
-        string NombreProducto { get; set; }
-        string Descripcion { get; set; }
+        string NombreDescripcion { get; set; }
         decimal CostoUnitario { get; set; }
         decimal PrecioVentaBase { get; set; }
-        string UnidadMedida { get; set; }
+        int Presentaciones { get; set; }
         decimal Stock { get; set; }
-
+        string UnidadMedida { get; set; }
+        
+        event EventHandler? GestionarPresentaciones;
         event EventHandler? MovimientoPositivoStock;
         event EventHandler? MovimientoNegativoStock;
     }

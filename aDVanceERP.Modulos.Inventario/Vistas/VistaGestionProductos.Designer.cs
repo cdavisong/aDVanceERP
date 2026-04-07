@@ -68,7 +68,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloPrecioCesion = new Label();
             fieldTituloCantidad = new Label();
             fieldTituloUnidadMedida = new Label();
-            fieldTituloNombre = new Label();
             fieldTituloCodigo = new Label();
             fieldTituloPrecioAdquisicion = new Label();
             layoutTitulo = new TableLayoutPanel();
@@ -98,6 +97,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda = new Guna2ComboBox();
             fieldCriterioBusqueda = new Guna2TextBox();
             btnRegistrar = new Guna2Button();
+            fieldTituloNombre = new Label();
             layoutVista.SuspendLayout();
             layoutTitulosTotales.SuspendLayout();
             panelEncabezadosTabla.SuspendLayout();
@@ -217,23 +217,23 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 148F));
+            layoutEncabezadosTabla.Controls.Add(fieldTituloNombre, 6, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloAcciones, 9, 0);
             layoutEncabezadosTabla.Controls.Add(fieldFechaUlimoMovimiento, 2, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloId, 0, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloDescripcion, 4, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloPrecioCesion, 6, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloDescripcion, 3, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloPrecioCesion, 5, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloCantidad, 7, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloUnidadMedida, 8, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloNombre, 3, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloCodigo, 1, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloPrecioAdquisicion, 5, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloPrecioAdquisicion, 4, 0);
             layoutEncabezadosTabla.Dock = DockStyle.Fill;
             layoutEncabezadosTabla.Location = new Point(0, 0);
             layoutEncabezadosTabla.Margin = new Padding(1);
@@ -249,10 +249,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloAcciones.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloAcciones.ForeColor = Color.DimGray;
             fieldTituloAcciones.ImeMode = ImeMode.NoControl;
-            fieldTituloAcciones.Location = new Point(1168, 1);
+            fieldTituloAcciones.Location = new Point(1169, 1);
             fieldTituloAcciones.Margin = new Padding(1);
             fieldTituloAcciones.Name = "fieldTituloAcciones";
-            fieldTituloAcciones.Size = new Size(147, 40);
+            fieldTituloAcciones.Size = new Size(146, 40);
             fieldTituloAcciones.TabIndex = 21;
             fieldTituloAcciones.Text = "ACCIONES";
             fieldTituloAcciones.TextAlign = ContentAlignment.MiddleLeft;
@@ -291,12 +291,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloDescripcion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloDescripcion.ForeColor = Color.DimGray;
             fieldTituloDescripcion.ImeMode = ImeMode.NoControl;
-            fieldTituloDescripcion.Location = new Point(484, 1);
+            fieldTituloDescripcion.Location = new Point(301, 1);
             fieldTituloDescripcion.Margin = new Padding(1);
             fieldTituloDescripcion.Name = "fieldTituloDescripcion";
-            fieldTituloDescripcion.Size = new Size(272, 40);
+            fieldTituloDescripcion.Size = new Size(276, 40);
             fieldTituloDescripcion.TabIndex = 16;
-            fieldTituloDescripcion.Text = "DESCRIPCIÓN";
+            fieldTituloDescripcion.Text = "NOMBRE / DESCRIPCIÓN";
             fieldTituloDescripcion.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloPrecioCesion
@@ -305,7 +305,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloPrecioCesion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloPrecioCesion.ForeColor = Color.DimGray;
             fieldTituloPrecioCesion.ImeMode = ImeMode.NoControl;
-            fieldTituloPrecioCesion.Location = new Point(868, 1);
+            fieldTituloPrecioCesion.Location = new Point(689, 1);
             fieldTituloPrecioCesion.Margin = new Padding(1);
             fieldTituloPrecioCesion.Name = "fieldTituloPrecioCesion";
             fieldTituloPrecioCesion.Size = new Size(108, 40);
@@ -319,7 +319,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloCantidad.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloCantidad.ForeColor = Color.DimGray;
             fieldTituloCantidad.ImeMode = ImeMode.NoControl;
-            fieldTituloCantidad.Location = new Point(978, 1);
+            fieldTituloCantidad.Location = new Point(979, 1);
             fieldTituloCantidad.Margin = new Padding(1);
             fieldTituloCantidad.Name = "fieldTituloCantidad";
             fieldTituloCantidad.Size = new Size(108, 40);
@@ -333,27 +333,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloUnidadMedida.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloUnidadMedida.ForeColor = Color.DimGray;
             fieldTituloUnidadMedida.ImeMode = ImeMode.NoControl;
-            fieldTituloUnidadMedida.Location = new Point(1088, 1);
+            fieldTituloUnidadMedida.Location = new Point(1089, 1);
             fieldTituloUnidadMedida.Margin = new Padding(1);
             fieldTituloUnidadMedida.Name = "fieldTituloUnidadMedida";
             fieldTituloUnidadMedida.Size = new Size(78, 40);
             fieldTituloUnidadMedida.TabIndex = 20;
             fieldTituloUnidadMedida.Text = "U.M.";
             fieldTituloUnidadMedida.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloNombre
-            // 
-            fieldTituloNombre.Dock = DockStyle.Fill;
-            fieldTituloNombre.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            fieldTituloNombre.ForeColor = Color.DimGray;
-            fieldTituloNombre.ImeMode = ImeMode.NoControl;
-            fieldTituloNombre.Location = new Point(301, 1);
-            fieldTituloNombre.Margin = new Padding(1);
-            fieldTituloNombre.Name = "fieldTituloNombre";
-            fieldTituloNombre.Size = new Size(181, 40);
-            fieldTituloNombre.TabIndex = 4;
-            fieldTituloNombre.Text = "NOMBRE";
-            fieldTituloNombre.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldTituloCodigo
             // 
@@ -375,7 +361,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloPrecioAdquisicion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloPrecioAdquisicion.ForeColor = Color.DimGray;
             fieldTituloPrecioAdquisicion.ImeMode = ImeMode.NoControl;
-            fieldTituloPrecioAdquisicion.Location = new Point(758, 1);
+            fieldTituloPrecioAdquisicion.Location = new Point(579, 1);
             fieldTituloPrecioAdquisicion.Margin = new Padding(1);
             fieldTituloPrecioAdquisicion.Name = "fieldTituloPrecioAdquisicion";
             fieldTituloPrecioAdquisicion.Size = new Size(108, 40);
@@ -404,7 +390,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnGenerarCatalogo.Animated = true;
             btnGenerarCatalogo.AutoRoundedCorners = true;
             btnGenerarCatalogo.BackColor = Color.White;
-            btnGenerarCatalogo.BorderColor = Color.Gray;
             btnGenerarCatalogo.BorderRadius = 18;
             btnGenerarCatalogo.BorderThickness = 1;
             btnGenerarCatalogo.CustomizableEdges = customizableEdges3;
@@ -522,17 +507,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
             btnPaginaAnterior.Cursor = Cursors.Hand;
-            btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaAnterior.CustomizableEdges = customizableEdges5;
             btnPaginaAnterior.DisabledState.FillColor = Color.White;
+            btnPaginaAnterior.DisabledState.Image = Properties.Resources.page_previous_disabled_24px;
             btnPaginaAnterior.Dock = DockStyle.Fill;
             btnPaginaAnterior.FillColor = Color.White;
             btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
             btnPaginaAnterior.ForeColor = Color.White;
             btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
+            btnPaginaAnterior.Image = Properties.Resources.page_previous_24px;
             btnPaginaAnterior.ImageSize = new Size(24, 24);
             btnPaginaAnterior.Location = new Point(46, 1);
             btnPaginaAnterior.Margin = new Padding(1);
@@ -548,17 +534,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
             btnPrimeraPagina.Cursor = Cursors.Hand;
-            btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
             btnPrimeraPagina.CustomizableEdges = customizableEdges7;
             btnPrimeraPagina.DisabledState.FillColor = Color.White;
+            btnPrimeraPagina.DisabledState.Image = Properties.Resources.page_first_disabled_24px;
             btnPrimeraPagina.Dock = DockStyle.Fill;
             btnPrimeraPagina.FillColor = Color.White;
             btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
             btnPrimeraPagina.ForeColor = Color.White;
             btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
+            btnPrimeraPagina.Image = Properties.Resources.page_first_24px;
             btnPrimeraPagina.ImageSize = new Size(24, 24);
             btnPrimeraPagina.Location = new Point(11, 1);
             btnPrimeraPagina.Margin = new Padding(1);
@@ -566,6 +553,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnPrimeraPagina.Size = new Size(33, 40);
             btnPrimeraPagina.TabIndex = 0;
+            btnPrimeraPagina.TextAlign = HorizontalAlignment.Left;
             // 
             // btnPaginaSiguiente
             // 
@@ -574,17 +562,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
             btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
             btnPaginaSiguiente.Cursor = Cursors.Hand;
-            btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
             btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.CustomizableEdges = customizableEdges9;
             btnPaginaSiguiente.DisabledState.FillColor = Color.White;
+            btnPaginaSiguiente.DisabledState.Image = Properties.Resources.page_next_disabled_24px;
             btnPaginaSiguiente.Dock = DockStyle.Fill;
             btnPaginaSiguiente.FillColor = Color.White;
             btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
             btnPaginaSiguiente.ForeColor = Color.White;
             btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
+            btnPaginaSiguiente.Image = Properties.Resources.page_next_24px;
             btnPaginaSiguiente.ImageSize = new Size(24, 24);
             btnPaginaSiguiente.Location = new Point(321, 1);
             btnPaginaSiguiente.Margin = new Padding(1);
@@ -600,17 +589,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
             btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
             btnUltimaPagina.Cursor = Cursors.Hand;
-            btnUltimaPagina.CustomImages.Image = Properties.Resources.page_last_24px;
             btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
             btnUltimaPagina.CustomizableEdges = customizableEdges11;
             btnUltimaPagina.DisabledState.FillColor = Color.White;
+            btnUltimaPagina.DisabledState.Image = Properties.Resources.page_last_disabled_24px;
             btnUltimaPagina.Dock = DockStyle.Fill;
             btnUltimaPagina.FillColor = Color.White;
             btnUltimaPagina.Font = new Font("Segoe UI", 9F);
             btnUltimaPagina.ForeColor = Color.White;
             btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
             btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
+            btnUltimaPagina.Image = Properties.Resources.page_last_24px;
             btnUltimaPagina.ImageSize = new Size(24, 24);
             btnUltimaPagina.Location = new Point(356, 1);
             btnUltimaPagina.Margin = new Padding(1);
@@ -626,7 +616,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
             btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
             btnSincronizarDatos.Cursor = Cursors.Hand;
-            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
+            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
             btnSincronizarDatos.CustomizableEdges = customizableEdges13;
@@ -903,6 +893,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Nuevo producto";
             // 
+            // fieldTituloNombre
+            // 
+            fieldTituloNombre.Dock = DockStyle.Fill;
+            fieldTituloNombre.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloNombre.ForeColor = Color.DimGray;
+            fieldTituloNombre.ImeMode = ImeMode.NoControl;
+            fieldTituloNombre.Location = new Point(799, 1);
+            fieldTituloNombre.Margin = new Padding(1);
+            fieldTituloNombre.Name = "fieldTituloNombre";
+            fieldTituloNombre.Size = new Size(178, 40);
+            fieldTituloNombre.TabIndex = 22;
+            fieldTituloNombre.Text = "PRESENTACIONES";
+            fieldTituloNombre.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // VistaGestionProductos
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -944,7 +948,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private TableLayoutPanel layoutEncabezadosTabla;
         private Label fieldTituloCodigo;
         private Label fieldTituloId;
-        private Label fieldTituloNombre;
         private Label fieldTituloDescripcion;
         private Label fieldTituloPrecioAdquisicion;
         private Label fieldTituloPrecioCesion;
@@ -981,5 +984,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Label fieldTotalTransferencias;
         private Label fieldTotalEfectivo;
         private Guna2TextBox fieldCriterioBusqueda;
+        private Label fieldTituloNombre;
     }
 }

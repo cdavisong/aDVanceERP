@@ -1,19 +1,24 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
-using aDVanceERP.Modulos.Inventario.Properties;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
-    public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
+    public partial class VistaGestionVentaPresentacion : Form, IVistaGestionVentaPresentacion {
+
+        private FiltroBusquedaPrecioPresentacion _filtroBusqueda;
+        private string[] _criterioBusqueda;
+        private PrecioPresentacion _precioPresentacionSeleccionado = null!;
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
 
-        public VistaGestionAlmacenes() {
+        public VistaGestionVentaPresentacion() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaGestionAlmacenes);
+            NombreVista = nameof(VistaGestionVentaPresentacion);
             PanelCentral = new RepoVistaBase(contenedorVistas);
 
             Inicializar();
@@ -39,16 +44,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => Size = value;
         }
 
-        public FiltroBusquedaAlmacen FiltroBusqueda {
-            get => fieldFiltroBusqueda.SelectedIndex >= 0
-                ? (FiltroBusquedaAlmacen) fieldFiltroBusqueda.SelectedIndex
-                : default;
-            set => fieldFiltroBusqueda.SelectedIndex = (int) value;
+        public FiltroBusquedaPrecioPresentacion FiltroBusqueda {
+            get => FiltroBusquedaPrecioPresentacion.IdProducto;
+            set => _filtroBusqueda = value;
         }
 
         public string[] CriteriosBusqueda {
-            get => new[] { fieldCriterioBusqueda.Text };
-            set => fieldCriterioBusqueda.Text = value.Length > 0 ? value[0] : string.Empty;
+            get => [IdProducto.ToString()];
+            set => _criterioBusqueda = value;
         }
 
         public int TuplasMaximasContenedor {
@@ -74,6 +77,33 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public long IdProducto { get; set; }
+
+        public UnidadMedida? UnidadMedida {
+            get => (UnidadMedida?) fieldUnidadMedida.SelectedItem;
+            set => fieldUnidadMedida.SelectedItem = value;
+        }
+
+        public decimal Cantidad {
+            get => decimal.TryParse(fieldCantidadPresentacion.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+                        out var value)
+                        ? value
+                        : 0m;
+            set => fieldCantidadPresentacion.Text = value > 0
+                    ? value.ToString("N1")
+                    : string.Empty;
+        }
+
+        public decimal PrecioVenta {
+            get => decimal.TryParse(fieldPrecioVentaPresentacion.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+                        out var value)
+                        ? value
+                        : 0m;
+            set => fieldPrecioVentaPresentacion.Text = value > 0
+                    ? value.ToString("N2")
+                    : string.Empty;
+        }
+
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
         public event EventHandler? MostrarPaginaAnterior;
@@ -84,26 +114,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
-        public event EventHandler<(FiltroBusquedaAlmacen, string[])>? BuscarEntidades;
-
-        public event EventHandler<FormatoDocumento>? ExportarDocumentoInventario;
+        public event EventHandler<(FiltroBusquedaPrecioPresentacion, string[])>? BuscarEntidades;
 
         public void Inicializar() {
             // Eventos
-            fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
-                if (args.KeyCode != Keys.Enter)
-                    return;
-
-                if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, CriteriosBusqueda));
-                else SincronizarDatos?.Invoke(sender, args);
-
-                args.SuppressKeyPress = true;
+            btnRegistrar.Click += delegate (object? sender, EventArgs e) {
+                RegistrarEntidad?.Invoke(new PrecioPresentacion() {
+                    Id = 0,
+                    IdProducto = IdProducto,
+                    IdUnidadMedida = UnidadMedida?.Id ?? throw new ArgumentNullException(nameof(UnidadMedida)),
+                    Cantidad = Cantidad,
+                    PrecioVenta = PrecioVenta,
+                    Activo = true
+                }, e);
             };
-            btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.PDF); };
-            btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.Excel); };
-            btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);
@@ -134,36 +158,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             contenedorVistas.Resize += delegate {
                 AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty);
             };
-        }
-
-        private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
-            fieldCriterioBusqueda.Text = string.Empty;
-            fieldCriterioBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
-
-            if (fieldCriterioBusqueda.Visible)
-                fieldCriterioBusqueda.Focus();
-
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
-
-            // Ir a la primera página al cambiar el criterio de búsqueda
-            PaginaActual = 1;
-            HabilitarBotonesPaginacion();
+            btnSalir.Click += delegate {
+                Ocultar();
+            };
         }
 
         public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
-            // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
-            fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
-
-            fieldFiltroBusqueda.Items.Clear();
-            fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
-
-            if (fieldFiltroBusqueda.Items.Count > 0) {
-                fieldFiltroBusqueda.SelectedIndex = 0;
-                fieldCriterioBusqueda.Visible = false;
-            }
-
-            // Reasignar el evento SelectedIndexChanged
-            fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
+            // ...
         }
 
         public void Mostrar() {
@@ -172,13 +173,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Restaurar() {
+            fieldTituloDescripcion.Text = "PRECIO POR [u]";
             PaginaActual = 1;
             PaginasTotales = 1;
-
-            if (fieldFiltroBusqueda.Items.Count > 0) {
-                fieldFiltroBusqueda.SelectedIndex = 0;
-                fieldCriterioBusqueda.Visible = false;
-            }
         }
 
         public void Ocultar() {
@@ -194,6 +191,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaAnterior.Enabled = PaginaActual > 1;
             btnUltimaPagina.Enabled = PaginaActual < PaginasTotales;
             btnPaginaSiguiente.Enabled = PaginaActual < PaginasTotales;
+        }
+
+        public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
+            fieldUnidadMedida.Items.Clear();
+            fieldUnidadMedida.Items.AddRange(unidadesMedida);
+            fieldUnidadMedida.SelectedIndex = unidadesMedida.Length > 0 ? 0 : -1;
+        }
+
+        public void CargarDatosProducto(Producto producto) {
+            var unidadMedidaBase = RepoUnidadMedida.Instancia.ObtenerPorId(producto.IdUnidadMedida)!;
+
+            IdProducto = producto.Id;
+            fieldNombreProducto.Text = producto.Nombre;
+            fieldAbreviaturaUmCantPresentacion.Text = unidadMedidaBase.Abreviatura;
+            fieldTituloDescripcion.Text = fieldTituloDescripcion.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
         }
     }
 }

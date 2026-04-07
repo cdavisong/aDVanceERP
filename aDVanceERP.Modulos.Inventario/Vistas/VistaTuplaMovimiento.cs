@@ -1,7 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
 

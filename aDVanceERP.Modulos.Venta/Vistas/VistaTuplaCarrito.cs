@@ -5,6 +5,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaCarrito : Form, IVistaTuplaCarrito {
+        private PrecioPresentacion[] _presentacionesVenta = null!;
         private UnidadMedida? _unidadMedida = null!;
 
         public VistaTuplaCarrito() {
@@ -78,8 +79,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _unidadMedida;
             set {
                 _unidadMedida = value;
+                                
+                var (borde, fondo, fuente) = ObtenerColorUnidadMedida(_presentacionesVenta != null && _presentacionesVenta.Length > 0);
 
                 fieldUnidadMedida.Text = value?.Abreviatura ?? "u";
+                fieldUnidadMedida.BorderColor = borde;
+                fieldUnidadMedida.FillColor = fondo;
+                fieldUnidadMedida.ForeColor = fuente;
             }
         }
 
@@ -109,6 +115,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Cerrar() {
             Dispose();
+        }
+
+        private (Color borde, Color fondo, Color fuente) ObtenerColorUnidadMedida(bool estado) {
+            return estado
+                ? (Color.FromArgb(253, 224, 196), Color.FromArgb(255, 248, 242), Color.FromArgb(232, 149, 74))  // Naranja
+                : (Color.FromArgb(228, 228, 228), Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136));// Gris
         }
     }
 }

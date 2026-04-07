@@ -183,7 +183,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldCriterioBusqueda.IconLeft = (Image) resources.GetObject("fieldCriterioBusqueda.IconLeft");
             fieldCriterioBusqueda.IconLeftOffset = new Point(10, 1);
             fieldCriterioBusqueda.IconRightOffset = new Point(10, 0);
-            fieldCriterioBusqueda.Location = new Point(305, 5);
+            fieldCriterioBusqueda.Location = new Point(255, 5);
             fieldCriterioBusqueda.Margin = new Padding(5);
             fieldCriterioBusqueda.Name = "fieldCriterioBusqueda";
             fieldCriterioBusqueda.PasswordChar = '\0';
@@ -191,7 +191,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldCriterioBusqueda.PlaceholderText = "Criterio de búsqueda";
             fieldCriterioBusqueda.SelectedText = "";
             fieldCriterioBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            fieldCriterioBusqueda.Size = new Size(320, 35);
+            fieldCriterioBusqueda.Size = new Size(240, 35);
             fieldCriterioBusqueda.TabIndex = 9;
             fieldCriterioBusqueda.TextOffset = new Point(5, 0);
             fieldCriterioBusqueda.Visible = false;
@@ -215,7 +215,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda.Margin = new Padding(5);
             fieldFiltroBusqueda.Name = "fieldFiltroBusqueda";
             fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            fieldFiltroBusqueda.Size = new Size(290, 35);
+            fieldFiltroBusqueda.Size = new Size(240, 35);
             fieldFiltroBusqueda.TabIndex = 27;
             fieldFiltroBusqueda.TextOffset = new Point(10, 0);
             // 
@@ -247,7 +247,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloFiltrosBusqueda.Location = new Point(15, 5);
             fieldTituloFiltrosBusqueda.Margin = new Padding(15, 5, 3, 3);
             fieldTituloFiltrosBusqueda.Name = "fieldTituloFiltrosBusqueda";
-            fieldTituloFiltrosBusqueda.Size = new Size(282, 27);
+            fieldTituloFiltrosBusqueda.Size = new Size(232, 27);
             fieldTituloFiltrosBusqueda.TabIndex = 24;
             fieldTituloFiltrosBusqueda.Text = "      Filtro de búsqueda :";
             fieldTituloFiltrosBusqueda.TextAlign = ContentAlignment.MiddleLeft;

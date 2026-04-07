@@ -62,7 +62,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public enum FiltroBusquedaMovimiento {
         Todos,
         Id,
-        NombreProducto,
+        IdProducto,
         AlmacenOrigen,
         AlmacenDestino,
         Fecha,
@@ -73,7 +73,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public static object[] FiltroBusquedaMovimiento = {
             "Todos los movimientos",
             "Identificador de BD",
-            "Nombre del producto",
+            "Identificador del producto",
             "Almacén de orígen",
             "Almacén de destino",
             "Fecha del movimiento",

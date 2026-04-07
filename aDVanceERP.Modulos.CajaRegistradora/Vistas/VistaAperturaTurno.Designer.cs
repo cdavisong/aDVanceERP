@@ -110,7 +110,7 @@
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 195F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
@@ -275,7 +275,7 @@
             layoutDistribucion1.Name = "layoutDistribucion1";
             layoutDistribucion1.RowCount = 1;
             layoutDistribucion1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucion1.Size = new Size(1286, 195);
+            layoutDistribucion1.Size = new Size(1286, 190);
             layoutDistribucion1.TabIndex = 50;
             // 
             // layoutDistribucion2
@@ -293,10 +293,10 @@
             layoutDistribucion2.RowCount = 5;
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucion2.Size = new Size(1286, 195);
+            layoutDistribucion2.Size = new Size(1286, 190);
             layoutDistribucion2.TabIndex = 0;
             // 
             // fieldObservaciones
@@ -317,7 +317,7 @@
             fieldObservaciones.HoverState.BorderColor = Color.SandyBrown;
             fieldObservaciones.IconLeft = (Image) resources.GetObject("fieldObservaciones.IconLeft");
             fieldObservaciones.IconLeftOffset = new Point(10, -19);
-            fieldObservaciones.Location = new Point(5, 110);
+            fieldObservaciones.Location = new Point(5, 105);
             fieldObservaciones.Margin = new Padding(5);
             fieldObservaciones.Multiline = true;
             fieldObservaciones.Name = "fieldObservaciones";
@@ -474,7 +474,6 @@
             fieldMontoEfectivo.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldMontoEfectivo.ForeColor = Color.Black;
             fieldMontoEfectivo.HoverState.BorderColor = Color.SandyBrown;
-            fieldMontoEfectivo.IconLeft = (Image) resources.GetObject("fieldMontoEfectivo.IconLeft");
             fieldMontoEfectivo.IconLeftOffset = new Point(10, 0);
             fieldMontoEfectivo.IconLeftSize = new Size(12, 12);
             fieldMontoEfectivo.IconRightOffset = new Point(6, 0);
@@ -560,7 +559,7 @@
             fieldTituloObservaciones.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldTituloObservaciones.ForeColor = Color.DimGray;
             fieldTituloObservaciones.ImeMode = ImeMode.NoControl;
-            fieldTituloObservaciones.Location = new Point(1, 81);
+            fieldTituloObservaciones.Location = new Point(1, 76);
             fieldTituloObservaciones.Margin = new Padding(1);
             fieldTituloObservaciones.Name = "fieldTituloObservaciones";
             fieldTituloObservaciones.Size = new Size(1284, 23);

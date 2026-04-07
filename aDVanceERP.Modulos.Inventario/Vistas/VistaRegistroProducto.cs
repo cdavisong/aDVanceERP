@@ -32,8 +32,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
                 btnRegistrarActualizar.Text = value ? "Actualizar el producto" : "Registrar el producto";
-                layoutTitulos4.Visible = !value;
-                layoutDatos4.Visible = !value;
+                fieldTituloNombreAlmacen.Visible = !value;
+                fieldNombreAlmacen.Visible = !value;
+                layoutTituloCantidadInicialMinima.Visible = !value;
+                layoutDatosCantidadInicialMinima.Visible = !value;
+                layoutHabilitarAlertas.Visible = !value;
             }
         }
 
@@ -80,11 +83,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public string RutaImagen { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos", $"{Codigo}{Path.GetExtension(_rutaImagen)}"); }
 
         public CategoriaProducto Categoria {
-            get => (CategoriaProducto)fieldCategoriaProducto.SelectedIndex;
+            get => fieldCategoriaMercancia.Checked
+                ? CategoriaProducto.Mercancia
+                : fieldCategoriaProductoTerminado.Checked
+                    ? CategoriaProducto.ProductoTerminado
+                    : fieldCategoriaMateriaPrima.Checked
+                        ? CategoriaProducto.MateriaPrima
+                        : throw new ArgumentNullException();
             set {
-                fieldCategoriaProducto.SelectedItem = value;
+                if (value == CategoriaProducto.Mercancia)
+                    fieldCategoriaMercancia.PerformClick();
+                else if (value == CategoriaProducto.ProductoTerminado)
+                    fieldCategoriaProductoTerminado.PerformClick();
+                else fieldCategoriaMateriaPrima.PerformClick();
 
-                ActualizarDescripcionCategoria(this, EventArgs.Empty);
                 ActualizarVisibilidadCostosPorCategoria(this, EventArgs.Empty);
             }
         }
@@ -201,8 +213,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             fieldImagen.Click += ObtenerImagenProducto;
-            fieldCategoriaProducto.SelectedIndexChanged += ActualizarDescripcionCategoria;
-            fieldCategoriaProducto.SelectedIndexChanged += ActualizarVisibilidadCostosPorCategoria;
+            fieldCategoriaMercancia.Click += ActualizarVisibilidadCostosPorCategoria;
+            fieldCategoriaProductoTerminado.Click += ActualizarVisibilidadCostosPorCategoria;
+            fieldCategoriaMateriaPrima.Click += ActualizarVisibilidadCostosPorCategoria;
             fieldUnidadMedida.SelectedIndexChanged += ActualizarDescripcionUnidadMedida;
             fieldUnidadMedida.SelectedIndexChanged += ActualizarAbreviaturasUnidadMedida;
             fieldClasificacionProducto.SelectedIndexChanged += ActualizarDescripcionClasificacion;
@@ -222,7 +235,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 // Evento de cancelación del registro
                 AgregadorEventos.Publicar("RegistroProductoCancelado", string.Empty);
 
-                Ocultar(); 
+                Ocultar();
             };
         }
 
@@ -240,22 +253,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        private void ActualizarDescripcionCategoria(object? sender, EventArgs e) {
-            toolTip1.SetToolTip(fieldCategoriaProducto, UtilesCategoriaProducto.DescripcionesProducto[(int)Categoria]);
-        }
-
         private void ActualizarVisibilidadCostosPorCategoria(object? sender, EventArgs e) {
             switch (Categoria) {
                 case CategoriaProducto.Mercancia:
                 case CategoriaProducto.MateriaPrima:
                     fieldTituloNombreProveedor.Visible = true;
                     fieldNombreProveedor.Visible = true;
-                    fieldTituloCostoUnitario.Text = "      Costo de adquisción :";
+                    layoutBaseDist0.RowStyles[3].Height = 25;
+                    layoutBaseDist0.RowStyles[4].Height = 35;
+                    fieldTituloCostoUnitario.Text = "COSTO DE ADQUISICIÓN";
                     break;
                 case CategoriaProducto.ProductoTerminado:
                     fieldTituloNombreProveedor.Visible = false;
                     fieldNombreProveedor.Visible = false;
-                    fieldTituloCostoUnitario.Text = "      Costo de producción :";
+                    layoutBaseDist0.RowStyles[3].Height = 0;
+                    layoutBaseDist0.RowStyles[4].Height = 0;
+                    fieldTituloCostoUnitario.Text = "COSTO DE PRODUCCIÓN";
                     break;
                 default:
                     break;
@@ -360,14 +373,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void CargarNombresProveedores(string[] nombresProvedores) {
-            if (nombresProvedores == null || nombresProvedores.Length == 0) {
-                fieldTituloNombreProveedor.Visible = false;
-                fieldNombreProveedor.Visible = false;
-                return;
-            }
-
             fieldTituloNombreProveedor.Visible = true;
             fieldNombreProveedor.Visible = true;
+            layoutBaseDist0.RowStyles[3].Height = 25;
+            layoutBaseDist0.RowStyles[4].Height = 35;
+
             fieldNombreProveedor.Items.Clear();
             fieldNombreProveedor.Items.AddRange(nombresProvedores);
             fieldNombreProveedor.SelectedIndex = -1;

@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -10,6 +9,7 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
         private string? _nombreAlmacen;
+        private int _presentaciones;
 
         public VistaTuplaProducto() {
             InitializeComponent();
@@ -20,7 +20,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public string NombreVista {
-            get => $"{Name}{Codigo}";
+            get => $"{Name}{Id}{Codigo}";
             private set => Name = value;
         }
 
@@ -69,41 +69,47 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 ? "-"
                 : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
-
-        public string NombreProducto {
-            get => fieldNombre.Text;
-            set { 
-                fieldNombre.Text = value;
-                fieldNombre.Margin = fieldNombre.AjusteAutomaticoMargenTexto();
-            }
-        }
-
-        public string Descripcion {
-            get => fieldDescripcion.Text;
+                
+        public string NombreDescripcion {
+            get => fieldNombreDescripcion.Text;
             set {
-                fieldDescripcion.Text = value;
-                fieldDescripcion.Margin = fieldDescripcion.AjusteAutomaticoMargenTexto();
+                fieldNombreDescripcion.Text = value;
+                fieldNombreDescripcion.Margin = fieldNombreDescripcion.AjusteAutomaticoMargenTexto();
             }
         }
 
         public decimal CostoUnitario {
-            get => decimal.TryParse(fieldCostoUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
+            get => decimal.TryParse(fieldCostoUnitario.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
                 out var value)
                 ? value
                 : 0m;
             set => fieldCostoUnitario.Text = value > 0
-                    ? value.ToString("N2", CultureInfo.InvariantCulture)
+                    ? value.ToString("N2")
                     : "-";
         }
 
         public decimal PrecioVentaBase {
-            get => decimal.TryParse(fieldPrecioVentaBase.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
+            get => decimal.TryParse(fieldPrecioVentaBase.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
                 out var value)
                 ? value
                 : 0m;
             set => fieldPrecioVentaBase.Text = value > 0
-                    ? value.ToString("N2", CultureInfo.InvariantCulture)
+                    ? value.ToString("N2")
                     : "-";
+        }
+
+        public int Presentaciones {
+            get => _presentaciones;
+            set {
+                _presentaciones = value;
+
+                var (borde, fondo, fuente) = ObtenerColorPresentacion(value > 0);
+
+                fieldPresentaciones.Text = value > 0 ? $"{value} presentaciones" : "+ Sin presentaciones";
+                fieldPresentaciones.BorderColor = borde;
+                fieldPresentaciones.FillColor = fondo;
+                fieldPresentaciones.ForeColor = fuente;
+            }
         }
 
         public string UnidadMedida {
@@ -112,24 +118,28 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal Stock {
-            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture, 
+            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.CurrentCulture, 
                 out var value) 
                 ? value 
                 : 0;
             set {
                 fieldStock.ForeColor = value == 0 ? Color.Firebrick : Color.FromArgb(115, 109, 106);
                 fieldStock.Font = new Font(fieldStock.Font, value == 0 ? FontStyle.Bold : FontStyle.Regular);
-                fieldStock.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+                fieldStock.Text = value.ToString("N2");
             }
         }
 
+        public event EventHandler? GestionarPresentaciones;
         public event EventHandler? MovimientoPositivoStock;
         public event EventHandler? MovimientoNegativoStock;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
-    
+        
         public void Inicializar() {
-            // Eventos        
+            // Eventos
+            fieldPresentaciones.Click += delegate {
+                GestionarPresentaciones?.Invoke(this, EventArgs.Empty);
+            };
             btnMovimientoPositivo.Click += delegate (object? sender, EventArgs e) {
                 MovimientoPositivoStock?.Invoke(NombreAlmacen, e);
             };
@@ -140,11 +150,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 EditarDatosTupla?.Invoke(new object[] { NombreAlmacen }, e);
             };
             btnEliminar.Click += async delegate (object? sender, EventArgs e) {
-                if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.NombreProducto, NombreProducto).cantidad > 0)
+                if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.IdProducto, Id.ToString()).cantidad > 0)
                     EliminarDatosTupla?.Invoke(this, e);
                 else
                     CentroNotificaciones.MostrarNotificacion(
-                        $"No se puede eliminar el producto {NombreProducto}, existen registros de movimientos asociados al mismo y podría dañar la integridad y trazabilidad de los datos.",
+                        $"No se puede eliminar el producto, existen registros de movimientos asociados al mismo y podría dañar la integridad y trazabilidad de los datos.",
                         TipoNotificacionEnum.Advertencia);
             };
         }
@@ -166,6 +176,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        
+        private (Color borde, Color fondo, Color fuente) ObtenerColorPresentacion(bool estado) {
+            return estado
+                ? (Color.FromArgb(253, 224, 196), Color.FromArgb(255, 248, 242), Color.FromArgb(232, 149, 74))  // Naranja
+                : (Color.FromArgb(228, 228, 228), Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136));// Gris
+        }
     }
 }

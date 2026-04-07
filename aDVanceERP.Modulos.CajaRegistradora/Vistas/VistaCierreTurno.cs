@@ -169,6 +169,12 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         public event EventHandler? ArqueoModificado;
 
         public void Inicializar() {
+            fieldConteoDenominacion5000.Leave += delegate {
+                ActualizarTotalArqueoVista();
+            };
+            fieldConteoDenominacion2000.Leave += delegate {
+                ActualizarTotalArqueoVista();
+            };
             fieldConteoDenominacion1000.Leave += delegate {
                 ActualizarTotalArqueoVista();
             };
@@ -232,6 +238,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         }
 
         public IEnumerable<CajaArqueo> ObtenerArqueo() {
+            var arqueo5000 = new CajaArqueo(0, _turno?.Id ?? 0, 5000, int.TryParse(fieldConteoDenominacion5000.Text, out var result5000) ? result5000 : 0);
+            var arqueo2000 = new CajaArqueo(0, _turno?.Id ?? 0, 2000, int.TryParse(fieldConteoDenominacion2000.Text, out var result2000) ? result2000 : 0);
             var arqueo1000 = new CajaArqueo(0, _turno?.Id ?? 0, 1000, int.TryParse(fieldConteoDenominacion1000.Text, out var result1000) ? result1000 : 0);
             var arqueo500 = new CajaArqueo(0, _turno?.Id ?? 0, 500, int.TryParse(fieldConteoDenominacion500.Text, out var result500) ? result500 : 0);
             var arqueo200 = new CajaArqueo(0, _turno?.Id ?? 0, 200, int.TryParse(fieldConteoDenominacion200.Text, out var result200) ? result200 : 0);
@@ -243,6 +251,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             var arqueo3 = new CajaArqueo(0, _turno?.Id ?? 0, 3, int.TryParse(fieldConteoDenominacion3.Text, out var result3) ? result3 : 0);
             var arqueo1 = new CajaArqueo(0, _turno?.Id ?? 0, 1, int.TryParse(fieldConteoDenominacion1.Text, out var result1) ? result1 : 0);
             var arqueosCaja = new List<CajaArqueo>() {
+                { arqueo5000 },
+                { arqueo2000 },
                 { arqueo1000 },
                 { arqueo500  },
                 { arqueo200  },
@@ -268,6 +278,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
 
         private void ActualizarTotalArqueoVista() {
             // Calcular montos
+            var monto5000 = (int.TryParse(fieldConteoDenominacion5000.Text, out var result5000) ? result5000 : 0) * 5000;
+            var monto2000 = (int.TryParse(fieldConteoDenominacion2000.Text, out var result2000) ? result2000 : 0) * 2000;
             var monto1000 = (int.TryParse(fieldConteoDenominacion1000.Text, out var result1000) ? result1000 : 0) * 1000;
             var monto500 = (int.TryParse(fieldConteoDenominacion500.Text, out var result500) ? result500 : 0) * 500;
             var monto200 = (int.TryParse(fieldConteoDenominacion200.Text, out var result200) ? result200 : 0) * 200;
@@ -280,6 +292,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             var monto1 = (int.TryParse(fieldConteoDenominacion1.Text, out var result1) ? result1 : 0) * 1;
 
             // Actualizar vista
+            fieldMontoTotal5000.Text = $"= $ {monto5000:N2}";
+            fieldMontoTotal2000.Text = $"= $ {monto2000:N2}";
             fieldMontoTotal1000.Text = $"= $ {monto1000:N2}";
             fieldMontoTotal500.Text = $"= $ {monto500:N2}";
             fieldMontoTotal200.Text = $"= $ {monto200:N2}";

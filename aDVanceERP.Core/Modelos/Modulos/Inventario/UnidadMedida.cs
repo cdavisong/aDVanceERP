@@ -19,6 +19,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public string Nombre { get; set; }
         public string Abreviatura { get; set; }
         public string Descripcion { get; set; }
+
+        public override string ToString() {
+            return $"{Nombre}";
+        }
     }
 
     public enum FiltroBusquedaUnidadMedida {

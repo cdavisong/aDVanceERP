@@ -160,7 +160,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
@@ -178,7 +178,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             // 
             separador1.Dock = DockStyle.Fill;
             separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(53, 193);
+            separador1.Location = new Point(53, 183);
             separador1.Name = "separador1";
             separador1.Size = new Size(1280, 14);
             separador1.TabIndex = 38;
@@ -198,7 +198,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             layoutHerramientas.Controls.Add(fieldCriterioBusqueda, 4, 0);
             layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 3, 0);
             layoutHerramientas.Dock = DockStyle.Fill;
-            layoutHerramientas.Location = new Point(50, 145);
+            layoutHerramientas.Location = new Point(50, 135);
             layoutHerramientas.Margin = new Padding(0);
             layoutHerramientas.Name = "layoutHerramientas";
             layoutHerramientas.RowCount = 1;
@@ -411,7 +411,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             layoutTituloHerramientas.Controls.Add(fieldTituloFiltroAlmacen, 0, 0);
             layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 2, 0);
             layoutTituloHerramientas.Dock = DockStyle.Fill;
-            layoutTituloHerramientas.Location = new Point(50, 110);
+            layoutTituloHerramientas.Location = new Point(50, 100);
             layoutTituloHerramientas.Margin = new Padding(0);
             layoutTituloHerramientas.Name = "layoutTituloHerramientas";
             layoutTituloHerramientas.RowCount = 1;
@@ -747,7 +747,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             layoutEncabezadosTabla.Controls.Add(fieldTituloAlmacen, 1, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloCodigo, 0, 0);
             layoutEncabezadosTabla.Dock = DockStyle.Fill;
-            layoutEncabezadosTabla.Location = new Point(51, 291);
+            layoutEncabezadosTabla.Location = new Point(51, 281);
             layoutEncabezadosTabla.Margin = new Padding(1);
             layoutEncabezadosTabla.Name = "layoutEncabezadosTabla";
             layoutEncabezadosTabla.RowCount = 1;
@@ -870,10 +870,10 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             // contenedorVistas
             // 
             contenedorVistas.Dock = DockStyle.Fill;
-            contenedorVistas.Location = new Point(50, 360);
+            contenedorVistas.Location = new Point(50, 350);
             contenedorVistas.Margin = new Padding(0);
             contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(1286, 193);
+            contenedorVistas.Size = new Size(1286, 203);
             contenedorVistas.TabIndex = 13;
             // 
             // panelTurnoActual
@@ -886,7 +886,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             panelTurnoActual.CustomizableEdges = customizableEdges27;
             panelTurnoActual.Dock = DockStyle.Fill;
             panelTurnoActual.FillColor = Color.FromArgb(  255,   246,   231);
-            panelTurnoActual.Location = new Point(50, 210);
+            panelTurnoActual.Location = new Point(50, 200);
             panelTurnoActual.Margin = new Padding(0);
             panelTurnoActual.Name = "panelTurnoActual";
             panelTurnoActual.ShadowDecoration.BorderRadius = 8;

@@ -91,18 +91,19 @@
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
-            layoutVista.Controls.Add(layoutBotones, 2, 5);
-            layoutVista.Controls.Add(layoutDistribucion1, 2, 3);
+            layoutVista.Controls.Add(layoutBotones, 2, 6);
+            layoutVista.Controls.Add(layoutDistribucion1, 2, 4);
             layoutVista.Controls.Add(fieldIcono, 1, 1);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 7;
+            layoutVista.RowCount = 8;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 195F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
@@ -213,12 +214,12 @@
             layoutDistribucion1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutDistribucion1.Controls.Add(layoutDistribucion2, 0, 0);
             layoutDistribucion1.Dock = DockStyle.Fill;
-            layoutDistribucion1.Location = new Point(50, 90);
+            layoutDistribucion1.Location = new Point(50, 100);
             layoutDistribucion1.Margin = new Padding(0);
             layoutDistribucion1.Name = "layoutDistribucion1";
             layoutDistribucion1.RowCount = 1;
             layoutDistribucion1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucion1.Size = new Size(1286, 195);
+            layoutDistribucion1.Size = new Size(1286, 190);
             layoutDistribucion1.TabIndex = 50;
             // 
             // layoutDistribucion2
@@ -236,10 +237,10 @@
             layoutDistribucion2.RowCount = 5;
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucion2.Size = new Size(1286, 195);
+            layoutDistribucion2.Size = new Size(1286, 190);
             layoutDistribucion2.TabIndex = 0;
             // 
             // fieldDescripcion
@@ -260,7 +261,7 @@
             fieldDescripcion.HoverState.BorderColor = Color.SandyBrown;
             fieldDescripcion.IconLeft = (Image) resources.GetObject("fieldDescripcion.IconLeft");
             fieldDescripcion.IconLeftOffset = new Point(10, -19);
-            fieldDescripcion.Location = new Point(5, 110);
+            fieldDescripcion.Location = new Point(5, 105);
             fieldDescripcion.Margin = new Padding(5);
             fieldDescripcion.Multiline = true;
             fieldDescripcion.Name = "fieldDescripcion";
@@ -358,6 +359,7 @@
             // 
             fieldTipoMovimiento.Animated = true;
             fieldTipoMovimiento.AutoRoundedCorners = true;
+            fieldTipoMovimiento.BorderColor = Color.DimGray;
             fieldTipoMovimiento.BorderRadius = 16;
             fieldTipoMovimiento.BorderThickness = 1;
             fieldTipoMovimiento.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
@@ -367,9 +369,9 @@
             fieldTipoMovimiento.CheckedState.ForeColor = Color.FromArgb(  46,   125,   50);
             fieldTipoMovimiento.CustomizableEdges = customizableEdges7;
             fieldTipoMovimiento.Dock = DockStyle.Fill;
-            fieldTipoMovimiento.FillColor = Color.PeachPuff;
+            fieldTipoMovimiento.FillColor = Color.WhiteSmoke;
             fieldTipoMovimiento.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTipoMovimiento.ForeColor = Color.Black;
+            fieldTipoMovimiento.ForeColor = Color.DimGray;
             fieldTipoMovimiento.Location = new Point(5, 5);
             fieldTipoMovimiento.Margin = new Padding(5);
             fieldTipoMovimiento.Name = "fieldTipoMovimiento";
@@ -491,7 +493,7 @@
             fieldTituloObservaciones.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldTituloObservaciones.ForeColor = Color.DimGray;
             fieldTituloObservaciones.ImeMode = ImeMode.NoControl;
-            fieldTituloObservaciones.Location = new Point(1, 81);
+            fieldTituloObservaciones.Location = new Point(1, 76);
             fieldTituloObservaciones.Margin = new Padding(1);
             fieldTituloObservaciones.Name = "fieldTituloObservaciones";
             fieldTituloObservaciones.Size = new Size(1284, 23);

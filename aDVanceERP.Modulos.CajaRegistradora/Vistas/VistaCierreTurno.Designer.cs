@@ -24,10 +24,10 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -68,29 +68,44 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaCierreTurno));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges49 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaCierreTurno));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges50 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges51 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges52 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges53 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges54 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges55 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges56 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges57 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges58 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges59 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges60 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges61 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges62 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulo = new TableLayoutPanel();
             fieldTitulo = new Label();
             fieldSubtitulo = new Label();
-            layoutBotones = new TableLayoutPanel();
-            btnSalir = new Guna.UI2.WinForms.Guna2Button();
-            btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             layoutDistribucion1 = new TableLayoutPanel();
             layoutDistribucion2 = new TableLayoutPanel();
             layoutDatos1 = new TableLayoutPanel();
             layoutDistribucionConteoDenominaciones = new TableLayoutPanel();
+            panelDenominacion2000 = new Guna.UI2.WinForms.Guna2Panel();
+            layoutDenominacion2000 = new TableLayoutPanel();
+            fieldMontoTotal2000 = new Label();
+            fieldTituloDenominacion2000 = new Label();
+            fieldConteoDenominacion2000 = new Guna.UI2.WinForms.Guna2TextBox();
+            panelDenominacion5000 = new Guna.UI2.WinForms.Guna2Panel();
+            layoutDenominacion5000 = new TableLayoutPanel();
+            fieldMontoTotal5000 = new Label();
+            fieldTituloDenominacion5000 = new Label();
+            fieldConteoDenominacion5000 = new Guna.UI2.WinForms.Guna2TextBox();
             fieldTotalContado = new Label();
             fieldTituloTotalContado = new Label();
             separador4 = new Guna.UI2.WinForms.Guna2Separator();
@@ -188,14 +203,20 @@
             fieldFechaHoraApertura = new Label();
             fieldTituloFechaHoraApertura = new Label();
             fieldTituloCodigo = new Label();
+            layoutBotones = new TableLayoutPanel();
+            btnSalir = new Guna.UI2.WinForms.Guna2Button();
+            btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             fieldDescripcionCategoriaProducto = new ToolTip(components);
             layoutVista.SuspendLayout();
             layoutTitulo.SuspendLayout();
-            layoutBotones.SuspendLayout();
             layoutDistribucion1.SuspendLayout();
             layoutDistribucion2.SuspendLayout();
             layoutDatos1.SuspendLayout();
             layoutDistribucionConteoDenominaciones.SuspendLayout();
+            panelDenominacion2000.SuspendLayout();
+            layoutDenominacion2000.SuspendLayout();
+            panelDenominacion5000.SuspendLayout();
+            layoutDenominacion5000.SuspendLayout();
             panelDenominacion1.SuspendLayout();
             layoutDenominacion1.SuspendLayout();
             panelDenominacion3.SuspendLayout();
@@ -228,6 +249,7 @@
             panelDatosTurno.SuspendLayout();
             layoutDatosTurno.SuspendLayout();
             layoutDistribucionDatosTurno.SuspendLayout();
+            layoutBotones.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -248,23 +270,22 @@
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
-            layoutVista.Controls.Add(layoutBotones, 2, 9);
             layoutVista.Controls.Add(layoutDistribucion1, 2, 6);
             layoutVista.Controls.Add(fieldIcono, 1, 1);
             layoutVista.Controls.Add(panelDatosTurno, 2, 4);
+            layoutVista.Controls.Add(layoutBotones, 2, 8);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 11;
+            layoutVista.RowCount = 10;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 370F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 85F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 425F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
@@ -312,62 +333,6 @@
             fieldSubtitulo.TabIndex = 2;
             fieldSubtitulo.Text = "Arqueo y conciliación de caja";
             // 
-            // layoutBotones
-            // 
-            layoutBotones.BackColor = Color.White;
-            layoutBotones.ColumnCount = 3;
-            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
-            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutBotones.Controls.Add(btnSalir, 2, 0);
-            layoutBotones.Controls.Add(btnRegistrarActualizar, 1, 0);
-            layoutBotones.Dock = DockStyle.Fill;
-            layoutBotones.Location = new Point(53, 620);
-            layoutBotones.Margin = new Padding(3, 0, 0, 0);
-            layoutBotones.Name = "layoutBotones";
-            layoutBotones.RowCount = 1;
-            layoutBotones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutBotones.Size = new Size(1283, 45);
-            layoutBotones.TabIndex = 45;
-            // 
-            // btnSalir
-            // 
-            btnSalir.Animated = true;
-            btnSalir.BorderColor = Color.Gainsboro;
-            btnSalir.BorderRadius = 18;
-            btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges1;
-            btnSalir.Dock = DockStyle.Fill;
-            btnSalir.FillColor = Color.White;
-            btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnSalir.ForeColor = Color.Gainsboro;
-            btnSalir.HoverState.BorderColor = Color.PeachPuff;
-            btnSalir.HoverState.FillColor = Color.PeachPuff;
-            btnSalir.HoverState.ForeColor = Color.Black;
-            btnSalir.Location = new Point(1116, 3);
-            btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnSalir.Size = new Size(164, 39);
-            btnSalir.TabIndex = 14;
-            btnSalir.Text = "Cancelar";
-            // 
-            // btnRegistrarActualizar
-            // 
-            btnRegistrarActualizar.Animated = true;
-            btnRegistrarActualizar.BorderRadius = 18;
-            btnRegistrarActualizar.CustomizableEdges = customizableEdges3;
-            btnRegistrarActualizar.Dock = DockStyle.Fill;
-            btnRegistrarActualizar.FillColor = Color.PeachPuff;
-            btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnRegistrarActualizar.ForeColor = Color.Black;
-            btnRegistrarActualizar.Location = new Point(886, 3);
-            btnRegistrarActualizar.Name = "btnRegistrarActualizar";
-            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnRegistrarActualizar.Size = new Size(224, 39);
-            btnRegistrarActualizar.TabIndex = 15;
-            btnRegistrarActualizar.Text = "Confirmar cierre";
-            // 
             // layoutDistribucion1
             // 
             layoutDistribucion1.ColumnCount = 1;
@@ -380,7 +345,7 @@
             layoutDistribucion1.Name = "layoutDistribucion1";
             layoutDistribucion1.RowCount = 1;
             layoutDistribucion1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucion1.Size = new Size(1286, 370);
+            layoutDistribucion1.Size = new Size(1286, 425);
             layoutDistribucion1.TabIndex = 50;
             // 
             // layoutDistribucion2
@@ -399,7 +364,7 @@
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutDistribucion2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutDistribucion2.Size = new Size(1286, 370);
+            layoutDistribucion2.Size = new Size(1286, 425);
             layoutDistribucion2.TabIndex = 0;
             // 
             // layoutDatos1
@@ -416,7 +381,7 @@
             layoutDatos1.Name = "layoutDatos1";
             layoutDatos1.RowCount = 1;
             layoutDatos1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDatos1.Size = new Size(1286, 335);
+            layoutDatos1.Size = new Size(1286, 390);
             layoutDatos1.TabIndex = 51;
             // 
             // layoutDistribucionConteoDenominaciones
@@ -424,25 +389,28 @@
             layoutDistribucionConteoDenominaciones.ColumnCount = 2;
             layoutDistribucionConteoDenominaciones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutDistribucionConteoDenominaciones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutDistribucionConteoDenominaciones.Controls.Add(fieldTotalContado, 1, 6);
-            layoutDistribucionConteoDenominaciones.Controls.Add(fieldTituloTotalContado, 0, 6);
-            layoutDistribucionConteoDenominaciones.Controls.Add(separador4, 1, 5);
-            layoutDistribucionConteoDenominaciones.Controls.Add(separador3, 0, 5);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion1, 1, 4);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion3, 0, 4);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion5, 1, 3);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion10, 0, 3);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion20, 1, 2);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion50, 0, 2);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion100, 1, 1);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion200, 0, 1);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion500, 1, 0);
-            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion1000, 0, 0);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion2000, 1, 0);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion5000, 0, 0);
+            layoutDistribucionConteoDenominaciones.Controls.Add(fieldTotalContado, 1, 7);
+            layoutDistribucionConteoDenominaciones.Controls.Add(fieldTituloTotalContado, 0, 7);
+            layoutDistribucionConteoDenominaciones.Controls.Add(separador4, 1, 6);
+            layoutDistribucionConteoDenominaciones.Controls.Add(separador3, 0, 6);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion1, 1, 5);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion3, 0, 5);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion5, 1, 4);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion10, 0, 4);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion20, 1, 3);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion50, 0, 3);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion100, 1, 2);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion200, 0, 2);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion500, 1, 1);
+            layoutDistribucionConteoDenominaciones.Controls.Add(panelDenominacion1000, 0, 1);
             layoutDistribucionConteoDenominaciones.Dock = DockStyle.Fill;
             layoutDistribucionConteoDenominaciones.Location = new Point(0, 0);
             layoutDistribucionConteoDenominaciones.Margin = new Padding(0);
             layoutDistribucionConteoDenominaciones.Name = "layoutDistribucionConteoDenominaciones";
-            layoutDistribucionConteoDenominaciones.RowCount = 8;
+            layoutDistribucionConteoDenominaciones.RowCount = 9;
+            layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
@@ -451,8 +419,202 @@
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutDistribucionConteoDenominaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucionConteoDenominaciones.Size = new Size(633, 335);
+            layoutDistribucionConteoDenominaciones.Size = new Size(633, 390);
             layoutDistribucionConteoDenominaciones.TabIndex = 0;
+            // 
+            // panelDenominacion2000
+            // 
+            panelDenominacion2000.BackColor = Color.Transparent;
+            panelDenominacion2000.BorderColor = Color.Gainsboro;
+            panelDenominacion2000.BorderRadius = 8;
+            panelDenominacion2000.BorderThickness = 1;
+            panelDenominacion2000.Controls.Add(layoutDenominacion2000);
+            panelDenominacion2000.CustomizableEdges = customizableEdges3;
+            panelDenominacion2000.Dock = DockStyle.Fill;
+            panelDenominacion2000.FillColor = SystemColors.ButtonFace;
+            panelDenominacion2000.Location = new Point(321, 5);
+            panelDenominacion2000.Margin = new Padding(5);
+            panelDenominacion2000.Name = "panelDenominacion2000";
+            panelDenominacion2000.ShadowDecoration.BorderRadius = 8;
+            panelDenominacion2000.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            panelDenominacion2000.ShadowDecoration.Depth = 10;
+            panelDenominacion2000.Size = new Size(307, 45);
+            panelDenominacion2000.TabIndex = 70;
+            // 
+            // layoutDenominacion2000
+            // 
+            layoutDenominacion2000.BackColor = Color.Transparent;
+            layoutDenominacion2000.ColumnCount = 3;
+            layoutDenominacion2000.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65F));
+            layoutDenominacion2000.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));
+            layoutDenominacion2000.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutDenominacion2000.Controls.Add(fieldMontoTotal2000, 2, 0);
+            layoutDenominacion2000.Controls.Add(fieldTituloDenominacion2000, 0, 0);
+            layoutDenominacion2000.Controls.Add(fieldConteoDenominacion2000, 1, 0);
+            layoutDenominacion2000.Dock = DockStyle.Fill;
+            layoutDenominacion2000.Location = new Point(0, 0);
+            layoutDenominacion2000.Name = "layoutDenominacion2000";
+            layoutDenominacion2000.RowCount = 1;
+            layoutDenominacion2000.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutDenominacion2000.Size = new Size(307, 45);
+            layoutDenominacion2000.TabIndex = 0;
+            // 
+            // fieldMontoTotal2000
+            // 
+            fieldMontoTotal2000.Dock = DockStyle.Fill;
+            fieldMontoTotal2000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldMontoTotal2000.ForeColor = Color.Gray;
+            fieldMontoTotal2000.ImeMode = ImeMode.NoControl;
+            fieldMontoTotal2000.Location = new Point(136, 1);
+            fieldMontoTotal2000.Margin = new Padding(1, 1, 5, 1);
+            fieldMontoTotal2000.Name = "fieldMontoTotal2000";
+            fieldMontoTotal2000.Size = new Size(166, 43);
+            fieldMontoTotal2000.TabIndex = 41;
+            fieldMontoTotal2000.Text = "= $ 0,00";
+            fieldMontoTotal2000.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldTituloDenominacion2000
+            // 
+            fieldTituloDenominacion2000.Dock = DockStyle.Fill;
+            fieldTituloDenominacion2000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldTituloDenominacion2000.ForeColor = Color.FromArgb(  64,   64,   64);
+            fieldTituloDenominacion2000.ImeMode = ImeMode.NoControl;
+            fieldTituloDenominacion2000.Location = new Point(1, 1);
+            fieldTituloDenominacion2000.Margin = new Padding(1);
+            fieldTituloDenominacion2000.Name = "fieldTituloDenominacion2000";
+            fieldTituloDenominacion2000.Size = new Size(63, 43);
+            fieldTituloDenominacion2000.TabIndex = 40;
+            fieldTituloDenominacion2000.Text = "$ 2000";
+            fieldTituloDenominacion2000.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldConteoDenominacion2000
+            // 
+            fieldConteoDenominacion2000.Animated = true;
+            fieldConteoDenominacion2000.AutoRoundedCorners = true;
+            fieldConteoDenominacion2000.BorderColor = Color.Gainsboro;
+            fieldConteoDenominacion2000.BorderRadius = 16;
+            fieldConteoDenominacion2000.Cursor = Cursors.IBeam;
+            fieldConteoDenominacion2000.CustomizableEdges = customizableEdges1;
+            fieldConteoDenominacion2000.DefaultText = "";
+            fieldConteoDenominacion2000.DisabledState.BorderColor = Color.White;
+            fieldConteoDenominacion2000.DisabledState.ForeColor = Color.DimGray;
+            fieldConteoDenominacion2000.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldConteoDenominacion2000.Dock = DockStyle.Fill;
+            fieldConteoDenominacion2000.FocusedState.BorderColor = Color.SandyBrown;
+            fieldConteoDenominacion2000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldConteoDenominacion2000.ForeColor = Color.Black;
+            fieldConteoDenominacion2000.HoverState.BorderColor = Color.SandyBrown;
+            fieldConteoDenominacion2000.IconLeftOffset = new Point(10, 0);
+            fieldConteoDenominacion2000.IconRightOffset = new Point(6, 0);
+            fieldConteoDenominacion2000.IconRightSize = new Size(12, 12);
+            fieldConteoDenominacion2000.Location = new Point(70, 5);
+            fieldConteoDenominacion2000.Margin = new Padding(5);
+            fieldConteoDenominacion2000.Name = "fieldConteoDenominacion2000";
+            fieldConteoDenominacion2000.PasswordChar = '\0';
+            fieldConteoDenominacion2000.PlaceholderForeColor = Color.DimGray;
+            fieldConteoDenominacion2000.PlaceholderText = "0";
+            fieldConteoDenominacion2000.SelectedText = "";
+            fieldConteoDenominacion2000.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldConteoDenominacion2000.Size = new Size(60, 35);
+            fieldConteoDenominacion2000.TabIndex = 39;
+            fieldConteoDenominacion2000.TextAlign = HorizontalAlignment.Right;
+            // 
+            // panelDenominacion5000
+            // 
+            panelDenominacion5000.BackColor = Color.Transparent;
+            panelDenominacion5000.BorderColor = Color.Gainsboro;
+            panelDenominacion5000.BorderRadius = 8;
+            panelDenominacion5000.BorderThickness = 1;
+            panelDenominacion5000.Controls.Add(layoutDenominacion5000);
+            panelDenominacion5000.CustomizableEdges = customizableEdges7;
+            panelDenominacion5000.Dock = DockStyle.Fill;
+            panelDenominacion5000.FillColor = SystemColors.ButtonFace;
+            panelDenominacion5000.Location = new Point(5, 5);
+            panelDenominacion5000.Margin = new Padding(5);
+            panelDenominacion5000.Name = "panelDenominacion5000";
+            panelDenominacion5000.ShadowDecoration.BorderRadius = 8;
+            panelDenominacion5000.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            panelDenominacion5000.ShadowDecoration.Depth = 10;
+            panelDenominacion5000.Size = new Size(306, 45);
+            panelDenominacion5000.TabIndex = 69;
+            // 
+            // layoutDenominacion5000
+            // 
+            layoutDenominacion5000.BackColor = Color.Transparent;
+            layoutDenominacion5000.ColumnCount = 3;
+            layoutDenominacion5000.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 65F));
+            layoutDenominacion5000.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 70F));
+            layoutDenominacion5000.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutDenominacion5000.Controls.Add(fieldMontoTotal5000, 2, 0);
+            layoutDenominacion5000.Controls.Add(fieldTituloDenominacion5000, 0, 0);
+            layoutDenominacion5000.Controls.Add(fieldConteoDenominacion5000, 1, 0);
+            layoutDenominacion5000.Dock = DockStyle.Fill;
+            layoutDenominacion5000.Location = new Point(0, 0);
+            layoutDenominacion5000.Name = "layoutDenominacion5000";
+            layoutDenominacion5000.RowCount = 1;
+            layoutDenominacion5000.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutDenominacion5000.Size = new Size(306, 45);
+            layoutDenominacion5000.TabIndex = 0;
+            // 
+            // fieldMontoTotal5000
+            // 
+            fieldMontoTotal5000.Dock = DockStyle.Fill;
+            fieldMontoTotal5000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldMontoTotal5000.ForeColor = Color.Gray;
+            fieldMontoTotal5000.ImeMode = ImeMode.NoControl;
+            fieldMontoTotal5000.Location = new Point(136, 1);
+            fieldMontoTotal5000.Margin = new Padding(1, 1, 5, 1);
+            fieldMontoTotal5000.Name = "fieldMontoTotal5000";
+            fieldMontoTotal5000.Size = new Size(165, 43);
+            fieldMontoTotal5000.TabIndex = 41;
+            fieldMontoTotal5000.Text = "= $ 0,00";
+            fieldMontoTotal5000.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldTituloDenominacion5000
+            // 
+            fieldTituloDenominacion5000.Dock = DockStyle.Fill;
+            fieldTituloDenominacion5000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldTituloDenominacion5000.ForeColor = Color.FromArgb(  64,   64,   64);
+            fieldTituloDenominacion5000.ImeMode = ImeMode.NoControl;
+            fieldTituloDenominacion5000.Location = new Point(1, 1);
+            fieldTituloDenominacion5000.Margin = new Padding(1);
+            fieldTituloDenominacion5000.Name = "fieldTituloDenominacion5000";
+            fieldTituloDenominacion5000.Size = new Size(63, 43);
+            fieldTituloDenominacion5000.TabIndex = 40;
+            fieldTituloDenominacion5000.Text = "$ 5000";
+            fieldTituloDenominacion5000.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldConteoDenominacion5000
+            // 
+            fieldConteoDenominacion5000.Animated = true;
+            fieldConteoDenominacion5000.AutoRoundedCorners = true;
+            fieldConteoDenominacion5000.BorderColor = Color.Gainsboro;
+            fieldConteoDenominacion5000.BorderRadius = 16;
+            fieldConteoDenominacion5000.Cursor = Cursors.IBeam;
+            fieldConteoDenominacion5000.CustomizableEdges = customizableEdges5;
+            fieldConteoDenominacion5000.DefaultText = "";
+            fieldConteoDenominacion5000.DisabledState.BorderColor = Color.White;
+            fieldConteoDenominacion5000.DisabledState.ForeColor = Color.DimGray;
+            fieldConteoDenominacion5000.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldConteoDenominacion5000.Dock = DockStyle.Fill;
+            fieldConteoDenominacion5000.FocusedState.BorderColor = Color.SandyBrown;
+            fieldConteoDenominacion5000.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            fieldConteoDenominacion5000.ForeColor = Color.Black;
+            fieldConteoDenominacion5000.HoverState.BorderColor = Color.SandyBrown;
+            fieldConteoDenominacion5000.IconLeftOffset = new Point(10, 0);
+            fieldConteoDenominacion5000.IconRightOffset = new Point(6, 0);
+            fieldConteoDenominacion5000.IconRightSize = new Size(12, 12);
+            fieldConteoDenominacion5000.Location = new Point(70, 5);
+            fieldConteoDenominacion5000.Margin = new Padding(5);
+            fieldConteoDenominacion5000.Name = "fieldConteoDenominacion5000";
+            fieldConteoDenominacion5000.PasswordChar = '\0';
+            fieldConteoDenominacion5000.PlaceholderForeColor = Color.DimGray;
+            fieldConteoDenominacion5000.PlaceholderText = "0";
+            fieldConteoDenominacion5000.SelectedText = "";
+            fieldConteoDenominacion5000.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldConteoDenominacion5000.Size = new Size(60, 35);
+            fieldConteoDenominacion5000.TabIndex = 39;
+            fieldConteoDenominacion5000.TextAlign = HorizontalAlignment.Right;
             // 
             // fieldTotalContado
             // 
@@ -460,7 +622,7 @@
             fieldTotalContado.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldTotalContado.ForeColor = Color.FromArgb(  64,   64,   64);
             fieldTotalContado.ImeMode = ImeMode.NoControl;
-            fieldTotalContado.Location = new Point(317, 286);
+            fieldTotalContado.Location = new Point(317, 341);
             fieldTotalContado.Margin = new Padding(1);
             fieldTotalContado.Name = "fieldTotalContado";
             fieldTotalContado.Size = new Size(315, 33);
@@ -474,7 +636,7 @@
             fieldTituloTotalContado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldTituloTotalContado.ForeColor = Color.DimGray;
             fieldTituloTotalContado.ImeMode = ImeMode.NoControl;
-            fieldTituloTotalContado.Location = new Point(1, 286);
+            fieldTituloTotalContado.Location = new Point(1, 341);
             fieldTituloTotalContado.Margin = new Padding(1);
             fieldTituloTotalContado.Name = "fieldTituloTotalContado";
             fieldTituloTotalContado.Size = new Size(314, 33);
@@ -487,7 +649,7 @@
             separador4.Dock = DockStyle.Fill;
             separador4.FillColor = Color.Gainsboro;
             separador4.FillThickness = 3;
-            separador4.Location = new Point(316, 278);
+            separador4.Location = new Point(316, 333);
             separador4.Margin = new Padding(0, 3, 3, 3);
             separador4.Name = "separador4";
             separador4.Size = new Size(314, 4);
@@ -498,7 +660,7 @@
             separador3.Dock = DockStyle.Fill;
             separador3.FillColor = Color.Gainsboro;
             separador3.FillThickness = 3;
-            separador3.Location = new Point(3, 278);
+            separador3.Location = new Point(3, 333);
             separador3.Margin = new Padding(3, 3, 0, 3);
             separador3.Name = "separador3";
             separador3.Size = new Size(313, 4);
@@ -511,14 +673,14 @@
             panelDenominacion1.BorderRadius = 8;
             panelDenominacion1.BorderThickness = 1;
             panelDenominacion1.Controls.Add(layoutDenominacion1);
-            panelDenominacion1.CustomizableEdges = customizableEdges7;
+            panelDenominacion1.CustomizableEdges = customizableEdges11;
             panelDenominacion1.Dock = DockStyle.Fill;
             panelDenominacion1.FillColor = SystemColors.ButtonFace;
-            panelDenominacion1.Location = new Point(321, 225);
+            panelDenominacion1.Location = new Point(321, 280);
             panelDenominacion1.Margin = new Padding(5);
             panelDenominacion1.Name = "panelDenominacion1";
             panelDenominacion1.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion1.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            panelDenominacion1.ShadowDecoration.CustomizableEdges = customizableEdges12;
             panelDenominacion1.ShadowDecoration.Depth = 10;
             panelDenominacion1.Size = new Size(307, 45);
             panelDenominacion1.TabIndex = 64;
@@ -576,7 +738,7 @@
             fieldConteoDenominacion1.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion1.BorderRadius = 16;
             fieldConteoDenominacion1.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion1.CustomizableEdges = customizableEdges5;
+            fieldConteoDenominacion1.CustomizableEdges = customizableEdges9;
             fieldConteoDenominacion1.DefaultText = "";
             fieldConteoDenominacion1.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion1.DisabledState.ForeColor = Color.DimGray;
@@ -596,7 +758,7 @@
             fieldConteoDenominacion1.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion1.PlaceholderText = "0";
             fieldConteoDenominacion1.SelectedText = "";
-            fieldConteoDenominacion1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            fieldConteoDenominacion1.ShadowDecoration.CustomizableEdges = customizableEdges10;
             fieldConteoDenominacion1.Size = new Size(60, 35);
             fieldConteoDenominacion1.TabIndex = 39;
             fieldConteoDenominacion1.TextAlign = HorizontalAlignment.Right;
@@ -608,14 +770,14 @@
             panelDenominacion3.BorderRadius = 8;
             panelDenominacion3.BorderThickness = 1;
             panelDenominacion3.Controls.Add(layoutDenominacion3);
-            panelDenominacion3.CustomizableEdges = customizableEdges11;
+            panelDenominacion3.CustomizableEdges = customizableEdges15;
             panelDenominacion3.Dock = DockStyle.Fill;
             panelDenominacion3.FillColor = SystemColors.ButtonFace;
-            panelDenominacion3.Location = new Point(5, 225);
+            panelDenominacion3.Location = new Point(5, 280);
             panelDenominacion3.Margin = new Padding(5);
             panelDenominacion3.Name = "panelDenominacion3";
             panelDenominacion3.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion3.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            panelDenominacion3.ShadowDecoration.CustomizableEdges = customizableEdges16;
             panelDenominacion3.ShadowDecoration.Depth = 10;
             panelDenominacion3.Size = new Size(306, 45);
             panelDenominacion3.TabIndex = 63;
@@ -673,7 +835,7 @@
             fieldConteoDenominacion3.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion3.BorderRadius = 16;
             fieldConteoDenominacion3.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion3.CustomizableEdges = customizableEdges9;
+            fieldConteoDenominacion3.CustomizableEdges = customizableEdges13;
             fieldConteoDenominacion3.DefaultText = "";
             fieldConteoDenominacion3.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion3.DisabledState.ForeColor = Color.DimGray;
@@ -693,7 +855,7 @@
             fieldConteoDenominacion3.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion3.PlaceholderText = "0";
             fieldConteoDenominacion3.SelectedText = "";
-            fieldConteoDenominacion3.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            fieldConteoDenominacion3.ShadowDecoration.CustomizableEdges = customizableEdges14;
             fieldConteoDenominacion3.Size = new Size(60, 35);
             fieldConteoDenominacion3.TabIndex = 39;
             fieldConteoDenominacion3.TextAlign = HorizontalAlignment.Right;
@@ -705,14 +867,14 @@
             panelDenominacion5.BorderRadius = 8;
             panelDenominacion5.BorderThickness = 1;
             panelDenominacion5.Controls.Add(layoutDenominacion5);
-            panelDenominacion5.CustomizableEdges = customizableEdges15;
+            panelDenominacion5.CustomizableEdges = customizableEdges19;
             panelDenominacion5.Dock = DockStyle.Fill;
             panelDenominacion5.FillColor = SystemColors.ButtonFace;
-            panelDenominacion5.Location = new Point(321, 170);
+            panelDenominacion5.Location = new Point(321, 225);
             panelDenominacion5.Margin = new Padding(5);
             panelDenominacion5.Name = "panelDenominacion5";
             panelDenominacion5.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion5.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            panelDenominacion5.ShadowDecoration.CustomizableEdges = customizableEdges20;
             panelDenominacion5.ShadowDecoration.Depth = 10;
             panelDenominacion5.Size = new Size(307, 45);
             panelDenominacion5.TabIndex = 62;
@@ -770,7 +932,7 @@
             fieldConteoDenominacion5.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion5.BorderRadius = 16;
             fieldConteoDenominacion5.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion5.CustomizableEdges = customizableEdges13;
+            fieldConteoDenominacion5.CustomizableEdges = customizableEdges17;
             fieldConteoDenominacion5.DefaultText = "";
             fieldConteoDenominacion5.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion5.DisabledState.ForeColor = Color.DimGray;
@@ -790,7 +952,7 @@
             fieldConteoDenominacion5.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion5.PlaceholderText = "0";
             fieldConteoDenominacion5.SelectedText = "";
-            fieldConteoDenominacion5.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            fieldConteoDenominacion5.ShadowDecoration.CustomizableEdges = customizableEdges18;
             fieldConteoDenominacion5.Size = new Size(60, 35);
             fieldConteoDenominacion5.TabIndex = 39;
             fieldConteoDenominacion5.TextAlign = HorizontalAlignment.Right;
@@ -802,14 +964,14 @@
             panelDenominacion10.BorderRadius = 8;
             panelDenominacion10.BorderThickness = 1;
             panelDenominacion10.Controls.Add(layoutDenominacion10);
-            panelDenominacion10.CustomizableEdges = customizableEdges19;
+            panelDenominacion10.CustomizableEdges = customizableEdges23;
             panelDenominacion10.Dock = DockStyle.Fill;
             panelDenominacion10.FillColor = SystemColors.ButtonFace;
-            panelDenominacion10.Location = new Point(5, 170);
+            panelDenominacion10.Location = new Point(5, 225);
             panelDenominacion10.Margin = new Padding(5);
             panelDenominacion10.Name = "panelDenominacion10";
             panelDenominacion10.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion10.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            panelDenominacion10.ShadowDecoration.CustomizableEdges = customizableEdges24;
             panelDenominacion10.ShadowDecoration.Depth = 10;
             panelDenominacion10.Size = new Size(306, 45);
             panelDenominacion10.TabIndex = 61;
@@ -867,7 +1029,7 @@
             fieldConteoDenominacion10.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion10.BorderRadius = 16;
             fieldConteoDenominacion10.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion10.CustomizableEdges = customizableEdges17;
+            fieldConteoDenominacion10.CustomizableEdges = customizableEdges21;
             fieldConteoDenominacion10.DefaultText = "";
             fieldConteoDenominacion10.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion10.DisabledState.ForeColor = Color.DimGray;
@@ -887,7 +1049,7 @@
             fieldConteoDenominacion10.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion10.PlaceholderText = "0";
             fieldConteoDenominacion10.SelectedText = "";
-            fieldConteoDenominacion10.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            fieldConteoDenominacion10.ShadowDecoration.CustomizableEdges = customizableEdges22;
             fieldConteoDenominacion10.Size = new Size(60, 35);
             fieldConteoDenominacion10.TabIndex = 39;
             fieldConteoDenominacion10.TextAlign = HorizontalAlignment.Right;
@@ -899,14 +1061,14 @@
             panelDenominacion20.BorderRadius = 8;
             panelDenominacion20.BorderThickness = 1;
             panelDenominacion20.Controls.Add(layoutDenominacion20);
-            panelDenominacion20.CustomizableEdges = customizableEdges23;
+            panelDenominacion20.CustomizableEdges = customizableEdges27;
             panelDenominacion20.Dock = DockStyle.Fill;
             panelDenominacion20.FillColor = SystemColors.ButtonFace;
-            panelDenominacion20.Location = new Point(321, 115);
+            panelDenominacion20.Location = new Point(321, 170);
             panelDenominacion20.Margin = new Padding(5);
             panelDenominacion20.Name = "panelDenominacion20";
             panelDenominacion20.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion20.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            panelDenominacion20.ShadowDecoration.CustomizableEdges = customizableEdges28;
             panelDenominacion20.ShadowDecoration.Depth = 10;
             panelDenominacion20.Size = new Size(307, 45);
             panelDenominacion20.TabIndex = 60;
@@ -964,7 +1126,7 @@
             fieldConteoDenominacion20.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion20.BorderRadius = 16;
             fieldConteoDenominacion20.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion20.CustomizableEdges = customizableEdges21;
+            fieldConteoDenominacion20.CustomizableEdges = customizableEdges25;
             fieldConteoDenominacion20.DefaultText = "";
             fieldConteoDenominacion20.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion20.DisabledState.ForeColor = Color.DimGray;
@@ -984,7 +1146,7 @@
             fieldConteoDenominacion20.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion20.PlaceholderText = "0";
             fieldConteoDenominacion20.SelectedText = "";
-            fieldConteoDenominacion20.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            fieldConteoDenominacion20.ShadowDecoration.CustomizableEdges = customizableEdges26;
             fieldConteoDenominacion20.Size = new Size(60, 35);
             fieldConteoDenominacion20.TabIndex = 39;
             fieldConteoDenominacion20.TextAlign = HorizontalAlignment.Right;
@@ -996,14 +1158,14 @@
             panelDenominacion50.BorderRadius = 8;
             panelDenominacion50.BorderThickness = 1;
             panelDenominacion50.Controls.Add(layoutDenominacion50);
-            panelDenominacion50.CustomizableEdges = customizableEdges27;
+            panelDenominacion50.CustomizableEdges = customizableEdges31;
             panelDenominacion50.Dock = DockStyle.Fill;
             panelDenominacion50.FillColor = SystemColors.ButtonFace;
-            panelDenominacion50.Location = new Point(5, 115);
+            panelDenominacion50.Location = new Point(5, 170);
             panelDenominacion50.Margin = new Padding(5);
             panelDenominacion50.Name = "panelDenominacion50";
             panelDenominacion50.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion50.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            panelDenominacion50.ShadowDecoration.CustomizableEdges = customizableEdges32;
             panelDenominacion50.ShadowDecoration.Depth = 10;
             panelDenominacion50.Size = new Size(306, 45);
             panelDenominacion50.TabIndex = 59;
@@ -1061,7 +1223,7 @@
             fieldConteoDenominacion50.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion50.BorderRadius = 16;
             fieldConteoDenominacion50.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion50.CustomizableEdges = customizableEdges25;
+            fieldConteoDenominacion50.CustomizableEdges = customizableEdges29;
             fieldConteoDenominacion50.DefaultText = "";
             fieldConteoDenominacion50.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion50.DisabledState.ForeColor = Color.DimGray;
@@ -1081,7 +1243,7 @@
             fieldConteoDenominacion50.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion50.PlaceholderText = "0";
             fieldConteoDenominacion50.SelectedText = "";
-            fieldConteoDenominacion50.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            fieldConteoDenominacion50.ShadowDecoration.CustomizableEdges = customizableEdges30;
             fieldConteoDenominacion50.Size = new Size(60, 35);
             fieldConteoDenominacion50.TabIndex = 39;
             fieldConteoDenominacion50.TextAlign = HorizontalAlignment.Right;
@@ -1093,14 +1255,14 @@
             panelDenominacion100.BorderRadius = 8;
             panelDenominacion100.BorderThickness = 1;
             panelDenominacion100.Controls.Add(layoutDenominacion100);
-            panelDenominacion100.CustomizableEdges = customizableEdges31;
+            panelDenominacion100.CustomizableEdges = customizableEdges35;
             panelDenominacion100.Dock = DockStyle.Fill;
             panelDenominacion100.FillColor = SystemColors.ButtonFace;
-            panelDenominacion100.Location = new Point(321, 60);
+            panelDenominacion100.Location = new Point(321, 115);
             panelDenominacion100.Margin = new Padding(5);
             panelDenominacion100.Name = "panelDenominacion100";
             panelDenominacion100.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion100.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            panelDenominacion100.ShadowDecoration.CustomizableEdges = customizableEdges36;
             panelDenominacion100.ShadowDecoration.Depth = 10;
             panelDenominacion100.Size = new Size(307, 45);
             panelDenominacion100.TabIndex = 58;
@@ -1158,7 +1320,7 @@
             fieldConteoDenominacion100.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion100.BorderRadius = 16;
             fieldConteoDenominacion100.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion100.CustomizableEdges = customizableEdges29;
+            fieldConteoDenominacion100.CustomizableEdges = customizableEdges33;
             fieldConteoDenominacion100.DefaultText = "";
             fieldConteoDenominacion100.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion100.DisabledState.ForeColor = Color.DimGray;
@@ -1178,7 +1340,7 @@
             fieldConteoDenominacion100.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion100.PlaceholderText = "0";
             fieldConteoDenominacion100.SelectedText = "";
-            fieldConteoDenominacion100.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            fieldConteoDenominacion100.ShadowDecoration.CustomizableEdges = customizableEdges34;
             fieldConteoDenominacion100.Size = new Size(60, 35);
             fieldConteoDenominacion100.TabIndex = 39;
             fieldConteoDenominacion100.TextAlign = HorizontalAlignment.Right;
@@ -1190,14 +1352,14 @@
             panelDenominacion200.BorderRadius = 8;
             panelDenominacion200.BorderThickness = 1;
             panelDenominacion200.Controls.Add(layoutDenominacion200);
-            panelDenominacion200.CustomizableEdges = customizableEdges35;
+            panelDenominacion200.CustomizableEdges = customizableEdges39;
             panelDenominacion200.Dock = DockStyle.Fill;
             panelDenominacion200.FillColor = SystemColors.ButtonFace;
-            panelDenominacion200.Location = new Point(5, 60);
+            panelDenominacion200.Location = new Point(5, 115);
             panelDenominacion200.Margin = new Padding(5);
             panelDenominacion200.Name = "panelDenominacion200";
             panelDenominacion200.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion200.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            panelDenominacion200.ShadowDecoration.CustomizableEdges = customizableEdges40;
             panelDenominacion200.ShadowDecoration.Depth = 10;
             panelDenominacion200.Size = new Size(306, 45);
             panelDenominacion200.TabIndex = 57;
@@ -1255,7 +1417,7 @@
             fieldConteoDenominacion200.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion200.BorderRadius = 16;
             fieldConteoDenominacion200.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion200.CustomizableEdges = customizableEdges33;
+            fieldConteoDenominacion200.CustomizableEdges = customizableEdges37;
             fieldConteoDenominacion200.DefaultText = "";
             fieldConteoDenominacion200.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion200.DisabledState.ForeColor = Color.DimGray;
@@ -1275,7 +1437,7 @@
             fieldConteoDenominacion200.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion200.PlaceholderText = "0";
             fieldConteoDenominacion200.SelectedText = "";
-            fieldConteoDenominacion200.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            fieldConteoDenominacion200.ShadowDecoration.CustomizableEdges = customizableEdges38;
             fieldConteoDenominacion200.Size = new Size(60, 35);
             fieldConteoDenominacion200.TabIndex = 39;
             fieldConteoDenominacion200.TextAlign = HorizontalAlignment.Right;
@@ -1287,14 +1449,14 @@
             panelDenominacion500.BorderRadius = 8;
             panelDenominacion500.BorderThickness = 1;
             panelDenominacion500.Controls.Add(layoutDenominacion500);
-            panelDenominacion500.CustomizableEdges = customizableEdges39;
+            panelDenominacion500.CustomizableEdges = customizableEdges43;
             panelDenominacion500.Dock = DockStyle.Fill;
             panelDenominacion500.FillColor = SystemColors.ButtonFace;
-            panelDenominacion500.Location = new Point(321, 5);
+            panelDenominacion500.Location = new Point(321, 60);
             panelDenominacion500.Margin = new Padding(5);
             panelDenominacion500.Name = "panelDenominacion500";
             panelDenominacion500.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion500.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            panelDenominacion500.ShadowDecoration.CustomizableEdges = customizableEdges44;
             panelDenominacion500.ShadowDecoration.Depth = 10;
             panelDenominacion500.Size = new Size(307, 45);
             panelDenominacion500.TabIndex = 56;
@@ -1352,7 +1514,7 @@
             fieldConteoDenominacion500.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion500.BorderRadius = 16;
             fieldConteoDenominacion500.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion500.CustomizableEdges = customizableEdges37;
+            fieldConteoDenominacion500.CustomizableEdges = customizableEdges41;
             fieldConteoDenominacion500.DefaultText = "";
             fieldConteoDenominacion500.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion500.DisabledState.ForeColor = Color.DimGray;
@@ -1372,7 +1534,7 @@
             fieldConteoDenominacion500.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion500.PlaceholderText = "0";
             fieldConteoDenominacion500.SelectedText = "";
-            fieldConteoDenominacion500.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            fieldConteoDenominacion500.ShadowDecoration.CustomizableEdges = customizableEdges42;
             fieldConteoDenominacion500.Size = new Size(60, 35);
             fieldConteoDenominacion500.TabIndex = 39;
             fieldConteoDenominacion500.TextAlign = HorizontalAlignment.Right;
@@ -1384,14 +1546,14 @@
             panelDenominacion1000.BorderRadius = 8;
             panelDenominacion1000.BorderThickness = 1;
             panelDenominacion1000.Controls.Add(layoutDenominacion1000);
-            panelDenominacion1000.CustomizableEdges = customizableEdges43;
+            panelDenominacion1000.CustomizableEdges = customizableEdges47;
             panelDenominacion1000.Dock = DockStyle.Fill;
             panelDenominacion1000.FillColor = SystemColors.ButtonFace;
-            panelDenominacion1000.Location = new Point(5, 5);
+            panelDenominacion1000.Location = new Point(5, 60);
             panelDenominacion1000.Margin = new Padding(5);
             panelDenominacion1000.Name = "panelDenominacion1000";
             panelDenominacion1000.ShadowDecoration.BorderRadius = 8;
-            panelDenominacion1000.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            panelDenominacion1000.ShadowDecoration.CustomizableEdges = customizableEdges48;
             panelDenominacion1000.ShadowDecoration.Depth = 10;
             panelDenominacion1000.Size = new Size(306, 45);
             panelDenominacion1000.TabIndex = 55;
@@ -1449,7 +1611,7 @@
             fieldConteoDenominacion1000.BorderColor = Color.Gainsboro;
             fieldConteoDenominacion1000.BorderRadius = 16;
             fieldConteoDenominacion1000.Cursor = Cursors.IBeam;
-            fieldConteoDenominacion1000.CustomizableEdges = customizableEdges41;
+            fieldConteoDenominacion1000.CustomizableEdges = customizableEdges45;
             fieldConteoDenominacion1000.DefaultText = "";
             fieldConteoDenominacion1000.DisabledState.BorderColor = Color.White;
             fieldConteoDenominacion1000.DisabledState.ForeColor = Color.DimGray;
@@ -1469,7 +1631,7 @@
             fieldConteoDenominacion1000.PlaceholderForeColor = Color.DimGray;
             fieldConteoDenominacion1000.PlaceholderText = "0";
             fieldConteoDenominacion1000.SelectedText = "";
-            fieldConteoDenominacion1000.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            fieldConteoDenominacion1000.ShadowDecoration.CustomizableEdges = customizableEdges46;
             fieldConteoDenominacion1000.Size = new Size(60, 35);
             fieldConteoDenominacion1000.TabIndex = 39;
             fieldConteoDenominacion1000.TextAlign = HorizontalAlignment.Right;
@@ -1500,7 +1662,7 @@
             layoutDistribucionConciliacion.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutDistribucionConciliacion.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             layoutDistribucionConciliacion.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDistribucionConciliacion.Size = new Size(633, 335);
+            layoutDistribucionConciliacion.Size = new Size(633, 390);
             layoutDistribucionConciliacion.TabIndex = 1;
             // 
             // separador7
@@ -1562,7 +1724,7 @@
             fieldMontoEfectivoDeclarado.BorderColor = Color.Gainsboro;
             fieldMontoEfectivoDeclarado.BorderRadius = 16;
             fieldMontoEfectivoDeclarado.Cursor = Cursors.IBeam;
-            fieldMontoEfectivoDeclarado.CustomizableEdges = customizableEdges45;
+            fieldMontoEfectivoDeclarado.CustomizableEdges = customizableEdges49;
             fieldMontoEfectivoDeclarado.DefaultText = "";
             fieldMontoEfectivoDeclarado.DisabledState.BorderColor = Color.White;
             fieldMontoEfectivoDeclarado.DisabledState.ForeColor = Color.DimGray;
@@ -1584,7 +1746,7 @@
             fieldMontoEfectivoDeclarado.PlaceholderText = "0,00";
             fieldMontoEfectivoDeclarado.ReadOnly = true;
             fieldMontoEfectivoDeclarado.SelectedText = "";
-            fieldMontoEfectivoDeclarado.ShadowDecoration.CustomizableEdges = customizableEdges46;
+            fieldMontoEfectivoDeclarado.ShadowDecoration.CustomizableEdges = customizableEdges50;
             fieldMontoEfectivoDeclarado.Size = new Size(151, 35);
             fieldMontoEfectivoDeclarado.TabIndex = 39;
             fieldMontoEfectivoDeclarado.TextAlign = HorizontalAlignment.Right;
@@ -1637,7 +1799,7 @@
             fieldObservaciones.BorderColor = Color.Gainsboro;
             fieldObservaciones.BorderRadius = 16;
             fieldObservaciones.Cursor = Cursors.IBeam;
-            fieldObservaciones.CustomizableEdges = customizableEdges47;
+            fieldObservaciones.CustomizableEdges = customizableEdges51;
             fieldObservaciones.DefaultText = "";
             fieldObservaciones.DisabledState.BorderColor = Color.White;
             fieldObservaciones.DisabledState.ForeColor = Color.DimGray;
@@ -1657,7 +1819,7 @@
             fieldObservaciones.PlaceholderForeColor = Color.DimGray;
             fieldObservaciones.PlaceholderText = "Notas de cierre (opcional)";
             fieldObservaciones.SelectedText = "";
-            fieldObservaciones.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            fieldObservaciones.ShadowDecoration.CustomizableEdges = customizableEdges52;
             fieldObservaciones.Size = new Size(623, 80);
             fieldObservaciones.TabIndex = 48;
             fieldObservaciones.TextOffset = new Point(5, 0);
@@ -1669,14 +1831,14 @@
             panelAdvertencia.BorderRadius = 8;
             panelAdvertencia.BorderThickness = 1;
             panelAdvertencia.Controls.Add(layoutPanelAdvertencia);
-            panelAdvertencia.CustomizableEdges = customizableEdges49;
+            panelAdvertencia.CustomizableEdges = customizableEdges53;
             panelAdvertencia.Dock = DockStyle.Fill;
             panelAdvertencia.FillColor = Color.FromArgb(  255,   251,   230);
             panelAdvertencia.Location = new Point(6, 171);
             panelAdvertencia.Margin = new Padding(6);
             panelAdvertencia.Name = "panelAdvertencia";
             panelAdvertencia.ShadowDecoration.BorderRadius = 8;
-            panelAdvertencia.ShadowDecoration.CustomizableEdges = customizableEdges50;
+            panelAdvertencia.ShadowDecoration.CustomizableEdges = customizableEdges54;
             panelAdvertencia.ShadowDecoration.Depth = 10;
             panelAdvertencia.Size = new Size(621, 33);
             panelAdvertencia.TabIndex = 54;
@@ -1827,7 +1989,7 @@
             fieldMontoTransferenciaDeclarado.BorderColor = Color.Gainsboro;
             fieldMontoTransferenciaDeclarado.BorderRadius = 16;
             fieldMontoTransferenciaDeclarado.Cursor = Cursors.IBeam;
-            fieldMontoTransferenciaDeclarado.CustomizableEdges = customizableEdges51;
+            fieldMontoTransferenciaDeclarado.CustomizableEdges = customizableEdges55;
             fieldMontoTransferenciaDeclarado.DefaultText = "";
             fieldMontoTransferenciaDeclarado.DisabledState.BorderColor = Color.White;
             fieldMontoTransferenciaDeclarado.DisabledState.ForeColor = Color.DimGray;
@@ -1848,7 +2010,7 @@
             fieldMontoTransferenciaDeclarado.PlaceholderForeColor = Color.DimGray;
             fieldMontoTransferenciaDeclarado.PlaceholderText = "0,00";
             fieldMontoTransferenciaDeclarado.SelectedText = "";
-            fieldMontoTransferenciaDeclarado.ShadowDecoration.CustomizableEdges = customizableEdges52;
+            fieldMontoTransferenciaDeclarado.ShadowDecoration.CustomizableEdges = customizableEdges56;
             fieldMontoTransferenciaDeclarado.Size = new Size(151, 35);
             fieldMontoTransferenciaDeclarado.TabIndex = 39;
             fieldMontoTransferenciaDeclarado.TextAlign = HorizontalAlignment.Right;
@@ -1983,14 +2145,14 @@
             panelDatosTurno.BorderRadius = 8;
             panelDatosTurno.BorderThickness = 1;
             panelDatosTurno.Controls.Add(layoutDatosTurno);
-            panelDatosTurno.CustomizableEdges = customizableEdges53;
+            panelDatosTurno.CustomizableEdges = customizableEdges57;
             panelDatosTurno.Dock = DockStyle.Fill;
             panelDatosTurno.FillColor = SystemColors.ButtonFace;
             panelDatosTurno.Location = new Point(50, 100);
             panelDatosTurno.Margin = new Padding(0);
             panelDatosTurno.Name = "panelDatosTurno";
             panelDatosTurno.ShadowDecoration.BorderRadius = 8;
-            panelDatosTurno.ShadowDecoration.CustomizableEdges = customizableEdges54;
+            panelDatosTurno.ShadowDecoration.CustomizableEdges = customizableEdges58;
             panelDatosTurno.ShadowDecoration.Depth = 10;
             panelDatosTurno.Size = new Size(1286, 70);
             panelDatosTurno.TabIndex = 54;
@@ -2184,6 +2346,62 @@
             fieldTituloCodigo.Text = "CÓDIGO";
             fieldTituloCodigo.TextAlign = ContentAlignment.BottomLeft;
             // 
+            // layoutBotones
+            // 
+            layoutBotones.BackColor = Color.White;
+            layoutBotones.ColumnCount = 3;
+            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            layoutBotones.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutBotones.Controls.Add(btnSalir, 2, 0);
+            layoutBotones.Controls.Add(btnRegistrarActualizar, 1, 0);
+            layoutBotones.Dock = DockStyle.Fill;
+            layoutBotones.Location = new Point(53, 620);
+            layoutBotones.Margin = new Padding(3, 0, 0, 0);
+            layoutBotones.Name = "layoutBotones";
+            layoutBotones.RowCount = 1;
+            layoutBotones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutBotones.Size = new Size(1283, 45);
+            layoutBotones.TabIndex = 45;
+            // 
+            // btnSalir
+            // 
+            btnSalir.Animated = true;
+            btnSalir.BorderColor = Color.Gainsboro;
+            btnSalir.BorderRadius = 18;
+            btnSalir.BorderThickness = 1;
+            btnSalir.CustomizableEdges = customizableEdges59;
+            btnSalir.Dock = DockStyle.Fill;
+            btnSalir.FillColor = Color.White;
+            btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnSalir.ForeColor = Color.Gainsboro;
+            btnSalir.HoverState.BorderColor = Color.PeachPuff;
+            btnSalir.HoverState.FillColor = Color.PeachPuff;
+            btnSalir.HoverState.ForeColor = Color.Black;
+            btnSalir.Location = new Point(1116, 3);
+            btnSalir.Name = "btnSalir";
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges60;
+            btnSalir.Size = new Size(164, 39);
+            btnSalir.TabIndex = 14;
+            btnSalir.Text = "Cancelar";
+            // 
+            // btnRegistrarActualizar
+            // 
+            btnRegistrarActualizar.Animated = true;
+            btnRegistrarActualizar.BorderRadius = 18;
+            btnRegistrarActualizar.CustomizableEdges = customizableEdges61;
+            btnRegistrarActualizar.Dock = DockStyle.Fill;
+            btnRegistrarActualizar.FillColor = Color.PeachPuff;
+            btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnRegistrarActualizar.ForeColor = Color.Black;
+            btnRegistrarActualizar.Location = new Point(886, 3);
+            btnRegistrarActualizar.Name = "btnRegistrarActualizar";
+            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges62;
+            btnRegistrarActualizar.Size = new Size(224, 39);
+            btnRegistrarActualizar.TabIndex = 15;
+            btnRegistrarActualizar.Text = "Confirmar cierre";
+            // 
             // fieldDescripcionCategoriaProducto
             // 
             fieldDescripcionCategoriaProducto.BackColor = Color.PeachPuff;
@@ -2202,11 +2420,14 @@
             Text = "VistaGestionCostosProduccion";
             layoutVista.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
-            layoutBotones.ResumeLayout(false);
             layoutDistribucion1.ResumeLayout(false);
             layoutDistribucion2.ResumeLayout(false);
             layoutDatos1.ResumeLayout(false);
             layoutDistribucionConteoDenominaciones.ResumeLayout(false);
+            panelDenominacion2000.ResumeLayout(false);
+            layoutDenominacion2000.ResumeLayout(false);
+            panelDenominacion5000.ResumeLayout(false);
+            layoutDenominacion5000.ResumeLayout(false);
             panelDenominacion1.ResumeLayout(false);
             layoutDenominacion1.ResumeLayout(false);
             panelDenominacion3.ResumeLayout(false);
@@ -2239,6 +2460,7 @@
             panelDatosTurno.ResumeLayout(false);
             layoutDatosTurno.ResumeLayout(false);
             layoutDistribucionDatosTurno.ResumeLayout(false);
+            layoutBotones.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -2358,5 +2580,15 @@
         private Label fieldDiferenciaTransferencias;
         private Guna.UI2.WinForms.Guna2Separator separador7;
         private Guna.UI2.WinForms.Guna2Separator separador6;
+        private Guna.UI2.WinForms.Guna2Panel panelDenominacion5000;
+        private TableLayoutPanel layoutDenominacion5000;
+        private Label fieldMontoTotal5000;
+        private Label fieldTituloDenominacion5000;
+        private Guna.UI2.WinForms.Guna2TextBox fieldConteoDenominacion5000;
+        private Guna.UI2.WinForms.Guna2Panel panelDenominacion2000;
+        private TableLayoutPanel layoutDenominacion2000;
+        private Label fieldMontoTotal2000;
+        private Label fieldTituloDenominacion2000;
+        private Guna.UI2.WinForms.Guna2TextBox fieldConteoDenominacion2000;
     }
 }
