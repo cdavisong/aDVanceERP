@@ -9,18 +9,21 @@ namespace aDVancePOS.Mobile.Adaptadores {
         private readonly Action<ItemCarrito> _onRestar;
         private readonly Action<ItemCarrito> _onSumar;
         private readonly Action<ItemCarrito> _onEliminar;
+        private readonly Action<ItemCarrito> _onCambiarPresentacion;
 
         public CarritoAdapter(
             Activity context,
             List<ItemCarrito> items,
             Action<ItemCarrito> onRestar,
             Action<ItemCarrito> onSumar,
-            Action<ItemCarrito> onEliminar) {
+            Action<ItemCarrito> onEliminar,
+            Action<ItemCarrito> onChangePresentacion) {
             _context = context;
             _items = items;
             _onRestar = onRestar;
             _onSumar = onSumar;
             _onEliminar = onEliminar;
+            _onCambiarPresentacion = onChangePresentacion;
         }
 
         public override int Count => _items.Count;
@@ -44,6 +47,7 @@ namespace aDVancePOS.Mobile.Adaptadores {
 
             txtNombre.Text = item.Producto.Nombre;
             
+            // Mostrar presentación actual y hacer clic para cambiar
             if (txtPresentacion != null) {
                 if (item.IdPresentacion > 0 && item.Producto.Presentaciones?.Count > 0) {
                     var presentacion = item.Producto.Presentaciones.FirstOrDefault(p => p.Id == item.IdPresentacion);
@@ -53,6 +57,10 @@ namespace aDVancePOS.Mobile.Adaptadores {
                 } else {
                     txtPresentacion.Text = "Unidad base";
                 }
+                
+                // Permitir cambiar presentación al hacer clic
+                txtPresentacion.Click -= OnCambiarPresentacion;
+                txtPresentacion.Click += OnCambiarPresentacion;
             }
             
             txtCantidad.Text = item.Cantidad.ToString("G");
@@ -86,6 +94,11 @@ namespace aDVancePOS.Mobile.Adaptadores {
             void OnEliminar(object? s, EventArgs e) {
                 if (s is Button b && b.Tag is Java.Lang.Integer p)
                     _onEliminar(_items[(int) p]);
+            }
+            
+            void OnCambiarPresentacion(object? s, EventArgs e) {
+                if (s is TextView t)
+                    _onCambiarPresentacion(item);
             }
         }
     }

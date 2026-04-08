@@ -332,7 +332,8 @@ namespace aDVancePOS.Mobile {
                         Toast.MakeText(this, "Sin stock disponible", ToastLength.Short)?.Show();
                     ActualizarUI();
                 },
-                onEliminar: item => { _carritoService.EliminarItem(item); ActualizarUI(); }
+                onEliminar: item => { _carritoService.EliminarItem(item); ActualizarUI(); },
+                onChangePresentacion: item => MostrarDialogoCambiarPresentacion(item)
             );
 
             // ── Total ─────────────────────────────────────────────
@@ -362,6 +363,35 @@ namespace aDVancePOS.Mobile {
         }
 
         // ── Helpers UI ────────────────────────────────────────
+
+        private void MostrarDialogoCambiarPresentacion(ItemCarrito item) {
+            var producto = item.Producto;
+            var presentaciones = producto.Presentaciones?.Where(p => p.Activo).ToList() ?? new List<PresentacionVenta>();
+
+            // Crear lista de opciones: primero "Unidad base", luego las presentaciones
+            var opciones = new List<(string Etiqueta, long IdPresentacion, decimal Precio)>();
+
+            // Agregar opción de unidad base (idPresentacion = 0)
+            opciones.Add(($"Unidad base — {producto.PrecioConImpuesto:C2}", 0, producto.PrecioConImpuesto));
+
+            // Agregar presentaciones activas
+            foreach (var p in presentaciones) {
+                opciones.Add($"{p.Cantidad} {p.UnidadMedida} — {p.PrecioVenta:C2}", p.Id, p.PrecioVenta);
+            }
+
+            var etiquetas = opciones.Select(o => o.Etiqueta).ToArray();
+
+            new AlertDialog.Builder(this)!
+                .SetTitle($"Cambiar presentación de {producto.Nombre}")!
+                .SetItems(etiquetas, (s, e) => {
+                    var opcionElegida = opciones[e.Which];
+                    // Actualizar el ítem del carrito con la nueva presentación
+                    _carritoService.CambiarPresentacionItem(item, opcionElegida.IdPresentacion, opcionElegida.Precio);
+                    ActualizarUI();
+                })!
+                .SetNegativeButton("Cancelar", (s, e) => { })!
+                .Show();
+        }
 
         private void MostrarMensaje(string mensaje) {
             RunOnUiThread(() =>

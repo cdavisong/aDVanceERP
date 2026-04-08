@@ -27,17 +27,19 @@
         android:ellipsize="end" />
 
 
-	<!-- Presentación del producto -->
+	<!-- Presentación del producto (clickeable para cambiar) -->
 	<TextView
         android:id="@+id/txtPresentacion"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="10sp"
-        android:textColor="#888888"
+        android:textColor="#0066CC"
         android:maxLines="1"
         android:ellipsize="end"
-        android:gravity="center" />
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="false" />
 	<!-- Control de cantidad: [−] qty [+] -->
 	<Button
         android:id="@+id/btnRestar"

@@ -77,5 +77,30 @@ namespace aDVancePOS.Mobile.Servicios {
         public void VaciarTrasVenta() {
             _items.Clear();
         }
+
+        /// <summary>
+        /// Cambia la presentación de un ítem del carrito, ajustando precio y devolviendo/recuperando stock según corresponda.
+        /// </summary>
+        public void CambiarPresentacionItem(ItemCarrito item, long nuevaIdPresentacion, decimal nuevoPrecioUnitario) {
+            // Si la presentación es la misma, no hacer nada
+            if (item.IdPresentacion == nuevaIdPresentacion && item.PrecioUnitario == nuevoPrecioUnitario)
+                return;
+
+            // Buscar si ya existe otro ítem con esta presentación para el mismo producto
+            var itemExistente = _items.FirstOrDefault(i => 
+                i.Producto.Id == item.Producto.Id && i.IdPresentacion == nuevaIdPresentacion);
+
+            if (itemExistente != null && itemExistente != item) {
+                // Fusionar: sumar cantidad al existente y eliminar el actual
+                itemExistente.Cantidad += item.Cantidad;
+                item.Producto.StockEnSesion += item.Cantidad; // Devolver stock del item original
+                itemExistente.Producto.StockEnSesion -= item.Cantidad; // Descontar stock en la nueva presentación
+                _items.Remove(item);
+            } else {
+                // Solo cambiar presentación y precio del ítem actual
+                item.IdPresentacion = nuevaIdPresentacion;
+                item.PrecioUnitario = nuevoPrecioUnitario;
+            }
+        }
     }
 }

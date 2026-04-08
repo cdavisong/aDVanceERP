@@ -81,10 +81,10 @@ namespace aDVancePOS.Mobile.Adaptadores {
                 var prod = _productos[(int)pos];
                 var activas = prod.Presentaciones.Where(p => p.Activo).ToList();
 
-                if (activas.Count > 1)
+                // Siempre mostrar diálogo si hay presentaciones activas (1 o más)
+                // Si no hay presentaciones, usar precio base directamente
+                if (activas.Count > 0)
                     MostrarDialogoPresentaciones(prod, activas);
-                else if (activas.Count == 1)
-                    _onAgregar(prod, activas[0].Id, activas[0].PrecioVenta);
                 else
                     _onAgregar(prod, 0, prod.PrecioConImpuesto); // precio base
             }
@@ -96,15 +96,24 @@ namespace aDVancePOS.Mobile.Adaptadores {
             ProductoCatalogo producto,
             List<PresentacionVenta> presentaciones) {
 
-            var etiquetas = presentaciones
-                .Select(p => $"{p.Cantidad} {p.UnidadMedida}  —  {p.PrecioVenta:C2}")
-                .ToArray();
+            // Crear lista de opciones: primero "Unidad base", luego las presentaciones
+            var opciones = new List<(string Etiqueta, long IdPresentacion, decimal Precio)>();
+            
+            // Agregar opción de unidad base (idPresentacion = 0)
+            opciones.Add(($"Unidad base — {producto.PrecioConImpuesto:C2}", 0, producto.PrecioConImpuesto));
+            
+            // Agregar presentaciones activas
+            foreach (var p in presentaciones) {
+                opciones.Add($"{p.Cantidad} {p.UnidadMedida} — {p.PrecioVenta:C2}", p.Id, p.PrecioVenta);
+            }
+
+            var etiquetas = opciones.Select(o => o.Etiqueta).ToArray();
 
             new AlertDialog.Builder(_context)!
                 .SetTitle($"¿Cómo desea vender {producto.Nombre}?")!
                 .SetItems(etiquetas, (s, e) => {
-                    var elegida = presentaciones[e.Which];
-                    _onAgregar(producto, elegida.Id, elegida.PrecioVenta);
+                    var opcionElegida = opciones[e.Which];
+                    _onAgregar(producto, opcionElegida.IdPresentacion, opcionElegida.Precio);
                 })!
                 .SetNegativeButton("Cancelar", (s, e) => { })!
                 .Show();
