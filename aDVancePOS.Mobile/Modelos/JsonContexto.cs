@@ -9,6 +9,8 @@ namespace aDVancePOS.Mobile.Modelos {
     [JsonSerializable(typeof(CatalogoMeta))]
     [JsonSerializable(typeof(List<ProductoCatalogo>))]
     [JsonSerializable(typeof(ProductoCatalogo))]
+    [JsonSerializable(typeof(List<PresentacionVenta>))]
+    [JsonSerializable(typeof(PresentacionVenta))]
     [JsonSerializable(typeof(VentasExportacionJson))]
     [JsonSerializable(typeof(ExportacionMeta))]
     [JsonSerializable(typeof(List<VentaExportacion>))]

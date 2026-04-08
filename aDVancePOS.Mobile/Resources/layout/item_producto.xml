@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
     ITEM LISTA PRODUCTOS - item_producto.xml
     Úso en ProductoAdapter al inflar cada fila del lstProductos.
@@ -41,6 +41,17 @@
             android:textSize="11sp"
             android:textColor="#AAAAAA"
             android:layout_marginTop="2dp" />
+
+        <!-- Chip: visible solo si el producto tiene múltiples presentaciones -->
+        <TextView
+            android:id="@+id/txtChipPresentaciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Varias presentaciones"
+            android:textSize="10sp"
+            android:textColor="#B22222"
+            android:layout_marginTop="3dp"
+            android:visibility="gone" />
 	</LinearLayout>
 
 	<!-- Precio -->

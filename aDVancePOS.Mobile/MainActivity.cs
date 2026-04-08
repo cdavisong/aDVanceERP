@@ -200,6 +200,7 @@ namespace aDVancePOS.Mobile {
             if (requestCode == CobroActivity.RequestCode && resultCode == Result.Ok) {
                 // Venta registrada en CobroActivity — limpiar carrito y refrescar
                 _carritoService.VaciarTrasVenta();
+
                 ActualizarUI();
                 var resumen = data?.GetStringExtra(CobroActivity.ExtraResumen) ?? "";
                 if (!string.IsNullOrEmpty(resumen))
@@ -211,8 +212,17 @@ namespace aDVancePOS.Mobile {
             var producto = _catalogoService.BuscarPorCodigo(codigo);
 
             if (producto != null) {
-                // Producto encontrado — agregar directo al carrito
-                if (_carritoService.AgregarProducto(producto)) {
+                // Producto encontrado — si tiene una sola presentación activa la usa,
+                // si tiene varias muestra el diálogo, si no tiene usa precio base
+                var activas = producto.Presentaciones.Where(p => p.Activo).ToList();
+                long idPres   = activas.Count == 1 ? activas[0].Id : 0;
+                decimal precio = activas.Count == 1 ? activas[0].PrecioVenta : producto.PrecioConImpuesto;
+                if (activas.Count > 1) {
+                    // El escáner no puede mostrar diálogo fácilmente — usar la primera presentación
+                    idPres  = activas[0].Id;
+                    precio  = activas[0].PrecioVenta;
+                }
+                if (_carritoService.AgregarProducto(producto, idPres, precio)) {
                     ActualizarUI();
                     Toast.MakeText(this,
                         $"{producto.Nombre} agregado",
@@ -536,12 +546,13 @@ namespace aDVancePOS.Mobile {
             // en pantalla aunque StockEnSesion sí cambió en el modelo.
             if (_productoAdapter == null || _lstProductos.Adapter == null) {
                 // Primera carga: crear el adapter y asignarlo
-                _productoAdapter = new ProductoAdapter(this, _productosMostrados, producto => {
-                    if (!_carritoService.AgregarProducto(producto))
-                        Toast.MakeText(this, $"Sin stock: {producto.Nombre}",
-                            ToastLength.Short)?.Show();
-                    ActualizarUI();
-                });
+                _productoAdapter = new ProductoAdapter(this, _productosMostrados,
+                    (producto, idPresentacion, precio) => {
+                        if (!_carritoService.AgregarProducto(producto, idPresentacion, precio))
+                            Toast.MakeText(this, $"Sin stock: {producto.Nombre}",
+                                ToastLength.Short)?.Show();
+                        ActualizarUI();
+                    });
                 _lstProductos.Adapter = _productoAdapter;
             } else {
                 // Actualizaciones posteriores: reemplazar la lista interna y
@@ -566,9 +577,9 @@ namespace aDVancePOS.Mobile {
 
             // ── Carrito ───────────────────────────────────────────
             _lstCarrito.Adapter = new CarritoAdapter(this, items,
-                onRestar: item => { _carritoService.RestarProducto(item.Producto); ActualizarUI(); },
+                onRestar: item => { _carritoService.RestarProducto(item.Producto, item.IdPresentacion); ActualizarUI(); },
                 onSumar: item => {
-                    if (!_carritoService.AgregarProducto(item.Producto))
+                    if (!_carritoService.AgregarProducto(item.Producto, item.IdPresentacion, item.PrecioUnitario))
                         Toast.MakeText(this, "Sin stock disponible", ToastLength.Short)?.Show();
                     ActualizarUI();
                 },

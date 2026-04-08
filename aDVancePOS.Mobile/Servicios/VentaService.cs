@@ -165,11 +165,12 @@ namespace aDVancePOS.Mobile.Servicios {
 
             foreach (var item in carrito.Items) {
                 venta.Detalles.Add(new DetalleExportacion {
-                    IdProducto = item.Producto.Id,
-                    Cantidad = item.Cantidad,
-                    PrecioVentaUnitario = item.Producto.PrecioConImpuesto,
-                    DescuentoItem = 0,
-                    Subtotal = item.Subtotal
+                    IdProducto          = item.Producto.Id,
+                    IdPresentacion      = item.IdPresentacion,
+                    Cantidad            = item.Cantidad,
+                    PrecioVentaUnitario = item.PrecioUnitario,   // precio real de la presentación
+                    DescuentoItem       = 0,
+                    Subtotal            = item.Subtotal
                 });
             }
 
