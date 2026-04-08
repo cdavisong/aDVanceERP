@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 
 using System.Data;
 using System.Globalization;
+using System.Linq;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
     public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProducto> {
@@ -310,8 +311,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                                            .GetValueOrDefault("nombreAlmacen")?.ToString()
                                        ?? string.Empty;
 
+                // Cargar presentaciones para todos los productos
+                var productosConPresentaciones = AgregarPresentacionesAProductos(productos);
+
                 // Limpiar campos internos que no van al JSON final del móvil
-                var productosFinal = productos.Select(p =>
+                var productosFinal = productosConPresentaciones.Select(p =>
                 {
                     var limpio = new Dictionary<string, object>(p);
                     limpio.Remove("nombreAlmacen");
@@ -386,6 +390,64 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             while (lector.Read());
 
             return (listaProductos, new List<IEntidadBaseDatos>());
+        }
+
+        /// <summary>
+        /// Agrega las presentaciones de venta a cada producto del catálogo.
+        /// Las presentaciones se cargan desde la tabla adv__precio_presentacion
+        /// y se incluyen en el campo "presentaciones" con la estructura:
+        /// [{id, cantidad, precioVenta, activo, unidadMedida}]
+        /// </summary>
+        private List<Dictionary<string, object>> AgregarPresentacionesAProductos(
+            List<Dictionary<string, object>> productos) {
+            
+            if (productos == null || productos.Count == 0)
+                return productos;
+
+            var repoPresentacion = RepoPrecioPresentacion.Instancia;
+
+            foreach (var producto in productos) {
+                var idProducto = Convert.ToInt64(producto["id"]);
+                
+                // Obtener todas las presentaciones activas del producto
+                var presentaciones = repoPresentacion
+                    .Buscar(FiltroBusquedaPrecioPresentacion.SoloActivos, idProducto.ToString())
+                    .resultadosBusqueda
+                    .Select(r => r.entidadBase as PrecioPresentacion)
+                    .Where(p => p != null)
+                    .ToList();
+
+                // Construir el array de presentaciones para el JSON
+                var presentacionesJson = new List<Dictionary<string, object>>();
+                
+                foreach (var presentacion in presentaciones) {
+                    // Obtener la unidad de medida de la presentación
+                    var unidadMedida = string.Empty;
+                    if (presentacion.IdUnidadMedida > 0) {
+                        var repoUnidadMedida = RepoUnidadMedida.Instancia;
+                        var unidad = repoUnidadMedida.ObtenerPorId(presentacion.IdUnidadMedida);
+                        if (unidad != null) {
+                            unidadMedida = !string.IsNullOrEmpty(unidad.Abreviatura) 
+                                ? unidad.Abreviatura 
+                                : unidad.Nombre;
+                        }
+                    }
+
+                    presentacionesJson.Add(new Dictionary<string, object> {
+                        ["id"] = presentacion.Id,
+                        ["cantidad"] = presentacion.Cantidad,
+                        ["precioVenta"] = presentacion.PrecioVenta,
+                        ["activo"] = presentacion.Activo,
+                        ["unidadMedida"] = unidadMedida
+                    });
+                }
+
+                // Agregar el campo "presentaciones" al producto
+                // Si no hay presentaciones, se envía un array vacío []
+                producto["presentaciones"] = presentacionesJson;
+            }
+
+            return productos;
         }
 
         /// <summary>
