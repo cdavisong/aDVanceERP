@@ -1,21 +1,22 @@
-```
+```gitignore
 # Build artifacts
-*.o
-*.obj
-*.exe
-*.dll
+*.apk
+*.aar
 *.so
-*.a
-*.out
+*.dll
+*.exe
+obj/
+bin/
+Debug/
+Release/
 
 # Dependencies
 packages/
-bin/
-obj/
+node_modules/
+vendor/
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
 
 # Environment
 .env
@@ -23,5 +24,24 @@ obj/
 *.env.*
 
 # Editors
-.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+htmlcov/
+*.coverage
+
+# Cache directories
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
 ```
