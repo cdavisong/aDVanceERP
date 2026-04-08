@@ -168,10 +168,6 @@ namespace aDVancePOS.Mobile {
 
             if (CheckSelfPermission(Manifest.Permission.Camera) != Permission.Granted)
                 permisosFaltantes.Add(Manifest.Permission.Camera);
-            if (CheckSelfPermission(Manifest.Permission.ReceiveSms) != Permission.Granted)
-                permisosFaltantes.Add(Manifest.Permission.ReceiveSms);
-            if (CheckSelfPermission(Manifest.Permission.ReadSms) != Permission.Granted)
-                permisosFaltantes.Add(Manifest.Permission.ReadSms);
 
             if (permisosFaltantes.Count > 0)
                 RequestPermissions(permisosFaltantes.ToArray(), requestCode: 1000);
