@@ -52,7 +52,7 @@ namespace aDVanceERP.Modulos.Inventario {
             _estadisticasGenerales = new PresentadorEstadisticasInventario(new VistaEstadisticasInventario());
             // Productos
             _productos = new PresentadorGestionProductos(new VistaGestionProductos());
-            _ventaPresentacion = new PresentadorGestionVentaPresentacion(new VistaGestionVentaPresentacion());_ventaPresentacion = new PresentadorGestionVentaPresentacion(new VistaGestionVentaPresentacion());
+            _ventaPresentacion = new PresentadorGestionVentaPresentacion(new VistaGestionVentaPresentacion());
             _ventaPresentacion.RegistrarEntidad += (s, e) => _productos.ActualizarResultadosBusqueda();
             _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());        
             _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
