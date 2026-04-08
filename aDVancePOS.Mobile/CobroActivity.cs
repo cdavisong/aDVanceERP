@@ -16,9 +16,11 @@
 using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
+using Android;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Provider;
 using Android.Views;
 using Android.Widget;
 
@@ -64,6 +66,15 @@ namespace aDVancePOS.Mobile {
             base.OnCreate(savedInstanceState);
             ActionBar?.Hide();
             SetContentView(Resource.Layout.activity_cobro);
+
+            // Solicitar permisos de SMS si es necesario
+            if (CheckSelfPermission(Manifest.Permission.ReceiveSms) != Permission.Granted ||
+                CheckSelfPermission(Manifest.Permission.ReadSms) != Permission.Granted) {
+                RequestPermissions(new[] {
+                    Manifest.Permission.ReceiveSms,
+                    Manifest.Permission.ReadSms
+                }, requestCode: 1001);
+            }
 
             // Obtener servicios desde el Application (singleton compartido con MainActivity)
             var app = (PosApplication) Application!;

@@ -1,20 +1,21 @@
 ```
 # Build artifacts
-*.apk
-*.aab
-bin/
-obj/
-Debug/
-Release/
-*.userprefs
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+*.out
 
 # Dependencies
 packages/
-node_modules/
-vendor/
+bin/
+obj/
 
-# Logs
+# Logs and temp files
 *.log
+*.tmp
 
 # Environment
 .env
@@ -23,18 +24,4 @@ vendor/
 
 # Editors
 .vs/
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS generated files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Temporary files
-*.tmp
-*.temp
-*~
 ```
