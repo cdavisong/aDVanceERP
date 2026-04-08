@@ -86,7 +86,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     IdSolicitudCompra = id,
                     IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
                     CantidadSolicitada = productoCarrito.Value.Cantidad,
-                    PrecioAdquisicionReferencia = productoCarrito.Value.CostoGeneral
+                    PrecioAdquisicionReferencia = productoCarrito.Value.PrecioUnitario
                 };
 
                 repoDetalleSolicitudCompra.Adicionar(detalleSolicitudCompra);

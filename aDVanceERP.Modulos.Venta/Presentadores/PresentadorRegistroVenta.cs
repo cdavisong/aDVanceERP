@@ -13,6 +13,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
+using aDVanceERP.Modulos.Venta.Vistas;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorRegistroVenta : PresentadorVistaRegistro<IVistaRegistroVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
@@ -85,62 +86,81 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         protected override void RegistroEdicionAuxiliar(RepoVenta repositorio, long id) {
             var repoProducto = RepoProducto.Instancia;
             var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
-            var repoinventario = RepoInventario.Instancia;
+            var repoInventario = RepoInventario.Instancia;
+            var repoPrecioPresentacion = RepoPrecioPresentacion.Instancia;
             var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             foreach (var productoCarrito in Vista.Carrito) {
+                var tuplaCarrito = productoCarrito.Value as VistaTuplaCarrito;
+                var idPresentacion = tuplaCarrito?.IdPresentacion ?? 0;
+
+                // Obtener cantidad de unidades por presentación
+                decimal unidadesPorPresentacion = idPresentacion > 0
+                    ? repoPrecioPresentacion.ObtenerCantidadPorPresentacion(idPresentacion)
+                    : 1m;
+
+                // Calcular cantidad total en unidades base para inventario
+                decimal cantidadTotalUnidades = productoCarrito.Value.Cantidad * unidadesPorPresentacion;
+
                 // Detalles de venta
                 var producto = repoProducto.ObtenerPorId(productoCarrito.Key);
                 var subtotal = productoCarrito.Value.PrecioUnitario * productoCarrito.Value.Cantidad;
                 var detalleVenta = new DetalleVentaProducto() {
                     Id = 0,
                     IdVenta = id,
-                    IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
-                    Cantidad = productoCarrito.Value.Cantidad,
-                    PrecioCompraVigente = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    IdProducto = producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
+                    Cantidad = cantidadTotalUnidades, // GUARDAR EN UNIDADES BASE
+                    PrecioCompraVigente = producto.Categoria == CategoriaProducto.ProductoTerminado
+                        ? producto.CostoProduccionUnitario
+                        : producto.CostoAdquisicionUnitario,
                     PrecioVentaUnitario = productoCarrito.Value.PrecioUnitario,
                     DescuentoItem = productoCarrito.Value.Descuento,
                     Subtotal = subtotal - (subtotal * (productoCarrito.Value.Descuento / 100)),
-                    IdPresentacion = productoCarrito.Value.IdPresentacion
+                    IdPresentacion = idPresentacion
                 };
 
                 repoDetalleVenta.Adicionar(detalleVenta);
 
                 // Crear movimiento de inventario
-                var inventarioProducto = repoinventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenOrigen.Id)).entidadBase;
+                var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
+                    .resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenOrigen.Id)).entidadBase;
                 var movimiento = new Movimiento() {
                     Id = 0,
-                    IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
-                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
-                    IdAlmacenOrigen = almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
+                    IdProducto = producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
+                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
+                        ? producto.CostoProduccionUnitario
+                        : producto.CostoAdquisicionUnitario,
+                    IdAlmacenOrigen = almacenOrigen?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenOrigen)),
                     IdAlmacenDestino = 0,
                     Estado = EstadoMovimiento.Completado,
                     FechaCreacion = DateTime.Now,
                     SaldoInicial = inventarioProducto.Cantidad,
                     FechaTermino = Entidad?.EstadoVenta == EstadoVentaEnum.Completada ? DateTime.Now : DateTime.MinValue,
-                    CantidadMovida = productoCarrito.Value.Cantidad,
-                    SaldoFinal = inventarioProducto.Cantidad - productoCarrito.Value.Cantidad,
-                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    CantidadMovida = cantidadTotalUnidades, // DESCONTAR EN UNIDADES BASE
+                    SaldoFinal = inventarioProducto.Cantidad - cantidadTotalUnidades,
+                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta")
+                        .resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
                     IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = "Venta de producto.",
+                    Notas = $"Venta de producto. Presentación: {(idPresentacion > 0 ? idPresentacion.ToString() : "Unidad base")}.",
                 };
 
                 RepoMovimiento.Instancia.Adicionar(movimiento);
 
                 // Modificar inventario
-                repoinventario.ModificarInventario(
-                    producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
-                    almacenOrigen?.Id ?? throw new ArgumentException("El almacén especificado no es válido", nameof(Vista.NombreAlmacenOrigen)),
+                repoInventario.ModificarInventario(
+                    producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
+                    almacenOrigen?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenOrigen)),
                     0,
-                    productoCarrito.Value.Cantidad);
+                    cantidadTotalUnidades); // USAR CANTIDAD EN UNIDADES BASE
 
                 // Actualizar el estado del pedido
                 if (Entidad?.IdPedido != 0) {
                     var repoPedido = RepoPedido.Instancia;
-                    var pedido = repoPedido.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido).resultadosBusqueda.FirstOrDefault().entidadBase;
+                    var pedido = repoPedido.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido)
+                        .resultadosBusqueda.FirstOrDefault().entidadBase;
 
                     pedido.EstadoPedido = EstadoPedidoEnum.Retirado;
-                    repoPedido.Editar(pedido);                    
+                    repoPedido.Editar(pedido);
                 }
             }
 
@@ -199,6 +219,17 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             }
 
             foreach (var item in Vista.Carrito) {
+                var tuplaCarrito = item.Value as VistaTuplaCarrito;
+                var idPresentacion = tuplaCarrito?.IdPresentacion ?? 0;
+
+                // Obtener cantidad de unidades por presentación
+                decimal unidadesPorPresentacion = idPresentacion > 0
+                    ? RepoPrecioPresentacion.Instancia.ObtenerCantidadPorPresentacion(idPresentacion)
+                    : 1m;
+
+                // Calcular cantidad total en unidades base
+                decimal cantidadTotalUnidades = item.Value.Cantidad * unidadesPorPresentacion;
+
                 var inventario = RepoInventario.Instancia
                     .Buscar(FiltroBusquedaInventario.IdProducto, item.Key.ToString())
                     .resultadosBusqueda
@@ -206,11 +237,12 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
                 var stockDisponible = inventario?.Cantidad ?? 0;
 
-                if (item.Value.Cantidad > stockDisponible) {
+                if (cantidadTotalUnidades > stockDisponible) {
                     var producto = RepoProducto.Instancia.ObtenerPorId(item.Key);
                     CentroNotificaciones.MostrarNotificacion(
                         $"Stock insuficiente para '{producto?.Nombre}'. " +
-                        $"Disponible: {stockDisponible}, solicitado: {item.Value.Cantidad}.",
+                        $"Disponible: {stockDisponible} unidades, solicitado: {cantidadTotalUnidades} unidades " +
+                        $"({item.Value.Cantidad} × {unidadesPorPresentacion} por presentación).",
                         TipoNotificacionEnum.Advertencia);
                     return false;
                 }

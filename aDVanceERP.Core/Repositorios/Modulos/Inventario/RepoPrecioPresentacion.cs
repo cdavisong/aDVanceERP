@@ -254,5 +254,48 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) >= 0;
         }
+
+        /// <summary>
+        /// Obtiene la cantidad de unidades base que contiene una presentación específica.
+        /// </summary>
+        public decimal ObtenerCantidadPorPresentacion(long idPresentacion) {
+            if (idPresentacion == 0) return 1m; // Sin presentación = 1 unidad base
+
+            const string consulta = """
+                SELECT cantidad
+                FROM adv__precio_presentacion
+                WHERE id_precio_presentacion = @id_presentacion;
+                """;
+
+                    var parametros = new Dictionary<string, object> {
+                { "@id_presentacion", idPresentacion }
+            };
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+        }
+
+        /// <summary>
+        /// Valida si hay stock suficiente para una presentación específica.
+        /// Devuelve true si el stock disponible >= cantidad * presentación.cantidad
+        /// </summary>
+        public bool HayStockSuficienteParaPresentacion(
+            long idProducto,
+            long idAlmacen,
+            long idPresentacion,
+            decimal cantidadSolicitada) {
+            // Obtener cantidad de unidades por presentación
+            decimal unidadesPorPresentacion = idPresentacion > 0
+                ? ObtenerCantidadPorPresentacion(idPresentacion)
+                : 1m;
+
+            // Cantidad total en unidades base
+            decimal cantidadTotalUnidades = cantidadSolicitada * unidadesPorPresentacion;
+
+            // Obtener disponibilidad actual
+            var repoProducto = RepoProducto.Instancia;
+            var disponibilidad = repoProducto.ObtenerDisponibilidadProducto(idProducto, idAlmacen);
+
+            return disponibilidad.disponible >= cantidadTotalUnidades;
+        }
     }
 }

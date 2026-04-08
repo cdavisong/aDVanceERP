@@ -27,18 +27,22 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaCarrito));
+            components = new Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaCarrito));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             layoutBase = new TableLayoutPanel();
             layoutVista = new TableLayoutPanel();
-            fieldUnidadMedida = new Label();
+            fieldUnidadMedida = new Guna2ComboBox();
             fieldCantidad = new Label();
             btnEliminar = new Guna2Button();
             simboloPeso1 = new Label();
             fieldCodigo = new Label();
             fieldCostoGeneral = new Label();
             fieldNombreProducto = new Label();
+            toolTipPresentacion = new ToolTip(components);
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -87,17 +91,29 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             // 
             // fieldUnidadMedida
             // 
+            fieldUnidadMedida.Animated = true;
+            fieldUnidadMedida.AutoRoundedCorners = true;
+            fieldUnidadMedida.BackColor = Color.Transparent;
+            fieldUnidadMedida.BorderColor = Color.Gainsboro;
+            fieldUnidadMedida.BorderRadius = 16;
+            fieldUnidadMedida.CustomizableEdges = customizableEdges1;
             fieldUnidadMedida.Dock = DockStyle.Fill;
-            fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F);
+            fieldUnidadMedida.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldUnidadMedida.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldUnidadMedida.FocusedColor = Color.Gainsboro;
+            fieldUnidadMedida.FocusedState.BorderColor = Color.Gainsboro;
+            fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
             fieldUnidadMedida.ForeColor = Color.DimGray;
-            fieldUnidadMedida.ImeMode = ImeMode.NoControl;
-            fieldUnidadMedida.Location = new Point(610, 1);
-            fieldUnidadMedida.Margin = new Padding(5, 1, 1, 1);
+            fieldUnidadMedida.ItemHeight = 29;
+            fieldUnidadMedida.Items.AddRange(new object[] { "u" });
+            fieldUnidadMedida.Location = new Point(608, 3);
             fieldUnidadMedida.Name = "fieldUnidadMedida";
-            fieldUnidadMedida.Size = new Size(74, 39);
+            fieldUnidadMedida.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldUnidadMedida.Size = new Size(74, 35);
+            fieldUnidadMedida.StartIndex = 0;
             fieldUnidadMedida.TabIndex = 36;
-            fieldUnidadMedida.Text = "um";
-            fieldUnidadMedida.TextAlign = ContentAlignment.MiddleCenter;
+            fieldUnidadMedida.TextAlign = HorizontalAlignment.Center;
+            fieldUnidadMedida.TextOffset = new Point(6, 0);
             // 
             // fieldCantidad
             // 
@@ -122,7 +138,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges1;
+            btnEliminar.CustomizableEdges = customizableEdges3;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -131,7 +147,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             btnEliminar.HoverState.FillColor = Color.PeachPuff;
             btnEliminar.Location = new Point(688, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnEliminar.Size = new Size(34, 35);
             btnEliminar.TabIndex = 21;
             // 
@@ -206,7 +222,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
-            Text = "VistaTuplaCompra";
+            Text = "VistaTuplaVenta";
             layoutBase.ResumeLayout(false);
             layoutVista.ResumeLayout(false);
             ResumeLayout(false);
@@ -223,6 +239,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
         private Label simboloPeso1;
         private Label fieldCostoGeneral;
         private Label fieldCantidad;
-        private Label fieldUnidadMedida;
+        private Guna2ComboBox fieldUnidadMedida;
+        private ToolTip toolTipPresentacion;
     }
 }

@@ -300,13 +300,14 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                     if (producto == null)
                         continue;
 
+                    var presentaciones = RepoPrecioPresentacion.Instancia.Buscar(FiltroBusquedaPrecioPresentacion.IdProducto, idProducto.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToArray();
                     var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Id, producto.IdUnidadMedida.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
 
                     var tuplaCarrito = new VistaTuplaCarrito() {
                         IdProducto = idProducto,
                         Codigo = producto.Codigo,
                         NombreProducto = producto.Nombre,
-                        CostoGeneral = producto.Categoria == CategoriaProducto.ProductoTerminado
+                        PrecioUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
                             ? producto.CostoProduccionUnitario
                             : producto.CostoAdquisicionUnitario,
                         Cantidad = detalleSolicitud.CantidadSolicitada,
@@ -319,9 +320,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                         Visible = true
                     };
 
+                    tuplaCarrito.CargarPresentacionesVenta(presentaciones);
+                    tuplaCarrito.EditarDatosTupla += ReCalcularTotales;
                     tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
 
                     _carrito.Add(idProducto, tuplaCarrito);
+
                     panelProductosCompra.Controls.Add(tuplaCarrito);
                 }
             }
@@ -351,6 +355,8 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             }
 
             // Agregar o actualizar el carrito
+            var presentaciones = RepoPrecioPresentacion.Instancia.Buscar(FiltroBusquedaPrecioPresentacion.IdProducto, _productoSeleccionado.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToArray();
+
             if (_carrito.ContainsKey(_productoSeleccionado!.Id)) {
                 var productoCarrito = _carrito[_productoSeleccionado.Id];
 
@@ -361,7 +367,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                     IdProducto = _productoSeleccionado.Id,
                     Codigo = _productoSeleccionado.Codigo,
                     NombreProducto = _productoSeleccionado.Nombre,
-                    CostoGeneral = _productoSeleccionado.Categoria == CategoriaProducto.ProductoTerminado
+                    PrecioUnitario = _productoSeleccionado.Categoria == CategoriaProducto.ProductoTerminado
                         ? _productoSeleccionado.CostoProduccionUnitario
                         : _productoSeleccionado.CostoAdquisicionUnitario,
                     Cantidad = Cantidad,
@@ -374,9 +380,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                     Visible = true
                 };
 
+                tuplaCarrito.CargarPresentacionesVenta(presentaciones);
+                tuplaCarrito.EditarDatosTupla += ReCalcularTotales;
                 tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
 
                 _carrito.Add(_productoSeleccionado.Id, tuplaCarrito);
+
                 panelProductosCompra.Controls.Add(tuplaCarrito);
             }
 
@@ -409,12 +418,16 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             CalcularTotales();
         }
 
+        private void ReCalcularTotales(object? sender, EventArgs e) {
+            CalcularTotales();
+        }
+
         private void CalcularTotales() {
             decimal totalBruto = 0m;
             decimal impuestoTotal = 0m;
 
             foreach (var producto in _carrito.Values) {
-                var subTotal = producto.CostoGeneral * producto.Cantidad;
+                var subTotal = producto.PrecioUnitario * producto.Cantidad;
                 var impuestoAdicional = subTotal * (producto.ImpuestoAdicional / 100);
 
                 totalBruto += subTotal;

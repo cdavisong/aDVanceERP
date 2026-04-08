@@ -80,7 +80,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _unidadMedida;
             set {
                 _unidadMedida = value;
-                                
+
                 var (borde, fondo, fuente) = ObtenerColorUnidadMedida(_presentacionesVenta != null && _presentacionesVenta.Length > 0);
 
                 fieldUnidadMedida.BorderColor = borde;
@@ -100,10 +100,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             // Eventos
-            fieldUnidadMedida.SelectedIndexChanged += delegate (object? sender, EventArgs e) { 
+            fieldUnidadMedida.SelectedIndexChanged += delegate (object? sender, EventArgs e) {
                 var producto = RepoProducto.Instancia.ObtenerPorId(IdProducto)!;
                 var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(producto.IdUnidadMedida);
-                var unidadMedidaPresentacion = fieldUnidadMedida.SelectedIndex > 0 
+                var unidadMedidaPresentacion = fieldUnidadMedida.SelectedIndex > 0
                     ? RepoUnidadMedida.Instancia.ObtenerPorId(_presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].IdUnidadMedida)
                     : null;
 
@@ -113,9 +113,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 UnidadMedida = fieldUnidadMedida.SelectedIndex == 0
                     ? unidadMedidaProducto
                     : unidadMedidaPresentacion;
-                IdPresentacion = fieldUnidadMedida.SelectedIndex > 0 
-                    ? _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].Id 
+                IdPresentacion = fieldUnidadMedida.SelectedIndex > 0
+                    ? _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].Id
                     : 0;
+
+                // MOSTRAR INFORMACIÓN DE LA PRESENTACIÓN
+                decimal cantidadPorPresentacion = fieldUnidadMedida.SelectedIndex > 0
+                    ? _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].Cantidad
+                    : 1m;
+
+                // Actualizar tooltip o label informativo
+                toolTipPresentacion.SetToolTip(fieldUnidadMedida,
+                    $"{cantidadPorPresentacion} {unidadMedidaProducto.Abreviatura} por presentación");
 
                 EditarDatosTupla?.Invoke(this, e);
             };
@@ -148,8 +157,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             foreach (var presentacion in presentaciones) {
                 var unidadMedida = repoUnidadMedida.ObtenerPorId(presentacion.IdUnidadMedida);
-                
-                if (unidadMedida == null) 
+
+                if (unidadMedida == null)
                     continue;
 
                 fieldUnidadMedida.Items.Add(unidadMedida.Abreviatura);
@@ -158,10 +167,36 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldUnidadMedida.SelectedIndex = 0;
         }
 
+        public bool ValidarStockParaPresentacionSeleccionada(long idAlmacen) {
+            if (IdProducto == 0) return false;
+
+            var producto = RepoProducto.Instancia.ObtenerPorId(IdProducto);
+            if (producto == null) return false;
+
+            // Obtener presentación seleccionada
+            PrecioPresentacion? presentacionSeleccionada = null;
+            if (fieldUnidadMedida.SelectedIndex > 0 && _presentacionesVenta != null) {
+                presentacionSeleccionada = _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1];
+            }
+
+            // Calcular cantidad total en unidades base
+            decimal unidadesPorPresentacion = presentacionSeleccionada?.Cantidad ?? 1m;
+            decimal cantidadTotalUnidades = Cantidad * unidadesPorPresentacion;
+
+            // Obtener stock disponible
+            var disponibilidad = RepoProducto.Instancia.ObtenerDisponibilidadProducto(IdProducto, idAlmacen);
+
+            return disponibilidad.disponible >= cantidadTotalUnidades;
+        }
+
         private (Color borde, Color fondo, Color fuente) ObtenerColorUnidadMedida(bool estado) {
             return estado
                 ? (Color.FromArgb(253, 224, 196), Color.FromArgb(255, 248, 242), Color.FromArgb(232, 149, 74))  // Naranja
                 : (Color.FromArgb(228, 228, 228), Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136));// Gris
+        }
+
+        private void simboloPeso1_Click(object sender, EventArgs e) {
+
         }
     }
 }
