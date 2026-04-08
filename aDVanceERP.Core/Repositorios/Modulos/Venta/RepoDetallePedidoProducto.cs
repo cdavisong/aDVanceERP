@@ -19,13 +19,13 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     id_producto,
                     cantidad_solicitada,
                     precio_venta_referencia,
-                    id_presentacion
+                    id_precio_presentacion
                 ) VALUES (
                     @id_pedido,
                     @id_producto,
                     @cantidad_solicitada,
                     @precio_venta_referencia,
-                    @id_presentacion
+                    @id_precio_presentacion
                 );
                 """;
 
@@ -34,7 +34,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
                 { "@precio_venta_referencia", entidad.PrecioVentaReferencia },
-                { "@id_presentacion", entidad.IdPresentacion }
+                { "@id_precio_presentacion", entidad.IdPrecioPresentacion }
             };
 
             return comando;
@@ -48,7 +48,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     id_producto = @id_producto,
                     cantidad_solicitada = @cantidad_solicitada,
                     precio_venta_referencia = @precio_venta_referencia,
-                    id_presentacion = @id_presentacion
+                    id_precio_presentacion = @id_precio_presentacion
                 WHERE id_detalle_pedido_producto = @id_detalle
                 """;
 
@@ -58,7 +58,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
                 { "@precio_venta_referencia", entidad.PrecioVentaReferencia },
-                { "@id_presentacion", entidad.IdPresentacion }
+                { "@id_precio_presentacion", entidad.IdPrecioPresentacion }
             };
 
             return comando;
@@ -119,7 +119,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 CantidadSolicitada = Convert.ToDecimal(lector["cantidad_solicitada"], CultureInfo.InvariantCulture),
                 PrecioVentaReferencia = Convert.ToDecimal(lector["precio_venta_referencia"], CultureInfo.InvariantCulture),
                 Subtotal = Convert.ToDecimal(lector["subtotal"], CultureInfo.InvariantCulture),
-                IdPresentacion = Convert.ToInt64(lector["id_presentacion"])
+                IdPrecioPresentacion = Convert.ToInt64(lector["id_precio_presentacion"])
             };
 
             var entidadesExtra = new List<IEntidadBaseDatos>();

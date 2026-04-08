@@ -7,12 +7,12 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             PrecioCompraVigente = 0.0m;
             PrecioVentaUnitario = 0.0m;
             DescuentoItem = 0.0m;
-            IdPresentacion = 0;
+            IdPrecioPresentacion = 0;
         }
 
         public DetalleVentaProducto(long id, long idVenta, long idProducto, decimal cantidad,
                                    decimal precioCompraVigente, decimal precioVentaUnitario,
-                                   decimal descuentoItem, decimal subtotal, long idPresentacion) {
+                                   decimal descuentoItem, decimal subtotal, long idPrecioPresentacion) {
             Id = id;
             IdVenta = idVenta;
             IdProducto = idProducto;
@@ -21,7 +21,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             PrecioVentaUnitario = precioVentaUnitario;
             DescuentoItem = descuentoItem;
             Subtotal = subtotal;
-            IdPresentacion = idPresentacion;
+            IdPrecioPresentacion = idPrecioPresentacion;
         }
 
         public long Id { get; set; }
@@ -32,7 +32,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         public decimal PrecioVentaUnitario { get; set; }
         public decimal DescuentoItem { get; set; }
         public decimal Subtotal { get; set; }
-        public long IdPresentacion { get; set; }
+        public long IdPrecioPresentacion { get; set; }
     }
 
     public enum FiltroBusquedaDetalleVenta {

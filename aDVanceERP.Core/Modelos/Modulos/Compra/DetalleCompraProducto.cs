@@ -8,7 +8,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
             CostoUnitario = 0;
             Descuento = 0;
             ImpuestoPorcentaje = 0;
-            IdPresentacion = 0;
+            IdPrecioPresentacion = 0;
         }
 
         public long Id { get; set; }
@@ -19,7 +19,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public decimal CostoUnitario { get; set; }
         public decimal Descuento { get; set; }
         public decimal ImpuestoPorcentaje { get; set; }
-        public long IdPresentacion { get; set; }
+        public long IdPrecioPresentacion { get; set; }
 
         // Propiedades calculadas
         public decimal SubtotalLinea => CantidadOrdenada * CostoUnitario;
