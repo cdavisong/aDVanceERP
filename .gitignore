@@ -35,3 +35,4 @@ coverage/
 htmlcov/
 *.coverage
 ```
+/.vs
