@@ -49,32 +49,20 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
 
             Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += async (s, args) => {
-                await Task.Run(() => {
-                    // Cargar módulos extensiones de la aplicación
-                    (Vista as Control)?.Invoke(() => {
-                        _cargaDatos.TextoProgreso = " Cargando la aplicación... Espere unos segundos";
-                        _cargaDatos.Mostrar();
-
-                        ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this);
-                    });
-                }).ContinueWith(t => {
-                    if (t.IsFaulted) {
-                        (Vista as Control)?.Invoke(() => {
-                            CentroNotificaciones.MostrarNotificacion(
-                                $"Error al cargar los módulos: {t.Exception?.InnerException?.Message}",
-                                TipoNotificacionEnum.Error);
-                        });
-                    }
-
-                    (Vista as Control)?.Invoke(() => {
-                        // Verificar si existe el módulo de seguridad, en caso contrario pasar a la vista inicial directamente
-                        if (!Modulos.ObtenerNombresModulosExtensionCargados().Any(m => m.Equals("MOD_SEGURIDAD")))
-                            AgregadorEventos.Publicar("EventoUsuarioAutenticado", string.Empty);
-
-                        _cargaDatos.Ocultar();
-                    });
+                var progreso = new Progress<(string texto, int porcentaje)>(datos => {
+                    _cargaDatos.TextoProgreso = datos.texto;
+                    _cargaDatos.ProgresoValor = datos.porcentaje;
                 });
-            };
+
+                _cargaDatos.TextoProgreso = " Cargando la aplicación...";
+                _cargaDatos.Mostrar();
+                
+                await Task.Run(() => {
+                    ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this, progreso);
+                });
+
+                _cargaDatos.Ocultar();
+            };  
         }
 
         private void OnUsuarioAutenticado(string obj) {

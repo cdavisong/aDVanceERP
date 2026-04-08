@@ -15,6 +15,8 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorRegistroVenta : PresentadorVistaRegistro<IVistaRegistroVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
         public PresentadorRegistroVenta(IVistaRegistroVenta vista) : base(vista) {
@@ -241,8 +243,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     var producto = RepoProducto.Instancia.ObtenerPorId(item.Key);
                     CentroNotificaciones.MostrarNotificacion(
                         $"Stock insuficiente para '{producto?.Nombre}'. " +
-                        $"Disponible: {stockDisponible} unidades, solicitado: {cantidadTotalUnidades} unidades " +
-                        $"({item.Value.Cantidad} × {unidadesPorPresentacion} por presentación).",
+                        $"Disponible: {stockDisponible.ToString("N1", CultureInfo.InvariantCulture)} unidades, solicitado: {cantidadTotalUnidades.ToString("N1", CultureInfo.InvariantCulture)} unidades " +
+                        $"({item.Value.Cantidad.ToString("N1", CultureInfo.InvariantCulture)} × {unidadesPorPresentacion.ToString("N1", CultureInfo.InvariantCulture)} por presentación).",
                         TipoNotificacionEnum.Advertencia);
                     return false;
                 }

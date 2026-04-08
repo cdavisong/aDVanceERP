@@ -22,8 +22,8 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Registrar(_extensiones.Vista);
         }
 
-        internal void CargarModulosExtension(IPresentadorVistaPrincipal<IVistaPrincipal> presentadorVistaPrincipal) {
-            _gestorModulos.CargarModulos(presentadorVistaPrincipal);
+        internal void CargarModulosExtension(IPresentadorVistaPrincipal<IVistaPrincipal> presentadorVistaPrincipal, IProgress<(string texto, int porcentaje)> progreso) {
+            _gestorModulos.CargarModulos(presentadorVistaPrincipal, progreso);
         }
 
         public string[] ObtenerNombresModulosExtensionCargados() {

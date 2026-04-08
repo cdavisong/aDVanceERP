@@ -15,6 +15,7 @@ namespace aDVanceERP.Modulos.Empresa {
 
         public ModuloEmpresa() {
             Nombre = "MOD_EMPRESA";
+            NombreAmigable = "Empresa"; 
             Descripcion = "Proporciona funcionalidades de gestión de empresas.";
             Version = new Version(1, 0, 0, 0);
         }

@@ -25,6 +25,7 @@ namespace aDVanceERP.Modulos.Compra {
 
         public ModuloCompra() {
             Nombre = "MOD_COMPRA";
+            NombreAmigable = "Compras";
             Descripcion = "Proporciona funcionalidades de gestión de compras.";
             Version = new Version(1, 0, 0, 0);
         }

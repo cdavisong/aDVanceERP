@@ -18,7 +18,7 @@ namespace aDVanceERP.Core.Extension.Controladores {
 
         public IEnumerable<IModuloExtension> ObtenerModulosExtension() => _modulosCargados.Values;
 
-        public void CargarModulos(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
+        public void CargarModulos(IPresentadorVistaPrincipal<IVistaPrincipal> principal, IProgress<(string texto, int porcentaje)> progreso) {
             ContextoModulos.NombresModulosCargados.Clear();
 
             var archivosDll = Directory.GetFiles(".\\", "*.dll");
@@ -28,12 +28,15 @@ namespace aDVanceERP.Core.Extension.Controladores {
                     var ensamblado = Assembly.LoadFrom(rutaArchivo);
                     var tiposModuloExtension = ensamblado.GetTypes()
                         .Where(t => typeof(IModuloExtension).IsAssignableFrom(t) && !t.IsAbstract);
-
+                    
                     foreach (var tipo in tiposModuloExtension) {
-                        var moduloExtension = Activator.CreateInstance(tipo) as IModuloExtension;
+                        var moduloExtension = Activator.CreateInstance(tipo) as IModuloExtension;   
 
                         if (moduloExtension != null && VerificarDependencias(moduloExtension)) {
-                            moduloExtension.Inicializar(principal);
+                            (principal.Vista as Control)?.Invoke(() => {
+                                progreso.Report(($"Cargando módulo {moduloExtension.NombreAmigable}", 90));
+                                moduloExtension.Inicializar(principal);
+                            });
 
                             _modulosCargados.Add(moduloExtension.Nombre, moduloExtension);
 
@@ -48,6 +51,8 @@ namespace aDVanceERP.Core.Extension.Controladores {
                     continue;
                 }
             }
+
+            progreso.Report(("Carga de módulos completada", 100));
         }
 
         public void ApagarModulos() {

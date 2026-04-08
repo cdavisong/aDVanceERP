@@ -28,6 +28,7 @@ namespace aDVanceERP.Modulos.Inventario {
 
         public ModuloInventario() {
             Nombre = "MOD_INVENTARIO";
+            NombreAmigable = "Inventario";
             Descripcion = "Proporciona funcionalidades de gestión de inventarios y productos.";
             Version = new Version(1, 0, 0, 0);
         }

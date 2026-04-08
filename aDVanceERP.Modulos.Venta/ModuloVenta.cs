@@ -29,6 +29,7 @@ namespace aDVanceERP.Modulos.Venta {
 
         public ModuloVenta() {
             Nombre = "MOD_VENTA";
+            NombreAmigable = "Ventas";
             Descripcion = "Proporciona funcionalidades de gestión de ventas.";
             Version = new Version(1, 0, 0, 0);
         }
