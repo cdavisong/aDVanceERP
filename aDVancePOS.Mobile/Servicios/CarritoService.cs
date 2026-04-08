@@ -7,29 +7,34 @@ namespace aDVancePOS.Mobile.Servicios {
         public IReadOnlyList<ItemCarrito> Items => _items.AsReadOnly();
 
         public decimal TotalBruto =>
-            _items.Sum(i => Math.Round(i.Producto.PrecioVentaBase * i.Cantidad, 2));
+            _items.Sum(i => Math.Round(i.PrecioUnitario * i.Cantidad, 2));
 
         public decimal TotalImpuesto => 0; // Por ahora no se calcula el impuesto, pero si se implementa, sería algo como:
                                            //_items.Sum(i => Math.Round(
-                                           //    i.Producto.PrecioVentaBase * (i.Producto.ImpuestoVentaPorcentaje / 100) * i.Cantidad, 2));
+                                           //    i.PrecioUnitario * (i.Producto.ImpuestoVentaPorcentaje / 100) * i.Cantidad, 2));
 
         public decimal ImporteTotal => TotalBruto + TotalImpuesto;
 
         public int ConteoItems => _items.Sum(i => (int) i.Cantidad);
 
         /// <summary>
-        /// Agrega una unidad del producto al carrito.
+        /// Agrega una unidad del producto al carrito usando la presentación especificada.
         /// Devuelve false si no hay stock suficiente.
         /// </summary>
-        public bool AgregarProducto(ProductoCatalogo producto) {
+        public bool AgregarProducto(ProductoCatalogo producto, long idPresentacion, decimal precioUnitario) {
             if (producto.StockEnSesion <= 0)
                 return false; // Sin stock
 
-            var existente = _items.FirstOrDefault(i => i.Producto.Id == producto.Id);
+            var existente = _items.FirstOrDefault(i => i.Producto.Id == producto.Id && i.IdPresentacion == idPresentacion);
             if (existente != null) {
                 existente.Cantidad++;
             } else {
-                _items.Add(new ItemCarrito { Producto = producto, Cantidad = 1 });
+                _items.Add(new ItemCarrito { 
+                    Producto = producto, 
+                    Cantidad = 1,
+                    IdPresentacion = idPresentacion,
+                    PrecioUnitario = precioUnitario
+                });
             }
 
             producto.StockEnSesion--;
@@ -37,8 +42,8 @@ namespace aDVancePOS.Mobile.Servicios {
         }
 
         /// <summary>Resta una unidad. Elimina el ítem si queda en 0.</summary>
-        public void RestarProducto(ProductoCatalogo producto) {
-            var item = _items.FirstOrDefault(i => i.Producto.Id == producto.Id);
+        public void RestarProducto(ProductoCatalogo producto, long idPresentacion) {
+            var item = _items.FirstOrDefault(i => i.Producto.Id == producto.Id && i.IdPresentacion == idPresentacion);
             if (item == null) return;
 
             item.Cantidad--;

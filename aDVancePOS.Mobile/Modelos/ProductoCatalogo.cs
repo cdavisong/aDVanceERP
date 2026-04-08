@@ -34,6 +34,9 @@ namespace aDVancePOS.Mobile.Modelos {
         [JsonPropertyName("unidadMedida")]
         public string UnidadMedida { get; set; } = string.Empty;
 
+        [JsonPropertyName("presentaciones")]
+        public List<PresentacionVenta> Presentaciones { get; set; } = new();
+
         // ── Calculados en runtime (no vienen en el JSON) ──────
 
         /// <summary>Precio final = PrecioVentaBase * (1 + Impuesto/100)</summary>
@@ -43,5 +46,28 @@ namespace aDVancePOS.Mobile.Modelos {
         /// <summary>Stock restante tras agregar unidades al carrito en sesión.</summary>
         [JsonIgnore]
         public decimal StockEnSesion { get; set; }
+    }
+
+    /// <summary>
+    /// Representa una presentación de venta para un producto.
+    /// </summary>
+    public class PresentacionVenta {
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
+
+        [JsonPropertyName("cantidad")]
+        public decimal Cantidad { get; set; }
+
+        [JsonPropertyName("precioVenta")]
+        public decimal PrecioVenta { get; set; }
+
+        [JsonPropertyName("activo")]
+        public bool Activo { get; set; }
+
+        [JsonPropertyName("unidadMedida")]
+        public string UnidadMedida { get; set; } = string.Empty;
+
+        [JsonIgnore]
+        public decimal PrecioPorUnidad => Cantidad > 0 ? PrecioVenta / Cantidad : 0m;
     }
 }

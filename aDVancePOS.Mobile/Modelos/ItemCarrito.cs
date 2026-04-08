@@ -7,8 +7,10 @@
     public class ItemCarrito {
         public ProductoCatalogo Producto { get; set; } = null!;
         public decimal Cantidad { get; set; } = 1;
+        public long IdPresentacion { get; set; } = 0;
+        public decimal PrecioUnitario { get; set; } = 0;
 
         public decimal Subtotal =>
-            Math.Round(Producto.PrecioConImpuesto * Cantidad, 2);
+            Math.Round(PrecioUnitario * Cantidad, 2);
     }
 }
