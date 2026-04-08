@@ -74,32 +74,32 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         public decimal MontoApertura { get; set; }
 
         public decimal? MontoEfectivoCalculado {
-            get => decimal.TryParse(fieldEfectivoCalculado.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldEfectivoCalculado.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                                         out var value)
                                         ? value
                                         : 0m;
             set => fieldEfectivoCalculado.Text = value != null
-                    ? value?.ToString("N2", CultureInfo.CurrentCulture)
+                    ? value?.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
         public decimal? MontoEfectivoDeclarado {
-            get => decimal.TryParse(fieldEfectivoDeclarado.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldEfectivoDeclarado.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                                         out var value)
                                         ? value
                                         : 0m;
             set => fieldEfectivoDeclarado.Text = value != null
-                    ? value?.ToString("N2", CultureInfo.CurrentCulture)
+                    ? value?.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
         public decimal? DiferenciaEfectivo {
-            get => decimal.TryParse(fieldDiferenciaEfectivo.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out var value)
+            get => decimal.TryParse(fieldDiferenciaEfectivo.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var value)
                 ? value
                 : 0m;
             set {
                 fieldDiferenciaEfectivo.Text = value != null
-                    ? value?.ToString("N2", CultureInfo.CurrentCulture)
+                    ? value?.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
                 fieldDiferenciaEfectivo.ForeColor = fieldDiferenciaEfectivo.Text.Equals("-")
                     ? Color.Black

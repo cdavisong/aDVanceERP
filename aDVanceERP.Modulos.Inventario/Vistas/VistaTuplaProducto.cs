@@ -79,22 +79,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal CostoUnitario {
-            get => decimal.TryParse(fieldCostoUnitario.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldCostoUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                 out var value)
                 ? value
                 : 0m;
             set => fieldCostoUnitario.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
         public decimal PrecioVentaBase {
-            get => decimal.TryParse(fieldPrecioVentaBase.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldPrecioVentaBase.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                 out var value)
                 ? value
                 : 0m;
             set => fieldPrecioVentaBase.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
@@ -118,14 +118,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal Stock {
-            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.CurrentCulture, 
+            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture, 
                 out var value) 
                 ? value 
                 : 0;
             set {
                 fieldStock.ForeColor = value == 0 ? Color.Firebrick : Color.FromArgb(115, 109, 106);
                 fieldStock.Font = new Font(fieldStock.Font, value == 0 ? FontStyle.Bold : FontStyle.Regular);
-                fieldStock.Text = value.ToString("N2");
+                fieldStock.Text = value.ToString("N2", CultureInfo.InvariantCulture);
             }
         }
 

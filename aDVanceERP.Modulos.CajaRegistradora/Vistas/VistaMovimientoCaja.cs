@@ -1,6 +1,8 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Modulos.CajaRegistradora.Interfaces;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
     public partial class VistaMovimientoCaja : Form, IVistaMovimientoCaja {
         private bool _modoEdicion = false;
@@ -68,8 +70,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         public CanalPagoCajaEnum CanalPago { get; set; }
 
         public decimal Monto {
-            get => decimal.TryParse(fieldMonto.Text, out var monto) ? monto : 0m;
-            set => fieldMonto.Text = value.ToString("N2");
+            get => decimal.TryParse(fieldMonto.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var monto) ? monto : 0m;
+            set => fieldMonto.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public string? Descripcion {
