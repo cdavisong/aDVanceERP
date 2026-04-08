@@ -26,6 +26,18 @@
         android:maxLines="1"
         android:ellipsize="end" />
 
+
+	<!-- Presentación del producto -->
+	<TextView
+        android:id="@+id/txtPresentacion"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="#888888"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center" />
 	<!-- Control de cantidad: [−] qty [+] -->
 	<Button
         android:id="@+id/btnRestar"
