@@ -5,6 +5,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Core.Vistas.Comun {
     public partial class VistaCargaDatos : Form, IVistaBase {
         private string _textoProgreso = "Filtrando resultados de búsqueda...";
+        private int _progresoValor = 0;
         private const string _icono = "pX_48px";
         private int _iconoActual = 1;
         private System.Windows.Forms.Timer _timerIconoCarga = new System.Windows.Forms.Timer();
@@ -47,8 +48,17 @@ namespace aDVanceERP.Core.Vistas.Comun {
             }
         }
 
+        public int ProgresoValor {
+            get => _progresoValor;
+            set {
+                _progresoValor = Math.Max(0, Math.Min(100, value));
+
+                ActualizarProgreso();
+            }
+        }
+
         public void Inicializar() {
-            _timerIconoCarga.Interval = 42;
+            _timerIconoCarga.Interval = 30;
             _timerIconoCarga.Tick += Actualizar;
         }
 
@@ -119,6 +129,15 @@ namespace aDVanceERP.Core.Vistas.Comun {
             }
 
             fieldTextoCarga.Text = _textoProgreso;
+        }
+
+        private void ActualizarProgreso() {
+            if (fieldTextoCarga != null && fieldTextoCarga.InvokeRequired) {
+                fieldTextoCarga.Invoke(new Action(ActualizarProgreso));
+                return;
+            }
+
+            fieldTextoCarga.Text += $"...{_progresoValor:0}%";
         }
     }
 }

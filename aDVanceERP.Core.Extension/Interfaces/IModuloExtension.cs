@@ -4,6 +4,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 namespace aDVanceERP.Core.Extension.Interfaces {
     public interface IModuloExtension {
         string Nombre { get; }
+        string NombreAmigable { get; }
         string Descripcion { get; }
         Version Version { get; }
 

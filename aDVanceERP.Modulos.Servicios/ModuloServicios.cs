@@ -12,6 +12,7 @@ namespace aDVanceERP.Modulos.Servicios {
 
         public ModuloServicios() {
             Nombre = "MOD_SERVICIOS";
+            NombreAmigable = "Servicios";
             Descripcion = "Proporciona funcionalidades de gestión de servicios.";
             Version = new Version(1, 0, 0, 0);
         }

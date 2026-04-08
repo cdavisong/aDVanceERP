@@ -20,6 +20,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos {
 
         public ModuloRecursosHumanos() {
             Nombre = "MOD_RRHH";
+            NombreAmigable = "Recursos Humanos";
             Descripcion = "Proporciona funcionalidades de gestión de recursos humanos.";
             Version = new Version(1, 0, 0, 0);
         }

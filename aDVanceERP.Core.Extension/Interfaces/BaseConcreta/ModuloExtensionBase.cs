@@ -12,11 +12,13 @@ namespace aDVanceERP.Core.Extension.Interfaces.BaseConcreta {
 
             // Inicialización de propiedades
             Nombre = string.Empty;
+            NombreAmigable = string.Empty;
             Descripcion = string.Empty;
             Version = new Version(1, 0, 0, 0);
         }
 
         public string Nombre { get; protected set; }
+        public string NombreAmigable {  get; protected set; }
         public string Descripcion { get; protected set; }
         public Version Version { get; protected set; }
 

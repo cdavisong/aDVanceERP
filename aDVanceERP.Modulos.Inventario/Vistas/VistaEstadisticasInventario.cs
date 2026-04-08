@@ -1,6 +1,8 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaEstadisticasInventario : Form, IVistaEstadisticasInventario {
         public VistaEstadisticasInventario() {
@@ -46,8 +48,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal ValorTotalInventario {
-            get => decimal.Parse(fieldValorTotalInventario.Text);
-            set => fieldValorTotalInventario.Text = value.ToString("N2");
+            get => decimal.Parse(fieldValorTotalInventario.Text, NumberStyles.Any, CultureInfo.InvariantCulture);
+            set => fieldValorTotalInventario.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public int TotalAlmacenes {
@@ -155,7 +157,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 : 0f;
 
             var lblValor = new Label {
-                Text = producto.ValorTotal.ToString("N0"),
+                Text = producto.ValorTotal.ToString("N0", CultureInfo.InvariantCulture),
                 Font = new Font("Segoe UI", 8f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(64, 64, 64),
                 AutoSize = false,

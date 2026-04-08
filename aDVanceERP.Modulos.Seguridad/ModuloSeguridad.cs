@@ -17,6 +17,7 @@ namespace aDVanceERP.Modulos.Seguridad {
 
         public ModuloSeguridad() {
             Nombre = "MOD_SEGURIDAD";
+            NombreAmigable = "Seguridad";
             Descripcion = "Proporciona funcionalidades de seguridad y gestión de usuarios.";
             Version = new Version(1, 0, 0, 0);
         }

@@ -11,7 +11,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
     public class RepoPrecioPresentacion : RepoEntidadBaseDatos<PrecioPresentacion, FiltroBusquedaPrecioPresentacion> {
 
         public RepoPrecioPresentacion()
-            : base("adv__precio_presentacion", "id_precio_presentacion") { }
+            : base("adv__precio_presentacion", "id_presentacion") { }
 
         protected override string GenerarComandoAdicionar(
             PrecioPresentacion entidad,
@@ -59,7 +59,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     cantidad         = @cantidad,
                     precio_venta     = @precio_venta,
                     activo           = @activo
-                WHERE id_precio_presentacion = @id;
+                WHERE id_presentacion = @id;
                 """;
 
             parametros = new Dictionary<string, object> {
@@ -81,7 +81,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
             const string consulta = """
                 DELETE FROM adv__precio_presentacion
-                WHERE id_precio_presentacion = @id;
+                WHERE id_presentacion = @id;
                 """;
 
             parametros = new Dictionary<string, object> {
@@ -111,7 +111,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaPrecioPresentacion.Id => $"""
                     {baseQuery}
-                    WHERE pp.id_precio_presentacion = @id;
+                    WHERE pp.id_presentacion = @id;
                     """,
 
                 FiltroBusquedaPrecioPresentacion.IdProducto => $"""
@@ -153,7 +153,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             MySqlDataReader lector) {
 
             var presentacion = new PrecioPresentacion(
-                id: Convert.ToInt64(lector["id_precio_presentacion"]),
+                id: Convert.ToInt64(lector["id_presentacion"]),
                 idProducto: Convert.ToInt64(lector["id_producto"]),
                 idUnidadMedida: Convert.ToInt64(lector["id_unidad_medida"]),
                 cantidad: Convert.ToDecimal(lector["cantidad"], CultureInfo.InvariantCulture),
@@ -205,7 +205,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             const string consulta = """
                 UPDATE adv__precio_presentacion
                 SET activo = @activo
-                WHERE id_precio_presentacion = @id;
+                WHERE id_presentacion = @id;
                 """;
 
             var parametros = new Dictionary<string, object> {
@@ -226,7 +226,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 FROM adv__precio_presentacion
                 WHERE id_producto = @id_producto
                   AND cantidad    = @cantidad
-                  AND id_precio_presentacion <> @excluir_id;
+                  AND id_presentacion <> @excluir_id;
                 """;
 
             var parametros = new Dictionary<string, object> {
@@ -264,7 +264,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             const string consulta = """
                 SELECT cantidad
                 FROM adv__precio_presentacion
-                WHERE id_precio_presentacion = @id_presentacion;
+                WHERE id_presentacion = @id_presentacion;
                 """;
 
                     var parametros = new Dictionary<string, object> {

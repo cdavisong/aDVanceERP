@@ -1,6 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
-using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Movil.Presentadores;
@@ -18,6 +17,7 @@ namespace aDVanceERP.Modulos.Movil {
 
         public ModuloMovil() {
             Nombre = "MOD_MOVIL";
+            NombreAmigable = "Aplicaciones Móviles";
             Descripcion = "Proporciona funcionalidades de detección de dispositivos móviles e identificación de aplicaciones asociadas a la suite aDVance ERP.";
             Version = new Version(1, 0, 0, 0);
         }

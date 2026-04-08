@@ -20,6 +20,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora {
 
         public ModuloCaja() {
             Nombre = "MOD_CAJA";
+            NombreAmigable = "Caja registradora";
             Descripcion = "Proporciona funcionalidades para la gestión de caja registradora.";
             Version = new Version(1, 0, 0, 0);
         }
