@@ -11,7 +11,8 @@ namespace aDVanceERP.Core.Presentadores.Comun {
     public abstract class PresentadorVistaTupla<Vt, En> : PresentadorVistaBase<Vt>, IPresentadorVistaTupla<Vt, En>
         where Vt : class, IVistaTupla
         where En : class, IEntidadBaseDatos, new() {
-        private bool _disposed; // Para evitar llamadas redundantes a Dispose
+        private bool _disposed = false; // Para evitar llamadas redundantes a Dispose
+        private bool _cambiandoSeleccion = false; // Para evitar reentrada en el cambio de selección
 
         private En _entidad;
 
@@ -40,18 +41,29 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         public bool EstadoSeleccion {
             get => Vista.ColorFondoTupla.Equals(ContextoAplicacion.ColorResaltadoTupla);
             set {
-                if (value) {
-                    Vista.ColorFondoTupla = ContextoAplicacion.ColorResaltadoTupla;
-                    EntidadSeleccionada?.Invoke(Vista, Entidad);
-                }
-                else {
-                    Vista.Restaurar();
-                    EntidadDeseleccionada?.Invoke(Vista, Entidad);
-                }
+                // Evitar reentrada en el cambio de selección
+                if (_cambiandoSeleccion)
+                    return;
 
-                Vista.EstadoSeleccion = value;
+                _cambiandoSeleccion = true;
 
-                AgregadorEventos.Publicar("CambioSeleccionTuplaEntidad", AgregadorEventos.SerializarPayload(value));
+                try {
+                    if (value) {
+                        Vista.ColorFondoTupla = ContextoAplicacion.ColorResaltadoTupla;
+                        EntidadSeleccionada?.Invoke(Vista, Entidad);
+                    }
+                    else {
+                        Vista.Restaurar();
+                        EntidadDeseleccionada?.Invoke(Vista, Entidad);
+                    }
+
+                    Vista.EstadoSeleccion = value;
+
+                    AgregadorEventos.Publicar("CambioSeleccionTuplaEntidad", AgregadorEventos.SerializarPayload(value));
+                }
+                finally {
+                    _cambiandoSeleccion = false;
+                }
             }
         }
 

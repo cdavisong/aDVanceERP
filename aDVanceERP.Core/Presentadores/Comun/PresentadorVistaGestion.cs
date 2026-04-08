@@ -16,7 +16,9 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         where En : class, IEntidadBaseDatos, new()
         where Fb : Enum {
         private bool _actualizando = false; // Para evitar actualizaciones concurrentes de la vista
-        private bool _disposed; // Para evitar llamadas redundantes a Dispose
+        private bool _disposed = false; // Para evitar llamadas redundantes a Dispose
+        private int _ultimaAlturaContenedor = 0; // Para evitar redimensionados mínimos que disparen actualizaciones
+        private const int UMBRAL_REDIMENSIONADO_MINIMO = 50; // Umbral mínimo en píxeles para considerar un redimensionado significativo
 
         protected readonly VistaCargaDatos _cargaDatos;
         protected readonly List<Pt> _tuplasEntidades;
@@ -59,11 +61,13 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
         public virtual void ActualizarResultadosBusqueda() {
             if (!Vista.Habilitada || _actualizando) return;
+            
+            // Validación adicional: si el contenedor no tiene capacidad, evitar actualización
+            if (Vista.TuplasMaximasContenedor == 0) return;
+            
             _actualizando = true;
 
             try {
-                if (Vista.TuplasMaximasContenedor == 0) return;
-
                 // Limpiar tuplas anteriores en el hilo de UI
                 (Vista as Control)?.Invoke(() => {
                     Vista.PanelCentral.CerrarTodos();
@@ -110,7 +114,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                                 TipoNotificacionEnum.Error);
                         });
                     }
-                });
+                }, TaskContinuationOptions.OnlyOnFaulted);
             } catch {
                 _actualizando = false;
                 throw;
@@ -191,14 +195,23 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         }
 
         private void OnAlturaContenedorTuplasModificada(object? sender, EventArgs e) {
-            if (Vista is Form vistaForm)
-                if (!vistaForm.Visible)
-                    return;
+            if (Vista is Form vistaForm && !vistaForm.Visible)
+                return;
 
+            // Evitar actualizaciones por redimensionados mínimos o durante una actualización en curso
+            var alturaActual = (Vista as Control)?.Height ?? 0;
+            if (Math.Abs(alturaActual - _ultimaAlturaContenedor) < UMBRAL_REDIMENSIONADO_MINIMO)
+                return;
+
+            _ultimaAlturaContenedor = alturaActual;
             ActualizarResultadosBusqueda();
         }
 
         private void OnSincronizarDatos(object? sender, EventArgs e) {
+            // Evitar reentrada si ya se está actualizando
+            if (_actualizando)
+                return;
+            
             ActualizarResultadosBusqueda();
         }
 
