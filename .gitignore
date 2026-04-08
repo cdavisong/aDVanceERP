@@ -66,3 +66,14 @@ htmlcov/
 *.tar.zst
 ```
 /.vs
+/aDVanceERP.Core/obj
+/aDVanceERP.Core/bin
+/aDVanceERP.Core.Extension/bin
+/aDVanceERP.Core.Extension/obj
+/aDVanceERP.Desktop/bin
+/aDVanceERP.Desktop/obj
+/aDVanceERP.Modulos.CajaRegistradora/bin
+/aDVanceERP.Modulos.CajaRegistradora/obj
+/aDVanceERP.Modulos.Compra/bin
+/aDVanceERP.Modulos.Compra/obj
+/aDVanceERP.Modulos.Empresa/bin
