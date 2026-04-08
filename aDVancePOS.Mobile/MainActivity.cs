@@ -247,36 +247,7 @@ namespace aDVancePOS.Mobile {
             ActualizarListaProductos();
         }
 
-        // ── Pagos ─────────────────────────────────────────────
-
         // ── Actualización de UI ───────────────────────────────
-
-        private void MostrarResumenVentasDia() {
-            int totalVentas = _ventaService.TotalVentasHoy;
-            decimal totalRecaudado = _ventaService.TotalRecaudadoHoy;
-
-            if (totalVentas == 0) {
-                MostrarMensaje("Sin ventas registradas hoy.");
-                return;
-            }
-
-            // Desglose por método de pago
-            var resumen = _ventaService.ObtenerResumenPorMetodo();
-
-            var sb = new System.Text.StringBuilder();
-            sb.AppendLine($"📅 {DateTime.Now:dddd dd/MM/yyyy}");
-            sb.AppendLine();
-            sb.AppendLine($"Ventas completadas: {totalVentas}");
-            sb.AppendLine($"Total recaudado:    {totalRecaudado:C2}");
-            sb.AppendLine();
-
-            if (resumen.Efectivo > 0)
-                sb.AppendLine($"💵 Efectivo:         {resumen.Efectivo:C2}");
-            if (resumen.Transferencia > 0)
-                sb.AppendLine($"📲 Transferencia:    {resumen.Transferencia:C2}");
-
-            MostrarMensaje(sb.ToString().TrimEnd());
-        }
 
         private void SolicitarVaciarCarrito() {
             if (_carritoService.ConteoItems == 0) return;
