@@ -34,7 +34,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
                 { "@precio_venta_referencia", entidad.PrecioVentaReferencia },
-                { "@id_precio_presentacion", entidad.IdPrecioPresentacion }
+                { "@id_precio_presentacion", entidad.IdPresentacion }
             };
 
             return comando;
@@ -58,7 +58,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
                 { "@precio_venta_referencia", entidad.PrecioVentaReferencia },
-                { "@id_precio_presentacion", entidad.IdPrecioPresentacion }
+                { "@id_precio_presentacion", entidad.IdPresentacion }
             };
 
             return comando;
@@ -119,7 +119,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 CantidadSolicitada = Convert.ToDecimal(lector["cantidad_solicitada"], CultureInfo.InvariantCulture),
                 PrecioVentaReferencia = Convert.ToDecimal(lector["precio_venta_referencia"], CultureInfo.InvariantCulture),
                 Subtotal = Convert.ToDecimal(lector["subtotal"], CultureInfo.InvariantCulture),
-                IdPrecioPresentacion = Convert.ToInt64(lector["id_precio_presentacion"])
+                IdPresentacion = Convert.ToInt64(lector["id_precio_presentacion"])
             };
 
             var entidadesExtra = new List<IEntidadBaseDatos>();
