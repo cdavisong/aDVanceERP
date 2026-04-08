@@ -24,7 +24,9 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         }
 
         public long Id { get; set; }
+
         public long IdProducto { get; set; }
+
         public long IdUnidadMedida { get; set; }
 
         /// <summary>Cantidad de unidades base que agrupa esta presentación.</summary>

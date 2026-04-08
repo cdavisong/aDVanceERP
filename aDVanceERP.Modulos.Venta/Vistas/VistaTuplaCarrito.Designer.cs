@@ -40,7 +40,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldCodigo = new Label();
             fieldCostoGeneral = new Label();
             fieldNombreProducto = new Label();
-            fieldUnidadMedida = new Guna2Button();
+            fieldUnidadMedida = new Guna2ComboBox();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -183,31 +183,29 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // 
             // fieldUnidadMedida
             // 
+            fieldUnidadMedida.Animated = true;
             fieldUnidadMedida.AutoRoundedCorners = true;
+            fieldUnidadMedida.BackColor = Color.Transparent;
             fieldUnidadMedida.BorderColor = Color.Gainsboro;
-            fieldUnidadMedida.BorderRadius = 13;
-            fieldUnidadMedida.BorderThickness = 1;
-            fieldUnidadMedida.Cursor = Cursors.Hand;
+            fieldUnidadMedida.BorderRadius = 16;
             fieldUnidadMedida.CustomizableEdges = customizableEdges1;
-            fieldUnidadMedida.DisabledState.BorderColor = Color.Gainsboro;
-            fieldUnidadMedida.DisabledState.CustomBorderColor = Color.Gainsboro;
-            fieldUnidadMedida.DisabledState.FillColor = Color.Gainsboro;
-            fieldUnidadMedida.DisabledState.ForeColor = Color.DimGray;
-            fieldUnidadMedida.Dock = DockStyle.Left;
-            fieldUnidadMedida.FillColor = Color.Gainsboro;
-            fieldUnidadMedida.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldUnidadMedida.Dock = DockStyle.Fill;
+            fieldUnidadMedida.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldUnidadMedida.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldUnidadMedida.FocusedColor = Color.Gainsboro;
+            fieldUnidadMedida.FocusedState.BorderColor = Color.Gainsboro;
+            fieldUnidadMedida.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
             fieldUnidadMedida.ForeColor = Color.DimGray;
-            fieldUnidadMedida.HoverState.BorderColor = Color.PeachPuff;
-            fieldUnidadMedida.HoverState.FillColor = Color.PeachPuff;
-            fieldUnidadMedida.HoverState.ForeColor = Color.Black;
-            fieldUnidadMedida.Location = new Point(611, 6);
-            fieldUnidadMedida.Margin = new Padding(6);
+            fieldUnidadMedida.ItemHeight = 29;
+            fieldUnidadMedida.Items.AddRange(new object[] { "u" });
+            fieldUnidadMedida.Location = new Point(608, 3);
             fieldUnidadMedida.Name = "fieldUnidadMedida";
             fieldUnidadMedida.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            fieldUnidadMedida.Size = new Size(68, 29);
-            fieldUnidadMedida.TabIndex = 45;
-            fieldUnidadMedida.Text = "um";
-            fieldUnidadMedida.TextOffset = new Point(0, -1);
+            fieldUnidadMedida.Size = new Size(74, 35);
+            fieldUnidadMedida.StartIndex = 0;
+            fieldUnidadMedida.TabIndex = 36;
+            fieldUnidadMedida.TextAlign = HorizontalAlignment.Center;
+            fieldUnidadMedida.TextOffset = new Point(6, 0);
             // 
             // VistaTuplaCarrito
             // 
@@ -239,6 +237,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Label simboloPeso1;
         private Label fieldCostoGeneral;
         private Label fieldCantidad;
-        private Guna2Button fieldUnidadMedida;
+        private Guna2ComboBox fieldUnidadMedida;
     }
 }

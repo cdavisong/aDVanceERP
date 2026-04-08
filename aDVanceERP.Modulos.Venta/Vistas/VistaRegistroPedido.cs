@@ -243,7 +243,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     IdProducto = _productoSeleccionado.Id,
                     Codigo = _productoSeleccionado.Codigo,
                     NombreProducto = _productoSeleccionado.Nombre,
-                    CostoGeneral = _productoSeleccionado.PrecioVentaBase,
+                    PrecioUnitario = _productoSeleccionado.PrecioVentaBase,
                     Cantidad = Cantidad,
                     UnidadMedida = _unidadMedidaProductoSeleccionado ?? null,
                     TopLevel = false,
@@ -296,7 +296,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             decimal subtotal = 0m;
 
             foreach (var producto in _carrito.Values) {
-                var subTotal = producto.CostoGeneral * producto.Cantidad;
+                var subTotal = producto.PrecioUnitario * producto.Cantidad;
 
                 subtotal += subTotal;
             }

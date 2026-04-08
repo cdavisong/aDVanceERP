@@ -72,7 +72,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             foreach (var productoCarrito in Vista.Carrito) {
                 // Detalles del pedido
                 var producto = repoProducto.ObtenerPorId(productoCarrito.Key);
-                var subtotal = productoCarrito.Value.CostoGeneral * productoCarrito.Value.Cantidad;
+                var subtotal = productoCarrito.Value.PrecioUnitario * productoCarrito.Value.Cantidad;
                 var detallePedido = new DetallePedidoProducto() {
                     Id = 0,
                     IdPedido = id,

@@ -5,7 +5,6 @@ using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Caja;
@@ -92,17 +91,17 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             foreach (var productoCarrito in Vista.Carrito) {
                 // Detalles de venta
                 var producto = repoProducto.ObtenerPorId(productoCarrito.Key);
-                var subtotal = productoCarrito.Value.CostoGeneral * productoCarrito.Value.Cantidad;
+                var subtotal = productoCarrito.Value.PrecioUnitario * productoCarrito.Value.Cantidad;
                 var detalleVenta = new DetalleVentaProducto() {
                     Id = 0,
                     IdVenta = id,
                     IdProducto = producto?.Id ?? throw new ArgumentException("Ha ocurrido un error al tratar de registrar los detalles de la venta, uno de los productos del carrito no se encuentra registrado en la base de datos.", nameof(Vista.Carrito)),
                     Cantidad = productoCarrito.Value.Cantidad,
                     PrecioCompraVigente = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
-                    //PrecioVentaUnitario = productoCarrito.Value.PrecioUnitario,
+                    PrecioVentaUnitario = productoCarrito.Value.PrecioUnitario,
                     DescuentoItem = productoCarrito.Value.Descuento,
                     Subtotal = subtotal - (subtotal * (productoCarrito.Value.Descuento / 100)),
-                    //IdPresentacion = productoCarrito.Value.IdPresentacion
+                    IdPresentacion = productoCarrito.Value.IdPresentacion
                 };
 
                 repoDetalleVenta.Adicionar(detalleVenta);

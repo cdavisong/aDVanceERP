@@ -297,11 +297,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 .ToList();
 
             foreach (var tupla in tuplas) {
+                tupla.EditarDatosTupla -= ReCalcularTotales;
                 tupla.EliminarDatosTupla -= EliminarProductoCarrito;
                 tupla.Cerrar();
             }
 
             panelProductosVenta.Controls.Clear();
+
             _carrito.Clear();
         }
 
@@ -436,17 +438,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 } else {
                     // Obtener información adicional del producto (precio, unidad medida, etc.)
                     var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
-
+                    
                     if (producto == null)
                         continue;
 
                     var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Id, producto.IdUnidadMedida.ToString()).resultadosBusqueda.FirstOrDefault().entidadBase;
+                    var presentaciones = RepoPrecioPresentacion.Instancia.Buscar(FiltroBusquedaPrecioPresentacion.IdProducto, idProducto.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToArray();
 
                     var tuplaCarrito = new VistaTuplaCarrito() {
                         IdProducto = idProducto,
                         Codigo = item.Value.codigo,
                         NombreProducto = item.Value.nombre,
-                        CostoGeneral = producto.PrecioVentaBase,
+                        PrecioUnitario = producto.PrecioVentaBase,
                         Cantidad = cantidadAAgregar,
                         UnidadMedida = unidadMedida,
                         Descuento = 0,
@@ -457,9 +460,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         Visible = true
                     };
 
+                    tuplaCarrito.CargarPresentacionesVenta(presentaciones);
+                    tuplaCarrito.EditarDatosTupla += ReCalcularTotales;
                     tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
 
                     _carrito.Add(idProducto, tuplaCarrito);
+
                     panelProductosVenta.Controls.Add(tuplaCarrito);
                 }
             }
@@ -532,6 +538,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             }
 
             // Agregar o actualizar el carrito
+            var presentaciones = RepoPrecioPresentacion.Instancia.Buscar(FiltroBusquedaPrecioPresentacion.IdProducto, _productoSeleccionado.Id.ToString()).resultadosBusqueda.Select(r => r.entidadBase).ToArray();
+            
             if (_carrito.ContainsKey(_productoSeleccionado.Id)) {
                 var productoCarrito = _carrito[_productoSeleccionado.Id];
 
@@ -543,7 +551,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     IdProducto = _productoSeleccionado.Id,
                     Codigo = _productoSeleccionado.Codigo,
                     NombreProducto = _productoSeleccionado.Nombre,
-                    CostoGeneral = _productoSeleccionado.PrecioVentaBase,
+                    PrecioUnitario = _productoSeleccionado.PrecioVentaBase,
                     Cantidad = Cantidad,
                     UnidadMedida = _unidadMedidaProductoSeleccionado ?? null,
                     Descuento = Descuento,
@@ -554,9 +562,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     Visible = true
                 };
 
+                tuplaCarrito.CargarPresentacionesVenta(presentaciones);
+                tuplaCarrito.EditarDatosTupla += ReCalcularTotales;
                 tuplaCarrito.EliminarDatosTupla += EliminarProductoCarrito;
 
                 _carrito.Add(_productoSeleccionado.Id, tuplaCarrito);
+
                 panelProductosVenta.Controls.Add(tuplaCarrito);
             }
 
@@ -577,6 +588,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             if (sender is not VistaTuplaCarrito tuplaCarrito)
                 return;
 
+            tuplaCarrito.EditarDatosTupla -= ReCalcularTotales;
             tuplaCarrito.EliminarDatosTupla -= EliminarProductoCarrito;
 
             _carrito.Remove(tuplaCarrito.IdProducto);
@@ -592,6 +604,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 restantes[i].Coordenadas = new Point(0, i * 42);
 
             fieldNombreProducto.Focus();
+
             CalcularTotales();
 
             if (_carrito.Count == 0) {
@@ -608,13 +621,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             }
         }
 
+        private void ReCalcularTotales(object? sender, EventArgs e) {
+            CalcularTotales();
+        }
+
         private void CalcularTotales() {
             decimal totalBruto = 0m;
             decimal descuentoTotal = 0m;
             decimal impuestoTotal = 0m;
 
             foreach (var producto in _carrito.Values) {
-                var subTotal = producto.CostoGeneral * producto.Cantidad;
+                var subTotal = producto.PrecioUnitario * producto.Cantidad;
                 var descuento = subTotal * (producto.Descuento / 100);
                 var impuestoAdicional = subTotal * (producto.ImpuestoAdicional / 100);
 

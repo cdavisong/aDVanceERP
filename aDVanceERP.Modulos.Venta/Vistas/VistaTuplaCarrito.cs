@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 using System.Globalization;
@@ -55,7 +56,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldNombreProducto.Text = value;
         }
 
-        public decimal CostoGeneral {
+        public decimal PrecioUnitario {
             get => decimal.TryParse(fieldCostoGeneral.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                         out var value)
                         ? value
@@ -82,12 +83,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                                 
                 var (borde, fondo, fuente) = ObtenerColorUnidadMedida(_presentacionesVenta != null && _presentacionesVenta.Length > 0);
 
-                fieldUnidadMedida.Text = value?.Abreviatura ?? "u";
                 fieldUnidadMedida.BorderColor = borde;
                 fieldUnidadMedida.FillColor = fondo;
                 fieldUnidadMedida.ForeColor = fuente;
             }
         }
+
+        public long IdPresentacion { get; internal set; }
 
         public decimal Descuento { get; set; }
 
@@ -98,6 +100,25 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             // Eventos
+            fieldUnidadMedida.SelectedIndexChanged += delegate (object? sender, EventArgs e) { 
+                var producto = RepoProducto.Instancia.ObtenerPorId(IdProducto)!;
+                var unidadMedidaProducto = RepoUnidadMedida.Instancia.ObtenerPorId(producto.IdUnidadMedida);
+                var unidadMedidaPresentacion = fieldUnidadMedida.SelectedIndex > 0 
+                    ? RepoUnidadMedida.Instancia.ObtenerPorId(_presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].IdUnidadMedida)
+                    : null;
+
+                PrecioUnitario = fieldUnidadMedida.SelectedIndex == 0
+                    ? producto.PrecioVentaBase
+                    : _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].PrecioVenta;
+                UnidadMedida = fieldUnidadMedida.SelectedIndex == 0
+                    ? unidadMedidaProducto
+                    : unidadMedidaPresentacion;
+                IdPresentacion = fieldUnidadMedida.SelectedIndex > 0 
+                    ? _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1].Id 
+                    : 0;
+
+                EditarDatosTupla?.Invoke(this, e);
+            };
             btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
         }
 
@@ -115,6 +136,26 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Cerrar() {
             Dispose();
+        }
+
+        public void CargarPresentacionesVenta(PrecioPresentacion[] presentaciones) {
+            _presentacionesVenta = presentaciones;
+
+            fieldUnidadMedida.Items.Clear();
+            fieldUnidadMedida.Items.Add(UnidadMedida?.Abreviatura ?? "u");
+
+            var repoUnidadMedida = RepoUnidadMedida.Instancia;
+
+            foreach (var presentacion in presentaciones) {
+                var unidadMedida = repoUnidadMedida.ObtenerPorId(presentacion.IdUnidadMedida);
+                
+                if (unidadMedida == null) 
+                    continue;
+
+                fieldUnidadMedida.Items.Add(unidadMedida.Abreviatura);
+            }
+
+            fieldUnidadMedida.SelectedIndex = 0;
         }
 
         private (Color borde, Color fondo, Color fuente) ObtenerColorUnidadMedida(bool estado) {
