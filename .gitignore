@@ -1,1 +1,40 @@
-Nothing should be ignored based on the provided file changes. The modified file 'aDVanceERP.Core/Repositorios/Modulos/Inventario/RepoProducto.cs' is a source code file (.cs) which should not be added to .gitignore according to rule 7. Since there are no build artifacts, dependencies, or temporary files in the changes, no additional ignore rules are needed.
+```
+# Build artifacts
+*.apk
+*.aab
+bin/
+obj/
+Debug/
+Release/
+*.userprefs
+
+# Dependencies
+packages/
+node_modules/
+vendor/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*~
+```
