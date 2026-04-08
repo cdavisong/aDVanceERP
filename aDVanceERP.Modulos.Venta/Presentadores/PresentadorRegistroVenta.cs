@@ -154,13 +154,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     almacenOrigen?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenOrigen)),
                     0,
                     cantidadTotalUnidades); // USAR CANTIDAD EN UNIDADES BASE
+            }
 
-                // Actualizar el estado del pedido
-                if (Entidad?.IdPedido != 0) {
-                    var repoPedido = RepoPedido.Instancia;
-                    var pedido = repoPedido.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido)
-                        .resultadosBusqueda.FirstOrDefault().entidadBase;
+            // Actualizar el estado del pedido (UNA SOLA VEZ, después de procesar todos los productos)
+            if (Entidad?.IdPedido != 0) {
+                var repoPedido = RepoPedido.Instancia;
+                var pedido = repoPedido.Buscar(FiltroBusquedaPedido.Codigo, Vista.NumeroPedido)
+                    .resultadosBusqueda.FirstOrDefault().entidadBase;
 
+                if (pedido != null) {
                     pedido.EstadoPedido = EstadoPedidoEnum.Retirado;
                     repoPedido.Editar(pedido);
                 }

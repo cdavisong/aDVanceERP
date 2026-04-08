@@ -168,21 +168,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
 
+        private bool _eventosInicializados = false;
+        
         public void Inicializar() {
-            fieldNumeroPedido.SelectedValueChanged += delegate {
-                ObtenerPedidoSeleccionado();
-            };
-            fieldAlmacenOrigen.SelectedValueChanged += delegate {
-                _almacenSeleccionado = null;   // invalidar caché
-
-                if (_carrito.Count > 0) {
-                    LimpiarCarrito();
-
-                    CentroNotificaciones.MostrarNotificacion(
-                        "El carrito fue limpiado porque cambió el almacén de origen.",
-                        TipoNotificacionEnum.Advertencia);
-                }
-            };  
+            if (_eventosInicializados)
+                return;
+                
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
@@ -289,6 +280,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                         tuplaCarrito.Dimensiones = new Size(panelProductosVenta.Width - 20, 42);
             };
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
+            
+            _eventosInicializados = true;
         }
 
         private void LimpiarCarrito() {
@@ -690,6 +683,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldNumeroPedido.Items.Clear();
             fieldNumeroPedido.Items.AddRange(numerosPedidos);
             fieldNumeroPedido.SelectedIndex = -1;
+            
+            // Desuscribir y resuscribir evento para evitar duplicados
+            fieldNumeroPedido.SelectedValueChanged -= OnNumeroPedidoSeleccionado;
+            fieldNumeroPedido.SelectedValueChanged += OnNumeroPedidoSeleccionado;
+        }
+        
+        private void OnNumeroPedidoSeleccionado(object? sender, EventArgs e) {
+            ObtenerPedidoSeleccionado();
         }
 
         public void CargarNombresClientes(string[] nombresClientes) {
@@ -703,6 +704,22 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldAlmacenOrigen.Items.Clear();
             fieldAlmacenOrigen.Items.AddRange(nombresAlmacenes);
             fieldAlmacenOrigen.SelectedIndex = nombresAlmacenes.Length > 0 ? 0 : -1;
+            
+            // Desuscribir y resuscribir evento para evitar duplicados
+            fieldAlmacenOrigen.SelectedValueChanged -= OnAlmacenOrigenSeleccionado;
+            fieldAlmacenOrigen.SelectedValueChanged += OnAlmacenOrigenSeleccionado;
+        }
+        
+        private void OnAlmacenOrigenSeleccionado(object? sender, EventArgs e) {
+            _almacenSeleccionado = null;   // invalidar caché
+
+            if (_carrito.Count > 0) {
+                LimpiarCarrito();
+
+                CentroNotificaciones.MostrarNotificacion(
+                    "El carrito fue limpiado porque cambió el almacén de origen.",
+                    TipoNotificacionEnum.Advertencia);
+            }
         }
 
         public void CargarNombresProductos(string[] nombresProductos) {
