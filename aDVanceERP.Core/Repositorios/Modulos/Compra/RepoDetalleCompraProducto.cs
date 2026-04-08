@@ -19,7 +19,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                     cantidad_recibida,
                     costo_unitario,
                     descuento,
-                    impuesto_porcentaje
+                    impuesto_porcentaje,
+                    id_presentacion
                 ) VALUES (
                     @id_compra,
                     @id_producto,
@@ -27,7 +28,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                     @cantidad_recibida,
                     @costo_unitario,
                     @descuento,
-                    @impuesto_porcentaje
+                    @impuesto_porcentaje,
+                    @id_presentacion
                 )
                 """;
 
@@ -38,7 +40,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@cantidad_recibida", entidad.CantidadRecibida },
                 { "@costo_unitario", entidad.CostoUnitario },
                 { "@descuento", entidad.Descuento },
-                { "@impuesto_porcentaje", entidad.ImpuestoPorcentaje }
+                { "@impuesto_porcentaje", entidad.ImpuestoPorcentaje },
+                { "@id_presentacion", entidad.IdPresentacion }
             };
 
             return consulta;
@@ -54,7 +57,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                     cantidad_recibida = @cantidad_recibida,
                     costo_unitario = @costo_unitario,
                     descuento = @descuento,
-                    impuesto_porcentaje = @impuesto_porcentaje
+                    impuesto_porcentaje = @impuesto_porcentaje,
+                    id_presentacion = @id_presentacion
                 WHERE id_detalle_compra_producto = @id_detalle
                 """;
 
@@ -66,6 +70,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@costo_unitario", entidad.CostoUnitario },
                 { "@descuento", entidad.Descuento },
                 { "@impuesto_porcentaje", entidad.ImpuestoPorcentaje },
+                { "@id_presentacion", entidad.IdPresentacion },
                 { "@id_detalle", entidad.Id }
             };
 
@@ -138,7 +143,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 CantidadRecibida = Convert.ToDecimal(lector["cantidad_recibida"]),
                 CostoUnitario = Convert.ToDecimal(lector["costo_unitario"]),
                 Descuento = Convert.ToDecimal(lector["descuento"]),
-                ImpuestoPorcentaje = Convert.ToDecimal(lector["impuesto_porcentaje"])
+                ImpuestoPorcentaje = Convert.ToDecimal(lector["impuesto_porcentaje"]),
+                IdPresentacion = Convert.ToInt64(lector["id_presentacion"])
             };
 
             var entidadesExtra = new List<IEntidadBaseDatos>();

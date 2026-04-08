@@ -35,6 +35,7 @@ namespace aDVancePOS.Mobile.Adaptadores {
                            Resource.Layout.item_carrito, parent, false)!;
 
             var txtNombre = view.FindViewById<TextView>(Resource.Id.txtNombreCarrito)!;
+            var txtPresentacion = view.FindViewById<TextView>(Resource.Id.txtPresentacion);
             var txtCantidad = view.FindViewById<TextView>(Resource.Id.txtCantidad)!;
             var txtSubtotal = view.FindViewById<TextView>(Resource.Id.txtSubtotal)!;
             var btnRestar = view.FindViewById<Button>(Resource.Id.btnRestar)!;
@@ -42,6 +43,18 @@ namespace aDVancePOS.Mobile.Adaptadores {
             var btnEliminar = view.FindViewById<Button>(Resource.Id.btnEliminar)!;
 
             txtNombre.Text = item.Producto.Nombre;
+            
+            if (txtPresentacion != null) {
+                if (item.IdPresentacion > 0 && item.Producto.Presentaciones?.Count > 0) {
+                    var presentacion = item.Producto.Presentaciones.FirstOrDefault(p => p.Id == item.IdPresentacion);
+                    txtPresentacion.Text = presentacion != null 
+                        ? $"{presentacion.Cantidad} {presentacion.UnidadMedida}" 
+                        : "Unidad base";
+                } else {
+                    txtPresentacion.Text = "Unidad base";
+                }
+            }
+            
             txtCantidad.Text = item.Cantidad.ToString("G");
             txtSubtotal.Text = item.Subtotal.ToString("C2");
 
