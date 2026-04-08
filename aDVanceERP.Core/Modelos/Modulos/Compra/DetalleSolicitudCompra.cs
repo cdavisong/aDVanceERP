@@ -5,6 +5,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public DetalleSolicitudCompra() {
             CantidadSolicitada = 0;
             PrecioAdquisicionReferencia = 0;
+            IdPresentacion = 0;
         }
 
         public long Id { get; set; }
@@ -12,6 +13,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public long IdProducto { get; set; }
         public decimal CantidadSolicitada { get; set; }
         public decimal PrecioAdquisicionReferencia { get; set; }
+        public long IdPresentacion { get; set; }
 
         // Propiedad calculada
         public decimal Subtotal => CantidadSolicitada * PrecioAdquisicionReferencia;

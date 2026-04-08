@@ -20,14 +20,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     cantidad,
                     precio_compra_vigente,
                     precio_venta_unitario,
-                    descuento_item
+                    descuento_item,
+                    id_presentacion
                 ) VALUES (
                     @id_venta,
                     @id_producto,
                     @cantidad,
                     @precio_compra_vigente,
                     @precio_venta_unitario,
-                    @descuento_item
+                    @descuento_item,
+                    @id_presentacion
                 );
                 """;
 
@@ -37,7 +39,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@cantidad", entidad.Cantidad },
                 { "@precio_compra_vigente", entidad.PrecioCompraVigente },
                 { "@precio_venta_unitario", entidad.PrecioVentaUnitario },
-                { "@descuento_item", entidad.DescuentoItem }
+                { "@descuento_item", entidad.DescuentoItem },
+                { "@id_presentacion", entidad.IdPresentacion }
             };
 
             return comando;
@@ -52,7 +55,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     cantidad = @cantidad,
                     precio_compra_vigente = @precio_compra_vigente,
                     precio_venta_unitario = @precio_venta_unitario,
-                    descuento_item = @descuento_item
+                    descuento_item = @descuento_item,
+                    id_presentacion = @id_presentacion
                 WHERE id_detalle_venta_producto = @id_detalle
                 """;
 
@@ -63,7 +67,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@cantidad", entidad.Cantidad },
                 { "@precio_compra_vigente", entidad.PrecioCompraVigente },
                 { "@precio_venta_unitario", entidad.PrecioVentaUnitario },
-                { "@descuento_item", entidad.DescuentoItem }
+                { "@descuento_item", entidad.DescuentoItem },
+                { "@id_presentacion", entidad.IdPresentacion }
             };
 
             return comando;
@@ -125,7 +130,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 PrecioCompraVigente = Convert.ToDecimal(lector["precio_compra_vigente"], CultureInfo.InvariantCulture),
                 PrecioVentaUnitario = Convert.ToDecimal(lector["precio_venta_unitario"], CultureInfo.InvariantCulture),
                 DescuentoItem = Convert.ToDecimal(lector["descuento_item"], CultureInfo.InvariantCulture),
-                Subtotal = Convert.ToDecimal(lector["subtotal"], CultureInfo.InvariantCulture)
+                Subtotal = Convert.ToDecimal(lector["subtotal"], CultureInfo.InvariantCulture),
+                IdPresentacion = Convert.ToInt64(lector["id_presentacion"])
             };
 
             var entidadesExtra = new List<IEntidadBaseDatos>();
