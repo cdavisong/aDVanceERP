@@ -16,12 +16,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                     id_solicitud_compra,
                     id_producto,
                     cantidad_solicitada,
-                    precio_adquisicion_referencia
+                    precio_adquisicion_referencia,
+                    id_presentacion
                 ) VALUES (
                     @id_solicitud_compra,
                     @id_producto,
                     @cantidad_solicitada,
-                    @precio_adquisicion_referencia
+                    @precio_adquisicion_referencia,
+                    @id_presentacion
                 )
                 """;
 
@@ -30,7 +32,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@id_solicitud_compra", entidad.IdSolicitudCompra },
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
-                { "@precio_adquisicion_referencia", entidad.PrecioAdquisicionReferencia }
+                { "@precio_adquisicion_referencia", entidad.PrecioAdquisicionReferencia },
+                { "@id_presentacion", entidad.IdPresentacion }
             };
 
             return consulta;
@@ -43,7 +46,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                     id_solicitud_compra = @id_solicitud_compra,
                     id_producto = @id_producto,
                     cantidad_solicitada = @cantidad_solicitada,
-                    precio_adquisicion_referencia = @precio_adquisicion_referencia
+                    precio_adquisicion_referencia = @precio_adquisicion_referencia,
+                    id_presentacion = @id_presentacion
                 WHERE id_detalle_solicitud_compra = @id_detalle_solicitud_compra
                 """;
 
@@ -53,6 +57,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 { "@id_producto", entidad.IdProducto },
                 { "@cantidad_solicitada", entidad.CantidadSolicitada },
                 { "@precio_adquisicion_referencia", entidad.PrecioAdquisicionReferencia },
+                { "@id_presentacion", entidad.IdPresentacion },
                 { "@id_detalle_solicitud_compra", entidad.Id }
             };
 
@@ -122,7 +127,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 IdSolicitudCompra = Convert.ToInt64(lector["id_solicitud_compra"]),
                 IdProducto = Convert.ToInt64(lector["id_producto"]),
                 CantidadSolicitada = Convert.ToDecimal(lector["cantidad_solicitada"]),
-                PrecioAdquisicionReferencia = Convert.ToDecimal(lector["precio_adquisicion_referencia"])
+                PrecioAdquisicionReferencia = Convert.ToDecimal(lector["precio_adquisicion_referencia"]),
+                IdPresentacion = Convert.ToInt64(lector["id_presentacion"])
             };
 
             var entidadesExtra = new List<IEntidadBaseDatos>();
