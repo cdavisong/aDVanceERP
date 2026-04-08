@@ -85,22 +85,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal Cantidad {
-            get => decimal.TryParse(fieldCantidadPresentacion.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldCantidadPresentacion.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                         out var value)
                         ? value
                         : 0m;
             set => fieldCantidadPresentacion.Text = value > 0
-                    ? value.ToString("N1")
+                    ? value.ToString("N1", CultureInfo.InvariantCulture)
                     : string.Empty;
         }
 
         public decimal PrecioVenta {
-            get => decimal.TryParse(fieldPrecioVentaPresentacion.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldPrecioVentaPresentacion.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                         out var value)
                         ? value
                         : 0m;
             set => fieldPrecioVentaPresentacion.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
         }
 

@@ -1,6 +1,8 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Modulos.CajaRegistradora.Interfaces;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
     public partial class VistaAperturaTurno : Form, IVistaAperturaTurno {
         private bool _modoEdicion = false;
@@ -50,8 +52,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
         }
 
         public decimal MontoApertura {
-            get => decimal.TryParse(fieldMontoEfectivo.Text, out var monto) ? monto : 0m;
-            set => fieldMontoEfectivo.Text = value.ToString("N2");
+            get => decimal.TryParse(fieldMontoEfectivo.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var monto) ? monto : 0m;
+            set => fieldMontoEfectivo.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public string? Observaciones {

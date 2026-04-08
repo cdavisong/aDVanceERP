@@ -86,7 +86,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             set {
                 _montoApertura = value;
 
-                fieldFondoInicial.Text = value.ToString("N2");
+                fieldFondoInicial.Text = value.ToString("N2", CultureInfo.InvariantCulture);
             }
         }
 
@@ -114,7 +114,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 _montoEfectivoDeclarado = value;
 
                 fieldMontoEfectivoDeclarado.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
             }
         }
@@ -125,7 +125,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 _montoTransferenciasDeclarado = value;
 
                 fieldMontoTransferenciaDeclarado.Text = value > 0 
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
             }
         }
@@ -206,7 +206,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 ActualizarTotalArqueoVista();
             };
             fieldMontoTransferenciaDeclarado.Leave += delegate {
-                _montoTransferenciasDeclarado = decimal.TryParse(fieldMontoTransferenciaDeclarado.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out var montoTransferenciaDeclarado)
+                _montoTransferenciasDeclarado = decimal.TryParse(fieldMontoTransferenciaDeclarado.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var montoTransferenciaDeclarado)
                     ? montoTransferenciaDeclarado
                     : 0m;
 

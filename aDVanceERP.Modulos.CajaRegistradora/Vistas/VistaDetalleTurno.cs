@@ -6,6 +6,8 @@ using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Modulos.CajaRegistradora.Interfaces;
 using aDVanceERP.Modulos.CajaRegistradora.Properties;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
     public partial class VistaDetalleTurno : Form, IVistaDetalleTurno {
         private int _paginaActual = 1;
@@ -158,18 +160,18 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             fieldEstado.Text = $"{(turno.Estado == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {turno.Estado.ObtenerDisplayName()}";
             fieldFechaHoraApertura.Text = turno.FechaApertura.ToString("dd/MM/yyyy HH:mm");
             fieldFechaHoraCierre.Text = turno.FechaCierre.HasValue ? turno.FechaCierre.Value.ToString("dd/MM/yyyy HH:mm") : "N/A";
-            fieldEfectivoCalculado.Text = totalesCalculados.TotalEfectivo.ToString("N2");
-            fieldDiferenciaEfectivo.Text = turno.DiferenciaEfectivo.HasValue ? turno.DiferenciaEfectivo.Value.ToString("N2") : "N/A";
+            fieldEfectivoCalculado.Text = totalesCalculados.TotalEfectivo.ToString("N2", CultureInfo.InvariantCulture);
+            fieldDiferenciaEfectivo.Text = turno.DiferenciaEfectivo.HasValue ? turno.DiferenciaEfectivo.Value.ToString("N2", CultureInfo.InvariantCulture) : "N/A";
             
             fieldTotalEfectivo.Text = turno.MontoEfectivoCalculado.HasValue && turno.DiferenciaEfectivo.HasValue
-                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value).ToString("N2")
-                : totalesCalculados.TotalEfectivo.ToString("N2");
+                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value).ToString("N2", CultureInfo.InvariantCulture)
+                : totalesCalculados.TotalEfectivo.ToString("N2", CultureInfo.InvariantCulture);
             fieldTotalTransferencias.Text = turno.MontoTransferenciasCalculado.HasValue && turno.DiferenciaTransferencias.HasValue
-                ? (turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2")
-                : totalesCalculados.TotalTransferencias.ToString("N2");
+                ? (turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2", CultureInfo.InvariantCulture)
+                : totalesCalculados.TotalTransferencias.ToString("N2", CultureInfo.InvariantCulture);
             fieldTotalGeneral.Text = turno.MontoEfectivoCalculado.HasValue && turno.DiferenciaEfectivo.HasValue && turno.MontoTransferenciasCalculado.HasValue && turno.DiferenciaTransferencias.HasValue
-                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value + turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2")
-                : (totalesCalculados.TotalEfectivo + totalesCalculados.TotalTransferencias).ToString("N2"); ;
+                ? (turno.MontoEfectivoCalculado.Value + turno.DiferenciaEfectivo.Value + turno.MontoTransferenciasCalculado.Value + turno.DiferenciaTransferencias.Value).ToString("N2", CultureInfo.InvariantCulture)
+                : (totalesCalculados.TotalEfectivo + totalesCalculados.TotalTransferencias).ToString("N2", CultureInfo.InvariantCulture);
         }
 
         private (Color colorFondo, Color colorFuente) ObtenerColorEstado(EstadoCajaTurnoEnum estado) {

@@ -51,32 +51,32 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal Cantidad {
-            get => decimal.TryParse(fieldCantidad.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                     out var value)
                     ? value
                     : 0m;
             set => fieldCantidad.Text = value > 0
-                    ? value.ToString("N1")
+                    ? value.ToString("N1", CultureInfo.InvariantCulture)
                     : "-";
         }
 
         public decimal PrecioVenta {
-            get => decimal.TryParse(fieldPrecioVenta.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldPrecioVenta.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                     out var value)
                     ? value
                     : 0m;
             set => fieldPrecioVenta.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
         public decimal PrecioPorUnidad {
-            get => decimal.TryParse(fieldPrecioUnidad.Text, NumberStyles.Any, CultureInfo.CurrentCulture,
+            get => decimal.TryParse(fieldPrecioUnidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
                     out var value)
                     ? value
                     : 0m;
             set => fieldPrecioUnidad.Text = value > 0
-                    ? value.ToString("N2")
+                    ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : "-";
         }
 
