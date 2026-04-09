@@ -168,7 +168,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 }
             }
 
-            // Registrar los pagos asociados a la venta
+            // Registrar los pagos asociados a la venta DENTRO DE LA MISMA TRANSACCIÓN
             var repoPago = RepoPago.Instancia;
             var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
             var repoCaja = RepoCajaTurno.Instancia;

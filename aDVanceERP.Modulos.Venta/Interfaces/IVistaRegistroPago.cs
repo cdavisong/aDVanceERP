@@ -10,6 +10,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         bool EstadoPendiente { get; set; }
         string NumeroTelefonoRemitente { get; set; }
         string NumeroTransaccion { get; set; }
+        decimal SaldoPendiente { get; set; }
 
         void CargarFacturasVentasPendientes(string[] numerosFacturasPendientes);
         void CargarMetodosPago(string[] metodosPago);

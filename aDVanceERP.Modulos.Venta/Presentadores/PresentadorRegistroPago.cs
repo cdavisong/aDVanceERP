@@ -62,6 +62,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         protected override Pago? ObtenerEntidadDesdeVista() {
             var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
 
+            // Validar que el monto no exceda el saldo pendiente (evitar sobrepago)
+            var estadoPago = RepoVenta.Instancia.VerificarEstadoPagoVenta(venta.Id);
+            if (Vista.MontoPagado > estadoPago.Saldo && !Vista.ModoEdicion) {
+                CentroNotificaciones.MostrarNotificacion(
+                    $"El monto del pago ({Vista.MontoPagado:C2}) excede el saldo pendiente de {estadoPago.Saldo:C2}.",
+                    TipoNotificacionEnum.Advertencia);
+                return null;
+            }
+
             return new Pago() { 
                 Id = 0,
                 IdVenta = venta.Id,
@@ -76,6 +85,14 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         protected override void RegistroEdicionAuxiliar(RepoPago repositorio, long id) {
             if (Vista.MetodoPago == MetodoPagoEnum.TransferenciaBancaria) {
                 var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
+
+                // Validar que el número de transacción no esté duplicado
+                if (!string.IsNullOrEmpty(Vista.NumeroTransaccion) && repoDetallePagoTransferencia.ExisteNumeroTransaccion(Vista.NumeroTransaccion)) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        $"El número de transacción '{Vista.NumeroTransaccion}' ya ha sido registrado anteriormente. Verifique si el pago ya fue ingresado.",
+                        TipoNotificacionEnum.Advertencia);
+                    return;
+                }
 
                 // Registrar detalles del la transferencia bancaria
                 var detallePagoTransferencia = new DetallePagoTransferencia() {

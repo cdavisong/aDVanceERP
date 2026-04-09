@@ -278,6 +278,14 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                             EstadoPago = confirmado ? EstadoPagoEnum.Confirmado : EstadoPagoEnum.Pendiente
                                         };
 
+                                        // Validar número de transacción duplicado para transferencias
+                                        if (pagoExp.DetalleTransferencia != null && 
+                                            !string.IsNullOrEmpty(pagoExp.DetalleTransferencia.NumeroTransaccion) &&
+                                            repoDetallePagoTransferencia.ExisteNumeroTransaccion(pagoExp.DetalleTransferencia.NumeroTransaccion)) {
+                                            errores.Add($"'{Path.GetFileName(archivo)}' — pago {ventaExp.NumeroTicket}: Número de transacción '{pagoExp.DetalleTransferencia.NumeroTransaccion}' duplicado. Omitiendo este pago.");
+                                            continue;
+                                        }
+
                                         long idPago = repoPago.Adicionar(pagoBD);
 
                                         if (pagoExp.DetalleTransferencia != null) {

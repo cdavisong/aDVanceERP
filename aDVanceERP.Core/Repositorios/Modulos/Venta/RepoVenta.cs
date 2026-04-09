@@ -375,13 +375,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 SELECT 
                     CASE 
                         WHEN v.importe_total <= COALESCE(SUM(p.monto_pagado), 0) 
-                            AND COUNT(CASE WHEN p.estado_pago = 'Pendiente' THEN 1 END) = 0
+                            AND COUNT(CASE WHEN p.estado_pago = 'Confirmado' THEN 1 END) = COUNT(p.id_pago)
+                            AND COUNT(p.id_pago) > 0
                         THEN 1 
                         ELSE 0 
                     END as esta_pagada
                 FROM adv__venta v
                 LEFT JOIN adv__pago p ON v.id_venta = p.id_venta 
-                    AND p.estado_pago IN ('Confirmado', 'Pendiente')
+                    AND p.estado_pago = 'Confirmado'
                 WHERE v.id_venta = @id_venta
                 GROUP BY v.id_venta, v.importe_total;
                 """;

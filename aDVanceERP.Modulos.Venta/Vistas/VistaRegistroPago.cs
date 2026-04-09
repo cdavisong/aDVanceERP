@@ -82,6 +82,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldMonto.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
+        public decimal SaldoPendiente {
+            get => decimal.TryParse(lblSaldoPendiente?.Text ?? "0", NumberStyles.Any, CultureInfo.InvariantCulture, out var value) ? value : 0m;
+            set {
+                if (lblSaldoPendiente != null)
+                    lblSaldoPendiente.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+            }
+        }
+
         public bool EstadoPendiente {
             get => fieldEstadoPendiente.Checked;
             set => fieldEstadoPendiente.Checked = value;
@@ -107,10 +115,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                 if (fieldNumeroFactura.SelectedIndex == -1 || venta == null) {
                     fieldMonto.Text = string.Empty;
+                    SaldoPendiente = 0;
                     return;
                 }
 
-                MontoPagado = venta.ImporteTotal;
+                // Calcular saldo pendiente de la venta
+                var estadoPago = RepoVenta.Instancia.VerificarEstadoPagoVenta(venta.Id);
+                SaldoPendiente = estadoPago.Saldo;
+                
+                // Establecer monto máximo permitido (saldo pendiente)
+                MontoPagado = estadoPago.Saldo;
             };
             fieldMetodoPago.SelectedIndexChanged += delegate {
                 separador1.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
