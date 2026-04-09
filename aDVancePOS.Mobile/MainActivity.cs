@@ -347,7 +347,7 @@ namespace aDVancePOS.Mobile {
 
             // Agregar presentaciones activas
             foreach (var p in presentaciones) {
-                opciones.Add($"{p.Cantidad} {p.UnidadMedida} — {p.PrecioVenta:C2}", p.Id, p.PrecioVenta);
+                opciones.Add(($" {p.Cantidad} {p.UnidadMedida} — {p.PrecioVenta:C2}", p.Id, p.PrecioVenta));
             }
 
             var etiquetas = opciones.Select(o => o.Etiqueta).ToArray();
