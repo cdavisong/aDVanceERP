@@ -52,6 +52,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             ActualizarResultadosBusqueda();
         }
 
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaMovimiento.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty];
+
+            base.ActualizarResultadosBusqueda();
+        }
+
         protected override PresentadorTuplaMovimiento ObtenerValoresTupla(Movimiento entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaMovimiento(new VistaTuplaMovimiento(), entidad);
 

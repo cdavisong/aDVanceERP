@@ -29,11 +29,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
                 if (producto != null) {
                     Vista.NombreProducto = producto.Nombre;
-                    Vista.ActualizarUnidadMedidaProductoSeleccionado(producto);
+                    Vista.ActualizarInformacionProductoSeleccionado(producto);
                 }
 
                 if (signoMovimiento == "+" || signoMovimiento == "-") {
-                    var tiposMovimiento = RepoTipoMovimiento.Instancia.ObtenerTodos().Where(tm => tm.entidadBase.Efecto == (signoMovimiento == "+" ? EfectoMovimiento.Carga : EfectoMovimiento.Descarga)).Select(tm => tm.entidadBase).ToArray();
+                    var tiposMovimiento = RepoTipoMovimiento.Instancia.ObtenerTodos().Where(tm => tm.entidadBase.Efecto == (signoMovimiento == "+" ? EfectoMovimientoEnum.Carga : EfectoMovimientoEnum.Descarga)).Select(tm => tm.entidadBase).ToArray();
 
                     Vista.CargarTiposMovimientos(tiposMovimiento);
 
@@ -110,7 +110,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             // ✅ Para Carga → el saldo de referencia es el almacén destino
             // ✅ Para Descarga/Transferencia → el saldo de referencia es el almacén origen
-            var idAlmacenReferencia = tipoMovimiento?.Efecto == EfectoMovimiento.Carga
+            var idAlmacenReferencia = tipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga
                 ? almacenDestino?.Id ?? 0
                 : almacenOrigen?.Id ?? 0;
 
@@ -121,7 +121,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 .entidadBase;
 
             var saldoInicial = inventario?.Cantidad ?? 0m;
-            var signo = tipoMovimiento?.Efecto == EfectoMovimiento.Carga ? 1m : -1m;
+            var signo = tipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga ? 1m : -1m;
             var saldoFinal = saldoInicial + (Vista.CantidadMovida * signo);
 
             return new Movimiento() {
@@ -165,19 +165,19 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             if (tipoMovimiento != null) {
                 switch (tipoMovimiento.Efecto) {
-                    case EfectoMovimiento.Carga:
+                    case EfectoMovimientoEnum.Carga:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de destino para la operación de carga solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
                         }
                         break;
-                    case EfectoMovimiento.Descarga:
+                    case EfectoMovimientoEnum.Descarga:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || Vista.NombreAlmacenOrigen.Equals("Ninguno")) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen para la operación de descarga solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
                         }
                         break;
-                    case EfectoMovimiento.Transferencia:
+                    case EfectoMovimientoEnum.Transferencia:
                         if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenOrigen.Equals("Ninguno") || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen y un destino para la operación de transferencia solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
@@ -195,7 +195,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             var cantidadOk = Vista.CantidadMovida > 0;
 
-            if (tipoMovimiento?.Efecto == EfectoMovimiento.Descarga || tipoMovimiento?.Efecto == EfectoMovimiento.Transferencia) {
+            if (tipoMovimiento?.Efecto == EfectoMovimientoEnum.Descarga || tipoMovimiento?.Efecto == EfectoMovimientoEnum.Transferencia) {
                 if (!string.IsNullOrEmpty(Vista.NombreAlmacenOrigen)) {
                     var producto = RepoProducto.Instancia
                         .Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto)

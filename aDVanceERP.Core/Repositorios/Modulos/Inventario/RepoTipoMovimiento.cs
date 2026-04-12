@@ -95,7 +95,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             return (new TipoMovimiento(
                 id: Convert.ToInt64(lectorDatos["id_tipo_movimiento"]),
                 nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
-                efecto: Enum.TryParse<EfectoMovimiento>(Convert.ToString(lectorDatos["efecto"]) ?? string.Empty, out var efecto) ? efecto : EfectoMovimiento.Ninguno
+                efecto: Enum.TryParse<EfectoMovimientoEnum>(Convert.ToString(lectorDatos["efecto"]) ?? string.Empty, out var efecto) ? efecto : EfectoMovimientoEnum.Ninguno
             ), new List<IEntidadBaseDatos>());
         }
 

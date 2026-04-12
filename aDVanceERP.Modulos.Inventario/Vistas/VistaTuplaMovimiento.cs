@@ -6,6 +6,7 @@ using aDVanceERP.Modulos.Inventario.Properties;
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
         private EstadoMovimiento _estadoMovimiento;
+        private EfectoMovimientoEnum _efecto;
 
         public VistaTuplaMovimiento() {
             InitializeComponent();
@@ -36,10 +37,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public Color ColorFondoTupla {
-            get => layoutVista.BackColor;
-            set => layoutVista.BackColor = value == Color.Gainsboro
-            ? value
-            : ObtenerColorFondoTupla(EstadoMovimiento);
+            get => layoutBase.BackColor;
+            set => layoutBase.BackColor = value;
         }
 
         public bool EstadoSeleccion { get; set; }
@@ -88,8 +87,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public string TipoMovimiento {
             get => fieldTipoMovimiento.Text;
             set {
+                var (colorFondo, colorFuente) = ObtenerColorEfecto(_efecto);
+
+                fieldTipoMovimiento.DisabledState.BorderColor = colorFondo;
+                fieldTipoMovimiento.DisabledState.FillColor = colorFondo;
+                fieldTipoMovimiento.DisabledState.ForeColor = colorFuente;
                 fieldTipoMovimiento.Text = string.IsNullOrEmpty(value) ? "ERROR" : value;
-                fieldTipoMovimiento.Margin = new Padding(1, value?.Length > 23 ? 10 : 1, 1, 1);
             }
         }
 
@@ -98,13 +101,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldFecha.Text = value;
         }
 
-        public EstadoMovimiento EstadoMovimiento {
-            get => _estadoMovimiento;
-            set {
-                _estadoMovimiento = value;
-                layoutVista.BackColor = ObtenerColorFondoTupla(value);
-            }
-        }
+        public EstadoMovimiento EstadoMovimiento { get; set; }
 
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
@@ -115,11 +112,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
         }
 
-        public void ActualizarIconoStock(EfectoMovimiento efecto) {
+        public void ActualizarIconoStock(EfectoMovimientoEnum efecto) {
+            _efecto = efecto;
             fieldIcono.BackgroundImage = efecto switch {
-                EfectoMovimiento.Carga => Resources.load_cargo_20px,
-                EfectoMovimiento.Descarga => Resources.unload_cargo_20px,
-                EfectoMovimiento.Transferencia => Resources.transfer_20px,
+                EfectoMovimientoEnum.Carga => Resources.load_cargo_20px,
+                EfectoMovimientoEnum.Descarga => Resources.unload_cargo_20px,
+                EfectoMovimientoEnum.Transferencia => Resources.transfer_20px,
                 _ => fieldIcono.BackgroundImage
             };
         }
@@ -141,11 +139,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Dispose();
         }
 
-        private Color ObtenerColorFondoTupla(EstadoMovimiento estado) {
-            return estado switch {
-                EstadoMovimiento.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoMovimiento.Cancelado => ContextoAplicacion.ColorErrorTupla,
-                _ => BackColor
+        private (Color colorFondo, Color colorFuente) ObtenerColorEfecto(EfectoMovimientoEnum efecto) {
+            return efecto switch {
+                EfectoMovimientoEnum.Carga => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),         // Verde
+                EfectoMovimientoEnum.Descarga => (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)),      // Rojo
+                EfectoMovimientoEnum.Transferencia => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),  // Ambar
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
             };
         }
     }

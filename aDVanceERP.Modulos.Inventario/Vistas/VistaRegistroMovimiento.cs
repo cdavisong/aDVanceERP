@@ -109,22 +109,33 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     CentroNotificaciones.MostrarNotificacion("El producto entrado no se encuentra registrado en la base de datos. Entre el nombre de un producto válido antes de realizar el movimiento.", TipoNotificacionEnum.Advertencia);
 
                     _productoSeleccionado = null;
+                    panelDatosProducto.Visible = false;
+                    layoutVista.RowStyles[4].Height = 0;
+                    layoutVista.RowStyles[5].Height = 0;
                     fieldNombreProducto.Text = string.Empty;                    
                     fieldAbreviaturaUM1.Text = "u";
+                    fieldAbreviaturaUM2.Text = "u";
 
                     fieldNombreProducto.Focus();
                     return;
+                } else {
+                    panelDatosProducto.Visible = true;
+                    layoutVista.RowStyles[4].Height = 70;
+                    layoutVista.RowStyles[5].Height = 20;
                 }
 
-                ActualizarUnidadMedidaProductoSeleccionado(_productoSeleccionado);
+                ActualizarInformacionProductoSeleccionado(_productoSeleccionado);
+                ActualizarCantidadFinal(sender, EventArgs.Empty);
 
                 args.SuppressKeyPress = true;
             };
-            fieldTipoMovimiento.SelectedIndexChanged += delegate {
+            fieldTipoMovimiento.SelectedIndexChanged += delegate (object? sender, EventArgs e) {
                 ActualizarCamposAlmacenes();
+                ActualizarCantidadFinal(sender, e);
             };
             fieldAlmacenOrigen.SelectedIndexChanged += HabilitaDeshabilitarCampoCantidad;
             fieldAlmacenDestino.SelectedIndexChanged += HabilitaDeshabilitarCampoCantidad;
+            fieldCantidadMovida.TextChanged += ActualizarCantidadFinal;
             btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
                 if (ModoEdicion)
                     EditarEntidad?.Invoke(sender, args);
@@ -137,17 +148,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private void ActualizarCamposAlmacenes() {
             var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, NombreTipoMovimiento).resultadosBusqueda.FirstOrDefault(tm => tm.entidadBase.Nombre.Equals(NombreTipoMovimiento)).entidadBase;
 
-            if (tipoMovimiento?.Efecto == EfectoMovimiento.Carga) {
+            if (tipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga) {
                 fieldAlmacenOrigen.SelectedIndex = 0;
                 fieldAlmacenOrigen.Enabled = false;
                 fieldAlmacenDestino.Enabled = !ModoEdicion;
-            } else if (tipoMovimiento?.Efecto == EfectoMovimiento.Descarga) {
+                fieldTextoAdvertencia.Text = "      Para movimientos de tipo Carga seleccione el almacén destino";
+            } else if (tipoMovimiento?.Efecto == EfectoMovimientoEnum.Descarga) {
                 fieldAlmacenDestino.SelectedIndex = 0;
                 fieldAlmacenDestino.Enabled = false;
                 fieldAlmacenOrigen.Enabled = !ModoEdicion;
+                fieldTextoAdvertencia.Text = "      Para movimientos de tipo Descarga seleccione el almacén origen";
             } else {
                 fieldAlmacenOrigen.Enabled = !ModoEdicion && tipoMovimiento != null;
                 fieldAlmacenDestino.Enabled = !ModoEdicion && tipoMovimiento != null;
+                fieldTextoAdvertencia.Text = "      Para movimientos de tipo Transferencia seleccione ambos almacenes: origen y destino";
             }
         }
 
@@ -158,10 +172,64 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 (fieldAlmacenOrigen.SelectedIndex != 0 && fieldAlmacenDestino.SelectedIndex != 0 && fieldAlmacenOrigen.SelectedItem?.ToString() == fieldAlmacenDestino.SelectedItem?.ToString());
         }
 
-        public void ActualizarUnidadMedidaProductoSeleccionado(Core.Modelos.Modulos.Inventario.Producto producto) {
-            var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(producto?.IdUnidadMedida ?? 0);
+        public void ActualizarInformacionProductoSeleccionado(Producto producto) {
+            var unidadMedida = RepoUnidadMedida.Instancia.ObtenerPorId(producto?.IdUnidadMedida ?? 0)!;
+            var inventarioProducto = RepoInventario.Instancia
+                .Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
+                .resultadosBusqueda;
+
+            // Banner de producto
+            fieldCodigoBanner.Text = producto.Codigo;
+            fieldNombreProductoBanner.Text = producto.Nombre;
+            fieldFechaUltimoMovimientoBanner.Text = inventarioProducto.Count > 0 
+                ? inventarioProducto.Min(inv => inv.entidadBase.UltimaActualizacion).ToString("dd/MM/yyyy HH:mm") 
+                : "-";
+            fieldStockTotalBanner.Text = $"{inventarioProducto.Sum(inv => inv.entidadBase.Cantidad).ToString("N2", CultureInfo.InvariantCulture)} {unidadMedida.Abreviatura}";
+            fieldOperadorBanner.Text = ContextoSeguridad.UsuarioAutenticado!.Nombre;
 
             fieldAbreviaturaUM1.Text = unidadMedida?.Abreviatura ?? "u";
+            fieldAbreviaturaUM2.Text = unidadMedida?.Abreviatura ?? "u";
+        }
+
+        private void ActualizarCantidadFinal(object? sender, EventArgs e) {
+            var inventarioProducto = RepoInventario.Instancia
+                    .Buscar(FiltroBusquedaInventario.IdProducto, _productoSeleccionado?.Id.ToString())
+                    .resultadosBusqueda
+                    .Select(r => r.entidadBase);
+            var tipoMovimineto = _tiposMovimiento.FirstOrDefault(m => m.Nombre.Equals(NombreTipoMovimiento));
+
+            if (tipoMovimineto == null) {
+                fieldCantidadFinal.Text = string.Empty;
+                return;
+            }
+            
+            var almacen = RepoAlmacen.Instancia
+                .Buscar(FiltroBusquedaAlmacen.Nombre, tipoMovimineto.Efecto == EfectoMovimientoEnum.Carga
+                    ? NombreAlmacenDestino
+                    : tipoMovimineto.Efecto == EfectoMovimientoEnum.Descarga
+                        ? NombreAlmacenOrigen
+                        : "Todos")
+                .resultadosBusqueda
+                .Select(r => r.entidadBase)
+                .FirstOrDefault();
+
+            if (almacen == null) {
+                fieldCantidadFinal.Text = tipoMovimineto.Efecto == EfectoMovimientoEnum.Transferencia
+                    ? inventarioProducto.Sum(i => i.Cantidad).ToString("N2", CultureInfo.InvariantCulture)
+                    : string.Empty;
+                return;
+            }
+
+            var cantidadActual = inventarioProducto
+                .FirstOrDefault(i => i.IdAlmacen.Equals(almacen?.Id))?
+                .Cantidad;
+            var cantidadMovida = CantidadMovida;
+
+            fieldCantidadFinal.Text = ((decimal) (tipoMovimineto.Efecto == EfectoMovimientoEnum.Carga
+                ? cantidadActual + cantidadMovida
+                : tipoMovimineto.Efecto == EfectoMovimientoEnum.Descarga
+                    ? cantidadActual - cantidadMovida
+                    : 0)).ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public void Mostrar() {
@@ -177,9 +245,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Restaurar() {
             NombreProducto = string.Empty;
+            panelDatosProducto.Visible = false;
+            layoutVista.RowStyles[4].Height = 0;
+            layoutVista.RowStyles[5].Height = 0;
             fieldAlmacenOrigen.SelectedIndex = fieldAlmacenOrigen.Items.Count > 0 ? 0 : -1;
             fieldAlmacenDestino.SelectedIndex = fieldAlmacenDestino.Items.Count > 0 ? 0 : -1;
             fieldCantidadMovida.Text = string.Empty;
+            fieldCantidadFinal.Text = string.Empty;
             NombreTipoMovimiento = string.Empty;
             fieldTipoMovimiento.SelectedIndex = -1;
             Fecha = DateTime.Now;

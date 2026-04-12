@@ -11,7 +11,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string NombreTipoMovimiento { get; set; }
         string Notas { get; set; }
 
-        void ActualizarUnidadMedidaProductoSeleccionado(Producto producto);
+        void ActualizarInformacionProductoSeleccionado(Producto producto);
         void CargarNombresProductos(string[] nombresProductos);
         void CargarNombresAlmacenes(string[] nombresAlmacenes);
         void CargarTiposMovimientos(TipoMovimiento[] tiposMovimientos);

@@ -54,7 +54,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public string NombreAlmacenOrigen { get; set; }
         public string NombreAlmacenDestino { get; set; }
         public string NombreTipoMovimiento { get; set; }
-        public EfectoMovimiento EfectoMovimiento { get; set; }
+        public EfectoMovimientoEnum EfectoMovimiento { get; set; }
 
         #endregion
     }
@@ -65,19 +65,17 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         IdProducto,
         AlmacenOrigen,
         AlmacenDestino,
-        Fecha,
-        TipoMovimiento
+        Tipo
     }
 
     public static class UtilesBusquedaMovimiento {
         public static object[] FiltroBusquedaMovimiento = {
-            "Todos los movimientos",
-            "Identificador de BD",
-            "Identificador del producto",
-            "Almacén de orígen",
-            "Almacén de destino",
-            "Fecha del movimiento",
-            "Tipo de movimiento"
+            "Todos",
+            "ID",
+            "ID del producto",
+            "Almacén origen",
+            "Almacén destino",
+            "Tipo"
         };
     }
 }

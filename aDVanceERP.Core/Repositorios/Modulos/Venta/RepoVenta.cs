@@ -160,34 +160,29 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             parametros = filtroBusqueda switch {
                 FiltroBusquedaVenta.Id => new Dictionary<string, object> {
                     { "@id_venta", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
-                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
-                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
                 },
                 FiltroBusquedaVenta.IdCliente => new Dictionary<string, object> {
                     { "@id_cliente", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) },
-                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
-                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
                 },
                 FiltroBusquedaVenta.NumeroFactura => new Dictionary<string, object> {
                     { "@numero_factura", criterio },
-                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
-                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
                 },
                 FiltroBusquedaVenta.Estado => new Dictionary<string, object> {
                     { "@estado_venta", criterio },
-                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
-                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
                 },
                 _ => new Dictionary<string, object> {
-                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) },
-                    { "@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00") },
-                    { "@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59") }
+                    { "@activo", !filtroBusqueda.ToString().Equals("Inactivos", StringComparison.OrdinalIgnoreCase) }
                 }
             };
+
+            if (criteriosBusqueda.Length == 3) {
+                parametros.Add("@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00"));
+                parametros.Add("@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59"));
+            }
 
             return consulta;
         }
@@ -214,7 +209,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
             // Solo obtenemos el nombre del cliente de la BD
-            if (lector.VisibleFieldCount > 15) {
+            if (lector.VisibleFieldCount > 17) {
                 entidadesExtra.Add(new Persona {
                     NombreCompleto = Convert.ToString(lector["nombre_cliente"]) ?? "N/A"
                 });

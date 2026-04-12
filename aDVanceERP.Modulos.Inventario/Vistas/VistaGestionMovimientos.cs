@@ -81,31 +81,33 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? MostrarUltimaPagina;
         public event EventHandler? SincronizarDatos;
 
-        public event EventHandler<(DateTime fechaDesde, DateTime fechaHasta, FormatoDocumento formato)>? AuditarInventario;
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaMovimiento, string[])>? BuscarEntidades;
 
+        public event EventHandler<(DateTime fechaDesde, DateTime fechaHasta, FormatoDocumento formato)>? AuditarInventario;
+
         public void Inicializar() {
             // Eventos
+            fieldFiltroBusquedaFechaDesde.Value = DateTime.Today;
+            fieldFiltroBusquedaFechaDesde.ValueChanged += OnCambioValorFechaDesde;
+            fieldFiltroBusquedaFechaHasta.Value = DateTime.Today;
+            fieldFiltroBusquedaFechaHasta.ValueChanged += OnCambioValorFechaHasta;
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
             fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, CriteriosBusqueda));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
             };
-            fieldCriterioBusquedaFecha.ValueChanged += delegate (object? sender, EventArgs e) {
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldCriterioBusquedaFecha.Value.ToString("yyyy-MM-dd") }));
-            };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
-            btnAuditarInventarioPdf.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.PDF)); };
-            btnAuditarInventarioXls.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.Excel)); };
+            //btnAuditarInventarioPdf.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.PDF)); };
+            //btnAuditarInventarioXls.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.Excel)); };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);
@@ -134,20 +136,40 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
         }
 
-        private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
-            if (FiltroBusqueda == FiltroBusquedaMovimiento.Fecha) {
-                fieldCriterioBusquedaFecha.Value = DateTime.Now;
-                fieldCriterioBusquedaFecha.Focus();
-            } else {
-                fieldCriterioBusqueda.Text = string.Empty;
-                fieldCriterioBusqueda.Focus();
+        private void OnCambioValorFechaDesde(object? sender, EventArgs e) {
+            var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value.Date;
+            var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
+
+            if (valorFechaDesde <= valorFechaHasta)
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+            else {
+                fieldFiltroBusquedaFechaDesde.Value = valorFechaHasta;
+
+                CentroNotificaciones.MostrarNotificacion("La fecha de inicio no puede ser mayor que la fecha final o fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
             }
+        }
 
-            fieldCriterioBusqueda.Visible = FiltroBusqueda != FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
-            fieldCriterioBusquedaFecha.Visible = FiltroBusqueda == FiltroBusquedaMovimiento.Fecha && fieldFiltroBusqueda.SelectedIndex != 0;
+        private void OnCambioValorFechaHasta(object? sender, EventArgs e) {
+            var valorFechaDesde = fieldFiltroBusquedaFechaDesde.Value.Date;
+            var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
-            if (FiltroBusqueda != FiltroBusquedaMovimiento.Fecha)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
+            if (valorFechaHasta >= valorFechaDesde && valorFechaHasta <= DateTime.Now)
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+            else {
+                fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
+
+                CentroNotificaciones.MostrarNotificacion("La fecha final no puede ser menor que la fecha inicial o mayor que la fecha del día de hoy, por favor, corrija los datos de entrada", Core.Modelos.Comun.TipoNotificacionEnum.Advertencia);
+            }
+        }
+
+        private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
+            fieldCriterioBusqueda.Text = string.Empty;
+            fieldCriterioBusqueda.Visible = fieldFiltroBusqueda.SelectedIndex != 0;
+
+            if (fieldCriterioBusqueda.Visible)
+                fieldCriterioBusqueda.Focus();
+
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), string.Empty }));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;
@@ -177,8 +199,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             PaginaActual = 1;
             PaginasTotales = 1;
 
-            fieldFechaDesde.Value = DateTime.Now;
-            fieldFechaHasta.Value = DateTime.Now;
             fieldFiltroBusqueda.SelectedIndex = 0;
         }
 

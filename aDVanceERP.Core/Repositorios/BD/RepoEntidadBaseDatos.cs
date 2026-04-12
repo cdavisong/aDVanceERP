@@ -77,7 +77,7 @@ namespace aDVanceERP.Core.Repositorios.BD {
 
             if (Limite > 0) {
                 consultaResultados = consultaResultados.TrimEnd(';');
-                consultaResultados += " LIMIT @limite OFFSET @desplazamiento;";
+                consultaResultados += "\nLIMIT @limite OFFSET @desplazamiento;";
 
                 parametrosConsulta.Add("@limite", Limite);
                 parametrosConsulta.Add("@desplazamiento", Desplazamiento);

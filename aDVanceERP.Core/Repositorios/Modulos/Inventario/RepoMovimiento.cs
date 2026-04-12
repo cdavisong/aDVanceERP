@@ -106,8 +106,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override string GenerarComandoEliminar(long id, out Dictionary<string, object> parametros) {
             var consulta = $"""
                 DELETE FROM adv__movimiento 
-            WHERE id_movimiento = @id_movimiento;
-            """;
+                WHERE id_movimiento = @id_movimiento;
+                """;
 
             parametros = new Dictionary<string, object> {
                 { "@id_movimiento", id }
@@ -116,8 +116,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             return consulta;
         }
 
-        protected override string GenerarComandoObtener(FiltroBusquedaMovimiento filtroBusqueda, out Dictionary<string, object> parametros, string[]? criteriosBusqueda) {
-            var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+        protected override string GenerarComandoObtener(FiltroBusquedaMovimiento filtroBusqueda, out Dictionary<string, object> parametros, string[] criteriosBusqueda) {
+            var fechaDesde = criteriosBusqueda.Length == 3 ? criteriosBusqueda[0] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var fechaHasta = criteriosBusqueda.Length == 3 ? criteriosBusqueda[1] : DateTime.Today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var criterio = criteriosBusqueda.Length == 3 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+
             var consultaComun = $"""
                 SELECT m.*, p.nombre AS nombre_producto, ao.nombre AS nombre_almacen_origen, ad.nombre AS nombre_almacen_destino, tm.nombre AS nombre_tipo_movimiento, tm.efecto
                 FROM adv__movimiento m
@@ -125,36 +128,35 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 LEFT JOIN adv__almacen ao ON m.id_almacen_origen = ao.id_almacen
                 LEFT JOIN adv__almacen ad ON m.id_almacen_destino = ad.id_almacen
                 JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
+                {(criteriosBusqueda.Length == 3 ? "WHERE m.fecha_creacion >= @fecha_desde AND m.fecha_creacion <= @fecha_hasta" : string.Empty)} 
                 """;
             var consulta = filtroBusqueda switch {
                 FiltroBusquedaMovimiento.Id => $"""
                     {consultaComun}
-                    WHERE id_movimiento = @id_movimiento;
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} id_movimiento = @id_movimiento
                     """,
                 FiltroBusquedaMovimiento.IdProducto => $"""
                     {consultaComun}
-                    WHERE m.id_producto = @id_producto;
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} m.id_producto = @id_producto
                     """,
                 FiltroBusquedaMovimiento.AlmacenOrigen => $"""
                     {consultaComun}
-                    WHERE LOWER(ao.nombre) LIKE LOWER(@nombre_almacen_origen);
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} LOWER(ao.nombre) LIKE LOWER(@nombre_almacen_origen)
                     """,
                 FiltroBusquedaMovimiento.AlmacenDestino => $"""
                     {consultaComun}
-                    WHERE LOWER(ad.nombre) LIKE LOWER(@nombre_almacen_destino);
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} LOWER(ad.nombre) LIKE LOWER(@nombre_almacen_destino)
                     """,
-                FiltroBusquedaMovimiento.Fecha => $"""
+                FiltroBusquedaMovimiento.Tipo => $"""
                     {consultaComun}
-                    WHERE DATE(m.fecha_creacion) = @fecha;
-                    """,
-                FiltroBusquedaMovimiento.TipoMovimiento => $"""
-                    {consultaComun}
-                    WHERE LOWER(tm.nombre) LIKE LOWER(@nombre_tipo_movimiento);
+                    {(criteriosBusqueda.Length == 3 ? "AND" : "WHERE")} LOWER(tm.nombre) LIKE LOWER(@nombre_tipo_movimiento)
                     """,
                 _ => $"""
-                    {consultaComun};
+                    {consultaComun}
                     """,
             };
+
+            consulta += "\nORDER BY m.fecha_creacion DESC;";
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaMovimiento.Id => new Dictionary<string, object> {
@@ -169,14 +171,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 FiltroBusquedaMovimiento.AlmacenDestino => new Dictionary<string, object> {
                     { "@nombre_almacen_destino", $"%{criterio}%" }
                 },
-                FiltroBusquedaMovimiento.Fecha => new Dictionary<string, object> {
-                    { "@fecha", Convert.ToDateTime(criterio).ToString("yyyy-MM-dd") }
-                },
-                FiltroBusquedaMovimiento.TipoMovimiento => new Dictionary<string, object> {
+                FiltroBusquedaMovimiento.Tipo => new Dictionary<string, object> {
                     { "@nombre_tipo_movimiento", $"%{criterio}%" }
                 },
                 _ => new Dictionary<string, object>(),
             };
+
+            if (criteriosBusqueda.Length == 3) {
+                parametros.Add("@fecha_desde", DateTime.Parse(fechaDesde).ToString("yyyy-MM-dd 00:00:00"));
+                parametros.Add("@fecha_hasta", DateTime.Parse(fechaHasta).ToString("yyyy-MM-dd 23:59:59"));
+            }
 
             return consulta;
         }
@@ -202,7 +206,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 NombreAlmacenOrigen = lectorDatos["nombre_almacen_origen"]?.ToString() ?? string.Empty,
                 NombreAlmacenDestino = lectorDatos["nombre_almacen_destino"]?.ToString() ?? string.Empty,
                 NombreTipoMovimiento = lectorDatos["nombre_tipo_movimiento"]?.ToString() ?? string.Empty,
-                EfectoMovimiento = Enum.TryParse<EfectoMovimiento>(lectorDatos["efecto"].ToString(), out var efecto) ? efecto : EfectoMovimiento.Ninguno
+                EfectoMovimiento = Enum.TryParse<EfectoMovimientoEnum>(lectorDatos["efecto"].ToString(), out var efecto) ? efecto : EfectoMovimientoEnum.Ninguno
             }, new List<IEntidadBaseDatos>());
         }
 

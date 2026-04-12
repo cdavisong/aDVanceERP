@@ -4,10 +4,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class TipoMovimiento : IEntidadBaseDatos {
         public TipoMovimiento() {
             Nombre = string.Empty;
-            Efecto = EfectoMovimiento.Ninguno;
+            Efecto = EfectoMovimientoEnum.Ninguno;
         }
 
-        public TipoMovimiento(long id, string nombre, EfectoMovimiento efecto) {
+        public TipoMovimiento(long id, string nombre, EfectoMovimientoEnum efecto) {
             Id = id;
             Nombre = nombre;
             Efecto = efecto;
@@ -15,7 +15,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
 
         public long Id { get; set; }
         public string Nombre { get; set; }
-        public EfectoMovimiento Efecto { get; set; }
+        public EfectoMovimientoEnum Efecto { get; set; }
     }
 
     public enum FiltroBusquedaTipoMovimiento {

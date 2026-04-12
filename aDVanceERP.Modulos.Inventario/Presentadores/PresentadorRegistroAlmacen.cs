@@ -43,10 +43,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.NombreAlmacen = objeto.Nombre;
             Vista.Direccion = objeto.Direccion;
             Vista.Descripcion = objeto.Descripcion;
-            Vista.Capacidad = objeto.Capacidad;
             Vista.Tipo = objeto.Tipo;
-            Vista.Estado = objeto.Estado;
-            Vista.CoordenadasGeograficas = objeto.Coordenadas;
         }
 
         protected override Almacen? ObtenerEntidadDesdeVista() {
@@ -55,10 +52,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 Nombre = Vista.NombreAlmacen,
                 Descripcion = Vista.Descripcion,
                 Direccion = Vista.Direccion,
-                Capacidad = Vista.Capacidad,
+                Capacidad = 0,
                 Tipo = Vista.Tipo,
-                Estado = Vista.Estado,
-                Coordenadas = Vista.CoordenadasGeograficas
+                Estado = true,
+                Coordenadas = null
             }; 
         }
 

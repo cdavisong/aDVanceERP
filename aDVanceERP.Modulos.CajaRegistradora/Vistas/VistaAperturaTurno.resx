@@ -124,17 +124,6 @@
     <value>51</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fieldTextoAdvertencia.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAThJREFUOE/F
-        kk8uREEQxpuFhZmufmyIhLB1AGJJXIAEF5i8rn4bw47V25H409WYCBdgxzWEuIDERuJPHGKkHq+nX8tM
-        ZiO+5Eu6fvVVdS9aiL/UMcIcO+Z9yer6Khl4ZjuUK3G/py7SiWFC+VK+gM/M4lxXkVG7hHDVqeHaarVT
-        TXVRK6uNE8KnxWTaGrXMPm2oGWbUqI3F+V8ihJY16oDPFiFnf3N16DScxfmKTnR9lhDebTNJuA4XMCOE
-        D87Ec14W4ZYQtoLaLyhqLbdJqxs/EMqiWiKEp3xNDJXMZckiu6y5xxnO+sGikYtBQnh0qNZD7tKRqaNs
-        dDJkpNWGQ7hrCzHgYfFpEO4rsAjLfUK5F7Kfyx4qn4tQXjoNm2Gwl6yBJhk47wAtFwjhjRDaffqVUpiv
-        bP03fQFukYJ0N8I3hwAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="fieldObservaciones.IconLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAU5JREFUOE/V
@@ -144,6 +133,17 @@
         rVXtcr3q3OVktRcFzPPWHBNea446cKS2qr0o4G/0b6D8PzZq3Rlsiplw9WfgXZpOM+GeCU9M6DLhgUn1
         HGEnzEYBO1ZvMOElz/OJ4febI30U5grFAIdHfCxh3uIwzIxUXD1CM9yvSoCe9LPA5GEI5580fBzkdqSe
         gDoz4dYT+o7USdivlTxfzmD3O3PW2g5746UPFvniOX5m6NAAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="fieldTextoAdvertencia.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAThJREFUOE/F
+        kk8uREEQxpuFhZmufmyIhLB1AGJJXIAEF5i8rn4bw47V25H409WYCBdgxzWEuIDERuJPHGKkHq+nX8tM
+        ZiO+5Eu6fvVVdS9aiL/UMcIcO+Z9yer6Khl4ZjuUK3G/py7SiWFC+VK+gM/M4lxXkVG7hHDVqeHaarVT
+        TXVRK6uNE8KnxWTaGrXMPm2oGWbUqI3F+V8ihJY16oDPFiFnf3N16DScxfmKTnR9lhDebTNJuA4XMCOE
+        D87Ec14W4ZYQtoLaLyhqLbdJqxs/EMqiWiKEp3xNDJXMZckiu6y5xxnO+sGikYtBQnh0qNZD7tKRqaNs
+        dDJkpNWGQ7hrCzHgYfFpEO4rsAjLfUK5F7Kfyx4qn4tQXjoNm2Gwl6yBJhk47wAtFwjhjRDaffqVUpiv
+        bP03fQFukYJ0N8I3hwAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="fieldDescripcionCategoriaProducto.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

@@ -1,8 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.Inventario;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
-
-using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaRegistroAlmacen : Form, IVistaRegistroAlmacen {
@@ -50,19 +47,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldNombre.Text = value;
         }
 
-        public string? Descripcion {
-            get => fieldDescripcion.Text;
-            set => fieldDescripcion.Text = value;
-        }
-
         public string? Direccion { 
             get => fieldDireccion.Text;
             set => fieldDireccion.Text = value;
-        }
-
-        public float? Capacidad {
-            get => float.TryParse(fieldCapacidad.Text, out var value) ? value : 0f;
-            set => fieldCapacidad.Text = value?.ToString("0.0", CultureInfo.InvariantCulture) ?? string.Empty;
         }
 
         public TipoAlmacen Tipo { 
@@ -70,27 +57,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldTipo.SelectedItem = value;
         }
 
-        public bool Estado { 
-            get => fieldEstado.Checked;
-            set => fieldEstado.Checked = value;
-        }
-
-        public CoordenadasGeograficas? CoordenadasGeograficas { 
-            get => new CoordenadasGeograficas(
-                latitud: string.IsNullOrWhiteSpace(fieldLatitud.Text) ? 0 : double.TryParse(fieldLatitud.Text, out var lat) ? lat : 0,
-                longitud: string.IsNullOrWhiteSpace(fieldLongitud.Text) ? 0 : double.TryParse(fieldLongitud.Text, out var lon) ? lon : 0
-            );
-            set {
-                fieldLatitud.Text = value?.Latitud.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-                fieldLongitud.Text = value?.Longitud.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-            }
-        }
-        public string? Latitud { 
-            get => fieldLatitud.Text;
-        }
-
-        public string? Longitud { 
-            get => fieldLongitud.Text;
+        public string? Descripcion {
+            get => fieldDescripcion.Text;
+            set => fieldDescripcion.Text = value;
         }
 
         public event EventHandler? RegistrarEntidad;
@@ -118,12 +87,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Restaurar() {
             NombreAlmacen = string.Empty;
-            Descripcion = string.Empty;
             Direccion = string.Empty;
-            Capacidad = null;
             Tipo = TipoAlmacen.Secundario;
-            Estado = true;
-            CoordenadasGeograficas = null;
+            Descripcion = string.Empty;
         }
 
         public void Cerrar() {

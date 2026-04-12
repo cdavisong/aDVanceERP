@@ -83,10 +83,10 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public decimal SaldoPendiente {
-            get => decimal.TryParse(lblSaldoPendiente?.Text ?? "0", NumberStyles.Any, CultureInfo.InvariantCulture, out var value) ? value : 0m;
+            get => decimal.TryParse(fieldSaldoPendiente?.Text.Split(':')[1] ?? " 0.00", NumberStyles.Any, CultureInfo.InvariantCulture, out var value) ? value : 0m;
             set {
-                if (lblSaldoPendiente != null)
-                    lblSaldoPendiente.Text = value.ToString("N2", CultureInfo.InvariantCulture);
+                if (fieldSaldoPendiente != null)
+                    fieldSaldoPendiente.Text = $"Saldo pendiente : {value.ToString("N2", CultureInfo.InvariantCulture)}";
             }
         }
 
