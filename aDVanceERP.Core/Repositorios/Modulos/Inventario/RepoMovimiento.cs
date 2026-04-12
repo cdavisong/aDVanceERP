@@ -186,18 +186,20 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         }
 
         protected override (Movimiento, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
+            var costoUnitario = Convert.ToDecimal(lectorDatos["costo_unitario"], CultureInfo.InvariantCulture);
+            var cantidadMovida = Convert.ToDecimal(lectorDatos["cantidad_movida"], CultureInfo.InvariantCulture);
+            
             return (new Movimiento(
                 id: Convert.ToInt64(lectorDatos["id_movimiento"]),
                 idProducto: Convert.ToInt64(lectorDatos["id_producto"]),
-                costoUnitario: Convert.ToDecimal(lectorDatos["costo_unitario"], CultureInfo.InvariantCulture),
-                costoTotal: Convert.ToDecimal(lectorDatos["costo_total"], CultureInfo.InvariantCulture),
-                idAlmacenOrigen: Convert.ToInt64(lectorDatos["id_almacen_origen"]),
-                idAlmacenDestino: Convert.ToInt64(lectorDatos["id_almacen_destino"]),
+                costoUnitario: costoUnitario,
+                idAlmacenOrigen: Convert.ToInt64(lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_almacen_origen")) ? "0" : lectorDatos["id_almacen_origen"]),
+                idAlmacenDestino: Convert.ToInt64(lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_almacen_destino")) ? "0" : lectorDatos["id_almacen_destino"]),
                 fechaCreacion: Convert.ToDateTime(lectorDatos["fecha_creacion"]),
                 estado: Enum.TryParse<EstadoMovimiento>(lectorDatos["estado"].ToString(), out var estado) ? estado : EstadoMovimiento.Cancelado,
-                fecha: Convert.ToDateTime(lectorDatos["fecha_termino"]),
+                fecha: lectorDatos.IsDBNull(lectorDatos.GetOrdinal("fecha_termino")) ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_termino"]),
                 saldoInicial: Convert.ToDecimal(lectorDatos["saldo_inicial"], CultureInfo.InvariantCulture),
-                cantidadMovida: Convert.ToDecimal(lectorDatos["cantidad_movida"], CultureInfo.InvariantCulture),
+                cantidadMovida: cantidadMovida,
                 saldoFinal: Convert.ToDecimal(lectorDatos["saldo_final"], CultureInfo.InvariantCulture),
                 idTipoMovimiento: Convert.ToInt64(lectorDatos["id_tipo_movimiento"]),
                 idCuentaUsuario: Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),

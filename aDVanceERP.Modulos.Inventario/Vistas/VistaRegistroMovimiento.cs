@@ -196,17 +196,17 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     .Buscar(FiltroBusquedaInventario.IdProducto, _productoSeleccionado?.Id.ToString())
                     .resultadosBusqueda
                     .Select(r => r.entidadBase);
-            var tipoMovimineto = _tiposMovimiento.FirstOrDefault(m => m.Nombre.Equals(NombreTipoMovimiento));
+            var tipoMovimiento = _tiposMovimiento.FirstOrDefault(m => m.Nombre.Equals(NombreTipoMovimiento));
 
-            if (tipoMovimineto == null) {
+            if (tipoMovimiento == null) {
                 fieldCantidadFinal.Text = string.Empty;
                 return;
             }
             
             var almacen = RepoAlmacen.Instancia
-                .Buscar(FiltroBusquedaAlmacen.Nombre, tipoMovimineto.Efecto == EfectoMovimientoEnum.Carga
+                .Buscar(FiltroBusquedaAlmacen.Nombre, tipoMovimiento.Efecto == EfectoMovimientoEnum.Carga
                     ? NombreAlmacenDestino
-                    : tipoMovimineto.Efecto == EfectoMovimientoEnum.Descarga
+                    : tipoMovimiento.Efecto == EfectoMovimientoEnum.Descarga
                         ? NombreAlmacenOrigen
                         : "Todos")
                 .resultadosBusqueda
@@ -214,22 +214,24 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 .FirstOrDefault();
 
             if (almacen == null) {
-                fieldCantidadFinal.Text = tipoMovimineto.Efecto == EfectoMovimientoEnum.Transferencia
+                fieldCantidadFinal.Text = tipoMovimiento.Efecto == EfectoMovimientoEnum.Transferencia
                     ? inventarioProducto.Sum(i => i.Cantidad).ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
                 return;
             }
 
             var cantidadActual = inventarioProducto
-                .FirstOrDefault(i => i.IdAlmacen.Equals(almacen?.Id))?
-                .Cantidad;
+                .FirstOrDefault(i => i.IdAlmacen.Equals(almacen?.Id))?.
+                Cantidad;
             var cantidadMovida = CantidadMovida;
 
-            fieldCantidadFinal.Text = ((decimal) (tipoMovimineto.Efecto == EfectoMovimientoEnum.Carga
+            fieldCantidadFinal.Text = ((decimal)(tipoMovimiento.Efecto == EfectoMovimientoEnum.Carga
                 ? cantidadActual + cantidadMovida
-                : tipoMovimineto.Efecto == EfectoMovimientoEnum.Descarga
+                : tipoMovimiento.Efecto == EfectoMovimientoEnum.Descarga
                     ? cantidadActual - cantidadMovida
-                    : 0)).ToString("N2", CultureInfo.InvariantCulture);
+                    : tipoMovimiento.Efecto == EfectoMovimientoEnum.Transferencia
+                        ? cantidadActual
+                        : 0)).ToString("N2", CultureInfo.InvariantCulture);
         }
 
         public void Mostrar() {

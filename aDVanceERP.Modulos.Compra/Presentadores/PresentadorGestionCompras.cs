@@ -101,8 +101,15 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
 
                         // Completar los movimientos pendientes
                         var producto = repoProducto.ObtenerPorId(detalleCompra.IdProducto);
-                        var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        
+                        if (producto == null) {
+                            CentroNotificaciones.MostrarNotificacion($"El producto con ID {detalleCompra.IdProducto} no se encontró.", TipoNotificacionEnum.Error);
+                            continue;
+                        }
+
+                        var resultadoInventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda;
+                        var inventarioProducto = resultadoInventario.FirstOrDefault(p => p.entidadBase?.IdAlmacen.Equals(compra.IdAlmacenDestino) == true)?.entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase?.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) == true && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Completado;
@@ -137,32 +144,39 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                     // Crear movimiento de inventario para cada detalle de compra y revertir el inventario
                     foreach (var detalleCompra in detallesCompra) {
                         var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompra.IdProducto);
-                        var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
+                        
+                        if (producto == null) {
+                            CentroNotificaciones.MostrarNotificacion($"El producto con ID {detalleCompra.IdProducto} no se encontró.", TipoNotificacionEnum.Error);
+                            continue;
+                        }
+
+                        var resultadoInventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda;
+                        var inventarioProducto = resultadoInventario.FirstOrDefault(p => p.entidadBase?.IdAlmacen.Equals(compra.IdAlmacenDestino) == true)?.entidadBase;
+                        var movimientoPendiente = repoMovimiento.Buscar(FiltroBusquedaMovimiento.IdProducto, producto.Id.ToString()).resultadosBusqueda.FirstOrDefault(m => m.entidadBase?.IdAlmacenDestino.Equals(compra.IdAlmacenDestino) == true && m.entidadBase.Estado == EstadoMovimiento.Pendiente).entidadBase;
 
                         if (movimientoPendiente != null) {
                             movimientoPendiente.Estado = EstadoMovimiento.Cancelado;
 
                             repoMovimiento.Editar(movimientoPendiente);
                         } else {
-                            var movimiento = new Movimiento() {
-                                Id = 0,
-                                IdProducto = producto!.Id,
-                                CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
+                            var movimiento = new Movimiento(
+                                id: 0,
+                                idProducto: producto.Id,
+                                costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado
                                     ? producto.CostoProduccionUnitario
                                     : producto.CostoAdquisicionUnitario,
-                                IdAlmacenOrigen = compra.IdAlmacenDestino,
-                                IdAlmacenDestino = 0,
-                                Estado = EstadoMovimiento.Completado,
-                                FechaCreacion = DateTime.Now,
-                                SaldoInicial = inventarioProducto.Cantidad,
-                                FechaTermino = DateTime.Now,
-                                CantidadMovida = detalleCompra.CantidadRecibida,
-                                SaldoFinal = inventarioProducto.Cantidad + detalleCompra.CantidadRecibida,
-                                IdTipoMovimiento = tipoMovimientoDevolucion?.Id ?? 0,
-                                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                                Notas = $"Devolución al proveedor para la compra del producto: {producto.Nombre}.",
-                            };
+                                idAlmacenOrigen: compra.IdAlmacenDestino,
+                                idAlmacenDestino: 0,
+                                fechaCreacion: DateTime.Now,
+                                estado: EstadoMovimiento.Completado,
+                                fecha: DateTime.Now,
+                                saldoInicial: inventarioProducto?.Cantidad ?? 0,
+                                cantidadMovida: detalleCompra.CantidadRecibida,
+                                saldoFinal: (inventarioProducto?.Cantidad ?? 0) + detalleCompra.CantidadRecibida,
+                                idTipoMovimiento: tipoMovimientoDevolucion?.Id ?? 0,
+                                idCuentaUsuario: ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                notas: $"Devolución al proveedor para la compra del producto: {producto.Nombre}."
+                            );
 
                             // Adicionar a la base de datos local
                             repoMovimiento.Adicionar(movimiento);
@@ -220,23 +234,31 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
 
             foreach (var detalleCompra in detallesCompra) {
                 var producto = RepoProducto.Instancia.ObtenerPorId(detalleCompra.IdProducto);
-                var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(compra.IdAlmacenDestino)).entidadBase;
-                var movimiento = new Movimiento() {
-                    Id = 0,
-                    IdProducto = producto!.Id,
-                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
-                    IdAlmacenOrigen = compra.IdAlmacenDestino,
-                    IdAlmacenDestino = 0,
-                    Estado = EstadoMovimiento.Completado,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = inventarioProducto.Cantidad,
-                    FechaTermino = DateTime.Now,
-                    CantidadMovida = detalleCompra.CantidadRecibida,
-                    SaldoFinal = inventarioProducto.Cantidad - detalleCompra.CantidadRecibida,
-                    IdTipoMovimiento = tipoMovimientoDevolucion?.Id ?? 0,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Devolución al proveedor para la compra del producto: {producto.Nombre}.",
-                };
+                
+                if (producto == null) {
+                    CentroNotificaciones.MostrarNotificacion($"El producto con ID {detalleCompra.IdProducto} no se encontró.", TipoNotificacionEnum.Error);
+                    continue;
+                }
+
+                var resultadoInventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString()).resultadosBusqueda;
+                var inventarioProducto = resultadoInventario.FirstOrDefault(p => p.entidadBase?.IdAlmacen.Equals(compra.IdAlmacenDestino) == true)?.entidadBase;
+                
+                var movimiento = new Movimiento(
+                    id: 0,
+                    idProducto: producto.Id,
+                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    idAlmacenOrigen: compra.IdAlmacenDestino,
+                    idAlmacenDestino: 0,
+                    fechaCreacion: DateTime.Now,
+                    estado: EstadoMovimiento.Completado,
+                    fecha: DateTime.Now,
+                    saldoInicial: inventarioProducto?.Cantidad ?? 0,
+                    cantidadMovida: detalleCompra.CantidadRecibida,
+                    saldoFinal: (inventarioProducto?.Cantidad ?? 0) - detalleCompra.CantidadRecibida,
+                    idTipoMovimiento: tipoMovimientoDevolucion?.Id ?? 0,
+                    idCuentaUsuario: ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    notas: $"Devolución al proveedor para la compra del producto: {producto.Nombre}."
+                );
 
                 // Adicionar a la base de datos local
                 repoMovimiento.Adicionar(movimiento);

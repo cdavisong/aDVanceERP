@@ -1,80 +1,43 @@
 ```
-# Compiled and build artifacts
+# Build artifacts
+*.obj
 *.exe
 *.dll
 *.so
-*.o
-*.obj
-*.out
-*.pyc
-__pycache__/
+*.a
+*.lib
+*.pdb
+*.ilk
 
 # Dependencies
-node_modules/
-venv/
-.venv/
-.env
-.env.local
-.env.*
-
-# Build directories (common in .NET projects)
+packages/
 bin/
 obj/
 Debug/
 Release/
-.vs/
-*.userprefs
 
-# Logs and temp files
+# Logs
 *.log
-*.tmp
-*.swp
+
+# Environment
+.env
+.env.local
+*.env.*
 
 # Editors
+.vs/
 .vscode/
 .idea/
+*.userprefs
+*.user
 
-# OS specific
+# OS generated files
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Distribution / packaging
-dist/
-build/
-target/
-.gradle/
-
-# Python specific
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-.venv/
-venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/info/exclude
-.pytest_cache/
-.mypy_cache/
-
-# .NET specific
-[Bb]in/
-[Oo]bj/
-[Dd]ebug/
-[Rr]elease/
-*.userprefs
+# Temporary files
+*.tmp
+*.temp
+*~
 ```

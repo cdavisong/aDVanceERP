@@ -164,21 +164,17 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var consulta = string.Empty;
             var parametros = new Dictionary<string, object>();
 
-            // Decrementar la cantidad en el almacen origen
+            // Decrementar la cantidad en el almacen origen (el costo promedio NO cambia al sacar inventario)
             if (idAlmacenOrigen > 0) {
                 consulta = """
                 UPDATE adv__inventario
                 SET 
-                  valor_total = valor_total - (@Cantidad * @CostoUnitario),
-                  cantidad = cantidad - @Cantidad,
-                  costo_promedio = CASE WHEN (cantidad - @Cantidad) > 0 
-                    THEN (valor_total - (@Cantidad * @CostoUnitario)) / (cantidad - @Cantidad)
-                    ELSE 0 END
+                  valor_total = valor_total - (@Cantidad * costo_promedio),
+                  cantidad = cantidad - @Cantidad
                 WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
                 """;
 
                 parametros.Add("@Cantidad", cantidad);
-                parametros.Add("@CostoUnitario", costoUnitario);
                 parametros.Add("@IdProducto", idProducto);
                 parametros.Add("@IdAlmacenOrigen", idAlmacenOrigen);
 
@@ -205,9 +201,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     consulta = """
                         UPDATE adv__inventario
                         SET 
-                            valor_total = valor_total + (@Cantidad * @CostoUnitario),
                             cantidad = cantidad + @Cantidad,
-                            costo_promedio = (valor_total + (@Cantidad * @CostoUnitario)) / (cantidad + @Cantidad)
+                            costo_promedio = (valor_total + (@Cantidad * @CostoUnitario)) / (cantidad + @Cantidad),
+                            valor_total = valor_total + (@Cantidad * @CostoUnitario)
                         WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino
                         """;
 
