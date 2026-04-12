@@ -289,12 +289,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             foreach (var tipoMovimiento in tiposMovimientos) {
                 var nombreTipoMovimiento = tipoMovimiento.Nombre;
 
-                if (string.IsNullOrEmpty(nombreTipoMovimiento) ||
-                    nombreTipoMovimiento.Equals("Compra") ||
-                    nombreTipoMovimiento.Equals("Venta") ||
-                    nombreTipoMovimiento.Equals("Entrada de Producción") ||
-                    nombreTipoMovimiento.Equals("Salida a Producción") ||
-                    nombreTipoMovimiento.Equals("Carga Inicial"))
+                if (string.IsNullOrEmpty(nombreTipoMovimiento))
                     continue;
 
                 fieldTipoMovimiento.Items.Add(tipoMovimiento.Nombre);
