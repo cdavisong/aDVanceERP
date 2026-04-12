@@ -167,12 +167,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             // Decrementar la cantidad en el almacen origen (el costo promedio NO cambia al sacar inventario)
             if (idAlmacenOrigen > 0) {
                 consulta = """
-                UPDATE adv__inventario
-                SET 
-                  valor_total = valor_total - (@Cantidad * costo_promedio),
-                  cantidad = cantidad - @Cantidad
-                WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
-                """;
+                    UPDATE adv__inventario
+                    SET 
+                      valor_total = valor_total - (@Cantidad * costo_promedio),
+                      cantidad = cantidad - @Cantidad
+                    WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
+                    """;
 
                 parametros.Add("@Cantidad", cantidad);
                 parametros.Add("@IdProducto", idProducto);

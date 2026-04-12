@@ -9,5 +9,11 @@ namespace aDVanceERP.Core.Infraestructura.Extensiones.Comun {
 
             return atributo?.Name ?? valor.ToString();
         }
+
+        public static IEnumerable<string> ObtenerDisplayNames<TEnum>() where TEnum : Enum {
+            return typeof(TEnum).GetFields()
+                .Where(f => f.IsStatic)
+                .Select(f => f.GetCustomAttribute<DisplayAttribute>()?.Name ?? f.Name);
+        }
     }
 }

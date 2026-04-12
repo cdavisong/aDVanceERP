@@ -1,10 +1,9 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
 using MySql.Data.MySqlClient;
-
-using System.Globalization;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
     public class RepoAlmacen : RepoEntidadBaseDatos<Almacen, FiltroBusquedaAlmacen> {
@@ -16,21 +15,15 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     nombre, 
                     descripcion,
                     direccion, 
-                    capacidad,
                     tipo,
-                    estado,
-                    coordenadas_latitud,
-                    coordenadas_longitud
+                    estado
                 ) 
                 VALUES (
                     @nombre,
                     @descripcion,
                     @direccion,
-                    @capacidad,
                     @tipo,
-                    @estado,
-                    @coordenadas_latitud,
-                    @coordenadas_longitud
+                    @estado
                 );
                 """;
 
@@ -38,11 +31,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 { "@nombre", objeto.Nombre },
                 { "@descripcion", objeto.Descripcion ?? string.Empty },
                 { "@direccion", objeto.Direccion ?? string.Empty },
-                { "@capacidad", objeto.Capacidad.HasValue ? objeto.Capacidad.Value : 0 },
                 { "@tipo", objeto.Tipo.ToString() },
-                { "@estado", objeto.Estado ? 1 : 0 },
-                { "@coordenadas_latitud", objeto.Coordenadas?.Latitud ?? 0 },
-                { "@coordenadas_longitud", objeto.Coordenadas?.Longitud ?? 0 }
+                { "@estado", objeto.Estado ? 1 : 0 }
             };
 
             return consulta;
@@ -55,11 +45,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                    nombre = @nombre, 
                    descripcion = @descripcion, 
                    direccion = @direccion, 
-                   capacidad = @capacidad, 
                    tipo = @tipo, 
-                   estado = @estado, 
-                   coordenadas_latitud = @coordenadas_latitud, 
-                   coordenadas_longitud = @coordenadas_longitud
+                   estado = @estado
                 WHERE id_almacen = @id_almacen;
                 """;
 
@@ -67,11 +54,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 { "@nombre", objeto.Nombre },
                 { "@descripcion", objeto.Descripcion ?? string.Empty },
                 { "@direccion", objeto.Direccion ?? string.Empty },
-                { "@capacidad", objeto.Capacidad.HasValue ? objeto.Capacidad.Value : 0 },
                 { "@tipo", objeto.Tipo.ToString() },
                 { "@estado", objeto.Estado ? 1 : 0 },
-                { "@coordenadas_latitud", objeto.Coordenadas?.Latitud ?? 0 },
-                { "@coordenadas_longitud", objeto.Coordenadas?.Longitud ?? 0 },
                 { "@id_almacen", objeto.Id }
             };
 
@@ -126,12 +110,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
                 descripcion: lectorDatos["descripcion"] != DBNull.Value ? Convert.ToString(lectorDatos["descripcion"]) : string.Empty,
                 direccion: Convert.ToString(lectorDatos["direccion"]) ?? string.Empty,
-                capacidad: lectorDatos["capacidad"] != DBNull.Value ? Convert.ToSingle(lectorDatos["capacidad"], CultureInfo.InvariantCulture) : 0,
                 tipo: Enum.TryParse<TipoAlmacen>(Convert.ToString(lectorDatos["tipo"]) ?? string.Empty, out var categoria) ? categoria : TipoAlmacen.Secundario,
-                estado: Convert.ToBoolean(lectorDatos["estado"]),
-                coordenadas: new Modelos.Comun.CoordenadasGeograficas(
-                    latitud: lectorDatos["coordenadas_latitud"] != DBNull.Value ? Convert.ToDouble(lectorDatos["coordenadas_latitud"]) : 0,
-                    longitud: lectorDatos["coordenadas_longitud"] != DBNull.Value ? Convert.ToDouble(lectorDatos["coordenadas_longitud"]) : 0)
+                estado: Convert.ToBoolean(lectorDatos["estado"])
             ), new List<IEntidadBaseDatos>());
         }
 
@@ -143,7 +123,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
         #region UTILES
 
+        public bool ExisteAlmacenPrimario() {
+            var consulta = """
+                SELECT COUNT(*) FROM adv__almacen 
+                WHERE tipo = 'Primario' AND estado = 1;
+                """;
+            var parametros = new Dictionary<string, object>();
+            var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<long>(consulta, parametros);
 
+            return resultado > 0;
+        }
 
         #endregion
     }

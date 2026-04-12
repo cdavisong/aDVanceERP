@@ -1,12 +1,9 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaAlmacen : Form, IVistaTuplaAlmacen {
-        private CoordenadasGeograficas _coordenadasGeograficas = null!;
-
         public VistaTuplaAlmacen() {
             InitializeComponent();
             Inicializar();
@@ -54,22 +51,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldTipo.Text = value;
         }
 
-        public CoordenadasGeograficas CoordenadasGeograficas { 
-            get => _coordenadasGeograficas;
-            set {
-                _coordenadasGeograficas = value;
-
-                var coordenadasInvalidas = _coordenadasGeograficas is null || (_coordenadasGeograficas.Latitud == 0 && _coordenadasGeograficas.Longitud == 0);
-
-                fieldCoordenadasGeograficas.BackgroundImage = coordenadasInvalidas
-                    ? Properties.Resources.markerF_off_20px
-                    : Properties.Resources.locationG_20px;
-                fieldCoordenadasGeograficas.Cursor = coordenadasInvalidas
-                    ? Cursors.Default
-                    : Cursors.Hand;
-            }
-        }
-
         public string Direccion {
             get => fieldDireccion.Text;
             set {
@@ -91,7 +72,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set {
                 var (colorFondo, colorFuente) = ObtenerColorEstado(value);
 
-                fieldEstado.Text = value ? "● Activo" : "● Inactivo";
+                fieldEstado.Text = value ? "● Activo" : "X Inactivo";
                 fieldEstado.DisabledState.BorderColor = colorFondo;
                 fieldEstado.DisabledState.FillColor = colorFondo;
                 fieldEstado.DisabledState.ForeColor = colorFuente;

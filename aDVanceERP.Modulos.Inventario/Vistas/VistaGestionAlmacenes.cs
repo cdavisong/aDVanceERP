@@ -1,9 +1,7 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
-using aDVanceERP.Modulos.Inventario.Properties;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaGestionAlmacenes : Form, IVistaGestionAlmacenes {
@@ -86,8 +84,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaAlmacen, string[])>? BuscarEntidades;
 
-        public event EventHandler<FormatoDocumento>? ExportarDocumentoInventario;
-
         public void Inicializar() {
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
@@ -101,9 +97,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 args.SuppressKeyPress = true;
             };
-            btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.PDF); };
-            btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, FormatoDocumento.Excel); };
-            btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
+            btnRegistrar.Click += delegate (object? sender, EventArgs e) { 
+                RegistrarEntidad?.Invoke(sender, e); 
+            };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);

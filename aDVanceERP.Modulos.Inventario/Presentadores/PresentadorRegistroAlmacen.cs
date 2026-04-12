@@ -16,7 +16,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         private void OnMostrarVistaRegistroAlmacen(string obj) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
-        
             Vista.Mostrar();
         }
 
@@ -52,23 +51,24 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 Nombre = Vista.NombreAlmacen,
                 Descripcion = Vista.Descripcion,
                 Direccion = Vista.Direccion,
-                Capacidad = 0,
                 Tipo = Vista.Tipo,
-                Estado = true,
-                Coordenadas = null
+                Estado = true
             }; 
         }
 
         protected override bool EntidadCorrecta() {
             var nombreRepetido = !Vista.ModoEdicion && RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).cantidad > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
+            var almacenPrimarioUnicoOk = Vista.Tipo == TipoAlmacen.Primario && !RepoAlmacen.Instancia.ExisteAlmacenPrimario();
 
             if (nombreRepetido)
                 CentroNotificaciones.MostrarNotificacion("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacionEnum.Advertencia);
             if (!nombreOk)
                 CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio para el almacén, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
+            if (!almacenPrimarioUnicoOk)
+                CentroNotificaciones.MostrarNotificacion("Ya existe un almacén primario registrado en el sistema, solo puede haber un almacén primario.", TipoNotificacionEnum.Advertencia);
 
-            return nombreOk;
+            return nombreOk && almacenPrimarioUnicoOk;
         }
     }
 }

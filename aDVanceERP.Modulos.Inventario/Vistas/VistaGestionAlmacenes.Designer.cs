@@ -80,9 +80,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFiltroBusqueda = new Guna2ComboBox();
             fieldCriterioBusqueda = new Guna2TextBox();
             btnRegistrar = new Guna2Button();
-            menuFormatoDocumento = new ContextMenuStrip(components);
-            btnExportarPdf = new ToolStripMenuItem();
-            btnExportarXlsx = new ToolStripMenuItem();
             layoutVista.SuspendLayout();
             panelEncabezadosTabla.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
@@ -92,7 +89,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelControlesTabla.SuspendLayout();
             layoutControlesTabla.SuspendLayout();
             layoutFiltroHerramientas.SuspendLayout();
-            menuFormatoDocumento.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -161,24 +157,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // layoutEncabezadosTabla
             // 
             layoutEncabezadosTabla.BackColor = Color.Transparent;
-            layoutEncabezadosTabla.ColumnCount = 8;
+            layoutEncabezadosTabla.ColumnCount = 7;
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 111F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutEncabezadosTabla.Controls.Add(fieldTituloNombre, 0, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloId, 0, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloTipo, 2, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloDireccion, 4, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloDescripcion, 5, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloEstado, 6, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloAcciones, 7, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloDireccion, 3, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloDescripcion, 4, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloEstado, 5, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloAcciones, 6, 0);
             layoutEncabezadosTabla.Dock = DockStyle.Fill;
             layoutEncabezadosTabla.Location = new Point(0, 0);
             layoutEncabezadosTabla.Margin = new Padding(1);
@@ -236,10 +230,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloDireccion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloDireccion.ForeColor = Color.DimGray;
             fieldTituloDireccion.ImeMode = ImeMode.NoControl;
-            fieldTituloDireccion.Location = new Point(471, 1);
+            fieldTituloDireccion.Location = new Point(431, 1);
             fieldTituloDireccion.Margin = new Padding(1);
             fieldTituloDireccion.Name = "fieldTituloDireccion";
-            fieldTituloDireccion.Size = new Size(361, 40);
+            fieldTituloDireccion.Size = new Size(385, 40);
             fieldTituloDireccion.TabIndex = 4;
             fieldTituloDireccion.Text = "DIRECCIÓN";
             fieldTituloDireccion.TextAlign = ContentAlignment.MiddleLeft;
@@ -250,10 +244,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloDescripcion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloDescripcion.ForeColor = Color.DimGray;
             fieldTituloDescripcion.ImeMode = ImeMode.NoControl;
-            fieldTituloDescripcion.Location = new Point(834, 1);
+            fieldTituloDescripcion.Location = new Point(818, 1);
             fieldTituloDescripcion.Margin = new Padding(1);
             fieldTituloDescripcion.Name = "fieldTituloDescripcion";
-            fieldTituloDescripcion.Size = new Size(240, 40);
+            fieldTituloDescripcion.Size = new Size(256, 40);
             fieldTituloDescripcion.TabIndex = 16;
             fieldTituloDescripcion.Text = "DESCRIPCIÓN";
             fieldTituloDescripcion.TextAlign = ContentAlignment.MiddleLeft;
@@ -678,37 +672,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Nuevo almacén";
             // 
-            // menuFormatoDocumento
-            // 
-            menuFormatoDocumento.BackColor = Color.White;
-            menuFormatoDocumento.Items.AddRange(new ToolStripItem[] { btnExportarPdf, btnExportarXlsx });
-            menuFormatoDocumento.Name = "menuGastoIndirecto";
-            menuFormatoDocumento.Size = new Size(114, 56);
-            // 
-            // btnExportarPdf
-            // 
-            btnExportarPdf.BackColor = Color.White;
-            btnExportarPdf.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnExportarPdf.Image = (Image) resources.GetObject("btnExportarPdf.Image");
-            btnExportarPdf.ImageAlign = ContentAlignment.MiddleLeft;
-            btnExportarPdf.ImageScaling = ToolStripItemImageScaling.None;
-            btnExportarPdf.Name = "btnExportarPdf";
-            btnExportarPdf.Size = new Size(113, 26);
-            btnExportarPdf.Text = "PDF";
-            btnExportarPdf.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // btnExportarXlsx
-            // 
-            btnExportarXlsx.BackColor = Color.White;
-            btnExportarXlsx.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            btnExportarXlsx.Image = (Image) resources.GetObject("btnExportarXlsx.Image");
-            btnExportarXlsx.ImageAlign = ContentAlignment.MiddleLeft;
-            btnExportarXlsx.ImageScaling = ToolStripItemImageScaling.None;
-            btnExportarXlsx.Name = "btnExportarXlsx";
-            btnExportarXlsx.Size = new Size(113, 26);
-            btnExportarXlsx.Text = "XLSX";
-            btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // VistaGestionAlmacenes
             // 
             AutoScaleMode = AutoScaleMode.None;
@@ -731,7 +694,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             panelControlesTabla.ResumeLayout(false);
             layoutControlesTabla.ResumeLayout(false);
             layoutFiltroHerramientas.ResumeLayout(false);
-            menuFormatoDocumento.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -750,9 +712,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Label fieldTituloDireccion;
         private Guna2TextBox fieldCriterioBusqueda;
         private Guna2ComboBox fieldFiltroBusqueda;
-        private ContextMenuStrip menuFormatoDocumento;
-        private ToolStripMenuItem btnExportarPdf;
-        private ToolStripMenuItem btnExportarXlsx;
         private Label fieldTituloDescripcion;
         private Label fieldTituloEstado;
         private Guna2Button btnRegistrar;

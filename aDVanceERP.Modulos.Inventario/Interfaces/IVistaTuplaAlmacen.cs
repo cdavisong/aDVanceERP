@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
@@ -8,7 +7,6 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string NombreAlmacen { get; set; }
         string Tipo { get; set; }
         string Direccion { get; set; }
-        CoordenadasGeograficas CoordenadasGeograficas { get; set; }
         string Descripcion { get; set; }
         bool Estado { get; set; } 
 

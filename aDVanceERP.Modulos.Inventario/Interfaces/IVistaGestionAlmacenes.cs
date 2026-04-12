@@ -5,6 +5,5 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaGestionAlmacenes : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaAlmacen>, INavegadorTuplasEntidades {
-        event EventHandler<FormatoDocumento>? ExportarDocumentoInventario;
     }
 }
