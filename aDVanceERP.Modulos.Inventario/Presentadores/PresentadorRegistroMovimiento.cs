@@ -133,7 +133,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 Estado = EstadoMovimiento.Completado,
                 FechaCreacion = Vista.Fecha,
                 SaldoInicial = saldoInicial,
-                FechaTermino = DateTime.MinValue,
+                FechaTermino = DateTime.Now,
                 CantidadMovida = Vista.CantidadMovida,
                 SaldoFinal = saldoFinal,
                 IdTipoMovimiento = tipoMovimiento?.Id ?? throw new ArgumentNullException(nameof(tipoMovimiento)),
