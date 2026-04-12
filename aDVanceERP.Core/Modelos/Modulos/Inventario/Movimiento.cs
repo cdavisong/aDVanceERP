@@ -9,11 +9,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
             NombreTipoMovimiento = string.Empty;
         }
 
-        public Movimiento(long id, long idProducto, decimal costoUnitario, decimal costoTotal, long idAlmacenOrigen, long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimiento estado, DateTime fecha, decimal saldoInicial, decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario, string notas) {
+        public Movimiento(long id, long idProducto, decimal costoUnitario, long idAlmacenOrigen, long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimiento estado, DateTime fecha, decimal saldoInicial, decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario, string notas) {
             Id = id;
             IdProducto = idProducto;
             CostoUnitario = costoUnitario;
-            CostoTotal = costoTotal;
             IdAlmacenOrigen = idAlmacenOrigen;
             IdAlmacenDestino = idAlmacenDestino;
             FechaCreacion = fechaCreacion;
@@ -25,6 +24,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
             IdTipoMovimiento = idTipoMovimiento;
             IdCuentaUsuario = idCuentaUsuario;
             Notas = notas;
+            CostoTotal = costoUnitario * cantidadMovida;
 
             NombreProducto = string.Empty;
             NombreAlmacenOrigen = string.Empty;
@@ -35,7 +35,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public long Id { get; set; }
         public long IdProducto { get; set; }
         public decimal CostoUnitario { get; set; } // Costo unitario del producto, para valorización de inventario	
-        public decimal CostoTotal { get; }
+        public decimal CostoTotal { get; private set; }
         public long IdAlmacenOrigen { get; set; }
         public long IdAlmacenDestino { get; set; }
         public DateTime FechaCreacion { get; set; }

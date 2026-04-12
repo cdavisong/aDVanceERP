@@ -124,24 +124,24 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                 // Crear movimiento de inventario
                 var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
                     .resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(almacenDestino.Id)).entidadBase;
-                var movimiento = new Movimiento() {
-                    Id = 0,
-                    IdProducto = producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
-                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
+                var movimiento = new Movimiento(
+                    id: 0,
+                    idProducto: producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
+                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado
                         ? producto.CostoProduccionUnitario
                         : producto.CostoAdquisicionUnitario,
-                    IdAlmacenOrigen = 0,
-                    IdAlmacenDestino = almacenDestino?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenDestino)),
-                    Estado = EstadoMovimiento.Pendiente,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = inventarioProducto.Cantidad,
-                    FechaTermino = Entidad?.EstadoCompra == EstadoCompraEnum.Facturada ? DateTime.Now : DateTime.MinValue,
-                    CantidadMovida = cantidadTotalUnidades, // AGREGAR EN UNIDADES BASE
-                    SaldoFinal = inventarioProducto.Cantidad + cantidadTotalUnidades,
-                    IdTipoMovimiento = tipoMovimientoCompra?.Id ?? 0,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Compra de producto. Presentación: {(idPresentacion > 0 ? idPresentacion.ToString() : "Unidad base")}.",
-                };
+                    idAlmacenOrigen: 0,
+                    idAlmacenDestino: almacenDestino?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenDestino)),
+                    fechaCreacion: DateTime.Now,
+                    estado: EstadoMovimiento.Pendiente,
+                    fecha: Entidad?.EstadoCompra == EstadoCompraEnum.Facturada ? DateTime.Now : DateTime.Now,
+                    saldoInicial: inventarioProducto?.Cantidad ?? 0,
+                    cantidadMovida: cantidadTotalUnidades,
+                    saldoFinal: (inventarioProducto?.Cantidad ?? 0) + cantidadTotalUnidades,
+                    idTipoMovimiento: tipoMovimientoCompra?.Id ?? 0,
+                    idCuentaUsuario: ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    notas: $"Compra de producto. Presentación: {(idPresentacion > 0 ? idPresentacion.ToString() : "Unidad base")}."
+                );
 
                 RepoMovimiento.Instancia.Adicionar(movimiento);
             }

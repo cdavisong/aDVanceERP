@@ -137,30 +137,37 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             foreach (var detalleVenta in detallesVenta) {
                 var producto = RepoProducto.Instancia.ObtenerPorId(detalleVenta.IdProducto);
-                var inventarioProducto = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.IdAlmacen.Equals(venta.IdAlmacen)).entidadBase;
-                var movimiento = new Movimiento() {
-                    Id = 0,
-                    IdProducto = producto!.Id,
-                    CostoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
-                    IdAlmacenOrigen = 0,
-                    IdAlmacenDestino = venta.IdAlmacen,
-                    Estado = EstadoMovimiento.Completado,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = inventarioProducto.Cantidad,
-                    FechaTermino = DateTime.Now,
-                    CantidadMovida = detalleVenta.Cantidad,
-                    SaldoFinal = inventarioProducto.Cantidad + detalleVenta.Cantidad,
-                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Devolución para la venta del producto: {producto.Nombre}.",
-                };
+                var resultadoInventario = repoInventario.Buscar(FiltroBusquedaInventario.IdProducto, producto!.Id.ToString()).resultadosBusqueda;
+                var inventarioProducto = resultadoInventario.FirstOrDefault(p => p.entidadBase?.IdAlmacen.Equals(venta.IdAlmacen) == true)?.entidadBase;
+                
+                if (producto == null) {
+                    CentroNotificaciones.MostrarNotificacion($"El producto con ID {detalleVenta.IdProducto} no se encontró. No se pudo revertir el inventario.", TipoNotificacionEnum.Error);
+                    continue;
+                }
+
+                var movimiento = new Movimiento(
+                    id: 0,
+                    idProducto: producto.Id,
+                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    idAlmacenOrigen: 0,
+                    idAlmacenDestino: venta.IdAlmacen,
+                    fechaCreacion: DateTime.Now,
+                    estado: EstadoMovimiento.Completado,
+                    fecha: DateTime.Now,
+                    saldoInicial: inventarioProducto?.Cantidad ?? 0,
+                    cantidadMovida: detalleVenta.Cantidad,
+                    saldoFinal: (inventarioProducto?.Cantidad ?? 0) + detalleVenta.Cantidad,
+                    idTipoMovimiento: RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
+                    idCuentaUsuario: ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    notas: $"Devolución para la venta del producto: {producto.Nombre}."
+                );
 
                 // Adicionar a la base de datos local
                 repoMovimiento.Adicionar(movimiento);
 
                 // Modificar inventario
                 repoInventario.ModificarInventario(
-                    producto!.Id,
+                    producto.Id,
                     0,
                     venta.IdAlmacen,
                     detalleVenta.Cantidad);
