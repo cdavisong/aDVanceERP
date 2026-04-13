@@ -100,7 +100,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             get => _estadoSolicitudCompra;
             set {
                 _estadoSolicitudCompra = value;
-                fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Text = value.ObtenerNombreDescripcion();
                 fieldEstado.Font = value == EstadoSolicitudCompraEnum.Convertida || value == EstadoSolicitudCompraEnum.Cancelada ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
                 fieldEstado.ForeColor = value == EstadoSolicitudCompraEnum.Convertida || value == EstadoSolicitudCompraEnum.Cancelada ? Color.DimGray : Color.DodgerBlue;
                 fieldEstado.Cursor = value == EstadoSolicitudCompraEnum.Convertida || value == EstadoSolicitudCompraEnum.Cancelada ? Cursors.Default : Cursors.Hand;

@@ -30,6 +30,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Compra {
         public string CondicionesPago { get; set; } // Condiciones de pago acordadas (Neto 30, Contado, etc.)
         public DateTime FechaRegistro { get; set; }
         public bool Activo { get; set; }
+
+        public override string ToString() {
+            return $"{RazonSocial} (Código: {CodigoProveedor}, NIT: {NIT})";
+        }
     }
 
     public enum FiltroBusquedaProveedor {

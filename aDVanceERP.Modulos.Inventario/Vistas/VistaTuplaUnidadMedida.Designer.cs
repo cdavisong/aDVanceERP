@@ -29,12 +29,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private void InitializeComponent() {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaUnidadMedida));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
+            separador1 = new Guna2Separator();
             layoutVista = new TableLayoutPanel();
             fieldAbreviatura = new Label();
             btnEliminar = new Guna2Button();
@@ -42,7 +43,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar = new Guna2Button();
             fieldDescripcion = new Label();
             fieldNombre = new Label();
-            separador1 = new Guna2Separator();
             layoutBase.SuspendLayout();
             layoutVista.SuspendLayout();
             SuspendLayout();
@@ -70,6 +70,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutBase.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             layoutBase.Size = new Size(1241, 42);
             layoutBase.TabIndex = 1;
+            // 
+            // separador1
+            // 
+            separador1.Dock = DockStyle.Fill;
+            separador1.FillColor = Color.Gainsboro;
+            separador1.Location = new Point(1, 38);
+            separador1.Margin = new Padding(1);
+            separador1.Name = "separador1";
+            separador1.Size = new Size(1239, 3);
+            separador1.TabIndex = 76;
             // 
             // layoutVista
             // 
@@ -101,7 +111,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldAbreviatura.AutoEllipsis = true;
             fieldAbreviatura.Dock = DockStyle.Fill;
-            fieldAbreviatura.Font = new Font("Segoe UI", 11.25F);
+            fieldAbreviatura.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldAbreviatura.ForeColor = Color.Black;
             fieldAbreviatura.ImeMode = ImeMode.NoControl;
             fieldAbreviatura.Location = new Point(311, 1);
@@ -122,7 +132,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges9;
+            btnEliminar.CustomizableEdges = customizableEdges1;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -132,7 +142,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(1207, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnEliminar.Size = new Size(31, 30);
             btnEliminar.TabIndex = 11;
             // 
@@ -160,7 +170,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges11;
+            btnEditar.CustomizableEdges = customizableEdges3;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -169,7 +179,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1170, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnEditar.Size = new Size(31, 30);
             btnEditar.TabIndex = 9;
             // 
@@ -192,7 +202,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldNombre.Dock = DockStyle.Fill;
             fieldNombre.Font = new Font("Segoe UI", 11.25F);
-            fieldNombre.ForeColor = Color.DimGray;
+            fieldNombre.ForeColor = Color.Black;
             fieldNombre.ImeMode = ImeMode.NoControl;
             fieldNombre.Location = new Point(61, 1);
             fieldNombre.Margin = new Padding(1);
@@ -201,16 +211,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldNombre.TabIndex = 4;
             fieldNombre.Text = "nombre";
             fieldNombre.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // separador1
-            // 
-            separador1.Dock = DockStyle.Fill;
-            separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(1, 38);
-            separador1.Margin = new Padding(1);
-            separador1.Name = "separador1";
-            separador1.Size = new Size(1239, 3);
-            separador1.TabIndex = 76;
             // 
             // VistaTuplaUnidadMedida
             // 

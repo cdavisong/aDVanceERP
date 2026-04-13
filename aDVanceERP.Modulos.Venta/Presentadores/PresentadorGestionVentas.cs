@@ -80,7 +80,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.NumeroFacturaVenta = entidad.NumeroFacturaTicket ?? "-";
             presentadorTupla.Vista.FechaVenta = entidad.FechaVenta;
             presentadorTupla.Vista.NombreCliente = persona?.NombreCompleto ?? "Anónimo";
-            presentadorTupla.Vista.MetodoPagoPrincipal = string.IsNullOrEmpty(entidad.MetodoPagoPrincipal) ? "No existen pagos registrados" : Enum.Parse<MetodoPagoEnum>(entidad.MetodoPagoPrincipal).ObtenerDisplayName();
+            presentadorTupla.Vista.MetodoPagoPrincipal = string.IsNullOrEmpty(entidad.MetodoPagoPrincipal) ? "No existen pagos registrados" : Enum.Parse<MetodoPagoEnum>(entidad.MetodoPagoPrincipal).ObtenerNombreDescripcion();
             presentadorTupla.Vista.TotalBruto = entidad.TotalBruto;
             presentadorTupla.Vista.DescuentoTotal = entidad.DescuentoTotal;
             presentadorTupla.Vista.ImpuestoTotal = entidad.ImpuestoTotal;
@@ -148,7 +148,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 var movimiento = new Movimiento(
                     id: 0,
                     idProducto: producto.Id,
-                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    costoUnitario: producto.Categoria == CategoriaProductoEnum.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
                     idAlmacenOrigen: 0,
                     idAlmacenDestino: venta.IdAlmacen,
                     fechaCreacion: DateTime.Now,

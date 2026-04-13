@@ -38,12 +38,4 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
         Todos,
         Nombre
     }
-
-    public static class UtilesBusquedaCuentaUsuario {
-        public static string[] FiltroBusquedaCuentaUsuario = {
-            "Todos los usuarios",
-            "Identificador de BD",
-            "Nombre del usuario"
-        };
-    }
 }

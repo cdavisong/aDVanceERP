@@ -123,8 +123,8 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             };
         }
 
-        public void CargarFiltrosBusqueda(object[] criteriosBusqueda) { 
-            //...
+        public void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda) {
+            // ...
         }
 
         public void Mostrar() {
@@ -157,7 +157,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
             fieldEstado.DisabledState.BorderColor = colorFondo;
             fieldEstado.DisabledState.FillColor = colorFondo;
             fieldEstado.DisabledState.ForeColor = colorFuente;
-            fieldEstado.Text = $"{(turno.Estado == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {turno.Estado.ObtenerDisplayName()}";
+            fieldEstado.Text = $"{(turno.Estado == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {turno.Estado.ObtenerNombreDescripcion()}";
             fieldFechaHoraApertura.Text = turno.FechaApertura.ToString("dd/MM/yyyy HH:mm");
             fieldFechaHoraCierre.Text = turno.FechaCierre.HasValue ? turno.FechaCierre.Value.ToString("dd/MM/yyyy HH:mm") : "N/A";
             fieldEfectivoCalculado.Text = totalesCalculados.TotalEfectivo.ToString("N2", CultureInfo.InvariantCulture);

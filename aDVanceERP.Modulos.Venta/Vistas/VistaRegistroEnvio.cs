@@ -147,7 +147,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public TipoEnvioEnum TipoEnvio {
             get => (TipoEnvioEnum)fieldTipoEnvio.SelectedIndex;
-            set => fieldTipoEnvio.SelectedItem = value.ObtenerDisplayName();
+            set => fieldTipoEnvio.SelectedItem = value.ObtenerNombreDescripcion();
         }
 
         public DateTime FechaAsignacion {

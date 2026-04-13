@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class TipoMovimiento : IEntidadBaseDatos {
         public TipoMovimiento() {
@@ -20,15 +22,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
 
     public enum FiltroBusquedaTipoMovimiento {
         Todos,
+        [Display(Name = "ID")]
         Id,
         Nombre
-    }
-
-    public static class UtilesBusquedaTipoMovimiento {
-        public static string[] FiltroBusquedaTipoMovimiento = {
-            "Todos los tipos de movimiento",
-            "Identificador de BD",
-            "Nombre del movimiento"
-        };
     }
 }

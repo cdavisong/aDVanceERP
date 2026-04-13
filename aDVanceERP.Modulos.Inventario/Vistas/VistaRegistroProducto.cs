@@ -1,6 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
@@ -14,8 +15,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private string _rutaImagen = string.Empty;
         private decimal _costoAdquisicionUnitario = 0;
         private decimal _costoProduccionUnitario = 0;
-        private UnidadMedida[] _unidadesMedida = Array.Empty<UnidadMedida>();
-        private ClasificacionProducto[] _clasificacionesProducto = Array.Empty<ClasificacionProducto>();
 
         public VistaRegistroProducto() {
             InitializeComponent();
@@ -82,18 +81,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public string RutaImagen { get => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "res", "imagenes", "productos", $"{Codigo}{Path.GetExtension(_rutaImagen)}"); }
 
-        public CategoriaProducto Categoria {
+        public CategoriaProductoEnum Categoria {
             get => fieldCategoriaMercancia.Checked
-                ? CategoriaProducto.Mercancia
+                ? CategoriaProductoEnum.Mercancia
                 : fieldCategoriaProductoTerminado.Checked
-                    ? CategoriaProducto.ProductoTerminado
+                    ? CategoriaProductoEnum.ProductoTerminado
                     : fieldCategoriaMateriaPrima.Checked
-                        ? CategoriaProducto.MateriaPrima
+                        ? CategoriaProductoEnum.MateriaPrima
                         : throw new ArgumentNullException();
             set {
-                if (value == CategoriaProducto.Mercancia)
+                if (value == CategoriaProductoEnum.Mercancia)
                     fieldCategoriaMercancia.PerformClick();
-                else if (value == CategoriaProducto.ProductoTerminado)
+                else if (value == CategoriaProductoEnum.ProductoTerminado)
                     fieldCategoriaProductoTerminado.PerformClick();
                 else fieldCategoriaMateriaPrima.PerformClick();
 
@@ -111,9 +110,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldCodigo.Text = value;
         }
 
-        public string NombreProveedor {
-            get => fieldNombreProveedor.Text;
-            set => fieldNombreProveedor.Text = value;
+        public Proveedor? Proveedor {
+            get => fieldNombreProveedor.SelectedItem as Proveedor;
+            set => fieldNombreProveedor.SelectedItem = value;
         }
 
         public string Descripcion {
@@ -121,13 +120,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldDescripcion.Text = value;
         }
 
-        public string NombreUnidadMedida {
-            get => fieldUnidadMedida.Text;
-            set => fieldUnidadMedida.Text = value;
+        public UnidadMedida? UnidadMedida {
+            get => fieldUnidadMedida.SelectedItem as UnidadMedida;
+            set => fieldUnidadMedida.SelectedItem = value;
         }
 
-        public string NombreClasificacionProducto {
-            get => fieldClasificacionProducto.Text;
+        public ClasificacionProducto? ClasificacionProducto {
+            get => fieldClasificacionProducto.SelectedItem as ClasificacionProducto;
             set => fieldClasificacionProducto.SelectedItem = value;
         }
 
@@ -137,16 +136,16 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public decimal CostoUnitario {
-            get => Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima
+            get => Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima
                 ? CostoAdquisicionUnitario
-                : Categoria == CategoriaProducto.ProductoTerminado
+                : Categoria == CategoriaProductoEnum.ProductoTerminado
                     ? CostoProduccionUnitario
                     : 0m;
             set {
-                _costoAdquisicionUnitario = Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima ? value : 0m;
-                _costoProduccionUnitario = Categoria == CategoriaProducto.ProductoTerminado ? value : 0m;
+                _costoAdquisicionUnitario = Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima ? value : 0m;
+                _costoProduccionUnitario = Categoria == CategoriaProductoEnum.ProductoTerminado ? value : 0m;
 
-                fieldCostoUnitario.Text = Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima
+                fieldCostoUnitario.Text = Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima
                     ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : "0";
             }
@@ -187,9 +186,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldPrecioVentaBase.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public string NombreAlmacen {
-            get => fieldNombreAlmacen.Text;
-            set => fieldNombreAlmacen.Text = value;
+        public Almacen? Almacen {
+            get => fieldNombreAlmacen.SelectedItem as Almacen;
+            set => fieldNombreAlmacen.SelectedItem = value;
         }
 
         public decimal CantidadInicial {
@@ -255,15 +254,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void ActualizarVisibilidadCostosPorCategoria(object? sender, EventArgs e) {
             switch (Categoria) {
-                case CategoriaProducto.Mercancia:
-                case CategoriaProducto.MateriaPrima:
+                case CategoriaProductoEnum.Mercancia:
+                case CategoriaProductoEnum.MateriaPrima:
                     fieldTituloNombreProveedor.Visible = true;
                     fieldNombreProveedor.Visible = true;
                     layoutBaseDist0.RowStyles[3].Height = 25;
                     layoutBaseDist0.RowStyles[4].Height = 35;
                     fieldTituloCostoUnitario.Text = "COSTO DE ADQUISICIÓN";
                     break;
-                case CategoriaProducto.ProductoTerminado:
+                case CategoriaProductoEnum.ProductoTerminado:
                     fieldTituloNombreProveedor.Visible = false;
                     fieldNombreProveedor.Visible = false;
                     layoutBaseDist0.RowStyles[3].Height = 0;
@@ -276,30 +275,38 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void ActualizarDescripcionUnidadMedida(object? sender, EventArgs e) {
-            if (_unidadesMedida.Length == 0 || fieldUnidadMedida.SelectedIndex < 0)
+            if (fieldUnidadMedida.Items.Count == 0 || fieldUnidadMedida.SelectedIndex < 0)
                 return;
 
-            toolTip2.SetToolTip(fieldUnidadMedida, _unidadesMedida[fieldUnidadMedida.SelectedIndex].Descripcion);
+            toolTip2.SetToolTip(fieldUnidadMedida, fieldUnidadMedida.SelectedItem is UnidadMedida unidad 
+                ? unidad.Descripcion 
+                : string.Empty);
         }
 
         private void ActualizarAbreviaturasUnidadMedida(object? sender, EventArgs e) {
-            if (_unidadesMedida.Length == 0)
+            if (fieldUnidadMedida.Items.Count == 0 || fieldUnidadMedida.SelectedIndex < 0)
                 return;
 
-            fieldAbreviaturaUM1.Text = _unidadesMedida[fieldUnidadMedida.SelectedIndex].Abreviatura ?? "U";
-            fieldAbreviaturaUM2.Text = _unidadesMedida[fieldUnidadMedida.SelectedIndex].Abreviatura ?? "U";
+            fieldAbreviaturaUM1.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad1 
+                ? unidad1.Abreviatura ?? "u" 
+                : "u";
+            fieldAbreviaturaUM2.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad2 
+                ? unidad2.Abreviatura ?? "u" 
+                : "u";
         }
 
         private void ActualizarDescripcionClasificacion(object? sender, EventArgs e) {
-            if (_clasificacionesProducto.Length == 0 || fieldClasificacionProducto.SelectedIndex < 0)
+            if (fieldClasificacionProducto.Items.Count == 0 || fieldClasificacionProducto.SelectedIndex < 0)
                 return;
 
-            toolTip3.SetToolTip(fieldClasificacionProducto, _clasificacionesProducto[fieldClasificacionProducto.SelectedIndex].Descripcion);
+            toolTip3.SetToolTip(fieldClasificacionProducto, fieldClasificacionProducto.SelectedItem is ClasificacionProducto clasificacion 
+                ? clasificacion.Descripcion
+                : string.Empty);
         }
 
         private void ActualizarCostoUnitario(object? sender, EventArgs e) {
-            _costoAdquisicionUnitario = Categoria == CategoriaProducto.Mercancia || Categoria == CategoriaProducto.MateriaPrima ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) ? valueAdq : 0m : 0m;
-            _costoProduccionUnitario = Categoria == CategoriaProducto.ProductoTerminado ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueProd) ? valueProd : 0m : 0m;
+            _costoAdquisicionUnitario = Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) ? valueAdq : 0m : 0m;
+            _costoProduccionUnitario = Categoria == CategoriaProductoEnum.ProductoTerminado ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueProd) ? valueProd : 0m : 0m;
         }
 
         private void CalcularPrecioVenta(object? sender, EventArgs e) {
@@ -321,13 +328,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Restaurar() {
             Imagen = null;
-            Categoria = CategoriaProducto.Mercancia;
+            Categoria = CategoriaProductoEnum.Mercancia;
             NombreProducto = string.Empty;
             Codigo = string.Empty;
-            NombreProveedor = string.Empty;
+            Proveedor = null;
             Descripcion = string.Empty;
-            NombreUnidadMedida = string.Empty;
-            NombreClasificacionProducto = string.Empty;
+            UnidadMedida = null;
+            ClasificacionProducto = null;
+            Almacen = null;
             EsVendible = true;
             fieldCostoUnitario.Text = string.Empty;
             fieldImpuestoVentaPorcentaje.Text = string.Empty;
@@ -372,36 +380,32 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public void CargarNombresProveedores(string[] nombresProvedores) {
+        public void CargarProveedores(Proveedor[] proveedores) {
             fieldTituloNombreProveedor.Visible = true;
             fieldNombreProveedor.Visible = true;
             layoutBaseDist0.RowStyles[3].Height = 25;
             layoutBaseDist0.RowStyles[4].Height = 35;
 
             fieldNombreProveedor.Items.Clear();
-            fieldNombreProveedor.Items.AddRange(nombresProvedores);
+            fieldNombreProveedor.Items.AddRange(proveedores);
             fieldNombreProveedor.SelectedIndex = -1;
         }
 
         public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
-            _unidadesMedida = unidadesMedida;
-
             fieldUnidadMedida.Items.Clear();
-            fieldUnidadMedida.Items.AddRange(unidadesMedida.Select(um => um.Nombre).ToArray());
+            fieldUnidadMedida.Items.AddRange(unidadesMedida);
             fieldUnidadMedida.SelectedIndex = unidadesMedida.Length > 0 ? 0 : -1;
         }
 
         public void CargarClasificaciones(ClasificacionProducto[] clasificaciones) {
-            _clasificacionesProducto = clasificaciones;
-
             fieldClasificacionProducto.Items.Clear();
-            fieldClasificacionProducto.Items.AddRange(clasificaciones.Select(c => c.Nombre).ToArray());
+            fieldClasificacionProducto.Items.AddRange(clasificaciones);
             fieldClasificacionProducto.SelectedIndex = -1;
         }
 
-        public void CargarNombresAlmacenes(string[] nombresAlmacenes) {
+        public void CargarAlmacenes(Almacen[] almacenes) {
             fieldNombreAlmacen.Items.Clear();
-            fieldNombreAlmacen.Items.AddRange(nombresAlmacenes);
+            fieldNombreAlmacen.Items.AddRange(almacenes);
             fieldNombreAlmacen.SelectedIndex = -1;
         }
     }

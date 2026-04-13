@@ -173,12 +173,12 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             HabilitarBotonesPaginacion();
         }
 
-        public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        public void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda) {
             // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
             fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
 
             fieldFiltroBusqueda.Items.Clear();
-            fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
+            fieldFiltroBusqueda.Items.AddRange([.. filtrosBusqueda.Select(f => f.Nombre)]);
 
             if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;

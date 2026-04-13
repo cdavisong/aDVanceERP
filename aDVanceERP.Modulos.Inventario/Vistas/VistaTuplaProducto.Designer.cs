@@ -277,7 +277,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldPrecioVentaBase
             // 
             fieldPrecioVentaBase.Dock = DockStyle.Fill;
-            fieldPrecioVentaBase.Font = new Font("Segoe UI", 11.25F);
+            fieldPrecioVentaBase.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldPrecioVentaBase.ForeColor = Color.Black;
             fieldPrecioVentaBase.ImeMode = ImeMode.NoControl;
             fieldPrecioVentaBase.Location = new Point(614, 1);
@@ -330,7 +330,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldStock.Dock = DockStyle.Fill;
             fieldStock.Font = new Font("Segoe UI", 11.25F);
-            fieldStock.ForeColor = Color.DimGray;
+            fieldStock.ForeColor = Color.Black;
             fieldStock.ImeMode = ImeMode.NoControl;
             fieldStock.Location = new Point(904, 1);
             fieldStock.Margin = new Padding(1);
@@ -357,7 +357,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // fieldCostoUnitario
             // 
             fieldCostoUnitario.Dock = DockStyle.Fill;
-            fieldCostoUnitario.Font = new Font("Segoe UI", 11.25F);
+            fieldCostoUnitario.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             fieldCostoUnitario.ForeColor = Color.Black;
             fieldCostoUnitario.ImeMode = ImeMode.NoControl;
             fieldCostoUnitario.Location = new Point(504, 1);

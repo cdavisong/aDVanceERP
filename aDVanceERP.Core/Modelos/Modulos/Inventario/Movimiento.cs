@@ -1,5 +1,8 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class Movimiento : IEntidadBaseDatos {
         public Movimiento() {
@@ -57,25 +60,22 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public EfectoMovimientoEnum EfectoMovimiento { get; set; }
 
         #endregion
+
+        public override string ToString() {
+            return $"ID: {Id:000}, PROD: {NombreProducto}, CANT: {CantidadMovida.ToString("N1", CultureInfo.InvariantCulture)}, ORIG: {NombreAlmacenOrigen}, DEST: {NombreAlmacenDestino}, TIPO: {NombreTipoMovimiento}, FECHA: {FechaCreacion:yyyy-MM-dd}";
+        }
     }
 
     public enum FiltroBusquedaMovimiento {
         Todos,
+        [Display(Name = "ID")]
         Id,
+        [Display(Name = "ID del Producto")]
         IdProducto,
+        [Display(Name = "Almacén Origen")]
         AlmacenOrigen,
+        [Display(Name = "Almacén Destino")]
         AlmacenDestino,
         Tipo
-    }
-
-    public static class UtilesBusquedaMovimiento {
-        public static object[] FiltroBusquedaMovimiento = {
-            "Todos",
-            "ID",
-            "ID del producto",
-            "Almacén origen",
-            "Almacén destino",
-            "Tipo"
-        };
     }
 }

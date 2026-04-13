@@ -117,7 +117,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoVenta;
             set {
                 _estadoVenta = value;
-                fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Text = value.ObtenerNombreDescripcion();
                 btnVerFactura.Visible = value == EstadoVentaEnum.Completada;
                 btnAnular.Enabled = value == EstadoVentaEnum.Pendiente || value == EstadoVentaEnum.Entregada;
                 layoutVista.BackColor = ObtenerColorFondoTupla(value);

@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class UnidadMedida : IEntidadBaseDatos {
         public UnidadMedida() {
@@ -21,24 +23,15 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public string Descripcion { get; set; }
 
         public override string ToString() {
-            return $"{Nombre}";
+            return $"{Nombre} ({Abreviatura})";
         }
     }
 
     public enum FiltroBusquedaUnidadMedida {
         Todos,
+        [Display(Name = "ID")]
         Id,
         Nombre,
         Abreviatura
     }
-
-    public static class UtilesBusquedaUnidadesMedida {
-        public static object[] FiltroBusquedaUnidadesMedida = {
-            "Todas las unidades de medida",
-            "Identificador de BD",
-            "Nombre de la unidad de medida",
-            "Abreviatura de la unidad de medida"
-        };
-    }
-
 }

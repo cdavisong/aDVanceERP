@@ -475,9 +475,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
             layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 111F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 74F));
             layoutEncabezadosTabla.Controls.Add(fieldTituloNombreProducto, 0, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloFecha, 9, 0);
             layoutEncabezadosTabla.Controls.Add(fieldTituloMotivo, 8, 0);
@@ -506,7 +504,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloNombreProducto.Location = new Point(61, 1);
             fieldTituloNombreProducto.Margin = new Padding(1);
             fieldTituloNombreProducto.Name = "fieldTituloNombreProducto";
-            fieldTituloNombreProducto.Size = new Size(223, 40);
+            fieldTituloNombreProducto.Size = new Size(260, 40);
             fieldTituloNombreProducto.TabIndex = 16;
             fieldTituloNombreProducto.Text = "PRODUCTO";
             fieldTituloNombreProducto.TextAlign = ContentAlignment.MiddleLeft;
@@ -517,7 +515,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloFecha.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloFecha.ForeColor = Color.DimGray;
             fieldTituloFecha.ImeMode = ImeMode.NoControl;
-            fieldTituloFecha.Location = new Point(1056, 1);
+            fieldTituloFecha.Location = new Point(1093, 1);
             fieldTituloFecha.Margin = new Padding(1);
             fieldTituloFecha.Name = "fieldTituloFecha";
             fieldTituloFecha.Size = new Size(118, 40);
@@ -531,7 +529,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloMotivo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloMotivo.ForeColor = Color.DimGray;
             fieldTituloMotivo.ImeMode = ImeMode.NoControl;
-            fieldTituloMotivo.Location = new Point(896, 1);
+            fieldTituloMotivo.Location = new Point(933, 1);
             fieldTituloMotivo.Margin = new Padding(1);
             fieldTituloMotivo.Name = "fieldTituloMotivo";
             fieldTituloMotivo.Size = new Size(158, 40);
@@ -545,7 +543,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTitulaCantidadMovida.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTitulaCantidadMovida.ForeColor = Color.DimGray;
             fieldTitulaCantidadMovida.ImeMode = ImeMode.NoControl;
-            fieldTitulaCantidadMovida.Location = new Point(676, 1);
+            fieldTitulaCantidadMovida.Location = new Point(713, 1);
             fieldTitulaCantidadMovida.Margin = new Padding(1);
             fieldTitulaCantidadMovida.Name = "fieldTitulaCantidadMovida";
             fieldTitulaCantidadMovida.Size = new Size(108, 40);
@@ -559,7 +557,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloAlmacenDestino.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloAlmacenDestino.ForeColor = Color.DimGray;
             fieldTituloAlmacenDestino.ImeMode = ImeMode.NoControl;
-            fieldTituloAlmacenDestino.Location = new Point(446, 1);
+            fieldTituloAlmacenDestino.Location = new Point(483, 1);
             fieldTituloAlmacenDestino.Margin = new Padding(1);
             fieldTituloAlmacenDestino.Name = "fieldTituloAlmacenDestino";
             fieldTituloAlmacenDestino.Size = new Size(118, 40);
@@ -573,7 +571,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloAlmacenOrigen.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloAlmacenOrigen.ForeColor = Color.DimGray;
             fieldTituloAlmacenOrigen.ImeMode = ImeMode.NoControl;
-            fieldTituloAlmacenOrigen.Location = new Point(286, 1);
+            fieldTituloAlmacenOrigen.Location = new Point(323, 1);
             fieldTituloAlmacenOrigen.Margin = new Padding(1);
             fieldTituloAlmacenOrigen.Name = "fieldTituloAlmacenOrigen";
             fieldTituloAlmacenOrigen.Size = new Size(118, 40);
@@ -601,7 +599,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloSaldoInicial.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloSaldoInicial.ForeColor = Color.DimGray;
             fieldTituloSaldoInicial.ImeMode = ImeMode.NoControl;
-            fieldTituloSaldoInicial.Location = new Point(566, 1);
+            fieldTituloSaldoInicial.Location = new Point(603, 1);
             fieldTituloSaldoInicial.Margin = new Padding(1);
             fieldTituloSaldoInicial.Name = "fieldTituloSaldoInicial";
             fieldTituloSaldoInicial.Size = new Size(108, 40);
@@ -615,7 +613,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloSaldoFinal.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloSaldoFinal.ForeColor = Color.DimGray;
             fieldTituloSaldoFinal.ImeMode = ImeMode.NoControl;
-            fieldTituloSaldoFinal.Location = new Point(786, 1);
+            fieldTituloSaldoFinal.Location = new Point(823, 1);
             fieldTituloSaldoFinal.Margin = new Padding(1);
             fieldTituloSaldoFinal.Name = "fieldTituloSaldoFinal";
             fieldTituloSaldoFinal.Size = new Size(108, 40);
@@ -629,10 +627,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloAcciones.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldTituloAcciones.ForeColor = Color.DimGray;
             fieldTituloAcciones.ImeMode = ImeMode.NoControl;
-            fieldTituloAcciones.Location = new Point(1176, 1);
+            fieldTituloAcciones.Location = new Point(1213, 1);
             fieldTituloAcciones.Margin = new Padding(1);
             fieldTituloAcciones.Name = "fieldTituloAcciones";
-            fieldTituloAcciones.Size = new Size(109, 40);
+            fieldTituloAcciones.Size = new Size(72, 40);
             fieldTituloAcciones.TabIndex = 20;
             fieldTituloAcciones.Text = "ACCIONES";
             fieldTituloAcciones.TextAlign = ContentAlignment.MiddleLeft;

@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class Inventario : IEntidadBaseDatos {
         public Inventario() { }
@@ -29,8 +31,11 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
 
     public enum FiltroBusquedaInventario {
         Todos,
+        [Display(Name = "ID")]
         Id,
+        [Display(Name = "ID del Producto")]
         IdProducto,
+        [Display(Name = "ID del Almacén")]
         IdAlmacen
     }
 }

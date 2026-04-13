@@ -395,7 +395,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
 
         private static decimal ObtenerCostoProducto(Producto? producto) {
             if (producto == null) return 0m;
-            return producto.Categoria == CategoriaProducto.ProductoTerminado
+            return producto.Categoria == CategoriaProductoEnum.ProductoTerminado
                 ? producto.CostoProduccionUnitario
                 : producto.CostoAdquisicionUnitario;
         }

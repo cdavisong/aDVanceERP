@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -30,7 +31,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
         }
 
         private void OnMostrarVistaGestionCuentasUsuarios(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaCuentaUsuario.FiltroBusquedaCuentaUsuario);
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaCuentaUsuario>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 

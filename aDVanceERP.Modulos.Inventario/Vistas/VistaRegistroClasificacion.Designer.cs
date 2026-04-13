@@ -24,19 +24,18 @@
         /// </summary>
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VistaRegistroClasificacion));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna.UI2.WinForms.Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulos1 = new TableLayoutPanel();
-            fieldTituloDatosGenerales = new Label();
             layoutTitulo = new TableLayoutPanel();
             fieldTitulo = new Label();
             layoutDatos1 = new TableLayoutPanel();
@@ -47,6 +46,8 @@
             btnSalir = new Guna.UI2.WinForms.Guna2Button();
             btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             fieldIcono = new PictureBox();
+            fieldTituloNombre = new Label();
+            fieldTituloDescripcion = new Label();
             layoutVista.SuspendLayout();
             layoutTitulos1.SuspendLayout();
             layoutTitulo.SuspendLayout();
@@ -71,21 +72,22 @@
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(layoutTitulos1, 2, 3);
+            layoutVista.Controls.Add(layoutTitulos1, 2, 4);
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
-            layoutVista.Controls.Add(layoutDatos1, 2, 4);
+            layoutVista.Controls.Add(layoutDatos1, 2, 5);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
-            layoutVista.Controls.Add(layoutBotones, 2, 6);
             layoutVista.Controls.Add(fieldIcono, 1, 1);
+            layoutVista.Controls.Add(layoutBotones, 2, 7);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 8;
+            layoutVista.RowCount = 9;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
@@ -95,34 +97,19 @@
             // 
             // layoutTitulos1
             // 
-            layoutTitulos1.ColumnCount = 1;
-            layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutTitulos1.Controls.Add(fieldTituloDatosGenerales, 0, 0);
+            layoutTitulos1.ColumnCount = 2;
+            layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            layoutTitulos1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            layoutTitulos1.Controls.Add(fieldTituloDescripcion, 1, 0);
+            layoutTitulos1.Controls.Add(fieldTituloNombre, 0, 0);
             layoutTitulos1.Dock = DockStyle.Fill;
-            layoutTitulos1.Location = new Point(50, 90);
+            layoutTitulos1.Location = new Point(50, 100);
             layoutTitulos1.Margin = new Padding(0);
             layoutTitulos1.Name = "layoutTitulos1";
             layoutTitulos1.RowCount = 1;
             layoutTitulos1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutTitulos1.Size = new Size(1286, 35);
+            layoutTitulos1.Size = new Size(1286, 25);
             layoutTitulos1.TabIndex = 47;
-            // 
-            // fieldTituloDatosGenerales
-            // 
-            fieldTituloDatosGenerales.Dock = DockStyle.Fill;
-            fieldTituloDatosGenerales.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloDatosGenerales.ForeColor = Color.DimGray;
-            fieldTituloDatosGenerales.Image = (Image) resources.GetObject("fieldTituloDatosGenerales.Image");
-            fieldTituloDatosGenerales.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloDatosGenerales.ImeMode = ImeMode.NoControl;
-            fieldTituloDatosGenerales.Location = new Point(15, 5);
-            fieldTituloDatosGenerales.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloDatosGenerales.Name = "fieldTituloDatosGenerales";
-            fieldTituloDatosGenerales.Size = new Size(1268, 27);
-            fieldTituloDatosGenerales.TabIndex = 41;
-            fieldTituloDatosGenerales.Text = "      Datos generales :";
-            fieldTituloDatosGenerales.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // layoutTitulo
             // 
@@ -174,7 +161,7 @@
             fieldDescripcion.BorderColor = Color.Gainsboro;
             fieldDescripcion.BorderRadius = 16;
             fieldDescripcion.Cursor = Cursors.IBeam;
-            fieldDescripcion.CustomizableEdges = customizableEdges1;
+            fieldDescripcion.CustomizableEdges = customizableEdges9;
             fieldDescripcion.DefaultText = "";
             fieldDescripcion.DisabledState.BorderColor = Color.White;
             fieldDescripcion.DisabledState.ForeColor = Color.DimGray;
@@ -193,7 +180,7 @@
             fieldDescripcion.PlaceholderForeColor = Color.DimGray;
             fieldDescripcion.PlaceholderText = "Descripción ";
             fieldDescripcion.SelectedText = "";
-            fieldDescripcion.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldDescripcion.ShadowDecoration.CustomizableEdges = customizableEdges10;
             fieldDescripcion.Size = new Size(891, 35);
             fieldDescripcion.TabIndex = 9;
             fieldDescripcion.TextOffset = new Point(5, 0);
@@ -204,7 +191,7 @@
             fieldNombre.BorderColor = Color.Gainsboro;
             fieldNombre.BorderRadius = 16;
             fieldNombre.Cursor = Cursors.IBeam;
-            fieldNombre.CustomizableEdges = customizableEdges3;
+            fieldNombre.CustomizableEdges = customizableEdges11;
             fieldNombre.DefaultText = "";
             fieldNombre.DisabledState.BorderColor = Color.White;
             fieldNombre.DisabledState.ForeColor = Color.DimGray;
@@ -223,7 +210,7 @@
             fieldNombre.PlaceholderForeColor = Color.DimGray;
             fieldNombre.PlaceholderText = "Nombre o identificador";
             fieldNombre.SelectedText = "";
-            fieldNombre.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            fieldNombre.ShadowDecoration.CustomizableEdges = customizableEdges12;
             fieldNombre.Size = new Size(375, 35);
             fieldNombre.TabIndex = 8;
             fieldNombre.TextOffset = new Point(5, 0);
@@ -266,7 +253,7 @@
             btnSalir.BorderColor = Color.Gainsboro;
             btnSalir.BorderRadius = 18;
             btnSalir.BorderThickness = 1;
-            btnSalir.CustomizableEdges = customizableEdges5;
+            btnSalir.CustomizableEdges = customizableEdges13;
             btnSalir.Dock = DockStyle.Fill;
             btnSalir.FillColor = Color.White;
             btnSalir.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -276,7 +263,7 @@
             btnSalir.HoverState.ForeColor = Color.Black;
             btnSalir.Location = new Point(1116, 3);
             btnSalir.Name = "btnSalir";
-            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnSalir.ShadowDecoration.CustomizableEdges = customizableEdges14;
             btnSalir.Size = new Size(164, 39);
             btnSalir.TabIndex = 14;
             btnSalir.Text = "Salir";
@@ -285,14 +272,14 @@
             // 
             btnRegistrarActualizar.Animated = true;
             btnRegistrarActualizar.BorderRadius = 18;
-            btnRegistrarActualizar.CustomizableEdges = customizableEdges7;
+            btnRegistrarActualizar.CustomizableEdges = customizableEdges15;
             btnRegistrarActualizar.Dock = DockStyle.Fill;
             btnRegistrarActualizar.FillColor = Color.PeachPuff;
             btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrarActualizar.ForeColor = Color.Black;
             btnRegistrarActualizar.Location = new Point(886, 3);
             btnRegistrarActualizar.Name = "btnRegistrarActualizar";
-            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges16;
             btnRegistrarActualizar.Size = new Size(224, 39);
             btnRegistrarActualizar.TabIndex = 15;
             btnRegistrarActualizar.Text = "Registrar la clasificación";
@@ -308,6 +295,34 @@
             fieldIcono.Size = new Size(30, 39);
             fieldIcono.TabIndex = 53;
             fieldIcono.TabStop = false;
+            // 
+            // fieldTituloNombre
+            // 
+            fieldTituloNombre.Dock = DockStyle.Fill;
+            fieldTituloNombre.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldTituloNombre.ForeColor = Color.DimGray;
+            fieldTituloNombre.ImeMode = ImeMode.NoControl;
+            fieldTituloNombre.Location = new Point(1, 1);
+            fieldTituloNombre.Margin = new Padding(1);
+            fieldTituloNombre.Name = "fieldTituloNombre";
+            fieldTituloNombre.Size = new Size(383, 23);
+            fieldTituloNombre.TabIndex = 46;
+            fieldTituloNombre.Text = "* NOMBRE";
+            fieldTituloNombre.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloDescripcion
+            // 
+            fieldTituloDescripcion.Dock = DockStyle.Fill;
+            fieldTituloDescripcion.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldTituloDescripcion.ForeColor = Color.DimGray;
+            fieldTituloDescripcion.ImeMode = ImeMode.NoControl;
+            fieldTituloDescripcion.Location = new Point(386, 1);
+            fieldTituloDescripcion.Margin = new Padding(1);
+            fieldTituloDescripcion.Name = "fieldTituloDescripcion";
+            fieldTituloDescripcion.Size = new Size(899, 23);
+            fieldTituloDescripcion.TabIndex = 50;
+            fieldTituloDescripcion.Text = "DESCRIPCIÓN";
+            fieldTituloDescripcion.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // VistaRegistroClasificacion
             // 
@@ -342,10 +357,11 @@
         private Guna.UI2.WinForms.Guna2Button btnRegistrarActualizar;
         private Guna.UI2.WinForms.Guna2ComboBox fieldClasificacionProducto;
         private TableLayoutPanel layoutTitulos1;
-        private Label fieldTituloDatosGenerales;
         private TableLayoutPanel layoutDatos1;
         private Guna.UI2.WinForms.Guna2TextBox fieldNombre;
         private PictureBox fieldIcono;
         private Guna.UI2.WinForms.Guna2TextBox fieldDescripcion;
+        private Label fieldTituloNombre;
+        private Label fieldTituloDescripcion;
     }
 }

@@ -74,7 +74,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
 
         public MetodoPagoEnum MetodoPago {
             get => (MetodoPagoEnum) fieldMetodoPago.SelectedIndex;
-            set => fieldMetodoPago.SelectedItem = value.ObtenerDisplayName();
+            set => fieldMetodoPago.SelectedItem = value.ObtenerNombreDescripcion();
         }
 
         public decimal MontoPagado {

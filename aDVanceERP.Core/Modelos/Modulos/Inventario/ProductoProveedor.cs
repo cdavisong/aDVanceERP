@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class ProductoProveedor : IEntidadBaseDatos {
         public ProductoProveedor() { }
@@ -20,13 +22,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
 
     public enum FiltroBusquedaProductoProveedor {
         Todos,
+        [Display(Name = "ID")]
         Id
-    }
-
-    public static class UtilesBusquedaProductoProveedor {
-        public static string[] FiltroBusquedaProducto = {
-            "Todos los productos",
-            "Identificador de BD"
-        };
     }
 }

@@ -1,18 +1,14 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Modulos.Inventario.Documentos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Vistas;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes, IVistaTuplaAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
-        private DocInventarioAlmacen _docInventarioAlmacen = new DocInventarioAlmacen();
-
         public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
             RegistrarEntidad += OnRegistrarAlmacen;
             EditarEntidad += OnEditarAlmacen;
@@ -29,7 +25,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnMostrarVistaGestionAlmacenes(string obj) {
-            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerDisplayNames<FiltroBusquedaAlmacen>()]);
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaAlmacen>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 
@@ -49,13 +45,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Descripcion = string.IsNullOrEmpty(entidad.Descripcion) 
                 ? "No disponible"
                 : entidad.Descripcion;
-            presentadorTupla.Vista.ExportarDocumentoInventario += OnExportarDocumentoInventarioAlmacen;
 
             return presentadorTupla;
-        }
-
-        private void OnExportarDocumentoInventarioAlmacen(object? sender, (int id, FormatoDocumento formato) e) {
-            _docInventarioAlmacen.GenerarDocumentoConParametros(e.formato, e.id);
         }
     }
 }

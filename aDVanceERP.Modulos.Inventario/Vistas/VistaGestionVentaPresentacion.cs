@@ -8,10 +8,8 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaGestionVentaPresentacion : Form, IVistaGestionVentaPresentacion {
-
-        private FiltroBusquedaPrecioPresentacion _filtroBusqueda;
-        private string[] _criterioBusqueda;
-        private PrecioPresentacion _precioPresentacionSeleccionado = null!;
+        private FiltroBusquedaPrecioPresentacion _filtroBusqueda = FiltroBusquedaPrecioPresentacion.IdProducto;
+        private string[] _criterioBusqueda = [];
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
 
@@ -45,13 +43,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public FiltroBusquedaPrecioPresentacion FiltroBusqueda {
-            get => FiltroBusquedaPrecioPresentacion.IdProducto;
-            set => _filtroBusqueda = value;
+            get => _filtroBusqueda;
+            private set => _filtroBusqueda = value;
         }
 
         public string[] CriteriosBusqueda {
-            get => [IdProducto.ToString()];
-            set => _criterioBusqueda = value;
+            get => _criterioBusqueda.Length > 0 ? _criterioBusqueda : [IdProducto.ToString()];
+            private set => _criterioBusqueda = value;
         }
 
         public int TuplasMaximasContenedor {
@@ -80,8 +78,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public long IdProducto { get; set; }
 
         public UnidadMedida? UnidadMedida {
-            get => (UnidadMedida?) fieldUnidadMedida.SelectedItem;
-            set => fieldUnidadMedida.SelectedItem = value;
+            get => fieldUnidadMedida.SelectedItem as UnidadMedida;
+            set { 
+                fieldUnidadMedida.SelectedItem = value; 
+
+
+            }
         }
 
         public decimal Cantidad {
@@ -163,7 +165,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             };
         }
 
-        public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        public void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda) {
             // ...
         }
 
@@ -173,7 +175,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Restaurar() {
+            fieldNombreProducto.Text = "...";
+            UnidadMedida = null;
+            Cantidad = 0;
+            PrecioVenta = 0;
             fieldTituloDescripcion.Text = "PRECIO POR [u]";
+            fieldTextoAdvertencia.Text = "      El stock siempre se gestiona en la unidad base del producto. Al registrar una venta de cualquier presentación, el sistema descuenta la cantidad correspondiente en [u] del inventario.";
+
             PaginaActual = 1;
             PaginasTotales = 1;
         }
@@ -206,6 +214,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldNombreProducto.Text = producto.Nombre;
             fieldAbreviaturaUmCantPresentacion.Text = unidadMedidaBase.Abreviatura;
             fieldTituloDescripcion.Text = fieldTituloDescripcion.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
+            fieldTextoAdvertencia.Text = fieldTextoAdvertencia.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
         }
     }
 }

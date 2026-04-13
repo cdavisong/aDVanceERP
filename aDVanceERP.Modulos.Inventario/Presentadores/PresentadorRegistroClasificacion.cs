@@ -15,8 +15,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnMostrarVistaRegistroClasificacion(string obj) {
             Vista.ModoEdicion = false;
-            Vista.Restaurar();
-        
+            Vista.Restaurar();        
             Vista.Mostrar();
         }
 

@@ -7,10 +7,11 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Core.Eventos;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
-    public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegistroMovimiento, Core.Modelos.Modulos.Inventario.Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
+    public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegistroMovimiento, Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
         public PresentadorRegistroMovimiento(IVistaRegistroMovimiento vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
             AgregadorEventos.Suscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
+            AgregadorEventos.Suscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
         }
 
         private void OnMostrarVistaRegistroMovimiento(string obj) {
@@ -18,8 +19,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.Restaurar();
 
             // Carga inicial de datos
-            Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
-            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
+            Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
 
             // Carga de datos extra
             if (!string.IsNullOrEmpty(obj)) {
@@ -27,21 +28,25 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 var producto = AgregadorEventos.DeserializarPayload<Producto>(datosExtra[0].ToString());
                 var signoMovimiento = datosExtra[1].ToString();
 
-                if (producto != null) {
-                    Vista.NombreProducto = producto.Nombre;
-                    Vista.ActualizarInformacionProductoSeleccionado(producto);
-                }
-
+                if (producto != null)
+                    Vista.Producto = producto;
+                
                 if (signoMovimiento == "+" || signoMovimiento == "-") {
-                    var tiposMovimiento = RepoTipoMovimiento.Instancia.ObtenerTodos().Where(tm => tm.entidadBase.Efecto == (signoMovimiento == "+" ? EfectoMovimientoEnum.Carga : EfectoMovimientoEnum.Descarga)).Select(tm => tm.entidadBase).ToArray();
+                    var tiposMovimiento = RepoTipoMovimiento.Instancia
+                        .ObtenerTodos()
+                        .Select(r => r.entidadBase)
+                        .Where(tm => tm.Efecto == (signoMovimiento == "+" 
+                            ? EfectoMovimientoEnum.Carga 
+                            : EfectoMovimientoEnum.Descarga))
+                        .ToArray();
 
                     Vista.CargarTiposMovimientos(tiposMovimiento);
 
                     if (tiposMovimiento.Length == 1)
-                        Vista.NombreTipoMovimiento = tiposMovimiento[0].Nombre;
+                        Vista.TipoMovimiento = tiposMovimiento[0];
                 }
             } else
-                Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(tm => tm.entidadBase)]);
+                Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
 
             Vista.Mostrar();
         }
@@ -59,84 +64,110 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 return;
 
             // Carga inicial de datos
-            Vista.CargarNombresProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(p => p.entidadBase.Nombre)]);
-            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
-            Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(tm => tm.entidadBase)]);
+            Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
 
             PopularVistaDesdeEntidad(movimiento);
 
             Vista.Mostrar();
         }
 
+        private void OnNuevoProductoRegistrado(string obj) {
+            var datos = AgregadorEventos.DeserializarPayload<(Producto Producto, Almacen Almacen, int Cantidad)>(obj);
+            var producto = datos.Producto;
+            var almacen = datos.Almacen;
+            var cantidad = datos.Cantidad;
+            var costoUnitario = producto.Categoria == CategoriaProductoEnum.ProductoTerminado
+                                    ? producto.CostoProduccionUnitario
+                                    : producto.CostoAdquisicionUnitario;
+
+            if (producto == null) 
+                return;
+
+            // Crear movimiento de inventario inicial
+            var movimiento = new Movimiento() {
+                Id = 0,
+                IdProducto = producto.Id,
+                CostoUnitario = costoUnitario,
+                IdAlmacenOrigen = 0,
+                IdAlmacenDestino = almacen?.Id ?? 0,
+                Estado = EstadoMovimiento.Completado,
+                FechaCreacion = DateTime.Now,
+                SaldoInicial = 0,
+                FechaTermino = DateTime.Now,
+                CantidadMovida = cantidad,
+                SaldoFinal = cantidad,
+                IdTipoMovimiento = RepoTipoMovimiento.Instancia
+                    .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Carga Inicial")
+                    .resultadosBusqueda
+                    .Select(r => r.entidadBase)
+                    .FirstOrDefault()?.Id ?? throw new InvalidOperationException("No se encontró el tipo de movimiento 'Carga Inicial'."),
+                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                Notas = "Movimiento inicial generado automáticamente al registrar nuevo producto."
+            };
+
+            RepoMovimiento.Instancia.Adicionar(movimiento);
+            RepoInventario.Instancia.ModificarInventario(
+                producto,
+                null,
+                almacen,
+                cantidad
+            );
+        }
+
         public override void PopularVistaDesdeEntidad(Movimiento entidad) {
             base.PopularVistaDesdeEntidad(entidad);
 
             // Variables auxiliares
+            var producto = RepoProducto.Instancia.ObtenerPorId(entidad.IdProducto);
+            var almacenOrigen = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenOrigen);
+            var almacenDestino = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenDestino);
             var tipoMovimiento = RepoTipoMovimiento.Instancia.ObtenerPorId(entidad.IdTipoMovimiento);
 
-            Vista.NombreProducto = RepoProducto.Instancia.ObtenerPorId(entidad.IdProducto)?.Nombre ?? string.Empty;
+            Vista.Producto = producto;
             Vista.Notas = entidad.Notas ?? string.Empty;
-            Vista.NombreAlmacenOrigen = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenOrigen)?.Nombre ?? string.Empty;
-            Vista.NombreAlmacenDestino = RepoAlmacen.Instancia.ObtenerPorId(entidad.IdAlmacenDestino)?.Nombre ?? string.Empty;
+            Vista.AlmacenOrigen = almacenOrigen;
+            Vista.AlmacenDestino = almacenDestino;
             Vista.Fecha = entidad.FechaCreacion;
             Vista.CantidadMovida = entidad.CantidadMovida;
-            Vista.NombreTipoMovimiento = tipoMovimiento?.Nombre ?? string.Empty;
+            Vista.TipoMovimiento = tipoMovimiento;
         }
 
         protected override Movimiento? ObtenerEntidadDesdeVista() {
-            var producto = RepoProducto.Instancia
-                .Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto)
-                .resultadosBusqueda
-                .FirstOrDefault(p => p.entidadBase.Nombre == Vista.NombreProducto)
-                .entidadBase;
-            var almacenOrigen = RepoAlmacen.Instancia
-                .Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen)
-                .resultadosBusqueda
-                .FirstOrDefault(a => a.entidadBase.Nombre == Vista.NombreAlmacenOrigen)
-                .entidadBase;
-            var almacenDestino = RepoAlmacen.Instancia
-                .Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenDestino)
-                .resultadosBusqueda
-                .FirstOrDefault(a => a.entidadBase.Nombre == Vista.NombreAlmacenDestino)
-                .entidadBase;
-            var tipoMovimiento = RepoTipoMovimiento.Instancia
-                .Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.NombreTipoMovimiento)
-                .resultadosBusqueda
-                .FirstOrDefault(tm => tm.entidadBase.Nombre == Vista.NombreTipoMovimiento)
-                .entidadBase;
-            var costoUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
-                                    ? producto.CostoProduccionUnitario
-                                    : producto.CostoAdquisicionUnitario;
+            var costoUnitario = Vista.Producto?.Categoria == CategoriaProductoEnum.ProductoTerminado
+                                    ? Vista.Producto?.CostoProduccionUnitario
+                                    : Vista.Producto?.CostoAdquisicionUnitario;
 
             // ✅ Para Carga → el saldo de referencia es el almacén destino
             // ✅ Para Descarga/Transferencia → el saldo de referencia es el almacén origen
-            var idAlmacenReferencia = tipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga
-                ? almacenDestino?.Id ?? 0
-                : almacenOrigen?.Id ?? 0;
+            var almacenReferencia = Vista.TipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga
+                ? Vista.AlmacenDestino
+                : Vista.AlmacenOrigen;
 
             var inventario = RepoInventario.Instancia
-                .Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString())
+                .Buscar(FiltroBusquedaInventario.IdProducto, Vista.Producto?.Id.ToString())
                 .resultadosBusqueda
-                .FirstOrDefault(i => i.entidadBase.IdAlmacen == idAlmacenReferencia)
-                .entidadBase;
+                .Select(r => r.entidadBase)
+                .FirstOrDefault(i => i.IdAlmacen == almacenReferencia?.Id);
 
             var saldoInicial = inventario?.Cantidad ?? 0m;
-            var signo = tipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga ? 1m : -1m;
+            var signo = Vista.TipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga ? 1m : -1m;
             var saldoFinal = saldoInicial + (Vista.CantidadMovida * signo);
 
             return new Movimiento() {
                 Id = Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-                IdProducto = producto?.Id ?? throw new ArgumentNullException(nameof(producto)),
-                CostoUnitario = costoUnitario,
-                IdAlmacenOrigen = almacenOrigen?.Id ?? 0,
-                IdAlmacenDestino = almacenDestino?.Id ?? 0,
+                IdProducto = Vista.Producto?.Id ?? throw new ArgumentNullException(nameof(Vista.Producto)),
+                CostoUnitario = costoUnitario ?? throw new ArgumentNullException(nameof(costoUnitario)),
+                IdAlmacenOrigen = Vista.AlmacenOrigen?.Id ?? 0,
+                IdAlmacenDestino = Vista.AlmacenDestino?.Id ?? 0,
                 Estado = EstadoMovimiento.Completado,
                 FechaCreacion = Vista.Fecha,
                 SaldoInicial = saldoInicial,
                 FechaTermino = DateTime.Now,
                 CantidadMovida = Vista.CantidadMovida,
                 SaldoFinal = saldoFinal,
-                IdTipoMovimiento = tipoMovimiento?.Id ?? throw new ArgumentNullException(nameof(tipoMovimiento)),
+                IdTipoMovimiento = Vista.TipoMovimiento?.Id ?? throw new ArgumentNullException(nameof(Vista.TipoMovimiento)),
                 IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                 Notas = Vista.Notas ?? string.Empty
             };
@@ -148,37 +179,35 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             // Si se necesita corrección de stock, usar un Ajuste de Inventario manual.
             if (Entidad != null && !Vista.ModoEdicion) {
                 RepoInventario.Instancia.ModificarInventario(
-                    Vista.NombreProducto,
-                    Vista.NombreAlmacenOrigen,
-                    Vista.NombreAlmacenDestino,
+                    Vista.Producto,
+                    Vista.AlmacenOrigen,
+                    Vista.AlmacenDestino,
                     Vista.CantidadMovida
                 );
             }
         }
 
         protected override bool EntidadCorrecta() {
-            var nombreProductoOk = !string.IsNullOrEmpty(Vista.NombreProducto);
-            var tipoMovimientoOk = !string.IsNullOrEmpty(Vista.NombreTipoMovimiento);
-            var noCompraventaOk = !(Vista.NombreTipoMovimiento.Equals("Compra") || Vista.NombreTipoMovimiento.Equals("Venta"));
-            var tipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, Vista.NombreTipoMovimiento).resultadosBusqueda.FirstOrDefault(tm => tm.entidadBase.Nombre.Equals(Vista.NombreTipoMovimiento)).entidadBase;
-            var transferenciaAlmacenesIguales = Vista.NombreAlmacenOrigen?.Equals(Vista?.NombreAlmacenDestino) ?? false;
+            var productoOk = Vista.Producto != null;
+            var tipoMovimientoOk = Vista.TipoMovimiento != null;
+            var transferenciaAlmacenesIguales = Vista.AlmacenOrigen?.Equals(Vista?.AlmacenDestino) ?? false;
 
-            if (tipoMovimiento != null) {
-                switch (tipoMovimiento.Efecto) {
+            if (Vista?.TipoMovimiento != null) {
+                switch (Vista.TipoMovimiento.Efecto) {
                     case EfectoMovimientoEnum.Carga:
-                        if (string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
+                        if (Vista.AlmacenDestino == null) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de destino para la operación de carga solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
                         }
                         break;
                     case EfectoMovimientoEnum.Descarga:
-                        if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || Vista.NombreAlmacenOrigen.Equals("Ninguno")) {
+                        if (Vista.AlmacenOrigen == null) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen para la operación de descarga solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
                         }
                         break;
                     case EfectoMovimientoEnum.Transferencia:
-                        if (string.IsNullOrEmpty(Vista.NombreAlmacenOrigen) || string.IsNullOrEmpty(Vista.NombreAlmacenDestino) || Vista.NombreAlmacenOrigen.Equals("Ninguno") || Vista.NombreAlmacenDestino.Equals("Ninguno")) {
+                        if (Vista.AlmacenOrigen == null || Vista.AlmacenDestino == null) {
                             CentroNotificaciones.MostrarNotificacion("Debe especificar un almacén de origen y un destino para la operación de transferencia solicitada", TipoNotificacionEnum.Advertencia);
                             return false;
                         }
@@ -195,28 +224,18 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             var cantidadOk = Vista.CantidadMovida > 0;
 
-            if (tipoMovimiento?.Efecto == EfectoMovimientoEnum.Descarga || tipoMovimiento?.Efecto == EfectoMovimientoEnum.Transferencia) {
-                if (!string.IsNullOrEmpty(Vista.NombreAlmacenOrigen)) {
-                    var producto = RepoProducto.Instancia
-                        .Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto)
-                        .resultadosBusqueda
-                        .FirstOrDefault()
-                        .entidadBase;
-                    var almacenOrigen = RepoAlmacen.Instancia
-                        .Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacenOrigen)
-                        .resultadosBusqueda
-                        .FirstOrDefault()
-                        .entidadBase;
+            if (Vista.TipoMovimiento?.Efecto == EfectoMovimientoEnum.Descarga || Vista.TipoMovimiento?.Efecto == EfectoMovimientoEnum.Transferencia) {
+                if (Vista.AlmacenOrigen != null) {
                     var inventarioProducto = RepoInventario.Instancia
-                        .Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString() ?? "0")
+                        .Buscar(FiltroBusquedaInventario.IdProducto, Vista.Producto?.Id.ToString() ?? "0")
                         .resultadosBusqueda
-                        .FirstOrDefault(i => i.entidadBase.IdAlmacen == (almacenOrigen?.Id ?? 0))
-                        .entidadBase;
+                        .Select(r => r.entidadBase)
+                        .FirstOrDefault(i => i.IdAlmacen == (Vista.AlmacenOrigen?.Id ?? 0));
                     var cantidadInicialOrigen = inventarioProducto?.Cantidad ?? 0m;
 
                     if (cantidadInicialOrigen - Vista.CantidadMovida < 0) {
                         CentroNotificaciones.MostrarNotificacion(
-                            $"Stock insuficiente: el almacén '{Vista.NombreAlmacenOrigen}' solo tiene " +
+                            $"Stock insuficiente: el almacén '{Vista.AlmacenOrigen}' solo tiene " +
                             $"{cantidadInicialOrigen:N2} unidades disponibles.",
                             TipoNotificacionEnum.Advertencia);
                         return false;
@@ -224,17 +243,15 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 }
             }
 
-            if (!nombreProductoOk)
+            if (!productoOk)
                 CentroNotificaciones.MostrarNotificacion("El campo de nombre para el producto es obligatorio para el producto, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
             if (!tipoMovimientoOk)
                 CentroNotificaciones.MostrarNotificacion("Debe especificar un tipo de movimiento válido para el movimiento de productos, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
-            if (!noCompraventaOk)
-                CentroNotificaciones.MostrarNotificacion("Las operaciones de compraventa no están permitidas directamente desde la sección de movimientos de inventario. Para registrar compras o ventas diríjase al módulo correspondiente", TipoNotificacionEnum.Advertencia);
             if (!cantidadOk)
                 CentroNotificaciones.MostrarNotificacion("La cantidad de productos a mover en una operación de carga, descarga o transferencia debe ser mayor que 0, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
 
-            return nombreProductoOk && tipoMovimientoOk && noCompraventaOk && cantidadOk;
+            return productoOk && tipoMovimientoOk && cantidadOk;
         }
     }
 }

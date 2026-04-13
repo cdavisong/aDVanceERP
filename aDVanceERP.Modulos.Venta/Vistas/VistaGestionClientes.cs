@@ -1,5 +1,4 @@
 ﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Comun;
@@ -161,12 +160,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             HabilitarBotonesPaginacion();
         }
 
-        public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        public void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda) {
             // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
             fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
 
             fieldFiltroBusqueda.Items.Clear();
-            fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
+            fieldFiltroBusqueda.Items.AddRange([.. filtrosBusqueda.Select(f => f.Nombre)]);
 
             if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;

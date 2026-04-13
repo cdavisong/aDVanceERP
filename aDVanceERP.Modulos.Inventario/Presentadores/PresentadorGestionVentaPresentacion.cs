@@ -36,7 +36,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             // Carga inicial de datos
             Vista.CargarDatosProducto(AgregadorEventos.DeserializarPayload<Producto>(obj));
-            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(um => um.entidadBase)]);
+            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             
             Vista.Mostrar();
 

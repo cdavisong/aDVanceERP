@@ -120,7 +120,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     ORDER BY pp.cantidad ASC;
                     """,
 
-                FiltroBusquedaPrecioPresentacion.SoloActivos => $"""
+                FiltroBusquedaPrecioPresentacion.PresentacionesActivas => $"""
                     {baseQuery}
                     WHERE pp.id_producto = @id_producto
                       AND pp.activo = 1
@@ -138,7 +138,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     { "@id", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) }
                 },
                 FiltroBusquedaPrecioPresentacion.IdProducto or
-                FiltroBusquedaPrecioPresentacion.SoloActivos => new Dictionary<string, object> {
+                FiltroBusquedaPrecioPresentacion.PresentacionesActivas => new Dictionary<string, object> {
                     { "@id_producto", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) }
                 },
                 _ => new Dictionary<string, object>()
@@ -189,7 +189,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         /// </summary>
         public List<PrecioPresentacion> ObtenerActivasPorProducto(long idProducto) {
             var (_, resultados) = Buscar(
-                FiltroBusquedaPrecioPresentacion.SoloActivos,
+                FiltroBusquedaPrecioPresentacion.PresentacionesActivas,
                 idProducto.ToString());
 
             return resultados

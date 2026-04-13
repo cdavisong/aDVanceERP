@@ -1,7 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Compra;
@@ -22,10 +22,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.Restaurar();
 
             // Carga inicial de datos
-            Vista.CargarNombresProveedores(RepoProveedor.Instancia.Cantidad() > 0 ? [.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)] : []);
-            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(um => um.entidadBase)]);
-            Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.entidadBase)]);
-            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
+            Vista.CargarProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
 
             Vista.Mostrar();
         }
@@ -45,10 +45,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 return;
 
             // Carga inicial de datos
-            Vista.CargarNombresProveedores(RepoProveedor.Instancia.Cantidad() > 0 ? [.. RepoProveedor.Instancia.ObtenerTodos().Select(p => p.entidadBase.RazonSocial)] : []);
-            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(um => um.entidadBase)]);
-            Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(c => c.entidadBase)]);
-            Vista.CargarNombresAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre)]);
+            Vista.CargarProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
 
             // Carga de datos extra
             if (datosExtra != null) {
@@ -85,13 +85,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.NombreProducto = entidad.Nombre;
             Vista.Codigo = entidad.Codigo;
             Vista.Descripcion = entidad.Descripcion;
-            Vista.NombreProveedor = proveedor?.RazonSocial ?? string.Empty;
-            Vista.NombreUnidadMedida = unidadMedida?.Nombre ?? string.Empty;
-            Vista.NombreClasificacionProducto = clasificacion?.Nombre ?? string.Empty;
+            Vista.Proveedor = proveedor;
+            Vista.UnidadMedida = unidadMedida;
+            Vista.ClasificacionProducto = clasificacion;
             Vista.EsVendible = entidad.EsVendible;
-            Vista.CostoUnitario = entidad.Categoria == CategoriaProducto.Mercancia || entidad.Categoria == CategoriaProducto.MateriaPrima
+            Vista.CostoUnitario = entidad.Categoria == CategoriaProductoEnum.Mercancia || entidad.Categoria == CategoriaProductoEnum.MateriaPrima
                     ? entidad.CostoAdquisicionUnitario
-                    : entidad.Categoria == CategoriaProducto.ProductoTerminado
+                    : entidad.Categoria == CategoriaProductoEnum.ProductoTerminado
                         ? entidad.CostoProduccionUnitario
                         : 0m;
             Vista.ImpuestoVentaPorcentaje = entidad.ImpuestoVentaPorcentaje;
@@ -100,22 +100,19 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         protected override Producto? ObtenerEntidadDesdeVista() {
-            var proveedor = RepoProveedor.Instancia.Buscar(FiltroBusquedaProveedor.RazonSocial, Vista.NombreProveedor).resultadosBusqueda.FirstOrDefault().entidadBase;
-            var unidadMedida = RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Nombre, Vista.NombreUnidadMedida).resultadosBusqueda.FirstOrDefault().entidadBase;
-            var clasificacion = RepoClasificacionProducto.Instancia.Buscar(FiltroBusquedaClasificacionProducto.Nombre, Vista.NombreClasificacionProducto).resultadosBusqueda.FirstOrDefault().entidadBase;
-
-            // Salvar imagen en el proceso de obtención de la entidad
             Vista.SalvarImagenEnDirectorioLocal();
 
             return new Producto {
                 Id = _entidad?.Id ?? 0,
                 Categoria = Vista.Categoria,
                 Nombre = Vista.NombreProducto,
-                Codigo = Vista.Codigo,
+                Codigo = string.IsNullOrEmpty(Vista.Codigo)
+                    ? CodigoHelper.GenerarEan13($"{Vista.Categoria}.{Vista.NombreProducto}")
+                    : Vista.Codigo,
                 Descripcion = Vista.Descripcion,
-                IdProveedor = proveedor?.Id ?? 0,
-                IdUnidadMedida = unidadMedida?.Id ?? 0,
-                IdClasificacionProducto = clasificacion?.Id ?? 1,
+                IdProveedor = Vista.Proveedor?.Id ?? 0,
+                IdUnidadMedida = Vista.UnidadMedida?.Id ?? 0,
+                IdClasificacionProducto = Vista.ClasificacionProducto?.Id ?? 1,
                 EsVendible = Vista.EsVendible,
                 CostoAdquisicionUnitario = Vista.CostoAdquisicionUnitario,
                 CostoProduccionUnitario = Vista.CostoProduccionUnitario,
@@ -128,45 +125,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
-            if (!Vista.ModoEdicion) {
-                // Crear inventario inicial en el almacén seleccionado
-                var almacen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).resultadosBusqueda.FirstOrDefault().entidadBase;
-                var inventario = new Core.Modelos.Modulos.Inventario.Inventario() {
-                    Id = 0,
-                    IdProducto = id,
-                    IdAlmacen = almacen?.Id ?? 0,
-                    Cantidad = Vista.CantidadInicial,
-                    CostoPromedio = Vista.CostoUnitario,
-                    ValorTotal = Vista.CostoUnitario * Vista.CantidadInicial,
-                    UltimaActualizacion = DateTime.Now
-                };
-
-                RepoInventario.Instancia.Adicionar(inventario);
-
-                // Crear movimiento de inventario inicial
-                var movimiento = new Movimiento() {
-                    Id = 0,
-                    IdProducto = id,
-                    CostoUnitario = Vista.CostoUnitario,
-                    IdAlmacenOrigen = 0,
-                    IdAlmacenDestino = almacen?.Id ?? 0,
-                    Estado = EstadoMovimiento.Completado,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = 0m,
-                    FechaTermino = DateTime.Now,
-                    CantidadMovida = Vista.CantidadInicial,
-                    SaldoFinal = Vista.CantidadInicial,
-                    IdTipoMovimiento = RepoTipoMovimiento.Instancia.Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Carga Inicial").resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = "Movimiento de inventario inicial al registrar el producto.",
-                };
-
-                // Adicionar a la base de datos local
-                RepoMovimiento.Instancia.Adicionar(movimiento);
-            }
-
-            // Evento de registro del nuevo producto
-            AgregadorEventos.Publicar("NuevoProductoRegistrado", AgregadorEventos.SerializarPayload(Entidad));
+            if (!Vista.ModoEdicion)
+                AgregadorEventos.Publicar("ProductoRegistrado", AgregadorEventos.SerializarPayload((Entidad, Vista.Almacen, Vista.CantidadInicial)));
         }
 
         protected override bool EntidadCorrecta() {
@@ -174,7 +134,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
             var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
-            var unidadMedidaOk = !string.IsNullOrEmpty(Vista.NombreUnidadMedida);
+            var unidadMedidaOk = Vista.UnidadMedida != null;
 
             if (nombreRepetido)
                 CentroNotificaciones.MostrarNotificacion("Ye existe un producto con el mismo nombre registrado en el sistema, los nombres de productos deben ser únicos.", TipoNotificacionEnum.Advertencia);

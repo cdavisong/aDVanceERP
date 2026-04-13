@@ -179,7 +179,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                     Id = 0,
                                     Codigo = item.Codigo ?? $"STOCK-{DateTime.Now.Ticks}",
                                     Nombre = item.Nombre ?? "Producto sin nombre",
-                                    Categoria = CategoriaProducto.MateriaPrima,
+                                    Categoria = CategoriaProductoEnum.MateriaPrima,
                                     IdClasificacionProducto = item.IdClasificacion,
                                     IdUnidadMedida = item.IdUnidadMedida,
                                     CostoAdquisicionUnitario = item.CostoUnitario,

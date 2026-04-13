@@ -949,7 +949,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldPrecioVentaPresentacion.Name = "fieldPrecioVentaPresentacion";
             fieldPrecioVentaPresentacion.PasswordChar = '\0';
             fieldPrecioVentaPresentacion.PlaceholderForeColor = Color.DimGray;
-            fieldPrecioVentaPresentacion.PlaceholderText = "0,00";
+            fieldPrecioVentaPresentacion.PlaceholderText = "0.00";
             fieldPrecioVentaPresentacion.SelectedText = "";
             fieldPrecioVentaPresentacion.ShadowDecoration.CustomizableEdges = customizableEdges26;
             fieldPrecioVentaPresentacion.Size = new Size(157, 37);
@@ -1013,7 +1013,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldCantidadPresentacion.Name = "fieldCantidadPresentacion";
             fieldCantidadPresentacion.PasswordChar = '\0';
             fieldCantidadPresentacion.PlaceholderForeColor = Color.DimGray;
-            fieldCantidadPresentacion.PlaceholderText = "0,00";
+            fieldCantidadPresentacion.PlaceholderText = "0.00";
             fieldCantidadPresentacion.SelectedText = "";
             fieldCantidadPresentacion.ShadowDecoration.CustomizableEdges = customizableEdges28;
             fieldCantidadPresentacion.Size = new Size(192, 37);

@@ -139,33 +139,20 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
 
         #region UTILES  
 
-        public void ModificarInventario(string nombreProducto, string nombreAlmacenOrigen, string nombreAlmacenDestino, decimal cantidad) {
-            _producto = RepoProducto.Instancia.Buscar(FiltroBusquedaProducto.Nombre, nombreProducto).resultadosBusqueda.FirstOrDefault(p => p.entidadBase.Nombre.Equals(nombreProducto)).entidadBase;
-        
-            var almacenOrigen = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenOrigen).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(nombreAlmacenOrigen)).entidadBase;
-            var almacenDestino = RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, nombreAlmacenDestino).resultadosBusqueda.FirstOrDefault(a => a.entidadBase.Nombre.Equals(nombreAlmacenDestino)).entidadBase;
-
-            ModificarInventario(_producto?.Id ?? 0, almacenOrigen?.Id ?? 0, almacenDestino?.Id ?? 0, cantidad);
-        }
-
         /// <summary>
         /// Si viene costo real (recepción de compra), usar costoUnitarioReal.
         /// Si no (venta, traslado), usar costo del catálogo de producto.
         /// </summary>
-        public void ModificarInventario(long idProducto, long idAlmacenOrigen, long idAlmacenDestino, decimal cantidad, decimal? costoUnitarioReal = null) {
-            var producto = _producto ?? RepoProducto.Instancia.ObtenerPorId(idProducto);
-
-            var costoUnitario = costoUnitarioReal ?? (
-                producto!.Categoria == CategoriaProducto.ProductoTerminado
-                    ? producto.CostoProduccionUnitario
-                    : producto.CostoAdquisicionUnitario
-            );
-
+        public void ModificarInventario(Producto? producto, Almacen? almacenOrigen, Almacen? almacenDestino, decimal cantidadMovida) {
+            var costoUnitario = producto!.Categoria == CategoriaProductoEnum.ProductoTerminado
+                ? producto.CostoProduccionUnitario
+                : producto.CostoAdquisicionUnitario;
+            
             var consulta = string.Empty;
             var parametros = new Dictionary<string, object>();
 
             // Decrementar la cantidad en el almacen origen (el costo promedio NO cambia al sacar inventario)
-            if (idAlmacenOrigen > 0) {
+            if (almacenOrigen != null) {
                 consulta = """
                     UPDATE adv__inventario
                     SET 
@@ -174,16 +161,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenOrigen;
                     """;
 
-                parametros.Add("@Cantidad", cantidad);
-                parametros.Add("@IdProducto", idProducto);
-                parametros.Add("@IdAlmacenOrigen", idAlmacenOrigen);
+                parametros.Add("@Cantidad", cantidadMovida);
+                parametros.Add("@IdProducto", producto?.Id ?? 0);
+                parametros.Add("@IdAlmacenOrigen", almacenOrigen?.Id ?? 0);
 
                 ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
                 parametros.Clear();
             }
 
             // Aumentar la cantidad en el almacen destino
-            if (idAlmacenDestino > 0) {
+            if (almacenDestino != null) {
                 // Verificar primeramente si el producto existe en el almacén de destino
                 consulta = """
                     SELECT COUNT(*)
@@ -191,8 +178,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino;
                     """;
 
-                parametros.Add("@IdProducto", idProducto);
-                parametros.Add("@IdAlmacenDestino", idAlmacenDestino);
+                parametros.Add("@IdProducto", producto?.Id ?? 0);
+                parametros.Add("@IdAlmacenDestino", almacenDestino?.Id ?? 0);
 
                 var count = ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta, parametros);
                 parametros.Clear();
@@ -207,10 +194,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                         WHERE id_producto = @IdProducto AND id_almacen = @IdAlmacenDestino
                         """;
 
-                    parametros.Add("@Cantidad", cantidad);
+                    parametros.Add("@Cantidad", cantidadMovida);
                     parametros.Add("@CostoUnitario", costoUnitario);
-                    parametros.Add("@IdProducto", idProducto);
-                    parametros.Add("@IdAlmacenDestino", idAlmacenDestino);
+                    parametros.Add("@IdProducto", producto?.Id ?? 0);
+                    parametros.Add("@IdAlmacenDestino", almacenDestino?.Id ?? 0);
 
                     ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
                     parametros.Clear();
@@ -231,9 +218,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                         @Cantidad * @CostoUnitario
                     );
                     """;
-                    parametros.Add("@IdProducto", idProducto);
-                    parametros.Add("@IdAlmacenDestino", idAlmacenDestino);
-                    parametros.Add("@Cantidad", cantidad);
+
+                    parametros.Add("@IdProducto", producto?.Id ?? 0);
+                    parametros.Add("@IdAlmacenDestino", almacenDestino?.Id ?? 0);
+                    parametros.Add("@Cantidad", cantidadMovida);
                     parametros.Add("@CostoUnitario", costoUnitario);
 
                     ContextoBaseDatos.EjecutarComandoInsert(consulta, parametros);

@@ -102,7 +102,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoPedido;
             set {
                 _estadoPedido = value;
-                fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Text = value.ObtenerNombreDescripcion();
                 fieldEstado.Font = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
                 fieldEstado.ForeColor = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? Color.DimGray : Color.DodgerBlue;
                 fieldEstado.Cursor = value == EstadoPedidoEnum.Retirado || value == EstadoPedidoEnum.Cancelado ? Cursors.Default : Cursors.Hand;

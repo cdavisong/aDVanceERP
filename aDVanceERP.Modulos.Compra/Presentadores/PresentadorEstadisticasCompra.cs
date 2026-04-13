@@ -177,7 +177,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                 g.FillPath(brush, path);
 
                 // ── Etiqueta mes abajo ─────────────────────────────────────
-                string etiqMes = ((Mes) mes.Mes).ObtenerDisplayName();
+                string etiqMes = ((Mes) mes.Mes).ObtenerNombreDescripcion();
                 etiqMes = char.ToUpper(etiqMes[0]) + etiqMes[1..]; // "oct" → "Oct"
                 var tam = g.MeasureString(etiqMes, fuenteEje);
                 float xCentro = x + barWidth / 2f;

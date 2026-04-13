@@ -128,7 +128,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 fieldEstado.DisabledState.BorderColor = colorFondo;
                 fieldEstado.DisabledState.FillColor = colorFondo;
                 fieldEstado.DisabledState.ForeColor = colorFuente;
-                fieldEstado.Text = $"{(value == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {value.ObtenerDisplayName()}";
+                fieldEstado.Text = $"{(value == EstadoCajaTurnoEnum.Anulado ? "X" : "●")} {value.ObtenerNombreDescripcion()}";
                 
                 btnAnularTurno.Enabled = value == EstadoCajaTurnoEnum.Abierto;
                 btnVerDetalleTurno.Enabled = value != EstadoCajaTurnoEnum.Anulado;

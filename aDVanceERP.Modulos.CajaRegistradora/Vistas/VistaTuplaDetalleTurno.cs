@@ -60,7 +60,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 fieldTipo.DisabledState.BorderColor = colorFondo;
                 fieldTipo.DisabledState.FillColor = colorFondo;
                 fieldTipo.DisabledState.ForeColor = colorFuente;
-                fieldTipo.Text = $"● {value.ObtenerDisplayName()}";
+                fieldTipo.Text = $"● {value.ObtenerNombreDescripcion()}";
             }
         }
 
@@ -74,7 +74,7 @@ namespace aDVanceERP.Modulos.CajaRegistradora.Vistas {
                 fieldCanal.DisabledState.BorderColor = colorFondo;
                 fieldCanal.DisabledState.FillColor = colorFondo;
                 fieldCanal.DisabledState.ForeColor = colorFuente;
-                fieldCanal.Text = $"● {value.ObtenerDisplayName()}";
+                fieldCanal.Text = $"● {value.ObtenerNombreDescripcion()}";
             }
         }
 

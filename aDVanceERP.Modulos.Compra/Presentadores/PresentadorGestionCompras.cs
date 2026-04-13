@@ -162,7 +162,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                             var movimiento = new Movimiento(
                                 id: 0,
                                 idProducto: producto.Id,
-                                costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado
+                                costoUnitario: producto.Categoria == CategoriaProductoEnum.ProductoTerminado
                                     ? producto.CostoProduccionUnitario
                                     : producto.CostoAdquisicionUnitario,
                                 idAlmacenOrigen: compra.IdAlmacenDestino,
@@ -246,7 +246,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
                 var movimiento = new Movimiento(
                     id: 0,
                     idProducto: producto.Id,
-                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
+                    costoUnitario: producto.Categoria == CategoriaProductoEnum.ProductoTerminado ? producto.CostoProduccionUnitario : producto.CostoAdquisicionUnitario,
                     idAlmacenOrigen: compra.IdAlmacenDestino,
                     idAlmacenDestino: 0,
                     fechaCreacion: DateTime.Now,

@@ -73,7 +73,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _tipoEnvio;
             set {
                 _tipoEnvio = value;
-                fieldTipoEnvio.Text = value.ObtenerDisplayName();
+                fieldTipoEnvio.Text = value.ObtenerNombreDescripcion();
             }
         }
 
@@ -117,7 +117,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoEntrega;
             set {
                 _estadoEntrega = value;
-                fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Text = value.ObtenerNombreDescripcion();
                 fieldEstado.Font = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
                 fieldEstado.ForeColor = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? Color.DimGray : Color.DodgerBlue;
                 fieldEstado.Cursor = value == EstadoEntregaEnum.Completado || value == EstadoEntregaEnum.Cancelado ? Cursors.Default : Cursors.Hand;

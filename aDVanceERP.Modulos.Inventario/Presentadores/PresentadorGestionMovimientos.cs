@@ -1,10 +1,10 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Documentos;
@@ -20,8 +20,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorGestionMovimientos(IVistaGestionMovimientos vista) : base(vista) { 
             RegistrarEntidad += OnRegistrarMovimiento;
             EditarEntidad += OnEditarMovimiento;
-
-            vista.AuditarInventario += OnAuditarInventario;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
         }
@@ -39,13 +37,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaEdicionMovimiento", AgregadorEventos.SerializarPayload(e));
         }
 
-        private void OnAuditarInventario(object? sender, (DateTime fechaDesde, DateTime fechaHasta, FormatoDocumento formato) e) {
-            _auditoriaInventario = new DocAuditoriaInventario(e.fechaDesde, e.fechaHasta);
-            _auditoriaInventario.GenerarDocumento(true, e.formato);
-        }
-
         private void OnMostrarVistaGestionMovimientos(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaMovimiento.FiltroBusquedaMovimiento);
+            Vista.CargarFiltrosBusqueda([..EnumExt.ObtenerNombresDescripciones<FiltroBusquedaMovimiento>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 

@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -24,7 +25,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnMostrarVistaGestionUnidadesMedida(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaUnidadesMedida.FiltroBusquedaUnidadesMedida);
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaUnidadMedida>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 

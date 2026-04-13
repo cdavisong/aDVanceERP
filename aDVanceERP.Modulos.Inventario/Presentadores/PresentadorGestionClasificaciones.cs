@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -24,7 +25,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnMostrarVistaGestionClasificaciones(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaClasificacionProducto.FiltroBusquedaTiposProducto);
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaClasificacionProducto>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 
@@ -36,7 +37,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.Nombre = entidad.Nombre;
-            presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
+            presentadorTupla.Vista.Descripcion = string.IsNullOrEmpty(entidad.Descripcion) ? "No disponible" : entidad.Descripcion;
 
             return presentadorTupla;
         }

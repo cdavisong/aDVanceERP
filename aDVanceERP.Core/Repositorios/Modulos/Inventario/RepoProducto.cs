@@ -238,7 +238,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             return (new Producto(
                 id: Convert.ToInt64(lectorDatos["id_producto"]),
                 rutaImagen: Convert.ToString(lectorDatos["ruta_imagen"]) ?? string.Empty,
-                categoria: Enum.TryParse<CategoriaProducto>(Convert.ToString(lectorDatos["categoria"]) ?? string.Empty, out var categoria) ? categoria : CategoriaProducto.Mercancia,
+                categoria: Enum.TryParse<CategoriaProductoEnum>(Convert.ToString(lectorDatos["categoria"]) ?? string.Empty, out var categoria) ? categoria : CategoriaProductoEnum.Mercancia,
                 nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
                 codigo: Convert.ToString(lectorDatos["codigo"]) ?? string.Empty,
                 idProveedor: Convert.ToInt64(lectorDatos["id_proveedor"]),
@@ -411,7 +411,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 
                 // Obtener todas las presentaciones activas del producto
                 var presentaciones = repoPresentacion
-                    .Buscar(FiltroBusquedaPrecioPresentacion.SoloActivos, idProducto.ToString())
+                    .Buscar(FiltroBusquedaPrecioPresentacion.PresentacionesActivas, idProducto.ToString())
                     .resultadosBusqueda
                     .Select(r => r.entidadBase as PrecioPresentacion)
                     .Where(p => p != null)

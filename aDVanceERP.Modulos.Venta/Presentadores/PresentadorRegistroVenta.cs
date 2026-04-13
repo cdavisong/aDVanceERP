@@ -112,7 +112,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     IdVenta = id,
                     IdProducto = producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
                     Cantidad = cantidadTotalUnidades, // GUARDAR EN UNIDADES BASE
-                    PrecioCompraVigente = producto.Categoria == CategoriaProducto.ProductoTerminado
+                    PrecioCompraVigente = producto.Categoria == CategoriaProductoEnum.ProductoTerminado
                         ? producto.CostoProduccionUnitario
                         : producto.CostoAdquisicionUnitario,
                     PrecioVentaUnitario = productoCarrito.Value.PrecioUnitario,
@@ -129,7 +129,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 var movimiento = new Movimiento(
                     id: 0,
                     idProducto: producto?.Id ?? throw new ArgumentException("...", nameof(Vista.Carrito)),
-                    costoUnitario: producto.Categoria == CategoriaProducto.ProductoTerminado
+                    costoUnitario: producto.Categoria == CategoriaProductoEnum.ProductoTerminado
                         ? producto.CostoProduccionUnitario
                         : producto.CostoAdquisicionUnitario,
                     idAlmacenOrigen: almacenOrigen?.Id ?? throw new ArgumentException("...", nameof(Vista.NombreAlmacenOrigen)),

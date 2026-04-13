@@ -1,5 +1,7 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
     public class ClasificacionProducto : IEntidadBaseDatos {
         public ClasificacionProducto() {
@@ -18,21 +20,14 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public string Descripcion { get; set; }
 
         public override string ToString() {
-            return $"{Id:000} : {Nombre}";
+            return $"{Nombre}";
         }
     }
 
     public enum FiltroBusquedaClasificacionProducto {
         Todos,
+        [Display(Name = "ID")]
         Id,
         Nombre
-    }
-
-    public static class UtilesBusquedaClasificacionProducto {
-        public static object[] FiltroBusquedaTiposProducto = {
-            "Todas las clasificaciones de producto",
-            "Identificador de BD",
-            "Nombre de la clasificación de producto"
-        };
     }
 }

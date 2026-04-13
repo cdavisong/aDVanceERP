@@ -7,6 +7,6 @@
 
         event EventHandler<(Fb, string[])>? BuscarEntidades;
 
-        void CargarFiltrosBusqueda(object[] filtrosBusqueda);
+        void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda);
     }
 }

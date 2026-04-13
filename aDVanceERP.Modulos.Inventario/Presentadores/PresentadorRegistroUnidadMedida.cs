@@ -15,8 +15,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnMostrarVistaRegistroUnidadMedida(string obj) {
             Vista.ModoEdicion = false;
-            Vista.Restaurar();
-        
+            Vista.Restaurar();        
             Vista.Mostrar();
         }
 

@@ -114,7 +114,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
             get => _estadoCompra;
             set {
                 _estadoCompra = value;
-                fieldEstado.Text = value.ObtenerDisplayName();
+                fieldEstado.Text = value.ObtenerNombreDescripcion();
                 fieldEstado.Font = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Regular) : new Font(new FontFamily("Segoe UI"), 11.25f, FontStyle.Underline);
                 fieldEstado.ForeColor = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? Color.DimGray : Color.DodgerBlue;
                 fieldEstado.Cursor = value == EstadoCompraEnum.Facturada || value == EstadoCompraEnum.Cancelada ? Cursors.Default : Cursors.Hand;

@@ -90,6 +90,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
             if (disposing) {
                 // Liberar recursos administrados
+
             }
 
             // Desuscribir de eventos de la vista

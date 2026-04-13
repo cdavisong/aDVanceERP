@@ -188,7 +188,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldNombre.Dock = DockStyle.Fill;
             fieldNombre.Font = new Font("Segoe UI", 11.25F);
-            fieldNombre.ForeColor = Color.DimGray;
+            fieldNombre.ForeColor = Color.Black;
             fieldNombre.ImeMode = ImeMode.NoControl;
             fieldNombre.Location = new Point(61, 1);
             fieldNombre.Margin = new Padding(1);

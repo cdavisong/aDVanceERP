@@ -22,7 +22,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var metodosPago = new List<string>();
 
             foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
-                 metodosPago.Add(metodo.ObtenerDisplayName());            
+                 metodosPago.Add(metodo.ObtenerNombreDescripcion());            
 
             Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(c => c.CodigoCompra)]);
             Vista.CargarMetodosPago([.. metodosPago]);
@@ -45,7 +45,7 @@ namespace aDVanceERP.Modulos.Compra.Presentadores {
             var metodosPago = new List<string>();
 
             foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
-                metodosPago.Add(metodo.ObtenerDisplayName());
+                metodosPago.Add(metodo.ObtenerNombreDescripcion());
 
             Vista.CargarSolicitudesComprasPendientes([.. RepoCompra.Instancia.ObtenerComprasPendientesDePago().Select(c => c.CodigoCompra)]);
             Vista.CargarMetodosPago([.. metodosPago]);

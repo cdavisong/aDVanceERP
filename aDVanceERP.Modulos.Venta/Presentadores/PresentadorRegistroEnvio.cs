@@ -28,7 +28,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var tiposEnvio = new List<string>();
 
             foreach (TipoEnvioEnum metodo in Enum.GetValues(typeof(TipoEnvioEnum)))
-                tiposEnvio.Add(metodo.ObtenerDisplayName());
+                tiposEnvio.Add(metodo.ObtenerNombreDescripcion());
 
             Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
             Vista.CargarTiposEnvio([.. tiposEnvio]);
@@ -54,7 +54,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             var tiposEnvio = new List<string>();
 
             foreach (TipoEnvioEnum metodo in Enum.GetValues(typeof(TipoEnvioEnum)))
-                tiposEnvio.Add(metodo.ObtenerDisplayName());
+                tiposEnvio.Add(metodo.ObtenerNombreDescripcion());
 
             Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
             Vista.CargarTiposEnvio([.. tiposEnvio]);
@@ -258,7 +258,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     }
 
                     // Actualizar datos de la venta con respecto a los pagos
-                    venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerDisplayName();
+                    venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerNombreDescripcion();
                     venta.EstadoVenta = EstadoVentaEnum.Completada;
 
                     repoVenta.Editar(venta);

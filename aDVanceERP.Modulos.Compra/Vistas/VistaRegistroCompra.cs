@@ -317,7 +317,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                         IdProducto = idProducto,
                         Codigo = producto.Codigo,
                         NombreProducto = producto.Nombre,
-                        PrecioUnitario = producto.Categoria == CategoriaProducto.ProductoTerminado
+                        PrecioUnitario = producto.Categoria == CategoriaProductoEnum.ProductoTerminado
                             ? producto.CostoProduccionUnitario
                             : producto.CostoAdquisicionUnitario,
                         Cantidad = detalleSolicitud.CantidadSolicitada,
@@ -377,7 +377,7 @@ namespace aDVanceERP.Modulos.Compra.Vistas {
                     IdProducto = _productoSeleccionado.Id,
                     Codigo = _productoSeleccionado.Codigo,
                     NombreProducto = _productoSeleccionado.Nombre,
-                    PrecioUnitario = _productoSeleccionado.Categoria == CategoriaProducto.ProductoTerminado
+                    PrecioUnitario = _productoSeleccionado.Categoria == CategoriaProductoEnum.ProductoTerminado
                         ? _productoSeleccionado.CostoProduccionUnitario
                         : _productoSeleccionado.CostoAdquisicionUnitario,
                     Cantidad = Cantidad,

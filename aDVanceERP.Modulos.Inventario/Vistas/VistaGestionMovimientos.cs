@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -86,8 +85,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaMovimiento, string[])>? BuscarEntidades;
 
-        public event EventHandler<(DateTime fechaDesde, DateTime fechaHasta, FormatoDocumento formato)>? AuditarInventario;
-
         public void Inicializar() {
             // Eventos
             fieldFiltroBusquedaFechaDesde.Value = DateTime.Today;
@@ -106,8 +103,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 args.SuppressKeyPress = true;
             };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
-            //btnAuditarInventarioPdf.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.PDF)); };
-            //btnAuditarInventarioXls.Click += delegate (object? sender, EventArgs e) { AuditarInventario?.Invoke(sender, (fieldFechaDesde.Value, fieldFechaHasta.Value, FormatoDocumento.Excel)); };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
                 MostrarPrimeraPagina?.Invoke(sender, e);
@@ -176,15 +171,17 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             HabilitarBotonesPaginacion();
         }
 
-        public void CargarFiltrosBusqueda(object[] criteriosBusqueda) {
+        public void CargarFiltrosBusqueda((string Nombre, string Descripcion)[] filtrosBusqueda) {
             // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
             fieldFiltroBusqueda.SelectedIndexChanged -= OnCambioIndiceFiltroBusqueda;
 
             fieldFiltroBusqueda.Items.Clear();
-            fieldFiltroBusqueda.Items.AddRange(criteriosBusqueda);
+            fieldFiltroBusqueda.Items.AddRange([.. filtrosBusqueda.Select(f => f.Nombre)]);
 
-            if (fieldFiltroBusqueda.Items.Count > 0)
+            if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;
+                fieldCriterioBusqueda.Visible = false;
+            }
 
             // Reasignar el evento SelectedIndexChanged
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;

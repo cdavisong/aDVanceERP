@@ -182,7 +182,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     break;
                 case EstadoEntregaEnum.Completado:
                     // Actualizar datos de la venta con respecto a los pagos
-                    venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerDisplayName();
+                    venta.MetodoPagoPrincipal = repoVenta.DeterminarMetodoPagoPrincipal(venta.Id)?.ObtenerNombreDescripcion();
                     venta.EstadoVenta = EstadoVentaEnum.Completada;
 
                     repoVenta.Editar(venta);

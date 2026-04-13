@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -40,7 +41,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         private void OnMostrarVistaGestionProductos(string obj) {
             Vista.CargarFiltroAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(a => a.entidadBase.Nombre).Prepend("Todos los almacenes")]);
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaProducto.FiltroBusquedaProducto);
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaProducto>()]);
             Vista.Restaurar();
             Vista.Mostrar();
 
@@ -61,14 +62,20 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.Codigo = entidad.Codigo ?? string.Empty;
-            presentadorTupla.Vista.FechaUltimoMovimiento = cantidad > 0 ? resultadosBusqueda.Min(inv => inv.entidadBase.UltimaActualizacion) : DateTime.MinValue;
-            presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos") ? "-" : Vista.NombreAlmacen;
+            presentadorTupla.Vista.FechaUltimoMovimiento = cantidad > 0 
+                    ? resultadosBusqueda.Min(inv => inv.entidadBase.UltimaActualizacion) 
+                    : DateTime.MinValue;
+            presentadorTupla.Vista.NombreAlmacen = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos") 
+                    ? "-" 
+                    : Vista.NombreAlmacen;
             presentadorTupla.Vista.NombreDescripcion = string.IsNullOrEmpty(entidad.Nombre)
                 ? string.IsNullOrEmpty(entidad.Descripcion)
                     ? "No existe un nombre o descripción disponible para el producto"
                     : entidad.Descripcion
                 : $"{entidad.Nombre}{(string.IsNullOrEmpty(entidad.Descripcion) ? "" : $", {entidad.Descripcion}")}";
-            presentadorTupla.Vista.CostoUnitario = entidad.Categoria == CategoriaProducto.ProductoTerminado ? entidad.CostoProduccionUnitario : entidad.CostoAdquisicionUnitario;
+            presentadorTupla.Vista.CostoUnitario = entidad.Categoria == CategoriaProductoEnum.ProductoTerminado 
+                ? entidad.CostoProduccionUnitario 
+                : entidad.CostoAdquisicionUnitario;
             presentadorTupla.Vista.PrecioVentaBase = entidad.PrecioVentaBase;
             presentadorTupla.Vista.Presentaciones = presentaciones.cantidad;
             presentadorTupla.Vista.Stock = string.IsNullOrEmpty(Vista.NombreAlmacen) || Vista.NombreAlmacen.Contains("Todos")
@@ -80,23 +87,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     .Equals(Vista.NombreAlmacen) ?? false)
                     .entidadBase?
                     .Cantidad ?? 0;
-            presentadorTupla.Vista.UnidadMedida = unidadMedidaProducto?.Abreviatura ?? "U";
-            presentadorTupla.Vista.GestionarPresentaciones += delegate {
-                AgregadorEventos.Publicar("MostrarVistaGestionPrecioPresentacion", AgregadorEventos.SerializarPayload(entidad));
-            };
-            presentadorTupla.Vista.MovimientoPositivoStock += delegate (object? sender, EventArgs args) {
-                var nombreAlmacen = sender as string;
-                var objetoPos = new object[] { entidad, "+" };
-
-                AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", AgregadorEventos.SerializarPayload(objetoPos));
-            };
-            presentadorTupla.Vista.MovimientoNegativoStock += delegate (object? sender, EventArgs args) {
-                var nombreAlmacen = sender as string;
-                var objetoNeg = new object[] { entidad, "-" };
-
-                AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", AgregadorEventos.SerializarPayload(objetoNeg));
-            };
-
+            presentadorTupla.Vista.UnidadMedida = unidadMedidaProducto?.Abreviatura ?? "u";
+            
             return presentadorTupla;
         }
 
