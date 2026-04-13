@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Monedas;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -105,6 +106,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
         }
+        public Moneda? MonedaPrecioVenta {
+            get => fieldMonedaPrecioVentaPresentacion.SelectedItem as Moneda;
+            set => fieldMonedaPrecioVentaPresentacion.SelectedItem = value;
+        }
 
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
@@ -120,6 +125,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
+            fieldMonedaPrecioVentaPresentacion.SelectedIndexChanged += (s, e) => {
+                if (fieldMonedaPrecioVentaPresentacion.SelectedItem is Moneda moneda)
+                    ActualizarSimboloMoneda(moneda.Simbolo);
+            };
             btnRegistrar.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(new PrecioPresentacion() {
                     Id = 0,
@@ -179,6 +188,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             UnidadMedida = null;
             Cantidad = 0;
             PrecioVenta = 0;
+            if (fieldMonedaPrecioVentaPresentacion.Items.Count > 0)
+                fieldMonedaPrecioVentaPresentacion.SelectedIndex = 0;
             fieldTituloDescripcion.Text = "PRECIO POR [u]";
             fieldTextoAdvertencia.Text = "      El stock siempre se gestiona en la unidad base del producto. Al registrar una venta de cualquier presentación, el sistema descuenta la cantidad correspondiente en [u] del inventario.";
 
@@ -215,6 +226,24 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldAbreviaturaUmCantPresentacion.Text = unidadMedidaBase.Abreviatura;
             fieldTituloDescripcion.Text = fieldTituloDescripcion.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
             fieldTextoAdvertencia.Text = fieldTextoAdvertencia.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
+        }
+
+        public void CargarMonedas(Moneda[] monedas) {
+            fieldMonedaPrecioVentaPresentacion.Items.Clear();
+            fieldMonedaPrecioVentaPresentacion.Items.AddRange(monedas);
+
+            var monedaBase = monedas.FirstOrDefault(m => m.EsBase);
+            if (monedaBase != null)
+                fieldMonedaPrecioVentaPresentacion.SelectedItem = monedaBase;
+            else if (monedas.Length > 0)
+                fieldMonedaPrecioVentaPresentacion.SelectedIndex = 0;
+        }
+
+        public void ActualizarSimboloMoneda(string simbolo) {
+            // fieldSimboloPrecioVenta es un Label decorativo junto al campo de precio.
+            // Ajustar nombre según el Designer real.
+            //if (fieldSimboloPrecioVenta != null)
+            //    fieldSimboloPrecioVenta.Text = simbolo;
         }
     }
 }

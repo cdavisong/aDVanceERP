@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Estadisticas;
+using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 using System.Drawing.Drawing2D;
@@ -9,6 +10,7 @@ using System.Drawing.Drawing2D;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorEstadisticasInventario : PresentadorVistaBase<IVistaEstadisticasInventario> {
         private readonly RepoEstadisticasInventario _repo = new();
+        private string _simboloMonedaBase = "$";   // fallback
 
         private List<MovimientoDiario> _movimientos = [];
         private List<StockPorAlmacen> _stockAlmacen = [];
@@ -285,7 +287,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
                 // ── Valor encima de la barra ───────────────────────────────
                 if (barHeight > 18f) {
-                    string valStr = FormatearNumeroCorto((float) almacen.ValorTotal);
+                    string valStr = $"{_simboloMonedaBase} {FormatearNumeroCorto((float) almacen.ValorTotal)}";
                     var tamVal = g.MeasureString(valStr, fuenteVal);
                     using var brushValBlanco = new SolidBrush(Color.FromArgb(alpha, ColorEjeTexto));
 
@@ -296,6 +298,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
         }
 
+        private void ResolverSimboloMonedaBase() {
+            try {
+                _simboloMonedaBase = RepoMoneda.Instancia.ObtenerMonedaBase().Simbolo;
+            } catch {
+                _simboloMonedaBase = "$";
+            }
+        }
+
         public override void Dispose() {
             AgregadorEventos.Desuscribir("MostrarVistaEstadisticasInventario", OnMostrarVistaEstadisticasInventario);
 
@@ -303,6 +313,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         #region HELPERS:
+
+       
 
         private static void DibujarEstadoVacio(Graphics g, Rectangle rect, string mensaje) {
             using var f = new Font("Segoe UI", 9.5f, FontStyle.Regular);

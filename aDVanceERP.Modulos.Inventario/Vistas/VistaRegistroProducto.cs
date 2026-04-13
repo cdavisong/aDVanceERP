@@ -3,6 +3,7 @@ using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Compra;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Monedas;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
 
@@ -206,6 +207,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldNotificacionesStockBajo.Checked = value;
         }
 
+        public Moneda? MonedaCosto {
+            get => fieldMonedaCostoUnitario.SelectedItem as Moneda;
+            set => fieldMonedaCostoUnitario.SelectedItem = value;
+        }
+
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
@@ -219,7 +225,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldUnidadMedida.SelectedIndexChanged += ActualizarAbreviaturasUnidadMedida;
             fieldClasificacionProducto.SelectedIndexChanged += ActualizarDescripcionClasificacion;
             fieldCostoUnitario.TextChanged += ActualizarCostoUnitario;
+            fieldMonedaCostoUnitario.SelectedIndexChanged += (s, e) => {
+                if (fieldMonedaCostoUnitario.SelectedItem is Moneda moneda)
+                    ActualizarSimboloMoneda(moneda.Simbolo);
+            };
             fieldPrecioVentaBase.IconLeftClick += CalcularPrecioVenta;
+            fieldMonedaPrecioVentaBase.SelectedIndexChanged += (s, e) => {
+                if (fieldMonedaPrecioVentaBase.SelectedItem is Moneda moneda)
+                    ActualizarSimboloMoneda(moneda.Simbolo);
+            };
             fieldMargenGananciaDeseado.IconLeftClick += CalcularMargenGanancia;
             fieldCodigo.IconRightClick += delegate {
                 fieldCodigo.Text = CodigoHelper.GenerarEan13($"{Categoria}.{NombreProducto}");
@@ -278,8 +292,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (fieldUnidadMedida.Items.Count == 0 || fieldUnidadMedida.SelectedIndex < 0)
                 return;
 
-            toolTip2.SetToolTip(fieldUnidadMedida, fieldUnidadMedida.SelectedItem is UnidadMedida unidad 
-                ? unidad.Descripcion 
+            toolTip2.SetToolTip(fieldUnidadMedida, fieldUnidadMedida.SelectedItem is UnidadMedida unidad
+                ? unidad.Descripcion
                 : string.Empty);
         }
 
@@ -287,11 +301,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (fieldUnidadMedida.Items.Count == 0 || fieldUnidadMedida.SelectedIndex < 0)
                 return;
 
-            fieldAbreviaturaUM1.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad1 
-                ? unidad1.Abreviatura ?? "u" 
+            fieldAbreviaturaUM1.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad1
+                ? unidad1.Abreviatura ?? "u"
                 : "u";
-            fieldAbreviaturaUM2.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad2 
-                ? unidad2.Abreviatura ?? "u" 
+            fieldAbreviaturaUM2.Text = fieldUnidadMedida.SelectedItem is UnidadMedida unidad2
+                ? unidad2.Abreviatura ?? "u"
                 : "u";
         }
 
@@ -299,14 +313,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (fieldClasificacionProducto.Items.Count == 0 || fieldClasificacionProducto.SelectedIndex < 0)
                 return;
 
-            toolTip3.SetToolTip(fieldClasificacionProducto, fieldClasificacionProducto.SelectedItem is ClasificacionProducto clasificacion 
+            toolTip3.SetToolTip(fieldClasificacionProducto, fieldClasificacionProducto.SelectedItem is ClasificacionProducto clasificacion
                 ? clasificacion.Descripcion
                 : string.Empty);
         }
 
         private void ActualizarCostoUnitario(object? sender, EventArgs e) {
-            _costoAdquisicionUnitario = Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) ? valueAdq : 0m : 0m;
-            _costoProduccionUnitario = Categoria == CategoriaProductoEnum.ProductoTerminado ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueProd) ? valueProd : 0m : 0m;
+            _costoAdquisicionUnitario = Categoria == CategoriaProductoEnum.Mercancia || Categoria == CategoriaProductoEnum.MateriaPrima 
+                ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueAdq) 
+                    ? valueAdq 
+                    : 0m 
+                : 0m;
+            _costoProduccionUnitario = Categoria == CategoriaProductoEnum.ProductoTerminado 
+                ? decimal.TryParse(fieldCostoUnitario.Text, CultureInfo.InvariantCulture, out var valueProd) 
+                    ? valueProd 
+                    : 0m 
+                : 0m;
         }
 
         private void CalcularPrecioVenta(object? sender, EventArgs e) {
@@ -338,6 +360,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Almacen = null;
             EsVendible = true;
             fieldCostoUnitario.Text = string.Empty;
+            if (fieldMonedaCostoUnitario.Items.Count > 0)
+                fieldMonedaCostoUnitario.SelectedIndex = 0;
+            if (fieldMonedaPrecioVentaBase.Items.Count > 0)
+                fieldMonedaPrecioVentaBase.SelectedIndex = 0;
             fieldImpuestoVentaPorcentaje.Text = string.Empty;
             fieldMargenGananciaDeseado.Text = string.Empty;
             fieldPrecioVentaBase.Text = string.Empty;
@@ -401,6 +427,32 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldClasificacionProducto.Items.Clear();
             fieldClasificacionProducto.Items.AddRange(clasificaciones);
             fieldClasificacionProducto.SelectedIndex = -1;
+        }
+
+        public void CargarMonedas(Moneda[] monedas) {
+            fieldMonedaCostoUnitario.Items.Clear();
+            fieldMonedaCostoUnitario.Items.AddRange(monedas);
+
+            fieldMonedaPrecioVentaBase.Items.Clear();
+            fieldMonedaPrecioVentaBase.Items.AddRange(monedas);
+
+            // Preseleccionar la moneda base
+            var monedaBase = monedas.FirstOrDefault(m => m.EsBase);
+
+            if (monedaBase != null) {
+                fieldMonedaCostoUnitario.SelectedItem = monedaBase;
+                fieldMonedaPrecioVentaBase.SelectedItem = monedaBase;
+            } else if (monedas.Length > 0) {
+                fieldMonedaCostoUnitario.SelectedIndex = 0;
+                fieldMonedaPrecioVentaBase.SelectedIndex = 0;
+            }
+        }
+
+        public void ActualizarSimboloMoneda(string simbolo) {
+            // fieldSimboloMoneda es un Label decorativo junto al TextBox de costo.
+            // Nombre real a ajustar según el Designer del proyecto.
+            //if (fieldSimboloMoneda != null)
+            //    fieldSimboloMoneda.Text = simbolo;
         }
 
         public void CargarAlmacenes(Almacen[] almacenes) {
