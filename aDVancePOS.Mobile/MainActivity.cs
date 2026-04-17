@@ -45,7 +45,8 @@ namespace aDVancePOS.Mobile {
         private ListView _lstCarrito = null!;
         private TextView _lblCarritoVacio = null!;
         private TextView _lblTotal = null!;
-        private TextView _lblVentasBadge = null!;
+        private TextView _lblVentasBadge   = null!;
+        private TextView _lblEsperasBadge   = null!;
         private LinearLayout _seccionPagos = null!;
         private Button _btnVaciarCarrito = null!;
         private LinearLayout _btnCobrar = null!;
@@ -61,7 +62,6 @@ namespace aDVancePOS.Mobile {
             EnlazarControles();
             ConfigurarEventos();
             CargarDatosInicialesAsync();
-            SolicitarPermisosApp();
             ActualizarUI(); // arrancar con btnCobrar deshabilitado
         }
 
@@ -79,7 +79,8 @@ namespace aDVancePOS.Mobile {
             _lstCarrito = FindViewById<ListView>(Resource.Id.lstCarrito)!;
             _lblCarritoVacio = FindViewById<TextView>(Resource.Id.lblCarritoVacio)!;
             _lblTotal = FindViewById<TextView>(Resource.Id.lblTotal)!;
-            _lblVentasBadge = FindViewById<TextView>(Resource.Id.lblVentasBadge)!;
+            _lblVentasBadge  = FindViewById<TextView>(Resource.Id.lblVentasBadge)!;
+            _lblEsperasBadge = FindViewById<TextView>(Resource.Id.lblEsperasBadge);
             _seccionPagos = FindViewById<LinearLayout>(Resource.Id.seccionPagos)!;
             _btnVaciarCarrito = FindViewById<Button>(Resource.Id.btnVaciarCarrito)!;
             _btnCobrar = FindViewById<LinearLayout>(Resource.Id.btnCobrar)!;
@@ -113,7 +114,9 @@ namespace aDVancePOS.Mobile {
                 var intent = new Intent(this, typeof(CobroActivity));
                 StartActivityForResult(intent, CobroActivity.RequestCode);
             };
-            _lblVentasBadge.Click += (s, e) => StartActivity(new Intent(this, typeof(ResumenVentasActivity)));
+            _lblVentasBadge.Click  += (s, e) => StartActivity(new Intent(this, typeof(ResumenVentasActivity)));
+            if (_lblEsperasBadge != null)
+                _lblEsperasBadge.Click += (s, e) => StartActivityForResult(new Intent(this, typeof(VentasEsperaActivity)),  VentasEsperaActivity.RequestCode);
             _btnEscanear.Click      += (s, e) => EscanearCodigo();
             _btnConfiguracion.Click += (s, e) => StartActivity(new Intent(this, typeof(ConfiguracionActivity)));
         }
@@ -161,17 +164,6 @@ namespace aDVancePOS.Mobile {
             }
         }
 
-        // ── Permisos ──────────────────────────────────────────
-
-        private void SolicitarPermisosApp() {
-            var permisosFaltantes = new List<string>();
-
-            if (CheckSelfPermission(Manifest.Permission.Camera) != Permission.Granted)
-                permisosFaltantes.Add(Manifest.Permission.Camera);
-
-            if (permisosFaltantes.Count > 0)
-                RequestPermissions(permisosFaltantes.ToArray(), requestCode: 1000);
-        }
 
         // ── Escáner de código de barras ───────────────────────
 
@@ -197,10 +189,11 @@ namespace aDVancePOS.Mobile {
                 return;
             }
 
-            if (requestCode == CobroActivity.RequestCode && resultCode == Result.Ok) {
-                // Venta registrada en CobroActivity — limpiar carrito y refrescar
-                _carritoService.VaciarTrasVenta();
-
+            if ((requestCode == CobroActivity.RequestCode ||
+                 requestCode == VentasEsperaActivity.RequestCode) && resultCode == Result.Ok) {
+                bool esEspera = data?.GetBooleanExtra(CobroActivity.ExtraEsEspera, false) ?? false;
+                if (!esEspera)
+                    _carritoService.VaciarTrasVenta();
                 ActualizarUI();
                 var resumen = data?.GetStringExtra(CobroActivity.ExtraResumen) ?? "";
                 if (!string.IsNullOrEmpty(resumen))
@@ -324,6 +317,13 @@ namespace aDVancePOS.Mobile {
 
             // ── FIX #3: Badge ventas del día ──────────────────────
             _lblVentasBadge.Text = _ventaService.TotalVentasHoy.ToString();
+            if (_lblEsperasBadge != null) {
+                int esperas = _ventaService.TotalEnEspera;
+                _lblEsperasBadge.Text       = esperas.ToString();
+                _lblEsperasBadge.Visibility = esperas > 0
+                    ? Android.Views.ViewStates.Visible
+                    : Android.Views.ViewStates.Invisible;
+            }
 
             // ── FIX #2: Refrescar lista productos para reflejar stock actualizado ──
             // Cada vez que el carrito cambia, el stock en sesión cambia.

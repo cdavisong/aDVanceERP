@@ -47,7 +47,7 @@ namespace aDVancePOS.Mobile {
             (
                 "ic_onboarding_2",
                 "Cobra de cualquier forma",
-                "Acepta pagos en efectivo, transferencia bancaria o una combinación de ambos.\nDetecta automáticamente los SMS de PAGOxMOVIL."
+                "Acepta pagos en efectivo, transferencia bancaria o una combinación de ambos, en múltiples monedas con conversión automática a la moneda base."
             ),
             (
                 "ic_onboarding_3",

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 
 using aDVancePOS.Mobile.Modelos;
-using aDVancePOS.Mobile.Servicios; // ConfiguracionApp está en Servicios
+using aDVancePOS.Mobile.Servicios;
 
 namespace aDVancePOS.Mobile.Modelos {
 
@@ -11,6 +11,8 @@ namespace aDVancePOS.Mobile.Modelos {
     [JsonSerializable(typeof(ProductoCatalogo))]
     [JsonSerializable(typeof(List<PresentacionVenta>))]
     [JsonSerializable(typeof(PresentacionVenta))]
+    [JsonSerializable(typeof(List<MonedaCatalogo>))]
+    [JsonSerializable(typeof(MonedaCatalogo))]
     [JsonSerializable(typeof(VentasExportacionJson))]
     [JsonSerializable(typeof(ExportacionMeta))]
     [JsonSerializable(typeof(List<VentaExportacion>))]
@@ -19,8 +21,9 @@ namespace aDVancePOS.Mobile.Modelos {
     [JsonSerializable(typeof(DetalleExportacion))]
     [JsonSerializable(typeof(List<PagoExportacion>))]
     [JsonSerializable(typeof(PagoExportacion))]
-    [JsonSerializable(typeof(DetalleTransferenciaExportacion))]
-    [JsonSerializable(typeof(ConfiguracionApp))] // namespace Servicios — incluido arriba
+    [JsonSerializable(typeof(List<PagoDetalleMoneda>))]
+    [JsonSerializable(typeof(PagoDetalleMoneda))]
+    [JsonSerializable(typeof(ConfiguracionApp))]
     [JsonSourceGenerationOptions(
         WriteIndented = true,
         PropertyNamingPolicy = JsonKnownNamingPolicy.Unspecified)]

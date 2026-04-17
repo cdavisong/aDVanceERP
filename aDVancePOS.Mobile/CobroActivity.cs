@@ -2,26 +2,25 @@
 //  aDVancePOS.Mobile — CobroActivity
 //  Archivo: CobroActivity.cs
 //
-//  Reemplaza el diálogo MostrarDialogoCobro().
-//  Recibe el total y el carrito serializado vía Intent extras,
-//  realiza el cobro y devuelve Result.Ok a MainActivity.
+//  Pantalla de cobro con soporte para:
+//  - Pagos parciales acumulables (efectivo + transferencia)
+//  - Múltiples monedas con conversión a moneda base
+//  - Archivado de venta en espera si la transferencia no llega
 //
-//  Extras de entrada:
-//    EXTRA_TOTAL  (string)  — total formateado para mostrar
-//
-//  La venta se registra directamente en VentaService desde aquí.
-//  Al terminar: SetResult(Result.Ok) → MainActivity limpia carrito.
+//  Flujo:
+//    1. Cajero agrega fragmentos de pago (método + moneda + monto)
+//    2. Cada fragmento aparece en la lista de "Pagos registrados"
+//    3. Cuando el pendiente llega a 0, se habilita "Confirmar cobro"
+//    4. Si la transferencia demora → "Archivar" guarda la venta
+//       en espera y libera el carrito para el siguiente cliente
 // ============================================================
 
 using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
-using Android;
 using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
-using Android.Provider;
 using Android.Views;
 using Android.Widget;
 
@@ -33,293 +32,417 @@ namespace aDVancePOS.Mobile {
         ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class CobroActivity : Activity {
 
-        public const string ExtraTotalFormateado = "total_formateado";
-        public const string ExtraTicket = "ticket";
-        public const string ExtraResumen = "resumen";
-        public const int RequestCode = 3001;
+        public const string ExtraTicket   = "ticket";
+        public const string ExtraResumen  = "resumen";
+        public const string ExtraEsEspera = "es_espera";
+        public const int    RequestCode   = 3001;
 
         // ── Servicios ────────────────────────────────────────
-        private CarritoService _carritoService = null!;
-        private VentaService _ventaService = null!;
-        private decimal _total;
+        private CarritoService  _carrito         = null!;
+        private VentaService    _ventaService    = null!;
+        private CatalogoService _catalogoService = null!;
+        private decimal         _total;
+
+        // ── Monedas ───────────────────────────────────────────
+        private List<MonedaCatalogo> _monedas            = new();
+        private MonedaCatalogo       _monedaBase         = null!;
+        private MonedaCatalogo       _monedaSeleccionada = null!;
+
+        // ── Pagos acumulados ──────────────────────────────────
+        private readonly List<PagoExportacion> _pagosRegistrados = new();
 
         // ── UI ───────────────────────────────────────────────
-        private TextView _lblTotalCobro = null!;
-        private RadioButton _rbEfectivo = null!;
-        private RadioButton _rbTransferencia = null!;
-        private RadioButton _rbMixto = null!;
+        private TextView     _lblTotal          = null!;
+        private TextView     _lblPendiente      = null!;
+        private LinearLayout _contenedorPagos   = null!;
+        private TextView     _lblSinPagos       = null!;
+        private RadioButton  _rbEfectivo        = null!;
+        private RadioButton  _rbTransferencia   = null!;
+        private Spinner      _spinnerMoneda     = null!;
+        private EditText     _txtMonto          = null!;
+        private TextView     _lblEquivalente    = null!;
         private LinearLayout _panelTransferencia = null!;
-        private LinearLayout _panelMixto = null!;
-        private TextView _lblEstadoSms = null!;
-        private EditText _txtTransaccion = null!;
-        private EditText _txtConfirmacion = null!;
-        private TextView _lblEstadoSmsMixto = null!;
-        private TextView _lblBalanceMixto = null!;
-        private EditText _txtEfectivoMixto = null!;
-        private EditText _txtTransaccionMixto = null!;
-        private EditText _txtConfirmacionMixto = null!;
-        private Button _btnConfirmar = null!;
-
-        // ── SMS ──────────────────────────────────────────────
-        private SmsTransferenciaBroadcastReceiver? _smsReceiver;
+        private EditText     _txtNroTransferencia = null!;
+        private EditText     _txtTelefono       = null!;
+        private Button       _btnAgregarPago    = null!;
+        private Button       _btnConfirmar      = null!;
+        private Button       _btnArchivar       = null!;
 
         protected override void OnCreate(Bundle? savedInstanceState) {
             base.OnCreate(savedInstanceState);
             ActionBar?.Hide();
             SetContentView(Resource.Layout.activity_cobro);
 
-            // Solicitar permisos de SMS si es necesario
-            if (CheckSelfPermission(Manifest.Permission.ReceiveSms) != Permission.Granted ||
-                CheckSelfPermission(Manifest.Permission.ReadSms) != Permission.Granted) {
-                RequestPermissions(new[] {
-                    Manifest.Permission.ReceiveSms,
-                    Manifest.Permission.ReadSms
-                }, requestCode: 1001);
-            }
+            var app = (PosApplication)Application!;
+            _carrito         = app.CarritoService;
+            _ventaService    = app.VentaService;
+            _catalogoService = app.CatalogoService;
+            _total           = _carrito.ImporteTotal;
 
-            // Obtener servicios desde el Application (singleton compartido con MainActivity)
-            var app = (PosApplication) Application!;
-            _carritoService = app.CarritoService;
-            _ventaService = app.VentaService;
-            _total = _carritoService.ImporteTotal;
-
+            CargarMonedas();
             EnlazarVistas();
             ConfigurarMetodosPago();
-            ConfigurarSmsReceiver();
-            ConfigurarBotonConfirmar();
+            ConfigurarSpinnerMoneda();
+            ConfigurarMonto();
+            ConfigurarBotones();
+            ActualizarResumenPendiente();
+        }
 
-            _lblTotalCobro.Text =
-                $"Cobrar — {_total:N2} CUP";
-            _lblBalanceMixto.Text = $"Pendiente transferencia: {_total:N2} CUP";
+        // ── Inicialización ────────────────────────────────────
 
-            FindViewById<ImageButton>(Resource.Id.btnVolverCobro)!.Click +=
-                (s, e) => { DesregistrarSmsReceiver(); Finish(); };
+        private void CargarMonedas() {
+            _monedas    = _catalogoService.ObtenerMonedas();
+            _monedaBase = _catalogoService.ObtenerMonedaBase();
+            if (_monedas.Count == 0)
+                _monedas.Add(_monedaBase);
+            _monedaSeleccionada = _monedaBase;
         }
 
         private void EnlazarVistas() {
-            _lblTotalCobro = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
-            _rbEfectivo = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
-            _rbTransferencia = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
-            _rbMixto = FindViewById<RadioButton>(Resource.Id.rbMixto)!;
-            _panelTransferencia = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
-            _panelMixto = FindViewById<LinearLayout>(Resource.Id.panelMixto)!;
-            _lblEstadoSms = FindViewById<TextView>(Resource.Id.lblEstadoSms)!;
-            _txtTransaccion = FindViewById<EditText>(Resource.Id.txtTransaccion)!;
-            _txtConfirmacion = FindViewById<EditText>(Resource.Id.txtConfirmacion)!;
-            _lblEstadoSmsMixto = FindViewById<TextView>(Resource.Id.lblEstadoSmsMixto)!;
-            _lblBalanceMixto = FindViewById<TextView>(Resource.Id.lblBalanceMixto)!;
-            _txtEfectivoMixto = FindViewById<EditText>(Resource.Id.txtEfectivoMixto)!;
-            _txtTransaccionMixto = FindViewById<EditText>(Resource.Id.txtTransaccionMixto)!;
-            _txtConfirmacionMixto = FindViewById<EditText>(Resource.Id.txtConfirmacionMixto)!;
-            _btnConfirmar = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
+            _lblTotal            = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
+            _lblPendiente        = FindViewById<TextView>(Resource.Id.lblPendienteCobro)!;
+            _contenedorPagos     = FindViewById<LinearLayout>(Resource.Id.contenedorPagosRegistrados)!;
+            _lblSinPagos         = FindViewById<TextView>(Resource.Id.lblSinPagos)!;
+            _rbEfectivo          = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
+            _rbTransferencia     = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
+            _spinnerMoneda       = FindViewById<Spinner>(Resource.Id.spinnerMoneda)!;
+            _txtMonto            = FindViewById<EditText>(Resource.Id.txtMontoPago)!;
+            _lblEquivalente      = FindViewById<TextView>(Resource.Id.lblEquivalenteBase)!;
+            _panelTransferencia  = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
+            _txtNroTransferencia = FindViewById<EditText>(Resource.Id.txtNroTransferencia)!;
+            _txtTelefono         = FindViewById<EditText>(Resource.Id.txtTelefonoRemitente)!;
+            _btnAgregarPago      = FindViewById<Button>(Resource.Id.btnAgregarPago)!;
+            _btnConfirmar        = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
+            _btnArchivar         = FindViewById<Button>(Resource.Id.btnArchivarEspera)!;
+
+            _lblTotal.Text = $"Total: {_total:N2} {_monedaBase.Codigo}";
+
+            FindViewById<ImageButton>(Resource.Id.btnVolverCobro)!.Click +=
+                (s, e) => Finish();
         }
+
+        // ── Método de pago ────────────────────────────────────
 
         private void ConfigurarMetodosPago() {
-            // Desactivar clicks directos en los RadioButton — la TARJETA completa es el control
-            _rbEfectivo.Clickable = false;
+            _rbEfectivo.Clickable      = false;
             _rbTransferencia.Clickable = false;
-            _rbMixto.Clickable = false;
-            _rbEfectivo.Focusable = false;
+            _rbEfectivo.Focusable      = false;
             _rbTransferencia.Focusable = false;
-            _rbMixto.Focusable = false;
 
-            // Tocar cualquier parte de la tarjeta selecciona ese método
             FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!.Click +=
-                (s, e) => SeleccionarMetodo(0);
+                (s, e) => SeleccionarMetodo(false);
             FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!.Click +=
-                (s, e) => SeleccionarMetodo(1);
-            FindViewById<LinearLayout>(Resource.Id.tarjetaMixto)!.Click +=
-                (s, e) => SeleccionarMetodo(2);
+                (s, e) => SeleccionarMetodo(true);
 
-            // Seleccionar Efectivo por defecto
-            SeleccionarMetodo(0);
-
-            // Validación en tiempo real del monto efectivo en modo mixto
-            _txtEfectivoMixto.TextChanged += (s, e) => ActualizarBalanceMixto();
+            SeleccionarMetodo(false);
         }
 
-        /// <summary>
-        /// Gestiona la selección mutuamente excluyente de los tres métodos de pago.
-        /// metodo: 0=Efectivo, 1=Transferencia, 2=Mixto
-        /// </summary>
-        private void SeleccionarMetodo(int metodo) {
-            // Actualizar estado de RadioButtons manualmente
-            _rbEfectivo.Checked = metodo == 0;
-            _rbTransferencia.Checked = metodo == 1;
-            _rbMixto.Checked = metodo == 2;
+        private void SeleccionarMetodo(bool esTransferencia) {
+            _rbEfectivo.Checked      = !esTransferencia;
+            _rbTransferencia.Checked =  esTransferencia;
 
-            // Resaltar visualmente la tarjeta activa vs inactivas
-            ActualizarAparienciaTarjetas(metodo);
+            FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!
+                .SetBackgroundResource(!esTransferencia
+                    ? Resource.Drawable.btn_peachpuff
+                    : Resource.Drawable.btn_outline_firebrick);
+            FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!
+                .SetBackgroundResource(esTransferencia
+                    ? Resource.Drawable.btn_peachpuff
+                    : Resource.Drawable.btn_outline_firebrick);
 
-            // Mostrar/ocultar paneles adicionales
-            ActualizarPaneles();
+            _panelTransferencia.Visibility = esTransferencia
+                ? ViewStates.Visible : ViewStates.Gone;
         }
 
-        private void ActualizarAparienciaTarjetas(int metodoActivo) {
-            var tarjetas = new[] {
-                FindViewById<LinearLayout>(Resource.Id.tarjetaEfectivo)!,
-                FindViewById<LinearLayout>(Resource.Id.tarjetaTransferencia)!,
-                FindViewById<LinearLayout>(Resource.Id.tarjetaMixto)!
+        // ── Moneda ────────────────────────────────────────────
+
+        private void ConfigurarSpinnerMoneda() {
+            var etiquetas = _monedas.Select(m => m.Etiqueta).ToArray();
+            var adapter   = new ArrayAdapter<string>(
+                this,
+                Android.Resource.Layout.SimpleSpinnerItem,
+                etiquetas);
+            adapter.SetDropDownViewResource(
+                Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            _spinnerMoneda.Adapter = adapter;
+
+            _spinnerMoneda.ItemSelected += (s, e) => {
+                _monedaSeleccionada = _monedas[e.Position];
+                ActualizarEquivalente();
             };
+        }
 
-            for (int i = 0; i < tarjetas.Length; i++) {
-                // Tarjeta activa: fondo rojo sólido suave; inactiva: borde outline
-                tarjetas[i].SetBackgroundResource(i == metodoActivo
-                    ? Resource.Drawable.btn_peachpuff      // fondo seleccionado
-                    : Resource.Drawable.btn_outline_firebrick); // borde inactivo
+        private void ConfigurarMonto() {
+            _txtMonto.TextChanged += (s, e) => ActualizarEquivalente();
+        }
+
+        private void ActualizarEquivalente() {
+            if (_monedaSeleccionada == null || _monedaSeleccionada.EsBase) {
+                _lblEquivalente.Visibility = ViewStates.Gone;
+                return;
             }
-        }
-
-        private void ActualizarPaneles() {
-            // panelTransferencia: SOLO en modo transferencia pura
-            // panelMixto:         SOLO en modo mixto (tiene sus propios campos de transacción)
-            _panelTransferencia.Visibility = _rbTransferencia.Checked
-                ? ViewStates.Visible : ViewStates.Gone;
-            _panelMixto.Visibility = _rbMixto.Checked
-                ? ViewStates.Visible : ViewStates.Gone;
-        }
-
-        private void ActualizarBalanceMixto() {
-            var str = _txtEfectivoMixto.Text?.Replace(',', '.') ?? "0";
+            var str = _txtMonto.Text?.Replace(',', '.') ?? "0";
             decimal.TryParse(str,
                 System.Globalization.NumberStyles.Any,
                 System.Globalization.CultureInfo.InvariantCulture,
-                out decimal ef);
-
-            decimal transf = _total - ef;
-            if (ef <= 0 || ef >= _total) {
-                _lblBalanceMixto.Text = ef >= _total
-                    ? "El efectivo cubre el total — use solo Efectivo"
-                    : $"Pendiente transferencia: {_total:N2} CUP";
-                _lblBalanceMixto.SetTextColor(
-                    Android.Graphics.Color.ParseColor("#E65100"));
-            } else {
-                _lblBalanceMixto.Text =
-                    $"Transferencia: {transf:N2} CUP  ✓";
-                _lblBalanceMixto.SetTextColor(
-                    Android.Graphics.Color.ParseColor("#2E7D32"));
-            }
+                out decimal monto);
+            decimal enBase = Math.Round(monto * _monedaSeleccionada.TasaHoy, 2);
+            _lblEquivalente.Text =
+                $"≈ {enBase:N2} {_monedaBase.Codigo}  (tasa: ×{_monedaSeleccionada.TasaHoy:N2})";
+            _lblEquivalente.Visibility = ViewStates.Visible;
         }
 
-        // ── SMS receiver ──────────────────────────────────────
+        // ── Botones ───────────────────────────────────────────
 
-        private void ConfigurarSmsReceiver() {
-            _smsReceiver = new SmsTransferenciaBroadcastReceiver();
-            _smsReceiver.OnPagoDetectado = resultado => RunOnUiThread(() => {
-                if (_rbTransferencia.Checked) {
-                    _txtTransaccion.Text = resultado.NumeroTransaccion;
-                    bool ok = resultado.Monto == _total;
-                    _lblEstadoSms.Text = ok
-                        ? $"SMS · {resultado.Monto:N2} CUP"
-                        : $"⚠ SMS: {resultado.Monto:N2} CUP (total: {_total:N2})";
-                    _lblEstadoSms.SetTextColor(Android.Graphics.Color.ParseColor(
-                        ok ? "#2E7D32" : "#E65100"));
+        private void ConfigurarBotones() {
+            _btnAgregarPago.Click += (s, e) => IntentarAgregarPago();
 
-                } else if (_rbMixto.Checked) {
-                    _txtTransaccionMixto.Text = resultado.NumeroTransaccion;
-                    var str = _txtEfectivoMixto.Text?.Replace(',', '.') ?? "0";
-                    decimal.TryParse(str,
-                        System.Globalization.NumberStyles.Any,
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        out decimal ef);
-                    decimal esperado = _total - ef;
-                    bool ok = resultado.Monto == esperado;
-                    _lblEstadoSmsMixto.Text = ok
-                        ? $"SMS · {resultado.Monto:N2} CUP"
-                        : $"⚠ SMS: {resultado.Monto:N2} (esperado: {esperado:N2})";
-                    _lblEstadoSmsMixto.SetTextColor(Android.Graphics.Color.ParseColor(
-                        ok ? "#2E7D32" : "#E65100"));
+            _btnConfirmar.Click += async (s, e) => {
+                _btnConfirmar.Enabled = false;
+                try {
+                    var venta = await _ventaService.RegistrarVentaAsync(
+                        _carrito, new List<PagoExportacion>(_pagosRegistrados));
+                    _carrito.VaciarTrasVenta();
+                    EnviarResultado(venta, esEspera: false);
+                } finally {
+                    _btnConfirmar.Enabled = true;
                 }
+            };
+
+            _btnArchivar.Click += (s, e) => ConfirmarArchivarEnEspera();
+        }
+
+        // ── Agregar pago ──────────────────────────────────────
+
+        private void IntentarAgregarPago() {
+            var str = _txtMonto.Text?.Replace(',', '.') ?? "";
+            if (!decimal.TryParse(str,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out decimal monto) || monto <= 0) {
+                MostrarError("Ingrese un monto válido mayor que cero.");
+                return;
+            }
+
+            bool esTransferencia = _rbTransferencia.Checked;
+            var  nroTrans        = _txtNroTransferencia.Text?.Trim() ?? "";
+            if (esTransferencia && string.IsNullOrEmpty(nroTrans)) {
+                MostrarError("El número de transacción es requerido para transferencias.");
+                return;
+            }
+
+            decimal montoBase = _monedaSeleccionada.EsBase
+                ? monto
+                : Math.Round(monto * _monedaSeleccionada.TasaHoy, 2);
+
+            decimal pendiente = CalcularPendiente();
+            if (montoBase > pendiente + 0.005m) {
+                MostrarError(
+                    $"El monto en moneda base ({montoBase:N2} {_monedaBase.Codigo}) " +
+                    $"excede el pendiente ({pendiente:N2} {_monedaBase.Codigo}).");
+                return;
+            }
+
+            var detalle = new PagoDetalleMoneda {
+                IdMoneda           = _monedaSeleccionada.Id,
+                CodigoMoneda       = _monedaSeleccionada.Codigo,
+                SimboloMoneda      = _monedaSeleccionada.Simbolo,
+                MontoMoneda        = monto,
+                MontoMonedaBase    = montoBase,
+                TasaCambioAplicada = _monedaSeleccionada.TasaHoy,
+                NumeroTransaccion  = esTransferencia && !string.IsNullOrEmpty(nroTrans)
+                    ? nroTrans : null,
+                TelefonoRemitente  = esTransferencia
+                    ? _txtTelefono.Text?.Trim().NullIfEmpty()
+                    : null
+            };
+
+            _pagosRegistrados.Add(new PagoExportacion {
+                MetodoPago         = esTransferencia ? "TransferenciaBancaria" : "Efectivo",
+                MontoPagado        = montoBase,
+                FechaPagoCliente   = DateTime.UtcNow,
+                EstadoPago         = esTransferencia ? "Pendiente" : "Confirmado",
+                MontoMonedaBase    = montoBase,
+                TasaCambioAplicada = _monedaSeleccionada.TasaHoy,
+                IdMoneda           = _monedaSeleccionada.Id,
+                DetallesMoneda     = new List<PagoDetalleMoneda> { detalle }
             });
 
-            RegisterReceiver(_smsReceiver,
-                new IntentFilter(
-                    Android.Provider.Telephony.Sms.Intents.SmsReceivedAction));
+            // Limpiar campos
+            _txtMonto.Text            = "";
+            _txtNroTransferencia.Text = "";
+            _txtTelefono.Text         = "";
+
+            ActualizarListaPagos();
+            ActualizarResumenPendiente();
         }
 
-        private void DesregistrarSmsReceiver() {
-            if (_smsReceiver == null) return;
-            try { UnregisterReceiver(_smsReceiver); } catch { }
-            _smsReceiver = null;
+        private decimal CalcularPendiente() =>
+            Math.Max(0, _total - _pagosRegistrados.Sum(p => p.MontoPagado));
+
+        private void ActualizarResumenPendiente() {
+            decimal pendiente = CalcularPendiente();
+            decimal pagado    = _pagosRegistrados.Sum(p => p.MontoPagado);
+
+            _lblPendiente.Text = pendiente > 0.005m
+                ? $"Pendiente: {pendiente:N2} {_monedaBase.Codigo}"
+                : $"Pagado: {pagado:N2} {_monedaBase.Codigo} ✓";
+            _lblPendiente.SetTextColor(Android.Graphics.Color.ParseColor(
+                pendiente > 0.005m ? "#FFCCCC" : "#CCFFCC"));
+
+            bool cobrado = pendiente <= 0.005m;
+            _btnConfirmar.Enabled = cobrado;
+            _btnConfirmar.Alpha   = cobrado ? 1.0f : 0.5f;
         }
 
-        // ── Confirmar cobro ───────────────────────────────────
+        private void ActualizarListaPagos() {
+            _contenedorPagos.RemoveAllViews();
 
-        private void ConfigurarBotonConfirmar() {
-            _btnConfirmar.Click += async (s, e) => await ProcesarCobroAsync();
-        }
-
-        private async Task ProcesarCobroAsync() {
-            _btnConfirmar.Enabled = false;
-
-            try {
-                VentaExportacion venta;
-                string resumen;
-
-                if (_rbEfectivo.Checked) {
-                    venta = await _ventaService.RegistrarVentaEfectivoAsync(_carritoService);
-                    resumen = $"Venta registrada\nTicket: {venta.NumeroTicket}\nTotal: {venta.ImporteTotal:N2} CUP";
-
-                } else if (_rbTransferencia.Checked) {
-                    var nro = _txtTransaccion.Text?.Trim() ?? "";
-                    if (string.IsNullOrEmpty(nro)) {
-                        MostrarError("El número de transacción es requerido.");
-                        return;
-                    }
-                    venta = await _ventaService.RegistrarVentaTransferenciaAsync(
-                        _carritoService, _txtConfirmacion.Text?.Trim() ?? "", nro);
-                    resumen = $"Transferencia registrada\nTicket: {venta.NumeroTicket}\nNro. Transacción: {nro}";
-
-                } else {
-                    // Mixto
-                    var str = _txtEfectivoMixto.Text?.Replace(',', '.') ?? "";
-                    if (!decimal.TryParse(str,
-                            System.Globalization.NumberStyles.Any,
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            out decimal ef) || ef <= 0) {
-                        MostrarError("Ingrese un monto válido en efectivo.");
-                        return;
-                    }
-                    decimal transf = _total - ef;
-                    if (transf <= 0) {
-                        MostrarError("El efectivo cubre el total — use solo Efectivo.");
-                        return;
-                    }
-                    var nroMixto = _txtTransaccionMixto.Text?.Trim() ?? "";
-                    if (string.IsNullOrEmpty(nroMixto)) {
-                        MostrarError("El número de transacción es requerido.");
-                        return;
-                    }
-                    venta = await _ventaService.RegistrarVentaHibridaAsync(
-                        _carritoService, ef, transf,
-                        nroMixto, _txtConfirmacionMixto.Text?.Trim() ?? "");
-                    resumen = $"Pago mixto registrado\nTicket: {venta.NumeroTicket}\n💵 Efectivo: {ef:N2} CUP\n📲 Transferencia: {transf:N2} CUP";
-                }
-
-                DesregistrarSmsReceiver();
-
-                var resultado = new Intent();
-                resultado.PutExtra(ExtraTicket, venta.NumeroTicket);
-                resultado.PutExtra(ExtraResumen, resumen);
-                SetResult(Result.Ok, resultado);
-                Finish();
-
-            } finally {
-                _btnConfirmar.Enabled = true;
+            if (_pagosRegistrados.Count == 0) {
+                _contenedorPagos.AddView(_lblSinPagos);
+                return;
             }
+
+            foreach (var pago in _pagosRegistrados)
+                _contenedorPagos.AddView(CrearFilaPago(pago));
         }
 
-        private void MostrarError(string msg) {
-            _btnConfirmar.Enabled = true;
+        private View CrearFilaPago(PagoExportacion pago) {
+            var wrap = new LinearLayout(this) { Orientation = Orientation.Vertical };
+
+            var fila = new LinearLayout(this) { Orientation = Orientation.Horizontal };
+            fila.SetPadding(Dp(16), Dp(11), Dp(16), Dp(11));
+            fila.SetGravity(Android.Views.GravityFlags.CenterVertical);
+
+            // Ícono
+            var img = new ImageView(this);
+            img.LayoutParameters = new LinearLayout.LayoutParams(Dp(22), Dp(22));
+            ((LinearLayout.LayoutParams)img.LayoutParameters).SetMargins(0, 0, Dp(12), 0);
+            int idRes = Resources!.GetIdentifier(
+                pago.MetodoPago == "TransferenciaBancaria" ? "ic_transfer" : "ic_cash",
+                "drawable", PackageName);
+            if (idRes != 0) img.SetImageResource(idRes);
+
+            // Texto descripción
+            var det      = pago.DetallesMoneda.FirstOrDefault();
+            var lblDesc  = new TextView(this) { TextSize = 13f };
+            lblDesc.LayoutParameters = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WrapContent, 1f);
+            string metodo = pago.MetodoPago == "TransferenciaBancaria"
+                ? "Transferencia" : "Efectivo";
+            string nro = det?.NumeroTransaccion is { Length: > 0 } n ? $"  #{n}" : "";
+            lblDesc.Text = $"{metodo} · {det?.CodigoMoneda ?? _monedaBase.Codigo}{nro}";
+            lblDesc.SetTextColor(Android.Graphics.Color.ParseColor("#333333"));
+
+            // Monto
+            var lblMonto = new TextView(this) { TextSize = 13f };
+            lblMonto.Gravity = Android.Views.GravityFlags.End;
+            bool monedaDistinta = det != null &&
+                !det.CodigoMoneda.Equals(_monedaBase.Codigo,
+                    StringComparison.OrdinalIgnoreCase);
+            lblMonto.Text = monedaDistinta
+                ? $"{det!.SimboloMoneda}{det.MontoMoneda:N2}\n≈{pago.MontoPagado:N2} {_monedaBase.Codigo}"
+                : $"{pago.MontoPagado:N2} {_monedaBase.Codigo}";
+            lblMonto.SetTextColor(Android.Graphics.Color.ParseColor("#B22222"));
+
+            // Botón eliminar
+            var btnX = new Button(this) { Text = "✕", TextSize = 10f };
+            btnX.LayoutParameters = new LinearLayout.LayoutParams(Dp(28), Dp(28));
+            ((LinearLayout.LayoutParams)btnX.LayoutParameters).SetMargins(Dp(8), 0, 0, 0);
+            btnX.SetTextColor(Android.Graphics.Color.ParseColor("#CCCCCC"));
+            btnX.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            var pagoCapture = pago;
+            btnX.Click += (s, e) => {
+                _pagosRegistrados.Remove(pagoCapture);
+                ActualizarListaPagos();
+                ActualizarResumenPendiente();
+            };
+
+            fila.AddView(img);
+            fila.AddView(lblDesc);
+            fila.AddView(lblMonto);
+            fila.AddView(btnX);
+            wrap.AddView(fila);
+
+            // Divisor
+            var div = new View(this);
+            div.LayoutParameters = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MatchParent, 1);
+            div.SetBackgroundColor(Android.Graphics.Color.ParseColor("#F0F0F0"));
+            wrap.AddView(div);
+
+            return wrap;
+        }
+
+        // ── Archivar en espera ────────────────────────────────
+
+        private void ConfirmarArchivarEnEspera() {
+            string msg = _pagosRegistrados.Count > 0
+                ? $"La venta quedará archivada con {_pagosRegistrados.Count} pago(s) parcial(es) ya registrado(s).\n\nPodrá recuperarla desde Ventas en espera cuando llegue la confirmación."
+                : "Se archivará la venta sin pagos. Podrá completarla más tarde cuando llegue la confirmación de la transferencia.";
+
+            new AlertDialog.Builder(this)!
+                .SetTitle("Archivar venta en espera")!
+                .SetMessage(msg)!
+                .SetPositiveButton("Archivar", async (s, e) => {
+                    try {
+                        var venta = await _ventaService.ArchivarEnEsperaAsync(
+                            _carrito,
+                            new List<PagoExportacion>(_pagosRegistrados));
+                        _carrito.VaciarTrasVenta();
+                        EnviarResultado(venta, esEspera: true);
+                    } catch (Exception ex) {
+                        MostrarError($"Error al archivar: {ex.Message}");
+                    }
+                })!
+                .SetNegativeButton("Cancelar", (s, e) => { })!
+                .Show();
+        }
+
+        private void EnviarResultado(VentaExportacion venta, bool esEspera) {
+            var intent = new Intent();
+            intent.PutExtra(ExtraTicket,   venta.NumeroTicket);
+            intent.PutExtra(ExtraResumen,  ConstruirResumen(venta, esEspera));
+            intent.PutExtra(ExtraEsEspera, esEspera);
+            SetResult(Result.Ok, intent);
+            Finish();
+        }
+
+        private string ConstruirResumen(VentaExportacion venta, bool esEspera) {
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine(esEspera
+                ? $"Venta archivada en espera"
+                : $"Venta registrada");
+            sb.AppendLine($"Ticket: {venta.NumeroTicket}");
+            sb.AppendLine($"Total: {venta.ImporteTotal:N2} {_monedaBase.Codigo}");
+            if (venta.Pagos.Count > 0) {
+                sb.AppendLine("Pagos:");
+                foreach (var p in venta.Pagos) {
+                    var det    = p.DetallesMoneda.FirstOrDefault();
+                    string met = p.MetodoPago == "TransferenciaBancaria"
+                        ? "Transferencia" : "Efectivo";
+                    bool dist  = det != null && !det.CodigoMoneda.Equals(
+                        _monedaBase.Codigo, StringComparison.OrdinalIgnoreCase);
+                    sb.AppendLine(dist
+                        ? $"  {met}: {det!.SimboloMoneda}{det.MontoMoneda:N2} {det.CodigoMoneda} ≈ {p.MontoPagado:N2} {_monedaBase.Codigo}"
+                        : $"  {met}: {p.MontoPagado:N2} {_monedaBase.Codigo}");
+                }
+            }
+            return sb.ToString().TrimEnd();
+        }
+
+        private void MostrarError(string msg) =>
             new AlertDialog.Builder(this)!
                 .SetMessage(msg)!
                 .SetPositiveButton("OK", (s, e) => { })!
                 .Show();
-        }
 
-        protected override void OnDestroy() {
-            DesregistrarSmsReceiver();
-            base.OnDestroy();
-        }
+        private int Dp(int dp) =>
+            (int)(dp * Resources!.DisplayMetrics!.Density);
+    }
+
+    internal static class StringExtensions {
+        public static string? NullIfEmpty(this string? s) =>
+            string.IsNullOrWhiteSpace(s) ? null : s;
     }
 }

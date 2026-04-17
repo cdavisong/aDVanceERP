@@ -88,6 +88,37 @@
                 android:focusable="true" />
 		</LinearLayout>
 
+		<!-- Badge esperas: label a la izquierda, círculo a la derecha -->
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginRight="12dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="ESPERAS"
+				android:textSize="8sp"
+				android:textColor="#AAAAAA"
+				android:layout_marginRight="4dp" />
+
+			<!-- Círculo clickeable con contador de ventas en espera -->
+			<TextView
+				android:id="@+id/lblEsperasBadge"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:text="0"
+				android:textSize="13sp"
+				android:textStyle="bold"
+				android:textColor="#FF8C00"         
+			    android:gravity="center"
+			    android:background="@drawable/circle_outline"
+			    android:clickable="true"
+			    android:focusable="true" />
+		</LinearLayout>
+
 		<!-- Botón Configuración -->
 		<ImageButton
             android:id="@+id/btnConfiguracion"

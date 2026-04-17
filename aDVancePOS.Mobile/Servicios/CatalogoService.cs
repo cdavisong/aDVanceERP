@@ -5,67 +5,53 @@ using System.Text.Json;
 
 namespace aDVancePOS.Mobile.Servicios {
     public class CatalogoService {
-        // Caché en memoria durante la sesión
         private CatalogoJson? _catalogoCargado;
 
-        /// <summary>
-        /// Lee catalogo.json del almacenamiento privado de la app.
-        /// Lanza FileNotFoundException si el archivo no existe todavía.
-        /// </summary>
         public async Task<CatalogoJson> CargarCatalogoAsync() {
-            if (!File.Exists(RutasApp.RutaCatalogo))
-                throw new FileNotFoundException(
-                    "No se encontró catalogo.json. " +
-                    "Exporta el catálogo desde el ERP desktop y cópialo al dispositivo.");
-
             var json = await File.ReadAllTextAsync(RutasApp.RutaCatalogo);
             _catalogoCargado = JsonSerializer.Deserialize(json, JsonContexto.Default.CatalogoJson)
-                               ?? throw new InvalidDataException("El archivo catalogo.json está vacío o corrupto.");
+                               ?? throw new InvalidDataException("Catálogo inválido.");
 
-            // Inicializar stock en sesión para control de disponibilidad
+            // Inicializar StockEnSesion
             foreach (var p in _catalogoCargado.Productos)
                 p.StockEnSesion = p.StockDisponible;
 
             return _catalogoCargado;
         }
 
-        /// <summary>
-        /// Filtra productos por nombre o código. Búsqueda case-insensitive.
-        /// </summary>
         public List<ProductoCatalogo> Buscar(string termino) {
-            if (_catalogoCargado is null) return new();
+            if (_catalogoCargado == null) return new();
             if (string.IsNullOrWhiteSpace(termino))
-                return _catalogoCargado.Productos;
+                return _catalogoCargado.Productos.ToList();
 
-            termino = termino.Trim().ToLowerInvariant();
-            return _catalogoCatalogo.Productos
-                .Where(p =>
-                    p.Nombre.ToLowerInvariant().Contains(termino) ||
-                    p.Codigo.ToLowerInvariant().Contains(termino))
+            var t = termino.ToLowerInvariant();
+            return _catalogoCargado.Productos
+                .Where(p => p.Nombre.ToLowerInvariant().Contains(t)
+                         || p.Codigo.ToLowerInvariant().Contains(t))
                 .ToList();
         }
 
-        // Alias interno
-        private CatalogoJson _catalogoCatalogo =>
-            _catalogoCargado ?? throw new InvalidOperationException("Catálogo no cargado.");
+        public ProductoCatalogo? BuscarPorCodigo(string codigo) =>
+            _catalogoCargado?.Productos.FirstOrDefault(
+                p => p.Codigo.Equals(codigo, StringComparison.OrdinalIgnoreCase));
 
-        public bool EstaDisponible => _catalogoCargado != null;
-        public long IdAlmacenCatalogo => _catalogoCatalogo.Meta.IdAlmacen;
-
-        /// <summary>
-        /// Busca un producto por código exacto (case-insensitive).
-        /// Usado por el escáner de código de barras.
-        /// Devuelve null si no existe en el catálogo.
-        /// </summary>
         public ProductoCatalogo? BuscarPorId(long id) =>
             _catalogoCargado?.Productos.FirstOrDefault(p => p.Id == id);
 
-        public ProductoCatalogo? BuscarPorCodigo(string codigo) {
-            if (_catalogoCargado is null || string.IsNullOrWhiteSpace(codigo))
-                return null;
+        /// <summary>
+        /// Monedas activas del catálogo. Lista vacía si el catálogo
+        /// no fue cargado aún o no incluye monedas.
+        /// </summary>
+        public List<MonedaCatalogo> ObtenerMonedas() =>
+            _catalogoCargado?.Monedas ?? new();
 
-            return _catalogoCatalogo.Productos.FirstOrDefault(p =>
-                string.Equals(p.Codigo, codigo, StringComparison.OrdinalIgnoreCase));
-        }
+        /// <summary>
+        /// Moneda base del sistema (es_base = true).
+        /// Fallback: primera moneda o CUP ficticio si el catálogo no tiene monedas.
+        /// </summary>
+        public MonedaCatalogo ObtenerMonedaBase() =>
+            _catalogoCargado?.Monedas.FirstOrDefault(m => m.EsBase)
+            ?? new MonedaCatalogo { Id = 1, Codigo = "CUP", Nombre = "Peso Cubano",
+                                    Simbolo = "$", EsBase = true, TasaHoy = 1m };
     }
 }

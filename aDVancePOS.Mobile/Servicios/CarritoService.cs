@@ -1,4 +1,5 @@
-﻿using aDVancePOS.Mobile.Modelos;
+using aDVancePOS.Mobile.Modelos;
+using aDVancePOS.Mobile.Servicios;
 
 namespace aDVancePOS.Mobile.Servicios {
     public class CarritoService {
@@ -100,6 +101,27 @@ namespace aDVancePOS.Mobile.Servicios {
                 // Solo cambiar presentación y precio del ítem actual
                 item.IdPresentacion = nuevaIdPresentacion;
                 item.PrecioUnitario = nuevoPrecioUnitario;
+            }
+        }
+
+        /// <summary>
+        /// Restaura los ítems de una venta en espera al carrito para completar su cobro.
+        /// El stock NO se modifica (ya fue descontado al archivar).
+        /// </summary>
+        public void RestaurarDesdeVentaEnEspera(
+            VentaExportacion venta,
+            CatalogoService catalogoService) {
+
+            _items.Clear();
+            foreach (var det in venta.Detalles) {
+                var prod = catalogoService.BuscarPorId((int)det.IdProducto);
+                if (prod == null) continue;
+                _items.Add(new ItemCarrito {
+                    Producto       = prod,
+                    Cantidad       = det.Cantidad,
+                    IdPresentacion = det.IdPresentacion,
+                    PrecioUnitario = det.PrecioVentaUnitario
+                });
             }
         }
     }

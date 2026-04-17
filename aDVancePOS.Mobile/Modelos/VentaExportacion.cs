@@ -1,16 +1,12 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace aDVancePOS.Mobile.Modelos {
     public class VentaExportacion {
-        /// <summary>
-        /// GUID generado en el móvil. El ERP desktop lo usa para
-        /// detectar duplicados si el archivo se importa dos veces.
-        /// </summary>
         [JsonPropertyName("idLocal")]
         public string IdLocal { get; set; } = Guid.NewGuid().ToString();
 
         [JsonPropertyName("idCliente")]
-        public long IdCliente { get; set; } = 1; // cliente anónimo
+        public long IdCliente { get; set; } = 1;
 
         [JsonPropertyName("idAlmacen")]
         public long IdAlmacen { get; set; }
@@ -33,6 +29,11 @@ namespace aDVancePOS.Mobile.Modelos {
         [JsonPropertyName("importeTotal")]
         public decimal ImporteTotal { get; set; }
 
+        /// <summary>
+        /// "Completada" = venta cerrada normal.
+        /// "EnEspera"   = venta archivada esperando confirmación de transferencia.
+        /// El ERP solo importa ventas "Completadas".
+        /// </summary>
         [JsonPropertyName("estadoVenta")]
         public string EstadoVenta { get; set; } = "Completada";
 
@@ -44,5 +45,16 @@ namespace aDVancePOS.Mobile.Modelos {
 
         [JsonPropertyName("pagos")]
         public List<PagoExportacion> Pagos { get; set; } = new();
+
+        // ── Runtime helpers (no se serializan) ────────────────
+        [JsonIgnore]
+        public bool EstaEnEspera => EstadoVenta == "EnEspera";
+
+        [JsonIgnore]
+        public decimal TotalPagadoBase =>
+            Pagos.Sum(p => p.MontoMonedaBase > 0 ? p.MontoMonedaBase : p.MontoPagado);
+
+        [JsonIgnore]
+        public decimal PendienteBase => ImporteTotal - TotalPagadoBase;
     }
 }

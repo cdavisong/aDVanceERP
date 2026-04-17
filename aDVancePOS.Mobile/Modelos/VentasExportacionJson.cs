@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace aDVancePOS.Mobile.Modelos {
     /// <summary>
-    /// Raíz del JSON de ventas exportado desde el móvil.
-    /// Ruta de escritura:
-    ///   /data/data/aDVancePOS.Mobile/files/ventas_YYYYMMDD.json
+    /// Raíz del JSON de ventas del día.
+    /// Incluye ventas completadas y ventas en espera.
+    /// Solo las "Completadas" son importadas por el ERP.
     /// </summary>
     public class VentasExportacionJson {
         [JsonPropertyName("meta")]
@@ -12,5 +12,9 @@ namespace aDVancePOS.Mobile.Modelos {
 
         [JsonPropertyName("ventas")]
         public List<VentaExportacion> Ventas { get; set; } = new();
+
+        /// <summary>Ventas archivadas esperando confirmación de transferencia.</summary>
+        [JsonPropertyName("ventasEnEspera")]
+        public List<VentaExportacion>? VentasEnEspera { get; set; } = new();
     }
 }

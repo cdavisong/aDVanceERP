@@ -1,10 +1,9 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace aDVancePOS.Mobile.Modelos {
     /// <summary>
     /// Raíz del JSON de catálogo exportado por el ERP desktop.
-    /// Ruta esperada en el dispositivo:
-    ///   /data/data/aDVancePOS.Mobile/files/catalogo.json
+    /// Incluye productos, monedas activas con tasas del día.
     /// </summary>
     public class CatalogoJson {
         [JsonPropertyName("meta")]
@@ -12,5 +11,12 @@ namespace aDVancePOS.Mobile.Modelos {
 
         [JsonPropertyName("productos")]
         public List<ProductoCatalogo> Productos { get; set; } = new();
+
+        /// <summary>
+        /// Monedas activas con su tasa vigente del día.
+        /// El POS las usa en CobroActivity para ofrecer opciones de pago.
+        /// </summary>
+        [JsonPropertyName("monedas")]
+        public List<MonedaCatalogo> Monedas { get; set; } = new();
     }
 }
