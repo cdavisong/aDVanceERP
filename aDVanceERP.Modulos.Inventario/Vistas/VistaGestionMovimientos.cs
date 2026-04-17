@@ -3,10 +3,15 @@ using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaGestionMovimientos : Form, IVistaGestionMovimientos {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
+        private decimal _totalEntradas;
+        private decimal _totalSalidas;
+        private decimal _balance;
 
         public VistaGestionMovimientos() {
             InitializeComponent();
@@ -72,6 +77,33 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public RepoVistaBase? PanelCentral { get; private set; }
+
+        public decimal TotalEntradas {
+            get => _totalEntradas;
+            set {
+                _totalEntradas = value;
+
+                fieldTotalEntradas.Text = $"$ {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            }
+        }
+
+        public decimal TotalSalidas {
+            get => _totalSalidas;
+            set {
+                _totalSalidas = value;
+
+                fieldTotalSalidas.Text = $"$ {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            }
+        }
+
+        public decimal Balance {
+            get => _balance;
+            set {
+                _balance = value;
+
+                fieldValorBalance.Text = $"$ {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            }
+        }
 
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;

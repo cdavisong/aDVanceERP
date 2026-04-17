@@ -35,8 +35,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public Color ColorFondoTupla {
-            get => layoutBase.BackColor;
-            set => layoutBase.BackColor = value;
+            get => layoutVista.BackColor;
+            set => layoutVista.BackColor = value;
         }
 
         public bool EstadoSeleccion { get; set; }

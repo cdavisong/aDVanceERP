@@ -15,8 +15,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         private Moneda? _monedaBase;
 
         public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+            AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
+            AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
         }
 
         public Almacen? Almacen { get; set; }

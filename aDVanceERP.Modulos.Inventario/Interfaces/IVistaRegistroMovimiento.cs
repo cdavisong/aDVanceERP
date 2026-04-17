@@ -11,6 +11,8 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         TipoMovimiento? TipoMovimiento { get; set; }
         string Notas { get; set; }
 
+        event EventHandler? RegistrarProducto;
+
         void ActualizarInformacionProductoSeleccionado(Producto producto);
         void CargarProductos(Producto[] productos);
         void CargarAlmacenes(Almacen[] almacenes);

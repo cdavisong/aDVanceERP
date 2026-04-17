@@ -13,7 +13,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionMovimientos : PresentadorVistaGestion<PresentadorTuplaMovimiento, IVistaGestionMovimientos, IVistaTuplaMovimiento, Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
-        public PresentadorGestionMovimientos(IVistaGestionMovimientos vista) : base(vista) { 
+        public PresentadorGestionMovimientos(IVistaGestionMovimientos vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarMovimiento;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
@@ -35,6 +35,15 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public override void ActualizarResultadosBusqueda() {
             if (FiltroBusqueda == FiltroBusquedaMovimiento.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
                 CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty];
+
+            // Actualizar totales
+            var fechaDesde = DateTime.ParseExact(CriteriosBusqueda[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var fechaHasta = DateTime.ParseExact(CriteriosBusqueda[1], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var resumen = RepoMovimiento.Instancia.ObtenerValoresPorRangoFechas(fechaDesde, fechaHasta);
+
+            Vista.TotalEntradas = resumen.TotalEntradas;
+            Vista.TotalSalidas = resumen.TotalSalidas;
+            Vista.Balance = resumen.Balance;
 
             base.ActualizarResultadosBusqueda();
         }

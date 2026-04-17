@@ -9,6 +9,8 @@ using aDVanceERP.Core.Eventos;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegistroMovimiento, Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
         public PresentadorRegistroMovimiento(IVistaRegistroMovimiento vista) : base(vista) {
+            vista.RegistrarProducto += OnMostrarVistaRegistroProducto;
+
             AgregadorEventos.Suscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
             AgregadorEventos.Suscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
             AgregadorEventos.Suscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
@@ -74,6 +76,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
         }
 
+        private void OnMostrarVistaRegistroProducto(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaRegistroProducto", string.Empty);
+        }
+
         private void OnNuevoProductoRegistrado(string obj) {
             var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
             var producto = AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString());
@@ -116,6 +122,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 almacen,
                 cantidad
             );
+
+            // Recargar datos comunes y establecer producto
+            CargarDatosComunes();
+
+            Vista.Producto = producto;
         }
 
         public override void PopularVistaDesdeEntidad(Movimiento entidad) {

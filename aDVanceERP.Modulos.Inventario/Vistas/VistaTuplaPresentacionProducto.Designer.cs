@@ -280,7 +280,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldAbreviaturaUM.Text = "abreviaturaUM";
             fieldAbreviaturaUM.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // VistaTuplaVentaPresentacion
+            // VistaTuplaPresentacionProducto
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
@@ -289,7 +289,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
-            Name = "VistaTuplaVentaPresentacion";
+            Name = "VistaTuplaPresentacionProducto";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;

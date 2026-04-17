@@ -6,6 +6,8 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 
 using System.Globalization;
 
+using static Guna.UI2.Native.WinApi;
+
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaRegistroMovimiento : Form, IVistaRegistroMovimiento {
         private bool _modoEdicion = false;
@@ -110,6 +112,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
 
+        public event EventHandler? RegistrarProducto;
+
         public void Inicializar() {
             fieldNombreProducto.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
@@ -140,6 +144,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     EditarEntidad?.Invoke(sender, args);
                 else
                     RegistrarEntidad?.Invoke(sender, args);
+            };
+            btnRegistrarNuevoProducto.Click += delegate (object? sender, EventArgs args) {
+                RegistrarProducto?.Invoke(sender, args);
             };
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }

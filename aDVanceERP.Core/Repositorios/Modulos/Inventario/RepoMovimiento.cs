@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
 
@@ -188,7 +189,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         protected override (Movimiento, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
             var costoUnitario = Convert.ToDecimal(lectorDatos["costo_unitario"], CultureInfo.InvariantCulture);
             var cantidadMovida = Convert.ToDecimal(lectorDatos["cantidad_movida"], CultureInfo.InvariantCulture);
-            
+
             return (new Movimiento(
                 id: Convert.ToInt64(lectorDatos["id_movimiento"]),
                 idProducto: Convert.ToInt64(lectorDatos["id_producto"]),
@@ -215,6 +216,123 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         #region STATIC
 
         public static RepoMovimiento Instancia { get; } = new RepoMovimiento();
+
+        #endregion
+
+        #region UTILES
+
+        /// <summary>
+        /// Obtiene los valores monetarios de entradas y salidas dentro de un rango de fechas
+        /// </summary>
+        /// <param name="fechaDesde">Fecha inicial del rango</param>
+        /// <param name="fechaHasta">Fecha final del rango</param>
+        /// <param name="idAlmacen">Filtrar por almacén específico (opcional, null = todos)</param>
+        /// <returns>Objeto con los totales de entradas, salidas y balance</returns>
+        public ResumenValoresMovimiento ObtenerValoresPorRangoFechas(DateTime fechaDesde, DateTime fechaHasta, int? idAlmacen = null) {
+            var parametros = new Dictionary<string, object>            {
+                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
+                { "@fecha_hasta", fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
+            };
+
+            var consulta = """
+                SELECT 
+                    COALESCE(SUM(CASE 
+                        WHEN tm.efecto = 'Carga' THEN m.costo_total 
+                        ELSE 0 
+                    END), 0) AS total_entradas,
+                    COALESCE(SUM(CASE 
+                        WHEN tm.efecto = 'Descarga' THEN m.costo_total 
+                        ELSE 0 
+                    END), 0) AS total_salidas,
+                    COUNT(CASE WHEN tm.efecto = 'Carga' THEN 1 END) AS cantidad_entradas,
+                    COUNT(CASE WHEN tm.efecto = 'Descarga' THEN 1 END) AS cantidad_salidas,
+                    COALESCE(SUM(m.cantidad_movida), 0) AS total_unidades_movidas
+                FROM adv__movimiento m
+                JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
+                WHERE m.fecha_creacion BETWEEN @fecha_desde AND @fecha_hasta AND m.estado = 'Completado'
+                """;
+
+            if (idAlmacen.HasValue) {
+                consulta += @" AND (m.id_almacen_origen = @id_almacen OR m.id_almacen_destino = @id_almacen)";
+                parametros.Add("@id_almacen", idAlmacen.Value);
+            }
+
+            using var conexion = ContextoBaseDatos.ObtenerConexionOptimizada();
+            using var comando = ContextoBaseDatos.CrearComando(consulta, parametros, conexion);
+            ContextoBaseDatos.AbrirConexion(conexion);
+
+            using var lector = comando.ExecuteReader();
+
+            if (lector.Read()) {
+                return new ResumenValoresMovimiento {
+                    TotalEntradas = Convert.ToDecimal(lector["total_entradas"]),
+                    TotalSalidas = Convert.ToDecimal(lector["total_salidas"]),
+                    Balance = Convert.ToDecimal(lector["total_entradas"]) - Convert.ToDecimal(lector["total_salidas"]),
+                    CantidadEntradas = Convert.ToInt32(lector["cantidad_entradas"]),
+                    CantidadSalidas = Convert.ToInt32(lector["cantidad_salidas"]),
+                    TotalUnidadesMovidas = Convert.ToDecimal(lector["total_unidades_movidas"])
+                };
+            }
+
+            return new ResumenValoresMovimiento();
+        }
+
+        /// <summary>
+        /// Obtiene el detalle de movimientos agrupados por tipo para un rango de fechas
+        /// </summary>
+        public List<DetalleValoresPorTipoMovimiento> ObtenerDetalleValoresPorTipo(DateTime fechaDesde, DateTime fechaHasta, int? idAlmacen = null) {
+            var parametros = new Dictionary<string, object>            {
+                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
+                { "@fecha_hasta", fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
+            };
+
+            var consulta = """
+                SELECT 
+                    tm.id_tipo_movimiento,
+                    tm.nombre AS tipo_movimiento,
+                    tm.efecto,
+                    COUNT(*) AS cantidad_movimientos,
+                    COALESCE(SUM(m.costo_total), 0) AS valor_total,
+                    COALESCE(SUM(m.cantidad_movida), 0) AS total_unidades,
+                    MIN(m.fecha_creacion) AS primer_movimiento,
+                    MAX(m.fecha_creacion) AS ultimo_movimiento
+                FROM adv__movimiento m
+                JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
+                WHERE m.fecha_creacion BETWEEN @fecha_desde AND @fecha_hasta
+                    AND m.estado = 'Completado'
+                """;
+
+            if (idAlmacen.HasValue) {
+                consulta += @" AND (m.id_almacen_origen = @id_almacen OR m.id_almacen_destino = @id_almacen)";
+                parametros.Add("@id_almacen", idAlmacen.Value);
+            }
+
+            consulta += @" GROUP BY tm.id_tipo_movimiento, tm.nombre, tm.efecto
+                  ORDER BY tm.efecto DESC, valor_total DESC";
+
+            var resultados = new List<DetalleValoresPorTipoMovimiento>();
+
+            using var conexion = ContextoBaseDatos.ObtenerConexionOptimizada();
+            using var comando = ContextoBaseDatos.CrearComando(consulta, parametros, conexion);
+            ContextoBaseDatos.AbrirConexion(conexion);
+
+            using var lector = comando.ExecuteReader();
+
+            while (lector.Read()) {
+                resultados.Add(new DetalleValoresPorTipoMovimiento {
+                    IdTipoMovimiento = Convert.ToInt32(lector["id_tipo_movimiento"]),
+                    TipoMovimiento = lector["tipo_movimiento"].ToString(),
+                    Efecto = lector["efecto"].ToString(),
+                    CantidadMovimientos = Convert.ToInt32(lector["cantidad_movimientos"]),
+                    ValorTotal = Convert.ToDecimal(lector["valor_total"]),
+                    TotalUnidades = Convert.ToDecimal(lector["total_unidades"]),
+                    PrimerMovimiento = Convert.ToDateTime(lector["primer_movimiento"]),
+                    UltimoMovimiento = Convert.ToDateTime(lector["ultimo_movimiento"])
+                });
+            }
+
+            return resultados;
+        }
 
         #endregion
     }

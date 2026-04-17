@@ -13,9 +13,8 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
     public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<PresentadorTuplaCuentaUsuario, IVistaGestionCuentasUsuarios, IVistaTuplaCuentaUsuario, CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
         public PresentadorGestionCuentasUsuarios(IVistaGestionCuentasUsuarios vista) : base(vista) {
             vista.AprobarSolicitudCuenta += OnAprobarSolicitudCuentaUsuario;
-
-            RegistrarEntidad += OnRegistrarCuentaUsuario;
-            EditarEntidad += OnEditarCuentaUsuario;
+            vista.RegistrarEntidad += OnRegistrarCuentaUsuario;
+            vista.EditarEntidad += OnEditarCuentaUsuario;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionCuentasUsuarios", OnMostrarVistaGestionCuentasUsuarios);
         }
@@ -25,8 +24,8 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             Vista.MostrarBtnAprobacionSolicitudCuenta = false;
         }
 
-        private void OnEditarCuentaUsuario(object? sender, CuentaUsuario e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionCuentaUsuario", AgregadorEventos.SerializarPayload(e));
+        private void OnEditarCuentaUsuario(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaEdicionCuentaUsuario", string.Empty);
             Vista.MostrarBtnAprobacionSolicitudCuenta = false;
         }
 
@@ -78,10 +77,9 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
         }
 
         protected override void Dispose(bool disposing) {
+            Vista.RegistrarEntidad -= OnRegistrarCuentaUsuario;
+            Vista.EditarEntidad -= OnEditarCuentaUsuario;
             Vista.AprobarSolicitudCuenta -= OnAprobarSolicitudCuentaUsuario;
-
-            RegistrarEntidad -= OnRegistrarCuentaUsuario;
-            EditarEntidad -= OnEditarCuentaUsuario;
 
             AgregadorEventos.Desuscribir("MostrarVistaGestionCuentasUsuarios", OnMostrarVistaGestionCuentasUsuarios);
 

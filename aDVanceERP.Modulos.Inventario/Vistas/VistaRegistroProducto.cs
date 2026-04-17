@@ -367,6 +367,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldImpuestoVentaPorcentaje.Text = string.Empty;
             fieldMargenGananciaDeseado.Text = string.Empty;
             fieldPrecioVentaBase.Text = string.Empty;
+            fieldCantidadInicial.Text = string.Empty;
+            fieldCantidadMinima.Text = string.Empty;
         }
 
         public void Cerrar() {
