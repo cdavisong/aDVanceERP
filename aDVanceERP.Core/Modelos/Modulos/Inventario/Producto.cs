@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
-    public class Producto : IEntidadBaseDatos {
+    public class Producto : IEquatable<Producto>, IEntidadBaseDatos {
         public Producto() {
             Categoria = CategoriaProductoEnum.Mercancia;
             Nombre = "N/A";
@@ -61,6 +61,24 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public decimal MargenGananciaDeseado { get; set; } = 0.00m;
         public decimal PrecioVentaBase { get; set; }
         public bool Activo { get; set; } = true;
+
+        public override bool Equals(object? obj) {
+            return Equals(obj as Producto);
+        }
+
+        public bool Equals(Producto? other) {
+            if (other is null)
+                return false;
+
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode() {
+            return Id.GetHashCode();
+        }
     }
 
     public enum FiltroBusquedaProducto {

@@ -8,13 +8,13 @@ using MySql.Data.MySqlClient;
 using System.Globalization;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
-    public class RepoPrecioPresentacion : RepoEntidadBaseDatos<PrecioPresentacion, FiltroBusquedaPrecioPresentacion> {
+    public class RepoPresentacionProducto : RepoEntidadBaseDatos<PresentacionProducto, FiltroBusquedaPresentacionProducto> {
 
-        public RepoPrecioPresentacion()
+        public RepoPresentacionProducto()
             : base("adv__precio_presentacion", "id_presentacion") { }
 
         protected override string GenerarComandoAdicionar(
-            PrecioPresentacion entidad,
+            PresentacionProducto entidad,
             out Dictionary<string, object> parametros,
             params IEntidadBaseDatos[] entidadesExtra) {
 
@@ -48,7 +48,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         // ── EDITAR ───────────────────────────────────────────
 
         protected override string GenerarComandoEditar(
-            PrecioPresentacion entidad,
+            PresentacionProducto entidad,
             out Dictionary<string, object> parametros,
             params IEntidadBaseDatos[] entidadesExtra) {
 
@@ -94,7 +94,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         // ── OBTENER / BUSCAR ─────────────────────────────────
 
         protected override string GenerarComandoObtener(
-            FiltroBusquedaPrecioPresentacion filtroBusqueda,
+            FiltroBusquedaPresentacionProducto filtroBusqueda,
             out Dictionary<string, object> parametros,
             params string[] criteriosBusqueda) {
 
@@ -109,18 +109,18 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 """;
 
             var consulta = filtroBusqueda switch {
-                FiltroBusquedaPrecioPresentacion.Id => $"""
+                FiltroBusquedaPresentacionProducto.Id => $"""
                     {baseQuery}
                     WHERE pp.id_presentacion = @id;
                     """,
 
-                FiltroBusquedaPrecioPresentacion.IdProducto => $"""
+                FiltroBusquedaPresentacionProducto.IdProducto => $"""
                     {baseQuery}
                     WHERE pp.id_producto = @id_producto
                     ORDER BY pp.cantidad ASC;
                     """,
 
-                FiltroBusquedaPrecioPresentacion.PresentacionesActivas => $"""
+                FiltroBusquedaPresentacionProducto.PresentacionesActivas => $"""
                     {baseQuery}
                     WHERE pp.id_producto = @id_producto
                       AND pp.activo = 1
@@ -134,11 +134,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             };
 
             parametros = filtroBusqueda switch {
-                FiltroBusquedaPrecioPresentacion.Id => new Dictionary<string, object> {
+                FiltroBusquedaPresentacionProducto.Id => new Dictionary<string, object> {
                     { "@id", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) }
                 },
-                FiltroBusquedaPrecioPresentacion.IdProducto or
-                FiltroBusquedaPrecioPresentacion.PresentacionesActivas => new Dictionary<string, object> {
+                FiltroBusquedaPresentacionProducto.IdProducto or
+                FiltroBusquedaPresentacionProducto.PresentacionesActivas => new Dictionary<string, object> {
                     { "@id_producto", Convert.ToInt64(string.IsNullOrEmpty(criterio) ? "0" : criterio) }
                 },
                 _ => new Dictionary<string, object>()
@@ -147,12 +147,8 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             return consulta;
         }
 
-        // ── MAPEADOR ─────────────────────────────────────────
-
-        protected override (PrecioPresentacion, List<IEntidadBaseDatos>) MapearEntidad(
-            MySqlDataReader lector) {
-
-            var presentacion = new PrecioPresentacion(
+        protected override (PresentacionProducto, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lector) {
+            var presentacion = new PresentacionProducto(
                 id: Convert.ToInt64(lector["id_presentacion"]),
                 idProducto: Convert.ToInt64(lector["id_producto"]),
                 idUnidadMedida: Convert.ToInt64(lector["id_unidad_medida"]),
@@ -164,7 +160,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             // Si el JOIN con adv__producto está en la consulta, disponemos del producto base
             var entidadesExtra = new List<IEntidadBaseDatos>();
 
-            if (lector.VisibleFieldCount > 5) {
+            if (lector.VisibleFieldCount > 6) {
                 entidadesExtra.Add(new Producto {
                     Nombre = Convert.ToString(lector["nombre_producto"]) ?? string.Empty,
                     PrecioVentaBase = lector["precio_venta_base"] != DBNull.Value
@@ -176,20 +172,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             return (presentacion, entidadesExtra);
         }
 
-        // ── SINGLETON ────────────────────────────────────────
-
-        public static RepoPrecioPresentacion Instancia { get; } = new RepoPrecioPresentacion();
-
-        // ── UTILIDADES ───────────────────────────────────────
+        public static RepoPresentacionProducto Instancia { get; } = new RepoPresentacionProducto();
 
         /// <summary>
         /// Devuelve todas las presentaciones activas de un producto,
         /// ordenadas de menor a mayor cantidad.
         /// Es el método principal que usarán el presentador de ventas y el POS.
         /// </summary>
-        public List<PrecioPresentacion> ObtenerActivasPorProducto(long idProducto) {
+        public List<PresentacionProducto> ObtenerActivasPorProducto(long idProducto) {
             var (_, resultados) = Buscar(
-                FiltroBusquedaPrecioPresentacion.PresentacionesActivas,
+                FiltroBusquedaPresentacionProducto.PresentacionesActivas,
                 idProducto.ToString());
 
             return resultados
@@ -267,7 +259,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 WHERE id_presentacion = @id_presentacion;
                 """;
 
-                    var parametros = new Dictionary<string, object> {
+            var parametros = new Dictionary<string, object> {
                 { "@id_presentacion", idPresentacion }
             };
 

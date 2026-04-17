@@ -3,7 +3,7 @@
 using System.ComponentModel;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
-    partial class VistaGestionVentaPresentacion {
+    partial class VistaGestionPresentacionesProducto {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -42,7 +42,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionVentaPresentacion));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionPresentacionesProducto));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -99,7 +99,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloCantidadPresentacion = new Label();
             fieldTituloPrecioVentaPresentacion = new Label();
             fieldTituloCodigo = new Label();
-            btnRegistrar = new Guna2Button();
+            btnRegistrarActualizar = new Guna2Button();
             layoutDistPrecioVentaPresentacion = new TableLayoutPanel();
             fieldMonedaPrecioVentaPresentacion = new Guna2ComboBox();
             fieldPrecioVentaPresentacion = new Guna2TextBox();
@@ -382,7 +382,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTitulo.Name = "fieldTitulo";
             fieldTitulo.Size = new Size(1155, 45);
             fieldTitulo.TabIndex = 3;
-            fieldTitulo.Text = "Presentaciones de venta";
+            fieldTitulo.Text = "Presentaciones del producto";
             fieldTitulo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldIcono
@@ -749,7 +749,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutDistribucionDatosTurno.Controls.Add(fieldTituloCantidadPresentacion, 2, 0);
             layoutDistribucionDatosTurno.Controls.Add(fieldTituloPrecioVentaPresentacion, 3, 0);
             layoutDistribucionDatosTurno.Controls.Add(fieldTituloCodigo, 1, 0);
-            layoutDistribucionDatosTurno.Controls.Add(btnRegistrar, 4, 1);
+            layoutDistribucionDatosTurno.Controls.Add(btnRegistrarActualizar, 4, 1);
             layoutDistribucionDatosTurno.Controls.Add(layoutDistPrecioVentaPresentacion, 3, 1);
             layoutDistribucionDatosTurno.Controls.Add(layoutCantidadPresentacion, 2, 1);
             layoutDistribucionDatosTurno.Dock = DockStyle.Fill;
@@ -857,24 +857,24 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTituloCodigo.Text = "UNIDAD DE MEDIDA";
             fieldTituloCodigo.TextAlign = ContentAlignment.BottomLeft;
             // 
-            // btnRegistrar
+            // btnRegistrarActualizar
             // 
-            btnRegistrar.Animated = true;
-            btnRegistrar.BackColor = Color.Transparent;
-            btnRegistrar.BorderRadius = 18;
-            btnRegistrar.CustomizableEdges = customizableEdges21;
-            btnRegistrar.Dock = DockStyle.Fill;
-            btnRegistrar.FillColor = Color.PeachPuff;
-            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnRegistrar.ForeColor = Color.Black;
-            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
-            btnRegistrar.Location = new Point(993, 30);
-            btnRegistrar.Margin = new Padding(5);
-            btnRegistrar.Name = "btnRegistrar";
-            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            btnRegistrar.Size = new Size(238, 37);
-            btnRegistrar.TabIndex = 45;
-            btnRegistrar.Text = "Agregar nueva presentación";
+            btnRegistrarActualizar.Animated = true;
+            btnRegistrarActualizar.BackColor = Color.Transparent;
+            btnRegistrarActualizar.BorderRadius = 18;
+            btnRegistrarActualizar.CustomizableEdges = customizableEdges21;
+            btnRegistrarActualizar.Dock = DockStyle.Fill;
+            btnRegistrarActualizar.FillColor = Color.PeachPuff;
+            btnRegistrarActualizar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnRegistrarActualizar.ForeColor = Color.Black;
+            btnRegistrarActualizar.Image = (Image) resources.GetObject("btnRegistrarActualizar.Image");
+            btnRegistrarActualizar.Location = new Point(993, 30);
+            btnRegistrarActualizar.Margin = new Padding(5);
+            btnRegistrarActualizar.Name = "btnRegistrarActualizar";
+            btnRegistrarActualizar.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            btnRegistrarActualizar.Size = new Size(238, 37);
+            btnRegistrarActualizar.TabIndex = 45;
+            btnRegistrarActualizar.Text = "Agregar nueva presentación";
             // 
             // layoutDistPrecioVentaPresentacion
             // 
@@ -1052,7 +1052,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnExportarXlsx.Text = "XLSX";
             btnExportarXlsx.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // VistaGestionVentaPresentacion
+            // VistaGestionPresentacionesProducto
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1356, 608);
@@ -1060,7 +1060,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             Font = new Font("Segoe UI", 10.8F);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(4, 5, 4, 5);
-            Name = "VistaGestionVentaPresentacion";
+            Name = "VistaGestionPresentacionesProducto";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
@@ -1134,7 +1134,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Label fieldTituloNombreProducto;
         private Label fieldNombreProducto;
         private Label fieldTituloAbreviatura;
-        private Guna2Button btnRegistrar;
+        private Guna2Button btnRegistrarActualizar;
         private Label fieldTituloDescuento;
         private Guna2Button btnSalir;
     }

@@ -11,15 +11,7 @@ using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
-    public class PresentadorRegistroProducto
-        : PresentadorVistaRegistro<IVistaRegistroProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
-
-        // ── Estado del presentador ─────────────────────────────────────────────
-
-        /// <summary>
-        /// Moneda base del sistema (CUP). Se resuelve una vez al cargar la vista
-        /// y se usa como referencia para la conversión de costos.
-        /// </summary>
+    public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
         private Moneda? _monedaBase;
 
         public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
@@ -27,9 +19,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
         }
 
-        public string? NombreAlmacen { get; set; }
-
-        // ── Handlers de eventos ───────────────────────────────────────────────
+        public Almacen? Almacen { get; set; }
 
         private void OnMostrarVistaRegistroProducto(string obj) {
             Vista.ModoEdicion = false;
@@ -48,36 +38,33 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 return;
 
             var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var datosExtra = datos != null ? AgregadorEventos.DeserializarPayload<object[]>(datos[1].ToString()) : null;
-            var producto = datos != null ? AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString()) : null;
+            var idProducto = AgregadorEventos.DeserializarPayload<long>(datos[0]?.ToString() ?? string.Empty);
+            var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
+            var almacen = !string.IsNullOrEmpty(datos[1]?.ToString())
+                ? AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString())
+                : null;
 
             if (producto == null)
                 return;
 
             CargarDatosComunes();
 
-            if (datosExtra != null)
-                NombreAlmacen = datosExtra[0].ToString();
+            if (almacen != null)
+                Almacen = almacen;
 
             PopularVistaDesdeEntidad(producto);
 
             Vista.Mostrar();
         }
 
-        // ── Carga de combos ───────────────────────────────────────────────────
-
-        /// <summary>
-        /// Centraliza la carga de todos los combos, incluida la nueva lista de monedas.
-        /// </summary>
         private void CargarDatosComunes() {
+            var monedas = RepoMoneda.Instancia.ObtenerActivas();
+
             Vista.CargarProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-
-            // ── Monedas ──────────────────────────────────────────────────────
-            var monedas = RepoMoneda.Instancia.ObtenerActivas().ToArray();
-            Vista.CargarMonedas(monedas);
+            Vista.CargarMonedas([.. monedas]);
 
             // Cachear la moneda base para usar en la conversión
             _monedaBase = monedas.FirstOrDefault(m => m.EsBase);
@@ -86,8 +73,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             if (_monedaBase != null)
                 Vista.ActualizarSimboloMoneda(_monedaBase.Simbolo);
         }
-
-        // ── Populación de la vista desde entidad (modo edición) ───────────────
 
         public override void PopularVistaDesdeEntidad(Producto entidad) {
             base.PopularVistaDesdeEntidad(entidad);
@@ -130,19 +115,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.ImpuestoVentaPorcentaje = entidad.ImpuestoVentaPorcentaje;
             Vista.MargenGananciaDeseado = entidad.MargenGananciaDeseado;
             Vista.PrecioVentaBase = entidad.PrecioVentaBase;
+            Vista.Almacen = Almacen;
         }
-
-        // ── Construcción de la entidad desde la vista ─────────────────────────
 
         protected override Producto? ObtenerEntidadDesdeVista() {
             Vista.SalvarImagenEnDirectorioLocal();
 
-            // ── Conversión de costo a moneda base ────────────────────────────
-            //
-            // Si el usuario eligió una moneda distinta a la base, convertimos
-            // el costo ingresado a CUP antes de guardarlo.
-            // adv__producto almacena siempre en moneda base.
-            //
             var costoIngresado = Vista.CostoAdquisicionUnitario;
             var costoProduccion = Vista.CostoProduccionUnitario;
             var monedaElegida = Vista.MonedaCosto;
@@ -154,7 +132,6 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     .ObtenerTasaVigente(monedaElegida.Id, _monedaBase.Id);
 
                 if (tasa == 1m) {
-                    // Sin tasa configurada → advertir y bloquear
                     CentroNotificaciones.MostrarNotificacion(
                         $"No existe una tasa de cambio vigente para {monedaElegida.Codigo} → {_monedaBase.Codigo}. " +
                         "Registre la tasa antes de guardar el producto.",
@@ -188,23 +165,21 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             };
         }
 
-        // ── Post-registro ─────────────────────────────────────────────────────
-
         protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
             if (!Vista.ModoEdicion)
-                AgregadorEventos.Publicar("ProductoRegistrado", AgregadorEventos.SerializarPayload((Entidad, Vista.Almacen, Vista.CantidadInicial)));
+                AgregadorEventos.Publicar("ProductoRegistrado", AgregadorEventos.SerializarPayload(new object[] { Entidad!, Vista.Almacen, Vista.CantidadInicial }));
         }
-
-        // ── Validación ────────────────────────────────────────────────────────
 
         protected override bool EntidadCorrecta() {
             var productosConNombreRepetido = RepoProducto.Instancia
-                .Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto).cantidad;
+                .Buscar(FiltroBusquedaProducto.Nombre, Vista.NombreProducto)
+                .cantidad;
 
             var nombreRepetido = !Vista.ModoEdicion && productosConNombreRepetido > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreProducto) && !nombreRepetido;
             var codigoOk = !string.IsNullOrEmpty(Vista.Codigo);
             var unidadMedidaOk = Vista.UnidadMedida != null;
+            var almacenOk = Vista.ModoEdicion || Vista.CantidadInicial > 0 && Vista.Almacen != null;
             var monedaOk = Vista.MonedaCosto != null;
 
             if (nombreRepetido)
@@ -223,12 +198,16 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CentroNotificaciones.MostrarNotificacion(
                     "El campo de unidad de medida es obligatorio para el producto, por favor, corrija los datos entrados.",
                     TipoNotificacionEnum.Advertencia);
+            if (!almacenOk)
+                CentroNotificaciones.MostrarNotificacion(
+                    "El campo de almacén es obligatorio para el producto cuando se especifica una cantidad inicial, por favor, corrija los datos entrados.",
+                    TipoNotificacionEnum.Advertencia);
             if (!monedaOk)
                 CentroNotificaciones.MostrarNotificacion(
                     "Debe seleccionar la moneda en que se expresa el costo del producto.",
                     TipoNotificacionEnum.Advertencia);
 
-            return nombreOk && codigoOk && unidadMedidaOk && monedaOk;
+            return nombreOk && codigoOk && unidadMedidaOk && almacenOk && monedaOk;
         }
     }
 }

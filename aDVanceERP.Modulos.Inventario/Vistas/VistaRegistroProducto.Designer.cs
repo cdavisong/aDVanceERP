@@ -132,7 +132,7 @@
             btnSalir = new Guna.UI2.WinForms.Guna2Button();
             btnRegistrarActualizar = new Guna.UI2.WinForms.Guna2Button();
             fieldTituloNombreAlmacen = new Label();
-            fieldNombreAlmacen = new Guna.UI2.WinForms.Guna2ComboBox();
+            fieldAlmacen = new Guna.UI2.WinForms.Guna2ComboBox();
             layoutTituloCantidadInicialMinima = new TableLayoutPanel();
             fieldTituloCantidadMinima = new Label();
             fieldTituloCantidadInicial = new Label();
@@ -861,7 +861,7 @@
             layoutBaseDist1.Controls.Add(panelEncabezadosTabla, 0, 0);
             layoutBaseDist1.Controls.Add(layoutBotones, 0, 10);
             layoutBaseDist1.Controls.Add(fieldTituloNombreAlmacen, 0, 2);
-            layoutBaseDist1.Controls.Add(fieldNombreAlmacen, 0, 3);
+            layoutBaseDist1.Controls.Add(fieldAlmacen, 0, 3);
             layoutBaseDist1.Controls.Add(layoutTituloCantidadInicialMinima, 0, 5);
             layoutBaseDist1.Controls.Add(layoutDatosCantidadInicialMinima, 0, 6);
             layoutBaseDist1.Dock = DockStyle.Fill;
@@ -1431,27 +1431,27 @@
             // 
             // fieldNombreAlmacen
             // 
-            fieldNombreAlmacen.Animated = true;
-            fieldNombreAlmacen.BackColor = Color.Transparent;
-            fieldNombreAlmacen.BorderColor = Color.Gainsboro;
-            fieldNombreAlmacen.BorderRadius = 16;
-            fieldNombreAlmacen.CustomizableEdges = customizableEdges83;
-            fieldNombreAlmacen.Dock = DockStyle.Fill;
-            fieldNombreAlmacen.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldNombreAlmacen.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldNombreAlmacen.FocusedColor = Color.SandyBrown;
-            fieldNombreAlmacen.FocusedState.BorderColor = Color.SandyBrown;
-            fieldNombreAlmacen.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreAlmacen.ForeColor = Color.Black;
-            fieldNombreAlmacen.IntegralHeight = false;
-            fieldNombreAlmacen.ItemHeight = 29;
-            fieldNombreAlmacen.Location = new Point(5, 331);
-            fieldNombreAlmacen.Margin = new Padding(5);
-            fieldNombreAlmacen.Name = "fieldNombreAlmacen";
-            fieldNombreAlmacen.ShadowDecoration.CustomizableEdges = customizableEdges84;
-            fieldNombreAlmacen.Size = new Size(623, 35);
-            fieldNombreAlmacen.TabIndex = 28;
-            fieldNombreAlmacen.TextOffset = new Point(10, 0);
+            fieldAlmacen.Animated = true;
+            fieldAlmacen.BackColor = Color.Transparent;
+            fieldAlmacen.BorderColor = Color.Gainsboro;
+            fieldAlmacen.BorderRadius = 16;
+            fieldAlmacen.CustomizableEdges = customizableEdges83;
+            fieldAlmacen.Dock = DockStyle.Fill;
+            fieldAlmacen.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldAlmacen.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldAlmacen.FocusedColor = Color.SandyBrown;
+            fieldAlmacen.FocusedState.BorderColor = Color.SandyBrown;
+            fieldAlmacen.Font = new Font("Segoe UI", 11.25F);
+            fieldAlmacen.ForeColor = Color.Black;
+            fieldAlmacen.IntegralHeight = false;
+            fieldAlmacen.ItemHeight = 29;
+            fieldAlmacen.Location = new Point(5, 331);
+            fieldAlmacen.Margin = new Padding(5);
+            fieldAlmacen.Name = "fieldNombreAlmacen";
+            fieldAlmacen.ShadowDecoration.CustomizableEdges = customizableEdges84;
+            fieldAlmacen.Size = new Size(623, 35);
+            fieldAlmacen.TabIndex = 28;
+            fieldAlmacen.TextOffset = new Point(10, 0);
             // 
             // layoutTituloCantidadInicialMinima
             // 
@@ -1714,7 +1714,7 @@
         private PictureBox fieldImagen;
         private Guna.UI2.WinForms.Guna2TextBox fieldPrecioVentaBase;
         private Guna.UI2.WinForms.Guna2TextBox fieldImpuestoVentaPorcentaje;
-        private Guna.UI2.WinForms.Guna2ComboBox fieldNombreAlmacen;
+        private Guna.UI2.WinForms.Guna2ComboBox fieldAlmacen;
         private TableLayoutPanel layoutStockInicial;
         private Label fieldAbreviaturaUM1;
         private Guna.UI2.WinForms.Guna2TextBox fieldCantidadInicial;

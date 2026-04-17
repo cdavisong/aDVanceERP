@@ -11,7 +11,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         string CantidadMovida { get; set; }
         string SaldoFinal { get; set; }
         string TipoMovimiento { get; set; }
-        EstadoMovimiento EstadoMovimiento { get; set; }
+        EstadoMovimientoEnum EstadoMovimiento { get; set; }
         string Fecha { get; set; }
 
         void ActualizarIconoStock(EfectoMovimientoEnum efecto);

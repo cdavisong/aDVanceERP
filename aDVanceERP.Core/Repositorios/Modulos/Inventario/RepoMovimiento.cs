@@ -196,7 +196,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 idAlmacenOrigen: Convert.ToInt64(lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_almacen_origen")) ? "0" : lectorDatos["id_almacen_origen"]),
                 idAlmacenDestino: Convert.ToInt64(lectorDatos.IsDBNull(lectorDatos.GetOrdinal("id_almacen_destino")) ? "0" : lectorDatos["id_almacen_destino"]),
                 fechaCreacion: Convert.ToDateTime(lectorDatos["fecha_creacion"]),
-                estado: Enum.TryParse<EstadoMovimiento>(lectorDatos["estado"].ToString(), out var estado) ? estado : EstadoMovimiento.Cancelado,
+                estado: Enum.TryParse<EstadoMovimientoEnum>(lectorDatos["estado"].ToString(), out var estado) ? estado : EstadoMovimientoEnum.Cancelado,
                 fecha: lectorDatos.IsDBNull(lectorDatos.GetOrdinal("fecha_termino")) ? DateTime.MinValue : Convert.ToDateTime(lectorDatos["fecha_termino"]),
                 saldoInicial: Convert.ToDecimal(lectorDatos["saldo_inicial"], CultureInfo.InvariantCulture),
                 cantidadMovida: cantidadMovida,

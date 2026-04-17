@@ -13,7 +13,7 @@
     <Compile Update="Vistas\VistaEstadisticasInventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaGestionVentaPresentacion.cs">
+    <Compile Update="Vistas\VistaGestionPresentacionesProducto.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaGestionUnidadesMedida.cs">
@@ -37,7 +37,7 @@
     <Compile Update="Vistas\VistaRegistroClasificacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaTuplaVentaPresentacion.cs">
+    <Compile Update="Vistas\VistaTuplaPresentacionProducto.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaTuplaUnidadMedida.cs">

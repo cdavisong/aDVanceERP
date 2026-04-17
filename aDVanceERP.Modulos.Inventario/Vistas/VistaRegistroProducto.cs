@@ -33,7 +33,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 fieldSubtitulo.Text = value ? "Detalles y actualización" : "Registro";
                 btnRegistrarActualizar.Text = value ? "Actualizar el producto" : "Registrar el producto";
                 fieldTituloNombreAlmacen.Visible = !value;
-                fieldNombreAlmacen.Visible = !value;
+                fieldAlmacen.Visible = !value;
                 layoutTituloCantidadInicialMinima.Visible = !value;
                 layoutDatosCantidadInicialMinima.Visible = !value;
                 layoutHabilitarAlertas.Visible = !value;
@@ -188,8 +188,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public Almacen? Almacen {
-            get => fieldNombreAlmacen.SelectedItem as Almacen;
-            set => fieldNombreAlmacen.SelectedItem = value;
+            get => fieldAlmacen.SelectedItem as Almacen;
+            set => fieldAlmacen.SelectedItem = value;
         }
 
         public decimal CantidadInicial {
@@ -456,9 +456,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void CargarAlmacenes(Almacen[] almacenes) {
-            fieldNombreAlmacen.Items.Clear();
-            fieldNombreAlmacen.Items.AddRange(almacenes);
-            fieldNombreAlmacen.SelectedIndex = -1;
+            fieldAlmacen.Items.Clear();
+            fieldAlmacen.Items.AddRange(almacenes);
+            fieldAlmacen.SelectedIndex = -1;
         }
     }
 }

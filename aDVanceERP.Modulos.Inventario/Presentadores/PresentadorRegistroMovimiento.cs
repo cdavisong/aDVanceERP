@@ -74,16 +74,17 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnNuevoProductoRegistrado(string obj) {
-            var datos = AgregadorEventos.DeserializarPayload<(Producto Producto, Almacen Almacen, int Cantidad)>(obj);
-            var producto = datos.Producto;
-            var almacen = datos.Almacen;
-            var cantidad = datos.Cantidad;
-            var costoUnitario = producto.Categoria == CategoriaProductoEnum.ProductoTerminado
+            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
+            var producto = AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString());
+            var almacen = AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString());
+            var cantidad = AgregadorEventos.DeserializarPayload<decimal>(datos[2].ToString());
+
+            if (producto == null)
+                return;
+
+            var costoUnitario = producto!.Categoria == CategoriaProductoEnum.ProductoTerminado
                                     ? producto.CostoProduccionUnitario
                                     : producto.CostoAdquisicionUnitario;
-
-            if (producto == null) 
-                return;
 
             // Crear movimiento de inventario inicial
             var movimiento = new Movimiento() {
@@ -92,7 +93,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CostoUnitario = costoUnitario,
                 IdAlmacenOrigen = 0,
                 IdAlmacenDestino = almacen?.Id ?? 0,
-                Estado = EstadoMovimiento.Completado,
+                Estado = EstadoMovimientoEnum.Completado,
                 FechaCreacion = DateTime.Now,
                 SaldoInicial = 0,
                 FechaTermino = DateTime.Now,
@@ -161,7 +162,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CostoUnitario = costoUnitario ?? throw new ArgumentNullException(nameof(costoUnitario)),
                 IdAlmacenOrigen = Vista.AlmacenOrigen?.Id ?? 0,
                 IdAlmacenDestino = Vista.AlmacenDestino?.Id ?? 0,
-                Estado = EstadoMovimiento.Completado,
+                Estado = EstadoMovimientoEnum.Completado,
                 FechaCreacion = Vista.Fecha,
                 SaldoInicial = saldoInicial,
                 FechaTermino = DateTime.Now,

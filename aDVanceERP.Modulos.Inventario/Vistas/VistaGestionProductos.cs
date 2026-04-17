@@ -42,9 +42,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => Size = value;
         }
 
-        public string? NombreAlmacen {
-            get => fieldFiltroAlmacen.Text;
-            set => fieldFiltroAlmacen.Text = value;
+        public Almacen? Almacen {
+            get => fieldFiltroAlmacen.SelectedItem as Almacen;
+            set => fieldFiltroAlmacen.SelectedItem = value;
         }
 
         public int Categoria {
@@ -112,7 +112,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public async void Inicializar() {
             // Eventos
-           fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
+            fieldFiltroAlmacen.SelectedIndexChanged += OnCambioIndiceFiltroAlmacen;
             fieldFiltroCategoriaProducto.SelectedIndexChanged += OnCambioIndiceCategoriaProducto;
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
             fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
@@ -120,7 +120,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.IsNullOrEmpty(NombreAlmacen) ? "Todos" : NombreAlmacen, Categoria.ToString(), CriteriosBusqueda[0] }));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
@@ -130,8 +130,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 ActualizarValorTotalInventario();
             };
-            btnGenerarCatalogo.Click += delegate { 
-                GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty); 
+            btnGenerarCatalogo.Click += delegate {
+                GenerarCatalogoProductos?.Invoke(this, EventArgs.Empty);
             };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
@@ -166,8 +166,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void OnCambioIndiceFiltroAlmacen(object? sender, EventArgs e) {
-            if (!string.IsNullOrEmpty(NombreAlmacen))
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.IsNullOrEmpty(NombreAlmacen) ? "Todos" : NombreAlmacen, Categoria.ToString(), CriteriosBusqueda[0] }));
+            if (Almacen != null)
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
             else SincronizarDatos?.Invoke(sender, e);
 
             ActualizarValorTotalInventario();
@@ -175,7 +175,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void OnCambioIndiceCategoriaProducto(object? sender, EventArgs e) {
             if (Categoria > -1)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.IsNullOrEmpty(NombreAlmacen) ? "Todos" : NombreAlmacen, Categoria.ToString(), CriteriosBusqueda[0] }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
             else SincronizarDatos?.Invoke(sender, e);
 
             ActualizarValorTotalInventario();
@@ -188,19 +188,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (fieldCriterioBusqueda.Visible)
                 fieldCriterioBusqueda.Focus();
 
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.IsNullOrEmpty(NombreAlmacen) ? "Todos" : NombreAlmacen, Categoria.ToString(), CriteriosBusqueda[0] }));
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;
             HabilitarBotonesPaginacion();
         }
 
-        public void CargarFiltroAlmacenes(object[] nombresAlmacenes) {
+        public void CargarFiltroAlmacenes(Almacen[] almacenes) {
             // Evitar que se dispare el evento SelectedIndexChanged al modificar los ítems
             fieldFiltroAlmacen.SelectedIndexChanged -= OnCambioIndiceFiltroAlmacen;
 
             fieldFiltroAlmacen.Items.Clear();
-            fieldFiltroAlmacen.Items.AddRange(nombresAlmacenes);
+            fieldFiltroAlmacen.Items.Add(new Almacen(0, "Todos", string.Empty, string.Empty, TipoAlmacenEnum.Especial, false));
+            fieldFiltroAlmacen.Items.AddRange(almacenes);
 
             if (fieldFiltroAlmacen.Items.Count > 0)
                 fieldFiltroAlmacen.SelectedIndex = 0;
@@ -251,8 +252,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void ActualizarValorTotalInventario() {
-            ValorTotalInventario = RepoProducto.Instancia.ObtenerValorTotalBruto(
-                RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, NombreAlmacen).resultadosBusqueda.FirstOrDefault().entidadBase?.Id ?? 0);
+            ValorTotalInventario = RepoProducto.Instancia.ObtenerValorTotalBruto(Almacen?.Id ?? 0);
         }
 
         private void HabilitarBotonesPaginacion() {

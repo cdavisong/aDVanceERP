@@ -56,10 +56,20 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }; 
         }
 
+        protected override async void RegistroEdicionAuxiliar(RepoAlmacen repositorio, long id) {
+            if (!Vista.ModoEdicion)
+                AgregadorEventos.Publicar("AlmacenRegistrado", AgregadorEventos.SerializarPayload(Entidad));
+        }
+
         protected override bool EntidadCorrecta() {
-            var nombreRepetido = !Vista.ModoEdicion && RepoAlmacen.Instancia.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).cantidad > 0;
+            var repoAlmacen = RepoAlmacen.Instancia;
+            var nombreRepetido = !Vista.ModoEdicion && repoAlmacen.Buscar(FiltroBusquedaAlmacen.Nombre, Vista.NombreAlmacen).cantidad > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.NombreAlmacen) && !nombreRepetido;
-            var almacenPrimarioUnicoOk = Vista.Tipo == TipoAlmacen.Primario && !RepoAlmacen.Instancia.ExisteAlmacenPrimario();
+            var almacenPrimarioUnicoOk = repoAlmacen.ExisteAlmacenPrimario()
+                ? Vista.Tipo == TipoAlmacenEnum.Primario
+                    ? false
+                    : true
+                : true;
 
             if (nombreRepetido)
                 CentroNotificaciones.MostrarNotificacion("Ye existe un almacén con el mismo nombre registrado en el sistema, los nombres de almacenes deben ser únicos.", TipoNotificacionEnum.Advertencia);

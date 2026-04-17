@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
-    public class Inventario : IEntidadBaseDatos {
+    public class Inventario : IEquatable<Inventario>, IEntidadBaseDatos {
         public Inventario() { }
 
         public Inventario(long id, long idProducto, long idAlmacen, decimal cantidad, decimal costoPromedio, decimal valorTotal, DateTime ultimaActualizacion) {
@@ -24,6 +24,23 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public decimal ValorTotal { get; set; }
         public DateTime UltimaActualizacion { get; set; }
 
+        public override bool Equals(object? obj) {
+            return Equals(obj as Inventario);
+        }
+
+        public bool Equals(Inventario? other) {
+            if (other is null)
+                return false;
+
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode() {
+            return Id.GetHashCode();
+        }
         public override string ToString() {
             return $"{Id:000}, ID_ALM: {IdAlmacen}, ID_PROD: {IdProducto}, CANT: {Cantidad}, COST: {CostoPromedio}";
         }

@@ -60,8 +60,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 _producto = value;
 
                 if (value == null) {
-                    CentroNotificaciones.MostrarNotificacion("El producto entrado no se encuentra registrado en la base de datos. Entre el nombre de un producto válido antes de realizar el movimiento.", TipoNotificacionEnum.Advertencia);
-
                     panelDatosProducto.Visible = false;
                     layoutVista.RowStyles[4].Height = 0;
                     layoutVista.RowStyles[5].Height = 0;
@@ -122,6 +120,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     .resultadosBusqueda
                     .Select(r => r.entidadBase)
                     .FirstOrDefault(p => p.Nombre.Equals(fieldNombreProducto.Text));
+
+                if (Producto == null)
+                    CentroNotificaciones.MostrarNotificacion("El producto entrado no se encuentra registrado en la base de datos. Entre el nombre de un producto válido antes de realizar el movimiento.", TipoNotificacionEnum.Advertencia);
 
                 ActualizarCantidadFinal(sender, EventArgs.Empty);
 
@@ -184,6 +185,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldStockTotalBanner.Text = $"{inventarioProducto.Sum(inv => inv.entidadBase.Cantidad).ToString("N2", CultureInfo.InvariantCulture)} {unidadMedida.Abreviatura}";
             fieldOperadorBanner.Text = ContextoSeguridad.UsuarioAutenticado!.Nombre;
 
+            fieldNombreProducto.Text = producto.Nombre;
             fieldAbreviaturaUM1.Text = unidadMedida?.Abreviatura ?? "u";
             fieldAbreviaturaUM2.Text = unidadMedida?.Abreviatura ?? "u";
         }
@@ -214,9 +216,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 return;
             }
 
-            var cantidadActual = inventarioProducto
-                .FirstOrDefault(i => i.IdAlmacen.Equals(almacen?.Id))?.
-                Cantidad;
+            var cantidadActual = inventarioProducto.Count() > 0
+                ? inventarioProducto
+                  .FirstOrDefault(i => i.IdAlmacen.Equals(almacen?.Id))?.
+                  Cantidad
+                : 0;
             var cantidadMovida = CantidadMovida;
             var cantidadFinal = TipoMovimiento.Efecto == EfectoMovimientoEnum.Carga
                 ? cantidadActual + cantidadMovida
@@ -271,12 +275,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void CargarAlmacenes(Almacen[] almacenes) {
             fieldAlmacenOrigen.Items.Clear();
-            fieldAlmacenOrigen.Items.Add(new Almacen(0, "Ninguno", string.Empty, string.Empty, TipoAlmacen.Especial, false));
+            fieldAlmacenOrigen.Items.Add(new Almacen(0, "Ninguno", string.Empty, string.Empty, TipoAlmacenEnum.Especial, false));
             fieldAlmacenOrigen.Items.AddRange(almacenes);
             fieldAlmacenOrigen.SelectedIndex = almacenes.Length > 0 ? 0 : -1;
 
             fieldAlmacenDestino.Items.Clear();
-            fieldAlmacenDestino.Items.Add(new Almacen(0, "Ninguno", string.Empty, string.Empty, TipoAlmacen.Especial, false));
+            fieldAlmacenDestino.Items.Add(new Almacen(0, "Ninguno", string.Empty, string.Empty, TipoAlmacenEnum.Especial, false));
             fieldAlmacenDestino.Items.AddRange(almacenes);
             fieldAlmacenDestino.SelectedIndex = almacenes.Length > 0 ? 0 : -1;
         }

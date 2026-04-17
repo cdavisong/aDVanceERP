@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
-    public enum TipoAlmacen {
+    public enum TipoAlmacenEnum {
         Primario,
         Secundario,
         [Display(Name = "Tránsito")]

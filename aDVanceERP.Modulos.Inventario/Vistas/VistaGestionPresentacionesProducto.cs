@@ -8,19 +8,29 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
-    public partial class VistaGestionVentaPresentacion : Form, IVistaGestionVentaPresentacion {
-        private FiltroBusquedaPrecioPresentacion _filtroBusqueda = FiltroBusquedaPrecioPresentacion.IdProducto;
-        private string[] _criterioBusqueda = [];
+    public partial class VistaGestionPresentacionesProducto : Form, IVistaGestionPresentacionProducto {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
+        private bool _modoEdicion;
 
-        public VistaGestionVentaPresentacion() {
+        public VistaGestionPresentacionesProducto() {
             InitializeComponent();
 
-            NombreVista = nameof(VistaGestionVentaPresentacion);
+            NombreVista = nameof(VistaGestionPresentacionesProducto);
             PanelCentral = new RepoVistaBase(contenedorVistas);
+            FiltroBusqueda = FiltroBusquedaPresentacionProducto.IdProducto;
+            CriteriosBusqueda = [IdProducto.ToString()];
 
             Inicializar();
+        }
+
+        public bool ModoEdicion {
+            get => _modoEdicion;
+            set {
+                _modoEdicion = value;
+
+                btnRegistrarActualizar.Text = value ? "Actualizar la presentación" : "Agregar nueva presentación";
+            }
         }
 
         public string NombreVista {
@@ -43,15 +53,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => Size = value;
         }
 
-        public FiltroBusquedaPrecioPresentacion FiltroBusqueda {
-            get => _filtroBusqueda;
-            private set => _filtroBusqueda = value;
-        }
+        public FiltroBusquedaPresentacionProducto FiltroBusqueda { get; set; }
 
-        public string[] CriteriosBusqueda {
-            get => _criterioBusqueda.Length > 0 ? _criterioBusqueda : [IdProducto.ToString()];
-            private set => _criterioBusqueda = value;
-        }
+        public string[] CriteriosBusqueda { get; set; }
 
         public int TuplasMaximasContenedor {
             get => contenedorVistas.Height / ContextoAplicacion.AlturaTuplaPredeterminada;
@@ -81,9 +85,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public UnidadMedida? UnidadMedida {
             get => fieldUnidadMedida.SelectedItem as UnidadMedida;
             set { 
-                fieldUnidadMedida.SelectedItem = value; 
-
-
+                fieldUnidadMedida.SelectedItem = value;
+                fieldAbreviaturaUmCantPresentacion.Text = value != null ? value.Abreviatura : string.Empty;
             }
         }
 
@@ -106,6 +109,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     ? value.ToString("N2", CultureInfo.InvariantCulture)
                     : string.Empty;
         }
+
         public Moneda? MonedaPrecioVenta {
             get => fieldMonedaPrecioVentaPresentacion.SelectedItem as Moneda;
             set => fieldMonedaPrecioVentaPresentacion.SelectedItem = value;
@@ -121,23 +125,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
         public event EventHandler? EliminarEntidad;
-        public event EventHandler<(FiltroBusquedaPrecioPresentacion, string[])>? BuscarEntidades;
+        public event EventHandler<(FiltroBusquedaPresentacionProducto, string[])>? BuscarEntidades;
 
         public void Inicializar() {
             // Eventos
-            fieldMonedaPrecioVentaPresentacion.SelectedIndexChanged += (s, e) => {
-                if (fieldMonedaPrecioVentaPresentacion.SelectedItem is Moneda moneda)
-                    ActualizarSimboloMoneda(moneda.Simbolo);
-            };
-            btnRegistrar.Click += delegate (object? sender, EventArgs e) {
-                RegistrarEntidad?.Invoke(new PrecioPresentacion() {
-                    Id = 0,
-                    IdProducto = IdProducto,
-                    IdUnidadMedida = UnidadMedida?.Id ?? throw new ArgumentNullException(nameof(UnidadMedida)),
-                    Cantidad = Cantidad,
-                    PrecioVenta = PrecioVenta,
-                    Activo = true
-                }, e);
+            btnRegistrarActualizar.Click += delegate (object? sender, EventArgs args) {
+                if (ModoEdicion)
+                    EditarEntidad?.Invoke(sender, args);
+                else
+                    RegistrarEntidad?.Invoke(sender, args);
             };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
@@ -212,12 +208,6 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnPaginaSiguiente.Enabled = PaginaActual < PaginasTotales;
         }
 
-        public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
-            fieldUnidadMedida.Items.Clear();
-            fieldUnidadMedida.Items.AddRange(unidadesMedida);
-            fieldUnidadMedida.SelectedIndex = unidadesMedida.Length > 0 ? 0 : -1;
-        }
-
         public void CargarDatosProducto(Producto producto) {
             var unidadMedidaBase = RepoUnidadMedida.Instancia.ObtenerPorId(producto.IdUnidadMedida)!;
 
@@ -228,22 +218,22 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTextoAdvertencia.Text = fieldTextoAdvertencia.Text.Replace("[u]", unidadMedidaBase.Abreviatura);
         }
 
+        public void CargarUnidadesMedida(UnidadMedida[] unidadesMedida) {
+            fieldUnidadMedida.Items.Clear();
+            fieldUnidadMedida.Items.AddRange(unidadesMedida);
+            fieldUnidadMedida.SelectedIndex = unidadesMedida.Length > 0 ? 0 : -1;
+        }
+
         public void CargarMonedas(Moneda[] monedas) {
             fieldMonedaPrecioVentaPresentacion.Items.Clear();
             fieldMonedaPrecioVentaPresentacion.Items.AddRange(monedas);
 
             var monedaBase = monedas.FirstOrDefault(m => m.EsBase);
+
             if (monedaBase != null)
                 fieldMonedaPrecioVentaPresentacion.SelectedItem = monedaBase;
             else if (monedas.Length > 0)
                 fieldMonedaPrecioVentaPresentacion.SelectedIndex = 0;
-        }
-
-        public void ActualizarSimboloMoneda(string simbolo) {
-            // fieldSimboloPrecioVenta es un Label decorativo junto al campo de precio.
-            // Ajustar nombre según el Designer real.
-            //if (fieldSimboloPrecioVenta != null)
-            //    fieldSimboloPrecioVenta.Text = simbolo;
         }
     }
 }

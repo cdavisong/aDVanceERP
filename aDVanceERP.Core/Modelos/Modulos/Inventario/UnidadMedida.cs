@@ -3,7 +3,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
-    public class UnidadMedida : IEntidadBaseDatos {
+    public class UnidadMedida : IEquatable<UnidadMedida>, IEntidadBaseDatos {
         public UnidadMedida() {
             Nombre = string.Empty;
             Abreviatura = string.Empty;
@@ -21,6 +21,24 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public string Nombre { get; set; }
         public string Abreviatura { get; set; }
         public string Descripcion { get; set; }
+
+        public override bool Equals(object? obj) {
+            return Equals(obj as UnidadMedida);
+        }
+
+        public bool Equals(UnidadMedida? other) {
+            if (other is null)
+                return false;
+
+            if (ReferenceEquals(this, other)) 
+                return true;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode() {
+            return Id.GetHashCode();
+        }
 
         public override string ToString() {
             return $"{Nombre} ({Abreviatura})";

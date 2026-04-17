@@ -4,11 +4,11 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaGestionProductos : IVistaContenedor, IGestorEntidades, IBuscadorEntidades<FiltroBusquedaProducto>, INavegadorTuplasEntidades {
-        string? NombreAlmacen { get; }
+        Almacen? Almacen { get; }
         decimal ValorTotalInventario { get; }
 
         event EventHandler? GenerarCatalogoProductos;
 
-        void CargarFiltroAlmacenes(object[] nombresAlmacenes);
+        void CargarFiltroAlmacenes(Almacen[] almacenes);
     }
 }

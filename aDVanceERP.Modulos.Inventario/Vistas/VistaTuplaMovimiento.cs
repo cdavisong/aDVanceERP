@@ -5,7 +5,7 @@ using aDVanceERP.Modulos.Inventario.Properties;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
-        private EstadoMovimiento _estadoMovimiento;
+        private EstadoMovimientoEnum _estadoMovimiento;
         private EfectoMovimientoEnum _efecto;
 
         public VistaTuplaMovimiento() {
@@ -101,7 +101,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldFecha.Text = value;
         }
 
-        public EstadoMovimiento EstadoMovimiento { get; set; }
+        public EstadoMovimientoEnum EstadoMovimiento { get; set; }
 
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;

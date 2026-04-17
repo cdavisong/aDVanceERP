@@ -133,7 +133,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         }
 
         protected override string GenerarComandoObtener(FiltroBusquedaProducto filtroBusqueda, out Dictionary<string, object> parametros, params string[]? criteriosBusqueda) {
-            var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 2 ? criteriosBusqueda[2] : criteriosBusqueda.Length > 0 ? criteriosBusqueda[0] : string.Empty;
+            var criterio = criteriosBusqueda != null && criteriosBusqueda.Length > 2
+                ? criteriosBusqueda[2]
+                : criteriosBusqueda.Length > 0
+                    ? criteriosBusqueda[0]
+                    : string.Empty;
 
             if (criteriosBusqueda == null || criteriosBusqueda.Length == 0 || string.IsNullOrEmpty(criteriosBusqueda[0]))
                 criterio = string.Empty;
@@ -145,52 +149,85 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var aplicarFiltroCategoria = criteriosBusqueda?.Length > 2 && !todasLasCategorias;
 
             // Partes adicionales de la consulta
-            const string consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
-            const string consultaAdicionalJoin = "JOIN adv__inventario i ON p.id_producto = i.id_producto JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
+            string consultaAdicionalSelect;
+            string consultaAdicionalJoin;
+
+            if (todosLosAlmacenes) {
+                // Para "Todos los almacenes", sumar inventario de todos los almacenes
+                consultaAdicionalSelect = ", COALESCE(SUM(i.cantidad), 0) AS cantidad, GROUP_CONCAT(DISTINCT a.nombre SEPARATOR ', ') AS nombre_almacen";
+                consultaAdicionalJoin = "LEFT JOIN adv__inventario i ON p.id_producto = i.id_producto LEFT JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
+            } else if (aplicarFiltroAlmacen) {
+                // Para un almacén específico
+                consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
+                consultaAdicionalJoin = "JOIN adv__inventario i ON p.id_producto = i.id_producto JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
+            } else {
+                // Sin filtro de almacén (productos sin información de inventario)
+                consultaAdicionalSelect = "";
+                consultaAdicionalJoin = "";
+            }
 
             // Construcción de condiciones WHERE
             var condiciones = new List<string> {
-                $"p.activo = @activo"
-            };
+        $"p.activo = @activo"
+    };
 
-            if (aplicarFiltroAlmacen)
+            if (aplicarFiltroAlmacen && !todosLosAlmacenes)
                 condiciones.Add($"a.nombre = @nombre_almacen");
 
             if (aplicarFiltroCategoria)
                 condiciones.Add($"p.categoria = @categoria");
 
             var whereClause = condiciones.Count > 0 ? $"WHERE {string.Join(" AND ", condiciones)}" : "";
-            var consultaComun = $"""
-                SELECT p.*{(aplicarFiltroAlmacen ? consultaAdicionalSelect : string.Empty)}
-                FROM adv__producto p
-                {(aplicarFiltroAlmacen ? consultaAdicionalJoin : string.Empty)}
-                """;
-            var consulta = filtroBusqueda switch {
-                FiltroBusquedaProducto.Id => $"""
-                    {consultaComun}
-                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                    p.id_producto = @id;
-                    """,
-                FiltroBusquedaProducto.Codigo => $"""
-                    {consultaComun}
-                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                    LOWER(p.codigo) LIKE LOWER(@codigo);
-                    """,
-                FiltroBusquedaProducto.Nombre => $"""
-                    {consultaComun}
-                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                    LOWER(p.nombre) LIKE LOWER(@nombre);
-                    """,
-                FiltroBusquedaProducto.Descripcion => $"""
-                    {consultaComun}
-                    {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                    LOWER(p.descripcion) LIKE LOWER(@descripcion);
-                    """,
-                _ => $"""
-                    {consultaComun}
-                    {whereClause};
-                    """
-            };
+
+            string consulta;
+
+            if (todosLosAlmacenes) {
+                // Consulta con GROUP BY para sumar inventario de todos los almacenes
+                consulta = $"""
+                    SELECT p.*{consultaAdicionalSelect}
+                    FROM adv__producto p
+                    {consultaAdicionalJoin}
+                    {whereClause}
+                    GROUP BY p.id_producto, p.ruta_imagen, p.categoria, p.nombre, p.codigo, 
+                             p.id_proveedor, p.descripcion, p.id_unidad_medida, 
+                             p.id_clasificacion_producto, p.es_vendible, p.costo_adquisicion_unitario,
+                             p.costo_produccion_unitario, p.impuesto_venta_porcentaje, 
+                             p.margen_ganancia_deseado, p.precio_venta_base, p.activo;
+                    """;
+            } else {
+                var consultaComun = $"""
+                    SELECT p.*{consultaAdicionalSelect}
+                    FROM adv__producto p
+                    {consultaAdicionalJoin}
+                    """;
+
+                consulta = filtroBusqueda switch {
+                    FiltroBusquedaProducto.Id => $"""
+                        {consultaComun}
+                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                        p.id_producto = @id;
+                        """,
+                    FiltroBusquedaProducto.Codigo => $"""
+                        {consultaComun}
+                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                        LOWER(p.codigo) LIKE LOWER(@codigo);
+                        """,
+                    FiltroBusquedaProducto.Nombre => $"""
+                        {consultaComun}
+                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                        LOWER(p.nombre) LIKE LOWER(@nombre);
+                        """,
+                    FiltroBusquedaProducto.Descripcion => $"""
+                        {consultaComun}
+                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
+                        LOWER(p.descripcion) LIKE LOWER(@descripcion);
+                        """,
+                    _ => $"""
+                        {consultaComun}
+                        {whereClause};
+                        """
+                };
+            }
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaProducto.Id => new Dictionary<string, object> {
@@ -214,7 +251,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 }
             };
 
-            if (aplicarFiltroAlmacen) {
+            if (aplicarFiltroAlmacen && !todosLosAlmacenes) {
                 parametros.Add("@nombre_almacen", criteriosBusqueda[0]);
             }
 
@@ -404,16 +441,16 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             if (productos == null || productos.Count == 0)
                 return productos;
 
-            var repoPresentacion = RepoPrecioPresentacion.Instancia;
+            var repoPresentacion = RepoPresentacionProducto.Instancia;
 
             foreach (var producto in productos) {
                 var idProducto = Convert.ToInt64(producto["id"]);
                 
                 // Obtener todas las presentaciones activas del producto
                 var presentaciones = repoPresentacion
-                    .Buscar(FiltroBusquedaPrecioPresentacion.PresentacionesActivas, idProducto.ToString())
+                    .Buscar(FiltroBusquedaPresentacionProducto.PresentacionesActivas, idProducto.ToString())
                     .resultadosBusqueda
-                    .Select(r => r.entidadBase as PrecioPresentacion)
+                    .Select(r => r.entidadBase as PresentacionProducto)
                     .Where(p => p != null)
                     .ToList();
 

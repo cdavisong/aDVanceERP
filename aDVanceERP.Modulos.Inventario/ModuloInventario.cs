@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Presentadores;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas;
@@ -15,8 +16,8 @@ namespace aDVanceERP.Modulos.Inventario {
         private PresentadorMenuInventario _menuInventario = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorGestionProductos _productos = null!;
-        private PresentadorGestionVentaPresentacion _ventaPresentacion = null!;
         private PresentadorRegistroProducto _registroProducto = null!;
+        private PresentadorGestionPresentacionesProducto _presentacionesProducto = null!;
         private PresentadorGestionMovimientos _movimientos = null!;
         private PresentadorRegistroMovimiento _registroMovimiento = null!;
         private PresentadorGestionAlmacenes _almacenes = null!;
@@ -53,14 +54,17 @@ namespace aDVanceERP.Modulos.Inventario {
             _estadisticasGenerales = new PresentadorEstadisticasInventario(new VistaEstadisticasInventario());
             // Productos
             _productos = new PresentadorGestionProductos(new VistaGestionProductos());
-            _ventaPresentacion = new PresentadorGestionVentaPresentacion(new VistaGestionVentaPresentacion());
-            _ventaPresentacion.RegistrarEntidad += (s, e) => _productos.ActualizarResultadosBusqueda();
             _registroProducto = new PresentadorRegistroProducto(new VistaRegistroProducto());        
             _registroProducto.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
+            // Presentaciones de productos
+            _presentacionesProducto = new PresentadorGestionPresentacionesProducto(new VistaGestionPresentacionesProducto());
+            _presentacionesProducto.Vista.RegistrarEntidad += (s, e) => _productos.ActualizarResultadosBusqueda();
+            _presentacionesProducto.Vista.EliminarEntidad += (s, e) => _productos.ActualizarResultadosBusqueda();
             // Movimientos
             _movimientos = new PresentadorGestionMovimientos(new VistaGestionMovimientos());
             _registroMovimiento = new PresentadorRegistroMovimiento(new VistaRegistroMovimiento());
             _registroMovimiento.EntidadRegistradaActualizada += (s, e) => _movimientos.ActualizarResultadosBusqueda();
+            _registroMovimiento.EntidadRegistradaActualizada += (s, e) => _productos.ActualizarResultadosBusqueda();
             // Almacenes
             _almacenes = new PresentadorGestionAlmacenes(new VistaGestionAlmacenes());
             _registroAlmacen = new PresentadorRegistroAlmacen(new VistaRegistroAlmacen());
@@ -90,8 +94,9 @@ namespace aDVanceERP.Modulos.Inventario {
             _principal.Modulos.Vista.PanelCentral.Registrar(_estadisticasGenerales.Vista);
             // Productos
             _principal.Modulos.Vista.PanelCentral.Registrar(_productos.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(_ventaPresentacion.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroProducto.Vista);
+            // Presentaciones producto
+            _principal.Modulos.Vista.PanelCentral.Registrar(_presentacionesProducto.Vista);
             // Movimientos
             _principal.Modulos.Vista.PanelCentral.Registrar(_movimientos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroMovimiento.Vista);

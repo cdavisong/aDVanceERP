@@ -3,13 +3,13 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaTuplaAlmacen : IVistaTupla {
-        string Id { get; set; }
+        long Id { get; set; }
         string NombreAlmacen { get; set; }
         string Tipo { get; set; }
         string Direccion { get; set; }
         string Descripcion { get; set; }
         bool Estado { get; set; } 
 
-        event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
+        event EventHandler<(long Id, FormatoDocumento Formato)>? ExportarDocumentoInventario;
     }
 }

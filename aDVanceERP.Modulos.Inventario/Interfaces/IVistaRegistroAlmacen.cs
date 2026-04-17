@@ -5,7 +5,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaRegistroAlmacen : IVistaRegistro {
         string NombreAlmacen { get; set; }
         string? Direccion { get; set; }
-        TipoAlmacen Tipo { get; set; }
+        TipoAlmacenEnum Tipo { get; set; }
         string? Descripcion { get; set; }
     }
 }

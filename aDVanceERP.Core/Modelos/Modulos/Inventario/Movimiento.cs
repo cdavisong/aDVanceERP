@@ -12,7 +12,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
             NombreTipoMovimiento = string.Empty;
         }
 
-        public Movimiento(long id, long idProducto, decimal costoUnitario, long idAlmacenOrigen, long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimiento estado, DateTime fecha, decimal saldoInicial, decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario, string notas) {
+        public Movimiento(long id, long idProducto, decimal costoUnitario, long idAlmacenOrigen, long idAlmacenDestino, DateTime fechaCreacion, EstadoMovimientoEnum estado, DateTime fecha, decimal saldoInicial, decimal cantidadMovida, decimal saldoFinal, long idTipoMovimiento, long idCuentaUsuario, string notas) {
             Id = id;
             IdProducto = idProducto;
             CostoUnitario = costoUnitario;
@@ -42,7 +42,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public long IdAlmacenOrigen { get; set; }
         public long IdAlmacenDestino { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public EstadoMovimiento Estado { get; set; }
+        public EstadoMovimientoEnum Estado { get; set; }
         public DateTime FechaTermino { get; set; }
         public decimal SaldoInicial { get; set; }
         public decimal CantidadMovida { get; set; }

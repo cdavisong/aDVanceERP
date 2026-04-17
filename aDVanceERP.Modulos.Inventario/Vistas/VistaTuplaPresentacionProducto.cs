@@ -4,11 +4,11 @@ using aDVanceERP.Modulos.Inventario.Properties;
 using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
-    public partial class VistaTuplaVentaPresentacion : Form, IVistaTuplaVentaPresentacion {
+    public partial class VistaTuplaPresentacionProducto : Form, IVistaTuplaVentaPresentacion {
         private decimal _descuento;
         private bool _activo;
 
-        public VistaTuplaVentaPresentacion() {
+        public VistaTuplaPresentacionProducto() {
             InitializeComponent();
             Inicializar();
         }
@@ -39,6 +39,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public bool EstadoSeleccion { get; set; }
+
+        public long Id { get; set; }
 
         public string NombreUM {
             get => fieldNombreUM.Text;
@@ -110,7 +112,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
             btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
         }
 

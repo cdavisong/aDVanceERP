@@ -1,15 +1,16 @@
-﻿using System.Globalization;
-
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Modulos.Inventario.Interfaces;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+using aDVanceERP.Modulos.Inventario.Interfaces;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaProducto : Form, IVistaTuplaProducto {
-        private string? _nombreAlmacen;
         private int _presentaciones;
+        private UnidadMedida? _unidadMedida;
 
         public VistaTuplaProducto() {
             InitializeComponent();
@@ -51,10 +52,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldId.Text = value.ToString();
         }
 
-        public string NombreAlmacen {
-            get => _nombreAlmacen ?? string.Empty;
-            set => _nombreAlmacen = string.IsNullOrEmpty(value) ? "-" : value;
-        }
+        public Almacen? Almacen { get; set; }
 
         public string Codigo {
             get => fieldCodigo.Text;
@@ -65,11 +63,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             get => fieldFechaUltimoMovimiento.Text.Equals("-")
                 ? DateTime.MinValue
                 : DateTime.ParseExact(fieldFechaUltimoMovimiento.Text, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            set => fieldFechaUltimoMovimiento.Text = value.Equals(DateTime.MinValue) 
+            set => fieldFechaUltimoMovimiento.Text = value.Equals(DateTime.MinValue)
                 ? "-"
                 : value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
-                
+
         public string NombreDescripcion {
             get => fieldNombreDescripcion.Text;
             set {
@@ -112,15 +110,19 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public string UnidadMedida {
-            get => fieldUnidadMedida.Text;
-            set => fieldUnidadMedida.Text = value;
+        public UnidadMedida? UnidadMedida {
+            get => _unidadMedida;
+            set { 
+                _unidadMedida = value;
+
+                fieldUnidadMedida.Text = value.Abreviatura; 
+            }
         }
 
         public decimal Stock {
-            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture, 
-                out var value) 
-                ? value 
+            get => decimal.TryParse(fieldStock.Text, NumberStyles.Any, CultureInfo.InvariantCulture,
+                out var value)
+                ? value
                 : 0;
             set {
                 fieldStock.ForeColor = value == 0 ? Color.Firebrick : Color.FromArgb(115, 109, 106);
@@ -130,27 +132,27 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public event EventHandler? GestionarPresentaciones;
-        public event EventHandler? MovimientoPositivoStock;
-        public event EventHandler? MovimientoNegativoStock;
+        public event EventHandler<Almacen>? MovimientoPositivoStock;
+        public event EventHandler<Almacen>? MovimientoNegativoStock;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
-        
+
         public void Inicializar() {
             // Eventos
             fieldPresentaciones.Click += delegate {
-                GestionarPresentaciones?.Invoke(this, EventArgs.Empty);
+                GestionarPresentaciones?.Invoke(new object[] { Id, Almacen }, EventArgs.Empty);
             };
             btnMovimientoPositivo.Click += delegate (object? sender, EventArgs e) {
-                MovimientoPositivoStock?.Invoke(NombreAlmacen, e);
+                MovimientoPositivoStock?.Invoke(Id, Almacen);
             };
             btnMovimientoNegativo.Click += delegate (object? sender, EventArgs e) {
-                MovimientoNegativoStock?.Invoke(NombreAlmacen, e);
+                MovimientoNegativoStock?.Invoke(Id, Almacen);
             };
             btnEditar.Click += delegate (object? sender, EventArgs e) {
-                EditarDatosTupla?.Invoke(new object[] { NombreAlmacen }, e);
+                EditarDatosTupla?.Invoke(new object[] { Id, Almacen }, e);
             };
             btnEliminar.Click += async delegate (object? sender, EventArgs e) {
-                if (RepoMovimiento.Instancia.Buscar(Core.Modelos.Modulos.Inventario.FiltroBusquedaMovimiento.IdProducto, Id.ToString()).cantidad > 0)
+                if (RepoMovimiento.Instancia.Buscar(FiltroBusquedaMovimiento.IdProducto, Id.ToString()).cantidad > 0)
                     EliminarDatosTupla?.Invoke(this, e);
                 else
                     CentroNotificaciones.MostrarNotificacion(

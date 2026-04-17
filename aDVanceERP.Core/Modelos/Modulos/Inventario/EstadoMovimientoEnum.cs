@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
-    public enum EstadoMovimiento {
-
+    public enum EstadoMovimientoEnum {
         [Display(Name = "Pendiente", Description = "Movimiento pendiente de completar")]
         Pendiente,
         [Display(Name = "Completado", Description = "Movimiento completado")]   

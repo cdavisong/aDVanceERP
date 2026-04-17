@@ -36,9 +36,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public bool EstadoSeleccion { get; set; }
 
-        public string Id {
-            get => fieldId.Text;
-            set => fieldId.Text = value;
+        public long Id {
+            get => Convert.ToInt64(fieldId.Text);
+            set => fieldId.Text = value.ToString();
         }
 
         public string NombreAlmacen {
@@ -79,17 +79,18 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             }
         }
 
-        public event EventHandler<(int, FormatoDocumento)>? ExportarDocumentoInventario;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
+
+        public event EventHandler<(long Id, FormatoDocumento Formato)>? ExportarDocumentoInventario;
 
         public void Inicializar() {
             // Eventos
             btnExportarDocumentoInventario.Click += delegate { btnExportarDocumentoInventario.ContextMenuStrip?.Show(btnExportarDocumentoInventario, new Point(0, 40)); };
-            btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.PDF)); };
-            btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (int.Parse(Id), FormatoDocumento.Excel)); };
-            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+            btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.PDF)); };
+            btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.Excel)); };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
+            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(Id, e); };
         }
 
         public void Mostrar() {

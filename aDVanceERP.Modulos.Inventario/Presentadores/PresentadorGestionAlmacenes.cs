@@ -10,32 +10,32 @@ using aDVanceERP.Modulos.Inventario.Vistas;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionAlmacenes : PresentadorVistaGestion<PresentadorTuplaAlmacen, IVistaGestionAlmacenes, IVistaTuplaAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
         public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
-            RegistrarEntidad += OnRegistrarAlmacen;
-            EditarEntidad += OnEditarAlmacen;
+            vista.RegistrarEntidad += OnRegistrarAlmacen;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionAlmacenes", OnMostrarVistaGestionAlmacenes);
         }
 
-        private void OnRegistrarAlmacen(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroAlmacen", string.Empty);
-        }
-
-        private void OnEditarAlmacen(object? sender, Almacen e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionAlmacen", AgregadorEventos.SerializarPayload(e));
-        }
-
         private void OnMostrarVistaGestionAlmacenes(string obj) {
-            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaAlmacen>()]);
+            CargarDatosComunes();
+
             Vista.Restaurar();
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
         }
 
+        private void OnRegistrarAlmacen(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaRegistroAlmacen", sender?.ToString());
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaAlmacen>()]);
+        }
+
         protected override PresentadorTuplaAlmacen ObtenerValoresTupla(Almacen entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaAlmacen(new VistaTuplaAlmacen(), entidad);
 
-            presentadorTupla.Vista.Id = entidad.Id.ToString();
+            presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.NombreAlmacen = entidad.Nombre;
             presentadorTupla.Vista.Tipo = entidad.Tipo.ToString();
             presentadorTupla.Vista.Direccion = string.IsNullOrEmpty(entidad.Direccion) 
@@ -47,6 +47,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 : entidad.Descripcion;
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarAlmacen;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionAlmacenes", OnMostrarVistaGestionAlmacenes);
+
+            base.Dispose();
         }
     }
 }

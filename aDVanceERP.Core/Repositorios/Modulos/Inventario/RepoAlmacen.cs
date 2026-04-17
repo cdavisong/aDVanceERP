@@ -110,7 +110,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 nombre: Convert.ToString(lectorDatos["nombre"]) ?? string.Empty,
                 descripcion: lectorDatos["descripcion"] != DBNull.Value ? Convert.ToString(lectorDatos["descripcion"]) : string.Empty,
                 direccion: Convert.ToString(lectorDatos["direccion"]) ?? string.Empty,
-                tipo: Enum.TryParse<TipoAlmacen>(Convert.ToString(lectorDatos["tipo"]) ?? string.Empty, out var categoria) ? categoria : TipoAlmacen.Secundario,
+                tipo: Enum.TryParse<TipoAlmacenEnum>(Convert.ToString(lectorDatos["tipo"]) ?? string.Empty, out var categoria) ? categoria : TipoAlmacenEnum.Secundario,
                 estado: Convert.ToBoolean(lectorDatos["estado"])
             ), new List<IEntidadBaseDatos>());
         }

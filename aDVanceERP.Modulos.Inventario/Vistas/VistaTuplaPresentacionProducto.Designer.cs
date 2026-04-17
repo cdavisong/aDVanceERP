@@ -3,7 +3,7 @@
 using System.ComponentModel;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
-    partial class VistaTuplaVentaPresentacion {
+    partial class VistaTuplaPresentacionProducto {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -30,7 +30,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             components = new Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaVentaPresentacion));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaPresentacionProducto));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();

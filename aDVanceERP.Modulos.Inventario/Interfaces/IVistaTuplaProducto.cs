@@ -1,9 +1,10 @@
-﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaTuplaProducto : IVistaTupla {
         long Id { get; set; }
-        string NombreAlmacen { get; set; }
+        Almacen? Almacen { get; set; }
         string Codigo { get; set; }
         DateTime FechaUltimoMovimiento { get; set; }
         string NombreDescripcion { get; set; }
@@ -11,10 +12,10 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         decimal PrecioVentaBase { get; set; }
         int Presentaciones { get; set; }
         decimal Stock { get; set; }
-        string UnidadMedida { get; set; }
+        UnidadMedida? UnidadMedida { get; set; }
         
         event EventHandler? GestionarPresentaciones;
-        event EventHandler? MovimientoPositivoStock;
-        event EventHandler? MovimientoNegativoStock;
+        event EventHandler<Almacen>? MovimientoPositivoStock;
+        event EventHandler<Almacen>? MovimientoNegativoStock;
     }
 }

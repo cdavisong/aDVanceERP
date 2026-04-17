@@ -52,8 +52,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set => fieldDireccion.Text = value;
         }
 
-        public TipoAlmacen Tipo { 
-            get => (TipoAlmacen) fieldTipo.SelectedIndex;
+        public TipoAlmacenEnum Tipo { 
+            get => (TipoAlmacenEnum) fieldTipo.SelectedIndex;
             set => fieldTipo.SelectedItem = value;
         }
 
@@ -88,7 +88,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Restaurar() {
             NombreAlmacen = string.Empty;
             Direccion = string.Empty;
-            Tipo = TipoAlmacen.Secundario;
+            Tipo = TipoAlmacenEnum.Secundario;
             Descripcion = string.Empty;
         }
 
