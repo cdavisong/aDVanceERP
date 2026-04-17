@@ -15,8 +15,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         private Moneda? _monedaBase;
 
         public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
         }
 
         public Almacen? Almacen { get; set; }
@@ -37,21 +37,24 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             if (string.IsNullOrEmpty(obj))
                 return;
 
+            CargarDatosComunes();
+
             var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var idProducto = AgregadorEventos.DeserializarPayload<long>(datos[0]?.ToString() ?? string.Empty);
+            var idProducto = !string.IsNullOrEmpty(datos[1]?.ToString())
+                ? AgregadorEventos.DeserializarPayload<long>(datos[0].ToString())
+                : 0;
             var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
+            
+            if (producto == null)
+                return;
+
             var almacen = !string.IsNullOrEmpty(datos[1]?.ToString())
                 ? AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString())
                 : null;
 
-            if (producto == null)
-                return;
-
-            CargarDatosComunes();
-
             if (almacen != null)
                 Almacen = almacen;
-
+           
             PopularVistaDesdeEntidad(producto);
 
             Vista.Mostrar();
@@ -208,6 +211,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     TipoNotificacionEnum.Advertencia);
 
             return nombreOk && codigoOk && unidadMedidaOk && almacenOk && monedaOk;
+        }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+
+            base.Dispose();
         }
     }
 }

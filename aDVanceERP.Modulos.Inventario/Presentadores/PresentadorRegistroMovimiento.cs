@@ -18,11 +18,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
 
-            // Carga inicial de datos
-            Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            CargarDatosComunes();
 
-            // Carga de datos extra
             if (!string.IsNullOrEmpty(obj)) {
                 var datosExtra = AgregadorEventos.DeserializarPayload<object[]>(obj);
                 var producto = AgregadorEventos.DeserializarPayload<Producto>(datosExtra[0].ToString());
@@ -45,11 +42,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     if (tiposMovimiento.Length == 1)
                         Vista.TipoMovimiento = tiposMovimiento[0];
                 }
-            } else
-                Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            }
 
             Vista.Mostrar();
         }
+
+        
 
         private void OnMostrarVistaEdicionMovimiento(string obj) {
             Vista.ModoEdicion = true;
@@ -58,19 +56,22 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             if (string.IsNullOrEmpty(obj))
                 return;
 
+            CargarDatosComunes();
+
             var movimiento = AgregadorEventos.DeserializarPayload<Movimiento>(obj.ToString());
 
             if (movimiento == null)
                 return;
 
-            // Carga inicial de datos
-            Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-
             PopularVistaDesdeEntidad(movimiento);
 
             Vista.Mostrar();
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
         }
 
         private void OnNuevoProductoRegistrado(string obj) {
@@ -140,8 +141,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                                     ? Vista.Producto?.CostoProduccionUnitario
                                     : Vista.Producto?.CostoAdquisicionUnitario;
 
-            // ✅ Para Carga → el saldo de referencia es el almacén destino
-            // ✅ Para Descarga/Transferencia → el saldo de referencia es el almacén origen
+            // Para Carga el saldo de referencia es el almacén destino
+            // Para Descarga/Transferencia el saldo de referencia es el almacén origen
             var almacenReferencia = Vista.TipoMovimiento?.Efecto == EfectoMovimientoEnum.Carga
                 ? Vista.AlmacenDestino
                 : Vista.AlmacenOrigen;
@@ -175,8 +176,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         protected override void RegistroEdicionAuxiliar(RepoMovimiento repoMovimiento, long id) {
-            // ⚠️ La edición de movimientos no recalcula inventario para evitar
-            // doble ajuste. Solo se actualizan las notas y metadatos del registro.
+            // La edición de movimientos no recalcula inventario para evitar doble
+            // ajuste. Solo se actualizan las notas y metadatos del registro.
             // Si se necesita corrección de stock, usar un Ajuste de Inventario manual.
             if (Entidad != null && !Vista.ModoEdicion) {
                 RepoInventario.Instancia.ModificarInventario(
@@ -185,6 +186,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                     Vista.AlmacenDestino,
                     Vista.CantidadMovida
                 );
+
+                AgregadorEventos.Publicar("MovimientoInventarioRegistrado", AgregadorEventos.SerializarPayload(Entidad));
             }
         }
 
@@ -253,6 +256,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
 
             return productoOk && tipoMovimientoOk && cantidadOk;
+        }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
+            AgregadorEventos.Desuscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
+
+            base.Dispose();
         }
     }
 }

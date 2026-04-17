@@ -51,6 +51,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }; 
         }
 
+        protected override async void RegistroEdicionAuxiliar(RepoClasificacionProducto repositorio, long id) {
+            if (!Vista.ModoEdicion)
+                AgregadorEventos.Publicar("ClasificacionProductoRegistrada", AgregadorEventos.SerializarPayload(Entidad));
+        }
+
         protected override bool EntidadCorrecta() {
             var nombreRepetido = !Vista.ModoEdicion && RepoClasificacionProducto.Instancia.Buscar(FiltroBusquedaClasificacionProducto.Nombre, Vista.Nombre).cantidad > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
@@ -61,6 +66,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
             return nombreOk;
+        }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroClasificacion", OnMostrarVistaRegistroClasificacion);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionClasificacion", OnMostrarVistaEdicionClasificacion);
+
+            base.Dispose();
         }
     }
 }

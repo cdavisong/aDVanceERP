@@ -53,6 +53,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }; 
         }
 
+        protected override async void RegistroEdicionAuxiliar(RepoUnidadMedida repositorio, long id) {
+            if (!Vista.ModoEdicion)
+                AgregadorEventos.Publicar("UnidadMedidaRegistrada", AgregadorEventos.SerializarPayload(Entidad));
+        }
+
         protected override bool EntidadCorrecta() {
             var nombreRepetido = !Vista.ModoEdicion && RepoUnidadMedida.Instancia.Buscar(FiltroBusquedaUnidadMedida.Nombre, Vista.Nombre).cantidad > 0;
             var nombreOk = !string.IsNullOrEmpty(Vista.Nombre) && !nombreRepetido;
@@ -63,6 +68,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 CentroNotificaciones.MostrarNotificacion("El campo de nombre es obligatorio, por favor, corrija los datos entrados", TipoNotificacionEnum.Advertencia);
 
             return nombreOk;
+        }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroUnidadMedida", OnMostrarVistaRegistroUnidadMedida);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionUnidadMedida", OnMostrarVistaEdicionUnidadMedida);
+
+            base.Dispose();
         }
     }
 }

@@ -80,5 +80,12 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             return nombreOk && almacenPrimarioUnicoOk;
         }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
+            AgregadorEventos.Desuscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
+
+            base.Dispose();
+        }
     }
 }
