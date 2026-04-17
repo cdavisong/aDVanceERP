@@ -29,7 +29,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            Vista.EditarDatosTupla += MostrarVistaEdicionAlmacen;
+            Vista.EditarDatosTupla -= MostrarVistaEdicionAlmacen;
             Vista.ExportarDocumentoInventario -= OnExportarDocumentoInventarioAlmacen;
 
             base.Dispose();

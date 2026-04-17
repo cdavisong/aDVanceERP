@@ -34,7 +34,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
             Vista.Habilitada = false;
             Vista.BuscarEntidades += OnBuscarEntidad;
-            Vista.RegistrarEntidad += OnRegistrarEntidad;
             Vista.AlturaContenedorTuplasModificada += OnAlturaContenedorTuplasModificada;
             Vista.SincronizarDatos += OnSincronizarDatos;
 
@@ -46,9 +45,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         public string[] CriteriosBusqueda { get; protected set; } = Array.Empty<string>();
         public List<En> EntidadesExtra { get; } = new List<En>();
         public IEnumerable<Pt> TuplasSeleccionadas => _tuplasEntidades.Where(t => t.EstadoSeleccion);
-
-        public event EventHandler? RegistrarEntidad;
-        public event EventHandler<En>? EditarEntidad;
 
         public void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda) {
             FiltroBusqueda = filtroBusqueda;
@@ -73,7 +69,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                     Vista.PanelCentral.CerrarTodos();
                     foreach (var p in _tuplasEntidades) {
                         p.EntidadSeleccionada -= OnEntidadSeleccionada;
-                        p.EditarEntidad -= OnEditarEntidad;
                         p.EliminarEntidad -= OnEliminarEntidad;
                         p.Dispose();
                     }
@@ -128,7 +123,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                 if (presentadorTupla == null) return;
 
                 presentadorTupla.EntidadSeleccionada += OnEntidadSeleccionada;
-                presentadorTupla.EditarEntidad += OnEditarEntidad;
                 presentadorTupla.EliminarEntidad += OnEliminarEntidad;
 
                 _tuplasEntidades.Add(presentadorTupla);
@@ -160,10 +154,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             DeseleccionarTuplas(sender as IVistaTupla);
         }
 
-        protected virtual void OnEditarEntidad(object? sender, En entidad) {
-            EditarEntidad?.Invoke(sender, entidad);
-        }
-
         protected virtual void OnEliminarEntidad(object? sender, En entidad) {
             if (entidad == null)
                 return;
@@ -188,10 +178,6 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
         private void OnBuscarEntidad(object? sender, (Fb filtro, string[] criterios) e) {
             Buscar(e.filtro, e.criterios);
-        }
-
-        private void OnRegistrarEntidad(object? sender, EventArgs e) {
-            RegistrarEntidad?.Invoke(sender, e);
         }
 
         private void OnAlturaContenedorTuplasModificada(object? sender, EventArgs e) {

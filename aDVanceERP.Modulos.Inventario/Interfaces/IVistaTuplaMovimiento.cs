@@ -3,7 +3,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Interfaces {
     public interface IVistaTuplaMovimiento : IVistaTupla {
-        string Id { get; set; }
+        long Id { get; set; }
         string NombreProducto { get; set; }
         string NombreAlmacenOrigen { get; set; }
         string NombreAlmacenDestino { get; set; }

@@ -10,26 +10,26 @@ using aDVanceERP.Modulos.Inventario.Vistas;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorGestionClasificaciones : PresentadorVistaGestion<PresentadorTuplaClasificacion, IVistaGestionClasificaciones, IVistaTuplaClasificacion, ClasificacionProducto, RepoClasificacionProducto, FiltroBusquedaClasificacionProducto> {
         public PresentadorGestionClasificaciones(IVistaGestionClasificaciones vista) : base(vista) {
-            RegistrarEntidad += OnRegistrarClasificacion;
-            EditarEntidad += OnEditarClasificacion;
+            vista.RegistrarEntidad += OnRegistrarClasificacion;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionClasificaciones", OnMostrarVistaGestionClasificaciones);
         }
 
-        private void OnRegistrarClasificacion(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroClasificacion", string.Empty);
-        }
-
-        private void OnEditarClasificacion(object? sender, ClasificacionProducto e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionClasificacion", AgregadorEventos.SerializarPayload(e));
-        }
-
         private void OnMostrarVistaGestionClasificaciones(string obj) {
-            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaClasificacionProducto>()]);
+            CargarDatosComunes();
+            
             Vista.Restaurar();
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaClasificacionProducto>()]);
+        }
+
+        private void OnRegistrarClasificacion(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaRegistroClasificacion", string.Empty);
         }
 
         protected override PresentadorTuplaClasificacion ObtenerValoresTupla(ClasificacionProducto entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -40,6 +40,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Descripcion = string.IsNullOrEmpty(entidad.Descripcion) ? "No disponible" : entidad.Descripcion;
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarClasificacion;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionClasificaciones", OnMostrarVistaGestionClasificaciones);
+
+            base.Dispose();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -7,7 +6,6 @@ using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
-using aDVanceERP.Modulos.Inventario.Documentos;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Vistas;
 
@@ -15,13 +13,30 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorGestionMovimientos : PresentadorVistaGestion<PresentadorTuplaMovimiento, IVistaGestionMovimientos, IVistaTuplaMovimiento, Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
-        private DocAuditoriaInventario _auditoriaInventario = null!;
-        
         public PresentadorGestionMovimientos(IVistaGestionMovimientos vista) : base(vista) { 
-            RegistrarEntidad += OnRegistrarMovimiento;
-            EditarEntidad += OnEditarMovimiento;
+            vista.RegistrarEntidad += OnRegistrarMovimiento;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
+        }
+
+        private void OnMostrarVistaGestionMovimientos(string obj) {
+            CargarDatosComunes();
+            
+            Vista.Restaurar();
+            Vista.Mostrar();
+
+            ActualizarResultadosBusqueda();
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaMovimiento>()]);
+        }
+
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaMovimiento.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty];
+
+            base.ActualizarResultadosBusqueda();
         }
 
         private void OnRegistrarMovimiento(object? sender, EventArgs e) {
@@ -33,29 +48,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", string.Empty);
         }
 
-        private void OnEditarMovimiento(object? sender, Movimiento e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionMovimiento", AgregadorEventos.SerializarPayload(e));
-        }
-
-        private void OnMostrarVistaGestionMovimientos(string obj) {
-            Vista.CargarFiltrosBusqueda([..EnumExt.ObtenerNombresDescripciones<FiltroBusquedaMovimiento>()]);
-            Vista.Restaurar();
-            Vista.Mostrar();
-
-            ActualizarResultadosBusqueda();
-        }
-
-        public override void ActualizarResultadosBusqueda() {
-            if (FiltroBusqueda == FiltroBusquedaMovimiento.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
-                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty];
-
-            base.ActualizarResultadosBusqueda();
-        }
-
         protected override PresentadorTuplaMovimiento ObtenerValoresTupla(Movimiento entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaMovimiento(new VistaTuplaMovimiento(), entidad);
 
-            presentadorTupla.Vista.Id = entidad.Id.ToString();
+            presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.NombreProducto = entidad.NombreProducto;
             presentadorTupla.Vista.NombreAlmacenOrigen = entidad.NombreAlmacenOrigen;
             presentadorTupla.Vista.ActualizarIconoStock(entidad.EfectoMovimiento);
@@ -68,6 +64,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Fecha = entidad.FechaCreacion.ToString("yyyy-MM-dd");
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarMovimiento;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
+
+            base.Dispose();
         }
     }
 }

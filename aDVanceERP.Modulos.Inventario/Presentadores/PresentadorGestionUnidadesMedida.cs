@@ -10,26 +10,26 @@ using aDVanceERP.Modulos.Inventario.Vistas;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorGestionUnidadesMedida : PresentadorVistaGestion<PresentadorTuplaUnidadMedida, IVistaGestionUnidadesMedida, IVistaTuplaUnidadMedida, UnidadMedida, RepoUnidadMedida, FiltroBusquedaUnidadMedida> {
         public PresentadorGestionUnidadesMedida(IVistaGestionUnidadesMedida vista) : base(vista) {
-            RegistrarEntidad += OnRegistrarUnidadMedida;
-            EditarEntidad += OnEditarUnidadMedida;
+            vista.RegistrarEntidad += OnRegistrarUnidadMedida;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionUnidadesMedida", OnMostrarVistaGestionUnidadesMedida);
         }
 
-        private void OnRegistrarUnidadMedida(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroUnidadMedida", string.Empty);
-        }
-
-        private void OnEditarUnidadMedida(object? sender, UnidadMedida e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionUnidadMedida", AgregadorEventos.SerializarPayload(e));
-        }
-
         private void OnMostrarVistaGestionUnidadesMedida(string obj) {
-            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaUnidadMedida>()]);
+            CargarDatosComunes();
+            
             Vista.Restaurar();
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaUnidadMedida>()]);
+        }
+
+        private void OnRegistrarUnidadMedida(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar("MostrarVistaRegistroUnidadMedida", string.Empty);
         }
 
         protected override PresentadorTuplaUnidadMedida ObtenerValoresTupla(UnidadMedida entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -38,9 +38,17 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.Nombre = entidad.Nombre;
             presentadorTupla.Vista.Abreviatura = entidad.Abreviatura;
-            presentadorTupla.Vista.Descripcion = entidad.Descripcion ?? "No hay descripción disponible";
+            presentadorTupla.Vista.Descripcion = !string.IsNullOrEmpty(entidad.Descripcion) ? entidad.Descripcion : "No disponible";
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarUnidadMedida;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionUnidadesMedida", OnMostrarVistaGestionUnidadesMedida);
+
+            base.Dispose();
         }
     }
 }

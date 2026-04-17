@@ -83,5 +83,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             
             return presentadorTupla;
         }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarProducto;
+            Vista.GenerarCatalogoProductos -= OnGenerarCatalogoProductos;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
+
+            base.Dispose();
+        }
     }
 }

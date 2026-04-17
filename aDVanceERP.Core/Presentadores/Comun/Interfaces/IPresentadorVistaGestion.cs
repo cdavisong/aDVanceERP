@@ -13,9 +13,6 @@ namespace aDVanceERP.Core.Presentadores.Comun.Interfaces {
         string[] CriteriosBusqueda { get; }
         List<En> EntidadesExtra { get; }
 
-        event EventHandler? RegistrarEntidad;
-        event EventHandler<En>? EditarEntidad;
-
         void Buscar(Fb filtroBusqueda, params string[] criteriosBusqueda);
         void ActualizarResultadosBusqueda();
     }

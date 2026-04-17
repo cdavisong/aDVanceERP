@@ -1,11 +1,9 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Modulos.Inventario;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Properties;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaTuplaMovimiento : Form, IVistaTuplaMovimiento {
-        private EstadoMovimientoEnum _estadoMovimiento;
         private EfectoMovimientoEnum _efecto;
 
         public VistaTuplaMovimiento() {
@@ -43,9 +41,9 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public bool EstadoSeleccion { get; set; }
 
-        public string Id {
-            get => fieldId.Text;
-            set => fieldId.Text = value;
+        public long Id {
+            get => Convert.ToInt64(fieldId.Text);
+            set => fieldId.Text = value.ToString();
         }
 
         public string NombreProducto {
@@ -108,8 +106,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
     
         public void Inicializar() {
             // Eventos
-            btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(this, e); };
-            btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+            btnEditar.Click += delegate(object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
+            btnEliminar.Click += delegate(object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(Id, e); };
         }
 
         public void ActualizarIconoStock(EfectoMovimientoEnum efecto) {
