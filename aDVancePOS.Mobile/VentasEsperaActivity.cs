@@ -19,8 +19,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Ventas en espera",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class VentasEsperaActivity : Activity {
 
         public const int RequestCode = 3003;

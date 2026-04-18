@@ -20,8 +20,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Escanear código",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class EscanerActivity : Activity, ISurfaceHolderCallback {
 
         public const int RequestCode = 2001;

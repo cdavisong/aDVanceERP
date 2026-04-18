@@ -21,7 +21,11 @@ namespace aDVancePOS.Mobile {
     [Activity(
         Label = "@string/app_name",
         MainLauncher = false,
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
+        ConfigurationChanges =
+            Android.Content.PM.ConfigChanges.Orientation |
+            Android.Content.PM.ConfigChanges.ScreenSize  |
+            Android.Content.PM.ConfigChanges.ScreenLayout)]
     public class MainActivity : Activity {
         private ConfiguracionApp _config => ((PosApplication) Application!).Config;
         private CatalogoService _catalogoService => ((PosApplication) Application!).CatalogoService;
@@ -377,6 +381,19 @@ namespace aDVancePOS.Mobile {
 
         protected override void OnDestroy() {
             base.OnDestroy();
+        }
+
+        /// <summary>
+        /// Al rotar el dispositivo Android NO recrea la Activity (gracias a ConfigurationChanges).
+        /// Este método reinflama el layout correcto (portrait o landscape) y re-enlaza
+        /// todos los controles y eventos, preservando el estado del carrito y el catálogo.
+        /// </summary>
+        public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig) {
+            base.OnConfigurationChanged(newConfig);
+            SetContentView(Resource.Layout.activity_main);
+            EnlazarControles();
+            ConfigurarEventos();
+            ActualizarUI();
         }
     }
 

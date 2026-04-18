@@ -17,8 +17,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Licencia",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class LicenciaActivity : Activity {
 
         private CheckBox _chkAcepto     = null!;

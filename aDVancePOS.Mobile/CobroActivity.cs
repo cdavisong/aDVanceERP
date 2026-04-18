@@ -25,8 +25,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Cobrar",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class CobroActivity : Activity {
         public const string ExtraTicket = "ticket";
         public const string ExtraResumen = "resumen";

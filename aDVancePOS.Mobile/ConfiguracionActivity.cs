@@ -17,8 +17,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Configuración",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class ConfiguracionActivity : Activity {
 
         private EditText _txtIdAlmacen        = null!;

@@ -14,8 +14,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Detalle de venta",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class DetalleVentaActivity : Activity {
         public const string ExtraIdVenta = "id_venta";
 

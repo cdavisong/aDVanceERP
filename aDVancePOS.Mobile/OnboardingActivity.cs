@@ -22,8 +22,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Bienvenido",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class OnboardingActivity : Activity {
 
         // Clave en SharedPreferences para recordar que el onboarding fue completado

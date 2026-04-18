@@ -17,8 +17,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Completar venta",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class CobroCompletarEsperaActivity : Activity {
         public const string ExtraIdVentaLocal = "id_venta_local";
 

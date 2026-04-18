@@ -19,8 +19,7 @@ namespace aDVancePOS.Mobile {
 
     [Activity(
         Label = "Ventas del día",
-        Theme = "@style/Theme.AppCompat.Light.NoActionBar",
-        ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+        Theme = "@style/Theme.AppCompat.Light.NoActionBar")]
     public class ResumenVentasActivity : Activity {
 
         public const int RequestCode = 3002;
