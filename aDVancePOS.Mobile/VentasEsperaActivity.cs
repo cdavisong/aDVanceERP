@@ -82,20 +82,17 @@ namespace aDVancePOS.Mobile {
         }
 
         private void MostrarOpcionesVenta(VentaExportacion venta) {
-            decimal pagado = venta.Pagos.Sum(p => p.MontoPagado);
+            decimal pagado    = venta.Pagos.Sum(p => p.MontoPagado);
             decimal pendiente = venta.ImporteTotal - pagado;
 
-            new AlertDialog.Builder(this)!
-                .SetTitle($"Ticket: {venta.NumeroTicket}")!
-                .SetMessage(
-                    $"Total: {venta.ImporteTotal:N2}\n" +
-                    $"Pagado: {pagado:N2}\n" +
-                    $"Pendiente: {pendiente:N2}\n\n" +
-                    $"¿Qué desea hacer?")!
-                .SetPositiveButton("Completar cobro", (s, e) => CompletarVenta(venta))!
-                .SetNeutralButton("Cancelar venta", (s, e) => ConfirmarCancelar(venta))!
-                .SetNegativeButton("Cerrar", (s, e) => { })!
-                .Show();
+            DialogHelper.MostrarOpciones(
+                this,
+                titulo:  $"Ticket {venta.NumeroTicket}",
+                mensaje: $"Total: {venta.ImporteTotal:N2}\nPagado: {pagado:N2}\nPendiente: {pendiente:N2}",
+                opciones: new (string, bool, Action)[] {
+                    ("Completar cobro", true,  () => CompletarVenta(venta)),
+                    ("Cancelar venta",  false, () => ConfirmarCancelar(venta)),
+                });
         }
 
         private void CompletarVenta(VentaExportacion venta) {
@@ -116,21 +113,19 @@ namespace aDVancePOS.Mobile {
         }
 
         private void ConfirmarCancelar(VentaExportacion venta) {
-            new AlertDialog.Builder(this)!
-                .SetTitle("Cancelar venta")!
-                .SetMessage(
-                    $"Se cancelará el ticket {venta.NumeroTicket} y " +
-                    $"el stock de {venta.Detalles.Count} producto(s) " +
-                    $"será devuelto al catálogo.\n\n¿Confirma?")!
-                .SetPositiveButton("Sí, cancelar", async (s, e) => {
+            DialogHelper.MostrarConfirmar(
+                this,
+                titulo:         "Cancelar venta",
+                mensaje:        $"Se cancelará el ticket {venta.NumeroTicket} y el stock de {venta.Detalles.Count} producto(s) será devuelto al catálogo.\n\n¿Confirma?",
+                textoConfirmar: "Sí, cancelar",
+                onConfirmar:    async () => {
                     await _ventaService.CancelarVentaEnEsperaAsync(
                         venta, _catalogoService);
                     CargarLista();
                     Toast.MakeText(this, "Venta cancelada y stock devuelto.",
                         ToastLength.Short)?.Show();
-                })!
-                .SetNegativeButton("No", (s, e) => { })!
-                .Show();
+                },
+                destructivo:    true);
         }
 
         protected override void OnActivityResult(

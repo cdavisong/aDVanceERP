@@ -77,10 +77,7 @@ namespace aDVancePOS.Mobile {
         }
 
         private void Error(string msg) =>
-            new AlertDialog.Builder(this)!
-                .SetMessage(msg)!
-                .SetPositiveButton("OK", (s, e) => { })!
-                .Show();
+            DialogHelper.MostrarInfo(this, msg, titulo: "Atención");
     }
 
     // ── Vista de licencia desde configuración ─────────────────

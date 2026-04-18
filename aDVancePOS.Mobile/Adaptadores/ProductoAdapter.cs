@@ -1,3 +1,4 @@
+using aDVancePOS.Mobile;
 using aDVancePOS.Mobile.Modelos;
 
 using Android.Views;
@@ -88,28 +89,31 @@ namespace aDVancePOS.Mobile.Adaptadores {
         private void MostrarDialogoPresentaciones(
             ProductoCatalogo producto,
             List<PresentacionVenta> presentaciones) {
-            // Crear lista de opciones: primero "Unidad base", luego las presentaciones
+
             var opciones = new List<(string Etiqueta, long IdPresentacion, decimal Precio)>();
 
-            // Agregar opción de unidad base (idPresentacion = 0)
-            opciones.Add(($"1.0 {producto.UnidadMedida} — $ {producto.PrecioConImpuesto:N2}", 0, producto.PrecioConImpuesto));
+            // Unidad base siempre primera
+            opciones.Add((
+                $"1 {producto.UnidadMedida}  —  {producto.PrecioConImpuesto:N2} CUP",
+                0,
+                producto.PrecioConImpuesto));
 
-            // Agregar presentaciones activas
-            foreach (var p in presentaciones) {
-                opciones.Add(($" 1.0 {p.UnidadMedida} ó {p.Cantidad:N1} {producto.UnidadMedida} — $ {p.PrecioVenta:N2}", p.Id, p.PrecioVenta));
-            }
+            foreach (var p in presentaciones)
+                opciones.Add((
+                    $"{p.Cantidad:N0} {p.UnidadMedida}  —  {p.PrecioVenta:N2} CUP",
+                    p.Id,
+                    p.PrecioVenta));
 
             var etiquetas = opciones.Select(o => o.Etiqueta).ToArray();
 
-            new AlertDialog.Builder(_context)!
-                .SetTitle($"¿Cómo desea vender {producto.Nombre}?")!
-                .SetItems(etiquetas, (s, e) => {
-                    var opcionElegida = opciones[e.Which];
-
-                    _onAgregar(producto, opcionElegida.IdPresentacion, opcionElegida.Precio);
-                })!
-                .SetNegativeButton("Cancelar", (s, e) => { })!
-                .Show();
+            DialogHelper.MostrarLista(
+                _context,
+                titulo:       producto.Nombre,
+                items:        etiquetas,
+                onElegir:     idx => {
+                    var elegida = opciones[idx];
+                    _onAgregar(producto, elegida.IdPresentacion, elegida.Precio);
+                });
         }
     }
 }

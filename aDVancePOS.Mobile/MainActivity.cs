@@ -103,7 +103,7 @@ namespace aDVancePOS.Mobile {
             _btnVaciarCarrito.Click += (s, e) => SolicitarVaciarCarrito();
             _btnCobrar.Click += (s, e) => {
                 if (_carritoService.ConteoItems == 0) {
-                    MostrarMensaje("El carrito está vacío.");
+                    MostrarMensaje("Advertencia", "El carrito está vacío.");
                     return;
                 }
 
@@ -149,15 +149,18 @@ namespace aDVancePOS.Mobile {
 
                 if (!silencioso)
                     MostrarMensaje(
-                        $"Catálogo cargado\n" +
+                        "Catálogo cargado",
                         $"{catalogo.Productos.Count} productos · {catalogo.Meta.NombreAlmacen}");
             } catch (FileNotFoundException) {
                 if (!silencioso)
                     MostrarMensaje(
+                        "Advertencia",
                         "No se encontró catalogo.json.\n\n" +
                         "Exporta el catálogo desde la aplicación de escritorio de aDVance ERP, desde el módulo de inventario, pestaña de maestros, sección de almacenes");
             } catch (Exception ex) {
-                MostrarMensaje($"Error al cargar catálogo:\n{ex.Message}");
+                MostrarMensaje(
+                    "Atención", 
+                    $"Error al cargar catálogo:\n{ex.Message}");
             } finally {
                 _btnImportar.Enabled = true;
                 _btnImportar.Alpha = 1.0f;
@@ -203,7 +206,7 @@ namespace aDVancePOS.Mobile {
                 var resumen = data?.GetStringExtra(CobroActivity.ExtraResumen) ?? "";
 
                 if (!string.IsNullOrEmpty(resumen))
-                    MostrarMensaje(resumen);
+                    MostrarMensaje("Resumen de venta", resumen);
             }
         }
 
@@ -234,7 +237,9 @@ namespace aDVancePOS.Mobile {
                         $"{producto.Nombre} agregado",
                         ToastLength.Short)?.Show();
                 } else {
-                    MostrarMensaje($"Sin stock disponible para: {producto.Nombre}");
+                    MostrarMensaje(
+                        "Advertencia", 
+                        $"Sin stock disponible para: {producto.Nombre}");
                 }
             } else {
                 // No existe — abrir búsqueda con el código escaneado
@@ -358,21 +363,16 @@ namespace aDVancePOS.Mobile {
                 ActualizarListaProductos();
         }
 
-        private void MostrarMensaje(string mensaje) {
+        private void MostrarMensaje(string titulo, string mensaje) {
             RunOnUiThread(() =>
-                new AlertDialog.Builder(this)!
-                    .SetMessage(mensaje)!
-                    .SetPositiveButton("Aceptar", (s, e) => { })!
-                    .Show());
+                DialogHelper.MostrarInfo(this, mensaje, titulo));
         }
 
         private void ConfirmarAccion(string titulo, string mensaje, Action onConfirmar) {
-            new AlertDialog.Builder(this)!
-                .SetTitle(titulo)!
-                .SetMessage(mensaje)!
-                .SetPositiveButton("Confirmar", (s, e) => onConfirmar())!
-                .SetNegativeButton("Cancelar", (s, e) => { })!
-                .Show();
+            DialogHelper.MostrarConfirmar(this, titulo, mensaje,
+                textoConfirmar: "Confirmar",
+                onConfirmar: onConfirmar,
+                destructivo: true);
         }
 
         protected override void OnDestroy() {

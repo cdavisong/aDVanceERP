@@ -378,7 +378,7 @@ namespace aDVancePOS.Mobile {
 
             // Divisor
             var div = new View(this);
-            
+
             div.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, 1);
             div.SetBackgroundColor(Android.Graphics.Color.ParseColor("#F0F0F0"));
             wrap.AddView(div);
@@ -391,10 +391,12 @@ namespace aDVancePOS.Mobile {
                 ? $"La venta quedará archivada con {_pagosRegistrados.Count} pago(s) parcial(es) ya registrado(s).\n\nPodrá recuperarla desde Ventas en espera cuando llegue la confirmación."
                 : "Se archivará la venta sin pagos. Podrá completarla más tarde cuando llegue la confirmación de la transferencia.";
 
-            new AlertDialog.Builder(this)!
-                .SetTitle("Archivar venta en espera")!
-                .SetMessage(msg)!
-                .SetPositiveButton("Archivar", async (s, e) => {
+            DialogHelper.MostrarConfirmar(
+                this,
+                titulo: "Archivar en espera",
+                mensaje: msg,
+                textoConfirmar: "Archivar",
+                onConfirmar: async () => {
                     try {
                         var venta = await _ventaService.ArchivarEnEsperaAsync(
                             _carrito,
@@ -404,9 +406,7 @@ namespace aDVancePOS.Mobile {
                     } catch (Exception ex) {
                         MostrarError($"Error al archivar: {ex.Message}");
                     }
-                })!
-                .SetNegativeButton("Cancelar", (s, e) => { })!
-                .Show();
+                });
         }
 
         private void EnviarResultado(VentaExportacion venta, bool esEspera) {
@@ -442,10 +442,7 @@ namespace aDVancePOS.Mobile {
         }
 
         private void MostrarError(string msg) =>
-            new AlertDialog.Builder(this)!
-                .SetMessage(msg)!
-                .SetPositiveButton("OK", (s, e) => { })!
-                .Show();
+            DialogHelper.MostrarInfo(this, msg, titulo: "Atención");
 
         private int Dp(int dp) =>
             (int) (dp * Resources!.DisplayMetrics!.Density);
