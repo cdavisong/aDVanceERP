@@ -4,11 +4,17 @@
 -->
 <resources>
 
-	<!-- Tema base de la app (sin ActionBar) -->
+	<!-- Tema base de la app (sin ActionBar, pantalla completa) -->
 	<style name="Theme.AppCompat.Light.NoActionBar"
            parent="@android:style/Theme.Material.Light.NoActionBar">
 		<item name="android:windowBackground">@android:color/white</item>
 		<item name="android:statusBarColor">#B22222</item>
+
+		<!-- Pantalla completa: oculta la barra de estado -->
+		<item name="android:windowFullscreen">true</item>
+
+		<!-- Opcional: permite que el contenido se extienda detrás de la barra de navegación -->
+		<item name="android:windowTranslucentNavigation">true</item>
 	</style>
 
 	<!--

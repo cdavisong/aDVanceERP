@@ -1,5 +1,4 @@
 using aDVancePOS.Mobile.Modelos;
-using aDVancePOS.Mobile.Servicios;
 
 namespace aDVancePOS.Mobile.Servicios {
     public class CarritoService {
@@ -7,8 +6,7 @@ namespace aDVancePOS.Mobile.Servicios {
 
         public IReadOnlyList<ItemCarrito> Items => _items.AsReadOnly();
 
-        public decimal TotalBruto =>
-            _items.Sum(i => Math.Round(i.PrecioUnitario * i.Cantidad, 2));
+        public decimal TotalBruto => _items.Sum(i => Math.Round(i.PrecioUnitario * i.Cantidad, 2));
 
         public decimal TotalImpuesto => 0; // Por ahora no se calcula el impuesto, pero si se implementa, sería algo como:
                                            //_items.Sum(i => Math.Round(
@@ -24,31 +22,53 @@ namespace aDVancePOS.Mobile.Servicios {
         /// </summary>
         public bool AgregarProducto(ProductoCatalogo producto, long idPresentacion, decimal precioUnitario) {
             if (producto.StockEnSesion <= 0)
-                return false; // Sin stock
+                return false;
 
-            var existente = _items.FirstOrDefault(i => i.Producto.Id == producto.Id && i.IdPresentacion == idPresentacion);
+            var existente = _items
+                .FirstOrDefault(i => i.Producto.Id == producto.Id && i.IdPresentacion == idPresentacion);
+
             if (existente != null) {
                 existente.Cantidad++;
             } else {
-                _items.Add(new ItemCarrito { 
-                    Producto = producto, 
+                _items.Add(new ItemCarrito {
+                    Producto = producto,
                     Cantidad = 1,
                     IdPresentacion = idPresentacion,
                     PrecioUnitario = precioUnitario
                 });
             }
 
-            producto.StockEnSesion--;
+            // Modificar el stock del producto en sesión requiere verificar la 
+            // presentación para calcular el stock correcto.
+            var presentacion = producto
+                .Presentaciones
+                .FirstOrDefault(p => p.Id == idPresentacion);
+
+            if (presentacion != null)
+                producto.StockEnSesion -= presentacion.Cantidad;
+            else producto.StockEnSesion--;
+
             return true;
         }
 
-        /// <summary>Resta una unidad. Elimina el ítem si queda en 0.</summary>
+        /// <summary>
+        /// Resta una unidad. Elimina el ítem si queda en 0.
+        /// </summary>
         public void RestarProducto(ProductoCatalogo producto, long idPresentacion) {
             var item = _items.FirstOrDefault(i => i.Producto.Id == producto.Id && i.IdPresentacion == idPresentacion);
             if (item == null) return;
 
             item.Cantidad--;
-            producto.StockEnSesion++;
+
+            // Modificar el stock del producto en sesión requiere verificar la 
+            // presentación para calcular el stock correcto.
+            var presentacion = producto
+                .Presentaciones
+                .FirstOrDefault(p => p.Id == idPresentacion);
+
+            if (presentacion != null)
+                producto.StockEnSesion += presentacion.Cantidad;
+            else producto.StockEnSesion++;
 
             if (item.Cantidad <= 0)
                 _items.Remove(item);
@@ -56,7 +76,17 @@ namespace aDVancePOS.Mobile.Servicios {
 
         /// <summary>Elimina completamente un ítem del carrito.</summary>
         public void EliminarItem(ItemCarrito item) {
-            item.Producto.StockEnSesion += item.Cantidad;
+            // Modificar el stock del producto en sesión requiere verificar la 
+            // presentación para calcular el stock correcto.
+            var presentacion = item
+                .Producto
+                .Presentaciones
+                .FirstOrDefault(p => p.Id == item.IdPresentacion);
+
+            if (presentacion != null)
+                item.Producto.StockEnSesion += presentacion.Cantidad;
+            else item.Producto.StockEnSesion += item.Cantidad;
+
             _items.Remove(item);
         }
 
@@ -65,8 +95,17 @@ namespace aDVancePOS.Mobile.Servicios {
         /// Usar cuando el cajero CANCELA la operación (botón "Vaciar").
         /// </summary>
         public void Vaciar() {
-            foreach (var item in _items)
-                item.Producto.StockEnSesion += item.Cantidad;
+            foreach (var item in _items) {
+                var presentacion = item
+                    .Producto
+                    .Presentaciones
+                    .FirstOrDefault(p => p.Id == item.IdPresentacion);
+
+                if (presentacion != null)
+                    item.Producto.StockEnSesion += presentacion.Cantidad;
+                else item.Producto.StockEnSesion += item.Cantidad;
+            }
+
             _items.Clear();
         }
 
@@ -88,14 +127,31 @@ namespace aDVancePOS.Mobile.Servicios {
                 return;
 
             // Buscar si ya existe otro ítem con esta presentación para el mismo producto
-            var itemExistente = _items.FirstOrDefault(i => 
-                i.Producto.Id == item.Producto.Id && i.IdPresentacion == nuevaIdPresentacion);
+            var itemExistente = _items
+                .FirstOrDefault(i => i.Producto.Id == item.Producto.Id && i.IdPresentacion == nuevaIdPresentacion);
 
             if (itemExistente != null && itemExistente != item) {
                 // Fusionar: sumar cantidad al existente y eliminar el actual
                 itemExistente.Cantidad += item.Cantidad;
-                item.Producto.StockEnSesion += item.Cantidad; // Devolver stock del item original
-                itemExistente.Producto.StockEnSesion -= item.Cantidad; // Descontar stock en la nueva presentación
+
+                var presentacionOriginal = item
+                    .Producto
+                    .Presentaciones
+                    .FirstOrDefault(p => p.UnidadMedida == item.Producto.UnidadMedida);
+
+                if (presentacionOriginal != null)
+                    item.Producto.StockEnSesion += presentacionOriginal.Cantidad;
+                else item.Producto.StockEnSesion += item.Cantidad;
+
+                var presentacionNueva = itemExistente
+                    .Producto
+                    .Presentaciones
+                    .FirstOrDefault(p => p.Id == nuevaIdPresentacion);
+
+                if (presentacionNueva != null)
+                    itemExistente.Producto.StockEnSesion -= presentacionNueva.Cantidad;
+                else itemExistente.Producto.StockEnSesion -= item.Cantidad;
+
                 _items.Remove(item);
             } else {
                 // Solo cambiar presentación y precio del ítem actual
@@ -113,12 +169,16 @@ namespace aDVancePOS.Mobile.Servicios {
             CatalogoService catalogoService) {
 
             _items.Clear();
+
             foreach (var det in venta.Detalles) {
-                var prod = catalogoService.BuscarPorId((int)det.IdProducto);
-                if (prod == null) continue;
+                var prod = catalogoService.BuscarPorId((int) det.IdProducto);
+                
+                if (prod == null) 
+                    continue;
+
                 _items.Add(new ItemCarrito {
-                    Producto       = prod,
-                    Cantidad       = det.Cantidad,
+                    Producto = prod,
+                    Cantidad = det.Cantidad,
                     IdPresentacion = det.IdPresentacion,
                     PrecioUnitario = det.PrecioVentaUnitario
                 });

@@ -10,11 +10,8 @@
 using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
-using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Views;
-using Android.Widget;
 
 namespace aDVancePOS.Mobile {
 
@@ -23,120 +20,133 @@ namespace aDVancePOS.Mobile {
         Theme = "@style/Theme.AppCompat.Light.NoActionBar",
         ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class CobroCompletarEsperaActivity : Activity {
-
         public const string ExtraIdVentaLocal = "id_venta_local";
 
-        private VentaService    _ventaService    = null!;
+        private VentaService _ventaService = null!;
         private CatalogoService _catalogoService = null!;
-        private CarritoService  _carritoService  = null!;
+        private CarritoService _carritoService = null!;
 
-        private VentaExportacion          _ventaEnEspera  = null!;
-        private List<MonedaCatalogo>      _monedas        = new();
-        private MonedaCatalogo            _monedaBase     = null!;
-        private MonedaCatalogo            _monedaSeleccionada = null!;
+        private VentaExportacion _ventaEnEspera = null!;
+        private List<MonedaCatalogo> _monedas = new();
+        private MonedaCatalogo _monedaBase = null!;
+        private MonedaCatalogo _monedaSeleccionada = null!;
         private readonly List<PagoExportacion> _pagosNuevos = new();
 
         private decimal _total;
         private decimal _yaPageado;
 
-        // UI
-        private TextView     _lblTotal          = null!;
-        private TextView     _lblPendiente      = null!;
-        private LinearLayout _contenedorNuevos  = null!;
-        private TextView     _lblSinNuevos      = null!;
-        private RadioButton  _rbEfectivo        = null!;
-        private RadioButton  _rbTransferencia   = null!;
-        private Spinner      _spinnerMoneda     = null!;
-        private EditText     _txtMonto          = null!;
-        private TextView     _lblEquivalente    = null!;
+        private TextView _lblTotal = null!;
+        private TextView _lblPendiente = null!;
+        private LinearLayout _contenedorNuevos = null!;
+        private TextView _lblSinNuevos = null!;
+        private RadioButton _rbEfectivo = null!;
+        private RadioButton _rbTransferencia = null!;
+        private Spinner _spinnerMoneda = null!;
+        private EditText _txtMonto = null!;
+        private TextView _lblEquivalente = null!;
         private LinearLayout _panelTransferencia = null!;
-        private EditText     _txtNroTransferencia = null!;
-        private EditText     _txtTelefono       = null!;
-        private Button       _btnAgregarPago    = null!;
-        private Button       _btnConfirmar      = null!;
+        private EditText _txtNroTransferencia = null!;
+        private EditText _txtTelefono = null!;
+        private Button _btnAgregarPago = null!;
+        private Button _btnConfirmar = null!;
 
         protected override void OnCreate(Bundle? savedInstanceState) {
             base.OnCreate(savedInstanceState);
+
             ActionBar?.Hide();
+
             // Reusa el mismo layout de cobro
             SetContentView(Resource.Layout.activity_cobro);
 
-            var app = (PosApplication)Application!;
-            _ventaService    = app.VentaService;
+            var app = (PosApplication) Application!;
+
+            _ventaService = app.VentaService;
             _catalogoService = app.CatalogoService;
-            _carritoService  = app.CarritoService;
+            _carritoService = app.CarritoService;
 
             var idLocal = Intent?.GetStringExtra(ExtraIdVentaLocal) ?? "";
+
             _ventaEnEspera = _ventaService.ObtenerVentasEnEspera()
                 .FirstOrDefault(v => v.IdLocal == idLocal)!;
 
-            if (_ventaEnEspera == null) { Finish(); return; }
+            if (_ventaEnEspera == null) {
+                Finish();
+                return;
+            }
 
-            _total     = _ventaEnEspera.ImporteTotal;
+            _total = _ventaEnEspera.ImporteTotal;
             _yaPageado = _ventaEnEspera.Pagos.Sum(p => p.MontoPagado);
-
-            _monedas    = _catalogoService.ObtenerMonedas();
+            _monedas = _catalogoService.ObtenerMonedas();
             _monedaBase = _catalogoService.ObtenerMonedaBase();
-            if (_monedas.Count == 0) _monedas.Add(_monedaBase);
+
+            if (_monedas.Count == 0)
+                _monedas.Add(_monedaBase);
+
             _monedaSeleccionada = _monedaBase;
 
             EnlazarVistas();
             ConfigurarMetodosPago();
             ConfigurarSpinnerMoneda();
+
             _txtMonto.TextChanged += (s, e) => ActualizarEquivalente();
+
             ConfigurarBotones();
 
             // Ocultar botón archivar — no tiene sentido en este contexto
-            FindViewById<Button>(Resource.Id.btnArchivarEspera)!.Visibility =
-                ViewStates.Gone;
+            FindViewById<Button>(Resource.Id.btnArchivarEspera)!.Visibility = ViewStates.Gone;
 
             MostrarPagosExistentes();
             ActualizarResumen();
         }
 
         private void EnlazarVistas() {
-            _lblTotal            = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
-            _lblPendiente        = FindViewById<TextView>(Resource.Id.lblPendienteCobro)!;
-            _contenedorNuevos    = FindViewById<LinearLayout>(Resource.Id.contenedorPagosRegistrados)!;
-            _lblSinNuevos        = FindViewById<TextView>(Resource.Id.lblSinPagos)!;
-            _rbEfectivo          = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
-            _rbTransferencia     = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
-            _spinnerMoneda       = FindViewById<Spinner>(Resource.Id.spinnerMoneda)!;
-            _txtMonto            = FindViewById<EditText>(Resource.Id.txtMontoPago)!;
-            _lblEquivalente      = FindViewById<TextView>(Resource.Id.lblEquivalenteBase)!;
-            _panelTransferencia  = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
+            _lblTotal = FindViewById<TextView>(Resource.Id.lblTotalCobro)!;
+            _lblPendiente = FindViewById<TextView>(Resource.Id.lblPendienteCobro)!;
+            _contenedorNuevos = FindViewById<LinearLayout>(Resource.Id.contenedorPagosRegistrados)!;
+            _lblSinNuevos = FindViewById<TextView>(Resource.Id.lblSinPagos)!;
+            _rbEfectivo = FindViewById<RadioButton>(Resource.Id.rbEfectivo)!;
+            _rbTransferencia = FindViewById<RadioButton>(Resource.Id.rbTransferencia)!;
+            _spinnerMoneda = FindViewById<Spinner>(Resource.Id.spinnerMoneda)!;
+            _txtMonto = FindViewById<EditText>(Resource.Id.txtMontoPago)!;
+            _lblEquivalente = FindViewById<TextView>(Resource.Id.lblEquivalenteBase)!;
+            _panelTransferencia = FindViewById<LinearLayout>(Resource.Id.panelTransferencia)!;
             _txtNroTransferencia = FindViewById<EditText>(Resource.Id.txtNroTransferencia)!;
-            _txtTelefono         = FindViewById<EditText>(Resource.Id.txtTelefonoRemitente)!;
-            _btnAgregarPago      = FindViewById<Button>(Resource.Id.btnAgregarPago)!;
-            _btnConfirmar        = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
+            _txtTelefono = FindViewById<EditText>(Resource.Id.txtTelefonoRemitente)!;
+            _btnAgregarPago = FindViewById<Button>(Resource.Id.btnAgregarPago)!;
+            _btnConfirmar = FindViewById<Button>(Resource.Id.btnConfirmarCobro)!;
 
             _lblTotal.Text = $"Total: {_total:N2} {_monedaBase.Codigo}  ·  {_ventaEnEspera.NumeroTicket}";
+            
             FindViewById<ImageButton>(Resource.Id.btnVolverCobro)!.Click +=
                 (s, e) => Finish();
         }
 
         private void MostrarPagosExistentes() {
-            // Mostrar los pagos ya registrados como encabezado informativo
             _contenedorNuevos.RemoveAllViews();
-            if (_ventaEnEspera.Pagos.Count == 0) {
+
+            if (_ventaEnEspera.Pagos.Count == 0 && _pagosNuevos.Count == 0) {
                 _contenedorNuevos.AddView(_lblSinNuevos);
                 return;
             }
+
             foreach (var p in _ventaEnEspera.Pagos.Concat(_pagosNuevos))
                 _contenedorNuevos.AddView(CrearFilaInfoPago(p));
         }
 
         private View CrearFilaInfoPago(PagoExportacion pago) {
-            var fila = new LinearLayout(this) { Orientation = Orientation.Horizontal };
+            var fila = new LinearLayout(this) { 
+                Orientation = Orientation.Horizontal 
+            };
+
             fila.SetPadding(Dp(16), Dp(10), Dp(16), Dp(10));
-            fila.SetGravity(Android.Views.GravityFlags.CenterVertical);
+            fila.SetGravity(GravityFlags.CenterVertical);
 
             var det = pago.DetallesMoneda.FirstOrDefault();
             string metodo = pago.MetodoPago == "TransferenciaBancaria"
                 ? "Transferencia" : "Efectivo";
 
             var lbl = new TextView(this) {
-                Text     = $"{metodo} · {det?.CodigoMoneda ?? _monedaBase.Codigo}",
+                Text = $"{metodo} · {det?.CodigoMoneda ?? _monedaBase.Codigo}",
                 TextSize = 13f
             };
             lbl.LayoutParameters = new LinearLayout.LayoutParams(
@@ -144,9 +154,9 @@ namespace aDVancePOS.Mobile {
             lbl.SetTextColor(Android.Graphics.Color.ParseColor("#555555"));
 
             var mnt = new TextView(this) {
-                Text     = $"{pago.MontoPagado:N2} {_monedaBase.Codigo}",
+                Text = $"{pago.MontoPagado:N2} {_monedaBase.Codigo}",
                 TextSize = 13f,
-                Gravity  = Android.Views.GravityFlags.End
+                Gravity = Android.Views.GravityFlags.End
             };
             mnt.SetTextColor(Android.Graphics.Color.ParseColor(
                 _pagosNuevos.Contains(pago) ? "#B22222" : "#2E7D32"));
@@ -253,7 +263,7 @@ namespace aDVancePOS.Mobile {
                 Error("Ingrese un monto válido."); return;
             }
             bool esTransf = _rbTransferencia.Checked;
-            var nro       = _txtNroTransferencia.Text?.Trim() ?? "";
+            var nro = _txtNroTransferencia.Text?.Trim() ?? "";
             if (esTransf && string.IsNullOrEmpty(nro)) {
                 Error("El número de transacción es requerido."); return;
             }
@@ -268,31 +278,31 @@ namespace aDVancePOS.Mobile {
             }
 
             var detalle = new PagoDetalleMoneda {
-                IdMoneda           = _monedaSeleccionada.Id,
-                CodigoMoneda       = _monedaSeleccionada.Codigo,
-                SimboloMoneda      = _monedaSeleccionada.Simbolo,
-                MontoMoneda        = monto,
-                MontoMonedaBase    = montoBase,
+                IdMoneda = _monedaSeleccionada.Id,
+                CodigoMoneda = _monedaSeleccionada.Codigo,
+                SimboloMoneda = _monedaSeleccionada.Simbolo,
+                MontoMoneda = monto,
+                MontoMonedaBase = montoBase,
                 TasaCambioAplicada = _monedaSeleccionada.TasaHoy,
-                NumeroTransaccion  = esTransf && !string.IsNullOrEmpty(nro) ? nro : null,
-                TelefonoRemitente  = esTransf
+                NumeroTransaccion = esTransf && !string.IsNullOrEmpty(nro) ? nro : null,
+                TelefonoRemitente = esTransf
                     ? _txtTelefono.Text?.Trim().NullIfEmpty() : null
             };
 
             _pagosNuevos.Add(new PagoExportacion {
-                MetodoPago         = esTransf ? "TransferenciaBancaria" : "Efectivo",
-                MontoPagado        = montoBase,
-                FechaPagoCliente   = DateTime.UtcNow,
-                EstadoPago         = esTransf ? "Pendiente" : "Confirmado",
-                MontoMonedaBase    = montoBase,
+                MetodoPago = esTransf ? "TransferenciaBancaria" : "Efectivo",
+                MontoPagado = montoBase,
+                FechaPagoCliente = DateTime.UtcNow,
+                EstadoPago = esTransf ? "Pendiente" : "Confirmado",
+                MontoMonedaBase = montoBase,
                 TasaCambioAplicada = _monedaSeleccionada.TasaHoy,
-                IdMoneda           = _monedaSeleccionada.Id,
-                DetallesMoneda     = new List<PagoDetalleMoneda> { detalle }
+                IdMoneda = _monedaSeleccionada.Id,
+                DetallesMoneda = new List<PagoDetalleMoneda> { detalle }
             });
 
-            _txtMonto.Text            = "";
+            _txtMonto.Text = "";
             _txtNroTransferencia.Text = "";
-            _txtTelefono.Text         = "";
+            _txtTelefono.Text = "";
 
             MostrarPagosExistentes();
             ActualizarResumen();
@@ -316,7 +326,7 @@ namespace aDVancePOS.Mobile {
 
             bool cobrado = pendiente <= 0.005m;
             _btnConfirmar.Enabled = cobrado;
-            _btnConfirmar.Alpha   = cobrado ? 1.0f : 0.5f;
+            _btnConfirmar.Alpha = cobrado ? 1.0f : 0.5f;
         }
 
         private void Error(string msg) =>
@@ -324,6 +334,6 @@ namespace aDVancePOS.Mobile {
                 .SetPositiveButton("OK", (s, e) => { })!.Show();
 
         private int Dp(int dp) =>
-            (int)(dp * Resources!.DisplayMetrics!.Density);
+            (int) (dp * Resources!.DisplayMetrics!.Density);
     }
 }

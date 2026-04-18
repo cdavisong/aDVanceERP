@@ -125,7 +125,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
 
             if (almacenSeleccionado == null)
                 almacenSeleccionado = almacenes
-                    .FirstOrDefault(a => a.Tipo == TipoAlmacen.Primario)
+                    .FirstOrDefault(a => a.Tipo == TipoAlmacenEnum.Primario)
                     ?? almacenes.First();
 
             var jsonCatalogo = RepoProducto.Instancia.ObtenerProductosAlmacenJson(almacenSeleccionado.Id);
@@ -145,6 +145,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             var errores = new List<string>();
 
             var repoVenta = RepoVenta.Instancia;
+            var repoAlmacen = RepoAlmacen.Instancia;
             var repoProducto = RepoProducto.Instancia;
             var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
             var repoMovimiento = RepoMovimiento.Instancia;
@@ -209,6 +210,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                 foreach (var det in ventaExp.Detalles) {
                                     try {
                                         var producto = repoProducto.ObtenerPorId(det.IdProducto);
+                                        var almacen = repoAlmacen.ObtenerPorId(ventaBD.IdAlmacen);
                                         decimal costo = ObtenerCostoProducto(producto);
 
                                         repoDetalleVenta.Adicionar(new DetalleVentaProducto {
@@ -234,7 +236,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                             CostoUnitario = costo,
                                             IdAlmacenOrigen = ventaBD.IdAlmacen,
                                             IdAlmacenDestino = 0,
-                                            Estado = EstadoMovimiento.Completado,
+                                            Estado = EstadoMovimientoEnum.Completado,
                                             FechaCreacion = DateTime.Now,
                                             SaldoInicial = inventarioProducto?.Cantidad ?? 0,
                                             FechaTermino = ventaBD.EstadoVenta == EstadoVentaEnum.Completada
@@ -248,9 +250,9 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                         });
 
                                         repoInventario.ModificarInventario(
-                                            det.IdProducto,
-                                            ventaBD.IdAlmacen,
-                                            0,
+                                            producto,
+                                            almacen,
+                                            null,
                                             det.Cantidad);
 
                                     } catch (Exception dex) {

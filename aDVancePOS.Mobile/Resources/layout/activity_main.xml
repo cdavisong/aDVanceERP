@@ -90,6 +90,7 @@
 
 		<!-- Badge esperas: label a la izquierda, círculo a la derecha -->
 		<LinearLayout
+			android:id="@+id/esperaContainer"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
@@ -112,7 +113,7 @@
 				android:text="0"
 				android:textSize="13sp"
 				android:textStyle="bold"
-				android:textColor="#FF8C00"         
+				android:textColor="#B22222"       
 			    android:gravity="center"
 			    android:background="@drawable/circle_outline"
 			    android:clickable="true"

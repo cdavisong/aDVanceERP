@@ -8,14 +8,12 @@
 //    - Cancelar: devuelve el stock y elimina la venta
 // ============================================================
 
+using aDVancePOS.Mobile.Adaptadores;
 using aDVancePOS.Mobile.Modelos;
 using aDVancePOS.Mobile.Servicios;
 
-using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Views;
-using Android.Widget;
 
 namespace aDVancePOS.Mobile {
 
@@ -27,13 +25,13 @@ namespace aDVancePOS.Mobile {
 
         public const int RequestCode = 3003;
 
-        private VentaService    _ventaService    = null!;
+        private VentaService _ventaService = null!;
         private CatalogoService _catalogoService = null!;
-        private CarritoService  _carritoService  = null!;
+        private CarritoService _carritoService = null!;
 
-        private ListView _lstEspera   = null!;
+        private ListView _lstEspera = null!;
         private TextView _lblSinEspera = null!;
-        private TextView _lblConteo   = null!;
+        private TextView _lblConteo = null!;
 
         // Venta seleccionada para completar (se restaura al carrito)
         private VentaExportacion? _ventaACompletar;
@@ -43,47 +41,48 @@ namespace aDVancePOS.Mobile {
             ActionBar?.Hide();
             SetContentView(Resource.Layout.activity_ventas_espera);
 
-            var app = (PosApplication)Application!;
-            _ventaService    = app.VentaService;
+            var app = (PosApplication) Application!;
+
+            _ventaService = app.VentaService;
             _catalogoService = app.CatalogoService;
-            _carritoService  = app.CarritoService;
+            _carritoService = app.CarritoService;
 
-            _lstEspera    = FindViewById<ListView>(Resource.Id.lstVentasEspera)!;
+            _lstEspera = FindViewById<ListView>(Resource.Id.lstVentasEspera)!;
             _lblSinEspera = FindViewById<TextView>(Resource.Id.lblSinEspera)!;
-            _lblConteo    = FindViewById<TextView>(Resource.Id.lblConteoEspera)!;
+            _lblConteo = FindViewById<TextView>(Resource.Id.lblConteoEspera)!;
 
-            FindViewById<ImageButton>(Resource.Id.btnVolverEspera)!.Click +=
-                (s, e) => Finish();
+            FindViewById<ImageButton>(Resource.Id.btnVolverEspera)!.Click += (s, e) => Finish();
 
             CargarLista();
 
-            _lstEspera.ItemClick += (s, e) =>
-                MostrarOpcionesVenta(
-                    _ventaService.ObtenerVentasEnEspera()[e.Position]);
+            _lstEspera.ItemClick += (s, e) => MostrarOpcionesVenta(_ventaService.ObtenerVentasEnEspera()[e.Position]);
         }
 
         protected override void OnResume() {
             base.OnResume();
+
             CargarLista();
         }
 
         private void CargarLista() {
             var ventas = _ventaService.ObtenerVentasEnEspera();
+
             _lblConteo.Text = $"{ventas.Count} pendiente(s)";
 
             if (ventas.Count == 0) {
-                _lstEspera.Visibility    = ViewStates.Gone;
+                _lstEspera.Visibility = ViewStates.Gone;
                 _lblSinEspera.Visibility = ViewStates.Visible;
+
                 return;
             }
 
-            _lstEspera.Visibility    = ViewStates.Visible;
+            _lstEspera.Visibility = ViewStates.Visible;
             _lblSinEspera.Visibility = ViewStates.Gone;
             _lstEspera.Adapter = new VentaEsperaAdapter(this, ventas);
         }
 
         private void MostrarOpcionesVenta(VentaExportacion venta) {
-            decimal pagado    = venta.Pagos.Sum(p => p.MontoPagado);
+            decimal pagado = venta.Pagos.Sum(p => p.MontoPagado);
             decimal pendiente = venta.ImporteTotal - pagado;
 
             new AlertDialog.Builder(this)!
@@ -93,10 +92,8 @@ namespace aDVancePOS.Mobile {
                     $"Pagado: {pagado:N2}\n" +
                     $"Pendiente: {pendiente:N2}\n\n" +
                     $"¿Qué desea hacer?")!
-                .SetPositiveButton("Completar cobro", (s, e) =>
-                    CompletarVenta(venta))!
-                .SetNeutralButton("Cancelar venta", (s, e) =>
-                    ConfirmarCancelar(venta))!
+                .SetPositiveButton("Completar cobro", (s, e) => CompletarVenta(venta))!
+                .SetNeutralButton("Cancelar venta", (s, e) => ConfirmarCancelar(venta))!
                 .SetNegativeButton("Cerrar", (s, e) => { })!
                 .Show();
         }
@@ -112,8 +109,9 @@ namespace aDVancePOS.Mobile {
 
             // Abrir CobroActivity en modo "completar espera"
             var intent = new Intent(this, typeof(CobroCompletarEsperaActivity));
-            intent.PutExtra(CobroCompletarEsperaActivity.ExtraIdVentaLocal,
-                venta.IdLocal);
+
+            intent.PutExtra(CobroCompletarEsperaActivity.ExtraIdVentaLocal, venta.IdLocal);
+
             StartActivityForResult(intent, CobroActivity.RequestCode);
         }
 
@@ -144,42 +142,6 @@ namespace aDVancePOS.Mobile {
                 // Propagar el resultado hacia MainActivity
                 SetResult(Result.Ok, data);
             }
-        }
-    }
-
-    // ── Adapter ───────────────────────────────────────────────
-    internal class VentaEsperaAdapter : BaseAdapter<VentaExportacion> {
-        private readonly Activity               _ctx;
-        private readonly List<VentaExportacion> _ventas;
-
-        public VentaEsperaAdapter(Activity ctx, List<VentaExportacion> ventas) {
-            _ctx    = ctx;
-            _ventas = ventas;
-        }
-
-        public override int            Count             => _ventas.Count;
-        public override VentaExportacion this[int i]    => _ventas[i];
-        public override long           GetItemId(int pos) => pos;
-
-        public override View GetView(int pos, View? cv, ViewGroup parent) {
-            var view = cv
-                ?? _ctx.LayoutInflater.Inflate(
-                    Resource.Layout.item_venta_espera, parent, false)!;
-
-            var venta     = _ventas[pos];
-            decimal pagado    = venta.Pagos.Sum(p => p.MontoPagado);
-            decimal pendiente = venta.ImporteTotal - pagado;
-
-            view.FindViewById<TextView>(Resource.Id.lblTicketEspera)!.Text =
-                venta.NumeroTicket;
-            view.FindViewById<TextView>(Resource.Id.lblTotalEspera)!.Text =
-                $"{venta.ImporteTotal:N2}";
-            view.FindViewById<TextView>(Resource.Id.lblFechaEspera)!.Text =
-                venta.FechaVenta.ToLocalTime().ToString("HH:mm  dd/MM");
-            view.FindViewById<TextView>(Resource.Id.lblPendienteEspera)!.Text =
-                pendiente > 0 ? $"Pendiente: {pendiente:N2}" : "Pagado ✓";
-
-            return view;
         }
     }
 }

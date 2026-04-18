@@ -27,13 +27,13 @@
         android:ellipsize="end" />
 
 
-	<!-- Presentación del producto (clickeable para cambiar) -->
+	<!-- Presentación del producto -->
 	<TextView
         android:id="@+id/txtPresentacion"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="#0066CC"
         android:maxLines="1"
         android:ellipsize="end"

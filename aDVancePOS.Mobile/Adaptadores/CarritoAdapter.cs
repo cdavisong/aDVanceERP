@@ -9,33 +9,30 @@ namespace aDVancePOS.Mobile.Adaptadores {
         private readonly Action<ItemCarrito> _onRestar;
         private readonly Action<ItemCarrito> _onSumar;
         private readonly Action<ItemCarrito> _onEliminar;
-        private readonly Action<ItemCarrito> _onCambiarPresentacion;
 
         public CarritoAdapter(
             Activity context,
             List<ItemCarrito> items,
             Action<ItemCarrito> onRestar,
             Action<ItemCarrito> onSumar,
-            Action<ItemCarrito> onEliminar,
-            Action<ItemCarrito> onChangePresentacion) {
+            Action<ItemCarrito> onEliminar) {
             _context = context;
             _items = items;
             _onRestar = onRestar;
             _onSumar = onSumar;
             _onEliminar = onEliminar;
-            _onCambiarPresentacion = onChangePresentacion;
         }
 
         public override int Count => _items.Count;
+
         public override ItemCarrito this[int position] => _items[position];
+
         public override long GetItemId(int position) => position;
 
         public override View GetView(int position, View? convertView, ViewGroup parent) {
             var item = _items[position];
-
-            var view = convertView
-                       ?? _context.LayoutInflater.Inflate(
-                           Resource.Layout.item_carrito, parent, false)!;
+            var view = convertView ?? _context.LayoutInflater
+                .Inflate(Resource.Layout.item_carrito, parent, false)!;
 
             var txtNombre = view.FindViewById<TextView>(Resource.Id.txtNombreCarrito)!;
             var txtPresentacion = view.FindViewById<TextView>(Resource.Id.txtPresentacion);
@@ -46,25 +43,25 @@ namespace aDVancePOS.Mobile.Adaptadores {
             var btnEliminar = view.FindViewById<Button>(Resource.Id.btnEliminar)!;
 
             txtNombre.Text = item.Producto.Nombre;
-            
+
             // Mostrar presentación actual y hacer clic para cambiar
             if (txtPresentacion != null) {
                 if (item.IdPresentacion > 0 && item.Producto.Presentaciones?.Count > 0) {
-                    var presentacion = item.Producto.Presentaciones.FirstOrDefault(p => p.Id == item.IdPresentacion);
-                    txtPresentacion.Text = presentacion != null 
-                        ? $"{presentacion.Cantidad} {presentacion.UnidadMedida}" 
-                        : "Unidad base";
+                    var presentacion = item
+                        .Producto
+                        .Presentaciones
+                        .FirstOrDefault(p => p.Id == item.IdPresentacion);
+                    
+                    txtPresentacion.Text = presentacion != null
+                        ? presentacion.UnidadMedida
+                        : item.Producto.UnidadMedida;
                 } else {
-                    txtPresentacion.Text = "Unidad base";
+                    txtPresentacion.Text = item.Producto.UnidadMedida;
                 }
-                
-                // Permitir cambiar presentación al hacer clic
-                txtPresentacion.Click -= OnCambiarPresentacion;
-                txtPresentacion.Click += OnCambiarPresentacion;
             }
-            
-            txtCantidad.Text = item.Cantidad.ToString("G");
-            txtSubtotal.Text = item.Subtotal.ToString("C2");
+
+            txtCantidad.Text = item.Cantidad.ToString("N1");
+            txtSubtotal.Text = $"$ {item.Subtotal.ToString("N2")}";
 
             // Limpiar y volver a asignar listeners
             btnRestar.Click -= OnRestar;
@@ -94,11 +91,6 @@ namespace aDVancePOS.Mobile.Adaptadores {
             void OnEliminar(object? s, EventArgs e) {
                 if (s is Button b && b.Tag is Java.Lang.Integer p)
                     _onEliminar(_items[(int) p]);
-            }
-            
-            void OnCambiarPresentacion(object? s, EventArgs e) {
-                if (s is TextView t)
-                    _onCambiarPresentacion(item);
             }
         }
     }

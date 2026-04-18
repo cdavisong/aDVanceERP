@@ -10,7 +10,6 @@
         public long IdPresentacion { get; set; } = 0;
         public decimal PrecioUnitario { get; set; } = 0;
 
-        public decimal Subtotal =>
-            Math.Round(PrecioUnitario * Cantidad, 2);
+        public decimal Subtotal => Math.Round(PrecioUnitario * Cantidad, 2);
     }
 }
