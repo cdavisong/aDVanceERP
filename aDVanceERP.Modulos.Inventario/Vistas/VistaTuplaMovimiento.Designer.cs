@@ -28,13 +28,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaTuplaMovimiento));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             separador1 = new Guna2Separator();
@@ -133,7 +133,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTipoMovimiento.BorderColor = Color.Gainsboro;
             fieldTipoMovimiento.BorderRadius = 11;
             fieldTipoMovimiento.BorderThickness = 1;
-            fieldTipoMovimiento.CustomizableEdges = customizableEdges1;
+            fieldTipoMovimiento.CustomizableEdges = customizableEdges7;
             fieldTipoMovimiento.DisabledState.BorderColor = Color.Gainsboro;
             fieldTipoMovimiento.DisabledState.CustomBorderColor = Color.Gainsboro;
             fieldTipoMovimiento.DisabledState.FillColor = Color.Gainsboro;
@@ -149,7 +149,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldTipoMovimiento.Location = new Point(853, 6);
             fieldTipoMovimiento.Margin = new Padding(6);
             fieldTipoMovimiento.Name = "fieldTipoMovimiento";
-            fieldTipoMovimiento.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldTipoMovimiento.ShadowDecoration.CustomizableEdges = customizableEdges8;
             fieldTipoMovimiento.Size = new Size(188, 24);
             fieldTipoMovimiento.TabIndex = 43;
             fieldTipoMovimiento.Text = "tipo";
@@ -195,7 +195,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
             btnEliminar.CustomImages.Image = (Image) resources.GetObject("resource.Image");
             btnEliminar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEliminar.CustomizableEdges = customizableEdges3;
+            btnEliminar.CustomizableEdges = customizableEdges9;
             btnEliminar.Dock = DockStyle.Fill;
             btnEliminar.FillColor = Color.White;
             btnEliminar.Font = new Font("Segoe UI", 9.75F);
@@ -205,7 +205,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEliminar.HoverState.ForeColor = Color.White;
             btnEliminar.Location = new Point(1207, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnEliminar.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnEliminar.Size = new Size(31, 30);
             btnEliminar.TabIndex = 11;
             // 
@@ -248,7 +248,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnEditar.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
             btnEditar.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnEditar.CustomizableEdges = customizableEdges5;
+            btnEditar.CustomizableEdges = customizableEdges11;
             btnEditar.Dock = DockStyle.Fill;
             btnEditar.FillColor = Color.White;
             btnEditar.Font = new Font("Segoe UI", 9.75F);
@@ -257,7 +257,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnEditar.HoverState.FillColor = Color.PeachPuff;
             btnEditar.Location = new Point(1170, 3);
             btnEditar.Name = "btnEditar";
-            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnEditar.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnEditar.Size = new Size(31, 30);
             btnEditar.TabIndex = 9;
             // 
@@ -265,7 +265,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldCantidadMovida.AutoEllipsis = true;
             fieldCantidadMovida.Dock = DockStyle.Fill;
-            fieldCantidadMovida.Font = new Font("Segoe UI", 11.25F);
+            fieldCantidadMovida.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
             fieldCantidadMovida.ForeColor = Color.Black;
             fieldCantidadMovida.ImeMode = ImeMode.NoControl;
             fieldCantidadMovida.Location = new Point(628, 1);
@@ -321,7 +321,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             fieldNombreProducto.Dock = DockStyle.Fill;
             fieldNombreProducto.Font = new Font("Segoe UI", 11.25F);
-            fieldNombreProducto.ForeColor = Color.DimGray;
+            fieldNombreProducto.ForeColor = Color.Black;
             fieldNombreProducto.ImeMode = ImeMode.NoControl;
             fieldNombreProducto.Location = new Point(61, 1);
             fieldNombreProducto.Margin = new Padding(1);

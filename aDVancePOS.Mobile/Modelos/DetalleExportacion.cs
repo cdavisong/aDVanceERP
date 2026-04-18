@@ -5,9 +5,6 @@ namespace aDVancePOS.Mobile.Modelos {
         [JsonPropertyName("idProducto")]
         public long IdProducto { get; set; }
 
-        /// <summary>
-        /// ID de la presentación vendida. 0 = precio base (sin presentación).
-        /// </summary>
         [JsonPropertyName("idPresentacion")]
         public long IdPresentacion { get; set; } = 0;
 

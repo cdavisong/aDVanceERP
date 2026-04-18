@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Vistas.Comun.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Modulos.Movil.Interfaces {
     internal interface IVistaGestionAdvancePos : IVistaBase {
@@ -6,6 +7,7 @@ namespace aDVanceERP.Modulos.Movil.Interfaces {
         bool AppInstalada { get; set; }
         bool CatalogoExisteEnDispositivo { get; set; }
         DateTime? FechaActualizacionCatalogo { get; set; }
+        Almacen? Almacen { get; set; }
         bool MostrarBotonEnviarCatalogo { get; set; }
         bool MostrarBotonEliminarCatalogo { get; set; }
         int ArchivosDisponiblesDispositivo {  get; set; }
@@ -18,5 +20,7 @@ namespace aDVanceERP.Modulos.Movil.Interfaces {
         event EventHandler? ImportarTodasLasVentas;
 
         void ActualizarArchivosVenta(List<(string fileName, DateTime fecha, double tamanoKb)> archivosVenta);
+        
+        void CargarAlmacenes(Almacen[] almacenes);
     }
 }

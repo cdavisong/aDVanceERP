@@ -19,9 +19,11 @@ using System.Text.Json;
 namespace aDVanceERP.Modulos.Movil.Presentadores {
     internal class PresentadorGestionAdvancePos : PresentadorVistaBase<IVistaGestionAdvancePos> {
         private readonly ControladorArchivosAndroidPos _controladorPos = null!;
-        
+        private readonly ExportadorCatalogosPos _exportador = null!;
+
         public PresentadorGestionAdvancePos(IVistaGestionAdvancePos vista) : base(vista) {
             _controladorPos = new ControladorArchivosAndroidPos(Application.StartupPath);
+            _exportador = new ExportadorCatalogosPos(CarpetaExportacion);
 
             vista.VerificarConexion += OnVerificarConexion;
             vista.EnviarCatalogo += OnEnviarCatalogo;
@@ -32,15 +34,22 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             AgregadorEventos.Suscribir("MostrarVistaGestionPos", OnMostrarVistaGestionPos);
         }
 
-        private string RutaCatalogo => Path.Combine(Application.StartupPath, "exports", "pos", "catalogo.json");
+        private string CarpetaExportacion => Path.Combine(Application.StartupPath, "exports", "pos");
+
+        private string CarpetaImportacion => Path.Combine(Application.StartupPath, "imports", "pos");
 
         private void OnMostrarVistaGestionPos(string obj) {
+            CargarDatosComunes();
+
             Vista.Restaurar();
+            Vista.Mostrar();
 
             ActualizarEstadoConexion();
+        }
 
-            Vista.Mostrar();
-        }   
+        private void CargarDatosComunes() {
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+        }
 
         private void OnVerificarConexion(object? sender, EventArgs e) {
             ActualizarEstadoConexion(mostrarAdvertencia: true);
@@ -51,10 +60,10 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                 return;
 
             // Generar el catálogo desde los repositorios
-            GenerarCatalogoPos(long.TryParse(sender?.ToString() ?? "0", out var idAlmacen) ? idAlmacen : 0);
+            GenerarCatalogoPos(Vista.Almacen?.Id ?? 0);
 
             // Enviarlo al dispositivo
-            bool ok = _controladorPos.PushCatalogo(RutaCatalogo);
+            bool ok = _controladorPos.PushCatalogo(Path.Combine(CarpetaExportacion, "catalogo.json"));
 
             if (ok)
                 ActualizarEstadoConexion(); // refresca el botón de eliminar
@@ -107,36 +116,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
         }
 
         private void GenerarCatalogoPos(long idAlmacen) {
-            var almacenes = RepoAlmacen.Instancia
-                .ObtenerTodos()
-                .Where(r => r.entidadBase.Estado)
-                .Select(r => r.entidadBase)
-                .ToList();
-
-            if (almacenes.Count == 0) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "No hay almacenes activos. El catálogo no puede generarse.",
-                    TipoNotificacionEnum.Error);
-                return;
-            }
-
-            var almacenSeleccionado = RepoAlmacen.Instancia
-                .ObtenerPorId(idAlmacen);
-
-            if (almacenSeleccionado == null)
-                almacenSeleccionado = almacenes
-                    .FirstOrDefault(a => a.Tipo == TipoAlmacenEnum.Primario)
-                    ?? almacenes.First();
-
-            var jsonCatalogo = RepoProducto.Instancia.ObtenerProductosAlmacenJson(almacenSeleccionado.Id);
-            var raiz = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(jsonCatalogo) ?? new Dictionary<string, JsonElement>();
-            var opciones = new JsonSerializerOptions {
-                WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-            };
-
-            Directory.CreateDirectory(Path.GetDirectoryName(RutaCatalogo)!);
-            File.WriteAllText(RutaCatalogo, JsonSerializer.Serialize(raiz, opciones));
+            _exportador.ExportarCatalogoCompleto(idAlmacen);
         }
 
         private void ProcesarArchivosVentas(List<string> archivos, bool eliminarTrasImportar) {
@@ -162,7 +142,8 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
 
             foreach (var archivo in archivos) {
                 try {
-                    if (!File.Exists(archivo)) continue;
+                    if (!File.Exists(archivo)) 
+                        continue;
 
                     var contenido = File.ReadAllText(archivo);
                     var root = JsonSerializer.Deserialize<VentasExportacionJson>(contenido);
@@ -172,7 +153,36 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
 
                     foreach (var ventaExp in root.Ventas) {
                         try {
-                            // Evitar duplicados por número de ticket
+                            // Almacén existe y está activo
+                            var almacen = repoAlmacen.ObtenerPorId(ventaExp.IdAlmacen);
+                            if (almacen == null || !almacen.Estado) {
+                                errores.Add($"Venta {ventaExp.NumeroTicket}: Almacén {ventaExp.IdAlmacen} no existe o está inactivo. Omitiendo venta.");
+                                continue;
+                            }
+
+                            // Productos existen y son vendibles
+                            bool productosValidos = true;
+
+                            foreach (var det in ventaExp.Detalles ?? new List<DetalleExportacion>()) {
+                                var producto = repoProducto.ObtenerPorId(det.IdProducto);
+                                if (producto == null || !producto.Activo || !producto.EsVendible) {
+                                    errores.Add($"Venta {ventaExp.NumeroTicket}: Producto {det.IdProducto} no existe o no es vendible. Omitiendo venta.");
+                                    productosValidos = false;
+                                    break;
+                                }
+                            }
+                            if (!productosValidos) continue;
+
+                            // Pagos cuadran con total (tolerancia 0.01 por redondeo)
+                            if (ventaExp.Pagos != null && ventaExp.Pagos.Count > 0) {
+                                var totalPagado = ventaExp.Pagos.Sum(p => p.MontoPagado);
+                                if (Math.Abs(totalPagado - ventaExp.ImporteTotal) > 0.01m) {
+                                    errores.Add($"Venta {ventaExp.NumeroTicket}: Pagos ({totalPagado:C}) no cuadran con total ({ventaExp.ImporteTotal:C}). Omitiendo venta.");
+                                    continue;
+                                }
+                            }
+
+                            // Número de ticket no duplicado
                             var existentes = repoVenta
                                 .Buscar(FiltroBusquedaVenta.NumeroFactura, ventaExp.NumeroTicket)
                                 .resultadosBusqueda;
@@ -210,13 +220,13 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                                 foreach (var det in ventaExp.Detalles) {
                                     try {
                                         var producto = repoProducto.ObtenerPorId(det.IdProducto);
-                                        var almacen = repoAlmacen.ObtenerPorId(ventaBD.IdAlmacen);
                                         decimal costo = ObtenerCostoProducto(producto);
 
                                         repoDetalleVenta.Adicionar(new DetalleVentaProducto {
                                             Id = 0,
                                             IdVenta = idVenta,
                                             IdProducto = det.IdProducto,
+                                            IdPresentacion = det.IdPresentacion,
                                             Cantidad = det.Cantidad,
                                             PrecioCompraVigente = costo,
                                             PrecioVentaUnitario = det.PrecioVentaUnitario,
@@ -413,16 +423,5 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
 
             Vista.Cerrar();
         }
-    }
-
-    file class ClientePosDto {
-        public long Id { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-    }
-
-    file class AlmacenPosDto {
-        public long Id { get; set; }
-        public string Nombre { get; set; } = string.Empty;
-        public string Codigo { get; set; } = string.Empty;   // campo real del modelo Almacen
     }
 }

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Modulos.Movil.Interfaces;
+﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Modulos.Movil.Interfaces;
 using aDVanceERP.Modulos.Movil.Properties;
 
 namespace aDVanceERP.Modulos.Movil.Vistas {
@@ -101,6 +102,11 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             }
         }
 
+        public Almacen? Almacen {
+            get => fieldAlmacen.SelectedItem as Almacen;
+            set => fieldAlmacen.SelectedItem = value;
+        }
+
         public bool MostrarBotonEnviarCatalogo {
             get => _mostrarBotonEnviarCatalogo;
             set {
@@ -140,7 +146,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
         public void Inicializar() {
             // Eventos
             btnVerificarConexion.Click += delegate { VerificarConexion?.Invoke(this, EventArgs.Empty); };
-            btnEnviarCatalogo.Click += delegate { EnviarCatalogo?.Invoke(this, EventArgs.Empty); };
+            btnEnviarCatalogo.Click += delegate { EnviarCatalogo?.Invoke(Almacen?.Id ?? 0, EventArgs.Empty); };
             btnEliminarCatalogo.Click += delegate { EliminarCatalogo?.Invoke(this, EventArgs.Empty); };
             btnImportarVentas.Click += delegate { ImportarVentas?.Invoke(this, EventArgs.Empty); };
             btnImportarTodasLasVentas.Click += delegate { ImportarTodasLasVentas?.Invoke(this, EventArgs.Empty); };
@@ -202,6 +208,14 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             }
 
             panelArchivosVenta.Controls.Clear();
+        }
+
+        public void CargarAlmacenes(Almacen[] almacenes) {
+            fieldAlmacen.Items.Clear();
+            fieldAlmacen.Items.AddRange(almacenes);
+
+            if (fieldAlmacen.Items.Count > 0)
+                fieldAlmacen.SelectedIndex = 0;
         }
     }
 }

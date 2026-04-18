@@ -289,6 +289,7 @@ namespace aDVanceERP.Core.Controladores {
             if (!CheckDeviceConnection()) return false;
 
             AsegurarDirectorio();
+
             return PushCatalogo(rutaCatalogo);
         }
 
@@ -380,6 +381,7 @@ namespace aDVanceERP.Core.Controladores {
             using var process = Process.Start(psi)!;
             string stdout = process.StandardOutput.ReadToEnd();
             string stderr = process.StandardError.ReadToEnd();
+
             process.WaitForExit();
 
             return string.IsNullOrWhiteSpace(stderr) ? stdout : stdout + stderr;

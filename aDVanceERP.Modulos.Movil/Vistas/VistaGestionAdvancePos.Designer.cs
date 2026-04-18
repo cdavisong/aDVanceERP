@@ -31,14 +31,16 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionAdvancePos));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
             layoutTitulo = new TableLayoutPanel();
@@ -73,7 +75,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             layoutSubBotones12 = new TableLayoutPanel();
             btnImportarTodasLasVentas = new Guna2Button();
             btnImportarVentas = new Guna2Button();
-            layoutSubBotones11 = new TableLayoutPanel();
+            u = new TableLayoutPanel();
             btnEliminarCatalogo = new Guna2Button();
             btnEnviarCatalogo = new Guna2Button();
             layoutSeparadores2 = new TableLayoutPanel();
@@ -86,6 +88,9 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             fieldTituloFecha = new Label();
             fieldTituloTamannoAproximado = new Label();
             panelArchivosVenta = new Panel();
+            layoutSubBotones11 = new FlowLayoutPanel();
+            fieldTituloAlmacen = new Label();
+            fieldAlmacen = new Guna2ComboBox();
             layoutVista.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
@@ -99,10 +104,11 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             layoudSubDatos21.SuspendLayout();
             layoutBotones1.SuspendLayout();
             layoutSubBotones12.SuspendLayout();
-            layoutSubBotones11.SuspendLayout();
             layoutSeparadores2.SuspendLayout();
             layoutTablaArchivosVentas.SuspendLayout();
             layoutEncabezadosTabla.SuspendLayout();
+            panelArchivosVenta.SuspendLayout();
+            layoutSubBotones11.SuspendLayout();
             SuspendLayout();
             // 
             // formatoBase
@@ -594,8 +600,8 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             layoutBotones1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutBotones1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             layoutBotones1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutBotones1.Controls.Add(layoutSubBotones12, 1, 0);
             layoutBotones1.Controls.Add(layoutSubBotones11, 0, 0);
+            layoutBotones1.Controls.Add(layoutSubBotones12, 1, 0);
             layoutBotones1.Dock = DockStyle.Fill;
             layoutBotones1.Location = new Point(50, 360);
             layoutBotones1.Margin = new Padding(0);
@@ -629,7 +635,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             btnImportarTodasLasVentas.BorderColor = Color.Gainsboro;
             btnImportarTodasLasVentas.BorderRadius = 18;
             btnImportarTodasLasVentas.BorderThickness = 1;
-            btnImportarTodasLasVentas.CustomizableEdges = customizableEdges3;
+            btnImportarTodasLasVentas.CustomizableEdges = customizableEdges9;
             btnImportarTodasLasVentas.Dock = DockStyle.Fill;
             btnImportarTodasLasVentas.FillColor = Color.White;
             btnImportarTodasLasVentas.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
@@ -639,7 +645,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             btnImportarTodasLasVentas.HoverState.ForeColor = Color.Black;
             btnImportarTodasLasVentas.Location = new Point(233, 3);
             btnImportarTodasLasVentas.Name = "btnImportarTodasLasVentas";
-            btnImportarTodasLasVentas.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnImportarTodasLasVentas.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnImportarTodasLasVentas.Size = new Size(164, 39);
             btnImportarTodasLasVentas.TabIndex = 14;
             btnImportarTodasLasVentas.Text = "Importar todas";
@@ -648,35 +654,32 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             // 
             btnImportarVentas.Animated = true;
             btnImportarVentas.BorderRadius = 18;
-            btnImportarVentas.CustomizableEdges = customizableEdges5;
+            btnImportarVentas.CustomizableEdges = customizableEdges11;
             btnImportarVentas.Dock = DockStyle.Fill;
             btnImportarVentas.FillColor = Color.PeachPuff;
             btnImportarVentas.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnImportarVentas.ForeColor = Color.Black;
             btnImportarVentas.Location = new Point(3, 3);
             btnImportarVentas.Name = "btnImportarVentas";
-            btnImportarVentas.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnImportarVentas.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnImportarVentas.Size = new Size(224, 39);
             btnImportarVentas.TabIndex = 15;
             btnImportarVentas.Text = "Importar ventas";
             // 
-            // layoutSubBotones11
+            // u
             // 
-            layoutSubBotones11.BackColor = Color.White;
-            layoutSubBotones11.ColumnCount = 3;
-            layoutSubBotones11.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-            layoutSubBotones11.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
-            layoutSubBotones11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutSubBotones11.Controls.Add(btnEliminarCatalogo, 1, 0);
-            layoutSubBotones11.Controls.Add(btnEnviarCatalogo, 0, 0);
-            layoutSubBotones11.Dock = DockStyle.Fill;
-            layoutSubBotones11.Location = new Point(3, 0);
-            layoutSubBotones11.Margin = new Padding(3, 0, 0, 0);
-            layoutSubBotones11.Name = "layoutSubBotones11";
-            layoutSubBotones11.RowCount = 1;
-            layoutSubBotones11.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutSubBotones11.Size = new Size(640, 45);
-            layoutSubBotones11.TabIndex = 46;
+            u.BackColor = Color.White;
+            u.ColumnCount = 3;
+            u.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+            u.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            u.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            u.Location = new Point(31, 9);
+            u.Margin = new Padding(3, 0, 0, 0);
+            u.Name = "u";
+            u.RowCount = 1;
+            u.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            u.Size = new Size(640, 45);
+            u.TabIndex = 46;
             // 
             // btnEliminarCatalogo
             // 
@@ -685,17 +688,17 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             btnEliminarCatalogo.BorderRadius = 18;
             btnEliminarCatalogo.BorderThickness = 1;
             btnEliminarCatalogo.CustomizableEdges = customizableEdges7;
-            btnEliminarCatalogo.Dock = DockStyle.Fill;
             btnEliminarCatalogo.FillColor = Color.White;
             btnEliminarCatalogo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnEliminarCatalogo.ForeColor = Color.Gainsboro;
             btnEliminarCatalogo.HoverState.BorderColor = Color.PeachPuff;
             btnEliminarCatalogo.HoverState.FillColor = Color.PeachPuff;
             btnEliminarCatalogo.HoverState.ForeColor = Color.Black;
-            btnEliminarCatalogo.Location = new Point(233, 3);
+            btnEliminarCatalogo.Location = new Point(448, 5);
+            btnEliminarCatalogo.Margin = new Padding(3, 5, 3, 5);
             btnEliminarCatalogo.Name = "btnEliminarCatalogo";
             btnEliminarCatalogo.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnEliminarCatalogo.Size = new Size(164, 39);
+            btnEliminarCatalogo.Size = new Size(111, 35);
             btnEliminarCatalogo.TabIndex = 14;
             btnEliminarCatalogo.Text = "Eliminar";
             // 
@@ -703,15 +706,15 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             // 
             btnEnviarCatalogo.Animated = true;
             btnEnviarCatalogo.BorderRadius = 18;
-            btnEnviarCatalogo.CustomizableEdges = customizableEdges9;
-            btnEnviarCatalogo.Dock = DockStyle.Fill;
+            btnEnviarCatalogo.CustomizableEdges = customizableEdges5;
             btnEnviarCatalogo.FillColor = Color.PeachPuff;
             btnEnviarCatalogo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnEnviarCatalogo.ForeColor = Color.Black;
-            btnEnviarCatalogo.Location = new Point(3, 3);
+            btnEnviarCatalogo.Location = new Point(299, 5);
+            btnEnviarCatalogo.Margin = new Padding(3, 5, 3, 5);
             btnEnviarCatalogo.Name = "btnEnviarCatalogo";
-            btnEnviarCatalogo.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnEnviarCatalogo.Size = new Size(224, 39);
+            btnEnviarCatalogo.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnEnviarCatalogo.Size = new Size(143, 35);
             btnEnviarCatalogo.TabIndex = 15;
             btnEnviarCatalogo.Text = "Enviar catálogo";
             // 
@@ -854,12 +857,61 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             // panelArchivosVenta
             // 
             panelArchivosVenta.AutoScroll = true;
+            panelArchivosVenta.Controls.Add(u);
             panelArchivosVenta.Dock = DockStyle.Fill;
             panelArchivosVenta.Location = new Point(0, 70);
             panelArchivosVenta.Margin = new Padding(0);
             panelArchivosVenta.Name = "panelArchivosVenta";
             panelArchivosVenta.Size = new Size(1286, 43);
             panelArchivosVenta.TabIndex = 21;
+            // 
+            // layoutSubBotones11
+            // 
+            layoutSubBotones11.Controls.Add(fieldTituloAlmacen);
+            layoutSubBotones11.Controls.Add(fieldAlmacen);
+            layoutSubBotones11.Controls.Add(btnEnviarCatalogo);
+            layoutSubBotones11.Controls.Add(btnEliminarCatalogo);
+            layoutSubBotones11.Dock = DockStyle.Fill;
+            layoutSubBotones11.Location = new Point(0, 0);
+            layoutSubBotones11.Margin = new Padding(0);
+            layoutSubBotones11.Name = "layoutSubBotones11";
+            layoutSubBotones11.Size = new Size(643, 45);
+            layoutSubBotones11.TabIndex = 81;
+            // 
+            // fieldTituloAlmacen
+            // 
+            fieldTituloAlmacen.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloAlmacen.ForeColor = Color.DimGray;
+            fieldTituloAlmacen.ImeMode = ImeMode.NoControl;
+            fieldTituloAlmacen.Location = new Point(1, 1);
+            fieldTituloAlmacen.Margin = new Padding(1);
+            fieldTituloAlmacen.Name = "fieldTituloAlmacen";
+            fieldTituloAlmacen.Size = new Size(78, 40);
+            fieldTituloAlmacen.TabIndex = 28;
+            fieldTituloAlmacen.Text = "ALMACÉN :";
+            fieldTituloAlmacen.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldFiltroAlmacen
+            // 
+            fieldAlmacen.Animated = true;
+            fieldAlmacen.BackColor = Color.Transparent;
+            fieldAlmacen.BorderColor = Color.Gainsboro;
+            fieldAlmacen.BorderRadius = 16;
+            fieldAlmacen.CustomizableEdges = customizableEdges3;
+            fieldAlmacen.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldAlmacen.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldAlmacen.FocusedColor = Color.Gainsboro;
+            fieldAlmacen.FocusedState.BorderColor = Color.Gainsboro;
+            fieldAlmacen.Font = new Font("Segoe UI", 11.25F);
+            fieldAlmacen.ForeColor = Color.Black;
+            fieldAlmacen.ItemHeight = 29;
+            fieldAlmacen.Location = new Point(83, 5);
+            fieldAlmacen.Margin = new Padding(3, 5, 3, 5);
+            fieldAlmacen.Name = "fieldFiltroAlmacen";
+            fieldAlmacen.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            fieldAlmacen.Size = new Size(210, 35);
+            fieldAlmacen.TabIndex = 28;
+            fieldAlmacen.TextOffset = new Point(10, 0);
             // 
             // VistaGestionAdvancePos
             // 
@@ -887,10 +939,11 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
             layoudSubDatos21.ResumeLayout(false);
             layoutBotones1.ResumeLayout(false);
             layoutSubBotones12.ResumeLayout(false);
-            layoutSubBotones11.ResumeLayout(false);
             layoutSeparadores2.ResumeLayout(false);
             layoutTablaArchivosVentas.ResumeLayout(false);
             layoutEncabezadosTabla.ResumeLayout(false);
+            panelArchivosVenta.ResumeLayout(false);
+            layoutSubBotones11.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -927,7 +980,7 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
         private Label fieldUltimaActualizacionCatalogo;
         private Label fieldTituloUltimaActualizacionCatalogo;
         private TableLayoutPanel layoutBotones1;
-        private TableLayoutPanel layoutSubBotones11;
+        private TableLayoutPanel u;
         private Guna2Button btnEliminarCatalogo;
         private Guna2Button btnEnviarCatalogo;
         private TableLayoutPanel layoutSubBotones12;
@@ -943,5 +996,8 @@ namespace aDVanceERP.Modulos.Movil.Vistas {
         private Panel panelArchivosVenta;
         private Label fieldTituloAccion;
         private Label fieldTituloArchivos;
+        private FlowLayoutPanel layoutSubBotones11;
+        private Label fieldTituloAlmacen;
+        private Guna2ComboBox fieldAlmacen;
     }
 }

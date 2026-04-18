@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.BD;
+using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 
 using MySql.Data.MySqlClient;
 
@@ -352,25 +353,48 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 var productosConPresentaciones = AgregarPresentacionesAProductos(productos);
 
                 // Limpiar campos internos que no van al JSON final del móvil
-                var productosFinal = productosConPresentaciones.Select(p =>
-                {
+                var productosFinal = productosConPresentaciones.Select(p => {
                     var limpio = new Dictionary<string, object>(p);
                     limpio.Remove("nombreAlmacen");
                     limpio.Remove("idAlmacen");
                     return limpio;
                 }).ToList();
 
-                // Construir el sobre completo: { meta, productos }
-                // Coincide exactamente con CatalogoJson en Models.cs de la app móvil
+                // Cargar monedas activas con tasas del día
+                var repoMoneda = RepoMoneda.Instancia;
+                var repoTasaCambio = RepoTasaCambio.Instancia;
+                var monedaBase = repoMoneda.ObtenerMonedaBase();
+                var monedasActivas = repoMoneda.ObtenerActivas();
+
+                var monedasParaJson = monedasActivas.Select(m => {
+                    // Si es moneda base, tasa = 1. Si no, obtener tasa vigente desde moneda base
+                    var tasa = m.EsBase
+                        ? 1m
+                        : repoTasaCambio.ObtenerTasaVigente(monedaBase.Id, m.Id);
+
+                    return new {
+                        id = m.Id,
+                        codigo = m.Codigo,
+                        nombre = m.Nombre,
+                        simbolo = m.Simbolo,
+                        esBase = m.EsBase,
+                        tasaHoy = tasa,
+                        aplicaEfectivo = true,  // ⚠️ VER NOTA ABAJO
+                        precisionDecimal = m.PrecisionDecimal
+                    };
+                }).ToList();
+
+                // Construir el sobre completo: { meta, productos, monedas }
                 var catalogo = new {
                     meta = new {
                         version = "1.0",
-                        generadoEn = DateTime.Now.ToString("o"),  // ISO 8601
+                        generadoEn = DateTime.Now.ToString("o"),
                         aplicacion = "aDVance ERP",
                         idAlmacen = idAlmacen,
                         nombreAlmacen = nombreAlmacen
                     },
-                    productos = productosFinal
+                    productos = productosFinal,
+                    monedas = monedasParaJson
                 };
 
                 return System.Text.Json.JsonSerializer.Serialize(catalogo,

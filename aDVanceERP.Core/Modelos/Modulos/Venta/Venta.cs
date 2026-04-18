@@ -12,28 +12,6 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
             Activo = true;
         }
 
-        public Venta(long id, long? idPedido, long idCliente, long? idEmpleadoVendedor, long idAlmacen,
-                    string numeroFacturaTicket, DateTime fechaVenta, decimal totalBruto,
-                    decimal descuentoTotal, decimal impuestoTotal, decimal importeTotal,
-                    string metodoPagoPrincipal, EstadoVentaEnum estadoVenta,
-                    string observacionesVenta, bool activo) {
-            Id = id;
-            IdPedido = idPedido;
-            IdCliente = idCliente;
-            IdEmpleadoVendedor = idEmpleadoVendedor;
-            IdAlmacen = idAlmacen;
-            NumeroFacturaTicket = numeroFacturaTicket;
-            FechaVenta = fechaVenta;
-            TotalBruto = totalBruto;
-            DescuentoTotal = descuentoTotal;
-            ImpuestoTotal = impuestoTotal;
-            ImporteTotal = importeTotal;
-            MetodoPagoPrincipal = metodoPagoPrincipal;
-            EstadoVenta = estadoVenta;
-            ObservacionesVenta = observacionesVenta;
-            Activo = activo;
-        }
-
         public long Id { get; set; }
         public long? IdPedido { get; set; }
         public long IdCliente { get; set; }

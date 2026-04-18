@@ -12,8 +12,8 @@ using System.Text.Json;
 
 namespace aDVanceERP.Modulos.Movil.Presentadores {
     internal class PresentadorGestionAdvanceStock : PresentadorVistaBase<IVistaGestionAdvanceStock> {
-        private readonly ControladorArchivosAndroidStock _controladorStock;
-        private readonly ExportadorCatalogosStock _exportador;
+        private readonly ControladorArchivosAndroidStock _controladorStock = null!;
+        private readonly ExportadorCatalogosStock _exportador = null!;
 
         public PresentadorGestionAdvanceStock(IVistaGestionAdvanceStock vista) : base(vista) {
             _controladorStock = new ControladorArchivosAndroidStock(Application.StartupPath);

@@ -1,9 +1,12 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace aDVanceERP.Core.Modelos.Modulos.Venta {
     public class DetalleExportacion {
         [JsonPropertyName("idProducto")]
         public long IdProducto { get; set; }
+
+        [JsonPropertyName("idPresentacion")]
+        public long IdPresentacion { get; set; } = 0;
 
         [JsonPropertyName("cantidad")]
         public decimal Cantidad { get; set; }
