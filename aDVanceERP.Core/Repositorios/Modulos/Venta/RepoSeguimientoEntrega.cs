@@ -193,7 +193,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return (seguimiento, entidadesExtra);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoSeguimientoEntrega Instancia { get; } = new RepoSeguimientoEntrega();
 

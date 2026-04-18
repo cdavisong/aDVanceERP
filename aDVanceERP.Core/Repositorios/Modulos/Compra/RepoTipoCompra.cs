@@ -117,7 +117,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             }, []);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoTipoCompra Instancia { get; } = new RepoTipoCompra();
 

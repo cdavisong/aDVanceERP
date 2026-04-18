@@ -10,6 +10,5 @@ namespace aDVanceERP.Core.Vistas.BD.Interfaces {
         bool RecordarConfiguracion { get; set; }
 
         event EventHandler<ConfiguracionBaseDatos>? AlmacenarConfiguracion;
-        event EventHandler? ConfiguracionCargada;
     }
 }

@@ -218,7 +218,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return (venta, entidadesExtra);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoVenta Instancia { get; } = new RepoVenta();
 

@@ -58,6 +58,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             }
 
             tuplaSeleccionada.Entidad.Aprobado = true;
+
             Repositorio.Editar(tuplaSeleccionada.Entidad);
             Vista.MostrarBtnAprobacionSolicitudCuenta = false;
 

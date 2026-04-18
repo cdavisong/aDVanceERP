@@ -134,7 +134,7 @@ namespace aDVanceERP.Core.Vistas.Comun {
             Close();
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static VistaMensaje Instancia = new VistaMensaje();
 

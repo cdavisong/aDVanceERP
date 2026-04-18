@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Infraestructura.Globales;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.BD;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -7,20 +8,22 @@ using aDVanceERP.Core.Vistas.BD;
 
 namespace aDVanceERP.Core.Presentadores.BD {
     public class PresentadorConfiguracionBaseDatos : PresentadorVistaBase<VistaConfiguracionBaseDatos> {
-        private readonly RepoConfiguracionBaseDatos _repositorio;
+        public PresentadorConfiguracionBaseDatos(VistaConfiguracionBaseDatos vista) : base(vista) {
+            vista.AlmacenarConfiguracion += OnAlmacenarConfiguracion;
 
-        public PresentadorConfiguracionBaseDatos(VistaConfiguracionBaseDatos vista, RepoConfiguracionBaseDatos repositorio) : base(vista) {
-            _repositorio = repositorio;
-
-            Vista.AlmacenarConfiguracion += OnAlmacenarConfiguracion;
+            AgregadorEventos.Suscribir("MostrarVistaConfiguracionBaseDatos", OnMostrarVistaVistaConfiguracionBaseDatos);
         }
 
-        public RepoConfiguracionBaseDatos Repositorio => _repositorio;
+        private void OnMostrarVistaVistaConfiguracionBaseDatos(string obj) {
+            Vista.Restaurar();
+                
+            CargarConfiguracion();
 
-        public event EventHandler? ConfiguracionCargada;
+            Vista.Mostrar();
+        }
 
         public void CargarConfiguracion() {
-            var config = Repositorio.ObtenerPorId(0);
+            var config = RepoConfiguracionBaseDatos.Instancia.ObtenerPorId(0);
 
             if (config != null) {
                 Vista.NombreDireccionServidor = config.Servidor;
@@ -41,7 +44,7 @@ namespace aDVanceERP.Core.Presentadores.BD {
                     return;
                 }
 
-                ConfiguracionCargada?.Invoke(this, EventArgs.Empty);
+                AgregadorEventos.Publicar("ConfiguracionBaseDatosCargada", AgregadorEventos.SerializarPayload(config));
             }
         }
         
@@ -50,26 +53,25 @@ namespace aDVanceERP.Core.Presentadores.BD {
                 CentroNotificaciones.MostrarNotificacion("La configuración del servidor MySQL no puede ser nula.", TipoNotificacionEnum.Error);
             }
             try {
-                // Actualizar el contexto global
                 try {
                     ContextoBaseDatos.ActualizarConfiguracion(e);
                 } catch (InvalidOperationException) {
                     return;
                 }
 
-                // Guardar la configuración utilizando el repositorio
-                Repositorio.Salvar(string.Empty, e);
+                RepoConfiguracionBaseDatos.Instancia.Salvar(string.Empty, e);
 
                 // Disparar el evento de configuración cargada
-                ConfiguracionCargada?.Invoke(this, EventArgs.Empty);
-            } catch (Exception ex) {
-                // Manejo de excepciones, por ejemplo, registrar el error o mostrar un mensaje al usuario
+                AgregadorEventos.Publicar("ConfiguracionBaseDatosCargada", AgregadorEventos.SerializarPayload(e));
+            } catch (Exception) {
                 CentroNotificaciones.MostrarNotificacion("Error al guardar la configuración del servidor MySQL.", Modelos.Comun.TipoNotificacionEnum.Error);
             }
         }
 
         public override void Dispose() {
             Vista.AlmacenarConfiguracion -= OnAlmacenarConfiguracion;
+
+            AgregadorEventos.Desuscribir("MostrarVistaVistaConfiguracionBaseDatos", OnMostrarVistaVistaConfiguracionBaseDatos);
         }
     }
 }

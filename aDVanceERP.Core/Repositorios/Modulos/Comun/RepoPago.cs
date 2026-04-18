@@ -172,7 +172,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             return (pago, entidadesExtra);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoPago Instancia { get; } = new RepoPago();
 

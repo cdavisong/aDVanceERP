@@ -9,18 +9,8 @@ namespace aDVanceERP.Core.Repositorios.BD {
     public class RepoConfiguracionBaseDatos : IRepoConfiguracionBaseDatos<ConfiguracionBaseDatos> {
         private const string NombreArchivo = "confServidorMySQL.json";
 
-        private List<ConfiguracionBaseDatos> _configuraciones;
-        private readonly string _directorioRaiz;
-
-        public RepoConfiguracionBaseDatos() {
-            _configuraciones = new List<ConfiguracionBaseDatos>();
-            _directorioRaiz = ".\\settings";
-        }
-
-        public RepoConfiguracionBaseDatos(string directorioTrabajo) {
-            _configuraciones = new List<ConfiguracionBaseDatos>();
-            _directorioRaiz = $"{directorioTrabajo}settings";
-        }
+        private List<ConfiguracionBaseDatos> _configuraciones = new List<ConfiguracionBaseDatos>();
+        private readonly string _directorioRaiz = ".\\settings";
 
         public ConfiguracionBaseDatos? ObtenerPorId(object id) {
             var rutaArchivo = Path.Combine(_directorioRaiz, (long.TryParse(id.ToString(), out long result) ? result : 0m) <= 0 ? NombreArchivo : id.ToString());
@@ -121,5 +111,12 @@ namespace aDVanceERP.Core.Repositorios.BD {
         public void Dispose() {
             //...
         }
+
+        #region SINGLETON
+
+        public static RepoConfiguracionBaseDatos Instancia { get; } = new RepoConfiguracionBaseDatos();
+
+        #endregion
+
     }
 }

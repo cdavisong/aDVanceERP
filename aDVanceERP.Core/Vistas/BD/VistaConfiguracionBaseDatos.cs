@@ -1,21 +1,14 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.BD;
-using aDVanceERP.Core.Presentadores.BD;
 using aDVanceERP.Core.Properties;
-using aDVanceERP.Core.Repositorios.BD;
 using aDVanceERP.Core.Vistas.BD.Interfaces;
 
 namespace aDVanceERP.Core.Vistas.BD {
     public partial class VistaConfiguracionBaseDatos : Form, IVistaConfServidorMySQL {
-        private PresentadorConfiguracionBaseDatos? _presentador;
-
         public VistaConfiguracionBaseDatos() {
             InitializeComponent();
 
             NombreVista = nameof(VistaConfiguracionBaseDatos);
-
-            _presentador = new PresentadorConfiguracionBaseDatos(this, new RepoConfiguracionBaseDatos());
-            _presentador.ConfiguracionCargada += (s, e) => ConfiguracionCargada?.Invoke(s, e);
 
             Inicializar();
         }
@@ -66,7 +59,6 @@ namespace aDVanceERP.Core.Vistas.BD {
         }
 
         public event EventHandler<ConfiguracionBaseDatos>? AlmacenarConfiguracion;
-        public event EventHandler? ConfiguracionCargada;
 
         public void Inicializar() {
             // Conectar eventos
@@ -89,8 +81,6 @@ namespace aDVanceERP.Core.Vistas.BD {
         }
 
         public void Mostrar() {
-            _presentador?.CargarConfiguracion();
-
             if (!ContextoBaseDatos.EsConfiguracionCargada) {
                 BringToFront();
                 Show();

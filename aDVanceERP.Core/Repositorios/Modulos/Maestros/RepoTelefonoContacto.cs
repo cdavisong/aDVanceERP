@@ -141,7 +141,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
             ), new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoTelefonoContacto Instancia { get; } = new RepoTelefonoContacto();
 

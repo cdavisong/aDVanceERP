@@ -99,7 +99,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             ), new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoTipoMovimiento Instancia { get; } = new RepoTipoMovimiento();
 

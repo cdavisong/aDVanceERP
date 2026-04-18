@@ -143,7 +143,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Empresas {
             ), new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoEmpresa Instancia { get; } = new RepoEmpresa();
 

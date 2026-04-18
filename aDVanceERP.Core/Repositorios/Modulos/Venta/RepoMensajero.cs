@@ -141,7 +141,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             return (mensajero, entidadesExtra);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoMensajero Instancia { get; } = new RepoMensajero();
 

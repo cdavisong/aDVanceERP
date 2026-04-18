@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Extension.Controladores;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Desktop.Vistas;
@@ -26,7 +27,7 @@ namespace aDVanceERP.Desktop.Presentadores {
             _gestorModulos.CargarModulos(presentadorVistaPrincipal, progreso);
         }
 
-        public string[] ObtenerNombresModulosExtensionCargados() {
+        public ModuloSistemaEnum[] ObtenerNombresModulosExtensionCargados() {
             return [.. _gestorModulos.ObtenerModulosExtension().Select(me => me.Nombre)];
         }
 

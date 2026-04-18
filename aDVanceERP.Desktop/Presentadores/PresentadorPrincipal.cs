@@ -1,10 +1,7 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
-using aDVanceERP.Core.Vistas.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using aDVanceERP.Desktop.Properties;
 using aDVanceERP.Desktop.Vistas;
 
 using Guna.UI2.WinForms;
@@ -12,57 +9,52 @@ using Guna.UI2.WinForms.Suite;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public partial class PresentadorPrincipal : IPresentadorVistaPrincipal<IVistaPrincipal> {
-        private readonly VistaCargaDatos _cargaDatos;
-
         public PresentadorPrincipal() {
-            _cargaDatos = new VistaCargaDatos();
-
-            Vista = new VistaPrincipal();
-            Seguridad = new PresentadorContenedorSeguridad(Vista, new VistaContenedorSeguridad());
-            Modulos = new PresentadorContenedorModulos(Vista, new VistaContenedorModulos());
-
-            // Adicionar vistas al panel central
-            Vista.PanelCentral.Registrar(Seguridad.Vista);
-            Vista.PanelCentral.Registrar(Modulos.Vista);
-
-            // Eventos de la vista principal
-            ((Form) Vista).Shown += OnVistaPrincipalMostrada;
-
-            // Eventos de seguridad
-            AgregadorEventos.Suscribir("EventoUsuarioAutenticado", OnUsuarioAutenticado);
-            AgregadorEventos.Suscribir("EventoSesionCerrada", OnSesionCerrada);
-
-            // Adicionar vistas comunes
-            InicializarVistasComunes();
+            Inicializar();
+            InicializarVistas();
+            InicializarEventos();
         }
 
-        public IVistaPrincipal Vista { get; }
+        private void Inicializar() {
+            // Vista principal
+            Vista = new VistaPrincipal();
 
-        public IPresentadorVistaContenedorSeguridad<IVistaContenedorSeguridad> Seguridad { get; }
+            // Contendor de seguridad
+            Seguridad = new PresentadorContenedorSeguridad(this, new VistaContenedorSeguridad());
 
-        public IPresentadorVistaContenedorModulos<IVistaContenedorModulos> Modulos { get; }
+            // Contenedor de módulos
+            Modulos = new PresentadorContenedorModulos(Vista, new VistaContenedorModulos());
+        }
+
+        private void InicializarVistas() {
+            // Contendor de seguridad
+            Vista.PanelCentral.Registrar(Seguridad.Vista);
+
+            // Contenedor de módulos
+            Vista.PanelCentral.Registrar(Modulos.Vista);
+        }
+
+        private void InicializarEventos() {
+            // Vista principal
+            ((Form)Vista).Shown += OnVistaPrincipalMostrada;
+
+            // Contenedor de seguridad
+            AgregadorEventos.Suscribir("EventoUsuarioAutenticado", OnUsuarioAutenticado);
+            AgregadorEventos.Suscribir("EventoSesionCerrada", OnSesionCerrada);
+        }
+
+        public IVistaPrincipal Vista { get; private set; } = null!;
+
+        public IPresentadorVistaContenedorSeguridad<IVistaContenedorSeguridad> Seguridad { get; private set; } = null!;
+
+        public IPresentadorVistaContenedorModulos<IVistaContenedorModulos> Modulos { get; private set; } = null!;
 
         private void OnVistaPrincipalMostrada(object? sender, EventArgs e) {
             Vista.BarraTitulo.OcultarTodos();
             Vista.BarraEstado.OcultarTodos();
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
-            Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
 
-            Seguridad.ConfiguracionBaseDatos.ConfiguracionCargada += async (s, args) => {
-                var progreso = new Progress<(string texto, int porcentaje)>(datos => {
-                    _cargaDatos.TextoProgreso = datos.texto;
-                    _cargaDatos.ProgresoValor = datos.porcentaje;
-                });
-
-                _cargaDatos.TextoProgreso = " Cargando la aplicación...";
-                _cargaDatos.Mostrar();
-                
-                await Task.Run(() => {
-                    ((PresentadorContenedorModulos) Modulos).CargarModulosExtension(this, progreso);
-                });
-
-                _cargaDatos.Ocultar();
-            };  
+            AgregadorEventos.Publicar("MostrarVistaContenedorSeguridad", string.Empty);
         }
 
         private void OnUsuarioAutenticado(string obj) {
@@ -81,12 +73,6 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
 
             AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
-        }
-
-        private void InicializarVistasComunes() {
-            // Módulos
-            // Ubicaciones
-            Modulos.Vista.PanelCentral.Registrar(new VistaGestionUbicaciones());
         }
 
         public void AdicionarBotonBarraTitulo(Guna2Button btnTitulo) {

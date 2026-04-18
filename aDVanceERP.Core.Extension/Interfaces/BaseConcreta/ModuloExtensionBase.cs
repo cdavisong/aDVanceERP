@@ -1,4 +1,5 @@
 ﻿
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -11,15 +12,10 @@ namespace aDVanceERP.Core.Extension.Interfaces.BaseConcreta {
             _principal = null!;
 
             // Inicialización de propiedades
-            Nombre = string.Empty;
-            NombreAmigable = string.Empty;
-            Descripcion = string.Empty;
             Version = new Version(1, 0, 0, 0);
         }
 
-        public string Nombre { get; protected set; }
-        public string NombreAmigable {  get; protected set; }
-        public string Descripcion { get; protected set; }
+        public ModuloSistemaEnum Nombre { get; protected set; }
         public Version Version { get; protected set; }
 
         public virtual void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {

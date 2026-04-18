@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Empresa.Presentadores;
@@ -14,9 +15,7 @@ namespace aDVanceERP.Modulos.Empresa {
         private PresentadorRegistroEmpresa _registroEmpresa = null!;
 
         public ModuloEmpresa() {
-            Nombre = "MOD_EMPRESA";
-            NombreAmigable = "Empresa"; 
-            Descripcion = "Proporciona funcionalidades de gestión de empresas.";
+            Nombre = ModuloSistemaEnum.MOD_EMPRESA;
             Version = new Version(1, 0, 0, 0);
         }
 

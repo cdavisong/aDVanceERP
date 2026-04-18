@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Extension.Atributos;
 using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Extension.Interfaces;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -34,13 +35,13 @@ namespace aDVanceERP.Core.Extension.Controladores {
 
                         if (moduloExtension != null && VerificarDependencias(moduloExtension)) {
                             (principal.Vista as Control)?.Invoke(() => {
-                                progreso.Report(($"Cargando módulo {moduloExtension.NombreAmigable}", 90));
+                                progreso.Report(($"Cargando módulo {moduloExtension.Nombre.ObtenerNombreDescripcion().Nombre}", 90));
                                 moduloExtension.Inicializar(principal);
                             });
 
-                            _modulosCargados.Add(moduloExtension.Nombre, moduloExtension);
+                            _modulosCargados.Add(moduloExtension.Nombre.ToString(), moduloExtension);
 
-                            ContextoModulos.NombresModulosCargados.Add(moduloExtension.Nombre);
+                            ContextoModulos.NombresModulosCargados.Add(moduloExtension.Nombre.ToString());
                         }
                     }
                 }
@@ -75,7 +76,7 @@ namespace aDVanceERP.Core.Extension.Controladores {
 
             foreach (var dependencia in dependencias) {
                 var moduloDependiente = _modulosCargados.Values.FirstOrDefault(m =>
-                    m.Nombre.Equals(dependencia.NombreModulo, StringComparison.OrdinalIgnoreCase));
+                    m.Nombre.ToString().Equals(dependencia.NombreModulo, StringComparison.OrdinalIgnoreCase));
 
                 if (moduloDependiente == null) {
                     CentroNotificaciones.MostrarNotificacion($"Faltan dependencias para el módulo {modulo.Nombre}: " +

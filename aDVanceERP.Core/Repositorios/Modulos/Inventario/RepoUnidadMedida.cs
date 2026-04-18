@@ -119,7 +119,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             ), new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoUnidadMedida Instancia { get; } = new RepoUnidadMedida();
 

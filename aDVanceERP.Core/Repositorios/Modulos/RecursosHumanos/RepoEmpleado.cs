@@ -172,7 +172,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.RecursosHumanos
             ), persona != null ? [persona] : []);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoEmpleado Instancia { get; } = new RepoEmpleado();
 

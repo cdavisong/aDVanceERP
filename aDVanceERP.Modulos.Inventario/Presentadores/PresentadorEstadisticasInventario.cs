@@ -15,7 +15,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         private List<MovimientoDiario> _movimientos = [];
         private List<StockPorAlmacen> _stockAlmacen = [];
 
-        // ── Paleta del sistema de diseño aDVance ────────────────────────────
+        // Paleta del sistema de diseño aDVance
         private static readonly Color ColorEntradas = Color.FromArgb(255, 218, 185); // peachpuff
         private static readonly Color ColorEntradasLine = Color.FromArgb(240, 192, 144); // tono más saturado
         private static readonly Color ColorSalidas = Color.FromArgb(178, 34, 34); // firebrick

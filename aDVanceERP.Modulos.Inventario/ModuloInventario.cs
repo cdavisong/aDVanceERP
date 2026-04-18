@@ -1,8 +1,8 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
-using aDVanceERP.Modulos.Inventario.Interfaces;
 using aDVanceERP.Modulos.Inventario.Presentadores;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas;
@@ -28,9 +28,7 @@ namespace aDVanceERP.Modulos.Inventario {
         private PresentadorRegistroUnidadMedida _registroUnidadMedida = null!;
 
         public ModuloInventario() {
-            Nombre = "MOD_INVENTARIO";
-            NombreAmigable = "Inventario";
-            Descripcion = "Proporciona funcionalidades de gestión de inventarios y productos.";
+            Nombre = ModuloSistemaEnum.MOD_INVENTARIO;
             Version = new Version(1, 0, 0, 0);
         }
 

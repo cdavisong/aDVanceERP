@@ -115,7 +115,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             ), new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoAlmacen Instancia { get; } = new RepoAlmacen();
 

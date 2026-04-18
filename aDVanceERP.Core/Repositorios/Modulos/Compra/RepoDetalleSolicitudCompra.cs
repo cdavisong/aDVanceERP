@@ -136,7 +136,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             return (detalle, entidadesExtra);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoDetalleSolicitudCompra Instancia { get; } = new RepoDetalleSolicitudCompra();
 

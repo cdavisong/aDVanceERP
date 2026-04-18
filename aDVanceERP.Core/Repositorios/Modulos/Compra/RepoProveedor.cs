@@ -168,7 +168,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
             }, persona != null ? [persona] : []);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoProveedor Instancia { get; } = new RepoProveedor();
 

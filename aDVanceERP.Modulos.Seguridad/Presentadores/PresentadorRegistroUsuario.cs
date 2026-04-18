@@ -9,11 +9,11 @@ using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Presentadores {
-    public class PresentadorRegistroUsuario : PresentadorVistaRegistro<IVistaRegistroUsuario, Core.Modelos.Modulos.Seguridad.CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
+    public class PresentadorRegistroUsuario : PresentadorVistaRegistro<IVistaRegistroUsuario, CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
         public PresentadorRegistroUsuario(IVistaRegistroUsuario vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroUsuario", OnMostrarVistaRegistroUsuario);
         }
-
+        
         private void OnMostrarVistaRegistroUsuario(string obj) {
             Vista.ModoEdicion = false;
 
@@ -21,46 +21,126 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             Vista.Mostrar();
         }
 
-        public override void PopularVistaDesdeEntidad(CuentaUsuario objeto) { }
+        public override void PopularVistaDesdeEntidad(CuentaUsuario entidad) {
+            // En modo registro, no se deben mostrar datos de la entidad,
+            // ya que se está creando una nueva cuenta.
+        }
 
         protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
-            if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "Debe especificar un usuario y contraseña para registrarse en el sistema. Por favor, rellene los campos correctamente.",
-                    TipoNotificacionEnum.Advertencia);
-
-                return null;
-            }
-
-            // Obtener los datos de la vista
+            // Generar hash de password
             var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
-            var usuario = new CuentaUsuario(
-                Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-                0, // IdPersona se asignará posteriormente
-                Vista.NombreUsuario,
-                passwordSeguro.hash,
-                passwordSeguro.salt
-            );
 
-            try {
-                var repoCuentaUsuario = new RepoCuentaUsuario();
-                
-                if (repoCuentaUsuario.Cantidad() == 0) {
-                    usuario.Aprobado = true;
-                    usuario.Administrador = true;
-                    usuario.Id = repoCuentaUsuario.Adicionar(usuario);
-
-                    AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", AgregadorEventos.SerializarPayload(usuario));
-
-                    return null;
-                }
-            } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacionEnum.Error);
-            }
-
-            AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
+            var usuario = new CuentaUsuario {
+                Id = Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                IdPersona = Entidad?.IdPersona ?? 0,
+                Nombre = Vista.NombreUsuario,
+                PasswordHash = passwordSeguro.hash,
+                PasswordSalt = passwordSeguro.salt,
+                Email = Entidad?.Email,
+                IdRol = Entidad?.IdRol ?? 0,
+                Administrador = Entidad?.Administrador ?? false,
+                Aprobado = Entidad?.Aprobado ?? false,
+                Estado = Entidad?.Estado ?? true,
+                UltimoAcceso = Entidad?.UltimoAcceso ?? DateTime.Now
+            };
 
             return usuario;
+        }
+
+        protected override bool EntidadCorrecta() {
+            if (string.IsNullOrEmpty(Vista.NombreUsuario)) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "Debe especificar un nombre de usuario para registrarse en el sistema.",
+                    TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            if (Vista.Password == null || Vista.Password.Length == 0) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "Debe especificar una contraseña para registrarse en el sistema.",
+                    TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            if (!Vista.ConfirmacionTerminosServicio) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "Debe aceptar los términos y condiciones del servicio para continuar.",
+                    TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            // Validar que el usuario no exista (solo en modo registro)
+            if (!Vista.ModoEdicion) {
+                var (cantidad, resultados) = Repositorio.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario);
+                
+                if (resultados.Any()) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "El nombre de usuario ya está registrado en el sistema.",
+                        TipoNotificacionEnum.Advertencia);
+                    return false;
+                }
+            }
+
+            // Verificar si es el primer usuario del sistema
+            if (Repositorio.Cantidad() == 0) {
+                return true;
+            }
+
+            return base.EntidadCorrecta();
+        }
+
+        protected override void RegistroEdicionAuxiliar(RepoCuentaUsuario repositorio, long id) {
+            base.RegistroEdicionAuxiliar(repositorio, id);
+
+            // Si es el primer usuario, hacerlo administrador automáticamente
+            if (Repositorio.Cantidad() == 1 && id > 0) {
+                try {
+                    var usuario = Repositorio.ObtenerPorId(id);
+
+                    if (usuario != null) {
+                        usuario.Administrador = true;
+                        usuario.Aprobado = true;
+                        usuario.IdRol = 1; // Asignar rol de Administrador
+
+                        Repositorio.Editar(usuario);
+
+                        CentroNotificaciones.MostrarNotificacion(
+                            "¡Bienvenido! Su cuenta ha sido creada como Administrador del sistema.",
+                            TipoNotificacionEnum.Info);
+
+                        AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+                    }
+                } catch (Exception ex) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        $"Error al configurar administrador: {ex.Message}",
+                        TipoNotificacionEnum.Error);
+                }
+            } else if (id > 0) {
+                // Para usuarios normales, mostrar mensaje de espera de aprobación
+                var usuario = Repositorio.ObtenerPorId(id);
+
+                if (usuario != null && !usuario.Aprobado) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "Su solicitud de registro ha sido enviada. Espere la aprobación del administrador.",
+                        TipoNotificacionEnum.Info);
+
+                    AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
+                }
+            }
+        }
+
+        protected override void OnRegistrarEntidad(object? sender, EventArgs e) {
+            try {
+                base.OnRegistrarEntidad(sender, e);
+            } catch (ExcepcionConexionServidorMySQL ex) {
+                CentroNotificaciones.MostrarNotificacion(ex.Message, TipoNotificacionEnum.Error);
+            }
+        }
+
+        public override void Dispose() {
+            AgregadorEventos.Desuscribir("MostrarVistaRegistroUsuario", OnMostrarVistaRegistroUsuario);
+           
+            base.Dispose();
         }
     }
 }

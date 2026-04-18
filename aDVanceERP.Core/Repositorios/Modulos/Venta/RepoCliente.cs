@@ -139,7 +139,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             }, persona != null ? [persona] : []);
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoCliente Instancia { get; } = new RepoCliente();
 

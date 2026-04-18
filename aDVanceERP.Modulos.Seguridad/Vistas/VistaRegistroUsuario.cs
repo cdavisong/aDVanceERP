@@ -63,10 +63,19 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
 
         public event EventHandler? RegistrarEntidad;
         public event EventHandler? EditarEntidad;
-        public event EventHandler? EliminarEntidad;    
+        public event EventHandler? EliminarEntidad;
 
         public void Inicializar() {
             // Eventos
+            fieldConfirmarPassword.TextChanged += delegate {
+                if (!string.IsNullOrEmpty(fieldConfirmarPassword.Text)) {
+                    var coinciden = fieldPassword.Text.Equals(fieldConfirmarPassword.Text);
+
+                    fieldConfirmarPassword.BorderColor = coinciden
+                        ? Color.FromArgb(0, 150, 136) 
+                        : Color.FromArgb(244, 67, 54);
+                }
+            };
             fieldPassword.IconRightClick += delegate {
                 // fieldPassword
                 fieldPassword.UseSystemPasswordChar = !fieldPassword.UseSystemPasswordChar;
@@ -77,11 +86,12 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
                 fieldConfirmarPassword.UseSystemPasswordChar = fieldPassword.UseSystemPasswordChar;
                 fieldConfirmarPassword.PasswordChar = fieldPassword.UseSystemPasswordChar ? '●' : char.MinValue;
             };
-            btnRegistrarCuentaUsuario.Click += delegate(object? sender, EventArgs e) { 
-                RegistrarEntidad?.Invoke(sender, e); 
+            btnRegistrarCuentaUsuario.Click += delegate (object? sender, EventArgs e) {
+                RegistrarEntidad?.Invoke(sender, e);
             };
-            btnRegresarAutenticar.Click += delegate(object? sender, EventArgs e) {
+            btnRegresarAutenticar.Click += delegate (object? sender, EventArgs e) {
                 AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+
                 Ocultar();
             };
         }

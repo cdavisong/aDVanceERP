@@ -14,7 +14,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         private void OnMostrarVistaRegistroCuentaUsuario(string obj) {
             Vista.ModoEdicion = false;
-                        
+
             Vista.Restaurar();
             Vista.Mostrar();
         }
@@ -45,16 +45,15 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         protected override CuentaUsuario? ObtenerEntidadDesdeVista() {
             var passwordSeguro = SecureStringHelper.HashPassword(Vista.Password);
-            
-            return new CuentaUsuario(
-                Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
-                0, // IdPersona se asignará posteriormente
-                Vista.NombreUsuario,
-                passwordSeguro.hash,
-                passwordSeguro.salt
-            ) {
-                Aprobado = Entidad?.Aprobado ?? false
-            };
+
+            return new CuentaUsuario() { 
+                    Id = Vista.ModoEdicion && Entidad != null ? Entidad.Id : 0,
+                    IdPersona = 0, // IdPersona se asignará posteriormente
+                    Nombre = Vista.NombreUsuario,
+                    PasswordHash = passwordSeguro.hash,
+                    PasswordSalt = passwordSeguro.salt,                
+                    Aprobado = Entidad?.Aprobado ?? false
+                };
         }
     }
 }

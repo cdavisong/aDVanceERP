@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Presentadores;
@@ -16,9 +17,7 @@ namespace aDVanceERP.Modulos.Seguridad {
         private PresentadorRegistroCuentaUsuario _registroCuentaUsuario = null!;
 
         public ModuloSeguridad() {
-            Nombre = "MOD_SEGURIDAD";
-            NombreAmigable = "Seguridad";
-            Descripcion = "Proporciona funcionalidades de seguridad y gestión de usuarios.";
+            Nombre = ModuloSistemaEnum.MOD_SEGURIDAD;
             Version = new Version(1, 0, 0, 0);
         }
 

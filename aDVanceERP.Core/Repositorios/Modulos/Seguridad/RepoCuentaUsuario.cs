@@ -16,15 +16,23 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 nombre, 
                 password_hash, 
                 password_salt,
+                email,
+                id_rol,
                 administrador, 
-                aprobado
+                aprobado,
+                estado,
+                ultimo_acceso
             ) VALUES (
                 @id_persona,
                 @nombre, 
                 @password_hash, 
                 @password_salt, 
+                @email,
+                @id_rol,
                 @administrador, 
-                @aprobado
+                @aprobado,
+                @estado,
+                @ultimo_acceso
             );
             """;
 
@@ -33,8 +41,12 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 { "@nombre", objeto.Nombre },
                 { "@password_hash", objeto.PasswordHash },
                 { "@password_salt", objeto.PasswordSalt },
+                { "@email", objeto.Email },
+                { "@id_rol", objeto.IdRol },
                 { "@administrador", Convert.ToInt32(objeto.Administrador) },
-                { "@aprobado", Convert.ToInt32(objeto.Aprobado) }
+                { "@aprobado", Convert.ToInt32(objeto.Aprobado) },
+                { "@estado",  Convert.ToInt32(objeto.Estado) },
+                { "@ultimo_acceso", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") }
             };
 
             return consulta;
@@ -46,14 +58,22 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 SET 
                     id_persona = @id_persona,
                     nombre = @nombre,
-                    aprobado = @aprobado 
+                    email = @email,
+                    id_rol = @id_rol,
+                    aprobado = @aprobado,
+                    estado = @estado,
+                    ultimo_acceso = @ultimo_acceso 
                 WHERE id_cuenta_usuario = @id;
                 """;
 
             parametros = new Dictionary<string, object> {
                 { "@id_persona", objeto.IdPersona  },
                 { "@nombre", objeto.Nombre },
+                { "@email", objeto.Email },
+                { "@id_rol", objeto.IdRol },
                 { "@aprobado", Convert.ToInt32(objeto.Aprobado) },
+                { "@estado",  Convert.ToInt32(objeto.Estado) },
+                { "@ultimo_acceso", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@id", objeto.Id }
             };
 
@@ -98,18 +118,26 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         }
 
         protected override (CuentaUsuario, List<IEntidadBaseDatos>) MapearEntidad(MySqlDataReader lectorDatos) {
-            return (new CuentaUsuario(
-                id: Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),
-                idPersona: Convert.ToInt64(lectorDatos["id_persona"]),
-                nombre: Convert.ToString(lectorDatos["nombre"]),
-                passwordHash: Convert.ToString(lectorDatos["password_hash"]),
-                passwordSalt: Convert.ToString(lectorDatos["password_salt"])) {
+            return (new CuentaUsuario() {
+                Id = Convert.ToInt64(lectorDatos["id_cuenta_usuario"]),
+                IdPersona = Convert.ToInt64(lectorDatos["id_persona"]),
+                Nombre = Convert.ToString(lectorDatos["nombre"]),
+                PasswordHash = Convert.ToString(lectorDatos["password_hash"]),
+                PasswordSalt = Convert.ToString(lectorDatos["password_salt"]),
+                Email = lectorDatos["email"] == DBNull.Value 
+                    ? string.Empty 
+                    : Convert.ToString(lectorDatos["email"]),
+                IdRol = Convert.ToInt64(lectorDatos["id_rol"]),
                 Administrador = Convert.ToBoolean(lectorDatos["administrador"]),
-                Aprobado = Convert.ToBoolean(lectorDatos["aprobado"])
+                Aprobado = Convert.ToBoolean(lectorDatos["aprobado"]),
+                Estado = Convert.ToBoolean(lectorDatos["estado"]),
+                UltimoAcceso = lectorDatos["ultimo_acceso"] == DBNull.Value 
+                    ? null
+                    : Convert.ToDateTime(lectorDatos["ultimo_acceso"])
             }, new List<IEntidadBaseDatos>());
         }
 
-        #region STATIC
+        #region SINGLETON
 
         public static RepoCuentaUsuario Instancia { get; } = new RepoCuentaUsuario();
 
@@ -120,14 +148,29 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
         public void CambiarPassword(long idCuentaUsuario, (string hash, string salt) passwordSeguro) {
             var consulta = $"""
                 UPDATE adv__cuenta_usuario 
-            SET 
-                password_hash = @password_hash,
-                password_salt = @password_salt, 
-            WHERE id_cuenta_usuario = @id;
-            """;
+                SET 
+                    password_hash = @password_hash,
+                    password_salt = @password_salt, 
+                WHERE id_cuenta_usuario = @id;
+                """;
             var parametros = new Dictionary<string, object> {
                 { "@password_hash", passwordSeguro.hash },
                 { "@password_salt", passwordSeguro.salt },
+                { "@id", idCuentaUsuario }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+        }
+
+        public void ActualizarUltimoAcceso(long idCuentaUsuario) {
+            var consulta = $"""
+                UPDATE adv__cuenta_usuario 
+                SET ultimo_acceso = @ultimo_acceso
+                WHERE id_cuenta_usuario = @id;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@ultimo_acceso", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") },
                 { "@id", idCuentaUsuario }
             };
 
