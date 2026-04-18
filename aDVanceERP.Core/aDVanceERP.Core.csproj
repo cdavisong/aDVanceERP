@@ -870,4 +870,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\BD\" />
+  </ItemGroup>
 </Project>
