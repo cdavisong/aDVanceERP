@@ -28,19 +28,18 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaAutenticacionUsuario));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
-            panelDatosAutenticacion = new Guna2Panel();
-            layoutDatosAutenticacion = new TableLayoutPanel();
+            panelDatos = new Guna2Panel();
+            layoutDatos = new TableLayoutPanel();
             layoutDistBase = new TableLayoutPanel();
             pbBannerTitulo = new PictureBox();
             fieldTituloNombreCorreo = new Label();
@@ -50,12 +49,12 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnAutenticarUsuario = new Guna2Button();
             btnRecuperarPassword = new Label();
             layoutRegistroCuenta = new TableLayoutPanel();
-            fieldTextoCuentaUsuario = new Label();
             btnRegistrarCuenta = new Label();
+            fieldTextoCuentaUsuario = new Label();
             fieldCopyright = new Label();
             layoutBase.SuspendLayout();
-            panelDatosAutenticacion.SuspendLayout();
-            layoutDatosAutenticacion.SuspendLayout();
+            panelDatos.SuspendLayout();
+            layoutDatos.SuspendLayout();
             layoutDistBase.SuspendLayout();
             ((ISupportInitialize) pbBannerTitulo).BeginInit();
             layoutRegistroCuenta.SuspendLayout();
@@ -75,7 +74,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             layoutBase.BackColor = Color.Transparent;
             layoutBase.ColumnCount = 1;
             layoutBase.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutBase.Controls.Add(panelDatosAutenticacion, 0, 0);
+            layoutBase.Controls.Add(panelDatos, 0, 0);
             layoutBase.Dock = DockStyle.Fill;
             layoutBase.Location = new Point(0, 0);
             layoutBase.Name = "layoutBase";
@@ -84,47 +83,47 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             layoutBase.Size = new Size(500, 685);
             layoutBase.TabIndex = 2;
             // 
-            // panelDatosAutenticacion
+            // panelDatos
             // 
-            panelDatosAutenticacion.BackColor = Color.Transparent;
-            panelDatosAutenticacion.BorderColor = Color.Gainsboro;
-            panelDatosAutenticacion.BorderRadius = 16;
-            panelDatosAutenticacion.BorderThickness = 1;
-            panelDatosAutenticacion.Controls.Add(layoutDatosAutenticacion);
-            customizableEdges7.BottomLeft = false;
-            customizableEdges7.BottomRight = false;
-            panelDatosAutenticacion.CustomizableEdges = customizableEdges7;
-            panelDatosAutenticacion.Dock = DockStyle.Fill;
-            panelDatosAutenticacion.FillColor = Color.White;
-            panelDatosAutenticacion.Location = new Point(0, 0);
-            panelDatosAutenticacion.Margin = new Padding(0);
-            panelDatosAutenticacion.Name = "panelDatosAutenticacion";
-            panelDatosAutenticacion.ShadowDecoration.BorderRadius = 8;
-            panelDatosAutenticacion.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            panelDatosAutenticacion.ShadowDecoration.Depth = 10;
-            panelDatosAutenticacion.Size = new Size(500, 685);
-            panelDatosAutenticacion.TabIndex = 56;
+            panelDatos.BackColor = Color.Transparent;
+            panelDatos.BorderColor = Color.Gainsboro;
+            panelDatos.BorderRadius = 16;
+            panelDatos.BorderThickness = 1;
+            panelDatos.Controls.Add(layoutDatos);
+            customizableEdges9.BottomLeft = false;
+            customizableEdges9.BottomRight = false;
+            panelDatos.CustomizableEdges = customizableEdges9;
+            panelDatos.Dock = DockStyle.Fill;
+            panelDatos.FillColor = Color.White;
+            panelDatos.Location = new Point(0, 0);
+            panelDatos.Margin = new Padding(0);
+            panelDatos.Name = "panelDatos";
+            panelDatos.ShadowDecoration.BorderRadius = 8;
+            panelDatos.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            panelDatos.ShadowDecoration.Depth = 10;
+            panelDatos.Size = new Size(500, 685);
+            panelDatos.TabIndex = 56;
             // 
-            // layoutDatosAutenticacion
+            // layoutDatos
             // 
-            layoutDatosAutenticacion.BackColor = Color.Transparent;
-            layoutDatosAutenticacion.ColumnCount = 3;
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 25F));
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 25F));
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutDatosAutenticacion.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutDatosAutenticacion.Controls.Add(layoutDistBase, 1, 1);
-            layoutDatosAutenticacion.Dock = DockStyle.Fill;
-            layoutDatosAutenticacion.Location = new Point(0, 0);
-            layoutDatosAutenticacion.Name = "layoutDatosAutenticacion";
-            layoutDatosAutenticacion.RowCount = 3;
-            layoutDatosAutenticacion.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
-            layoutDatosAutenticacion.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutDatosAutenticacion.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
-            layoutDatosAutenticacion.Size = new Size(500, 685);
-            layoutDatosAutenticacion.TabIndex = 0;
+            layoutDatos.BackColor = Color.Transparent;
+            layoutDatos.ColumnCount = 3;
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 25F));
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 25F));
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            layoutDatos.Controls.Add(layoutDistBase, 1, 1);
+            layoutDatos.Dock = DockStyle.Fill;
+            layoutDatos.Location = new Point(0, 0);
+            layoutDatos.Name = "layoutDatos";
+            layoutDatos.RowCount = 3;
+            layoutDatos.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
+            layoutDatos.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutDatos.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
+            layoutDatos.Size = new Size(500, 685);
+            layoutDatos.TabIndex = 0;
             // 
             // layoutDistBase
             // 
@@ -207,7 +206,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldNombreUsuario.BorderColor = Color.Gainsboro;
             fieldNombreUsuario.BorderRadius = 16;
             fieldNombreUsuario.Cursor = Cursors.IBeam;
-            fieldNombreUsuario.CustomizableEdges = customizableEdges1;
+            fieldNombreUsuario.CustomizableEdges = customizableEdges11;
             fieldNombreUsuario.DefaultText = "";
             fieldNombreUsuario.DisabledState.BorderColor = Color.White;
             fieldNombreUsuario.DisabledState.ForeColor = Color.DimGray;
@@ -217,16 +216,15 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldNombreUsuario.Font = new Font("Segoe UI", 11.25F);
             fieldNombreUsuario.ForeColor = Color.Black;
             fieldNombreUsuario.HoverState.BorderColor = Color.SandyBrown;
-            fieldNombreUsuario.IconLeft = (Image) resources.GetObject("fieldNombreUsuario.IconLeft");
             fieldNombreUsuario.IconLeftOffset = new Point(10, 0);
             fieldNombreUsuario.Location = new Point(5, 230);
             fieldNombreUsuario.Margin = new Padding(5);
             fieldNombreUsuario.Name = "fieldNombreUsuario";
             fieldNombreUsuario.PasswordChar = '\0';
             fieldNombreUsuario.PlaceholderForeColor = Color.DimGray;
-            fieldNombreUsuario.PlaceholderText = "usuario@advanceerp.cu";
+            fieldNombreUsuario.PlaceholderText = "usuario@ejemplo.mail";
             fieldNombreUsuario.SelectedText = "";
-            fieldNombreUsuario.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            fieldNombreUsuario.ShadowDecoration.CustomizableEdges = customizableEdges12;
             fieldNombreUsuario.Size = new Size(440, 35);
             fieldNombreUsuario.TabIndex = 58;
             fieldNombreUsuario.TextOffset = new Point(5, -1);
@@ -237,7 +235,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldPassword.BorderColor = Color.Gainsboro;
             fieldPassword.BorderRadius = 16;
             fieldPassword.Cursor = Cursors.IBeam;
-            fieldPassword.CustomizableEdges = customizableEdges3;
+            fieldPassword.CustomizableEdges = customizableEdges13;
             fieldPassword.DefaultText = "";
             fieldPassword.DisabledState.BorderColor = Color.White;
             fieldPassword.DisabledState.ForeColor = Color.DimGray;
@@ -247,7 +245,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldPassword.Font = new Font("Segoe UI", 11.25F);
             fieldPassword.ForeColor = Color.Black;
             fieldPassword.HoverState.BorderColor = Color.SandyBrown;
-            fieldPassword.IconLeft = (Image) resources.GetObject("fieldPassword.IconLeft");
             fieldPassword.IconLeftOffset = new Point(10, 0);
             fieldPassword.IconRight = Properties.Resources.closed_eye_20px;
             fieldPassword.IconRightOffset = new Point(10, 0);
@@ -258,7 +255,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             fieldPassword.PlaceholderForeColor = Color.DimGray;
             fieldPassword.PlaceholderText = "●●●●●●●●";
             fieldPassword.SelectedText = "";
-            fieldPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            fieldPassword.ShadowDecoration.CustomizableEdges = customizableEdges14;
             fieldPassword.Size = new Size(440, 35);
             fieldPassword.TabIndex = 59;
             fieldPassword.TextOffset = new Point(5, -1);
@@ -267,7 +264,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             // 
             btnAutenticarUsuario.Animated = true;
             btnAutenticarUsuario.BorderRadius = 18;
-            btnAutenticarUsuario.CustomizableEdges = customizableEdges5;
+            btnAutenticarUsuario.CustomizableEdges = customizableEdges15;
             btnAutenticarUsuario.Dock = DockStyle.Fill;
             btnAutenticarUsuario.FillColor = Color.PeachPuff;
             btnAutenticarUsuario.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
@@ -275,7 +272,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnAutenticarUsuario.Location = new Point(5, 362);
             btnAutenticarUsuario.Margin = new Padding(5, 2, 5, 2);
             btnAutenticarUsuario.Name = "btnAutenticarUsuario";
-            btnAutenticarUsuario.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnAutenticarUsuario.ShadowDecoration.CustomizableEdges = customizableEdges16;
             btnAutenticarUsuario.Size = new Size(440, 41);
             btnAutenticarUsuario.TabIndex = 60;
             btnAutenticarUsuario.Text = "Iniciar sesión";
@@ -311,20 +308,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             layoutRegistroCuenta.Size = new Size(450, 35);
             layoutRegistroCuenta.TabIndex = 62;
             // 
-            // fieldTextoCuentaUsuario
-            // 
-            fieldTextoCuentaUsuario.Dock = DockStyle.Fill;
-            fieldTextoCuentaUsuario.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
-            fieldTextoCuentaUsuario.ForeColor = Color.Gray;
-            fieldTextoCuentaUsuario.ImeMode = ImeMode.NoControl;
-            fieldTextoCuentaUsuario.Location = new Point(5, 5);
-            fieldTextoCuentaUsuario.Margin = new Padding(5, 5, 0, 5);
-            fieldTextoCuentaUsuario.Name = "fieldTextoCuentaUsuario";
-            fieldTextoCuentaUsuario.Size = new Size(228, 25);
-            fieldTextoCuentaUsuario.TabIndex = 62;
-            fieldTextoCuentaUsuario.Text = "¿No tienes cuenta? ";
-            fieldTextoCuentaUsuario.TextAlign = ContentAlignment.MiddleRight;
-            // 
             // btnRegistrarCuenta
             // 
             btnRegistrarCuenta.Cursor = Cursors.Hand;
@@ -339,6 +322,20 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             btnRegistrarCuenta.TabIndex = 63;
             btnRegistrarCuenta.Text = "Regístrate aquí";
             btnRegistrarCuenta.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTextoCuentaUsuario
+            // 
+            fieldTextoCuentaUsuario.Dock = DockStyle.Fill;
+            fieldTextoCuentaUsuario.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point,  0);
+            fieldTextoCuentaUsuario.ForeColor = Color.Gray;
+            fieldTextoCuentaUsuario.ImeMode = ImeMode.NoControl;
+            fieldTextoCuentaUsuario.Location = new Point(5, 5);
+            fieldTextoCuentaUsuario.Margin = new Padding(5, 5, 0, 5);
+            fieldTextoCuentaUsuario.Name = "fieldTextoCuentaUsuario";
+            fieldTextoCuentaUsuario.Size = new Size(228, 25);
+            fieldTextoCuentaUsuario.TabIndex = 62;
+            fieldTextoCuentaUsuario.Text = "¿No tienes cuenta? ";
+            fieldTextoCuentaUsuario.TextAlign = ContentAlignment.MiddleRight;
             // 
             // fieldCopyright
             // 
@@ -368,8 +365,8 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             StartPosition = FormStartPosition.Manual;
             Text = "VistaAutenticacionUsuario";
             layoutBase.ResumeLayout(false);
-            panelDatosAutenticacion.ResumeLayout(false);
-            layoutDatosAutenticacion.ResumeLayout(false);
+            panelDatos.ResumeLayout(false);
+            layoutDatos.ResumeLayout(false);
             layoutDistBase.ResumeLayout(false);
             ((ISupportInitialize) pbBannerTitulo).EndInit();
             layoutRegistroCuenta.ResumeLayout(false);
@@ -380,8 +377,8 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
 
         private Guna2BorderlessForm formatoBase;
         private TableLayoutPanel layoutBase;
-        private Guna2Panel panelDatosAutenticacion;
-        private TableLayoutPanel layoutDatosAutenticacion;
+        private Guna2Panel panelDatos;
+        private TableLayoutPanel layoutDatos;
         private TableLayoutPanel layoutDistBase;
         private PictureBox pbBannerTitulo;
         private Label fieldTituloNombreCorreo;

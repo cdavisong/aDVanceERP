@@ -94,13 +94,6 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                 return false;
             }
 
-            if (!Vista.ConfirmacionTerminosServicio) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "Debe aceptar los términos y condiciones del servicio para continuar.",
-                    TipoNotificacionEnum.Advertencia);
-                return false;
-            }
-
             // Validar que el usuario no exista (solo en modo registro)
             if (!Vista.ModoEdicion) {
                 var (cantidad, resultados) = Repositorio.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario);

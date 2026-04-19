@@ -120,27 +120,4 @@
   <metadata name="formatoBase.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="fieldNombreUsuario.IconLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAUNJREFUOE/t
-        lLFKBDEQhg8b0d5asPIhbIRrLMRCrhAsxUZR0EKx8TmuFx/CUmFB8mfBmdyyk2AlKIhWIlgIKzku52Zv
-        WVkOrfxgIMxMfjJhZjqdv8Sl6YI1ajMn9LxZUt1qTity1tvCuBej34TxJIyBc262mtcaIRgxeq/qbyTL
-        0kXLuBBGNnxVMFJrQVAIl+VYzioRwlFRFDOR2EOSzAnDCeNKSO1b0rvfppaCoDN6vRwT1mfCeBXCaSSY
-        G6wK4+MRmI8CI5pKzhmH/m9jJ6EnjOfIWaJRsO5urbPEv2BE7d1aZ4n2glO0jWUcTLTNuLENrn2T5oST
-        YEJYDoLWqK0oxvrcN7Y/R4KeMHqWgchIdcejZ1S/HBPGjTCOJ0bvJ5pKbsVofb1YVp+W8e4XwlTra7hg
-        fcl3tzuO1IYMsFLN+XW+AOuHr0ZSIaRYAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="fieldPassword.IconLeft" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAATZJREFUOE+9
-        k7FKA0EQhlMq6gPYKKjvoGJroWUKX8vKTmwULXwEU9hImp0N7s5t3NkzJBptLATb2MifS4K3cOYOznzw
-        w/DPP8PecttoLBrn3Gpq9B5kjFmJ+5VIbWdfmN6EaTTRMDjajXOlGLbby8L0KkznOKX3D2uB9YUwDfr9
-        +6U4PxefqANh+sbiqYdPhoeT59Ml8JZOhOkj9uGhF/uFBKu2hHXzyapTSegLw78Fb9xj3UQ2ns8hVh3j
-        8j3TC+5KEv0uTL2cMm8wyYy800fxnhnC+hKK/SKE1dWf+ZDQrVh1FvtFIIuZ2J/xrwu7XVp/dnonqzub
-        PUcbqOGhh7rSQrF0I0yP45p1S5juspqMT+g6y1RYWPsJy7D4hbX/h9OXEpg+y2juSwEp03aw6rCMkI3n
-        a+cHfZCTUhKsl+EAAAAASUVORK5CYII=
-</value>
-  </data>
 </root>
