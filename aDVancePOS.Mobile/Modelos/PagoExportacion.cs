@@ -1,3 +1,12 @@
+// ╔══════════════════════════════════════════════════════════════════════╗
+// ║  CONTRATO JSON — MIRROR DE CORE                                       ║
+// ║  Espejo de: Core/Modelos/Modulos/Venta/PagoExportacion.cs
+// ║                                                                        ║
+// ║  Android no puede referenciar la DLL de Core, por lo que esta copia   ║
+// ║  es necesaria. Si modificas el modelo original en Core, actualiza      ║
+// ║  este archivo manualmente para mantener el contrato sincronizado.      ║
+// ╚══════════════════════════════════════════════════════════════════════╝
+
 using System.Text.Json.Serialization;
 
 namespace aDVancePOS.Mobile.Modelos {

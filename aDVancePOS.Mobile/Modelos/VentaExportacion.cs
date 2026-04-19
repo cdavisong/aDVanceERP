@@ -1,3 +1,12 @@
+// ╔══════════════════════════════════════════════════════════════════════╗
+// ║  CONTRATO JSON — MIRROR DE CORE                                       ║
+// ║  Espejo de: Core/Modelos/Modulos/Venta/VentaExportacion.cs
+// ║                                                                        ║
+// ║  Android no puede referenciar la DLL de Core, por lo que esta copia   ║
+// ║  es necesaria. Si modificas el modelo original en Core, actualiza      ║
+// ║  este archivo manualmente para mantener el contrato sincronizado.      ║
+// ╚══════════════════════════════════════════════════════════════════════╝
+
 using System.Text.Json.Serialization;
 
 namespace aDVancePOS.Mobile.Modelos {
@@ -51,8 +60,7 @@ namespace aDVancePOS.Mobile.Modelos {
         public bool EstaEnEspera => EstadoVenta == "EnEspera";
 
         [JsonIgnore]
-        public decimal TotalPagadoBase =>
-            Pagos.Sum(p => p.MontoMonedaBase > 0 ? p.MontoMonedaBase : p.MontoPagado);
+        public decimal TotalPagadoBase => Pagos.Sum(p => p.MontoMonedaBase > 0 ? p.MontoMonedaBase : p.MontoPagado);
 
         [JsonIgnore]
         public decimal PendienteBase => ImporteTotal - TotalPagadoBase;
