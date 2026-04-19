@@ -21,7 +21,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public string NombreVista {
-            get => $"{Name}{Id}{Codigo}";
+            get => $"{Id:0000}{Name}";
             private set => Name = value;
         }
 

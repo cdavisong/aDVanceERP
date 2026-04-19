@@ -17,57 +17,51 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
     internal class PresentadorGestionAdvancePos : PresentadorVistaBase<IVistaGestionAdvancePos> {
 
         private readonly ControladorArchivosAndroidPos _controladorPos;
-        private readonly ExportadorCatalogosPos        _exportador;
-        private readonly ImportadorVentasPos           _importador;
+        private readonly ExportadorCatalogosPos _exportador;
+        private readonly ImportadorVentasPos _importador;
 
         public PresentadorGestionAdvancePos(IVistaGestionAdvancePos vista) : base(vista) {
             _controladorPos = new ControladorArchivosAndroidPos(Application.StartupPath);
-            _exportador     = new ExportadorCatalogosPos(CarpetaExportacion);
-            _importador     = new ImportadorVentasPos();
+            _exportador = new ExportadorCatalogosPos(CarpetaExportacion);
+            _importador = new ImportadorVentasPos();
 
-            vista.VerificarConexion      += OnVerificarConexion;
-            vista.EnviarCatalogo         += OnEnviarCatalogo;
-            vista.EliminarCatalogo       += OnEliminarCatalogo;
-            vista.ImportarVentas         += OnImportarVentas;
+            vista.VerificarConexion += OnVerificarConexion;
+            vista.EnviarCatalogo += OnEnviarCatalogo;
+            vista.EliminarCatalogo += OnEliminarCatalogo;
+            vista.ImportarVentas += OnImportarVentas;
             vista.ImportarTodasLasVentas += OnImportarTodasLasVentas;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionPos", OnMostrarVistaGestionPos);
         }
 
         private string CarpetaExportacion => Path.Combine(Application.StartupPath, "exports", "pos");
-        private string CarpetaImportacion => Path.Combine(Application.StartupPath, "imports", "pos");
 
-        // ══════════════════════════════════════════════════════
-        //  CICLO DE VIDA
-        // ══════════════════════════════════════════════════════
+        private string CarpetaImportacion => Path.Combine(Application.StartupPath, "imports", "pos");
 
         private void OnMostrarVistaGestionPos(string obj) {
             CargarDatosComunes();
+
             Vista.Restaurar();
             Vista.Mostrar();
+
             ActualizarEstadoConexion();
         }
 
         private void CargarDatosComunes() {
-            Vista.CargarAlmacenes(
-                [.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
         }
 
         public override void Dispose() {
-            Vista.VerificarConexion      -= OnVerificarConexion;
-            Vista.EnviarCatalogo         -= OnEnviarCatalogo;
-            Vista.EliminarCatalogo       -= OnEliminarCatalogo;
-            Vista.ImportarVentas         -= OnImportarVentas;
+            Vista.VerificarConexion -= OnVerificarConexion;
+            Vista.EnviarCatalogo -= OnEnviarCatalogo;
+            Vista.EliminarCatalogo -= OnEliminarCatalogo;
+            Vista.ImportarVentas -= OnImportarVentas;
             Vista.ImportarTodasLasVentas -= OnImportarTodasLasVentas;
 
             AgregadorEventos.Desuscribir("MostrarVistaGestionPos", OnMostrarVistaGestionPos);
 
             Vista.Cerrar();
         }
-
-        // ══════════════════════════════════════════════════════
-        //  HANDLERS DE VISTA
-        // ══════════════════════════════════════════════════════
 
         private void OnVerificarConexion(object? sender, EventArgs e)
             => ActualizarEstadoConexion(mostrarAdvertencia: true);
@@ -105,41 +99,39 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                 : Path.Combine(CarpetaImportacion, $"ventas_{DateTime.Today:yyyyMMdd}.json");
 
             bool ok = _controladorPos.PullVentas(rutaArchivo, DateTime.Today);
-            if (!ok) return;
+
+            if (!ok)
+                return;
 
             var resultado = _importador.Procesar(
                 [rutaArchivo],
-                registrarEnCaja:      CajaModuloCargado(),
+                registrarEnCaja: CajaModuloCargado(),
                 eliminarTrasImportar: true);
 
             MostrarResumenImportacion(resultado);
+
+            _controladorPos.EliminarArchivoVentas(rutaArchivo);
         }
 
         private void OnImportarTodasLasVentas(object? sender, EventArgs e) {
-            if (!_controladorPos.CheckDeviceConnection(mostrarAdvertencia: true)) return;
+            if (!_controladorPos.CheckDeviceConnection(mostrarAdvertencia: true))
+                return;
 
-            var archivos = _controladorPos.FlujoFinDia(
-                CarpetaImportacion, eliminarDelDispositivo: true);
+            var archivos = _controladorPos.FlujoFinDia(CarpetaImportacion, eliminarDelDispositivo: true);
 
-            if (archivos.Count == 0) return;
+            if (archivos.Count == 0)
+                return;
 
-            // FlujoFinDia ya eliminó los archivos del dispositivo
             var resultado = _importador.Procesar(
                 archivos,
-                registrarEnCaja:      CajaModuloCargado(),
+                registrarEnCaja: CajaModuloCargado(),
                 eliminarTrasImportar: false);
 
             MostrarResumenImportacion(resultado);
         }
 
-        // ══════════════════════════════════════════════════════
-        //  GENERACIÓN DE CATÁLOGO
-        // ══════════════════════════════════════════════════════
-
         private void GenerarCatalogoPos(long idAlmacen) {
-            var almacen = RepoAlmacen.Instancia.ObtenerPorId(idAlmacen)
-                          ?? throw new InvalidOperationException(
-                              $"Almacén {idAlmacen} no encontrado.");
+            var almacen = RepoAlmacen.Instancia.ObtenerPorId(idAlmacen) ?? throw new InvalidOperationException($"Almacén {idAlmacen} no encontrado.");
 
             var inventarioAlmacen = RepoInventario.Instancia
                 .Buscar(FiltroBusquedaInventario.IdAlmacen, idAlmacen.ToString())
@@ -151,14 +143,14 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             var productos = inventarioAlmacen
                 .Select(i => RepoProducto.Instancia.ObtenerPorId(i.IdProducto))
                 .Where(p => p != null && p.Activo)
-                .Cast<Core.Modelos.Modulos.Inventario.Producto>()
+                .Cast<Producto>()
                 .ToList();
 
             var unidades = RepoUnidadMedida.Instancia
                 .ObtenerTodos().Select(r => r.entidadBase).ToList();
 
             var presentacionesPorProducto = new Dictionary<long,
-                List<Core.Modelos.Modulos.Inventario.PresentacionProducto>>();
+                List<PresentacionProducto>>();
 
             foreach (var p in productos) {
                 var prs = RepoPresentacionProducto.Instancia
@@ -166,7 +158,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                     .resultadosBusqueda
                     .Select(r => r.entidadBase)
                     .Where(pr => pr != null && pr.Activo)
-                    .Cast<Core.Modelos.Modulos.Inventario.PresentacionProducto>()
+                    .Cast<PresentacionProducto>()
                     .ToList();
                 presentacionesPorProducto[p.Id] = prs;
             }
@@ -183,13 +175,13 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
         }
 
         private IEnumerable<MonedaCatalogoDto> ConstruirMonedasDto() {
-            var repoMoneda     = RepoMoneda.Instancia;
+            var repoMoneda = RepoMoneda.Instancia;
             var repoTasaCambio = RepoTasaCambio.Instancia;
-            var monedaBase     = repoMoneda.ObtenerMonedaBase();
+            var monedaBase = repoMoneda.ObtenerMonedaBase();
             var monedasActivas = repoMoneda.ObtenerActivas();
 
             return monedasActivas.Select(m => {
-                var tasa           = 1m;
+                var tasa = 1m;
                 var aplicaEfectivo = true;
 
                 if (!m.EsBase) {
@@ -199,7 +191,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
                         .resultadosBusqueda.FirstOrDefault()
                         .entidadBase as TasaCambio;
 
-                    tasa           = tasaCambio?.Tasa           ?? 1m;
+                    tasa = tasaCambio?.Tasa ?? 1m;
                     aplicaEfectivo = tasaCambio?.AplicaEfectivo ?? true;
                 }
 
@@ -209,39 +201,31 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             });
         }
 
-        // ══════════════════════════════════════════════════════
-        //  ESTADO DE CONEXIÓN
-        // ══════════════════════════════════════════════════════
-
         private void ActualizarEstadoConexion(bool mostrarAdvertencia = false) {
-            bool conectado   = _controladorPos.CheckDeviceConnection(mostrarAdvertencia);
+            bool conectado = _controladorPos.CheckDeviceConnection(mostrarAdvertencia);
             bool appInstalada = conectado && _controladorPos.CheckAppInstalada();
 
-            Vista.DispositivoConectado       = conectado;
-            Vista.AppInstalada               = appInstalada;
-            Vista.MostrarBotonEnviarCatalogo  = appInstalada;
+            Vista.DispositivoConectado = conectado;
+            Vista.AppInstalada = appInstalada;
+            Vista.MostrarBotonEnviarCatalogo = appInstalada;
             Vista.MostrarBotonEliminarCatalogo = appInstalada && _controladorPos.ExisteCatalogo();
-            Vista.MostrarBotonImportarVentas  = appInstalada;
+            Vista.MostrarBotonImportarVentas = appInstalada;
 
             if (conectado && appInstalada) {
                 var (existe, fechaCatalogo) = _controladorPos.ObtenerInfoCatalogo();
                 Vista.CatalogoExisteEnDispositivo = existe;
-                Vista.FechaActualizacionCatalogo   = fechaCatalogo;
+                Vista.FechaActualizacionCatalogo = fechaCatalogo;
 
                 var archivosVenta = _controladorPos.ListarArchivosVentas();
                 Vista.ArchivosDisponiblesDispositivo = archivosVenta.Count;
                 Vista.ActualizarArchivosVenta(archivosVenta);
             } else {
-                Vista.CatalogoExisteEnDispositivo    = false;
-                Vista.FechaActualizacionCatalogo     = null;
+                Vista.CatalogoExisteEnDispositivo = false;
+                Vista.FechaActualizacionCatalogo = null;
                 Vista.ActualizarArchivosVenta(
                     new List<(string fileName, DateTime fecha, double tamanoKb)>());
             }
         }
-
-        // ══════════════════════════════════════════════════════
-        //  HELPERS
-        // ══════════════════════════════════════════════════════
 
         /// <summary>
         /// Muestra el resumen de la importación de ventas al usuario.

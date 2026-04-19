@@ -56,9 +56,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.Codigo = entidad.Codigo ?? string.Empty;
-            presentadorTupla.Vista.FechaUltimoMovimiento = cantidad > 0 
-                    ? resultadosBusqueda.Min(inv => inv.entidadBase.UltimaActualizacion) 
-                    : DateTime.MinValue;
+            presentadorTupla.Vista.FechaUltimoMovimiento = cantidad > 0
+                ? resultadosBusqueda.Max(inv => inv.entidadBase.UltimaActualizacion)
+                : DateTime.MinValue;
             presentadorTupla.Vista.Almacen = Vista.Almacen;
             presentadorTupla.Vista.NombreDescripcion = string.IsNullOrEmpty(entidad.Nombre)
                 ? string.IsNullOrEmpty(entidad.Descripcion)
@@ -73,10 +73,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             presentadorTupla.Vista.Stock = Vista.Almacen?.Nombre == "Todos"
                 ? resultadosBusqueda.Sum(inv => inv.entidadBase.Cantidad)
                 : resultadosBusqueda
-                    .Find(inv => RepoAlmacen.Instancia
-                    .ObtenerPorId(inv.entidadBase.IdAlmacen)?
-                    .Nombre
-                    .Equals(Vista.Almacen?.Nombre) ?? false)
+                    .Find(inv => inv.entidadBase.IdAlmacen == Vista.Almacen?.Id)
                     .entidadBase?
                     .Cantidad ?? 0;
             presentadorTupla.Vista.UnidadMedida = unidadMedidaProducto;

@@ -18,6 +18,7 @@
     <ProjectReference Include="..\aDVanceERP.Modulos.Inventario\aDVanceERP.Modulos.Inventario.csproj" />
     <ProjectReference Include="..\aDVanceERP.Modulos.Movil\aDVanceERP.Modulos.Movil.csproj" />
     <ProjectReference Include="..\aDVanceERP.Modulos.Seguridad\aDVanceERP.Modulos.Seguridad.csproj" />
+    <ProjectReference Include="..\aDVanceERP.Modulos.Venta\aDVanceERP.Modulos.Venta.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

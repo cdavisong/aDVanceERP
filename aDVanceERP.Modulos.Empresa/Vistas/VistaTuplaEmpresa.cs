@@ -14,7 +14,7 @@ namespace aDVanceERP.Modulos.Empresa.Vistas {
         }
 
         public string NombreVista {
-            get => $"{Name}{Id}";
+            get => $"{Id:0000}{Name}";
             private set => Name = value;
         }
 

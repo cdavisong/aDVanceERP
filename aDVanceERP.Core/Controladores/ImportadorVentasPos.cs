@@ -1,6 +1,5 @@
 using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -29,20 +28,11 @@ namespace aDVanceERP.Core.Controladores {
     /// y muestra el resumen devuelto al usuario.
     /// </summary>
     public class ImportadorVentasPos {
-
-        // ══════════════════════════════════════════════════════
-        //  RESULTADO
-        // ══════════════════════════════════════════════════════
-
         /// <summary>Resumen de la operación de importación.</summary>
         public record ResultadoImportacion(
-            int          VentasImportadas,
-            int          VentasDuplicadasOmitidas,
+            int VentasImportadas,
+            int VentasDuplicadasOmitidas,
             List<string> Errores);
-
-        // ══════════════════════════════════════════════════════
-        //  PUNTO DE ENTRADA
-        // ══════════════════════════════════════════════════════
 
         /// <summary>
         /// Procesa una colección de archivos JSON descargados del dispositivo.
@@ -58,23 +48,24 @@ namespace aDVanceERP.Core.Controladores {
         /// </param>
         public ResultadoImportacion Procesar(
             IEnumerable<string> rutasArchivos,
-            bool registrarEnCaja       = false,
-            bool eliminarTrasImportar  = false) {
+            bool registrarEnCaja = false,
+            bool eliminarTrasImportar = false) {
 
-            int ventasImportadas          = 0;
-            int ventasSaltadasDuplicadas  = 0;
-            var errores                   = new List<string>();
+            int ventasImportadas = 0;
+            int ventasSaltadasDuplicadas = 0;
+            var errores = new List<string>();
 
-            var repoVenta                  = RepoVenta.Instancia;
-            var repoAlmacen                = RepoAlmacen.Instancia;
-            var repoProducto               = RepoProducto.Instancia;
-            var repoDetalleVenta           = RepoDetalleVentaProducto.Instancia;
-            var repoMovimiento             = RepoMovimiento.Instancia;
-            var repoInventario             = RepoInventario.Instancia;
-            var repoPago                   = RepoPago.Instancia;
-            var repoDetallePagoTransf      = RepoDetallePagoTransferencia.Instancia;
-            var repoCajaTurno              = RepoCajaTurno.Instancia;
-            var repoMovimientoCaja         = RepoCajaMovimiento.Instancia;
+            var repoVenta = RepoVenta.Instancia;
+            var repoAlmacen = RepoAlmacen.Instancia;
+            var repoProducto = RepoProducto.Instancia;
+            var repoPresentacion = RepoPresentacionProducto.Instancia;
+            var repoDetalleVenta = RepoDetalleVentaProducto.Instancia;
+            var repoMovimiento = RepoMovimiento.Instancia;
+            var repoInventario = RepoInventario.Instancia;
+            var repoPago = RepoPago.Instancia;
+            var repoDetallePagoTransf = RepoDetallePagoTransferencia.Instancia;
+            var repoCajaTurno = RepoCajaTurno.Instancia;
+            var repoMovimientoCaja = RepoCajaMovimiento.Instancia;
 
             // Resolver el IdTipoMovimiento "Venta" una sola vez fuera del loop
             var idTipoMovimientoVenta = RepoTipoMovimiento.Instancia
@@ -87,17 +78,15 @@ namespace aDVanceERP.Core.Controladores {
                 try {
                     if (!File.Exists(archivo)) continue;
 
-                    var root = JsonSerializer.Deserialize<VentasExportacionJson>(
-                        File.ReadAllText(archivo), opciones);
+                    var root = JsonSerializer.Deserialize<VentasExportacionJson>(File.ReadAllText(archivo), opciones);
 
                     if (root?.Ventas == null || root.Ventas.Count == 0)
                         continue;
 
                     foreach (var ventaExp in root.Ventas) {
                         try {
-                            // ── Validaciones previas ───────────────────────────
-
                             var almacen = repoAlmacen.ObtenerPorId(ventaExp.IdAlmacen);
+
                             if (almacen == null || !almacen.Estado) {
                                 errores.Add($"Venta {ventaExp.NumeroTicket}: " +
                                             $"Almacén {ventaExp.IdAlmacen} no existe o está inactivo.");
@@ -105,8 +94,10 @@ namespace aDVanceERP.Core.Controladores {
                             }
 
                             bool productosValidos = true;
+
                             foreach (var det in ventaExp.Detalles ?? new List<DetalleExportacion>()) {
                                 var prod = repoProducto.ObtenerPorId(det.IdProducto);
+
                                 if (prod == null || !prod.Activo || !prod.EsVendible) {
                                     errores.Add($"Venta {ventaExp.NumeroTicket}: " +
                                                 $"Producto {det.IdProducto} no existe o no es vendible.");
@@ -118,6 +109,7 @@ namespace aDVanceERP.Core.Controladores {
 
                             if (ventaExp.Pagos?.Count > 0) {
                                 var totalPagado = ventaExp.Pagos.Sum(p => p.MontoPagado);
+
                                 if (Math.Abs(totalPagado - ventaExp.ImporteTotal) > 0.01m) {
                                     errores.Add($"Venta {ventaExp.NumeroTicket}: " +
                                                 $"Pagos ({totalPagado:C}) no cuadran con total " +
@@ -135,35 +127,32 @@ namespace aDVanceERP.Core.Controladores {
                                 continue;
                             }
 
-                            // ── Persistir venta ────────────────────────────────
-
                             var ventaBD = new Venta {
-                                Id                    = 0,
-                                IdPedido              = 0,
-                                IdCliente             = ventaExp.IdCliente,
-                                IdEmpleadoVendedor    = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                                IdAlmacen             = ventaExp.IdAlmacen,
-                                NumeroFacturaTicket   = ventaExp.NumeroTicket,
-                                FechaVenta            = ventaExp.FechaVenta,
-                                TotalBruto            = ventaExp.TotalBruto,
-                                DescuentoTotal        = ventaExp.DescuentoTotal,
-                                ImpuestoTotal         = ventaExp.ImpuestoTotal,
-                                ImporteTotal          = ventaExp.ImporteTotal,
-                                MetodoPagoPrincipal   = ventaExp.Pagos?.FirstOrDefault()?.MetodoPago
-                                                        ?? string.Empty,
-                                EstadoVenta           = Enum.TryParse<EstadoVentaEnum>(
-                                                            ventaExp.EstadoVenta, out var ev)
-                                                        ? ev : EstadoVentaEnum.Completada,
-                                ObservacionesVenta    = ventaExp.Observaciones ?? string.Empty,
-                                Activo                = true
+                                Id = 0,
+                                IdPedido = 0,
+                                IdCliente = ventaExp.IdCliente,
+                                IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                IdAlmacen = ventaExp.IdAlmacen,
+                                NumeroFacturaTicket = ventaExp.NumeroTicket,
+                                FechaVenta = ventaExp.FechaVenta,
+                                TotalBruto = ventaExp.TotalBruto,
+                                DescuentoTotal = ventaExp.DescuentoTotal,
+                                ImpuestoTotal = ventaExp.ImpuestoTotal,
+                                ImporteTotal = ventaExp.ImporteTotal,
+                                MetodoPagoPrincipal = ventaExp.Pagos?
+                                    .FirstOrDefault()?
+                                    .MetodoPago ?? string.Empty,
+                                EstadoVenta = Enum.TryParse<EstadoVentaEnum>(ventaExp.EstadoVenta, out var ev)
+                                    ? ev
+                                    : EstadoVentaEnum.Completada,
+                                ObservacionesVenta = ventaExp.Observaciones ?? string.Empty,
+                                Activo = true
                             };
 
                             var idVenta = repoVenta.Adicionar(ventaBD);
-                            var turno   = registrarEnCaja
+                            var turno = registrarEnCaja
                                           ? repoCajaTurno.ObtenerTurnoAbierto(ventaBD.IdAlmacen)
                                           : null;
-
-                            // ── Detalles + movimientos de inventario ───────────
 
                             if (ventaExp.Detalles != null) {
                                 foreach (var det in ventaExp.Detalles) {
@@ -172,47 +161,56 @@ namespace aDVanceERP.Core.Controladores {
                                         decimal costo = ObtenerCostoProducto(producto);
 
                                         repoDetalleVenta.Adicionar(new DetalleVentaProducto {
-                                            Id                   = 0,
-                                            IdVenta              = idVenta,
-                                            IdProducto           = det.IdProducto,
-                                            IdPresentacion       = det.IdPresentacion,
-                                            Cantidad             = det.Cantidad,
-                                            PrecioCompraVigente  = costo,
-                                            PrecioVentaUnitario  = det.PrecioVentaUnitario,
-                                            DescuentoItem        = det.DescuentoItem,
-                                            Subtotal             = det.Subtotal
+                                            Id = 0,
+                                            IdVenta = idVenta,
+                                            IdProducto = det.IdProducto,
+                                            IdPresentacion = det.IdPresentacion,
+                                            Cantidad = det.Cantidad,
+                                            PrecioCompraVigente = costo,
+                                            PrecioVentaUnitario = det.PrecioVentaUnitario,
+                                            DescuentoItem = det.DescuentoItem,
+                                            Subtotal = det.Subtotal
                                         });
 
                                         var inventarioProducto = repoInventario
-                                            .Buscar(FiltroBusquedaInventario.IdProducto,
-                                                    det.IdProducto.ToString())
+                                            .Buscar(FiltroBusquedaInventario.IdProducto, det.IdProducto.ToString())
                                             .resultadosBusqueda
-                                            .FirstOrDefault(r => r.entidadBase.IdAlmacen
-                                                                  == ventaBD.IdAlmacen)
+                                            .FirstOrDefault(r => r.entidadBase.IdAlmacen == ventaBD.IdAlmacen)
                                             .entidadBase;
+                                        var presentacion = det.IdPresentacion != 0
+                                            ? repoPresentacion.ObtenerPorId(det.IdPresentacion)
+                                            : null;
 
                                         repoMovimiento.Adicionar(new Movimiento {
-                                            Id               = 0,
-                                            IdProducto       = det.IdProducto,
-                                            CostoUnitario    = costo,
-                                            IdAlmacenOrigen  = ventaBD.IdAlmacen,
+                                            Id = 0,
+                                            IdProducto = det.IdProducto,
+                                            CostoUnitario = costo,
+                                            IdAlmacenOrigen = ventaBD.IdAlmacen,
                                             IdAlmacenDestino = 0,
-                                            Estado           = EstadoMovimientoEnum.Completado,
-                                            FechaCreacion    = DateTime.Now,
-                                            SaldoInicial     = inventarioProducto?.Cantidad ?? 0,
-                                            FechaTermino     = ventaBD.EstadoVenta
-                                                               == EstadoVentaEnum.Completada
-                                                               ? DateTime.Now : DateTime.MinValue,
-                                            CantidadMovida   = det.Cantidad,
-                                            SaldoFinal       = (inventarioProducto?.Cantidad ?? 0)
-                                                               - det.Cantidad,
+                                            Estado = EstadoMovimientoEnum.Completado,
+                                            FechaCreacion = DateTime.Now,
+                                            FechaTermino = ventaBD.EstadoVenta == EstadoVentaEnum.Completada
+                                                ? DateTime.Now
+                                                : DateTime.MinValue,
+                                            SaldoInicial = inventarioProducto?.Cantidad ?? 0,
+                                            CantidadMovida = presentacion != null
+                                                ? presentacion.Cantidad
+                                                : det.Cantidad,
+                                            SaldoFinal = (inventarioProducto?.Cantidad ?? 0) - (presentacion != null
+                                                ? presentacion.Cantidad
+                                                : det.Cantidad),
                                             IdTipoMovimiento = idTipoMovimientoVenta,
-                                            IdCuentaUsuario  = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                                            Notas            = "Venta importada desde aDVance.POS."
+                                            IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                            Notas = "Venta importada desde aDVance.POS."
                                         });
 
                                         repoInventario.ModificarInventario(
-                                            producto, almacen, null, det.Cantidad);
+                                            producto,
+                                            almacen,
+                                            null,
+                                            presentacion != null
+                                                ? presentacion.Cantidad
+                                                : det.Cantidad);
 
                                     } catch (Exception dex) {
                                         errores.Add($"'{Path.GetFileName(archivo)}' " +
@@ -221,8 +219,6 @@ namespace aDVanceERP.Core.Controladores {
                                 }
                             }
 
-                            // ── Pagos ──────────────────────────────────────────
-
                             if (ventaExp.Pagos != null) {
                                 foreach (var pagoExp in ventaExp.Pagos) {
                                     try {
@@ -230,18 +226,19 @@ namespace aDVanceERP.Core.Controladores {
                                             "Confirmado", StringComparison.OrdinalIgnoreCase) == true;
 
                                         var pagoBD = new Pago {
-                                            Id                     = 0,
-                                            IdVenta                = idVenta,
-                                            MetodoPago             = Enum.TryParse<MetodoPagoEnum>(
-                                                                         pagoExp.MetodoPago, out var mp)
-                                                                     ? mp : MetodoPagoEnum.Efectivo,
-                                            MontoPagado            = pagoExp.MontoPagado,
-                                            FechaPago              = pagoExp.FechaPagoCliente,
-                                            FechaConfirmacionPago  = confirmado
-                                                                     ? DateTime.Now : DateTime.MinValue,
-                                            EstadoPago             = confirmado
-                                                                     ? EstadoPagoEnum.Confirmado
-                                                                     : EstadoPagoEnum.Pendiente
+                                            Id = 0,
+                                            IdVenta = idVenta,
+                                            MetodoPago = Enum.TryParse<MetodoPagoEnum>(pagoExp.MetodoPago, out var mp)
+                                                ? mp
+                                                : MetodoPagoEnum.Efectivo,
+                                            MontoPagado = pagoExp.MontoPagado,
+                                            FechaPago = pagoExp.FechaPagoCliente,
+                                            FechaConfirmacionPago = confirmado
+                                                ? DateTime.Now
+                                                : DateTime.MinValue,
+                                            EstadoPago = confirmado
+                                                ? EstadoPagoEnum.Confirmado
+                                                : EstadoPagoEnum.Pendiente
                                         };
 
                                         // Validar número de transacción duplicado
@@ -262,28 +259,26 @@ namespace aDVanceERP.Core.Controladores {
 
                                         if (pagoExp.DetalleTransferencia != null) {
                                             repoDetallePagoTransf.Adicionar(new DetallePagoTransferencia {
-                                                Id                          = 0,
-                                                IdPago                      = idPago,
-                                                NumeroTelefonoConfirmacion  =
-                                                    pagoExp.DetalleTransferencia.NumeroConfirmacion,
-                                                NumeroTransaccion           =
-                                                    pagoExp.DetalleTransferencia.NumeroTransaccion,
-                                                MontoTransferencia          = pagoExp.MontoPagado
+                                                Id = 0,
+                                                IdPago = idPago,
+                                                NumeroTelefonoConfirmacion = pagoExp.DetalleTransferencia.NumeroConfirmacion,
+                                                NumeroTransaccion = pagoExp.DetalleTransferencia.NumeroTransaccion,
+                                                MontoTransferencia = pagoExp.MontoPagado
                                             });
                                         }
 
                                         // Registrar en caja si el módulo está activo y hay turno
                                         if (registrarEnCaja && turno != null) {
                                             repoMovimientoCaja.Adicionar(new CajaMovimiento {
-                                                Id               = 0,
-                                                IdTurno          = turno.Id,
-                                                Tipo             = TipoMovimientoCajaEnum.Venta,
-                                                CanalPago        = (CanalPagoCajaEnum)((int)pagoBD.MetodoPago),
-                                                IdVenta          = ventaBD.Id,
-                                                Monto            = pagoBD.MontoPagado,
-                                                Descripcion      = $"Pago de factura {ventaBD.NumeroFacturaTicket}",
-                                                IdCuentaUsuario  = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                                                FechaMovimiento  = pagoBD.FechaConfirmacionPago ?? DateTime.Now
+                                                Id = 0,
+                                                IdTurno = turno.Id,
+                                                Tipo = TipoMovimientoCajaEnum.Venta,
+                                                CanalPago = (CanalPagoCajaEnum) ((int) pagoBD.MetodoPago),
+                                                IdVenta = ventaBD.Id,
+                                                Monto = pagoBD.MontoPagado,
+                                                Descripcion = $"Pago de factura {ventaBD.NumeroFacturaTicket}",
+                                                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                                                FechaMovimiento = pagoBD.FechaConfirmacionPago ?? DateTime.Now
                                             });
                                         }
 
@@ -294,7 +289,6 @@ namespace aDVanceERP.Core.Controladores {
                                 }
                             }
 
-                            // ── Cerrar venta si está totalmente pagada ─────────
                             try {
                                 if (repoVenta.VentaEstaPagadaCompletamente(idVenta))
                                     repoVenta.CambiarEstadoVenta(idVenta, EstadoVentaEnum.Completada);
@@ -328,10 +322,6 @@ namespace aDVanceERP.Core.Controladores {
                 ventasSaltadasDuplicadas,
                 errores);
         }
-
-        // ══════════════════════════════════════════════════════
-        //  PRIVADOS
-        // ══════════════════════════════════════════════════════
 
         private static decimal ObtenerCostoProducto(Producto? producto) {
             if (producto == null) return 0m;

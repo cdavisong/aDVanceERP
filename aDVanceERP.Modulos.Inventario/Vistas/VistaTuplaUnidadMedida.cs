@@ -1,5 +1,4 @@
-﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
@@ -10,7 +9,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public string NombreVista {
-            get => $"{Name}{Id}";
+            get => $"{Id:0000}{Name}";
             private set => Name = value;
         }
 
@@ -83,6 +82,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Cerrar() {
             Dispose();
+        }
+
+        public override string ToString() {
+            return $"{NombreVista}";
         }
     }
 }
