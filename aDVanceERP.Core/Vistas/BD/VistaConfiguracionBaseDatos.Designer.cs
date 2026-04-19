@@ -88,7 +88,7 @@ namespace aDVanceERP.Core.Vistas.BD {
             // 
             // layoutVista
             // 
-            layoutVista.BackColor = Color.FromArgb(250, 250, 250);
+            layoutVista.BackColor = Color.FromArgb(  250,   250,   250);
             layoutVista.ColumnCount = 3;
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
@@ -172,7 +172,7 @@ namespace aDVanceERP.Core.Vistas.BD {
             fieldDireccionServidor.Font = new Font("Segoe UI", 11.25F);
             fieldDireccionServidor.ForeColor = Color.Black;
             fieldDireccionServidor.HoverState.BorderColor = Color.SandyBrown;
-            fieldDireccionServidor.IconLeft = (Image)resources.GetObject("fieldDireccionServidor.IconLeft");
+            fieldDireccionServidor.IconLeft = (Image) resources.GetObject("fieldDireccionServidor.IconLeft");
             fieldDireccionServidor.IconLeftOffset = new Point(10, 0);
             fieldDireccionServidor.Location = new Point(25, 225);
             fieldDireccionServidor.Margin = new Padding(5);
@@ -203,7 +203,7 @@ namespace aDVanceERP.Core.Vistas.BD {
             fieldNombreBd.Font = new Font("Segoe UI", 11.25F);
             fieldNombreBd.ForeColor = Color.Black;
             fieldNombreBd.HoverState.BorderColor = Color.SandyBrown;
-            fieldNombreBd.IconLeft = (Image)resources.GetObject("fieldNombreBd.IconLeft");
+            fieldNombreBd.IconLeft = (Image) resources.GetObject("fieldNombreBd.IconLeft");
             fieldNombreBd.IconLeftOffset = new Point(10, 0);
             fieldNombreBd.IconRightOffset = new Point(10, 0);
             fieldNombreBd.Location = new Point(25, 280);
@@ -343,7 +343,7 @@ namespace aDVanceERP.Core.Vistas.BD {
             fieldNombreUsuario.Font = new Font("Segoe UI", 11.25F);
             fieldNombreUsuario.ForeColor = Color.Black;
             fieldNombreUsuario.HoverState.BorderColor = Color.SandyBrown;
-            fieldNombreUsuario.IconLeft = (Image)resources.GetObject("fieldNombreUsuario.IconLeft");
+            fieldNombreUsuario.IconLeft = (Image) resources.GetObject("fieldNombreUsuario.IconLeft");
             fieldNombreUsuario.IconLeftOffset = new Point(10, 0);
             fieldNombreUsuario.IconRightOffset = new Point(10, 0);
             fieldNombreUsuario.Location = new Point(25, 335);
@@ -375,7 +375,7 @@ namespace aDVanceERP.Core.Vistas.BD {
             fieldPassword.Font = new Font("Segoe UI", 11.25F);
             fieldPassword.ForeColor = Color.Black;
             fieldPassword.HoverState.BorderColor = Color.SandyBrown;
-            fieldPassword.IconLeft = (Image)resources.GetObject("fieldPassword.IconLeft");
+            fieldPassword.IconLeft = (Image) resources.GetObject("fieldPassword.IconLeft");
             fieldPassword.IconLeftOffset = new Point(10, 0);
             fieldPassword.IconRight = Properties.Resources.closed_eye_20px;
             fieldPassword.IconRightOffset = new Point(10, 0);

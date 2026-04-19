@@ -145,6 +145,22 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
 
         #region UTILES 
 
+        public void ConvertirEnAdministrador(long idCuentaUsuario) {
+            var consulta = $"""
+                UPDATE adv__cuenta_usuario 
+                SET 
+                    administrador = 1, 
+                    aprobado = 1, 
+                    id_rol = 1
+                WHERE id_cuenta_usuario = @id;
+                """;
+            var parametros = new Dictionary<string, object> {
+                { "@id", idCuentaUsuario }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+        }
+
         public void CambiarPassword(long idCuentaUsuario, (string hash, string salt) passwordSeguro) {
             var consulta = $"""
                 UPDATE adv__cuenta_usuario 

@@ -56,11 +56,12 @@
             // 
             // contenedorVistas
             // 
+            contenedorVistas.BackColor = Color.Transparent;
             contenedorVistas.Dock = DockStyle.Fill;
             contenedorVistas.Location = new Point(428, 20);
-            contenedorVistas.Margin = new Padding(0, 20, 0, 20);
+            contenedorVistas.Margin = new Padding(0, 20, 0, 0);
             contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(500, 568);
+            contenedorVistas.Size = new Size(500, 588);
             contenedorVistas.TabIndex = 0;
             // 
             // VistaContenedorSeguridad

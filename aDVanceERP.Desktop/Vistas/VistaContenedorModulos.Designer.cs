@@ -40,27 +40,11 @@ namespace aDVanceERP.Desktop.Vistas {
             btnInicio = new Guna2CircleButton();
             panelCentral = new Panel();
             fieldNombreModulo = new Label();
-            layoutMensajeBienvenida = new TableLayoutPanel();
-            panelMensajeBienvenida = new Panel();
-            layoutLogotipos = new TableLayoutPanel();
-            fieldEmpresa1 = new PictureBox();
-            fieldEmpresa2 = new PictureBox();
-            fieldEmpresa3 = new PictureBox();
-            fieldEmpresa4 = new PictureBox();
-            pbPortada = new PictureBox();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
             layoutMenuLateral.SuspendLayout();
             layoutModulos.SuspendLayout();
             panelCentral.SuspendLayout();
-            layoutMensajeBienvenida.SuspendLayout();
-            panelMensajeBienvenida.SuspendLayout();
-            layoutLogotipos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize) pbPortada).BeginInit();
             SuspendLayout();
             // 
             // formatoBase
@@ -196,7 +180,6 @@ namespace aDVanceERP.Desktop.Vistas {
             // panelCentral
             // 
             panelCentral.Controls.Add(fieldNombreModulo);
-            panelCentral.Controls.Add(layoutMensajeBienvenida);
             panelCentral.Dock = DockStyle.Fill;
             panelCentral.Location = new Point(50, 0);
             panelCentral.Margin = new Padding(0);
@@ -214,116 +197,6 @@ namespace aDVanceERP.Desktop.Vistas {
             fieldNombreModulo.TabIndex = 2;
             fieldNombreModulo.Text = "Inicio";
             fieldNombreModulo.Visible = false;
-            // 
-            // layoutMensajeBienvenida
-            // 
-            layoutMensajeBienvenida.ColumnCount = 3;
-            layoutMensajeBienvenida.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutMensajeBienvenida.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 1000F));
-            layoutMensajeBienvenida.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutMensajeBienvenida.Controls.Add(panelMensajeBienvenida, 1, 0);
-            layoutMensajeBienvenida.Controls.Add(layoutLogotipos, 1, 1);
-            layoutMensajeBienvenida.Dock = DockStyle.Fill;
-            layoutMensajeBienvenida.Location = new Point(0, 0);
-            layoutMensajeBienvenida.Name = "layoutMensajeBienvenida";
-            layoutMensajeBienvenida.RowCount = 3;
-            layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Absolute, 160F));
-            layoutMensajeBienvenida.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-            layoutMensajeBienvenida.Size = new Size(1306, 608);
-            layoutMensajeBienvenida.TabIndex = 1;
-            // 
-            // panelMensajeBienvenida
-            // 
-            panelMensajeBienvenida.Controls.Add(pbPortada);
-            panelMensajeBienvenida.Dock = DockStyle.Fill;
-            panelMensajeBienvenida.Location = new Point(156, 3);
-            panelMensajeBienvenida.Name = "panelMensajeBienvenida";
-            panelMensajeBienvenida.Size = new Size(994, 392);
-            panelMensajeBienvenida.TabIndex = 2;
-            // 
-            // layoutLogotipos
-            // 
-            layoutLogotipos.ColumnCount = 9;
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            layoutLogotipos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            layoutLogotipos.Controls.Add(fieldEmpresa1, 1, 0);
-            layoutLogotipos.Controls.Add(fieldEmpresa2, 3, 0);
-            layoutLogotipos.Controls.Add(fieldEmpresa3, 5, 0);
-            layoutLogotipos.Controls.Add(fieldEmpresa4, 7, 0);
-            layoutLogotipos.Dock = DockStyle.Fill;
-            layoutLogotipos.Location = new Point(153, 398);
-            layoutLogotipos.Margin = new Padding(0);
-            layoutLogotipos.Name = "layoutLogotipos";
-            layoutLogotipos.RowCount = 1;
-            layoutLogotipos.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutLogotipos.Size = new Size(1000, 160);
-            layoutLogotipos.TabIndex = 1;
-            // 
-            // fieldEmpresa1
-            // 
-            fieldEmpresa1.BackgroundImage = Properties.Resources.empresa1;
-            fieldEmpresa1.BackgroundImageLayout = ImageLayout.Center;
-            fieldEmpresa1.Dock = DockStyle.Right;
-            fieldEmpresa1.Location = new Point(150, 0);
-            fieldEmpresa1.Margin = new Padding(0);
-            fieldEmpresa1.Name = "fieldEmpresa1";
-            fieldEmpresa1.Size = new Size(160, 160);
-            fieldEmpresa1.TabIndex = 0;
-            fieldEmpresa1.TabStop = false;
-            // 
-            // fieldEmpresa2
-            // 
-            fieldEmpresa2.BackgroundImage = Properties.Resources.empresa2;
-            fieldEmpresa2.BackgroundImageLayout = ImageLayout.Center;
-            fieldEmpresa2.Dock = DockStyle.Fill;
-            fieldEmpresa2.Image = (Image) resources.GetObject("fieldEmpresa2.Image");
-            fieldEmpresa2.Location = new Point(330, 0);
-            fieldEmpresa2.Margin = new Padding(0);
-            fieldEmpresa2.Name = "fieldEmpresa2";
-            fieldEmpresa2.Size = new Size(160, 160);
-            fieldEmpresa2.TabIndex = 1;
-            fieldEmpresa2.TabStop = false;
-            // 
-            // fieldEmpresa3
-            // 
-            fieldEmpresa3.BackgroundImageLayout = ImageLayout.Center;
-            fieldEmpresa3.Dock = DockStyle.Fill;
-            fieldEmpresa3.Image = (Image) resources.GetObject("fieldEmpresa3.Image");
-            fieldEmpresa3.Location = new Point(510, 0);
-            fieldEmpresa3.Margin = new Padding(0);
-            fieldEmpresa3.Name = "fieldEmpresa3";
-            fieldEmpresa3.Size = new Size(160, 160);
-            fieldEmpresa3.TabIndex = 2;
-            fieldEmpresa3.TabStop = false;
-            // 
-            // fieldEmpresa4
-            // 
-            fieldEmpresa4.BackgroundImageLayout = ImageLayout.Center;
-            fieldEmpresa4.Dock = DockStyle.Fill;
-            fieldEmpresa4.Image = (Image) resources.GetObject("fieldEmpresa4.Image");
-            fieldEmpresa4.Location = new Point(690, 0);
-            fieldEmpresa4.Margin = new Padding(0);
-            fieldEmpresa4.Name = "fieldEmpresa4";
-            fieldEmpresa4.Size = new Size(160, 160);
-            fieldEmpresa4.TabIndex = 3;
-            fieldEmpresa4.TabStop = false;
-            // 
-            // fieldTextoBienvenida
-            // 
-            pbPortada.Dock = DockStyle.Fill;
-            pbPortada.Location = new Point(0, 0);
-            pbPortada.Name = "fieldTextoBienvenida";
-            pbPortada.Size = new Size(994, 392);
-            pbPortada.TabIndex = 0;
-            pbPortada.TabStop = false;
             // 
             // VistaContenedorModulos
             // 
@@ -346,14 +219,6 @@ namespace aDVanceERP.Desktop.Vistas {
             layoutModulos.ResumeLayout(false);
             panelCentral.ResumeLayout(false);
             panelCentral.PerformLayout();
-            layoutMensajeBienvenida.ResumeLayout(false);
-            panelMensajeBienvenida.ResumeLayout(false);
-            layoutLogotipos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa1).EndInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa2).EndInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa3).EndInit();
-            ((System.ComponentModel.ISupportInitialize) fieldEmpresa4).EndInit();
-            ((System.ComponentModel.ISupportInitialize) pbPortada).EndInit();
             ResumeLayout(false);
         }
 
@@ -366,16 +231,8 @@ namespace aDVanceERP.Desktop.Vistas {
         private FlowLayoutPanel layoutModulos;
         private Panel panelCentral;
         private Guna2CircleButton btnInicio;
-        private TableLayoutPanel layoutMensajeBienvenida;
-        private TableLayoutPanel layoutLogotipos;
-        private PictureBox fieldEmpresa1;
-        private PictureBox fieldEmpresa2;
-        private PictureBox fieldEmpresa3;
-        private Panel panelMensajeBienvenida;
         private Guna2CircleButton btnGestorModulos;
         private Guna2CircleButton btnConfiguracionGeneral;
-        private PictureBox fieldEmpresa4;
         private Label fieldNombreModulo;
-        private PictureBox pbPortada;
     }
 }

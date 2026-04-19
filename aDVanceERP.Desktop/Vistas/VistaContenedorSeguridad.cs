@@ -1,6 +1,9 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Infraestructura.Temas;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+
+using System.Drawing.Drawing2D;
 
 namespace aDVanceERP.Desktop.Vistas {
     public partial class VistaContenedorSeguridad : Form, IVistaContenedorSeguridad {
@@ -40,7 +43,8 @@ namespace aDVanceERP.Desktop.Vistas {
         public RepoVistaBase PanelCentral { get; private set; }
 
         public void Inicializar() {
-                
+            // Eventos 
+            layoutDistribucion.Paint += (s, e) => FondosAplicacion.DibujarOndasSuaves(e.Graphics, layoutDistribucion.ClientRectangle);
         }
 
         public void Mostrar() {
@@ -49,10 +53,7 @@ namespace aDVanceERP.Desktop.Vistas {
         }
 
         public void Restaurar() {
-            PanelCentral?.Restaurar("vistaAutenticacionUsuario");
 
-            // Restablecer el usuario autenticado
-            ContextoSeguridad.UsuarioAutenticado = null;
         }
 
         public void Ocultar() {

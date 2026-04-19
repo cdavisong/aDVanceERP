@@ -1,14 +1,19 @@
-﻿using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Presentadores;
+using aDVanceERP.Modulos.Seguridad.Properties;
 using aDVanceERP.Modulos.Seguridad.Vistas;
+
+using Guna.UI2.WinForms;
 
 namespace aDVanceERP.Modulos.Seguridad {
     public sealed class ModuloSeguridad : ModuloExtensionBase {
-        //private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+        private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
         private PresentadorMenuSeguridad _menuSeguridad = null!;
         private PresentadorAutenticacionUsuario _autenticacionUsuario = null!;
         private PresentadorRegistroUsuario _registroUsuario = null!;
@@ -23,12 +28,14 @@ namespace aDVanceERP.Modulos.Seguridad {
 
         public override void Inicializar(IPresentadorVistaPrincipal<IVistaPrincipal> principal) {
             // Botón de acceso al módulo
-            //_btnAccesoModulo.Name = "btnAccesoModuloSeguridad";
-            //_btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
-            //_btnAccesoModulo.Click += delegate {
-            //    AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-            //    AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
-            //};
+            _btnAccesoModulo.Name = "btnAccesoModuloSeguridad";
+            _btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
+            _btnAccesoModulo.TabIndex = 9;
+            _btnAccesoModulo.Click += delegate {
+                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
+                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+                AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
+            };
 
             // Menu
             _menuSeguridad = new PresentadorMenuSeguridad(new VistaMenuSeguridad());
@@ -44,13 +51,16 @@ namespace aDVanceERP.Modulos.Seguridad {
             _cuentasUsuarios = new PresentadorGestionCuentasUsuarios(new VistaGestionCuentasUsuarios());
             _registroCuentaUsuario = new PresentadorRegistroCuentaUsuario(new VistaRegistroCuentaUsuario());
             _registroCuentaUsuario.EntidadRegistradaActualizada += (s, e) => _cuentasUsuarios.ActualizarResultadosBusqueda();
-            
+
+            // Seguridad
+            AgregadorEventos.Suscribir("EventoUsuarioAutenticado", InicializarSeguridadModulo);
+
             base.Inicializar(principal);
         }
 
         protected override void InicializarVistas() {
             // Agregar botón de acceso al módulo
-            //_principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo);
+            _principal.Modulos.AdicionarBotonAccesoModulo(_btnAccesoModulo, "Seguridad");
 
             // Agregar menú del módulo
             _principal.Vista.BarraTitulo.Registrar(_menuSeguridad.Vista);
@@ -72,6 +82,10 @@ namespace aDVanceERP.Modulos.Seguridad {
             
             // Mostrar la vista de autenticación por defecto
             _principal.Seguridad.Vista.PanelCentral.Mostrar(nameof(VistaAutenticacionUsuario));
+        }
+
+        private void InicializarSeguridadModulo(string obj) {
+            _btnAccesoModulo.Visible = ContextoSeguridad.EsAdministrador;
         }
 
         public override void Apagar() {

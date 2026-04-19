@@ -13,7 +13,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
         public PresentadorRegistroUsuario(IVistaRegistroUsuario vista) : base(vista) {
             AgregadorEventos.Suscribir("MostrarVistaRegistroUsuario", OnMostrarVistaRegistroUsuario);
         }
-        
+
         private void OnMostrarVistaRegistroUsuario(string obj) {
             Vista.ModoEdicion = false;
 
@@ -47,6 +47,38 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             return usuario;
         }
 
+        protected override void RegistroEdicionAuxiliar(RepoCuentaUsuario repositorio, long id) {
+            base.RegistroEdicionAuxiliar(repositorio, id);
+
+            // Si es el primer usuario, hacerlo administrador automáticamente
+            if (repositorio.Cantidad() == 1 && id > 0) {
+                try {
+                    repositorio.ConvertirEnAdministrador(id);
+
+                    CentroNotificaciones.MostrarNotificacion(
+                        "¡Bienvenido! Su cuenta ha sido creada como Administrador del sistema.",
+                        TipoNotificacionEnum.Info);
+
+                    AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+                } catch (Exception ex) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        $"Error al configurar administrador: {ex.Message}",
+                        TipoNotificacionEnum.Error);
+                }
+            } else if (id > 0) {
+                // Para usuarios normales, mostrar mensaje de espera de aprobación
+                var usuario = Repositorio.ObtenerPorId(id);
+
+                if (usuario != null && !usuario.Aprobado) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "Su solicitud de registro ha sido enviada. Espere la aprobación del administrador.",
+                        TipoNotificacionEnum.Info);
+
+                    AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
+                }
+            }
+        }
+
         protected override bool EntidadCorrecta() {
             if (string.IsNullOrEmpty(Vista.NombreUsuario)) {
                 CentroNotificaciones.MostrarNotificacion(
@@ -72,7 +104,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             // Validar que el usuario no exista (solo en modo registro)
             if (!Vista.ModoEdicion) {
                 var (cantidad, resultados) = Repositorio.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario);
-                
+
                 if (resultados.Any()) {
                     CentroNotificaciones.MostrarNotificacion(
                         "El nombre de usuario ya está registrado en el sistema.",
@@ -89,45 +121,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             return base.EntidadCorrecta();
         }
 
-        protected override void RegistroEdicionAuxiliar(RepoCuentaUsuario repositorio, long id) {
-            base.RegistroEdicionAuxiliar(repositorio, id);
 
-            // Si es el primer usuario, hacerlo administrador automáticamente
-            if (Repositorio.Cantidad() == 1 && id > 0) {
-                try {
-                    var usuario = Repositorio.ObtenerPorId(id);
-
-                    if (usuario != null) {
-                        usuario.Administrador = true;
-                        usuario.Aprobado = true;
-                        usuario.IdRol = 1; // Asignar rol de Administrador
-
-                        Repositorio.Editar(usuario);
-
-                        CentroNotificaciones.MostrarNotificacion(
-                            "¡Bienvenido! Su cuenta ha sido creada como Administrador del sistema.",
-                            TipoNotificacionEnum.Info);
-
-                        AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
-                    }
-                } catch (Exception ex) {
-                    CentroNotificaciones.MostrarNotificacion(
-                        $"Error al configurar administrador: {ex.Message}",
-                        TipoNotificacionEnum.Error);
-                }
-            } else if (id > 0) {
-                // Para usuarios normales, mostrar mensaje de espera de aprobación
-                var usuario = Repositorio.ObtenerPorId(id);
-
-                if (usuario != null && !usuario.Aprobado) {
-                    CentroNotificaciones.MostrarNotificacion(
-                        "Su solicitud de registro ha sido enviada. Espere la aprobación del administrador.",
-                        TipoNotificacionEnum.Info);
-
-                    AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
-                }
-            }
-        }
 
         protected override void OnRegistrarEntidad(object? sender, EventArgs e) {
             try {
@@ -139,7 +133,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
         public override void Dispose() {
             AgregadorEventos.Desuscribir("MostrarVistaRegistroUsuario", OnMostrarVistaRegistroUsuario);
-           
+
             base.Dispose();
         }
     }

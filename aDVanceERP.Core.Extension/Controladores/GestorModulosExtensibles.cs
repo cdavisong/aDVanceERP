@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Excepciones;
+﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Extension.Atributos;
 using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Extension.Interfaces;
@@ -42,6 +43,7 @@ namespace aDVanceERP.Core.Extension.Controladores {
                             _modulosCargados.Add(moduloExtension.Nombre.ToString(), moduloExtension);
 
                             ContextoModulos.NombresModulosCargados.Add(moduloExtension.Nombre.ToString());
+                            AgregadorEventos.Publicar($"Modulo{moduloExtension.Nombre.ObtenerNombreDescripcion().Nombre}Cargado", AgregadorEventos.SerializarPayload(moduloExtension));
                         }
                     }
                 }
@@ -54,6 +56,7 @@ namespace aDVanceERP.Core.Extension.Controladores {
             }
 
             progreso.Report(("Carga de módulos completada", 100));
+            AgregadorEventos.Publicar("CargaModulosCompletada", AgregadorEventos.SerializarPayload(ContextoModulos.NombresModulosCargados.ToList()));
         }
 
         public void ApagarModulos() {
