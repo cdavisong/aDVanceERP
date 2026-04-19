@@ -1,43 +1,41 @@
 ```
+# Environment
+.env
+.env.local
+.env.*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Editors
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+
 # Build artifacts
+dist/
+build/
+target/
+*.pyc
+*.class
+*.o
 *.obj
 *.exe
 *.dll
 *.so
 *.a
-*.lib
-*.pdb
-*.ilk
+*.out
 
-# Dependencies
-packages/
-bin/
-obj/
-Debug/
-Release/
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vs/
-.vscode/
-.idea/
-*.userprefs
-*.user
-
-# OS generated files
+# System files
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Temporary files
-*.tmp
-*.temp
-*~
 ```
