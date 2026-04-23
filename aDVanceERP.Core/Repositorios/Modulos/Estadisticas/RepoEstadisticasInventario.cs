@@ -22,7 +22,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
             m.ValorTotalInventario = ObtenerValorTotalInventario();
             m.TotalAlmacenes = ObtenerTotalAlmacenes();
             m.MovimientosHoy = ObtenerMovimientosHoy();
-            m.TopProductosValor = ObtenerTopProductosValor();
+            m.TopProductosValor = ObtenerTopProductosValor(10);
             m.StockPorAlmacen = ObtenerStockPorAlmacen();
             m.EvolucionMovimientos = ObtenerEvolucionMovimientos();
 

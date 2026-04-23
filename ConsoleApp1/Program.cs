@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -86,7 +85,7 @@ namespace MigracionExcelERP {
         // ==================================================================
         static void Main(string[] args) {
             Console.WriteLine("=== Migración desde Excel a aDVance ERP ===");
-            Console.WriteLine("===========================================\n");
+            Console.WriteLine("=================== 3LM ===================\n");
 
             if (!File.Exists(ExcelFilePath)) {
                 Console.WriteLine($"ERROR: No se encuentra el archivo {ExcelFilePath}");

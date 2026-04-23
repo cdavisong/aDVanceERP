@@ -147,47 +147,50 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var todasLasCategorias = criteriosBusqueda?.Length == 0 || criteriosBusqueda?.Length > 2 && criteriosBusqueda[1].Equals("0");
             var aplicarFiltroAlmacen = criteriosBusqueda?.Length > 1 && !todosLosAlmacenes;
             var aplicarFiltroCategoria = criteriosBusqueda?.Length > 2 && !todasLasCategorias;
+            var aplicarFiltroTextual = !string.IsNullOrEmpty(criterio); // ← CAMBIO: nueva variable
 
             // Partes adicionales de la consulta
             string consultaAdicionalSelect;
             string consultaAdicionalJoin;
 
             if (todosLosAlmacenes) {
-                // Para "Todos los almacenes", sumar inventario de todos los almacenes
                 consultaAdicionalSelect = ", COALESCE(SUM(i.cantidad), 0) AS cantidad, GROUP_CONCAT(DISTINCT a.nombre SEPARATOR ', ') AS nombre_almacen";
                 consultaAdicionalJoin = "LEFT JOIN adv__inventario i ON p.id_producto = i.id_producto LEFT JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
             } else if (aplicarFiltroAlmacen) {
-                // Para un almacén específico
                 consultaAdicionalSelect = ", i.cantidad, a.nombre AS nombre_almacen";
                 consultaAdicionalJoin = "JOIN adv__inventario i ON p.id_producto = i.id_producto JOIN adv__almacen a ON i.id_almacen = a.id_almacen ";
             } else {
-                // Sin filtro de almacén (productos sin información de inventario)
                 consultaAdicionalSelect = "";
                 consultaAdicionalJoin = "";
             }
 
             // Construcción de condiciones WHERE
-            var condiciones = new List<string> {
-        $"p.activo = @activo"
-    };
+            var condiciones = new List<string> { "p.activo = @activo" };
 
             if (aplicarFiltroAlmacen && !todosLosAlmacenes)
-                condiciones.Add($"a.nombre = @nombre_almacen");
+                condiciones.Add("a.nombre = @nombre_almacen");
 
             if (aplicarFiltroCategoria)
-                condiciones.Add($"p.categoria = @categoria");
+                condiciones.Add("p.categoria = @categoria");
 
             var whereClause = condiciones.Count > 0 ? $"WHERE {string.Join(" AND ", condiciones)}" : "";
+            var condicionTextual = filtroBusqueda switch {
+                FiltroBusquedaProducto.Id => "AND p.id_producto = @id",
+                FiltroBusquedaProducto.Codigo => "AND LOWER(p.codigo) LIKE LOWER(@codigo)",
+                FiltroBusquedaProducto.Nombre => "AND LOWER(p.nombre) LIKE LOWER(@nombre)",
+                FiltroBusquedaProducto.Descripcion => "AND LOWER(p.descripcion) LIKE LOWER(@descripcion)",
+                _ => string.Empty
+            };
 
             string consulta;
 
             if (todosLosAlmacenes) {
-                // Consulta con GROUP BY para sumar inventario de todos los almacenes
                 consulta = $"""
                     SELECT p.*{consultaAdicionalSelect}
                     FROM adv__producto p
                     {consultaAdicionalJoin}
                     {whereClause}
+                    {(aplicarFiltroTextual ? condicionTextual : string.Empty)}
                     GROUP BY p.id_producto, p.ruta_imagen, p.categoria, p.nombre, p.codigo, 
                              p.id_proveedor, p.descripcion, p.id_unidad_medida, 
                              p.id_clasificacion_producto, p.es_vendible, p.costo_adquisicion_unitario,
@@ -201,32 +204,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                     {consultaAdicionalJoin}
                     """;
 
-                consulta = filtroBusqueda switch {
-                    FiltroBusquedaProducto.Id => $"""
-                        {consultaComun}
-                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                        p.id_producto = @id;
-                        """,
-                    FiltroBusquedaProducto.Codigo => $"""
-                        {consultaComun}
-                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                        LOWER(p.codigo) LIKE LOWER(@codigo);
-                        """,
-                    FiltroBusquedaProducto.Nombre => $"""
-                        {consultaComun}
-                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                        LOWER(p.nombre) LIKE LOWER(@nombre);
-                        """,
-                    FiltroBusquedaProducto.Descripcion => $"""
-                        {consultaComun}
-                        {(condiciones.Count > 0 ? whereClause + " AND " : "WHERE ")}
-                        LOWER(p.descripcion) LIKE LOWER(@descripcion);
-                        """,
-                    _ => $"""
-                        {consultaComun}
-                        {whereClause};
-                        """
-                };
+                consulta = $"""
+                    {consultaComun}
+                    {(condiciones.Count > 0 ? whereClause + " " : "WHERE 1=1 ")}
+                    {(aplicarFiltroTextual ? condicionTextual : string.Empty)};
+                    """;
             }
 
             parametros = filtroBusqueda switch {
@@ -251,13 +233,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 }
             };
 
-            if (aplicarFiltroAlmacen && !todosLosAlmacenes) {
+            if (aplicarFiltroAlmacen && !todosLosAlmacenes)
                 parametros.Add("@nombre_almacen", criteriosBusqueda[0]);
-            }
 
-            if (aplicarFiltroCategoria) {
+            if (aplicarFiltroCategoria)
                 parametros.Add("@categoria", Convert.ToInt32(criteriosBusqueda[1]));
-            }
 
             return consulta;
         }

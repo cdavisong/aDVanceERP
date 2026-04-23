@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 using System.Globalization;
@@ -68,10 +69,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnActualizar.Click += (sender, e) => { 
+            btnActualizar.Click += (sender, e) => {
                 ActualizarTodo?.Invoke(sender, e);
             };
-            fieldEvolucionMovimientos.Paint += (sender, e) => { 
+            fieldEvolucionMovimientos.Paint += (sender, e) => {
                 ActualizarEvolucionMovimientos?.Invoke(sender, e);
             };
             fieldValorAlmacen.Paint += (sender, e) => {
@@ -109,7 +110,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 var producto = topProductosValor[i];
                 var fila = CrearFilaTopProducto(i + 1, producto, maxValor);
                 fila.Top = i * 42;
-                
+
                 panelTuplasTopProductosValor.Controls.Add(fila);
                 panelTuplasTopProductosValor.Controls.SetChildIndex(fila, i);
             }
@@ -157,7 +158,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 : 0f;
 
             var lblValor = new Label {
-                Text = producto.ValorTotal.ToString("N0", CultureInfo.InvariantCulture),
+                Text = $"{RepoMoneda.Instancia.ObtenerMonedaBase().Simbolo} {producto.ValorTotal.ToString("N2", CultureInfo.InvariantCulture)} ",
                 Font = new Font("Segoe UI", 8f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(64, 64, 64),
                 AutoSize = false,
@@ -168,13 +169,14 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
             fila.Controls.AddRange([lblNum, lblNombre, lblValor]);
 
-            // Barra inline proporcional (como el HTML: bar-inline)
+            // Barra inline proporcional
             fila.Paint += (_, e) => {
-                int barMaxW = 60;
+                int barMaxW = fila.Width - 64;
                 int barW = (int) (barMaxW * porcentajeBarra / 100f);
-                int barX = lblNombre.Right;
-                int barY = fila.Height - 6;
-                var colorBarra = Color.FromArgb(100, 255, 218, 185); // peachpuff semitransparente
+                int barX = 32;
+                int barY = fila.Height - 4;
+                var colorBarra = Color.FromArgb(200, 255, 218, 185);
+
                 e.Graphics.FillRectangle(new SolidBrush(colorBarra),
                     new Rectangle(barX, barY, barW, 3));
 

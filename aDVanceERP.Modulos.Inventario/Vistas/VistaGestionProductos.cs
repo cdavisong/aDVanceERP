@@ -120,7 +120,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { 
+                        Almacen == null 
+                            ? "Todos" 
+                            : Almacen.Nombre, 
+                        Categoria.ToString(), 
+                        CriteriosBusqueda[0] 
+                    }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
@@ -167,7 +173,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void OnCambioIndiceFiltroAlmacen(object? sender, EventArgs e) {
             if (Almacen != null)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] {
+                        Almacen == null
+                            ? "Todos"
+                            : Almacen.Nombre,
+                        Categoria.ToString(),
+                        CriteriosBusqueda[0]
+                    }));
             else SincronizarDatos?.Invoke(sender, e);
 
             ActualizarValorTotalInventario();
@@ -175,7 +187,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         private void OnCambioIndiceCategoriaProducto(object? sender, EventArgs e) {
             if (Categoria > -1)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] {
+                        Almacen == null
+                            ? "Todos"
+                            : Almacen.Nombre,
+                        Categoria.ToString(),
+                        CriteriosBusqueda[0]
+                    }));
             else SincronizarDatos?.Invoke(sender, e);
 
             ActualizarValorTotalInventario();
@@ -188,7 +206,13 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             if (fieldCriterioBusqueda.Visible)
                 fieldCriterioBusqueda.Focus();
 
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { Almacen == null ? "Todos" : Almacen.Nombre, Categoria.ToString(), CriteriosBusqueda[0] }));
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { 
+                        Almacen == null 
+                            ? "Todos" 
+                            : Almacen.Nombre, 
+                        Categoria.ToString(), 
+                        CriteriosBusqueda[0] 
+                    }));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;
