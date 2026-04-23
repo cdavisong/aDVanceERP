@@ -13,8 +13,8 @@ using aDVanceERP.Modulos.Venta.Vistas;
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionClientes : PresentadorVistaGestion<PresentadorTuplaCliente, IVistaGestionClientes, IVistaTuplaCliente, Cliente, RepoCliente, FiltroBusquedaCliente> {
         public PresentadorGestionClientes(IVistaGestionClientes vista) : base(vista) {
-            RegistrarEntidad += OnRegistrarCliente;
-            EditarEntidad += OnEditarCliente;
+            //RegistrarEntidad += OnRegistrarCliente;
+            //EditarEntidad += OnEditarCliente;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionClientes", OnMostrarVistaGestionClientes);
             AgregadorEventos.Suscribir("ActivarDesactivarCliente", OnActivarDesactivarCliente);
@@ -29,7 +29,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnMostrarVistaGestionClientes(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaCliente.FiltroBusquedaCliente);
+            //Vista.CargarFiltrosBusqueda(UtilesBusquedaCliente.FiltroBusquedaCliente);
             Vista.Restaurar();
             Vista.Mostrar();
 

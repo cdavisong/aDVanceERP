@@ -18,7 +18,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
         private bool _actualizando = false; // Para evitar actualizaciones concurrentes de la vista
         private bool _disposed = false; // Para evitar llamadas redundantes a Dispose
         private int _ultimaAlturaContenedor = 0; // Para evitar redimensionados mínimos que disparen actualizaciones
-        private const int UMBRAL_REDIMENSIONADO_MINIMO = 50; // Umbral mínimo en píxeles para considerar un redimensionado significativo
+        private const int UMBRAL_REDIMENSIONADO_MINIMO = 0; // Umbral mínimo en píxeles para considerar un redimensionado significativo
 
         protected readonly VistaCargaDatos _cargaDatos;
         protected readonly List<Pt> _tuplasEntidades;

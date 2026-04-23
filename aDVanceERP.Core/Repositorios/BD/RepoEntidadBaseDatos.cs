@@ -155,25 +155,33 @@ namespace aDVanceERP.Core.Repositorios.BD {
         #region Auxiliares
 
         private string GenerarConsultaConteo(string consultaOriginal) {
-            // Eliminar ORDER BY si existe
-            string consultaLimpia = consultaOriginal;
-            var orderByMatch = Regex.Match(consultaOriginal, @"\s+ORDER\s+BY\s+.+$",
-                RegexOptions.IgnoreCase);
+            // Eliminar punto y coma final si existe
+            string consultaLimpia = consultaOriginal.TrimEnd();
+            if (consultaLimpia.EndsWith(";"))
+                consultaLimpia = consultaLimpia.Substring(0, consultaLimpia.Length - 1);
 
+            // Eliminar ORDER BY (no afecta el conteo)
+            var orderByMatch = Regex.Match(consultaLimpia, @"\s+ORDER\s+BY\s+.+$", RegexOptions.IgnoreCase);
             if (orderByMatch.Success) {
-                consultaLimpia = consultaOriginal.Substring(0, orderByMatch.Index);
+                consultaLimpia = consultaLimpia.Substring(0, orderByMatch.Index);
             }
 
-            // Encontrar la posición del primer FROM
+            // Si la consulta tiene GROUP BY, DISTINCT, UNION, etc., envolver como subconsulta
+            bool necesitaSubconsulta = Regex.IsMatch(consultaLimpia, @"\bGROUP\s+BY\b", RegexOptions.IgnoreCase)
+                                    || Regex.IsMatch(consultaLimpia, @"\bDISTINCT\b", RegexOptions.IgnoreCase)
+                                    || Regex.IsMatch(consultaLimpia, @"\bUNION\b", RegexOptions.IgnoreCase);
+
+            if (necesitaSubconsulta) {
+                return $"SELECT COUNT(*) AS total_filas FROM ({consultaLimpia}) AS subconsulta";
+            }
+
+            // Método original para consultas simples
             var fromIndex = FindFromPosition(consultaLimpia);
-
             if (fromIndex >= 0) {
-                // Construir nueva consulta con COUNT(*)
-                return "SELECT COUNT(*) AS total_filas " +
-                       consultaLimpia.Substring(fromIndex);
+                return "SELECT COUNT(*) AS total_filas " + consultaLimpia.Substring(fromIndex);
             }
 
-            return "SELECT COUNT(*) AS total_filas FROM (" + consultaOriginal + ") AS subconsulta";
+            return $"SELECT COUNT(*) AS total_filas FROM ({consultaOriginal}) AS subconsulta";
         }
 
         private int FindFromPosition(string consulta) {

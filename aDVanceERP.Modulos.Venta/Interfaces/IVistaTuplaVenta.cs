@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
@@ -8,7 +9,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         string NumeroFacturaVenta { get; set; }
         DateTime FechaVenta { get; set; }
         string NombreCliente { get; set; }
-        string? MetodoPagoPrincipal { get; set; }
+        CanalPagoEnum? CanalPagoPrincipal { get; set; }
         decimal TotalBruto { get; set; }
         decimal DescuentoTotal { get; set; }
         decimal ImpuestoTotal { get; set; }

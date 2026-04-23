@@ -1,8 +1,44 @@
-﻿using aDVanceERP.Core.Presentadores.Comun;
+﻿using aDVanceERP.Core.Documentos.Comun;
+using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Venta;
+using aDVanceERP.Modulos.Venta.Documentos;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorTuplaVenta : PresentadorVistaTupla<IVistaTuplaVenta, Core.Modelos.Modulos.Venta.Venta> {
-        public PresentadorTuplaVenta(IVistaTuplaVenta vista, Core.Modelos.Modulos.Venta.Venta entidad) : base(vista, entidad) { }
+        private DocFacturaVenta _docFacturaVenta = null!;
+
+        public PresentadorTuplaVenta(IVistaTuplaVenta vista, Core.Modelos.Modulos.Venta.Venta entidad) : base(vista, entidad) {
+            vista.EditarDatosTupla += MostrarVistaEdicionVenta;
+            vista.ExportarFacturaVenta += OnExportarFacturaVenta;
+            vista.AnularVenta += OnAnularVenta;
+        }
+
+        private void MostrarVistaEdicionVenta(object? sender, EventArgs e) {
+            if (sender is not long id)
+                return;
+
+            var entidad = RepoVenta.Instancia.ObtenerPorId(id);
+
+            AgregadorEventos.Publicar("MostrarVistaEdicionVenta", AgregadorEventos.SerializarPayload(entidad));
+        }
+
+        private void OnExportarFacturaVenta(object? sender, (long Id, FormatoDocumento Formato) e) {
+            _docFacturaVenta = new DocFacturaVenta(e.Id);
+            _docFacturaVenta.GenerarDocumentoConParametros(e.Formato);
+        }
+
+        private void OnAnularVenta(object? sender, long e) {
+            throw new NotImplementedException();
+        }
+
+        public override void Dispose() {
+            Vista.EditarDatosTupla += MostrarVistaEdicionVenta;
+            Vista.ExportarFacturaVenta += OnExportarFacturaVenta;
+            Vista.AnularVenta += OnAnularVenta;
+
+            base.Dispose();
+        }
     }
 }

@@ -87,10 +87,10 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set {
                 var (colorFondo, colorFuente) = ObtenerColorEfecto(_efecto);
 
+                fieldTipoMovimiento.Text = string.IsNullOrEmpty(value) ? "ERROR" : value;
                 fieldTipoMovimiento.DisabledState.BorderColor = colorFondo;
                 fieldTipoMovimiento.DisabledState.FillColor = colorFondo;
-                fieldTipoMovimiento.DisabledState.ForeColor = colorFuente;
-                fieldTipoMovimiento.Text = string.IsNullOrEmpty(value) ? "ERROR" : value;
+                fieldTipoMovimiento.DisabledState.ForeColor = colorFuente;                
             }
         }
 

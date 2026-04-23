@@ -8,7 +8,6 @@ using MySql.Data.MySqlClient;
 
 using System.Data;
 using System.Globalization;
-using System.Linq;
 
 namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
     public class RepoProducto : RepoEntidadBaseDatos<Producto, FiltroBusquedaProducto> {
@@ -509,33 +508,6 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             }
 
             return productos;
-        }
-
-        /// <summary>
-        /// Obtiene el valor total bruto de los productos en inventario, opcionalmente filtrado por almacén.
-        /// </summary>
-        /// <param name="idAlmacen"></param>
-        /// <returns></returns>
-        public decimal ObtenerValorTotalBruto(long idAlmacen = 0) {
-            var consulta = $"""
-                SELECT SUM(
-                CASE 
-                    WHEN p.categoria = 'ProductoTerminado' THEN (p.costo_produccion_unitario * i.cantidad)
-                    ELSE (p.costo_adquisicion_unitario * i.cantidad)
-                END
-                ) AS valor_total_bruto
-                FROM adv__producto p
-                JOIN adv__inventario i ON p.id_producto = i.id_producto
-                {(idAlmacen != 0
-                        ? "WHERE p.activo = 1 AND i.id_almacen = @IdAlmacen"
-                        : "WHERE p.activo = 1")};
-                """;
-            var parametros = idAlmacen != 0
-                ? new Dictionary<string, object> {
-                    { "@IdAlmacen", idAlmacen }
-                } : null;
-
-            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
         }
 
         public bool HabilitarDeshabilitarProducto(long id) {

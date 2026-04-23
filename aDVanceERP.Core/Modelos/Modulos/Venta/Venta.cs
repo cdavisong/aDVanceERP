@@ -23,7 +23,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Venta {
         public decimal DescuentoTotal { get; set; }
         public decimal ImpuestoTotal { get; set; }
         public decimal ImporteTotal { get; set; }
-        public string? MetodoPagoPrincipal { get; set; }
+        public string? CanalPagoPrincipal { get; set; }
         public EstadoVentaEnum EstadoVenta { get; set; }
         public string? ObservacionesVenta { get; set; }
         public bool Activo { get; set; }

@@ -31,15 +31,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutBase = new TableLayoutPanel();
             layoutDistribucion = new TableLayoutPanel();
             btnAtras = new Guna2Button();
             fieldTitulo = new Label();
             panelRelleno = new Panel();
-            btnMensajeros = new Guna2Button();
             btnClientes = new Guna2Button();
             layoutBase.SuspendLayout();
             layoutDistribucion.SuspendLayout();
@@ -130,7 +127,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // panelRelleno
             // 
             panelRelleno.BackColor = Color.WhiteSmoke;
-            panelRelleno.Controls.Add(btnMensajeros);
             panelRelleno.Controls.Add(btnClientes);
             panelRelleno.Dock = DockStyle.Fill;
             panelRelleno.Font = new Font("Segoe UI", 11.25F);
@@ -139,30 +135,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             panelRelleno.Name = "panelRelleno";
             panelRelleno.Size = new Size(799, 50);
             panelRelleno.TabIndex = 0;
-            // 
-            // btnMensajeros
-            // 
-            btnMensajeros.Animated = true;
-            btnMensajeros.BackColor = Color.WhiteSmoke;
-            btnMensajeros.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            btnMensajeros.CheckedState.FillColor = Color.WhiteSmoke;
-            btnMensajeros.CheckedState.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            btnMensajeros.CustomImages.CheckedImage = Properties.Resources.barra_seleccion;
-            btnMensajeros.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMensajeros.CustomImages.ImageOffset = new Point(0, 32);
-            btnMensajeros.CustomImages.ImageSize = new Size(131, 8);
-            btnMensajeros.CustomizableEdges = customizableEdges3;
-            btnMensajeros.Dock = DockStyle.Left;
-            btnMensajeros.FillColor = Color.WhiteSmoke;
-            btnMensajeros.Font = new Font("Segoe UI", 11.25F);
-            btnMensajeros.ForeColor = Color.Black;
-            btnMensajeros.Location = new Point(140, 0);
-            btnMensajeros.Margin = new Padding(0);
-            btnMensajeros.Name = "btnMensajeros";
-            btnMensajeros.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnMensajeros.Size = new Size(140, 50);
-            btnMensajeros.TabIndex = 11;
-            btnMensajeros.Text = "Mensajeros";
             // 
             // btnClientes
             // 
@@ -175,7 +147,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnClientes.CustomImages.ImageAlign = HorizontalAlignment.Center;
             btnClientes.CustomImages.ImageOffset = new Point(0, 32);
             btnClientes.CustomImages.ImageSize = new Size(131, 8);
-            btnClientes.CustomizableEdges = customizableEdges5;
+            btnClientes.CustomizableEdges = customizableEdges3;
             btnClientes.Dock = DockStyle.Left;
             btnClientes.FillColor = Color.WhiteSmoke;
             btnClientes.Font = new Font("Segoe UI", 11.25F);
@@ -183,7 +155,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnClientes.Location = new Point(0, 0);
             btnClientes.Margin = new Padding(0);
             btnClientes.Name = "btnClientes";
-            btnClientes.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnClientes.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnClientes.Size = new Size(140, 50);
             btnClientes.TabIndex = 10;
             btnClientes.Text = "Clientes";
@@ -215,7 +187,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private TableLayoutPanel layoutDistribucion;
         private Panel panelRelleno;
         private Label fieldTitulo;
-        private Guna2Button btnMensajeros;
         private Guna2Button btnClientes;
         private Guna2Button btnAtras;
     }

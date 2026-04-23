@@ -45,15 +45,21 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
                   AND i.cantidad_minima > 0
                 """);
 
-        public int ObtenerProductosSinStock()
-            => ContextoBaseDatos.EjecutarConsultaEscalar<int>("""
-                SELECT COUNT(DISTINCT p.id_producto)
-                FROM adv__producto p
-                LEFT JOIN adv__inventario i ON p.id_producto = i.id_producto
-                WHERE p.activo = 1
-                GROUP BY p.id_producto
-                HAVING COALESCE(SUM(i.cantidad), 0) = 0
-                """);
+        public int ObtenerProductosSinStock() {
+            var consulta = """
+                SELECT COUNT(*) 
+                FROM (
+                    SELECT p.id_producto
+                    FROM adv__producto p
+                    LEFT JOIN adv__inventario i ON p.id_producto = i.id_producto
+                    WHERE p.activo = 1
+                    GROUP BY p.id_producto
+                    HAVING COALESCE(SUM(i.cantidad), 0) = 0
+                ) AS productos_sin_stock
+            """;
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<int>(consulta);
+        }
 
         public decimal ObtenerValorTotalInventario()
             => ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(
@@ -127,10 +133,10 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
         public List<MovimientoDiario> ObtenerEvolucionMovimientos(int dias = 30) {
             var consulta = $"""
                 SELECT
-                    DATE(fecha_creacion)                        AS fecha,
-                    COALESCE(SUM(CASE WHEN tm.nombre IN ('Compra','Ajuste Positivo','Carga_Inicial')
+                    DATE(fecha_creacion) AS fecha,
+                    COALESCE(SUM(CASE WHEN tm.nombre IN ('Compra', 'Ajuste de Inventario (+)', 'Carga Inicial')
                                       THEN m.cantidad_movida ELSE 0 END), 0) AS entradas,
-                    COALESCE(SUM(CASE WHEN tm.nombre IN ('Venta','Devolución a Proveedor','Ajuste Negativo')
+                    COALESCE(SUM(CASE WHEN tm.nombre IN ('Venta', 'Devolución a Proveedor', 'Ajuste de Inventario (-)')
                                       THEN m.cantidad_movida ELSE 0 END), 0) AS salidas
                 FROM adv__movimiento m
                 INNER JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
@@ -138,9 +144,9 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
                   AND m.estado = 'Completado'
                 GROUP BY DATE(fecha_creacion)
                 ORDER BY fecha ASC
-                """;
+            """;
 
-            return ContextoBaseDatos
+            return [.. ContextoBaseDatos
                 .EjecutarConsulta(consulta, null, lector => {
                     var item = new MovimientoDiario {
                         Fecha = Convert.ToDateTime(lector["fecha"]),
@@ -149,8 +155,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
                     };
                     return (item, new List<IEntidadBaseDatos>());
                 })
-                .Select(r => r.entidadBase)
-                .ToList();
+                .Select(r => r.entidadBase)];
         }
     }
 }

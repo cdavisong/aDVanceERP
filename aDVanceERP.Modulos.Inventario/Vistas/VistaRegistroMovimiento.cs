@@ -145,7 +145,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                 else
                     RegistrarEntidad?.Invoke(sender, args);
             };
-            btnRegistrarNuevoProducto.Click += delegate (object? sender, EventArgs args) {
+            btnRegistrarProducto.Click += delegate (object? sender, EventArgs args) {
                 RegistrarProducto?.Invoke(sender, args);
             };
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };

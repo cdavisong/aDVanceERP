@@ -126,7 +126,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
 
             if (lector.VisibleFieldCount > 5) {
                 entidadesExtra.Add(new Pago {
-                    MetodoPago = Enum.Parse<MetodoPagoEnum>(Convert.ToString(lector["metodo_pago"]) ?? "Efectivo"),
+                    MetodoPago = Enum.Parse<CanalPagoEnum>(Convert.ToString(lector["metodo_pago"]) ?? "Efectivo"),
                     EstadoPago = Enum.Parse<EstadoPagoEnum>(Convert.ToString(lector["estado_pago"]) ?? "Pendiente"),
                     MontoPagado = Convert.ToDecimal(lector["monto_pagado"], CultureInfo.InvariantCulture)
                 });

@@ -1,6 +1,6 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -8,6 +8,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaVenta : Form, IVistaTuplaVenta {
+        private CanalPagoEnum? _canalPago;
         private EstadoVentaEnum _estadoVenta;
 
         public VistaTuplaVenta() {
@@ -19,7 +20,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public string NombreVista {
-            get => $"{Name}{Id}";
+            get => $"{Id:0000}{Name}";
             private set => Name = value;
         }
 
@@ -40,14 +41,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public Color ColorFondoTupla {
             get => layoutVista.BackColor;
-            set => layoutVista.BackColor = value == Color.Gainsboro
-                ? value
-                : ObtenerColorFondoTupla(EstadoVenta);
+            set => layoutVista.BackColor = value;
         }
 
         public bool EstadoSeleccion { get; set; }
 
-        public long Id { get; set; }
+        public long Id {
+            get => Convert.ToInt64(fieldId.Text);
+            set => fieldId.Text = value.ToString();
+        }
 
         public string NumeroFacturaVenta {
             get => fieldNumeroFactura.Text;
@@ -65,11 +67,17 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public string NombreCliente { get; set; }
 
-        public string? MetodoPagoPrincipal {
-            get => fieldMetodoPagoPrincipal.Text;
+        public CanalPagoEnum? CanalPagoPrincipal {
+            get => _canalPago;
             set {
-                fieldMetodoPagoPrincipal.Text = value;
-                fieldMetodoPagoPrincipal.Margin = fieldMetodoPagoPrincipal.AjusteAutomaticoMargenTexto();
+                _canalPago = value;
+
+                var (colorFondo, colorFuente) = ObtenerColorCanal(value ?? CanalPagoEnum.NA);
+
+                fieldCanalPagoPrincipal.Text = value.ObtenerNombreDescripcion().Nombre;
+                fieldCanalPagoPrincipal.DisabledState.BorderColor = colorFondo;
+                fieldCanalPagoPrincipal.DisabledState.FillColor = colorFondo;
+                fieldCanalPagoPrincipal.DisabledState.ForeColor = colorFuente;                
             }
         }
 
@@ -117,10 +125,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoVenta;
             set {
                 _estadoVenta = value;
-                fieldEstado.Text = value.ObtenerNombreDescripcion();
+
+                var (colorFondo, colorFuente) = ObtenerColorEstado(value);
+                                
+                fieldEstado.Text = value.ObtenerNombreDescripcion().Nombre;
+                fieldEstado.DisabledState.BorderColor = colorFondo;
+                fieldEstado.DisabledState.FillColor = colorFondo;
+                fieldEstado.DisabledState.ForeColor = colorFuente;
+
                 btnVerFactura.Visible = value == EstadoVentaEnum.Completada;
                 btnAnular.Enabled = value == EstadoVentaEnum.Pendiente || value == EstadoVentaEnum.Entregada;
-                layoutVista.BackColor = ObtenerColorFondoTupla(value);
             }
         }
 
@@ -159,12 +173,22 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        private Color ObtenerColorFondoTupla(EstadoVentaEnum estado) {
+        private (Color colorFondo, Color colorFuente) ObtenerColorCanal(CanalPagoEnum estado) {
             return estado switch {
-                EstadoVentaEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoVentaEnum.Anulada => ContextoAplicacion.ColorErrorTupla,
-                EstadoVentaEnum.Entregada => ContextoAplicacion.ColorAdvertenciaTupla,
-                _ => BackColor
+                CanalPagoEnum.Efectivo => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),          // Ambar
+                CanalPagoEnum.Transferencia => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),   // Azul
+                CanalPagoEnum.Mixto => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),            // Verde
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
+            };
+        }
+
+        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(EstadoVentaEnum estado) {
+            return estado switch {
+                EstadoVentaEnum.Pendiente => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),           // Ambar
+                EstadoVentaEnum.Completada => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),         // Verde
+                EstadoVentaEnum.Anulada => (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)),            // Rojo
+                EstadoVentaEnum.Entregada => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),         // Azul
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
             };
         }
     }

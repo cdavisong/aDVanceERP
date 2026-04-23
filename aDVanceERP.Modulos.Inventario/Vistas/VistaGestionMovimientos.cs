@@ -129,7 +129,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { 
+                        fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), 
+                        fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), 
+                        CriteriosBusqueda[0] 
+                    }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;

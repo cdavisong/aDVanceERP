@@ -35,15 +35,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Inicializar() {
             // Eventos
             btnClientes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionClientes", string.Empty); };
-            btnMensajeros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMensajeros", string.Empty); };
             btnAtras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuVenta", string.Empty); };
         }
 
         public void SeleccionarVistaInicial() {
             if (btnClientes.Visible)
                 btnClientes.PerformClick();
-            else if (btnMensajeros.Visible)
-                btnMensajeros.PerformClick();
         }
 
         public void Mostrar() {
@@ -54,7 +51,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Restaurar() {
             btnClientes.Checked = false;
-            btnMensajeros.Checked = false;
         }
 
         public void Ocultar() {

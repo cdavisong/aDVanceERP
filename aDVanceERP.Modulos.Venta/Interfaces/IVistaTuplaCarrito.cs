@@ -13,6 +13,6 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         public UnidadMedida? UnidadMedida { get; set; }
         long IdPresentacion { get; }
 
-        void CargarPresentacionesVenta(PrecioPresentacion[] presentaciones);
+        void CargarPresentacionesVenta(PresentacionProducto[] presentaciones);
     }
 }

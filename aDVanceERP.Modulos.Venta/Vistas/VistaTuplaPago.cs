@@ -60,9 +60,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldNumeroFactura.Text = value;
         }
 
-        public MetodoPagoEnum MetodoPago {
-            get => (MetodoPagoEnum)Enum.Parse(typeof(MetodoPagoEnum), fieldMetodoPago.Text);
-            set => fieldMetodoPago.Text = value.ObtenerNombreDescripcion();
+        public CanalPagoEnum MetodoPago {
+            get => (CanalPagoEnum)Enum.Parse(typeof(CanalPagoEnum), fieldMetodoPago.Text);
+            set => fieldMetodoPago.Text = value.ObtenerNombreDescripcion().Nombre;
         }
 
         public string NumeroTelefonoRemitente { 
@@ -114,7 +114,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoPago;
             set {
                 _estadoPago = value;
-                fieldEstado.Text = value.ObtenerNombreDescripcion();
+                fieldEstado.Text = value.ObtenerNombreDescripcion().Nombre;
                 btnConfirmar.Enabled = value == EstadoPagoEnum.Pendiente;
                 btnCancelar.Enabled = value == EstadoPagoEnum.Pendiente || value == EstadoPagoEnum.Confirmado;
                 ColorFondoTupla = ObtenerColorFondoTupla(_estadoPago);

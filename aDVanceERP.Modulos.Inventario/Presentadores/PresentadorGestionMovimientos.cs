@@ -39,7 +39,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             // Actualizar totales
             var fechaDesde = DateTime.ParseExact(CriteriosBusqueda[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             var fechaHasta = DateTime.ParseExact(CriteriosBusqueda[1], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-            var resumen = RepoMovimiento.Instancia.ObtenerValoresPorRangoFechas(fechaDesde, fechaHasta);
+            var resumen = RepoMovimiento.Instancia.ObtenerTotalesPorRangoFechas(fechaDesde, fechaHasta);
 
             Vista.TotalEntradas = resumen.TotalEntradas;
             Vista.TotalSalidas = resumen.TotalSalidas;

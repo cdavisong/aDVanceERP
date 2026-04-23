@@ -35,24 +35,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public void Inicializar() {
             // Eventos
             btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasVentas", string.Empty); };
-            btnPedidos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPedidosVenta", string.Empty); };
             btnVentas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionVentas", string.Empty); };
             btnPagos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionPagosVenta", string.Empty); };
-            btnEnvios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionEnvios", string.Empty); };
             btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosVenta", string.Empty); };
         }
 
         public void SeleccionarVistaInicial() {
             if (btnEstadisticas.Visible)
                 btnEstadisticas.PerformClick();
-            else if (btnPedidos.Visible)
-                btnPedidos.PerformClick();
             else if (btnVentas.Visible)
                 btnVentas.PerformClick();
             else if (btnPagos.Visible)
                 btnPagos.PerformClick();
-            else if (btnEnvios.Visible)
-                btnEnvios.PerformClick();
         }
 
         public void Mostrar() {
@@ -62,10 +56,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Restaurar() {
             btnEstadisticas.Checked = false;
-            btnPedidos.Checked = false;
             btnVentas.Checked = false;
             btnPagos.Checked = false;
-            btnEnvios.Checked = false;
         }
 
         public void Ocultar() {

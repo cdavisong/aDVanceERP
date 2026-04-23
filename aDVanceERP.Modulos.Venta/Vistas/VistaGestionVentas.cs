@@ -1,13 +1,15 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Modulos.Venta.Interfaces;
-using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Modulos.Venta.Interfaces;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaGestionVentas : Form, IVistaGestionVentas {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
+        private decimal _totalRecaudado;
 
         public VistaGestionVentas() {
             InitializeComponent();
@@ -72,6 +74,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public decimal TotalRecaudado {
+            get => _totalRecaudado;
+            set {
+                _totalRecaudado = value;
+
+                fieldTotalRecaudado.Text = $"$ {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            }
+        }
+
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
         public event EventHandler? MostrarPaginaAnterior;
@@ -86,9 +97,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             // Eventos
-            AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OcultarMostrarBotonActivarDesactivarVenta);
-            AgregadorEventos.Suscribir("CambioSeleccionTuplaEntidad", OcultarMostrarBotonActivarDesactivarVenta);
-
             fieldFiltroBusquedaFechaDesde.Value = DateTime.Today;
             fieldFiltroBusquedaFechaDesde.ValueChanged += OnCambioValorFechaDesde;
             fieldFiltroBusquedaFechaHasta.Value = DateTime.Today;
@@ -104,11 +112,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
                 args.SuppressKeyPress = true;
             };
-            btnRegistrarVentaManual.Click += delegate (object? sender, EventArgs e) {
+            btnRegistrar.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(sender, e);
-            };
-            btnHabilitarDeshabilitarVenta.Click += delegate (object? sender, EventArgs e) {
-                AgregadorEventos.Publicar("HabilitarDeshabilitarVenta", string.Empty);
             };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
@@ -138,19 +143,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 SincronizarDatos?.Invoke(sender, e);
             };
             contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
-        }
-
-        private void OcultarMostrarBotonActivarDesactivarVenta(string obj) {
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            try {
-                var visibilidadBoton = Convert.ToBoolean(obj.ToString());
-
-                btnHabilitarDeshabilitarVenta.Visible = visibilidadBoton;
-            } catch (FormatException) {
-                btnHabilitarDeshabilitarVenta.Visible = false;
-            }
         }
 
         private void OnCambioValorFechaDesde(object? sender, EventArgs e) {
@@ -218,7 +210,6 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             PaginaActual = 1;
             PaginasTotales = 1;
 
-            btnHabilitarDeshabilitarVenta.Hide();
             fieldFiltroBusqueda.SelectedIndex = 0;
         }
 

@@ -139,7 +139,7 @@ namespace aDVanceERP.Core.Controladores {
                                 DescuentoTotal = ventaExp.DescuentoTotal,
                                 ImpuestoTotal = ventaExp.ImpuestoTotal,
                                 ImporteTotal = ventaExp.ImporteTotal,
-                                MetodoPagoPrincipal = ventaExp.Pagos?
+                                CanalPagoPrincipal = ventaExp.Pagos?
                                     .FirstOrDefault()?
                                     .MetodoPago ?? string.Empty,
                                 EstadoVenta = Enum.TryParse<EstadoVentaEnum>(ventaExp.EstadoVenta, out var ev)
@@ -228,9 +228,9 @@ namespace aDVanceERP.Core.Controladores {
                                         var pagoBD = new Pago {
                                             Id = 0,
                                             IdVenta = idVenta,
-                                            MetodoPago = Enum.TryParse<MetodoPagoEnum>(pagoExp.MetodoPago, out var mp)
+                                            MetodoPago = Enum.TryParse<CanalPagoEnum>(pagoExp.MetodoPago, out var mp)
                                                 ? mp
-                                                : MetodoPagoEnum.Efectivo,
+                                                : CanalPagoEnum.Efectivo,
                                             MontoPagado = pagoExp.MontoPagado,
                                             FechaPago = pagoExp.FechaPagoCliente,
                                             FechaConfirmacionPago = confirmado

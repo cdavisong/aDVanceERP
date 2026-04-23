@@ -252,7 +252,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         private void ActualizarValorTotalInventario() {
-            ValorTotalInventario = RepoProducto.Instancia.ObtenerValorTotalBruto(Almacen?.Id ?? 0);
+            ValorTotalInventario = RepoInventario.Instancia.ObtenerValorTotalInventarioReal(Almacen?.Id ?? 0);
         }
 
         private void HabilitarBotonesPaginacion() {

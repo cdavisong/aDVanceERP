@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.Movil", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aDVanceERP.Modulos.CajaRegistradora", "aDVanceERP.Modulos.CajaRegistradora\aDVanceERP.Modulos.CajaRegistradora.csproj", "{D23C84B7-E0E5-45BE-A06C-2B82B579F610}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{947173B0-414A-49A0-8528-F1EF728BB350}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{D23C84B7-E0E5-45BE-A06C-2B82B579F610}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D23C84B7-E0E5-45BE-A06C-2B82B579F610}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D23C84B7-E0E5-45BE-A06C-2B82B579F610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{947173B0-414A-49A0-8528-F1EF728BB350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{947173B0-414A-49A0-8528-F1EF728BB350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{947173B0-414A-49A0-8528-F1EF728BB350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{947173B0-414A-49A0-8528-F1EF728BB350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

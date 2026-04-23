@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Eventos;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Modulos.Venta.Presentadores;
@@ -14,23 +15,15 @@ namespace aDVanceERP.Modulos.Venta {
         private PresentadorMenuVenta _menuVenta = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
         private PresentadorEstadisticasVenta _estadisticasVenta = null!;
-        private PresentadorGestionPedidos _pedidos = null!;
-        private PresentadorRegistroPedido _registroPedido = null!;
         private PresentadorGestionVentas _ventas = null!;
         private PresentadorRegistroVenta _registroVenta = null!;
         private PresentadorGestionPagos _pagos = null!;
         private PresentadorRegistroPago _registroPago = null!;
-        private PresentadorGestionEnvios _envios = null!;
-        private PresentadorRegistroEnvio _registroEnvio = null!;
         private PresentadorGestionClientes _clientes = null!;
         private PresentadorRegistroCliente _registroCliente = null!;
-        private PresentadorGestionMensajeros _mensajeros = null!;
-        private PresentadorRegistroMensajero _registroMensajero = null!;
 
         public ModuloVenta() {
-            Nombre = "MOD_VENTA";
-            NombreAmigable = "Ventas";
-            Descripcion = "Proporciona funcionalidades de gestión de ventas.";
+            Nombre = ModuloSistemaEnum.MOD_VENTA;
             Version = new Version(1, 0, 0, 0);
         }
 
@@ -52,10 +45,6 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Estadísticas
             _estadisticasVenta = new PresentadorEstadisticasVenta(new VistaEstadisticasVenta());
-            // Pedidos
-            _pedidos = new PresentadorGestionPedidos(new VistaGestionPedidos());
-            _registroPedido = new PresentadorRegistroPedido(new VistaRegistroPedido());
-            _registroPedido.EntidadRegistradaActualizada += (s, e) => _pedidos.ActualizarResultadosBusqueda();
             // Ventas
             _ventas = new PresentadorGestionVentas(new VistaGestionVentas());
             _registroVenta = new PresentadorRegistroVenta(new VistaRegistroVenta());
@@ -64,18 +53,10 @@ namespace aDVanceERP.Modulos.Venta {
             _pagos = new PresentadorGestionPagos(new VistaGestionPagos());
             _registroPago = new PresentadorRegistroPago(new VistaRegistroPago());
             _registroPago.EntidadRegistradaActualizada += (s, e) => _pagos.ActualizarResultadosBusqueda();
-            // Envíos
-            _envios = new PresentadorGestionEnvios(new VistaGestionEnvios());
-            _registroEnvio = new PresentadorRegistroEnvio(new VistaRegistroEnvio());
-            _registroEnvio.EntidadRegistradaActualizada += (s, e) => _envios.ActualizarResultadosBusqueda();
             // Clientes
             _clientes = new PresentadorGestionClientes(new VistaGestionClientes());
             _registroCliente = new PresentadorRegistroCliente(new VistaRegistroCliente());
             _registroCliente.EntidadRegistradaActualizada += (s, e) => _clientes.ActualizarResultadosBusqueda();
-            // Mensajeros
-            _mensajeros = new PresentadorGestionMensajeros(new VistaGestionMensajeros());
-            _registroMensajero = new PresentadorRegistroMensajero(new VistaRegistroMensajero());
-            _registroMensajero.EntidadRegistradaActualizada += (s, e) => _mensajeros.ActualizarResultadosBusqueda();
 
             base.Inicializar(principal);
         }
@@ -91,24 +72,15 @@ namespace aDVanceERP.Modulos.Venta {
             // Contenedor de módulos
             // Estadísticas
             _principal.Modulos.Vista.PanelCentral.Registrar(_estadisticasVenta.Vista);
-            // Pedidos
-            _principal.Modulos.Vista.PanelCentral.Registrar(_pedidos.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(_registroPedido.Vista);
             // Ventas
             _principal.Modulos.Vista.PanelCentral.Registrar(_ventas.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroVenta.Vista);
             // Pagos
             _principal.Modulos.Vista.PanelCentral.Registrar(_pagos.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroPago.Vista);
-            // Envíos
-            _principal.Modulos.Vista.PanelCentral.Registrar(_envios.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(_registroEnvio.Vista);
             // Clientes
             _principal.Modulos.Vista.PanelCentral.Registrar(_clientes.Vista);
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroCliente.Vista);
-            // Mensajeros
-            _principal.Modulos.Vista.PanelCentral.Registrar(_mensajeros.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(_registroMensajero.Vista);
         }
 
         public override void Apagar() {

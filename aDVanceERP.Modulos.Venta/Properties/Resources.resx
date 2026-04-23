@@ -118,8 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="barra_seleccion" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\barra_seleccion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sort_down_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sort_down_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="paid_96px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\paid_96px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="phone_fill_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\phone_fill_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sort_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sort_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="deleteF_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\deleteF_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -127,19 +139,37 @@
   <data name="best_salesB_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\best_salesB_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="phone_fill_20px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\phone_fill_20px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="barra_seleccion" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\barra_seleccion.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sort_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sort_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sort_down_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sort_down_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sort_up_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sort_up_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_first_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_first_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_first_disabled_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_first_disabled_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_last_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_last_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_last_disabled_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_last_disabled_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_next_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_next_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_next_disabled_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_next_disabled_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_previous_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_previous_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_previous_disabled_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_previous_disabled_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_sync_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\page_sync_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sort_down_green_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sort_down_green_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

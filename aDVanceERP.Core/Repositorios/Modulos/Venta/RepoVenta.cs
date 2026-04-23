@@ -56,7 +56,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@descuento_total", entidad.DescuentoTotal },
                 { "@impuesto_total", entidad.ImpuestoTotal },
                 { "@importe_total", entidad.ImporteTotal },
-                { "@metodo_pago_principal", entidad.MetodoPagoPrincipal },
+                { "@metodo_pago_principal", entidad.CanalPagoPrincipal },
                 { "@estado_venta", entidad.EstadoVenta.ToString() },
                 { "@observaciones_venta", entidad.ObservacionesVenta },
                 { "@activo", entidad.Activo }
@@ -96,7 +96,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 { "@descuento_total", entidad.DescuentoTotal },
                 { "@impuesto_total", entidad.ImpuestoTotal },
                 { "@importe_total", entidad.ImporteTotal },
-                { "@metodo_pago_principal", entidad.MetodoPagoPrincipal },
+                { "@metodo_pago_principal", entidad.CanalPagoPrincipal },
                 { "@estado_venta", entidad.EstadoVenta.ToString() },
                 { "@observaciones_venta", entidad.ObservacionesVenta },
                 { "@activo", entidad.Activo }
@@ -194,7 +194,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                 DescuentoTotal = Convert.ToDecimal(lector["descuento_total"], CultureInfo.InvariantCulture),
                 ImpuestoTotal = Convert.ToDecimal(lector["impuesto_total"], CultureInfo.InvariantCulture),
                 ImporteTotal = Convert.ToDecimal(lector["importe_total"], CultureInfo.InvariantCulture),
-                MetodoPagoPrincipal = lector["metodo_pago_principal"] != DBNull.Value ? Convert.ToString(lector["metodo_pago_principal"]) : null,
+                CanalPagoPrincipal = lector["metodo_pago_principal"] != DBNull.Value ? Convert.ToString(lector["metodo_pago_principal"]) : null,
                 EstadoVenta = Enum.Parse<EstadoVentaEnum>(Convert.ToString(lector["estado_venta"]) ?? "Pendiente"),
                 ObservacionesVenta = lector["observaciones_venta"] != DBNull.Value ? Convert.ToString(lector["observaciones_venta"]) : null,
                 Activo = Convert.ToBoolean(lector["activo"])
@@ -561,7 +561,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
         /// </summary>
         /// <param name="idVenta">ID de la venta</param>
         /// <returns>El método de pago principal, o null si no hay pagos confirmados</returns>
-        public MetodoPagoEnum? DeterminarMetodoPagoPrincipal(long idVenta) {
+        public CanalPagoEnum? DeterminarMetodoPagoPrincipal(long idVenta) {
             var consulta = $"""
                 SELECT 
                     metodo_pago,
@@ -593,7 +593,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     var metodoPagoStr = resultado.First().entidadBase as string;
                     
                     if (!string.IsNullOrEmpty(metodoPagoStr))
-                        return Enum.Parse<MetodoPagoEnum>(metodoPagoStr);
+                        return Enum.Parse<CanalPagoEnum>(metodoPagoStr);
                 }
             } catch (Exception) {
                 // Si hay error en la consulta, retornar null
@@ -623,6 +623,26 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
             };
 
             return ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros) > 0;
+        }
+
+        public decimal ObtenerTotalRecaudadoPorRangoFechas(DateTime fechaDesde, DateTime fechaHasta) {
+            var consulta = $"""
+                SELECT COALESCE(SUM(importe_total), 0) as total_recaudado
+                FROM adv__venta
+                WHERE fecha_venta >= @fecha_desde
+                    AND fecha_venta <= @fecha_hasta
+                    AND estado_venta IN ('Completada')
+                    AND activo = 1;
+                """;
+
+            var parametros = new Dictionary<string, object>            {
+                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
+                { "@fecha_hasta", fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
+            };
+
+            var resultado = ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+
+            return resultado;
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Comun {
             EstadoPago = EstadoPagoEnum.Pendiente;
         }
 
-        public Pago(long id, long idCompra, long idVenta, MetodoPagoEnum metodoPago, decimal montoPagado,
+        public Pago(long id, long idCompra, long idVenta, CanalPagoEnum metodoPago, decimal montoPagado,
                    DateTime? fechaPagoCliente, DateTime? fechaConfirmacionPago,
                    EstadoPagoEnum estadoPago) {
             Id = id;
@@ -25,17 +25,19 @@ namespace aDVanceERP.Core.Modelos.Modulos.Comun {
         public long Id { get; set; }
         public long IdCompra { get; set; }
         public long IdVenta { get; set; }
-        public MetodoPagoEnum MetodoPago { get; set; }
+        public CanalPagoEnum MetodoPago { get; set; }
         public decimal MontoPagado { get; set; }
         public DateTime? FechaPago { get; set; }
         public DateTime? FechaConfirmacionPago { get; set; }
         public EstadoPagoEnum EstadoPago { get; set; }
     }
 
-    public enum MetodoPagoEnum {
+    public enum CanalPagoEnum {
         Efectivo,
-        [Display(Name = "Transferencia Bancaria")]
-        TransferenciaBancaria
+        Transferencia,
+        Mixto,
+        [Display(Name = "N/A")]
+        NA
     }
 
     public enum EstadoPagoEnum {

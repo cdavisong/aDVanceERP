@@ -884,12 +884,11 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             btnRegistrar.ForeColor = Color.Black;
             btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
-            btnRegistrar.ImageOffset = new Point(-5, 0);
             btnRegistrar.Location = new Point(960, 5);
             btnRegistrar.Margin = new Padding(3, 5, 3, 5);
             btnRegistrar.Name = "btnRegistrar";
             btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            btnRegistrar.Size = new Size(192, 35);
+            btnRegistrar.Size = new Size(173, 35);
             btnRegistrar.TabIndex = 7;
             btnRegistrar.Text = "Nuevo movimiento";
             // 

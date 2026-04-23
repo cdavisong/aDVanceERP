@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaCarrito : Form, IVistaTuplaCarrito {
-        private PrecioPresentacion[] _presentacionesVenta = null!;
+        private PresentacionProducto[] _presentacionesVenta = null!;
         private UnidadMedida? _unidadMedida = null!;
 
         public VistaTuplaCarrito() {
@@ -147,7 +147,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        public void CargarPresentacionesVenta(PrecioPresentacion[] presentaciones) {
+        public void CargarPresentacionesVenta(PresentacionProducto[] presentaciones) {
             _presentacionesVenta = presentaciones;
 
             fieldUnidadMedida.Items.Clear();
@@ -174,7 +174,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             if (producto == null) return false;
 
             // Obtener presentación seleccionada
-            PrecioPresentacion? presentacionSeleccionada = null;
+            PresentacionProducto? presentacionSeleccionada = null;
             if (fieldUnidadMedida.SelectedIndex > 0 && _presentacionesVenta != null) {
                 presentacionSeleccionada = _presentacionesVenta[fieldUnidadMedida.SelectedIndex - 1];
             }

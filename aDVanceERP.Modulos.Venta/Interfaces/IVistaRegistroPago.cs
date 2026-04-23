@@ -5,7 +5,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
     internal interface IVistaRegistroPago : IVistaRegistro {
         string NumeroFacturaVenta { get; set; }
         DateTime FechaPagoCliente { get; set; }
-        public MetodoPagoEnum MetodoPago { get; set; }
+        public CanalPagoEnum MetodoPago { get; set; }
         decimal MontoPagado { get; set; }
         bool EstadoPendiente { get; set; }
         string NumeroTelefonoRemitente { get; set; }

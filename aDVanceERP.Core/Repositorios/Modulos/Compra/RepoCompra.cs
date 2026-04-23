@@ -656,7 +656,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Compra {
                 Id = Convert.ToInt64(r["id_pago"]),
                 IdCompra = r["id_compra"] != DBNull.Value ? Convert.ToInt64(r["id_compra"]) : 0,
                 IdVenta = r["id_venta"] != DBNull.Value ? Convert.ToInt64(r["id_venta"]) : 0,
-                MetodoPago = Enum.Parse<MetodoPagoEnum>(Convert.ToString(r["metodo_pago"]) ?? "Efectivo"),
+                MetodoPago = Enum.Parse<CanalPagoEnum>(Convert.ToString(r["metodo_pago"]) ?? "Efectivo"),
                 MontoPagado = Convert.ToDecimal(r["monto_pagado"], CultureInfo.InvariantCulture),
                 FechaPago = r["fecha_pago"] != DBNull.Value ? Convert.ToDateTime(r["fecha_pago"]) : null,
                 FechaConfirmacionPago = r["fecha_confirmacion_pago"] != DBNull.Value ? Convert.ToDateTime(r["fecha_confirmacion_pago"]) : null,

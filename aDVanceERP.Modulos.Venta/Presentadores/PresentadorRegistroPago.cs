@@ -26,8 +26,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             // Carga inicial de datos
             var metodosPago = new List<string>();
 
-            foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
-                 metodosPago.Add(metodo.ObtenerNombreDescripcion());            
+            foreach (CanalPagoEnum metodo in Enum.GetValues(typeof(CanalPagoEnum)))
+                 metodosPago.Add(metodo.ObtenerNombreDescripcion().Nombre);            
 
             Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
             Vista.CargarMetodosPago([.. metodosPago]);
@@ -49,8 +49,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             var metodosPago = new List<string>();
 
-            foreach (MetodoPagoEnum metodo in Enum.GetValues(typeof(MetodoPagoEnum)))
-                metodosPago.Add(metodo.ObtenerNombreDescripcion());
+            foreach (CanalPagoEnum metodo in Enum.GetValues(typeof(CanalPagoEnum)))
+                metodosPago.Add(metodo.ObtenerNombreDescripcion().Nombre);
 
             Vista.CargarFacturasVentasPendientes([.. RepoVenta.Instancia.ObtenerVentasPendientesDePago().Select(v => v.NumeroFacturaTicket)]);
             Vista.CargarMetodosPago([.. metodosPago]);
@@ -84,7 +84,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         protected override void RegistroEdicionAuxiliar(RepoPago repositorio, long id) {
-            if (Vista.MetodoPago == MetodoPagoEnum.TransferenciaBancaria) {
+            if (Vista.MetodoPago == CanalPagoEnum.Transferencia) {
                 var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
 
                 // Validar que el número de transacción no esté duplicado

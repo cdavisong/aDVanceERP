@@ -228,12 +228,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
         /// <param name="fechaHasta">Fecha final del rango</param>
         /// <param name="idAlmacen">Filtrar por almacén específico (opcional, null = todos)</param>
         /// <returns>Objeto con los totales de entradas, salidas y balance</returns>
-        public ResumenValoresMovimiento ObtenerValoresPorRangoFechas(DateTime fechaDesde, DateTime fechaHasta, int? idAlmacen = null) {
-            var parametros = new Dictionary<string, object>            {
-                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
-                { "@fecha_hasta", fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
-            };
-
+        public ResumenValoresMovimiento ObtenerTotalesPorRangoFechas(DateTime fechaDesde, DateTime fechaHasta, int? idAlmacen = null) {
             var consulta = """
                 SELECT 
                     COALESCE(SUM(CASE 
@@ -251,6 +246,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 JOIN adv__tipo_movimiento tm ON m.id_tipo_movimiento = tm.id_tipo_movimiento
                 WHERE m.fecha_creacion BETWEEN @fecha_desde AND @fecha_hasta AND m.estado = 'Completado'
                 """;
+
+            var parametros = new Dictionary<string, object>            {
+                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
+                { "@fecha_hasta", fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
+            };
 
             if (idAlmacen.HasValue) {
                 consulta += @" AND (m.id_almacen_origen = @id_almacen OR m.id_almacen_destino = @id_almacen)";

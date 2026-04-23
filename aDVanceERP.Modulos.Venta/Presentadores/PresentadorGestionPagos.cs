@@ -15,8 +15,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private List<VentaPendientePago> _ventasPendientesPago = new List<VentaPendientePago>();
 
         public PresentadorGestionPagos(IVistaGestionPagos vista) : base(vista) {
-            RegistrarEntidad += OnRegistrarPago;
-            EditarEntidad += OnEditarPago;
+            //RegistrarEntidad += OnRegistrarPago;
+            //EditarEntidad += OnEditarPago;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionPagosVenta", OnMostrarVistaGestionPagosVenta);
         }
@@ -39,7 +39,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnMostrarVistaGestionPagosVenta(string obj) {
-            Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPagoVenta);
+            //Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPagoVenta);
             Vista.Restaurar();
             Vista.Mostrar();
 

@@ -6,7 +6,7 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         public long Id { get; set; }
         long IdVenta { get; set; }
         string NumeroFacturaVenta { get; set; }
-        public MetodoPagoEnum MetodoPago { get; set; }
+        public CanalPagoEnum MetodoPago { get; set; }
         string NumeroTelefonoRemitente { get; set; }
         string NumeroTransaccion { get; set; }
         decimal MontoPagado { get; set; }

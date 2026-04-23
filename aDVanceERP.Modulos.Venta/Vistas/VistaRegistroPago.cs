@@ -72,8 +72,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldFechaPago.Value = value;
         }
 
-        public MetodoPagoEnum MetodoPago {
-            get => (MetodoPagoEnum) fieldMetodoPago.SelectedIndex;
+        public CanalPagoEnum MetodoPago {
+            get => (CanalPagoEnum) fieldMetodoPago.SelectedIndex;
             set => fieldMetodoPago.SelectedItem = value.ObtenerNombreDescripcion();
         }
 
@@ -127,9 +127,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 MontoPagado = estadoPago.Saldo;
             };
             fieldMetodoPago.SelectedIndexChanged += delegate {
-                separador1.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
-                layoutTitulos2.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
-                layoutDatos2.Visible = MetodoPago == MetodoPagoEnum.TransferenciaBancaria;
+                separador1.Visible = MetodoPago == CanalPagoEnum.Transferencia;
+                layoutTitulos2.Visible = MetodoPago == CanalPagoEnum.Transferencia;
+                layoutDatos2.Visible = MetodoPago == CanalPagoEnum.Transferencia;
             };
             fieldPaises.SelectedIndexChanged += delegate {
                 fieldPrefijoInternacional.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaises.Text)}";
@@ -155,7 +155,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Restaurar() {
             FechaPagoCliente = DateTime.Now;
-            MetodoPago = MetodoPagoEnum.Efectivo;
+            MetodoPago = CanalPagoEnum.Efectivo;
             EstadoPendiente = false;
             NumeroTelefonoRemitente = string.Empty;
             NumeroTransaccion = string.Empty;

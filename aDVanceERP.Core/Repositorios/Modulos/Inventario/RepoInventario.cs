@@ -147,7 +147,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
             var costoUnitario = producto!.Categoria == CategoriaProductoEnum.ProductoTerminado
                 ? producto.CostoProduccionUnitario
                 : producto.CostoAdquisicionUnitario;
-            
+
             var consulta = string.Empty;
             var parametros = new Dictionary<string, object>();
 
@@ -229,6 +229,185 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Inventario {
                 }
             }
         }
+
+        #region VALORES INVENTARIO
+
+        /// <summary>
+        /// Obtiene el valor total real del inventario (usando valor_total almacenado)
+        /// </summary>
+        /// <param name="idAlmacen">ID del almacén (0 = todos los almacenes)</param>
+        /// <returns>Valor total del inventario en la moneda base</returns>
+        public decimal ObtenerValorTotalInventarioReal(long idAlmacen = 0) {
+            string consulta;
+            Dictionary<string, object>? parametros = null;
+
+            if (idAlmacen != 0) {
+                consulta = "SELECT COALESCE(SUM(valor_total), 0) FROM adv__inventario WHERE id_almacen = @IdAlmacen";
+                parametros = new Dictionary<string, object> { { "@IdAlmacen", idAlmacen } };
+            } else {
+                consulta = "SELECT COALESCE(SUM(valor_total), 0) FROM adv__inventario";
+            }
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+        }
+
+        /// <summary>
+        /// Obtiene el valor total del inventario filtrado por productos activos
+        /// </summary>
+        /// <param name="idAlmacen">ID del almacén (0 = todos los almacenes)</param>
+        /// <returns>Valor total del inventario de productos activos</returns>
+        public decimal ObtenerValorTotalInventarioRealSoloActivos(long idAlmacen = 0) {
+            string consulta;
+            Dictionary<string, object>? parametros = null;
+
+            if (idAlmacen != 0) {
+                consulta = @"
+                    SELECT COALESCE(SUM(i.valor_total), 0)
+                    FROM adv__inventario i
+                    INNER JOIN adv__producto p ON p.id_producto = i.id_producto
+                    WHERE p.activo = 1 AND i.id_almacen = @IdAlmacen";
+                parametros = new Dictionary<string, object> { { "@IdAlmacen", idAlmacen } };
+            } else {
+                consulta = @"
+                    SELECT COALESCE(SUM(i.valor_total), 0)
+                    FROM adv__inventario i
+                    INNER JOIN adv__producto p ON p.id_producto = i.id_producto
+                    WHERE p.activo = 1";
+            }
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+        }
+
+        /// <summary>
+        /// Obtiene el valor total del inventario desglosado por almacén
+        /// </summary>
+        /// <returns>Diccionario con nombre del almacén y su valor total</returns>
+        public Dictionary<string, decimal> ObtenerValorInventarioPorAlmacen() {
+            var consulta = @"
+                SELECT 
+                    a.nombre AS Almacen,
+                    COALESCE(SUM(i.valor_total), 0) AS ValorTotal
+                FROM adv__inventario i
+                INNER JOIN adv__almacen a ON a.id_almacen = i.id_almacen
+                WHERE a.estado = 1
+                GROUP BY a.id_almacen, a.nombre
+                ORDER BY a.nombre";
+
+            var resultado = new Dictionary<string, decimal>();
+
+            // Usar EjecutarConsulta con un mapeador personalizado
+            var datos = ContextoBaseDatos.EjecutarConsulta<Dictionary<string, decimal>>(
+                consulta,
+                null,
+                reader => {
+                    var fila = new Dictionary<string, decimal>();
+                    var nombre = reader["Almacen"].ToString() ?? string.Empty;
+                    var valor = Convert.ToDecimal(reader["ValorTotal"]);
+                    return (fila, new List<IEntidadBaseDatos>());
+                });
+
+            foreach (var item in datos) {
+                var kvp = item.entidadBase;
+                foreach (var kv in kvp) {
+                    resultado[kv.Key] = kv.Value;
+                }
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Obtiene el valor total del inventario para un producto específico
+        /// </summary>
+        /// <param name="idProducto">ID del producto</param>
+        /// <param name="idAlmacen">ID del almacén (0 = todos los almacenes)</param>
+        /// <returns>Valor total del producto en inventario</returns>
+        public decimal ObtenerValorTotalPorProducto(long idProducto, long idAlmacen = 0) {
+            string consulta;
+            Dictionary<string, object> parametros;
+
+            if (idAlmacen != 0) {
+                consulta = """
+                    SELECT COALESCE(valor_total, 0) 
+                    FROM adv__inventario 
+                    WHERE id_producto = @IdProducto 
+                        AND id_almacen = @IdAlmacen
+                    """;
+                    
+                parametros = new Dictionary<string, object>                {
+                    { "@IdProducto", idProducto },
+                    { "@IdAlmacen", idAlmacen }
+                };
+            } else {
+                consulta = """
+                    SELECT COALESCE(SUM(valor_total), 0) 
+                    FROM adv__inventario 
+                    WHERE id_producto = @IdProducto
+                    """;
+                    
+                parametros = new Dictionary<string, object> { 
+                    { "@IdProducto", idProducto } 
+                };
+            }
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+        }
+
+        /// <summary>
+        /// Obtiene estadísticas completas del inventario
+        /// </summary>
+        /// <param name="idAlmacen">ID del almacén (0 = todos los almacenes)</param>
+        /// <returns>Tupla con estadísticas (TotalProductos, TotalCantidad, ValorTotal, CostoPromedioGeneral)</returns>
+        public (int TotalProductos, decimal TotalCantidad, decimal ValorTotal, decimal CostoPromedioGeneral) ObtenerEstadisticasInventario(long idAlmacen = 0) {
+            string consulta;
+            Dictionary<string, object>? parametros = null;
+
+            if (idAlmacen != 0) {
+                consulta = """
+                    SELECT 
+                        COUNT(*) AS TotalProductos,
+                        COALESCE(SUM(cantidad), 0) AS TotalCantidad,
+                        COALESCE(SUM(valor_total), 0) AS ValorTotal,
+                        CASE 
+                            WHEN SUM(cantidad) > 0 THEN COALESCE(SUM(valor_total) / SUM(cantidad), 0)
+                            ELSE 0
+                        END AS CostoPromedioGeneral
+                    FROM adv__inventario
+                    WHERE id_almacen = @IdAlmacen
+                    """;
+                parametros = new Dictionary<string, object> { { "@IdAlmacen", idAlmacen } };
+            } else {
+                consulta = """
+                    SELECT 
+                        COUNT(*) AS TotalProductos,
+                        COALESCE(SUM(cantidad), 0) AS TotalCantidad,
+                        COALESCE(SUM(valor_total), 0) AS ValorTotal,
+                        CASE 
+                            WHEN SUM(cantidad) > 0 THEN COALESCE(SUM(valor_total) / SUM(cantidad), 0)
+                            ELSE 0
+                        END AS CostoPromedioGeneral
+                    FROM adv__inventario
+                    """;
+            }
+
+            // Como EjecutarConsultaEscalar no soporta múltiples valores, usamos EjecutarConsulta
+            using var conexion = ContextoBaseDatos.ObtenerConexion();
+            using var comando = ContextoBaseDatos.CrearComando(consulta, parametros, conexion);
+            using var reader = comando.ExecuteReader();
+
+            if (reader.Read()) {
+                return (
+                    TotalProductos: Convert.ToInt32(reader["TotalProductos"]),
+                    TotalCantidad: Convert.ToDecimal(reader["TotalCantidad"]),
+                    ValorTotal: Convert.ToDecimal(reader["ValorTotal"]),
+                    CostoPromedioGeneral: Convert.ToDecimal(reader["CostoPromedioGeneral"])
+                );
+            }
+
+            return (0, 0, 0, 0);
+        }
+
+        #endregion
 
         #endregion
     }

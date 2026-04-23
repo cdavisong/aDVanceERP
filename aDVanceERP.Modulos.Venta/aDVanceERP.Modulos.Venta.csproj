@@ -24,16 +24,7 @@
     <Compile Update="Vistas\VistaGestionClientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaGestionEnvios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaGestionMensajeros.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Vistas\VistaGestionPagos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaGestionPedidos.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaMenuMaestros.cs">
@@ -45,19 +36,10 @@
     <Compile Update="Vistas\VistaRegistroCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaRegistroMensajero.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroEnvio.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Vistas\VistaRegistroPago.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaRegistroPagoTransferencia.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroPedido.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaRegistroVenta.cs">
@@ -66,16 +48,7 @@
     <Compile Update="Vistas\VistaTuplaCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaTuplaMensajero.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaTuplaEnvio.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Vistas\VistaTuplaPago.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaTuplaPedido.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaTuplaCarrito.cs">
