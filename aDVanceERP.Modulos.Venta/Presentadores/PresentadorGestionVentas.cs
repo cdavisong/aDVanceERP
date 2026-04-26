@@ -70,7 +70,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.NombreCliente = string.IsNullOrEmpty(persona?.NombreCompleto) 
                 ? "Anónimo" 
                 : persona.NombreCompleto;
-            presentadorTupla.Vista.CanalPagoPrincipal = string.IsNullOrEmpty(entidad.CanalPagoPrincipal) 
+            presentadorTupla.Vista.CanalPagoPrincipal = string.IsNullOrEmpty(entidad.CanalPagoPrincipal) || entidad.CanalPagoPrincipal.Equals("N/A")
                 ? CanalPagoEnum.NA
                 : Enum.Parse<CanalPagoEnum>(entidad.CanalPagoPrincipal);
             presentadorTupla.Vista.TotalBruto = entidad.TotalBruto;

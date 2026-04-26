@@ -149,7 +149,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldEstado.Text = "Pendiente";
             fieldEstado.TextOffset = new Point(0, -1);
             // 
-            // fieldMetodoPagoPrincipal
+            // fieldCanalPagoPrincipal
             // 
             fieldCanalPagoPrincipal.AutoRoundedCorners = true;
             fieldCanalPagoPrincipal.BorderColor = Color.Gainsboro;
@@ -162,6 +162,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldCanalPagoPrincipal.DisabledState.FillColor = Color.Gainsboro;
             fieldCanalPagoPrincipal.DisabledState.ForeColor = Color.DimGray;
             fieldCanalPagoPrincipal.Dock = DockStyle.Left;
+            fieldCanalPagoPrincipal.Enabled = false;
             fieldCanalPagoPrincipal.FillColor = Color.Gainsboro;
             fieldCanalPagoPrincipal.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
             fieldCanalPagoPrincipal.ForeColor = Color.DimGray;
@@ -170,7 +171,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldCanalPagoPrincipal.HoverState.ForeColor = Color.Black;
             fieldCanalPagoPrincipal.Location = new Point(346, 6);
             fieldCanalPagoPrincipal.Margin = new Padding(6);
-            fieldCanalPagoPrincipal.Name = "fieldMetodoPagoPrincipal";
+            fieldCanalPagoPrincipal.Name = "fieldCanalPagoPrincipal";
             fieldCanalPagoPrincipal.ShadowDecoration.CustomizableEdges = customizableEdges4;
             fieldCanalPagoPrincipal.Size = new Size(181, 24);
             fieldCanalPagoPrincipal.TabIndex = 45;
@@ -208,8 +209,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // btnVerFactura
             // 
             btnVerFactura.Animated = true;
+            btnVerFactura.AutoRoundedCorners = true;
             btnVerFactura.BorderColor = Color.Gainsboro;
-            btnVerFactura.BorderRadius = 16;
+            btnVerFactura.BorderRadius = 14;
             btnVerFactura.BorderThickness = 1;
             btnVerFactura.ContextMenuStrip = menuFormatoDocumento;
             btnVerFactura.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage");
@@ -263,8 +265,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             // btnAnular
             // 
             btnAnular.Animated = true;
+            btnAnular.AutoRoundedCorners = true;
             btnAnular.BorderColor = Color.Gainsboro;
-            btnAnular.BorderRadius = 16;
+            btnAnular.BorderRadius = 14;
             btnAnular.BorderThickness = 1;
             btnAnular.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
             btnAnular.CustomImages.Image = (Image) resources.GetObject("resource.Image1");

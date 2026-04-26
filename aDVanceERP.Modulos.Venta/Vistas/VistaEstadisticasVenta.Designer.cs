@@ -224,7 +224,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldTitulo.Name = "fieldTitulo";
             fieldTitulo.Size = new Size(1080, 45);
             fieldTitulo.TabIndex = 3;
-            fieldTitulo.Text = "Estadísticas generales para las compras";
+            fieldTitulo.Text = "Estadísticas generales para las ventas";
             fieldTitulo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // fieldIcono

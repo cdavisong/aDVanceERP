@@ -174,5 +174,11 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
                 .Select(r => r.entidadBase)
                 .ToList();
         }
+
+        #region SINGLETON
+
+        public static RepoEstadisticasVenta Instancia => new();
+
+        #endregion
     }
 }

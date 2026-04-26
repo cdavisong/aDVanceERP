@@ -195,19 +195,7 @@
         fcl3tzuO1IYMsFLN+XW+AOuHr0ZSIaRYAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="fieldTextoAdvertencia.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAWJJREFUOE+1
-        UrtKQ0EQTesLLPwCCxXizgipFG3sFZvsbCQBtbeQoIhaiCDozCbxgZX4Qlt/RFDiL4go/oVMbrLcuzFg
-        oQe22PMY9nFyuf9AvkZoxB4g04Mu4+0e1mgs9nVhqrE0DEKPIPQOQoxiy+hdxXg6A7FfRtx9/qI4GOda
-        GD9eHEKhJjCdFPYX+n/SVQMpzRtfmoj1HAjdqSHm09ATGqEn491GRtCJIPQ2XS/2ZYQUCr40oic0bLeA
-        3Y5pLI8GEYR2gclnEimkw7pPrkKbwYCebozQajrUQRxWINs1YLoMptYAdithL9REX5zt3BnYHgZze4AR
-        ug6EXgHZ1sOe3ZwR+wFCr3G4pYs9RabtQOgjJoHKQIebrLkZZFoPpja0ByD02VWs33yjAoXOjXdXMZ8U
-        ReilV5GUSxpJzz3bmBzP3WaqLLYMYkU5fbie4TRAaBK9rervJMtW8aiUj31/gm/s6p1FOiuq4gAAAABJ
-        RU5ErkJggg==
-</value>
-  </data>
-  <data name="guna2Button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnAgregarPago.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAW9JREFUOE/V
         079L1lEUx/EXlmZoWUORjmI0uFROLeIgFC3WIP0PCdEgRII/mvsBTi2uRYvgFi4lIeKmtaRBQQSBCelg

@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
 using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Documentos;
@@ -30,13 +31,26 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnAnularVenta(object? sender, long e) {
-            throw new NotImplementedException();
+            var venta = RepoVenta.Instancia.ObtenerPorId(e)!;
+            var detallesVenta = RepoDetalleVentaProducto.Instancia
+                .Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString())
+                .resultadosBusqueda
+                .Select(r => r.entidadBase)
+                .ToList();
+
+            AgregadorEventos.Publicar(
+                "VentaAnulada",
+                AgregadorEventos.SerializarPayload(new object[] { venta, detallesVenta })
+            );
+
+            RepoDetalleVentaProducto.Instancia.EliminarDetallesPorVenta(venta.Id);
+            RepoVenta.Instancia.CambiarEstadoVenta(e, EstadoVentaEnum.Anulada);
         }
 
         public override void Dispose() {
-            Vista.EditarDatosTupla += MostrarVistaEdicionVenta;
-            Vista.ExportarFacturaVenta += OnExportarFacturaVenta;
-            Vista.AnularVenta += OnAnularVenta;
+            Vista.EditarDatosTupla -= MostrarVistaEdicionVenta;
+            Vista.ExportarFacturaVenta -= OnExportarFacturaVenta;
+            Vista.AnularVenta -= OnAnularVenta;
 
             base.Dispose();
         }

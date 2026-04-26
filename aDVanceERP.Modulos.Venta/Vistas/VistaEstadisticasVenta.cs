@@ -1,6 +1,10 @@
 ﻿using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
+using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Properties;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaEstadisticasVenta : Form, IVistaEstadisticasVenta {
@@ -159,7 +163,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                 : 0f;
 
             var lblMonto = new Label {
-                Text = producto.CantidadTotal.ToString("N0"),
+                Text = $"{producto.CantidadTotal.ToString("N1", CultureInfo.InvariantCulture)}",
                 Font = new Font("Segoe UI", 8f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(64, 64, 64),
                 AutoSize = false,
@@ -170,13 +174,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
             fila.Controls.AddRange([lblNum, lblNombre, lblMonto]);
 
-            // Barra inline proporcional (como el HTML: bar-inline)
+            // Barra inline proporcional
             fila.Paint += (_, e) => {
-                int barMaxW = 60;
+                int barMaxW = fila.Width - 64;
                 int barW = (int) (barMaxW * porcentajeBarra / 100f);
-                int barX = lblNombre.Right;
-                int barY = fila.Height - 6;
-                var colorBarra = Color.FromArgb(100, 255, 218, 185); // peachpuff semitransparente
+                int barX = 32;
+                int barY = fila.Height - 4;
+                var colorBarra = Color.FromArgb(200, 255, 218, 185);
+
                 e.Graphics.FillRectangle(new SolidBrush(colorBarra),
                     new Rectangle(barX, barY, barW, 3));
 
