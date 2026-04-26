@@ -6,12 +6,10 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 
 using System.Globalization;
 
-using static Guna.UI2.Native.WinApi;
-
 namespace aDVanceERP.Modulos.Inventario.Vistas {
     public partial class VistaRegistroMovimiento : Form, IVistaRegistroMovimiento {
         private bool _modoEdicion = false;
-        private Producto? _producto;
+        private Producto? _producto = null!;
 
         public VistaRegistroMovimiento() {
             InitializeComponent();

@@ -14,7 +14,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private List<VentasPorMetodoPago> _metodosPago = [];
 
         // ── Paleta del sistema de diseño aDVance ─────────────────────────
-        // Ingresos diarios (área + línea) — mismos tonos que Inventario
         private static readonly Color ColorAreaRelleno = Color.FromArgb(255, 218, 185); // peachpuff
         private static readonly Color ColorLinea = Color.FromArgb(240, 192, 144); // peachpuff saturado
 

@@ -84,7 +84,15 @@ namespace aDVanceERP.Modulos.Venta {
         }
 
         public override void Apagar() {
-            throw new NotImplementedException();
+            _menuVenta?.Dispose();
+            _menuMaestros?.Dispose();
+            _estadisticasVenta?.Dispose();
+            _ventas?.Dispose();
+            _registroVenta?.Dispose();
+            _pagos?.Dispose();
+            _registroPago?.Dispose();
+            _clientes?.Dispose();
+            _registroCliente?.Dispose();
         }
     }
 }

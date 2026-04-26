@@ -1,4 +1,5 @@
 ﻿using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -10,15 +11,43 @@ using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 using aDVanceERP.Modulos.Venta.Vistas;
 
+using System.Globalization;
+
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorGestionPagos : PresentadorVistaGestion<PresentadorTuplaPago, IVistaGestionPagos, IVistaTuplaPago, Pago, RepoPago, FiltroBusquedaPago> {
         private List<VentaPendientePago> _ventasPendientesPago = new List<VentaPendientePago>();
 
         public PresentadorGestionPagos(IVistaGestionPagos vista) : base(vista) {
-            //RegistrarEntidad += OnRegistrarPago;
-            //EditarEntidad += OnEditarPago;
+            vista.RegistrarEntidad += OnRegistrarPago;
 
             AgregadorEventos.Suscribir("MostrarVistaGestionPagosVenta", OnMostrarVistaGestionPagosVenta);
+        }
+
+        private void OnMostrarVistaGestionPagosVenta(string obj) {
+            CargarDatosComunes();
+
+            Vista.Restaurar();
+            Vista.Mostrar();
+
+            ActualizarResultadosBusqueda();
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaPago>()]);
+        }
+
+        public override void ActualizarResultadosBusqueda() {
+            if (FiltroBusqueda == FiltroBusquedaPago.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
+                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty, "Venta"];
+
+            // Actualizar totales
+            var fechaDesde = DateTime.ParseExact(CriteriosBusqueda[0], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var fechaHasta = DateTime.ParseExact(CriteriosBusqueda[1], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var totalPagado = RepoPago.Instancia.ObtenerTotalPagadoPorRangoFechas(fechaDesde, fechaHasta);
+
+            Vista.TotalPagos = totalPagado;
+
+            base.ActualizarResultadosBusqueda();
         }
 
         private void OnRegistrarPago(object? sender, EventArgs e) {
@@ -32,27 +61,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             AgregadorEventos.Publicar("MostrarVistaRegistroPagoVenta", string.Empty);
         }
 
-        private void OnEditarPago(object? sender, Pago e) {
-            _ventasPendientesPago = RepoVenta.Instancia.ObtenerVentasPendientesDePago();
-
-            AgregadorEventos.Publicar("MostrarVistaEdicionPagoVenta", AgregadorEventos.SerializarPayload(e));
-        }
-
-        private void OnMostrarVistaGestionPagosVenta(string obj) {
-            //Vista.CargarFiltrosBusqueda(UtilesBusquedaPago.FiltroBusquedaPagoVenta);
-            Vista.Restaurar();
-            Vista.Mostrar();
-
-            ActualizarResultadosBusqueda();
-        }
-
-        public override void ActualizarResultadosBusqueda() {
-            if (FiltroBusqueda == FiltroBusquedaPago.Todos && (CriteriosBusqueda == null || CriteriosBusqueda.Length == 0))
-                CriteriosBusqueda = [DateTime.Today.ToString("yyyy-MM-dd 00:00:00"), DateTime.Today.ToString("yyyy-MM-dd 23:59:59"), string.Empty, "Venta"];            
-
-            base.ActualizarResultadosBusqueda();
-        }
-
         protected override PresentadorTuplaPago ObtenerValoresTupla(Pago entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaPago(new VistaTuplaPago(), entidad);
             var venta = RepoVenta.Instancia.ObtenerPorId(entidad.IdVenta);
@@ -61,7 +69,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.IdVenta = entidad.IdVenta;
             presentadorTupla.Vista.NumeroFacturaVenta = venta?.NumeroFacturaTicket ?? "-";
-            presentadorTupla.Vista.MetodoPago = entidad.MetodoPago;
+            presentadorTupla.Vista.CanalPago = entidad.MetodoPago;
             presentadorTupla.Vista.NumeroTelefonoRemitente = detallePagoTransferencia?.NumeroTelefonoConfirmacion ?? string.Empty;
             presentadorTupla.Vista.NumeroTransaccion = detallePagoTransferencia?.NumeroTransaccion ?? string.Empty;
             presentadorTupla.Vista.MontoPagado = entidad.MontoPagado;

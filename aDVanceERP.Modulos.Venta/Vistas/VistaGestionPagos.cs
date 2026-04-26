@@ -1,12 +1,15 @@
-﻿using aDVanceERP.Core.Repositorios.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Modulos.Venta.Interfaces;
+﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
+using aDVanceERP.Core.Repositorios.Comun;
+using aDVanceERP.Modulos.Venta.Interfaces;
+
+using System.Globalization;
 
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaGestionPagos : Form, IVistaGestionPagos {
         private int _paginaActual = 1;
         private int _paginasTotales = 1;
+        private decimal _totalPagos;
 
         public VistaGestionPagos() {
             InitializeComponent();
@@ -71,6 +74,14 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public RepoVistaBase PanelCentral { get; private set; }
 
+        public decimal TotalPagos {
+            get => _totalPagos;
+            set {
+                _totalPagos = value;
+
+                fieldTotalPagos.Text = $"$ {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            }
+        }
 
         public event EventHandler? AlturaContenedorTuplasModificada;
         public event EventHandler? MostrarPrimeraPagina;
@@ -96,12 +107,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
                     return;
 
                 if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0], "Venta" }));
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] }));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
             };
-            btnRegistrarPedidoManual.Click += delegate (object? sender, EventArgs e) {
+            btnRegistrar.Click += delegate (object? sender, EventArgs e) {
                 RegistrarEntidad?.Invoke(sender, e);
             };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
@@ -152,7 +163,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             var valorFechaHasta = fieldFiltroBusquedaFechaHasta.Value.Date;
 
             if (valorFechaHasta >= valorFechaDesde && valorFechaHasta <= DateTime.Now)
-                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0] , "Venta" }));
+                BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { fieldFiltroBusquedaFechaDesde.Value.ToString("yyyy-MM-dd"), fieldFiltroBusquedaFechaHasta.Value.ToString("yyyy-MM-dd"), CriteriosBusqueda[0], "Venta" }));
             else {
                 fieldFiltroBusquedaFechaHasta.Value = DateTime.Now;
 

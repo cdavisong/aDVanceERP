@@ -22,14 +22,9 @@ namespace aDVanceERP.Modulos.Venta.Interfaces {
         decimal TotalDescuento { get; set; }
         decimal ImporteTotal { get; set; }
 
-        CanalPagoEnum CanalPago { get; }
-        decimal MontoPagado { get; }
-        decimal FaltanteVuelto { get; set; }
-
         event EventHandler<string>? BuscarProducto;
         event EventHandler? BuscarProductosRapidos;
         event EventHandler? AgregarProductoAlCarrito;
-        event EventHandler? AgregarPagoVenta;
 
         void CargarProductos(Producto[] productos);
         void CargarAlmacenes(Almacen[] almacenes);

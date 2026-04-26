@@ -16,6 +16,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             AgregadorEventos.Suscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
             AgregadorEventos.Suscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
             AgregadorEventos.Suscribir("VentaRegistrada", OnNuevaVentaRegistrada);
+            AgregadorEventos.Suscribir("VentaAnulada", OnVentaAnulada);
         }
 
         private void OnMostrarVistaRegistroMovimiento(string obj) {
@@ -333,11 +334,64 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             }
         }
 
+        private void OnVentaAnulada(string obj) {
+            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
+            var venta = AgregadorEventos.DeserializarPayload<Venta>(datos[0].ToString());
+            var detallesVenta = AgregadorEventos.DeserializarPayload<List<DetalleVentaProducto>>(datos[1].ToString());
+
+            if (venta == null || detallesVenta == null || detallesVenta.Count == 0)
+                return;
+
+            var almacen = RepoAlmacen.Instancia.ObtenerPorId(venta.IdAlmacen);
+            if (almacen == null) return;
+
+            var repoProducto = RepoProducto.Instancia;
+            var repoInventario = RepoInventario.Instancia;
+            var repoMovimiento = RepoMovimiento.Instancia;
+            var idTipoDevolucion = RepoTipoMovimiento.Instancia
+                .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta")
+                .resultadosBusqueda.Select(r => r.entidadBase)
+                .FirstOrDefault()?.Id
+                ?? throw new InvalidOperationException("No se encontró el tipo 'Devolución de Venta'.");
+
+            foreach (var detalle in detallesVenta) {
+                var producto = repoProducto.ObtenerPorId(detalle.IdProducto);
+                if (producto == null) continue;
+
+                var inventario = repoInventario
+                    .Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
+                    .resultadosBusqueda.Select(r => r.entidadBase)
+                    .FirstOrDefault(i => i.IdAlmacen == almacen.Id);
+                if (inventario == null) continue;
+
+                var movimiento = new Movimiento {
+                    Id = 0,
+                    IdProducto = producto.Id,
+                    CostoUnitario = detalle.PrecioCompraVigente,
+                    IdAlmacenOrigen = 0,
+                    IdAlmacenDestino = almacen.Id,
+                    Estado = EstadoMovimientoEnum.Completado,
+                    FechaCreacion = DateTime.Now,
+                    SaldoInicial = inventario.Cantidad,
+                    FechaTermino = DateTime.Now,
+                    CantidadMovida = detalle.Cantidad,
+                    SaldoFinal = inventario.Cantidad + detalle.Cantidad,
+                    IdTipoMovimiento = idTipoDevolucion,
+                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
+                    Notas = $"Reversión automática por anulación de venta {venta.NumeroFacturaTicket}."
+                };
+
+                repoMovimiento.Adicionar(movimiento);
+                repoInventario.ModificarInventario(producto, null, almacen, detalle.Cantidad);
+            }
+        }
+
         public override void Dispose() {
             AgregadorEventos.Desuscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
             AgregadorEventos.Desuscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
             AgregadorEventos.Desuscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
             AgregadorEventos.Desuscribir("VentaRegistrada", OnNuevaVentaRegistrada);
+            AgregadorEventos.Desuscribir("VentaAnulada", OnVentaAnulada);
 
             base.Dispose();
         }

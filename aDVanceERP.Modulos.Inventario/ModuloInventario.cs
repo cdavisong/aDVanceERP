@@ -110,7 +110,20 @@ namespace aDVanceERP.Modulos.Inventario {
         }
 
         public override void Apagar() {
-            throw new NotImplementedException();
+            _estadisticasGenerales?.Dispose();
+            _menuInventario?.Dispose();
+            _menuMaestros?.Dispose();
+            _productos?.Dispose();
+            _registroProducto?.Dispose();
+            _presentacionesProducto?.Dispose();
+            _movimientos?.Dispose();
+            _registroMovimiento?.Dispose();
+            _almacenes?.Dispose();
+            _registroAlmacen?.Dispose();
+            _clasificaciones?.Dispose();
+            _registroClasificacion?.Dispose();
+            _unidadesMedida?.Dispose();
+            _registroUnidadMedida?.Dispose();
         }
     }
 }

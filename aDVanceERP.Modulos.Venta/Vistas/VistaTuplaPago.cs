@@ -10,6 +10,7 @@ using System.Globalization;
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaTuplaPago : Form, IVistaTuplaPago {
         private EstadoPagoEnum _estadoPago;
+        private CanalPagoEnum? _canalPago;
 
         public VistaTuplaPago() {
             InitializeComponent();
@@ -41,9 +42,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public Color ColorFondoTupla {
             get => layoutVista.BackColor;
-            set => layoutVista.BackColor = layoutVista.BackColor = value == Color.Gainsboro
-                ? value
-                : ObtenerColorFondoTupla(EstadoPago);
+            set => layoutVista.BackColor = value;
         }
 
         public bool EstadoSeleccion { get; set; }
@@ -60,9 +59,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldNumeroFactura.Text = value;
         }
 
-        public CanalPagoEnum MetodoPago {
-            get => (CanalPagoEnum)Enum.Parse(typeof(CanalPagoEnum), fieldMetodoPago.Text);
-            set => fieldMetodoPago.Text = value.ObtenerNombreDescripcion().Nombre;
+        public CanalPagoEnum? CanalPago {
+            get => _canalPago;
+            set {
+                _canalPago = value;
+
+                var (colorFondo, colorFuente) = ObtenerColorCanal(value ?? CanalPagoEnum.NA);
+
+                fieldCanalPago.Text = value.ObtenerNombreDescripcion().Nombre;
+                fieldCanalPago.DisabledState.BorderColor = colorFondo;
+                fieldCanalPago.DisabledState.FillColor = colorFondo;
+                fieldCanalPago.DisabledState.ForeColor = colorFuente;
+            }
         }
 
         public string NumeroTelefonoRemitente { 
@@ -114,10 +122,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => _estadoPago;
             set {
                 _estadoPago = value;
+
+                var (colorFondo, colorFuente) = ObtenerColorEstado(value);
+
                 fieldEstado.Text = value.ObtenerNombreDescripcion().Nombre;
-                btnConfirmar.Enabled = value == EstadoPagoEnum.Pendiente;
+                fieldEstado.DisabledState.BorderColor = colorFondo;
+                fieldEstado.DisabledState.FillColor = colorFondo;
+                fieldEstado.DisabledState.ForeColor = colorFuente;
+
+                btnConfirmar.Enabled = value != EstadoPagoEnum.Anulado && value != EstadoPagoEnum.Confirmado;
                 btnCancelar.Enabled = value == EstadoPagoEnum.Pendiente || value == EstadoPagoEnum.Confirmado;
-                ColorFondoTupla = ObtenerColorFondoTupla(_estadoPago);
             }
         }
 
@@ -168,12 +182,22 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Dispose();
         }
 
-        private Color ObtenerColorFondoTupla(EstadoPagoEnum estado) {
+        private (Color colorFondo, Color colorFuente) ObtenerColorCanal(CanalPagoEnum estado) {
             return estado switch {
-                EstadoPagoEnum.Pendiente => ContextoAplicacion.ColorAdvertenciaTupla,
-                EstadoPagoEnum.Fallido => ContextoAplicacion.ColorErrorTupla,
-                EstadoPagoEnum.Anulado => ContextoAplicacion.ColorErrorTupla,
-                _ => BackColor
+                CanalPagoEnum.Efectivo => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),          // Ambar
+                CanalPagoEnum.TransferenciaBancaria => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),   // Azul
+                CanalPagoEnum.Mixto => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),            // Verde
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
+            };
+        }
+
+        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(EstadoPagoEnum estado) {
+            return estado switch {
+                EstadoPagoEnum.Pendiente => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),           // Ambar
+                EstadoPagoEnum.Confirmado => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),         // Verde
+                EstadoPagoEnum.Anulado => (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)),            // Rojo
+                EstadoPagoEnum.Fallido => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),           // Azul
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
             };
         }
     }

@@ -40,6 +40,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void CargarDatos() {
+            ResolverSimboloMonedaBase();
             Task.Run(() => _repo.ObtenerMetricas())
                 .ContinueWith(t => {
                     if (t.IsFaulted)

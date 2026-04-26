@@ -60,11 +60,32 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.Mostrar();
         }
 
+        public override void PopularVistaDesdeEntidad(Pago pago) {
+            Vista.NumeroFacturaVenta = RepoVenta.Instancia
+                .ObtenerPorId(pago.IdVenta)?.NumeroFacturaTicket ?? string.Empty;
+
+            Vista.FechaPagoCliente = pago.FechaPago ?? DateTime.Now;
+            Vista.MetodoPago = pago.MetodoPago;
+            Vista.MontoPagado = pago.MontoPagado;
+
+            if (pago.MetodoPago == CanalPagoEnum.TransferenciaBancaria) {
+                var detalle = RepoDetallePagoTransferencia.Instancia
+                    .Buscar(FiltroBusquedaDetalleTransferencia.PorPago, pago.Id.ToString())
+                    .resultadosBusqueda.FirstOrDefault().entidadBase;
+
+                if (detalle != null) {
+                    Vista.NumeroTelefonoRemitente = detalle.NumeroTelefonoConfirmacion;
+                    Vista.NumeroTransaccion = detalle.NumeroTransaccion;
+                }
+            }
+        }
+
         protected override Pago? ObtenerEntidadDesdeVista() {
             var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, Vista.NumeroFacturaVenta).resultadosBusqueda.FirstOrDefault().entidadBase;
 
             // Validar que el monto no exceda el saldo pendiente (evitar sobrepago)
             var estadoPago = RepoVenta.Instancia.VerificarEstadoPagoVenta(venta.Id);
+
             if (Vista.MontoPagado > estadoPago.Saldo && !Vista.ModoEdicion) {
                 CentroNotificaciones.MostrarNotificacion(
                     $"El monto del pago ({Vista.MontoPagado:C2}) excede el saldo pendiente de {estadoPago.Saldo:C2}.",
@@ -78,13 +99,47 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 MetodoPago = Vista.MetodoPago,
                 MontoPagado = Vista.MontoPagado,
                 FechaPago = Vista.FechaPagoCliente,
-                FechaConfirmacionPago = Vista.EstadoPendiente ? DateTime.MinValue : DateTime.Now,
-                EstadoPago = Vista.EstadoPendiente ? EstadoPagoEnum.Pendiente : EstadoPagoEnum.Confirmado
+                FechaConfirmacionPago = DateTime.Now,
+                EstadoPago = EstadoPagoEnum.Confirmado
             };
         }
 
+        protected override bool EntidadCorrecta() {
+            if (string.IsNullOrEmpty(Vista.NumeroFacturaVenta)) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "Debe seleccionar una factura para registrar el pago.",
+                    TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            if (Vista.MontoPagado <= 0) {
+                CentroNotificaciones.MostrarNotificacion(
+                    "El monto del pago debe ser mayor a cero.",
+                    TipoNotificacionEnum.Advertencia);
+                return false;
+            }
+
+            if (Vista.MetodoPago == CanalPagoEnum.TransferenciaBancaria) {
+                if (string.IsNullOrWhiteSpace(Vista.NumeroTransaccion)) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "Debe ingresar el número de transacción para pagos por transferencia.",
+                        TipoNotificacionEnum.Advertencia);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(Vista.NumeroTelefonoRemitente)) {
+                    CentroNotificaciones.MostrarNotificacion(
+                        "Debe ingresar el número de teléfono del remitente.",
+                        TipoNotificacionEnum.Advertencia);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         protected override void RegistroEdicionAuxiliar(RepoPago repositorio, long id) {
-            if (Vista.MetodoPago == CanalPagoEnum.Transferencia) {
+            if (Vista.MetodoPago == CanalPagoEnum.TransferenciaBancaria) {
                 var repoDetallePagoTransferencia = RepoDetallePagoTransferencia.Instancia;
 
                 // Validar que el número de transacción no esté duplicado
@@ -121,7 +176,12 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     Id = 0,
                     IdTurno = turno.Id,
                     Tipo = TipoMovimientoCajaEnum.Venta,
-                    CanalPago = (CanalPagoCajaEnum) ((int) Entidad.MetodoPago),
+                    CanalPago = Entidad.MetodoPago switch {
+                        CanalPagoEnum.Efectivo => CanalPagoCajaEnum.Efectivo,
+                        CanalPagoEnum.TransferenciaBancaria => CanalPagoCajaEnum.Transferencia,
+                        CanalPagoEnum.Mixto => CanalPagoCajaEnum.Mixto,
+                        _ => CanalPagoCajaEnum.NA
+                    },
                     IdVenta = venta.Id,
                     Monto = Entidad.MontoPagado,
                     Descripcion = $"Pago de factura {venta.NumeroFacturaTicket}",
@@ -137,6 +197,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             // Actualizar el método de pago principal de la venta
             repoVenta.ActualizarMetodoPagoPrincipal(venta.Id);
+
+            // Notificar a la gestión de pagos para que refresque su lista
+            AgregadorEventos.Publicar("PagoVentaRegistrado", string.Empty);
         }
     }
 }

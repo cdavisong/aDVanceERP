@@ -17,10 +17,10 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void MostrarVistaEdicionVenta(object? sender, EventArgs e) {
-            if (sender is not long id)
-                return;
+            var entidad = RepoVenta.Instancia.ObtenerPorId(Entidad.Id);
 
-            var entidad = RepoVenta.Instancia.ObtenerPorId(id);
+            if (entidad == null) 
+                return;
 
             AgregadorEventos.Publicar("MostrarVistaEdicionVenta", AgregadorEventos.SerializarPayload(entidad));
         }

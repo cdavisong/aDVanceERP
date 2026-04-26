@@ -15,7 +15,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Estadisticas {
             m.VentasPendientes = ObtenerVentasPorEstado("Pendiente");
             m.PagosPendientesConfirmacion = ObtenerPagosPendientes();
             m.PedidosActivos = ObtenerPedidosActivos();
-            m.TopProductos = ObtenerTopProductosMes();
+            m.TopProductos = ObtenerTopProductosMes(10);
             m.EvolucionIngresos = ObtenerEvolucionIngresos();
             m.DistribucionMetodosPago = ObtenerDistribucionMetodosPago();
 

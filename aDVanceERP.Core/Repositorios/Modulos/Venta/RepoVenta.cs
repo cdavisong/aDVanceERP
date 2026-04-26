@@ -478,7 +478,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Venta {
                     v.fecha_venta,
                     v.importe_total,
                     c.codigo_cliente,
-                    per.nombre_completo as nombre_cliente as nombre_cliente,
+                    per.nombre_completo as nombre_cliente,
                     DATEDIFF(NOW(), v.fecha_venta) as dias_sin_pago
                 FROM adv__venta v
                 LEFT JOIN adv__cliente c ON v.id_cliente = c.id_cliente

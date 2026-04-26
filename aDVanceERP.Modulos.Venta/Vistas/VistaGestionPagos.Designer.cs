@@ -28,19 +28,19 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         /// </summary>
         private void InitializeComponent() {
             components = new Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionPagos));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(VistaGestionPagos));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -49,41 +49,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             formatoBase = new Guna2BorderlessForm(components);
             layoutVista = new TableLayoutPanel();
-            layoutSeparadores = new TableLayoutPanel();
-            separador2 = new Guna2Separator();
-            separador1 = new Guna2Separator();
-            layoutHerramientas = new TableLayoutPanel();
-            layoutFechaHasta = new TableLayoutPanel();
-            fieldFiltroBusquedaFechaHasta = new Guna2DateTimePicker();
-            fieldTextoHasta = new Label();
-            fieldFiltroBusqueda = new Guna2ComboBox();
-            panelDatosComplementariosBusqueda = new Panel();
-            fieldCriterioBusqueda = new Guna2TextBox();
-            layoutFechaDesde = new TableLayoutPanel();
-            fieldFiltroBusquedaFechaDesde = new Guna2DateTimePicker();
-            fieldTextoDesde = new Label();
-            layoutTituloHerramientas = new TableLayoutPanel();
-            fieldTituloRangoFechaVentas = new Label();
-            fieldTituloFiltrosBusqueda = new Label();
-            panelBotonesGestion = new Panel();
-            btnRegistrarPedidoManual = new Guna2Button();
-            layoutEncabezadosTabla = new TableLayoutPanel();
-            fieldTituloMetodoPago = new Label();
-            fieldTituloNumeroFactura = new Label();
-            fieldTituloId = new Label();
-            fieldTituloMonto = new Label();
-            fieldTituloEstado = new Label();
-            fieldTituloFechaPago = new Label();
-            fieldTituloFechaConfirmacion = new Label();
-            fieldTituloNumeroTelefonoRemitente = new Label();
-            fieldTituloNumeroTransferencia = new Label();
-            layoutTitulo = new TableLayoutPanel();
-            fieldTitulo = new Label();
-            fieldIcono = new PictureBox();
-            fieldSubtitulo = new Label();
-            contenedorVistas = new Panel();
+            layoutTotales = new TableLayoutPanel();
+            fieldTotalPagos = new Label();
+            panelControlesTabla = new Guna2Panel();
             layoutControlesTabla = new TableLayoutPanel();
             btnPaginaAnterior = new Guna2Button();
             btnPrimeraPagina = new Guna2Button();
@@ -92,21 +66,49 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSincronizarDatos = new Guna2Button();
             fieldPaginaActual = new Label();
             fieldPaginasTotales = new Label();
+            layoutTitulo = new TableLayoutPanel();
+            fieldTitulo = new Label();
+            fieldIcono = new PictureBox();
+            fieldSubtitulo = new Label();
+            layoutFiltroHerramientas = new FlowLayoutPanel();
+            fieldTituloFiltroBusqueda = new Label();
+            fieldFiltroBusqueda = new Guna2ComboBox();
+            fieldCriterioBusqueda = new Guna2TextBox();
+            fieldTituloDesde = new Label();
+            fieldFiltroBusquedaFechaDesde = new Guna2DateTimePicker();
+            fieldTituloHasta = new Label();
+            fieldFiltroBusquedaFechaHasta = new Guna2DateTimePicker();
+            btnRegistrar = new Guna2Button();
+            panelEncabezadosTabla = new Guna2Panel();
+            layoutEncabezadosTabla = new TableLayoutPanel();
+            fieldTituloAcciones = new Label();
+            fieldTituloMonto = new Label();
+            fieldTituloEstado = new Label();
+            fieldTituloFechaPago = new Label();
+            fieldTituloFechaConfirmacion = new Label();
+            fieldTituloNumeroTelefonoRemitente = new Label();
+            fieldTituloNumeroTransferencia = new Label();
+            fieldTituloId = new Label();
+            fieldTituloMetodoPago = new Label();
+            fieldTituloNumeroFactura = new Label();
+            layoutContenedorVistas = new TableLayoutPanel();
+            contenedorVistas = new Panel();
+            layoutTituloTotales = new TableLayoutPanel();
+            fieldTituloTotalPagos = new Label();
             layoutPago = new TableLayoutPanel();
             symbolPeso = new Label();
             fieldTotalVenta = new Label();
             layoutVista.SuspendLayout();
-            layoutSeparadores.SuspendLayout();
-            layoutHerramientas.SuspendLayout();
-            layoutFechaHasta.SuspendLayout();
-            panelDatosComplementariosBusqueda.SuspendLayout();
-            layoutFechaDesde.SuspendLayout();
-            layoutTituloHerramientas.SuspendLayout();
-            panelBotonesGestion.SuspendLayout();
-            layoutEncabezadosTabla.SuspendLayout();
+            layoutTotales.SuspendLayout();
+            panelControlesTabla.SuspendLayout();
+            layoutControlesTabla.SuspendLayout();
             layoutTitulo.SuspendLayout();
             ((ISupportInitialize) fieldIcono).BeginInit();
-            layoutControlesTabla.SuspendLayout();
+            layoutFiltroHerramientas.SuspendLayout();
+            panelEncabezadosTabla.SuspendLayout();
+            layoutEncabezadosTabla.SuspendLayout();
+            layoutContenedorVistas.SuspendLayout();
+            layoutTituloTotales.SuspendLayout();
             layoutPago.SuspendLayout();
             SuspendLayout();
             // 
@@ -126,513 +128,280 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 30F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutVista.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutVista.Controls.Add(layoutSeparadores, 2, 6);
-            layoutVista.Controls.Add(layoutHerramientas, 2, 5);
-            layoutVista.Controls.Add(layoutTituloHerramientas, 2, 4);
-            layoutVista.Controls.Add(panelBotonesGestion, 2, 7);
-            layoutVista.Controls.Add(layoutEncabezadosTabla, 2, 9);
+            layoutVista.Controls.Add(layoutTotales, 2, 11);
+            layoutVista.Controls.Add(panelControlesTabla, 2, 8);
             layoutVista.Controls.Add(layoutTitulo, 2, 1);
             layoutVista.Controls.Add(fieldIcono, 1, 1);
             layoutVista.Controls.Add(fieldSubtitulo, 2, 2);
-            layoutVista.Controls.Add(contenedorVistas, 2, 11);
-            layoutVista.Controls.Add(layoutControlesTabla, 2, 12);
+            layoutVista.Controls.Add(layoutFiltroHerramientas, 2, 4);
+            layoutVista.Controls.Add(panelEncabezadosTabla, 2, 6);
+            layoutVista.Controls.Add(layoutContenedorVistas, 2, 7);
+            layoutVista.Controls.Add(layoutTituloTotales, 2, 10);
             layoutVista.Dock = DockStyle.Fill;
             layoutVista.Location = new Point(0, 0);
             layoutVista.Margin = new Padding(1);
             layoutVista.Name = "layoutVista";
-            layoutVista.RowCount = 14;
+            layoutVista.RowCount = 13;
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 10F));
+            layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 25F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutVista.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             layoutVista.Size = new Size(1356, 608);
             layoutVista.TabIndex = 4;
             // 
-            // layoutSeparadores
+            // layoutTotales
             // 
-            layoutSeparadores.ColumnCount = 2;
-            layoutSeparadores.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 440F));
-            layoutSeparadores.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutSeparadores.Controls.Add(separador2, 1, 0);
-            layoutSeparadores.Controls.Add(separador1, 0, 0);
-            layoutSeparadores.Dock = DockStyle.Fill;
-            layoutSeparadores.Location = new Point(50, 190);
-            layoutSeparadores.Margin = new Padding(0);
-            layoutSeparadores.Name = "layoutSeparadores";
-            layoutSeparadores.RowCount = 1;
-            layoutSeparadores.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutSeparadores.Size = new Size(1286, 20);
-            layoutSeparadores.TabIndex = 41;
+            layoutTotales.ColumnCount = 4;
+            layoutTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F));
+            layoutTotales.Controls.Add(fieldTotalPagos, 3, 0);
+            layoutTotales.Dock = DockStyle.Fill;
+            layoutTotales.Location = new Point(50, 553);
+            layoutTotales.Margin = new Padding(0);
+            layoutTotales.Name = "layoutTotales";
+            layoutTotales.RowCount = 1;
+            layoutTotales.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutTotales.Size = new Size(1286, 35);
+            layoutTotales.TabIndex = 88;
             // 
-            // separador2
+            // fieldTotalPagos
             // 
-            separador2.Dock = DockStyle.Fill;
-            separador2.FillColor = Color.Gainsboro;
-            separador2.Location = new Point(443, 3);
-            separador2.Name = "separador2";
-            separador2.Size = new Size(840, 14);
-            separador2.TabIndex = 39;
+            fieldTotalPagos.Dock = DockStyle.Fill;
+            fieldTotalPagos.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldTotalPagos.ForeColor = Color.FromArgb(  64,   64,   64);
+            fieldTotalPagos.ImeMode = ImeMode.NoControl;
+            fieldTotalPagos.Location = new Point(1087, 1);
+            fieldTotalPagos.Margin = new Padding(1);
+            fieldTotalPagos.Name = "fieldTotalPagos";
+            fieldTotalPagos.Size = new Size(198, 33);
+            fieldTotalPagos.TabIndex = 71;
+            fieldTotalPagos.Text = "$ 0.00";
+            fieldTotalPagos.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // separador1
+            // panelControlesTabla
             // 
-            separador1.Dock = DockStyle.Fill;
-            separador1.FillColor = Color.Gainsboro;
-            separador1.Location = new Point(3, 3);
-            separador1.Name = "separador1";
-            separador1.Size = new Size(434, 14);
-            separador1.TabIndex = 38;
+            panelControlesTabla.BackColor = Color.Transparent;
+            panelControlesTabla.BorderColor = Color.Gainsboro;
+            panelControlesTabla.BorderRadius = 8;
+            panelControlesTabla.BorderThickness = 1;
+            panelControlesTabla.Controls.Add(layoutControlesTabla);
+            customizableEdges11.TopLeft = false;
+            customizableEdges11.TopRight = false;
+            panelControlesTabla.CustomizableEdges = customizableEdges11;
+            panelControlesTabla.Dock = DockStyle.Fill;
+            panelControlesTabla.FillColor = Color.White;
+            panelControlesTabla.Location = new Point(50, 476);
+            panelControlesTabla.Margin = new Padding(0);
+            panelControlesTabla.Name = "panelControlesTabla";
+            panelControlesTabla.ShadowDecoration.BorderRadius = 8;
+            panelControlesTabla.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            panelControlesTabla.ShadowDecoration.Depth = 10;
+            panelControlesTabla.Size = new Size(1286, 42);
+            panelControlesTabla.TabIndex = 91;
             // 
-            // layoutHerramientas
+            // layoutControlesTabla
             // 
-            layoutHerramientas.ColumnCount = 5;
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutHerramientas.Controls.Add(layoutFechaHasta, 1, 0);
-            layoutHerramientas.Controls.Add(fieldFiltroBusqueda, 2, 0);
-            layoutHerramientas.Controls.Add(panelDatosComplementariosBusqueda, 3, 0);
-            layoutHerramientas.Controls.Add(layoutFechaDesde, 0, 0);
-            layoutHerramientas.Dock = DockStyle.Fill;
-            layoutHerramientas.Location = new Point(50, 145);
-            layoutHerramientas.Margin = new Padding(0);
-            layoutHerramientas.Name = "layoutHerramientas";
-            layoutHerramientas.RowCount = 1;
-            layoutHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutHerramientas.Size = new Size(1286, 45);
-            layoutHerramientas.TabIndex = 38;
+            layoutControlesTabla.BackColor = Color.Transparent;
+            layoutControlesTabla.ColumnCount = 12;
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
+            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
+            layoutControlesTabla.Controls.Add(btnPaginaAnterior, 2, 0);
+            layoutControlesTabla.Controls.Add(btnPrimeraPagina, 1, 0);
+            layoutControlesTabla.Controls.Add(btnPaginaSiguiente, 7, 0);
+            layoutControlesTabla.Controls.Add(btnUltimaPagina, 8, 0);
+            layoutControlesTabla.Controls.Add(btnSincronizarDatos, 10, 0);
+            layoutControlesTabla.Controls.Add(fieldPaginaActual, 4, 0);
+            layoutControlesTabla.Controls.Add(fieldPaginasTotales, 5, 0);
+            layoutControlesTabla.Dock = DockStyle.Fill;
+            layoutControlesTabla.Location = new Point(0, 0);
+            layoutControlesTabla.Margin = new Padding(0);
+            layoutControlesTabla.Name = "layoutControlesTabla";
+            layoutControlesTabla.RowCount = 1;
+            layoutControlesTabla.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutControlesTabla.Size = new Size(1286, 42);
+            layoutControlesTabla.TabIndex = 84;
             // 
-            // layoutFechaHasta
+            // btnPaginaAnterior
             // 
-            layoutFechaHasta.ColumnCount = 2;
-            layoutFechaHasta.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 57F));
-            layoutFechaHasta.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutFechaHasta.Controls.Add(fieldFiltroBusquedaFechaHasta, 0, 0);
-            layoutFechaHasta.Controls.Add(fieldTextoHasta, 0, 0);
-            layoutFechaHasta.Dock = DockStyle.Fill;
-            layoutFechaHasta.Location = new Point(220, 0);
-            layoutFechaHasta.Margin = new Padding(0);
-            layoutFechaHasta.Name = "layoutFechaHasta";
-            layoutFechaHasta.RowCount = 1;
-            layoutFechaHasta.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutFechaHasta.Size = new Size(220, 45);
-            layoutFechaHasta.TabIndex = 30;
+            btnPaginaAnterior.Animated = true;
+            btnPaginaAnterior.BackColor = Color.Transparent;
+            btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
+            btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
+            btnPaginaAnterior.Cursor = Cursors.Hand;
+            btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
+            btnPaginaAnterior.CustomizableEdges = customizableEdges1;
+            btnPaginaAnterior.DisabledState.FillColor = Color.White;
+            btnPaginaAnterior.DisabledState.Image = Properties.Resources.page_previous_disabled_24px;
+            btnPaginaAnterior.Dock = DockStyle.Fill;
+            btnPaginaAnterior.FillColor = Color.White;
+            btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
+            btnPaginaAnterior.ForeColor = Color.White;
+            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
+            btnPaginaAnterior.Image = Properties.Resources.page_previous_24px;
+            btnPaginaAnterior.ImageSize = new Size(24, 24);
+            btnPaginaAnterior.Location = new Point(46, 1);
+            btnPaginaAnterior.Margin = new Padding(1);
+            btnPaginaAnterior.Name = "btnPaginaAnterior";
+            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnPaginaAnterior.Size = new Size(33, 40);
+            btnPaginaAnterior.TabIndex = 1;
             // 
-            // fieldFiltroBusquedaFechaHasta
+            // btnPrimeraPagina
             // 
-            fieldFiltroBusquedaFechaHasta.BackColor = Color.White;
-            fieldFiltroBusquedaFechaHasta.BorderColor = Color.Gainsboro;
-            fieldFiltroBusquedaFechaHasta.BorderRadius = 18;
-            fieldFiltroBusquedaFechaHasta.BorderThickness = 1;
-            fieldFiltroBusquedaFechaHasta.Checked = true;
-            fieldFiltroBusquedaFechaHasta.CheckedState.BorderColor = Color.Gainsboro;
-            fieldFiltroBusquedaFechaHasta.CheckedState.FillColor = Color.White;
-            fieldFiltroBusquedaFechaHasta.CheckedState.ForeColor = Color.Black;
-            fieldFiltroBusquedaFechaHasta.CustomFormat = "yyyy-MM-dd";
-            fieldFiltroBusquedaFechaHasta.CustomizableEdges = customizableEdges1;
-            fieldFiltroBusquedaFechaHasta.Dock = DockStyle.Fill;
-            fieldFiltroBusquedaFechaHasta.FillColor = Color.White;
-            fieldFiltroBusquedaFechaHasta.Font = new Font("Segoe UI", 11.25F);
-            fieldFiltroBusquedaFechaHasta.ForeColor = Color.Black;
-            fieldFiltroBusquedaFechaHasta.Format = DateTimePickerFormat.Custom;
-            fieldFiltroBusquedaFechaHasta.Location = new Point(62, 5);
-            fieldFiltroBusquedaFechaHasta.Margin = new Padding(5);
-            fieldFiltroBusquedaFechaHasta.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            fieldFiltroBusquedaFechaHasta.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            fieldFiltroBusquedaFechaHasta.Name = "fieldFiltroBusquedaFechaHasta";
-            fieldFiltroBusquedaFechaHasta.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            fieldFiltroBusquedaFechaHasta.Size = new Size(153, 35);
-            fieldFiltroBusquedaFechaHasta.TabIndex = 26;
-            fieldFiltroBusquedaFechaHasta.Value = new DateTime(2025, 2, 20, 21, 31, 28, 166);
+            btnPrimeraPagina.Animated = true;
+            btnPrimeraPagina.BackColor = Color.Transparent;
+            btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
+            btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
+            btnPrimeraPagina.Cursor = Cursors.Hand;
+            btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
+            btnPrimeraPagina.CustomizableEdges = customizableEdges3;
+            btnPrimeraPagina.DisabledState.FillColor = Color.White;
+            btnPrimeraPagina.DisabledState.Image = Properties.Resources.page_first_disabled_24px;
+            btnPrimeraPagina.Dock = DockStyle.Fill;
+            btnPrimeraPagina.FillColor = Color.White;
+            btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
+            btnPrimeraPagina.ForeColor = Color.White;
+            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
+            btnPrimeraPagina.Image = Properties.Resources.page_first_24px;
+            btnPrimeraPagina.ImageSize = new Size(24, 24);
+            btnPrimeraPagina.Location = new Point(11, 1);
+            btnPrimeraPagina.Margin = new Padding(1);
+            btnPrimeraPagina.Name = "btnPrimeraPagina";
+            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnPrimeraPagina.Size = new Size(33, 40);
+            btnPrimeraPagina.TabIndex = 0;
             // 
-            // fieldTextoHasta
+            // btnPaginaSiguiente
             // 
-            fieldTextoHasta.Dock = DockStyle.Fill;
-            fieldTextoHasta.Font = new Font("Segoe UI", 11.25F);
-            fieldTextoHasta.ForeColor = Color.Black;
-            fieldTextoHasta.ImeMode = ImeMode.NoControl;
-            fieldTextoHasta.Location = new Point(5, 5);
-            fieldTextoHasta.Margin = new Padding(5, 5, 1, 1);
-            fieldTextoHasta.Name = "fieldTextoHasta";
-            fieldTextoHasta.Size = new Size(51, 39);
-            fieldTextoHasta.TabIndex = 3;
-            fieldTextoHasta.Text = "Hasta";
-            fieldTextoHasta.TextAlign = ContentAlignment.MiddleLeft;
+            btnPaginaSiguiente.Animated = true;
+            btnPaginaSiguiente.BackColor = Color.Transparent;
+            btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
+            btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
+            btnPaginaSiguiente.Cursor = Cursors.Hand;
+            btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
+            btnPaginaSiguiente.CustomizableEdges = customizableEdges5;
+            btnPaginaSiguiente.DisabledState.FillColor = Color.White;
+            btnPaginaSiguiente.DisabledState.Image = Properties.Resources.page_next_disabled_24px;
+            btnPaginaSiguiente.Dock = DockStyle.Fill;
+            btnPaginaSiguiente.FillColor = Color.White;
+            btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
+            btnPaginaSiguiente.ForeColor = Color.White;
+            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
+            btnPaginaSiguiente.Image = Properties.Resources.page_next_24px;
+            btnPaginaSiguiente.ImageSize = new Size(24, 24);
+            btnPaginaSiguiente.Location = new Point(321, 1);
+            btnPaginaSiguiente.Margin = new Padding(1);
+            btnPaginaSiguiente.Name = "btnPaginaSiguiente";
+            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnPaginaSiguiente.Size = new Size(33, 40);
+            btnPaginaSiguiente.TabIndex = 2;
             // 
-            // fieldFiltroBusqueda
+            // btnUltimaPagina
             // 
-            fieldFiltroBusqueda.Animated = true;
-            fieldFiltroBusqueda.BackColor = Color.Transparent;
-            fieldFiltroBusqueda.BorderColor = Color.Gainsboro;
-            fieldFiltroBusqueda.BorderRadius = 16;
-            fieldFiltroBusqueda.CustomizableEdges = customizableEdges3;
-            fieldFiltroBusqueda.Dock = DockStyle.Fill;
-            fieldFiltroBusqueda.DrawMode = DrawMode.OwnerDrawFixed;
-            fieldFiltroBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
-            fieldFiltroBusqueda.FocusedColor = Color.Gainsboro;
-            fieldFiltroBusqueda.FocusedState.BorderColor = Color.Gainsboro;
-            fieldFiltroBusqueda.Font = new Font("Segoe UI", 11.25F);
-            fieldFiltroBusqueda.ForeColor = Color.Black;
-            fieldFiltroBusqueda.ItemHeight = 29;
-            fieldFiltroBusqueda.Location = new Point(445, 5);
-            fieldFiltroBusqueda.Margin = new Padding(5);
-            fieldFiltroBusqueda.Name = "fieldFiltroBusqueda";
-            fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            fieldFiltroBusqueda.Size = new Size(290, 35);
-            fieldFiltroBusqueda.TabIndex = 27;
-            fieldFiltroBusqueda.TextOffset = new Point(10, 0);
+            btnUltimaPagina.Animated = true;
+            btnUltimaPagina.BackColor = Color.Transparent;
+            btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
+            btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
+            btnUltimaPagina.Cursor = Cursors.Hand;
+            btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
+            btnUltimaPagina.CustomizableEdges = customizableEdges7;
+            btnUltimaPagina.DisabledState.FillColor = Color.White;
+            btnUltimaPagina.DisabledState.Image = Properties.Resources.page_last_disabled_24px;
+            btnUltimaPagina.Dock = DockStyle.Fill;
+            btnUltimaPagina.FillColor = Color.White;
+            btnUltimaPagina.Font = new Font("Segoe UI", 9F);
+            btnUltimaPagina.ForeColor = Color.White;
+            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
+            btnUltimaPagina.Image = Properties.Resources.page_last_24px;
+            btnUltimaPagina.ImageSize = new Size(24, 24);
+            btnUltimaPagina.Location = new Point(356, 1);
+            btnUltimaPagina.Margin = new Padding(1);
+            btnUltimaPagina.Name = "btnUltimaPagina";
+            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnUltimaPagina.Size = new Size(33, 40);
+            btnUltimaPagina.TabIndex = 3;
             // 
-            // panelDatosComplementariosBusqueda
+            // btnSincronizarDatos
             // 
-            panelDatosComplementariosBusqueda.Controls.Add(fieldCriterioBusqueda);
-            panelDatosComplementariosBusqueda.Dock = DockStyle.Fill;
-            panelDatosComplementariosBusqueda.Location = new Point(745, 5);
-            panelDatosComplementariosBusqueda.Margin = new Padding(5);
-            panelDatosComplementariosBusqueda.Name = "panelDatosComplementariosBusqueda";
-            panelDatosComplementariosBusqueda.Size = new Size(320, 35);
-            panelDatosComplementariosBusqueda.TabIndex = 28;
+            btnSincronizarDatos.Animated = true;
+            btnSincronizarDatos.BackColor = Color.Transparent;
+            btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
+            btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
+            btnSincronizarDatos.Cursor = Cursors.Hand;
+            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image");
+            btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
+            btnSincronizarDatos.CustomizableEdges = customizableEdges9;
+            btnSincronizarDatos.Dock = DockStyle.Fill;
+            btnSincronizarDatos.FillColor = Color.White;
+            btnSincronizarDatos.Font = new Font("Segoe UI", 9F);
+            btnSincronizarDatos.ForeColor = Color.White;
+            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
+            btnSincronizarDatos.HoverState.FillColor = Color.WhiteSmoke;
+            btnSincronizarDatos.ImageSize = new Size(24, 24);
+            btnSincronizarDatos.Location = new Point(1242, 1);
+            btnSincronizarDatos.Margin = new Padding(1);
+            btnSincronizarDatos.Name = "btnSincronizarDatos";
+            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnSincronizarDatos.Size = new Size(33, 40);
+            btnSincronizarDatos.TabIndex = 4;
             // 
-            // fieldCriterioBusqueda
+            // fieldPaginaActual
             // 
-            fieldCriterioBusqueda.Animated = true;
-            fieldCriterioBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
-            fieldCriterioBusqueda.BorderColor = Color.Gainsboro;
-            fieldCriterioBusqueda.BorderRadius = 18;
-            fieldCriterioBusqueda.Cursor = Cursors.IBeam;
-            fieldCriterioBusqueda.CustomizableEdges = customizableEdges5;
-            fieldCriterioBusqueda.DefaultText = "";
-            fieldCriterioBusqueda.DisabledState.BorderColor = Color.White;
-            fieldCriterioBusqueda.DisabledState.ForeColor = Color.DimGray;
-            fieldCriterioBusqueda.DisabledState.PlaceholderForeColor = Color.DimGray;
-            fieldCriterioBusqueda.Dock = DockStyle.Fill;
-            fieldCriterioBusqueda.Font = new Font("Segoe UI", 11.25F);
-            fieldCriterioBusqueda.ForeColor = Color.Black;
-            fieldCriterioBusqueda.HoverState.BorderColor = Color.SandyBrown;
-            fieldCriterioBusqueda.IconLeft = (Image) resources.GetObject("fieldCriterioBusqueda.IconLeft");
-            fieldCriterioBusqueda.IconLeftOffset = new Point(10, 1);
-            fieldCriterioBusqueda.IconRightOffset = new Point(10, 0);
-            fieldCriterioBusqueda.Location = new Point(0, 0);
-            fieldCriterioBusqueda.Margin = new Padding(5);
-            fieldCriterioBusqueda.Name = "fieldCriterioBusqueda";
-            fieldCriterioBusqueda.PasswordChar = '\0';
-            fieldCriterioBusqueda.PlaceholderForeColor = Color.DimGray;
-            fieldCriterioBusqueda.PlaceholderText = "Criterio de búsqueda";
-            fieldCriterioBusqueda.SelectedText = "";
-            fieldCriterioBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            fieldCriterioBusqueda.Size = new Size(320, 35);
-            fieldCriterioBusqueda.TabIndex = 9;
-            fieldCriterioBusqueda.TextOffset = new Point(5, 0);
-            fieldCriterioBusqueda.Visible = false;
+            fieldPaginaActual.Dock = DockStyle.Fill;
+            fieldPaginaActual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldPaginaActual.ForeColor = Color.DimGray;
+            fieldPaginaActual.ImeMode = ImeMode.NoControl;
+            fieldPaginaActual.Location = new Point(91, 1);
+            fieldPaginaActual.Margin = new Padding(1, 1, 0, 1);
+            fieldPaginaActual.Name = "fieldPaginaActual";
+            fieldPaginaActual.Size = new Size(119, 40);
+            fieldPaginaActual.TabIndex = 5;
+            fieldPaginaActual.Text = "PÁGINA 1";
+            fieldPaginaActual.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // layoutFechaDesde
+            // fieldPaginasTotales
             // 
-            layoutFechaDesde.ColumnCount = 2;
-            layoutFechaDesde.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 57F));
-            layoutFechaDesde.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutFechaDesde.Controls.Add(fieldFiltroBusquedaFechaDesde, 0, 0);
-            layoutFechaDesde.Controls.Add(fieldTextoDesde, 0, 0);
-            layoutFechaDesde.Dock = DockStyle.Fill;
-            layoutFechaDesde.Location = new Point(0, 0);
-            layoutFechaDesde.Margin = new Padding(0);
-            layoutFechaDesde.Name = "layoutFechaDesde";
-            layoutFechaDesde.RowCount = 1;
-            layoutFechaDesde.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutFechaDesde.Size = new Size(220, 45);
-            layoutFechaDesde.TabIndex = 29;
-            // 
-            // fieldFiltroBusquedaFechaDesde
-            // 
-            fieldFiltroBusquedaFechaDesde.BackColor = Color.White;
-            fieldFiltroBusquedaFechaDesde.BorderColor = Color.Gainsboro;
-            fieldFiltroBusquedaFechaDesde.BorderRadius = 18;
-            fieldFiltroBusquedaFechaDesde.BorderThickness = 1;
-            fieldFiltroBusquedaFechaDesde.Checked = true;
-            fieldFiltroBusquedaFechaDesde.CheckedState.BorderColor = Color.Gainsboro;
-            fieldFiltroBusquedaFechaDesde.CheckedState.FillColor = Color.White;
-            fieldFiltroBusquedaFechaDesde.CheckedState.ForeColor = Color.Black;
-            fieldFiltroBusquedaFechaDesde.CustomFormat = "yyyy-MM-dd";
-            fieldFiltroBusquedaFechaDesde.CustomizableEdges = customizableEdges7;
-            fieldFiltroBusquedaFechaDesde.Dock = DockStyle.Fill;
-            fieldFiltroBusquedaFechaDesde.FillColor = Color.White;
-            fieldFiltroBusquedaFechaDesde.Font = new Font("Segoe UI", 11.25F);
-            fieldFiltroBusquedaFechaDesde.ForeColor = Color.Black;
-            fieldFiltroBusquedaFechaDesde.Format = DateTimePickerFormat.Custom;
-            fieldFiltroBusquedaFechaDesde.Location = new Point(62, 5);
-            fieldFiltroBusquedaFechaDesde.Margin = new Padding(5);
-            fieldFiltroBusquedaFechaDesde.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            fieldFiltroBusquedaFechaDesde.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            fieldFiltroBusquedaFechaDesde.Name = "fieldFiltroBusquedaFechaDesde";
-            fieldFiltroBusquedaFechaDesde.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            fieldFiltroBusquedaFechaDesde.Size = new Size(153, 35);
-            fieldFiltroBusquedaFechaDesde.TabIndex = 26;
-            fieldFiltroBusquedaFechaDesde.Value = new DateTime(2025, 2, 20, 21, 31, 28, 166);
-            // 
-            // fieldTextoDesde
-            // 
-            fieldTextoDesde.Dock = DockStyle.Fill;
-            fieldTextoDesde.Font = new Font("Segoe UI", 11.25F);
-            fieldTextoDesde.ForeColor = Color.Black;
-            fieldTextoDesde.ImeMode = ImeMode.NoControl;
-            fieldTextoDesde.Location = new Point(5, 5);
-            fieldTextoDesde.Margin = new Padding(5, 5, 1, 1);
-            fieldTextoDesde.Name = "fieldTextoDesde";
-            fieldTextoDesde.Size = new Size(51, 39);
-            fieldTextoDesde.TabIndex = 3;
-            fieldTextoDesde.Text = "Desde";
-            fieldTextoDesde.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // layoutTituloHerramientas
-            // 
-            layoutTituloHerramientas.ColumnCount = 4;
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 440F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutTituloHerramientas.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            layoutTituloHerramientas.Controls.Add(fieldTituloRangoFechaVentas, 0, 0);
-            layoutTituloHerramientas.Controls.Add(fieldTituloFiltrosBusqueda, 1, 0);
-            layoutTituloHerramientas.Dock = DockStyle.Fill;
-            layoutTituloHerramientas.Location = new Point(50, 110);
-            layoutTituloHerramientas.Margin = new Padding(0);
-            layoutTituloHerramientas.Name = "layoutTituloHerramientas";
-            layoutTituloHerramientas.RowCount = 1;
-            layoutTituloHerramientas.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutTituloHerramientas.Size = new Size(1286, 35);
-            layoutTituloHerramientas.TabIndex = 37;
-            // 
-            // fieldTituloRangoFechaVentas
-            // 
-            fieldTituloRangoFechaVentas.Dock = DockStyle.Fill;
-            fieldTituloRangoFechaVentas.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloRangoFechaVentas.ForeColor = Color.DimGray;
-            fieldTituloRangoFechaVentas.Image = (Image) resources.GetObject("fieldTituloRangoFechaVentas.Image");
-            fieldTituloRangoFechaVentas.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloRangoFechaVentas.ImeMode = ImeMode.NoControl;
-            fieldTituloRangoFechaVentas.Location = new Point(15, 5);
-            fieldTituloRangoFechaVentas.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloRangoFechaVentas.Name = "fieldTituloRangoFechaVentas";
-            fieldTituloRangoFechaVentas.Size = new Size(422, 27);
-            fieldTituloRangoFechaVentas.TabIndex = 25;
-            fieldTituloRangoFechaVentas.Text = "      Rango de fechas de los pagos registrados :";
-            fieldTituloRangoFechaVentas.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // fieldTituloFiltrosBusqueda
-            // 
-            fieldTituloFiltrosBusqueda.Dock = DockStyle.Fill;
-            fieldTituloFiltrosBusqueda.Font = new Font("Segoe UI", 11.25F);
-            fieldTituloFiltrosBusqueda.ForeColor = Color.DimGray;
-            fieldTituloFiltrosBusqueda.Image = (Image) resources.GetObject("fieldTituloFiltrosBusqueda.Image");
-            fieldTituloFiltrosBusqueda.ImageAlign = ContentAlignment.MiddleLeft;
-            fieldTituloFiltrosBusqueda.ImeMode = ImeMode.NoControl;
-            fieldTituloFiltrosBusqueda.Location = new Point(455, 5);
-            fieldTituloFiltrosBusqueda.Margin = new Padding(15, 5, 3, 3);
-            fieldTituloFiltrosBusqueda.Name = "fieldTituloFiltrosBusqueda";
-            fieldTituloFiltrosBusqueda.Size = new Size(282, 27);
-            fieldTituloFiltrosBusqueda.TabIndex = 24;
-            fieldTituloFiltrosBusqueda.Text = "      Filtro de búsqueda :";
-            fieldTituloFiltrosBusqueda.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // panelBotonesGestion
-            // 
-            panelBotonesGestion.Controls.Add(btnRegistrarPedidoManual);
-            panelBotonesGestion.Dock = DockStyle.Fill;
-            panelBotonesGestion.Location = new Point(50, 210);
-            panelBotonesGestion.Margin = new Padding(0);
-            panelBotonesGestion.Name = "panelBotonesGestion";
-            panelBotonesGestion.Padding = new Padding(3);
-            panelBotonesGestion.Size = new Size(1286, 45);
-            panelBotonesGestion.TabIndex = 38;
-            // 
-            // btnRegistrarPedidoManual
-            // 
-            btnRegistrarPedidoManual.Animated = true;
-            btnRegistrarPedidoManual.BackColor = Color.White;
-            btnRegistrarPedidoManual.BorderRadius = 18;
-            btnRegistrarPedidoManual.CustomizableEdges = customizableEdges9;
-            btnRegistrarPedidoManual.Dock = DockStyle.Left;
-            btnRegistrarPedidoManual.FillColor = Color.PeachPuff;
-            btnRegistrarPedidoManual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnRegistrarPedidoManual.ForeColor = Color.Black;
-            btnRegistrarPedidoManual.Image = (Image) resources.GetObject("btnRegistrarPedidoManual.Image");
-            btnRegistrarPedidoManual.ImageOffset = new Point(-5, 0);
-            btnRegistrarPedidoManual.Location = new Point(3, 3);
-            btnRegistrarPedidoManual.Margin = new Padding(0);
-            btnRegistrarPedidoManual.Name = "btnRegistrarPedidoManual";
-            btnRegistrarPedidoManual.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            btnRegistrarPedidoManual.Size = new Size(320, 39);
-            btnRegistrarPedidoManual.TabIndex = 7;
-            btnRegistrarPedidoManual.Text = "Registrar pago manual";
-            // 
-            // layoutEncabezadosTabla
-            // 
-            layoutEncabezadosTabla.BackColor = Color.WhiteSmoke;
-            layoutEncabezadosTabla.ColumnCount = 12;
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
-            layoutEncabezadosTabla.Controls.Add(fieldTituloMetodoPago, 0, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroFactura, 0, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloId, 0, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloMonto, 7, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloEstado, 8, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloFechaPago, 5, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloFechaConfirmacion, 6, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroTelefonoRemitente, 3, 0);
-            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroTransferencia, 4, 0);
-            layoutEncabezadosTabla.Dock = DockStyle.Fill;
-            layoutEncabezadosTabla.Location = new Point(50, 265);
-            layoutEncabezadosTabla.Margin = new Padding(0, 0, 0, 2);
-            layoutEncabezadosTabla.Name = "layoutEncabezadosTabla";
-            layoutEncabezadosTabla.RowCount = 1;
-            layoutEncabezadosTabla.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutEncabezadosTabla.Size = new Size(1286, 58);
-            layoutEncabezadosTabla.TabIndex = 19;
-            // 
-            // fieldTituloMetodoPago
-            // 
-            fieldTituloMetodoPago.Dock = DockStyle.Fill;
-            fieldTituloMetodoPago.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloMetodoPago.ForeColor = Color.Black;
-            fieldTituloMetodoPago.ImeMode = ImeMode.NoControl;
-            fieldTituloMetodoPago.Location = new Point(221, 1);
-            fieldTituloMetodoPago.Margin = new Padding(1);
-            fieldTituloMetodoPago.Name = "fieldTituloMetodoPago";
-            fieldTituloMetodoPago.Size = new Size(204, 56);
-            fieldTituloMetodoPago.TabIndex = 22;
-            fieldTituloMetodoPago.Text = "Método de pago";
-            fieldTituloMetodoPago.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloNumeroFactura
-            // 
-            fieldTituloNumeroFactura.Dock = DockStyle.Fill;
-            fieldTituloNumeroFactura.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloNumeroFactura.ForeColor = Color.Black;
-            fieldTituloNumeroFactura.ImeMode = ImeMode.NoControl;
-            fieldTituloNumeroFactura.Location = new Point(61, 1);
-            fieldTituloNumeroFactura.Margin = new Padding(1);
-            fieldTituloNumeroFactura.Name = "fieldTituloNumeroFactura";
-            fieldTituloNumeroFactura.Size = new Size(158, 56);
-            fieldTituloNumeroFactura.TabIndex = 21;
-            fieldTituloNumeroFactura.Text = "Factura de venta";
-            fieldTituloNumeroFactura.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloId
-            // 
-            fieldTituloId.Dock = DockStyle.Fill;
-            fieldTituloId.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloId.ForeColor = Color.Black;
-            fieldTituloId.ImeMode = ImeMode.NoControl;
-            fieldTituloId.Location = new Point(1, 1);
-            fieldTituloId.Margin = new Padding(1);
-            fieldTituloId.Name = "fieldTituloId";
-            fieldTituloId.Size = new Size(58, 56);
-            fieldTituloId.TabIndex = 14;
-            fieldTituloId.Text = "Id";
-            fieldTituloId.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloMonto
-            // 
-            fieldTituloMonto.Dock = DockStyle.Fill;
-            fieldTituloMonto.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloMonto.ForeColor = Color.Black;
-            fieldTituloMonto.ImeMode = ImeMode.NoControl;
-            fieldTituloMonto.Location = new Point(907, 1);
-            fieldTituloMonto.Margin = new Padding(1);
-            fieldTituloMonto.Name = "fieldTituloMonto";
-            fieldTituloMonto.Size = new Size(128, 56);
-            fieldTituloMonto.TabIndex = 19;
-            fieldTituloMonto.Text = "Monto";
-            fieldTituloMonto.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloEstado
-            // 
-            fieldTituloEstado.Dock = DockStyle.Fill;
-            fieldTituloEstado.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloEstado.ForeColor = Color.Black;
-            fieldTituloEstado.ImeMode = ImeMode.NoControl;
-            fieldTituloEstado.Location = new Point(1037, 1);
-            fieldTituloEstado.Margin = new Padding(1);
-            fieldTituloEstado.Name = "fieldTituloEstado";
-            fieldTituloEstado.Size = new Size(128, 56);
-            fieldTituloEstado.TabIndex = 20;
-            fieldTituloEstado.Text = "Estado";
-            fieldTituloEstado.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloFechaPago
-            // 
-            fieldTituloFechaPago.Dock = DockStyle.Fill;
-            fieldTituloFechaPago.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloFechaPago.ForeColor = Color.Black;
-            fieldTituloFechaPago.ImeMode = ImeMode.NoControl;
-            fieldTituloFechaPago.Location = new Point(667, 1);
-            fieldTituloFechaPago.Margin = new Padding(1);
-            fieldTituloFechaPago.Name = "fieldTituloFechaPago";
-            fieldTituloFechaPago.Size = new Size(118, 56);
-            fieldTituloFechaPago.TabIndex = 16;
-            fieldTituloFechaPago.Text = "Fecha de pago";
-            fieldTituloFechaPago.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloFechaConfirmacion
-            // 
-            fieldTituloFechaConfirmacion.Dock = DockStyle.Fill;
-            fieldTituloFechaConfirmacion.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloFechaConfirmacion.ForeColor = Color.Black;
-            fieldTituloFechaConfirmacion.ImeMode = ImeMode.NoControl;
-            fieldTituloFechaConfirmacion.Location = new Point(787, 1);
-            fieldTituloFechaConfirmacion.Margin = new Padding(1);
-            fieldTituloFechaConfirmacion.Name = "fieldTituloFechaConfirmacion";
-            fieldTituloFechaConfirmacion.Size = new Size(118, 56);
-            fieldTituloFechaConfirmacion.TabIndex = 23;
-            fieldTituloFechaConfirmacion.Text = "Fecha de confirmación";
-            fieldTituloFechaConfirmacion.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloNumeroTelefonoRemitente
-            // 
-            fieldTituloNumeroTelefonoRemitente.Dock = DockStyle.Fill;
-            fieldTituloNumeroTelefonoRemitente.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloNumeroTelefonoRemitente.ForeColor = Color.Black;
-            fieldTituloNumeroTelefonoRemitente.ImeMode = ImeMode.NoControl;
-            fieldTituloNumeroTelefonoRemitente.Location = new Point(427, 1);
-            fieldTituloNumeroTelefonoRemitente.Margin = new Padding(1);
-            fieldTituloNumeroTelefonoRemitente.Name = "fieldTituloNumeroTelefonoRemitente";
-            fieldTituloNumeroTelefonoRemitente.Size = new Size(118, 56);
-            fieldTituloNumeroTelefonoRemitente.TabIndex = 24;
-            fieldTituloNumeroTelefonoRemitente.Text = "Número del remitente";
-            fieldTituloNumeroTelefonoRemitente.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // fieldTituloNumeroTransferencia
-            // 
-            fieldTituloNumeroTransferencia.Dock = DockStyle.Fill;
-            fieldTituloNumeroTransferencia.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            fieldTituloNumeroTransferencia.ForeColor = Color.Black;
-            fieldTituloNumeroTransferencia.ImeMode = ImeMode.NoControl;
-            fieldTituloNumeroTransferencia.Location = new Point(547, 1);
-            fieldTituloNumeroTransferencia.Margin = new Padding(1);
-            fieldTituloNumeroTransferencia.Name = "fieldTituloNumeroTransferencia";
-            fieldTituloNumeroTransferencia.Size = new Size(118, 56);
-            fieldTituloNumeroTransferencia.TabIndex = 25;
-            fieldTituloNumeroTransferencia.Text = "Número de transferencia";
-            fieldTituloNumeroTransferencia.TextAlign = ContentAlignment.MiddleCenter;
+            fieldPaginasTotales.Dock = DockStyle.Fill;
+            fieldPaginasTotales.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldPaginasTotales.ForeColor = Color.DimGray;
+            fieldPaginasTotales.ImeMode = ImeMode.NoControl;
+            fieldPaginasTotales.Location = new Point(210, 1);
+            fieldPaginasTotales.Margin = new Padding(0, 1, 1, 1);
+            fieldPaginasTotales.Name = "fieldPaginasTotales";
+            fieldPaginasTotales.Size = new Size(99, 40);
+            fieldPaginasTotales.TabIndex = 6;
+            fieldPaginasTotales.Text = "DE 1";
+            fieldPaginasTotales.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // layoutTitulo
             // 
@@ -685,197 +454,443 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             fieldSubtitulo.Name = "fieldSubtitulo";
             fieldSubtitulo.Size = new Size(1280, 29);
             fieldSubtitulo.TabIndex = 2;
-            fieldSubtitulo.Text = "Registro, edición y búsqueda de pagos.";
+            fieldSubtitulo.Text = "Listado de transacciones, búsqueda, filtros y acceso al detalle";
+            // 
+            // layoutFiltroHerramientas
+            // 
+            layoutFiltroHerramientas.Controls.Add(fieldTituloFiltroBusqueda);
+            layoutFiltroHerramientas.Controls.Add(fieldFiltroBusqueda);
+            layoutFiltroHerramientas.Controls.Add(fieldCriterioBusqueda);
+            layoutFiltroHerramientas.Controls.Add(fieldTituloDesde);
+            layoutFiltroHerramientas.Controls.Add(fieldFiltroBusquedaFechaDesde);
+            layoutFiltroHerramientas.Controls.Add(fieldTituloHasta);
+            layoutFiltroHerramientas.Controls.Add(fieldFiltroBusquedaFechaHasta);
+            layoutFiltroHerramientas.Controls.Add(btnRegistrar);
+            layoutFiltroHerramientas.Dock = DockStyle.Fill;
+            layoutFiltroHerramientas.Location = new Point(50, 100);
+            layoutFiltroHerramientas.Margin = new Padding(0);
+            layoutFiltroHerramientas.Name = "layoutFiltroHerramientas";
+            layoutFiltroHerramientas.Size = new Size(1286, 45);
+            layoutFiltroHerramientas.TabIndex = 84;
+            // 
+            // fieldTituloFiltroBusqueda
+            // 
+            fieldTituloFiltroBusqueda.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloFiltroBusqueda.ForeColor = Color.DimGray;
+            fieldTituloFiltroBusqueda.ImeMode = ImeMode.NoControl;
+            fieldTituloFiltroBusqueda.Location = new Point(1, 1);
+            fieldTituloFiltroBusqueda.Margin = new Padding(1);
+            fieldTituloFiltroBusqueda.Name = "fieldTituloFiltroBusqueda";
+            fieldTituloFiltroBusqueda.Size = new Size(96, 40);
+            fieldTituloFiltroBusqueda.TabIndex = 15;
+            fieldTituloFiltroBusqueda.Text = "FILTRAR POR :";
+            fieldTituloFiltroBusqueda.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldFiltroBusqueda
+            // 
+            fieldFiltroBusqueda.Animated = true;
+            fieldFiltroBusqueda.BackColor = Color.Transparent;
+            fieldFiltroBusqueda.BorderColor = Color.Gainsboro;
+            fieldFiltroBusqueda.BorderRadius = 16;
+            fieldFiltroBusqueda.CustomizableEdges = customizableEdges13;
+            fieldFiltroBusqueda.DrawMode = DrawMode.OwnerDrawFixed;
+            fieldFiltroBusqueda.DropDownStyle = ComboBoxStyle.DropDownList;
+            fieldFiltroBusqueda.FocusedColor = Color.Gainsboro;
+            fieldFiltroBusqueda.FocusedState.BorderColor = Color.Gainsboro;
+            fieldFiltroBusqueda.Font = new Font("Segoe UI", 11.25F);
+            fieldFiltroBusqueda.ForeColor = Color.Black;
+            fieldFiltroBusqueda.ItemHeight = 29;
+            fieldFiltroBusqueda.Location = new Point(101, 5);
+            fieldFiltroBusqueda.Margin = new Padding(3, 5, 3, 5);
+            fieldFiltroBusqueda.Name = "fieldFiltroBusqueda";
+            fieldFiltroBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            fieldFiltroBusqueda.Size = new Size(220, 35);
+            fieldFiltroBusqueda.TabIndex = 27;
+            fieldFiltroBusqueda.TextOffset = new Point(10, 0);
+            // 
+            // fieldCriterioBusqueda
+            // 
+            fieldCriterioBusqueda.Animated = true;
+            fieldCriterioBusqueda.BackColor = Color.FromArgb(  254,   254,   253);
+            fieldCriterioBusqueda.BorderColor = Color.Gainsboro;
+            fieldCriterioBusqueda.BorderRadius = 18;
+            fieldCriterioBusqueda.Cursor = Cursors.IBeam;
+            fieldCriterioBusqueda.CustomizableEdges = customizableEdges15;
+            fieldCriterioBusqueda.DefaultText = "";
+            fieldCriterioBusqueda.DisabledState.BorderColor = Color.White;
+            fieldCriterioBusqueda.DisabledState.ForeColor = Color.DimGray;
+            fieldCriterioBusqueda.DisabledState.PlaceholderForeColor = Color.DimGray;
+            fieldCriterioBusqueda.FocusedState.BorderColor = Color.SandyBrown;
+            fieldCriterioBusqueda.Font = new Font("Segoe UI", 11.25F);
+            fieldCriterioBusqueda.ForeColor = Color.Black;
+            fieldCriterioBusqueda.HoverState.BorderColor = Color.SandyBrown;
+            fieldCriterioBusqueda.IconLeft = (Image) resources.GetObject("fieldCriterioBusqueda.IconLeft");
+            fieldCriterioBusqueda.IconLeftOffset = new Point(10, 1);
+            fieldCriterioBusqueda.IconRightOffset = new Point(10, 0);
+            fieldCriterioBusqueda.Location = new Point(327, 5);
+            fieldCriterioBusqueda.Margin = new Padding(3, 5, 3, 5);
+            fieldCriterioBusqueda.Name = "fieldCriterioBusqueda";
+            fieldCriterioBusqueda.PasswordChar = '\0';
+            fieldCriterioBusqueda.PlaceholderForeColor = Color.DimGray;
+            fieldCriterioBusqueda.PlaceholderText = "Criterio de búsqueda";
+            fieldCriterioBusqueda.SelectedText = "";
+            fieldCriterioBusqueda.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            fieldCriterioBusqueda.Size = new Size(220, 35);
+            fieldCriterioBusqueda.TabIndex = 9;
+            fieldCriterioBusqueda.TextOffset = new Point(5, 0);
+            fieldCriterioBusqueda.Visible = false;
+            // 
+            // fieldTituloDesde
+            // 
+            fieldTituloDesde.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloDesde.ForeColor = Color.DimGray;
+            fieldTituloDesde.ImeMode = ImeMode.NoControl;
+            fieldTituloDesde.Location = new Point(551, 1);
+            fieldTituloDesde.Margin = new Padding(1);
+            fieldTituloDesde.Name = "fieldTituloDesde";
+            fieldTituloDesde.Size = new Size(57, 40);
+            fieldTituloDesde.TabIndex = 28;
+            fieldTituloDesde.Text = "DESDE :";
+            fieldTituloDesde.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldFiltroBusquedaFechaDesde
+            // 
+            fieldFiltroBusquedaFechaDesde.Animated = true;
+            fieldFiltroBusquedaFechaDesde.AutoRoundedCorners = true;
+            fieldFiltroBusquedaFechaDesde.BackColor = Color.White;
+            fieldFiltroBusquedaFechaDesde.BorderColor = Color.Gainsboro;
+            fieldFiltroBusquedaFechaDesde.BorderRadius = 16;
+            fieldFiltroBusquedaFechaDesde.BorderThickness = 1;
+            fieldFiltroBusquedaFechaDesde.Checked = true;
+            fieldFiltroBusquedaFechaDesde.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFiltroBusquedaFechaDesde.CheckedState.FillColor = Color.White;
+            fieldFiltroBusquedaFechaDesde.CheckedState.ForeColor = Color.Black;
+            fieldFiltroBusquedaFechaDesde.CustomFormat = "yyyy-MM-dd";
+            fieldFiltroBusquedaFechaDesde.CustomizableEdges = customizableEdges17;
+            fieldFiltroBusquedaFechaDesde.FillColor = Color.White;
+            fieldFiltroBusquedaFechaDesde.Font = new Font("Segoe UI", 11.25F);
+            fieldFiltroBusquedaFechaDesde.ForeColor = Color.Black;
+            fieldFiltroBusquedaFechaDesde.Format = DateTimePickerFormat.Custom;
+            fieldFiltroBusquedaFechaDesde.Location = new Point(614, 5);
+            fieldFiltroBusquedaFechaDesde.Margin = new Padding(5);
+            fieldFiltroBusquedaFechaDesde.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFiltroBusquedaFechaDesde.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFiltroBusquedaFechaDesde.Name = "fieldFiltroBusquedaFechaDesde";
+            fieldFiltroBusquedaFechaDesde.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            fieldFiltroBusquedaFechaDesde.Size = new Size(134, 35);
+            fieldFiltroBusquedaFechaDesde.TabIndex = 29;
+            fieldFiltroBusquedaFechaDesde.Value = new DateTime(2026, 2, 5, 17, 13, 37, 0);
+            // 
+            // fieldTituloHasta
+            // 
+            fieldTituloHasta.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloHasta.ForeColor = Color.DimGray;
+            fieldTituloHasta.ImeMode = ImeMode.NoControl;
+            fieldTituloHasta.Location = new Point(754, 1);
+            fieldTituloHasta.Margin = new Padding(1);
+            fieldTituloHasta.Name = "fieldTituloHasta";
+            fieldTituloHasta.Size = new Size(58, 40);
+            fieldTituloHasta.TabIndex = 30;
+            fieldTituloHasta.Text = "HASTA :";
+            fieldTituloHasta.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldFiltroBusquedaFechaHasta
+            // 
+            fieldFiltroBusquedaFechaHasta.Animated = true;
+            fieldFiltroBusquedaFechaHasta.AutoRoundedCorners = true;
+            fieldFiltroBusquedaFechaHasta.BackColor = Color.White;
+            fieldFiltroBusquedaFechaHasta.BorderColor = Color.Gainsboro;
+            fieldFiltroBusquedaFechaHasta.BorderRadius = 16;
+            fieldFiltroBusquedaFechaHasta.BorderThickness = 1;
+            fieldFiltroBusquedaFechaHasta.Checked = true;
+            fieldFiltroBusquedaFechaHasta.CheckedState.BorderColor = Color.Gainsboro;
+            fieldFiltroBusquedaFechaHasta.CheckedState.FillColor = Color.White;
+            fieldFiltroBusquedaFechaHasta.CheckedState.ForeColor = Color.Black;
+            fieldFiltroBusquedaFechaHasta.CustomFormat = "yyyy-MM-dd";
+            fieldFiltroBusquedaFechaHasta.CustomizableEdges = customizableEdges19;
+            fieldFiltroBusquedaFechaHasta.FillColor = Color.White;
+            fieldFiltroBusquedaFechaHasta.Font = new Font("Segoe UI", 11.25F);
+            fieldFiltroBusquedaFechaHasta.ForeColor = Color.Black;
+            fieldFiltroBusquedaFechaHasta.Format = DateTimePickerFormat.Custom;
+            fieldFiltroBusquedaFechaHasta.Location = new Point(818, 5);
+            fieldFiltroBusquedaFechaHasta.Margin = new Padding(5);
+            fieldFiltroBusquedaFechaHasta.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            fieldFiltroBusquedaFechaHasta.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            fieldFiltroBusquedaFechaHasta.Name = "fieldFiltroBusquedaFechaHasta";
+            fieldFiltroBusquedaFechaHasta.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            fieldFiltroBusquedaFechaHasta.Size = new Size(134, 35);
+            fieldFiltroBusquedaFechaHasta.TabIndex = 31;
+            fieldFiltroBusquedaFechaHasta.Value = new DateTime(2026, 2, 5, 17, 13, 37, 0);
+            // 
+            // btnRegistrar
+            // 
+            btnRegistrar.Animated = true;
+            btnRegistrar.AutoRoundedCorners = true;
+            btnRegistrar.BackColor = Color.White;
+            btnRegistrar.BorderRadius = 16;
+            btnRegistrar.CustomizableEdges = customizableEdges21;
+            btnRegistrar.FillColor = Color.PeachPuff;
+            btnRegistrar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnRegistrar.ForeColor = Color.Black;
+            btnRegistrar.Image = (Image) resources.GetObject("btnRegistrar.Image");
+            btnRegistrar.Location = new Point(960, 5);
+            btnRegistrar.Margin = new Padding(3, 5, 3, 5);
+            btnRegistrar.Name = "btnRegistrar";
+            btnRegistrar.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            btnRegistrar.Size = new Size(180, 35);
+            btnRegistrar.TabIndex = 7;
+            btnRegistrar.Text = "Nuevo pago manual";
+            // 
+            // panelEncabezadosTabla
+            // 
+            panelEncabezadosTabla.BackColor = Color.Transparent;
+            panelEncabezadosTabla.BorderColor = Color.Gainsboro;
+            panelEncabezadosTabla.BorderRadius = 8;
+            panelEncabezadosTabla.BorderThickness = 1;
+            panelEncabezadosTabla.Controls.Add(layoutEncabezadosTabla);
+            panelEncabezadosTabla.CustomBorderThickness = new Padding(1, 1, 1, 3);
+            customizableEdges23.BottomLeft = false;
+            customizableEdges23.BottomRight = false;
+            panelEncabezadosTabla.CustomizableEdges = customizableEdges23;
+            panelEncabezadosTabla.Dock = DockStyle.Fill;
+            panelEncabezadosTabla.FillColor = SystemColors.ButtonFace;
+            panelEncabezadosTabla.Location = new Point(50, 155);
+            panelEncabezadosTabla.Margin = new Padding(0);
+            panelEncabezadosTabla.Name = "panelEncabezadosTabla";
+            panelEncabezadosTabla.ShadowDecoration.BorderRadius = 8;
+            panelEncabezadosTabla.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            panelEncabezadosTabla.ShadowDecoration.Depth = 10;
+            panelEncabezadosTabla.Size = new Size(1286, 42);
+            panelEncabezadosTabla.TabIndex = 90;
+            // 
+            // layoutEncabezadosTabla
+            // 
+            layoutEncabezadosTabla.BackColor = Color.Transparent;
+            layoutEncabezadosTabla.ColumnCount = 10;
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            layoutEncabezadosTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 74F));
+            layoutEncabezadosTabla.Controls.Add(fieldTituloAcciones, 9, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloMonto, 7, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloEstado, 8, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloFechaPago, 5, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloFechaConfirmacion, 6, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroTelefonoRemitente, 3, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroTransferencia, 4, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloId, 0, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloMetodoPago, 2, 0);
+            layoutEncabezadosTabla.Controls.Add(fieldTituloNumeroFactura, 1, 0);
+            layoutEncabezadosTabla.Dock = DockStyle.Fill;
+            layoutEncabezadosTabla.Location = new Point(0, 0);
+            layoutEncabezadosTabla.Margin = new Padding(0, 0, 0, 2);
+            layoutEncabezadosTabla.Name = "layoutEncabezadosTabla";
+            layoutEncabezadosTabla.RowCount = 1;
+            layoutEncabezadosTabla.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutEncabezadosTabla.Size = new Size(1286, 42);
+            layoutEncabezadosTabla.TabIndex = 19;
+            // 
+            // fieldTituloAcciones
+            // 
+            fieldTituloAcciones.Dock = DockStyle.Fill;
+            fieldTituloAcciones.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloAcciones.ForeColor = Color.DimGray;
+            fieldTituloAcciones.ImeMode = ImeMode.NoControl;
+            fieldTituloAcciones.Location = new Point(1213, 1);
+            fieldTituloAcciones.Margin = new Padding(1);
+            fieldTituloAcciones.Name = "fieldTituloAcciones";
+            fieldTituloAcciones.Size = new Size(72, 40);
+            fieldTituloAcciones.TabIndex = 26;
+            fieldTituloAcciones.Text = "ACCIONES";
+            fieldTituloAcciones.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloMonto
+            // 
+            fieldTituloMonto.Dock = DockStyle.Fill;
+            fieldTituloMonto.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloMonto.ForeColor = Color.DimGray;
+            fieldTituloMonto.ImeMode = ImeMode.NoControl;
+            fieldTituloMonto.Location = new Point(953, 1);
+            fieldTituloMonto.Margin = new Padding(1);
+            fieldTituloMonto.Name = "fieldTituloMonto";
+            fieldTituloMonto.Size = new Size(128, 40);
+            fieldTituloMonto.TabIndex = 19;
+            fieldTituloMonto.Text = "MONTO";
+            fieldTituloMonto.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // fieldTituloEstado
+            // 
+            fieldTituloEstado.Dock = DockStyle.Fill;
+            fieldTituloEstado.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloEstado.ForeColor = Color.DimGray;
+            fieldTituloEstado.ImeMode = ImeMode.NoControl;
+            fieldTituloEstado.Location = new Point(1083, 1);
+            fieldTituloEstado.Margin = new Padding(1);
+            fieldTituloEstado.Name = "fieldTituloEstado";
+            fieldTituloEstado.Size = new Size(128, 40);
+            fieldTituloEstado.TabIndex = 20;
+            fieldTituloEstado.Text = "ESTADO";
+            fieldTituloEstado.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloFechaPago
+            // 
+            fieldTituloFechaPago.Dock = DockStyle.Fill;
+            fieldTituloFechaPago.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloFechaPago.ForeColor = Color.DimGray;
+            fieldTituloFechaPago.ImeMode = ImeMode.NoControl;
+            fieldTituloFechaPago.Location = new Point(713, 1);
+            fieldTituloFechaPago.Margin = new Padding(1);
+            fieldTituloFechaPago.Name = "fieldTituloFechaPago";
+            fieldTituloFechaPago.Size = new Size(118, 40);
+            fieldTituloFechaPago.TabIndex = 16;
+            fieldTituloFechaPago.Text = "FECHA DEL PAGO";
+            fieldTituloFechaPago.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloFechaConfirmacion
+            // 
+            fieldTituloFechaConfirmacion.Dock = DockStyle.Fill;
+            fieldTituloFechaConfirmacion.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloFechaConfirmacion.ForeColor = Color.DimGray;
+            fieldTituloFechaConfirmacion.ImeMode = ImeMode.NoControl;
+            fieldTituloFechaConfirmacion.Location = new Point(833, 1);
+            fieldTituloFechaConfirmacion.Margin = new Padding(1);
+            fieldTituloFechaConfirmacion.Name = "fieldTituloFechaConfirmacion";
+            fieldTituloFechaConfirmacion.Size = new Size(118, 40);
+            fieldTituloFechaConfirmacion.TabIndex = 23;
+            fieldTituloFechaConfirmacion.Text = "FECHA DE CONFIRMACIÓN";
+            fieldTituloFechaConfirmacion.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloNumeroTelefonoRemitente
+            // 
+            fieldTituloNumeroTelefonoRemitente.Dock = DockStyle.Fill;
+            fieldTituloNumeroTelefonoRemitente.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloNumeroTelefonoRemitente.ForeColor = Color.DimGray;
+            fieldTituloNumeroTelefonoRemitente.ImeMode = ImeMode.NoControl;
+            fieldTituloNumeroTelefonoRemitente.Location = new Point(473, 1);
+            fieldTituloNumeroTelefonoRemitente.Margin = new Padding(1);
+            fieldTituloNumeroTelefonoRemitente.Name = "fieldTituloNumeroTelefonoRemitente";
+            fieldTituloNumeroTelefonoRemitente.Size = new Size(118, 40);
+            fieldTituloNumeroTelefonoRemitente.TabIndex = 24;
+            fieldTituloNumeroTelefonoRemitente.Text = "NÚMERO DEL REMITENTE";
+            fieldTituloNumeroTelefonoRemitente.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloNumeroTransferencia
+            // 
+            fieldTituloNumeroTransferencia.Dock = DockStyle.Fill;
+            fieldTituloNumeroTransferencia.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloNumeroTransferencia.ForeColor = Color.DimGray;
+            fieldTituloNumeroTransferencia.ImeMode = ImeMode.NoControl;
+            fieldTituloNumeroTransferencia.Location = new Point(593, 1);
+            fieldTituloNumeroTransferencia.Margin = new Padding(1);
+            fieldTituloNumeroTransferencia.Name = "fieldTituloNumeroTransferencia";
+            fieldTituloNumeroTransferencia.Size = new Size(118, 40);
+            fieldTituloNumeroTransferencia.TabIndex = 25;
+            fieldTituloNumeroTransferencia.Text = "NÚMERO DE TRANSACCIÓN";
+            fieldTituloNumeroTransferencia.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloId
+            // 
+            fieldTituloId.Dock = DockStyle.Fill;
+            fieldTituloId.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloId.ForeColor = Color.DimGray;
+            fieldTituloId.ImeMode = ImeMode.NoControl;
+            fieldTituloId.Location = new Point(1, 1);
+            fieldTituloId.Margin = new Padding(1);
+            fieldTituloId.Name = "fieldTituloId";
+            fieldTituloId.Size = new Size(58, 40);
+            fieldTituloId.TabIndex = 14;
+            fieldTituloId.Text = "ID";
+            fieldTituloId.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloMetodoPago
+            // 
+            fieldTituloMetodoPago.Dock = DockStyle.Fill;
+            fieldTituloMetodoPago.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloMetodoPago.ForeColor = Color.DimGray;
+            fieldTituloMetodoPago.ImeMode = ImeMode.NoControl;
+            fieldTituloMetodoPago.Location = new Point(221, 1);
+            fieldTituloMetodoPago.Margin = new Padding(1);
+            fieldTituloMetodoPago.Name = "fieldTituloMetodoPago";
+            fieldTituloMetodoPago.Size = new Size(250, 40);
+            fieldTituloMetodoPago.TabIndex = 22;
+            fieldTituloMetodoPago.Text = "CANAL DE PAGO";
+            fieldTituloMetodoPago.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // fieldTituloNumeroFactura
+            // 
+            fieldTituloNumeroFactura.Dock = DockStyle.Fill;
+            fieldTituloNumeroFactura.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            fieldTituloNumeroFactura.ForeColor = Color.DimGray;
+            fieldTituloNumeroFactura.ImeMode = ImeMode.NoControl;
+            fieldTituloNumeroFactura.Location = new Point(61, 1);
+            fieldTituloNumeroFactura.Margin = new Padding(1);
+            fieldTituloNumeroFactura.Name = "fieldTituloNumeroFactura";
+            fieldTituloNumeroFactura.Size = new Size(158, 40);
+            fieldTituloNumeroFactura.TabIndex = 21;
+            fieldTituloNumeroFactura.Text = "N° DE FACTURA";
+            fieldTituloNumeroFactura.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // layoutContenedorVistas
+            // 
+            layoutContenedorVistas.BackColor = Color.Gainsboro;
+            layoutContenedorVistas.ColumnCount = 1;
+            layoutContenedorVistas.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            layoutContenedorVistas.Controls.Add(contenedorVistas, 0, 0);
+            layoutContenedorVistas.Dock = DockStyle.Fill;
+            layoutContenedorVistas.Location = new Point(50, 197);
+            layoutContenedorVistas.Margin = new Padding(0);
+            layoutContenedorVistas.Name = "layoutContenedorVistas";
+            layoutContenedorVistas.RowCount = 1;
+            layoutContenedorVistas.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            layoutContenedorVistas.Size = new Size(1286, 279);
+            layoutContenedorVistas.TabIndex = 91;
             // 
             // contenedorVistas
             // 
+            contenedorVistas.BackColor = Color.White;
             contenedorVistas.Dock = DockStyle.Fill;
-            contenedorVistas.Location = new Point(50, 335);
-            contenedorVistas.Margin = new Padding(0);
+            contenedorVistas.Location = new Point(1, 1);
+            contenedorVistas.Margin = new Padding(1, 1, 1, 0);
             contenedorVistas.Name = "contenedorVistas";
-            contenedorVistas.Size = new Size(1286, 218);
+            contenedorVistas.Size = new Size(1284, 278);
             contenedorVistas.TabIndex = 13;
             // 
-            // layoutControlesTabla
+            // layoutTituloTotales
             // 
-            layoutControlesTabla.BackColor = Color.WhiteSmoke;
-            layoutControlesTabla.ColumnCount = 13;
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 35F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
-            layoutControlesTabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layoutControlesTabla.Controls.Add(btnPaginaAnterior, 1, 0);
-            layoutControlesTabla.Controls.Add(btnPrimeraPagina, 0, 0);
-            layoutControlesTabla.Controls.Add(btnPaginaSiguiente, 6, 0);
-            layoutControlesTabla.Controls.Add(btnUltimaPagina, 7, 0);
-            layoutControlesTabla.Controls.Add(btnSincronizarDatos, 9, 0);
-            layoutControlesTabla.Controls.Add(fieldPaginaActual, 3, 0);
-            layoutControlesTabla.Controls.Add(fieldPaginasTotales, 4, 0);
-            layoutControlesTabla.Dock = DockStyle.Fill;
-            layoutControlesTabla.Location = new Point(50, 553);
-            layoutControlesTabla.Margin = new Padding(0);
-            layoutControlesTabla.Name = "layoutControlesTabla";
-            layoutControlesTabla.RowCount = 1;
-            layoutControlesTabla.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutControlesTabla.Size = new Size(1286, 35);
-            layoutControlesTabla.TabIndex = 17;
+            layoutTituloTotales.ColumnCount = 4;
+            layoutTituloTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            layoutTituloTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            layoutTituloTotales.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F));
+            layoutTituloTotales.Controls.Add(fieldTituloTotalPagos, 3, 0);
+            layoutTituloTotales.Dock = DockStyle.Fill;
+            layoutTituloTotales.Location = new Point(50, 528);
+            layoutTituloTotales.Margin = new Padding(0);
+            layoutTituloTotales.Name = "layoutTituloTotales";
+            layoutTituloTotales.RowCount = 1;
+            layoutTituloTotales.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layoutTituloTotales.Size = new Size(1286, 25);
+            layoutTituloTotales.TabIndex = 87;
             // 
-            // btnPaginaAnterior
+            // fieldTituloTotalPagos
             // 
-            btnPaginaAnterior.Animated = true;
-            btnPaginaAnterior.BackColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CheckedState.BorderColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.CustomImages.Image = (Image) resources.GetObject("resource.Image");
-            btnPaginaAnterior.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnPaginaAnterior.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaAnterior.CustomizableEdges = customizableEdges11;
-            btnPaginaAnterior.Dock = DockStyle.Fill;
-            btnPaginaAnterior.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.Font = new Font("Segoe UI", 9F);
-            btnPaginaAnterior.ForeColor = Color.White;
-            btnPaginaAnterior.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
-            btnPaginaAnterior.HoverState.FillColor = Color.WhiteSmoke;
-            btnPaginaAnterior.ImageSize = new Size(24, 24);
-            btnPaginaAnterior.Location = new Point(36, 1);
-            btnPaginaAnterior.Margin = new Padding(1);
-            btnPaginaAnterior.Name = "btnPaginaAnterior";
-            btnPaginaAnterior.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            btnPaginaAnterior.Size = new Size(33, 33);
-            btnPaginaAnterior.TabIndex = 1;
-            // 
-            // btnPrimeraPagina
-            // 
-            btnPrimeraPagina.Animated = true;
-            btnPrimeraPagina.BackColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CheckedState.BorderColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
-            btnPrimeraPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnPrimeraPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnPrimeraPagina.CustomizableEdges = customizableEdges13;
-            btnPrimeraPagina.Dock = DockStyle.Fill;
-            btnPrimeraPagina.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.Font = new Font("Segoe UI", 9F);
-            btnPrimeraPagina.ForeColor = Color.White;
-            btnPrimeraPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
-            btnPrimeraPagina.HoverState.FillColor = Color.WhiteSmoke;
-            btnPrimeraPagina.ImageSize = new Size(24, 24);
-            btnPrimeraPagina.Location = new Point(1, 1);
-            btnPrimeraPagina.Margin = new Padding(1);
-            btnPrimeraPagina.Name = "btnPrimeraPagina";
-            btnPrimeraPagina.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            btnPrimeraPagina.Size = new Size(33, 33);
-            btnPrimeraPagina.TabIndex = 0;
-            // 
-            // btnPaginaSiguiente
-            // 
-            btnPaginaSiguiente.Animated = true;
-            btnPaginaSiguiente.BackColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CheckedState.BorderColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CheckedState.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
-            btnPaginaSiguiente.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnPaginaSiguiente.CustomImages.ImageSize = new Size(24, 24);
-            btnPaginaSiguiente.CustomizableEdges = customizableEdges15;
-            btnPaginaSiguiente.Dock = DockStyle.Fill;
-            btnPaginaSiguiente.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.Font = new Font("Segoe UI", 9F);
-            btnPaginaSiguiente.ForeColor = Color.White;
-            btnPaginaSiguiente.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
-            btnPaginaSiguiente.HoverState.FillColor = Color.WhiteSmoke;
-            btnPaginaSiguiente.ImageSize = new Size(24, 24);
-            btnPaginaSiguiente.Location = new Point(311, 1);
-            btnPaginaSiguiente.Margin = new Padding(1);
-            btnPaginaSiguiente.Name = "btnPaginaSiguiente";
-            btnPaginaSiguiente.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            btnPaginaSiguiente.Size = new Size(33, 33);
-            btnPaginaSiguiente.TabIndex = 2;
-            // 
-            // btnUltimaPagina
-            // 
-            btnUltimaPagina.Animated = true;
-            btnUltimaPagina.BackColor = Color.WhiteSmoke;
-            btnUltimaPagina.CheckedState.BorderColor = Color.WhiteSmoke;
-            btnUltimaPagina.CheckedState.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.CustomImages.Image = (Image) resources.GetObject("resource.Image3");
-            btnUltimaPagina.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnUltimaPagina.CustomImages.ImageSize = new Size(24, 24);
-            btnUltimaPagina.CustomizableEdges = customizableEdges17;
-            btnUltimaPagina.Dock = DockStyle.Fill;
-            btnUltimaPagina.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.Font = new Font("Segoe UI", 9F);
-            btnUltimaPagina.ForeColor = Color.White;
-            btnUltimaPagina.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
-            btnUltimaPagina.HoverState.FillColor = Color.WhiteSmoke;
-            btnUltimaPagina.ImageSize = new Size(24, 24);
-            btnUltimaPagina.Location = new Point(346, 1);
-            btnUltimaPagina.Margin = new Padding(1);
-            btnUltimaPagina.Name = "btnUltimaPagina";
-            btnUltimaPagina.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnUltimaPagina.Size = new Size(33, 33);
-            btnUltimaPagina.TabIndex = 3;
-            // 
-            // btnSincronizarDatos
-            // 
-            btnSincronizarDatos.Animated = true;
-            btnSincronizarDatos.BackColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CheckedState.BorderColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CheckedState.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.CustomImages.Image = (Image) resources.GetObject("resource.Image4");
-            btnSincronizarDatos.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnSincronizarDatos.CustomImages.ImageSize = new Size(24, 24);
-            btnSincronizarDatos.CustomizableEdges = customizableEdges19;
-            btnSincronizarDatos.Dock = DockStyle.Fill;
-            btnSincronizarDatos.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.Font = new Font("Segoe UI", 9F);
-            btnSincronizarDatos.ForeColor = Color.White;
-            btnSincronizarDatos.HoverState.BorderColor = Color.FromArgb(  245,   245,   245);
-            btnSincronizarDatos.HoverState.FillColor = Color.WhiteSmoke;
-            btnSincronizarDatos.ImageSize = new Size(24, 24);
-            btnSincronizarDatos.Location = new Point(391, 1);
-            btnSincronizarDatos.Margin = new Padding(1);
-            btnSincronizarDatos.Name = "btnSincronizarDatos";
-            btnSincronizarDatos.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            btnSincronizarDatos.Size = new Size(33, 33);
-            btnSincronizarDatos.TabIndex = 4;
-            // 
-            // fieldPaginaActual
-            // 
-            fieldPaginaActual.Dock = DockStyle.Fill;
-            fieldPaginaActual.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            fieldPaginaActual.ForeColor = Color.Black;
-            fieldPaginaActual.ImeMode = ImeMode.NoControl;
-            fieldPaginaActual.Location = new Point(81, 1);
-            fieldPaginaActual.Margin = new Padding(1, 1, 0, 1);
-            fieldPaginaActual.Name = "fieldPaginaActual";
-            fieldPaginaActual.Size = new Size(119, 33);
-            fieldPaginaActual.TabIndex = 5;
-            fieldPaginaActual.Text = "Página 1";
-            fieldPaginaActual.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // fieldPaginasTotales
-            // 
-            fieldPaginasTotales.Dock = DockStyle.Fill;
-            fieldPaginasTotales.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            fieldPaginasTotales.ForeColor = Color.Black;
-            fieldPaginasTotales.ImeMode = ImeMode.NoControl;
-            fieldPaginasTotales.Location = new Point(200, 1);
-            fieldPaginasTotales.Margin = new Padding(0, 1, 1, 1);
-            fieldPaginasTotales.Name = "fieldPaginasTotales";
-            fieldPaginasTotales.Size = new Size(99, 33);
-            fieldPaginasTotales.TabIndex = 6;
-            fieldPaginasTotales.Text = "de 1";
-            fieldPaginasTotales.TextAlign = ContentAlignment.MiddleLeft;
+            fieldTituloTotalPagos.Dock = DockStyle.Fill;
+            fieldTituloTotalPagos.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point,  0);
+            fieldTituloTotalPagos.ForeColor = Color.DimGray;
+            fieldTituloTotalPagos.ImeMode = ImeMode.NoControl;
+            fieldTituloTotalPagos.Location = new Point(1087, 1);
+            fieldTituloTotalPagos.Margin = new Padding(1);
+            fieldTituloTotalPagos.Name = "fieldTituloTotalPagos";
+            fieldTituloTotalPagos.Size = new Size(198, 23);
+            fieldTituloTotalPagos.TabIndex = 28;
+            fieldTituloTotalPagos.Text = "TOTAL PAGOS";
+            fieldTituloTotalPagos.TextAlign = ContentAlignment.MiddleRight;
             // 
             // layoutPago
             // 
@@ -936,17 +951,16 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             StartPosition = FormStartPosition.Manual;
             Text = "VistGestionProveedor";
             layoutVista.ResumeLayout(false);
-            layoutSeparadores.ResumeLayout(false);
-            layoutHerramientas.ResumeLayout(false);
-            layoutFechaHasta.ResumeLayout(false);
-            panelDatosComplementariosBusqueda.ResumeLayout(false);
-            layoutFechaDesde.ResumeLayout(false);
-            layoutTituloHerramientas.ResumeLayout(false);
-            panelBotonesGestion.ResumeLayout(false);
-            layoutEncabezadosTabla.ResumeLayout(false);
+            layoutTotales.ResumeLayout(false);
+            panelControlesTabla.ResumeLayout(false);
+            layoutControlesTabla.ResumeLayout(false);
             layoutTitulo.ResumeLayout(false);
             ((ISupportInitialize) fieldIcono).EndInit();
-            layoutControlesTabla.ResumeLayout(false);
+            layoutFiltroHerramientas.ResumeLayout(false);
+            panelEncabezadosTabla.ResumeLayout(false);
+            layoutEncabezadosTabla.ResumeLayout(false);
+            layoutContenedorVistas.ResumeLayout(false);
+            layoutTituloTotales.ResumeLayout(false);
             layoutPago.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -960,7 +974,32 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private PictureBox fieldIcono;
         private Label fieldSubtitulo;
         private Label fieldTituloId;
+        private TableLayoutPanel layoutEncabezadosTabla;
+        private Label fieldTituloFechaPago;
+        private TableLayoutPanel layoutPago;
+        private Label symbolPeso;
+        private Label fieldTotalVenta;
+        private Label fieldTituloMonto;
+        private Label fieldTituloEstado;
+        private Label fieldTituloNumeroFactura;
+        private Label fieldTituloMetodoPago;
+        private Label fieldTituloFechaConfirmacion;
+        private Label fieldTituloNumeroTelefonoRemitente;
+        private Label fieldTituloNumeroTransferencia;
+        private FlowLayoutPanel layoutFiltroHerramientas;
+        private Label fieldTituloFiltroBusqueda;
+        private Guna2ComboBox fieldFiltroBusqueda;
+        private Guna2TextBox fieldCriterioBusqueda;
+        private Label fieldTituloDesde;
+        private Guna2DateTimePicker fieldFiltroBusquedaFechaDesde;
+        private Label fieldTituloHasta;
+        private Guna2DateTimePicker fieldFiltroBusquedaFechaHasta;
+        private Guna2Button btnRegistrar;
+        private Guna2Panel panelEncabezadosTabla;
+        private Label fieldTituloAcciones;
+        private TableLayoutPanel layoutContenedorVistas;
         private Panel contenedorVistas;
+        private Guna2Panel panelControlesTabla;
         private TableLayoutPanel layoutControlesTabla;
         private Guna2Button btnPaginaAnterior;
         private Guna2Button btnPrimeraPagina;
@@ -969,35 +1008,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         private Guna2Button btnSincronizarDatos;
         private Label fieldPaginaActual;
         private Label fieldPaginasTotales;
-        private TableLayoutPanel layoutEncabezadosTabla;
-        private Label fieldTituloFechaPago;
-        private Panel panelBotonesGestion;
-        private TableLayoutPanel layoutTituloHerramientas;
-        private Label fieldTituloFiltrosBusqueda;
-        private TableLayoutPanel layoutHerramientas;
-        private Guna2TextBox fieldCriterioBusqueda;
-        private Guna2ComboBox fieldFiltroBusqueda;
-        private Panel panelDatosComplementariosBusqueda;
-        private TableLayoutPanel layoutSeparadores;
-        private Guna2Separator separador1;
-        private TableLayoutPanel layoutPago;
-        private Label symbolPeso;
-        private Label fieldTotalVenta;
-        private Label fieldTituloMonto;
-        private Label fieldTituloEstado;
-        private Guna2Separator separador2;
-        private TableLayoutPanel layoutFechaHasta;
-        private Label fieldTextoHasta;
-        private TableLayoutPanel layoutFechaDesde;
-        private Label fieldTextoDesde;
-        private Guna2DateTimePicker fieldFiltroBusquedaFechaHasta;
-        private Guna2DateTimePicker fieldFiltroBusquedaFechaDesde;
-        private Label fieldTituloRangoFechaVentas;
-        private Guna2Button btnRegistrarPedidoManual;
-        private Label fieldTituloNumeroFactura;
-        private Label fieldTituloMetodoPago;
-        private Label fieldTituloFechaConfirmacion;
-        private Label fieldTituloNumeroTelefonoRemitente;
-        private Label fieldTituloNumeroTransferencia;
+        private TableLayoutPanel layoutTituloTotales;
+        private Label fieldTituloTotalPagos;
+        private TableLayoutPanel layoutTotales;
+        private Label fieldTotalPagos;
     }
 }

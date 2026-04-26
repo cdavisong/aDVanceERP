@@ -126,6 +126,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     repoTelefonos.Adicionar(telefonoVista);
                 } else repoTelefonos.Editar(telefonoVista);
             });
+
+            AgregadorEventos.Publicar("ClienteRegistrado", AgregadorEventos.SerializarPayload(Entidad));
         }
 
         protected override bool EntidadCorrecta() {

@@ -2,6 +2,8 @@
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Repositorios.Modulos.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Monedas;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 using aDVanceERP.Modulos.Venta.Interfaces;
 
@@ -10,6 +12,8 @@ using System.Globalization;
 namespace aDVanceERP.Modulos.Venta.Vistas {
     public partial class VistaRegistroPago : Form, IVistaRegistroPago {
         private bool _modoEdicion = false;
+        private Core.Modelos.Modulos.Venta.Venta? _venta = null!;
+        private decimal _montoPendiente;
 
         public VistaRegistroPago() {
             InitializeComponent();
@@ -56,6 +60,26 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => Size = value;
         }
 
+        public Core.Modelos.Modulos.Venta.Venta? Venta {
+            get => _venta;
+            set {
+                _venta = value;
+
+                if (value == null) {
+                    panelDatosVenta.Visible = false;
+                    layoutVista.RowStyles[4].Height = 0;
+                    layoutVista.RowStyles[5].Height = 0;
+                    fieldNumeroFacturaBanner.Text = string.Empty;
+                } else {
+                    panelDatosVenta.Visible = true;
+                    layoutVista.RowStyles[4].Height = 70;
+                    layoutVista.RowStyles[5].Height = 20;
+
+                    ActualizarInformacionVentaSeleccionada(value);
+                }
+            }
+        }
+
         public string NumeroFacturaVenta {
             get => fieldNumeroFactura.SelectedItem?.ToString() ?? string.Empty;
             set {
@@ -73,8 +97,8 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public CanalPagoEnum MetodoPago {
-            get => (CanalPagoEnum) fieldMetodoPago.SelectedIndex;
-            set => fieldMetodoPago.SelectedItem = value.ObtenerNombreDescripcion();
+            get => (CanalPagoEnum) fieldCanalPago.SelectedIndex;
+            set => fieldCanalPago.SelectedItem = value.ObtenerNombreDescripcion();
         }
 
         public decimal MontoPagado {
@@ -82,17 +106,13 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldMonto.Text = value.ToString("N2", CultureInfo.InvariantCulture);
         }
 
-        public decimal SaldoPendiente {
-            get => decimal.TryParse(fieldSaldoPendiente?.Text.Split(':')[1] ?? " 0.00", NumberStyles.Any, CultureInfo.InvariantCulture, out var value) ? value : 0m;
+        public decimal MontoPendiente { 
+            get => _montoPendiente; 
             set {
-                if (fieldSaldoPendiente != null)
-                    fieldSaldoPendiente.Text = $"Saldo pendiente : {value.ToString("N2", CultureInfo.InvariantCulture)}";
-            }
-        }
+                _montoPendiente = value; 
 
-        public bool EstadoPendiente {
-            get => fieldEstadoPendiente.Checked;
-            set => fieldEstadoPendiente.Checked = value;
+                fieldMontoPendiente.Text = $"{RepoMoneda.Instancia.ObtenerMonedaBase().Simbolo} {value.ToString("N2", CultureInfo.InvariantCulture)}";
+            } 
         }
 
         public string NumeroTelefonoRemitente {
@@ -111,25 +131,24 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
 
         public void Inicializar() {
             fieldNumeroFactura.SelectedIndexChanged += delegate {
-                var venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, NumeroFacturaVenta).resultadosBusqueda.Select(v => v.entidadBase).FirstOrDefault();
+                Venta = RepoVenta.Instancia.Buscar(FiltroBusquedaVenta.NumeroFactura, NumeroFacturaVenta).resultadosBusqueda.Select(v => v.entidadBase).FirstOrDefault();
 
-                if (fieldNumeroFactura.SelectedIndex == -1 || venta == null) {
+                if (fieldNumeroFactura.SelectedIndex == -1 || Venta == null) {
                     fieldMonto.Text = string.Empty;
-                    SaldoPendiente = 0;
+                    MontoPendiente = 0;
                     return;
                 }
 
                 // Calcular saldo pendiente de la venta
-                var estadoPago = RepoVenta.Instancia.VerificarEstadoPagoVenta(venta.Id);
-                SaldoPendiente = estadoPago.Saldo;
-                
-                // Establecer monto máximo permitido (saldo pendiente)
-                MontoPagado = estadoPago.Saldo;
+                var estadoPago = RepoVenta.Instancia.VerificarEstadoPagoVenta(Venta.Id);
+                fieldMonto.Text = string.Empty;
+                MontoPendiente = estadoPago.Saldo;
+
             };
-            fieldMetodoPago.SelectedIndexChanged += delegate {
-                separador1.Visible = MetodoPago == CanalPagoEnum.Transferencia;
-                layoutTitulos2.Visible = MetodoPago == CanalPagoEnum.Transferencia;
-                layoutDatos2.Visible = MetodoPago == CanalPagoEnum.Transferencia;
+            fieldCanalPago.SelectedIndexChanged += delegate {
+                separador1.Visible = MetodoPago == CanalPagoEnum.TransferenciaBancaria;
+                layoutTitulos2.Visible = MetodoPago == CanalPagoEnum.TransferenciaBancaria;
+                layoutDatos2.Visible = MetodoPago == CanalPagoEnum.TransferenciaBancaria;
             };
             fieldPaises.SelectedIndexChanged += delegate {
                 fieldPrefijoInternacional.Text = $"{PrefijosInternacionales.ObtenerPrefijo(fieldPaises.Text)}";
@@ -144,6 +163,21 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             btnSalir.Click += delegate (object? sender, EventArgs args) { Ocultar(); };
         }
 
+        private void ActualizarInformacionVentaSeleccionada(Core.Modelos.Modulos.Venta.Venta venta) {
+            var montoAcumulado = RepoPago.Instancia.ObtenerTotalPagadoPorVenta(venta.Id);
+            var canalPagoPrincipal = RepoVenta.Instancia.DeterminarMetodoPagoPrincipal(venta.Id) ?? CanalPagoEnum.NA;
+            var (colorFondo, colorFuente) = ObtenerColorCanal(canalPagoPrincipal);
+
+            // Banner de venta
+            fieldNumeroFacturaBanner.Text = venta.NumeroFacturaTicket;
+            fieldMontoAcumuladoBanner.Text = $"{RepoMoneda.Instancia.ObtenerMonedaBase().Simbolo} {montoAcumulado.ToString("N2", CultureInfo.InvariantCulture)}";
+            fieldFechaVentaBanner.Text = venta.FechaVenta.ToString("dd/MM/yyyy HH:mm", CultureInfo.CurrentCulture);
+            fieldCanalPagoPrincipalBanner.Text = canalPagoPrincipal.ObtenerNombreDescripcion().Nombre ?? "N/A";
+            fieldCanalPagoPrincipalBanner.ForeColor = colorFuente;
+            fieldCanalPagoPrincipalBanner.FillColor = colorFondo;
+            fieldOperadorBanner.Text = ContextoSeguridad.UsuarioAutenticado!.Nombre;
+        }
+
         public void Mostrar() {
             BringToFront();
             Show();
@@ -154,9 +188,9 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
+            Venta = null;
             FechaPagoCliente = DateTime.Now;
             MetodoPago = CanalPagoEnum.Efectivo;
-            EstadoPendiente = false;
             NumeroTelefonoRemitente = string.Empty;
             NumeroTransaccion = string.Empty;
 
@@ -177,9 +211,18 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void CargarMetodosPago(string[] metodosPago) {
-            fieldMetodoPago.Items.Clear();
-            fieldMetodoPago.Items.AddRange(metodosPago);
-            fieldMetodoPago.SelectedIndex = 0;
+            fieldCanalPago.Items.Clear();
+            fieldCanalPago.Items.AddRange(metodosPago);
+            fieldCanalPago.SelectedIndex = 0;
+        }
+
+        private(Color colorFondo, Color colorFuente) ObtenerColorCanal(CanalPagoEnum estado) {
+            return estado switch {
+                CanalPagoEnum.Efectivo => (Color.FromArgb(255, 243, 224), Color.FromArgb(230, 81, 0)),          // Ambar
+                CanalPagoEnum.TransferenciaBancaria => (Color.FromArgb(227, 242, 253), Color.FromArgb(21, 101, 196)),   // Azul
+                CanalPagoEnum.Mixto => (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50)),            // Verde
+                _ => (Color.FromArgb(240, 240, 240), Color.FromArgb(136, 136, 136))
+            };
         }
     }
 }

@@ -34,7 +34,8 @@ namespace aDVanceERP.Core.Modelos.Modulos.Comun {
 
     public enum CanalPagoEnum {
         Efectivo,
-        Transferencia,
+        [Display(Name = "Transferencia")]
+        TransferenciaBancaria,
         Mixto,
         [Display(Name = "N/A")]
         NA
@@ -49,7 +50,9 @@ namespace aDVanceERP.Core.Modelos.Modulos.Comun {
 
     public enum FiltroBusquedaPago {
         Todos,
+        [Display(Name = "ID")]
         Id,
+        [Display(Name = "ID Compra / Venta")]
         IdCompraVenta,
         Estado
     }

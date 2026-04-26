@@ -76,15 +76,15 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             get => decimal.TryParse(fieldImpuestoAdicional.Text, CultureInfo.InvariantCulture, out var impuesto) ? impuesto : 0m;
         }
 
-        public decimal CantidadProducto { 
+        public decimal CantidadProducto {
             get => decimal.TryParse(fieldCantidad.Text, CultureInfo.InvariantCulture, out var cantidad) ? cantidad : 0m;
-            }
+        }
 
         public FlowLayoutPanel PanelProductosRapidos => panelProductosRapidos;
 
         public FlowLayoutPanel PanelCarritoVenta => panelCarritoVenta;
 
-        public decimal TotalBruto { 
+        public decimal TotalBruto {
             get {
                 var totalTexto = fieldTotalBruto.Text.Replace("$ ", "").Trim();
                 return decimal.TryParse(totalTexto, out var total) ? total : 0m;
@@ -92,7 +92,7 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldTotalBruto.Text = $"$ {value:N2}";
         }
 
-        public decimal TotalDescuento { 
+        public decimal TotalDescuento {
             get {
                 var descuentoTexto = fieldDescuentoTotal.Text.Replace("$ ", "").Trim();
                 return decimal.TryParse(descuentoTexto, out var descuento) ? descuento : 0m;
@@ -100,40 +100,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
             set => fieldDescuentoTotal.Text = $"$ {value:N2}";
         }
 
-        public decimal ImporteTotal { 
+        public decimal ImporteTotal {
             get {
                 var importeTexto = fieldImporteTotal.Text.Replace("$ ", "").Trim();
                 return decimal.TryParse(importeTexto, out var importe) ? importe : 0m;
             }
-            set => fieldImporteTotal.Text = $"$ {value:N2}"; 
-        }
-
-        public CanalPagoEnum CanalPago {
-            get => btnPagoEfectivo.Checked
-                    ? CanalPagoEnum.Efectivo
-                    : btnPagoTransferencia.Checked
-                        ? CanalPagoEnum.Transferencia
-                        : CanalPagoEnum.NA;
-        }
-
-        public decimal MontoPagado {
-            get => decimal.TryParse(fieldMontoPagado.Text, CultureInfo.InvariantCulture, out var monto) ? monto : 0m;
-        }
-
-        public decimal FaltanteVuelto { 
-            get => _faltanteVuelto; 
-            set {
-                _faltanteVuelto = value; 
-
-                var (colBorde, colFondo, colFuente) = ObtenerColorEstadoFaltanteVuelto(value > 0);
-
-                fieldTituloFaltanteVuelto.Text = value > 0 ? "FALTANTE" : "VUELTO";
-                fieldTituloFaltanteVuelto.ForeColor = colFuente;
-                fieldFaltanteVuelto.Text = $"$ {Math.Abs(value):N2}";
-                fieldFaltanteVuelto.ForeColor = colFuente;
-                panelFaltanteVuelto.BackColor = colFondo;
-                panelFaltanteVuelto.BorderColor = colBorde;
-            }
+            set => fieldImporteTotal.Text = $"$ {value:N2}";
         }
 
         public event EventHandler? RegistrarEntidad;
@@ -143,14 +115,12 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         public event EventHandler<string>? BuscarProducto;
         public event EventHandler? BuscarProductosRapidos;
         public event EventHandler? AgregarProductoAlCarrito;
-        public event EventHandler? AgregarPagoVenta;
 
 
         public void Inicializar() {
             // Eventos
             btnRegistrarCliente.Click += (s, e) => AgregadorEventos.Publicar("MostrarVistaRegistroCliente", string.Empty);
             btnAgregarAlCarrito.Click += (s, e) => AgregarProductoAlCarrito?.Invoke(this, EventArgs.Empty);
-            btnAgregarPago.Click += (s, e) => AgregarPagoVenta?.Invoke(this, EventArgs.Empty);
             btnRegistro.Click += (s, e) => {
                 if (ModoEdicion)
                     EditarEntidad?.Invoke(this, EventArgs.Empty);
@@ -185,7 +155,22 @@ namespace aDVanceERP.Modulos.Venta.Vistas {
         }
 
         public void Restaurar() {
+            fieldNombreProducto.Text = string.Empty;
+            fieldCantidad.Text = string.Empty;
+            fieldDescuento.Text = "0";
+            fieldImpuestoAdicional.Text = "0";
+            fieldObservaciones.Text = string.Empty;
 
+            // Resetear totales
+            TotalBruto = 0m;
+            TotalDescuento = 0m;
+            ImporteTotal = 0m;
+
+            // Resetear selección de almacén al primero disponible
+            if (fieldAlmacenOrigen.Items.Count > 0)
+                fieldAlmacenOrigen.SelectedIndex = 0;
+
+            ProductoSeleccionado = null;
         }
 
         public void Cerrar() {

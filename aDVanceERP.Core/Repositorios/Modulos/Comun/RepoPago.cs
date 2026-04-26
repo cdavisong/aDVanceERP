@@ -264,6 +264,24 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Comun {
             return pagos;
         }
 
+        public decimal ObtenerTotalPagadoPorRangoFechas(DateTime fechaDesde, DateTime fechaHasta) {
+            var consulta = $"""
+                SELECT COALESCE(SUM(monto_pagado), 0) AS total_pagado
+                FROM adv__pago
+                WHERE fecha_pago >= @fecha_desde
+                    AND fecha_pago <= @fecha_hasta
+                    AND estado_pago = 'Confirmado'
+                    AND id_venta > 0;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@fecha_desde", fechaDesde.ToString("yyyy-MM-dd 00:00:00") },
+                { "@fecha_hasta",  fechaHasta.ToString("yyyy-MM-dd 23:59:59") }
+            };
+
+            return ContextoBaseDatos.EjecutarConsultaEscalar<decimal>(consulta, parametros);
+        }
+
         #endregion
     }
 }

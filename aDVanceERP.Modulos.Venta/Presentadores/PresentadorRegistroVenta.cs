@@ -6,7 +6,6 @@ using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
-using aDVanceERP.Core.Repositorios.Modulos.Compra;
 using aDVanceERP.Core.Repositorios.Modulos.Estadisticas;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
@@ -24,19 +23,20 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             vista.BuscarProducto += OnBuscarProductos;
             vista.BuscarProductosRapidos += OnBuscarProductosRapidos;
             vista.AgregarProductoAlCarrito += OnAgregarProductoCarrito;
-            vista.AgregarPagoVenta += OnAgregarPagoVenta;
 
             AgregadorEventos.Suscribir("MostrarVistaRegistroVenta", OnMostrarVistaRegistroVenta);
             AgregadorEventos.Suscribir("MostrarVistaEdicionVenta", OnMostrarVistaEdicionVenta);
+            AgregadorEventos.Suscribir("ClienteRegistrado", OnClienteSeleccionado);
+            AgregadorEventos.Suscribir("ClienteSeleccionado", OnClienteSeleccionado);
         }
 
         private void OnMostrarVistaRegistroVenta(string obj) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
-
+            
             // Carga inicial de datos
             CargarDatosComunes();
-
+            
             Vista.Mostrar();
         }
 
@@ -63,6 +63,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private void CargarDatosComunes() {
             Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+
+            LimpiarPanelCarrito();
+            PopularProductosRapidos();
         }
 
         protected override Core.Modelos.Modulos.Venta.Venta? ObtenerEntidadDesdeVista() {
@@ -81,7 +84,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 DescuentoTotal = totalDescuento,
                 ImpuestoTotal = 0m,
                 ImporteTotal = importeTotal,
-                CanalPagoPrincipal = ObtenerCanalPagoPrincipal(),
+                CanalPagoPrincipal = "NA",
                 EstadoVenta = _pagos.Sum(p => p.MontoPagado) >= importeTotal
                     ? EstadoVentaEnum.Completada
                     : EstadoVentaEnum.Pendiente,
@@ -114,12 +117,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 "VentaRegistrada",
                 AgregadorEventos.SerializarPayload(new object[] { Entidad!, detallesVenta, _pagos })
             );
-
-            _carrito.Clear();
-            _pagos.Clear();         // ← limpiar pagos junto con el carrito
-
-            ActualizarCarritoVenta();
-            ActualizarTotalesVista(); // llama ActualizarBalancePagos internamente → FaltanteVuelto = 0
         }
 
         protected override bool EntidadCorrecta() {
@@ -198,6 +195,13 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
             ActualizarCarritoVenta();
             ActualizarTotalesVista();
+        }
+
+        private void OnClienteSeleccionado(string obj) {
+            var cliente = AgregadorEventos.DeserializarPayload<Cliente>(obj);
+
+            if (cliente != null)
+                Vista.Cliente = cliente;
         }
 
         private void OnBuscarProductos(object? sender, string nombreProducto) {
@@ -302,6 +306,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             if (VerificarCantidadValida(productoSeleccionado, idPresentacion, cantidad, out var cantidadTotalUnidades)) {
                 AgregarProductoAlCarrito(productoSeleccionado, cantidadTotalUnidades, precioUnitario, descuento, impuestoAdicional, idPresentacion);
             }
+
+            // ✅ Diferir el refresco del panel de cards FUERA de la cadena de eventos actual
+            // Así la card que disparó el evento ya terminó su ejecución antes de ser destruida
+            Vista.PanelProductosRapidos.BeginInvoke(() => {
+                if (string.IsNullOrWhiteSpace(Vista.NombreProducto))
+                    PopularProductosRapidos();
+                else
+                    PopularProductosBusqueda(Vista.NombreProducto);
+            });
         }
 
         private bool VerificarCantidadValida(Producto productoSeleccionado, long idPresentacion, decimal cantidad, out decimal cantidadTotalUnidades) {
@@ -381,65 +394,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
 
         #endregion
 
-        #region PAGOS:
-
-        private void OnAgregarPagoVenta(object? sender, EventArgs e) {
-            var montoPago = Vista.MontoPagado;
-
-            if (montoPago <= 0) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "El monto del pago debe ser mayor a cero.",
-                    TipoNotificacionEnum.Advertencia);
-                return;
-            }
-
-            if (Vista.CanalPago == CanalPagoEnum.NA) {
-                CentroNotificaciones.MostrarNotificacion(
-                    "Debe seleccionar un método de pago.",
-                    TipoNotificacionEnum.Advertencia);
-                return;
-            }
-
-            _pagos.Add(new Pago {
-                IdVenta = 0,
-                MetodoPago = Vista.CanalPago,
-                MontoPagado = montoPago,
-                FechaPago = DateTime.Now,
-                EstadoPago = EstadoPagoEnum.Confirmado
-            });
-
-            ActualizarBalancePagos();
-        }
-
-        private void ActualizarBalancePagos() {
-            var importeTotal = _carrito.Values.Sum(d => d.Subtotal);
-            var totalPagado = _pagos.Sum(p => p.MontoPagado);
-            var diferencia = totalPagado - importeTotal;
-
-            // diferencia negativa → cliente aún debe → valor positivo → vista muestra "FALTANTE" en rojo
-            // diferencia positiva → overpagado → valor negativo → vista muestra "VUELTO" en verde
-            // diferencia cero → exacto → valor cero → vista muestra "VUELTO $0.00" en verde
-            Vista.FaltanteVuelto = -diferencia;
-        }
-
-        private string ObtenerCanalPagoPrincipal() {
-            if (_pagos.Count == 0)
-                return CanalPagoEnum.NA.ObtenerNombreDescripcion().Nombre;
-
-            // Buscar el método de pago predominante según el monto acumulado correspondiente
-            var acumuladoEfectivo = _pagos.Where(p => p.MetodoPago == CanalPagoEnum.Efectivo).Sum(p => p.MontoPagado);
-            var acumuladoTransferencia = _pagos.Where(p => p.MetodoPago == CanalPagoEnum.Transferencia).Sum(p => p.MontoPagado);
-
-            if (acumuladoEfectivo > acumuladoTransferencia)
-                return CanalPagoEnum.Efectivo.ObtenerNombreDescripcion().Nombre;
-            else if (acumuladoTransferencia > acumuladoEfectivo)
-                return CanalPagoEnum.Transferencia.ObtenerNombreDescripcion().Nombre;
-            else
-                return CanalPagoEnum.Mixto.ObtenerNombreDescripcion().Nombre;
-        }
-
-        #endregion
-
         #region AUX:
 
         private int ObtenerTotalTarjetas() {
@@ -507,42 +461,29 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void OnCambioPresentacionCard(object? sender, UnidadMedida e) {
-            if (sender is not VistaProductoCarritoCard card)
-                return;
+            if (sender is not VistaProductoCarritoCard card) return;
 
             var producto = RepoProducto.Instancia.ObtenerPorId(card.IdProducto);
-            if (producto == null) return;
-
             var presentacion = RepoPresentacionProducto.Instancia
                 .Buscar(FiltroBusquedaPresentacionProducto.IdProducto, card.IdProducto.ToString())
-                .resultadosBusqueda
-                .Select(r => r.entidadBase)
+                .resultadosBusqueda.Select(r => r.entidadBase)
                 .FirstOrDefault(c => c.IdUnidadMedida == e.Id);
 
-            // Actualizar presentación y precio
             card.IdPresentacion = presentacion?.Id ?? 0;
-            card.PrecioVenta = presentacion != null
-                ? presentacion.PrecioVenta
-                : producto.PrecioVentaBase;
+            card.PrecioVenta = presentacion?.PrecioVenta ?? producto?.PrecioVentaBase ?? 0m;
 
-            // Calcular stock efectivo en unidades de ESTA presentación
+            // Actualizar cantidad disponible en unidades de ESTA presentación
             var inventario = RepoInventario.Instancia
                 .Buscar(FiltroBusquedaInventario.IdProducto, card.IdProducto.ToString())
-                .resultadosBusqueda
-                .Select(r => r.entidadBase)
+                .resultadosBusqueda.Select(r => r.entidadBase)
                 .FirstOrDefault(i => i.IdAlmacen == (Vista.AlmacenOrigen?.Id ?? 0));
 
             var stockBase = inventario?.Cantidad ?? 0m;
+            var comprometido = _carrito.Where(kv => kv.Key.IdProducto == card.IdProducto)
+                                           .Sum(kv => kv.Value.Cantidad);
+            var unidadesPorPres = presentacion?.Cantidad ?? 1m;
 
-            // Unidades base ya comprometidas en carrito para este producto
-            var comprometido = _carrito
-                .Where(kv => kv.Key.IdProducto == card.IdProducto)
-                .Sum(kv => kv.Value.Cantidad);
-
-            var unidadesPorPresentacion = presentacion?.Cantidad ?? 1m;
-
-            // Cuántas unidades de esta presentación caben con el stock restante
-            card.Cantidad = Math.Floor((stockBase - comprometido) / unidadesPorPresentacion);
+            card.Cantidad = Math.Floor((stockBase - comprometido) / unidadesPorPres);
         }
 
         private void OnSeleccionarProductoCard(object? sender, long e) {
@@ -571,6 +512,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     try {
                         if (control is VistaProductoCarritoCard card) {
                             card.CambioPresentacion -= OnCambioPresentacionCard;
+                            card.ProductoSeleccionado -= OnSeleccionarProductoCard;
 
                             card.Cerrar();
                             card.Dispose();
@@ -598,16 +540,12 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         }
 
         private void ActualizarCarritoVenta() {
+            LimpiarPanelCarrito();
+
             if (_carrito == null || _carrito.Count == 0)
                 return;
 
-            #region REPOS:
-
             var repoProducto = RepoProducto.Instancia;
-
-            #endregion
-
-            LimpiarPanelCarrito();
 
             for (int i = 0; i < _carrito.Count; i++) {
                 var detalleVenta = _carrito.ElementAt(i).Value;
@@ -622,10 +560,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                     SubTotal = detalleVenta.Subtotal
                 };
 
-                AgregarProductoTupla(tupla);
-
-                // Inicializar tupla
                 tupla.EliminarDatosTupla += OnEliminarDatosTupla;
+
+                AgregarProductoTupla(tupla);
             }
         }
 
@@ -691,8 +628,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             Vista.TotalBruto = totalBruto;
             Vista.TotalDescuento = totalDescuento;
             Vista.ImporteTotal = importeTotal;
-
-            ActualizarBalancePagos(); // ← el importe cambió, recalcular faltante/vuelto
         }
 
         #endregion
