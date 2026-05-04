@@ -122,7 +122,7 @@ namespace aDVanceERP.Core.Servicios.Modulos.Seguridad {
             }
         }
 
-        public bool TienePermiso(long idUsuario, ModuloSistemaEnum modulo, AccionModulo accion) {
+        public bool TienePermiso(long idUsuario, ModuloSistemaEnum modulo, AccionModuloEnum accion) {
             return TienePermiso(idUsuario, modulo.ToString().ToLower(), accion.ToString().ToLower());
         }
 

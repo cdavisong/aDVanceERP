@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
@@ -163,8 +164,20 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public void Mostrar() {
+            VerificarPermisos();
             BringToFront();
             Show();
+        }
+
+        private void VerificarPermisos() {
+            if (ContextoSeguridad.EstaAutenticado && ContextoSeguridad.EsAdministrador)
+                return;
+
+            btnRegistrar.Visible = ContextoSeguridad.GestorPermisos?
+                .TienePermiso(
+                    ModuloSistemaEnum.MOD_INVENTARIO,
+                    AccionModuloEnum.Crear)
+                ?? false;
         }
 
         public void Restaurar() {

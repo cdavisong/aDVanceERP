@@ -5,7 +5,7 @@ using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
 namespace aDVanceERP.Core.Vistas.Comun {
     public partial class VistaMensaje : Form, IVistaBase {
-        private TipoMensaje _tipo;
+        private TipoMensajeEnum _tipo;
         
         public VistaMensaje() {
             InitializeComponent();
@@ -37,18 +37,18 @@ namespace aDVanceERP.Core.Vistas.Comun {
             set => fieldMensaje.Text = value;
         }
 
-        public TipoMensaje Tipo {
+        public TipoMensajeEnum Tipo {
             get => _tipo;
             set {
                 _tipo = value;
 
                 //layoutDistribucion1.BackColor = value ? Color.LightSalmon : Color.White;
                 fieldIcono.BackgroundImage =
-                    value == TipoMensaje.Ok 
+                    value == TipoMensajeEnum.Ok 
                         ? Resources.ok_96px
-                        : value == TipoMensaje.Error
+                        : value == TipoMensajeEnum.Error
                             ? Resources.error_96px
-                            : value == TipoMensaje.Advertencia
+                            : value == TipoMensajeEnum.Advertencia
                                 ? Resources.warning_96px
                                 : Resources.info_96px;
                 //fieldMensaje.ForeColor = value ? Color.Firebrick : Color.Gray;                
@@ -81,7 +81,7 @@ namespace aDVanceERP.Core.Vistas.Comun {
             ShowDialog();
         }
 
-        public DialogResult Mostrar(string mensaje, TipoMensaje tipoMensaje) {
+        public DialogResult Mostrar(string mensaje, TipoMensajeEnum tipoMensaje) {
             if (InvokeRequired) {
                 Invoke(new Action(() => {
                     Mostrar(mensaje, tipoMensaje);
@@ -98,7 +98,7 @@ namespace aDVanceERP.Core.Vistas.Comun {
             return DialogResult;
         }
 
-        public DialogResult Mostrar(string mensaje, TipoMensaje tipoMensaje, BotonesMensaje botones) {
+        public DialogResult Mostrar(string mensaje, TipoMensajeEnum tipoMensaje, BotonesMensaje botones) {
             if (InvokeRequired) {
                 Invoke(new Action(() => {
                     Mostrar(mensaje, tipoMensaje, botones);

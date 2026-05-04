@@ -95,6 +95,7 @@ namespace aDVanceERP.Core.Repositorios.Comun {
             if (string.IsNullOrEmpty(nombre) || !Vistas.ContainsKey(nombre))
                 return;
 
+
             Vistas[nombre].Mostrar();
         }
 

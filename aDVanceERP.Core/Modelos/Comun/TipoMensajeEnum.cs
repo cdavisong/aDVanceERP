@@ -1,5 +1,5 @@
 ﻿namespace aDVanceERP.Core.Modelos.Comun {
-    public enum TipoMensaje {
+    public enum TipoMensajeEnum {
         Ok,
         Info,
         Advertencia,

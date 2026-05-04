@@ -8,7 +8,7 @@ namespace aDVanceERP.Core.Infraestructura.Globales {
         private static readonly List<IVistaNotificacion> _notificacionesActivas = new();
         private static readonly int _margen = 10; // Margen entre notificaciones y respecto a la pantalla
 
-        public static DialogResult MostrarMensaje(string mensaje, TipoMensaje tipo = TipoMensaje.Info, BotonesMensaje botones = BotonesMensaje.ContinuarAbortar) {
+        public static DialogResult MostrarMensaje(string mensaje, TipoMensajeEnum tipo = TipoMensajeEnum.Info, BotonesMensaje botones = BotonesMensaje.ContinuarAbortar) {
             return VistaMensaje.Instancia.Mostrar(mensaje, tipo, botones);
         }
 

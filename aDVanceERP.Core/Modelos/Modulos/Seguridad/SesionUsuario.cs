@@ -70,10 +70,10 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
             if (_gestorPermisos == null) return false;
 
             return accion.ToLower() switch {
-                "ver" => _gestorPermisos.TienePermiso(modulo, AccionModulo.Ver),
-                "crear" => _gestorPermisos.TienePermiso(modulo, AccionModulo.Crear),
-                "editar" => _gestorPermisos.TienePermiso(modulo, AccionModulo.Editar),
-                "eliminar" => _gestorPermisos.TienePermiso(modulo, AccionModulo.Eliminar),
+                "ver" => _gestorPermisos.TienePermiso(modulo, AccionModuloEnum.Ver),
+                "crear" => _gestorPermisos.TienePermiso(modulo, AccionModuloEnum.Crear),
+                "editar" => _gestorPermisos.TienePermiso(modulo, AccionModuloEnum.Editar),
+                "eliminar" => _gestorPermisos.TienePermiso(modulo, AccionModuloEnum.Eliminar),
                 _ => false
             };
         }
@@ -81,7 +81,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
         /// <summary>
         /// Verifica si el usuario actual tiene permiso para un módulo y acción
         /// </summary>
-        public static bool TienePermiso(ModuloSistemaEnum modulo, AccionModulo accion) {
+        public static bool TienePermiso(ModuloSistemaEnum modulo, AccionModuloEnum accion) {
             return TienePermiso(modulo.ToString().ToLower(), accion.ToString().ToLower());
         }
 

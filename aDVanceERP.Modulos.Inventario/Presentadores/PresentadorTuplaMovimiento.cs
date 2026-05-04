@@ -1,12 +1,13 @@
 ﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Eventos.Modulos.Inventario;
+using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
-    public class PresentadorTuplaMovimiento : PresentadorVistaTupla<IVistaTuplaMovimiento, Core.Modelos.Modulos.Inventario.Movimiento> {
-        public PresentadorTuplaMovimiento(IVistaTuplaMovimiento vista, Core.Modelos.Modulos.Inventario.Movimiento objeto) : base(vista, objeto) {
+    public class PresentadorTuplaMovimiento : PresentadorVistaTupla<IVistaTuplaMovimiento, Movimiento> {
+        public PresentadorTuplaMovimiento(IVistaTuplaMovimiento vista, Movimiento objeto) : base(vista, objeto) {
             vista.EditarDatosTupla += MostrarVistaEdicionMovimiento;
         }
 

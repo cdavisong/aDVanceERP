@@ -1,8 +1,10 @@
 ﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Eventos.Modulos;
 using aDVanceERP.Core.Eventos.Modulos.Inventario;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Eventos.Modulos.Venta;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
+using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -128,6 +130,11 @@ namespace aDVanceERP.Modulos.Inventario {
             AgregadorEventos.Suscribir<EventoProductoRegistrado>(_manejadorMovimiento.Manejar);
             AgregadorEventos.Suscribir<EventoVentaRegistrada>(_manejadorMovimiento.Manejar);
             AgregadorEventos.Suscribir<EventoVentaAnulada>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Suscribir<EventoUsuarioAutenticado>(HabilitarBtnModulo);
+        }
+
+        private void HabilitarBtnModulo(EventoUsuarioAutenticado autenticado) {
+            _btnAccesoModulo.Visible = ContextoSeguridad.TieneAccesoModulo(ModuloSistemaEnum.MOD_INVENTARIO);
         }
 
         public override void Apagar() {
@@ -150,6 +157,7 @@ namespace aDVanceERP.Modulos.Inventario {
             AgregadorEventos.Desuscribir<EventoProductoRegistrado>(_manejadorMovimiento.Manejar);
             AgregadorEventos.Desuscribir<EventoVentaRegistrada>(_manejadorMovimiento.Manejar);
             AgregadorEventos.Desuscribir<EventoVentaAnulada>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Desuscribir<EventoUsuarioAutenticado>(HabilitarBtnModulo);
         }
     }
 }

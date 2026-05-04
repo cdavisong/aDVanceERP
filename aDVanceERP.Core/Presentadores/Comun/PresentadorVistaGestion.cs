@@ -162,7 +162,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
             var respuesta = CentroNotificaciones.MostrarMensaje(
                 $"¿Está seguro de que desea eliminar este registro? Esta acción no se puede deshacer.",
-                TipoMensaje.Advertencia,
+                TipoMensajeEnum.Advertencia,
                 BotonesMensaje.ContinuarAbortar);
 
             if (respuesta != DialogResult.Yes) 

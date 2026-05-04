@@ -1,5 +1,5 @@
 ﻿namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
-    public enum AccionModulo {
+    public enum AccionModuloEnum {
         Ver,
         Crear,
         Editar,

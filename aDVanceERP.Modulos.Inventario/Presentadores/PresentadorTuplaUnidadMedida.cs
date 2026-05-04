@@ -12,10 +12,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void MostrarVistaEdicionUnidadMedida(object? sender, EventArgs e) {
-            if (sender is not long id)
-                return;
-
-            var entidad = RepoUnidadMedida.Instancia.ObtenerPorId(id);
+            var entidad = RepoUnidadMedida.Instancia.ObtenerPorId(Vista.Id);
 
             AgregadorEventos.Publicar(new EventoMostrarVistaEdicionUnidadMedida() { 
                 UnidadMedida = entidad!
