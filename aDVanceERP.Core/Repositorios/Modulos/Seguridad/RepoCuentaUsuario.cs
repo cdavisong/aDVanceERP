@@ -193,6 +193,20 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
             ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
         }
 
+        public void AprobarCuentaUsuario(long idCuentaUsuario) {
+            var consulta = $"""
+                UPDATE adv__cuenta_usuario 
+                SET aprobado = 1
+                WHERE id_cuenta_usuario = @id;
+                """;
+
+            var parametros = new Dictionary<string, object> {
+                { "@id", idCuentaUsuario }
+            };
+
+            ContextoBaseDatos.EjecutarComandoNoQuery(consulta, parametros);
+        }
+
         #endregion
     }
 }

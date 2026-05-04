@@ -1,9 +1,11 @@
-﻿using aDVanceERP.Core.Eventos;
-using GMap.NET.MapProviders;
+﻿using GMap.NET.MapProviders;
 using GMap.NET;
+
 using System.Net;
+
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Core.Eventos.Comun;
 
 namespace aDVanceERP.Core.Presentadores.Comun {
     public abstract class PresentadorVistaGestionUbicaciones : PresentadorVistaBase<IVistaGestionUbicaciones> {
@@ -13,7 +15,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
             InicializarComponenteMapa();
 
-            AgregadorEventos.Suscribir(nombreEvento, OnMostrarVistaGestionUbicaciones);
+            //AgregadorEventos.Suscribir(nombreEvento, OnMostrarVistaGestionUbicaciones);
         }
 
         public abstract void OnRegistrarUbicacion(object? sender, EventArgs e);

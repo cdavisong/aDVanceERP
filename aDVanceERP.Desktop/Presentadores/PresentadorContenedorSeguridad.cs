@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Modelos.BD;
+﻿using aDVanceERP.Core.Eventos.BD;
+using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Presentadores.BD;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.BD;
@@ -24,8 +24,6 @@ namespace aDVanceERP.Desktop.Presentadores {
             // Vista seguridad
             Vista = vistaSeguridad;
 
-            // Contenedor seguridad
-            // Carga datos
             _cargaDatos = new VistaCargaDatos();
             // Configuración base de datos
             _configuracionBaseDatos = new PresentadorConfiguracionBaseDatos(new VistaConfiguracionBaseDatos());
@@ -39,27 +37,23 @@ namespace aDVanceERP.Desktop.Presentadores {
 
         private void InicializarEventos() {
             // Contenedor seguridad
-            AgregadorEventos.Suscribir("MostrarVistaContenedorSeguridad", OnMostrarVistaContenedorSeguridad);
+            AgregadorEventos.Suscribir<EventoMostrarVistaContenedorSeguridad>(OnMostrarVistaContenedorSeguridad);
             // Configuración base de datos
-            AgregadorEventos.Suscribir("ConfiguracionBaseDatosCargada", OnConfiguracionBaseDatosCargada);
+            AgregadorEventos.Suscribir<EventoConfiguracionBaseDatosCargada>(OnConfiguracionBaseDatosCargada);
         }
 
         public IPresentadorVistaPrincipal<IVistaPrincipal> VistaPrincipal { get; private set; } = null!;
 
         public IVistaContenedorSeguridad Vista { get; private set; } = null!;
 
-        private void OnMostrarVistaContenedorSeguridad(string obj) {
+        private void OnMostrarVistaContenedorSeguridad(EventoMostrarVistaContenedorSeguridad e) {
             Vista.Restaurar();
             Vista.Mostrar();
 
-            AgregadorEventos.Publicar("MostrarVistaConfiguracionBaseDatos", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaConfiguracionBaseDatos());
         }
 
-        private async void OnConfiguracionBaseDatosCargada(string obj) {
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var configuracionBd = AgregadorEventos.DeserializarPayload<ConfiguracionBaseDatos>(obj);
+        private async void OnConfiguracionBaseDatosCargada(EventoConfiguracionBaseDatosCargada e) {
             var progreso = new Progress<(string texto, int porcentaje)>(datos => {
                 _cargaDatos.TextoProgreso = datos.texto;
                 _cargaDatos.ProgresoValor = datos.porcentaje;
@@ -76,8 +70,8 @@ namespace aDVanceERP.Desktop.Presentadores {
         }
 
         public void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaContenedorSeguridad", OnMostrarVistaContenedorSeguridad);
-            AgregadorEventos.Desuscribir("ConfiguracionBaseDatosCargada", OnConfiguracionBaseDatosCargada);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaContenedorSeguridad>(OnMostrarVistaContenedorSeguridad);
+            AgregadorEventos.Desuscribir<EventoConfiguracionBaseDatosCargada>(OnConfiguracionBaseDatosCargada);
 
             Vista.Dispose();
         }

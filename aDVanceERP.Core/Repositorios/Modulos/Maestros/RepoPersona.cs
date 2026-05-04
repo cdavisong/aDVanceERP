@@ -126,7 +126,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
             return (new Persona(
                 id: Convert.ToInt64(lector["id_persona"]),
                 nombreCompleto: Convert.ToString(lector["nombre_completo"]) ?? "N/A",
-                tipoDocumento: Enum.TryParse<TipoDocumento>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumento.CI,
+                tipoDocumento: Enum.TryParse<TipoDocumentoEnum>(Convert.ToString(lector["tipo_documento"]) ?? "NI", out var tipoDocumento) ? tipoDocumento : TipoDocumentoEnum.CI,
                 numeroDocumento: Convert.ToString(lector["numero_documento"]) ?? "N/A",
                 direccionPrincipal: lector["direccion_principal"] != DBNull.Value ? Convert.ToString(lector["direccion_principal"]) : null,
                 fechaRegistro: Convert.ToDateTime(lector["fecha_registro"]),

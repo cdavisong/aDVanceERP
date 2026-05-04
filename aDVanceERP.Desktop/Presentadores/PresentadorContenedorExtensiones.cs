@@ -1,20 +1,22 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Desktop.Interfaces;
 
 namespace aDVanceERP.Desktop.Presentadores {
     public class PresentadorContenedorExtensiones : PresentadorVistaBase<IVistaContenedorExtensiones> {
         public PresentadorContenedorExtensiones(IVistaContenedorExtensiones vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaContenedorExtensiones", OnMostrarVistaContenedorExtensiones);
+            AgregadorEventos.Suscribir<EventoMostrarVistaContenedorExtensiones>(OnMostrarVistaContenedorExtensiones);
         }
 
-        private void OnMostrarVistaContenedorExtensiones(string obj) {
+        private void OnMostrarVistaContenedorExtensiones(EventoMostrarVistaContenedorExtensiones e) {
             Vista.Restaurar();
             Vista.Mostrar();
         }
 
         public override void Dispose() {
-            throw new NotImplementedException();
+            AgregadorEventos.Desuscribir<EventoMostrarVistaContenedorExtensiones>(OnMostrarVistaContenedorExtensiones);
+
+            Vista.Cerrar();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -16,10 +17,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorGestionMovimientos(IVistaGestionMovimientos vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarMovimiento;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionMovimientos>(OnMostrarVistaGestionMovimientos);
         }
 
-        private void OnMostrarVistaGestionMovimientos(string obj) {
+        private void OnMostrarVistaGestionMovimientos(EventoMostrarVistaGestionMovimientos e) {
             CargarDatosComunes();
             
             Vista.Restaurar();
@@ -54,7 +55,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 return;
             }
 
-            AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroMovimiento());
         }
 
         protected override PresentadorTuplaMovimiento ObtenerValoresTupla(Movimiento entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -78,7 +79,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public override void Dispose() {
             Vista.RegistrarEntidad -= OnRegistrarMovimiento;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionMovimientos", OnMostrarVistaGestionMovimientos);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionMovimientos>(OnMostrarVistaGestionMovimientos);
 
             base.Dispose();
         }

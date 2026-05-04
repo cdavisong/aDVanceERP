@@ -1,8 +1,12 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
+using aDVanceERP.Core.Eventos.Modulos.Venta;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.Inventario.Manejadores;
 using aDVanceERP.Modulos.Inventario.Presentadores;
 using aDVanceERP.Modulos.Inventario.Properties;
 using aDVanceERP.Modulos.Inventario.Vistas;
@@ -12,6 +16,8 @@ using Guna.UI2.WinForms;
 namespace aDVanceERP.Modulos.Inventario { 
     public sealed class ModuloInventario : ModuloExtensionBase {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+
+        // Presentadores
         private PresentadorEstadisticasInventario _estadisticasGenerales = null!;
         private PresentadorMenuInventario _menuInventario = null!;
         private PresentadorMenuMaestros _menuMaestros = null!;
@@ -27,6 +33,10 @@ namespace aDVanceERP.Modulos.Inventario {
         private PresentadorGestionUnidadesMedida _unidadesMedida = null!;
         private PresentadorRegistroUnidadMedida _registroUnidadMedida = null!;
 
+        // Manejadores de eventos
+        private ManejadorInventario _manejadorInventario = null!;
+        private ManejadorMovimiento _manejadorMovimiento = null!;
+
         public ModuloInventario() {
             Nombre = ModuloSistemaEnum.MOD_INVENTARIO;
             Version = new Version(1, 0, 0, 0);
@@ -38,9 +48,9 @@ namespace aDVanceERP.Modulos.Inventario {
             _btnAccesoModulo.CustomImages.Image = Resources.inventory_24px;
             _btnAccesoModulo.TabIndex = 1;
             _btnAccesoModulo.Click += delegate {
-                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-                AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty);
+                AgregadorEventos.Publicar(new EventoCambioModulo());
+                AgregadorEventos.Publicar(new EventoCambioMenu());
+                AgregadorEventos.Publicar(new EventoMostrarVistaMenuInventario());
             };
 
             // Menu
@@ -76,6 +86,10 @@ namespace aDVanceERP.Modulos.Inventario {
             _registroUnidadMedida = new PresentadorRegistroUnidadMedida(new VistaRegistroUnidadMedida());
             _registroUnidadMedida.EntidadRegistradaActualizada += (s, e) => _unidadesMedida.ActualizarResultadosBusqueda();
 
+            // Manejadores de eventos
+            _manejadorInventario = new ManejadorInventario();
+            _manejadorMovimiento = new ManejadorMovimiento();
+
             base.Inicializar(principal);
         }
 
@@ -109,6 +123,13 @@ namespace aDVanceERP.Modulos.Inventario {
             _principal.Modulos.Vista.PanelCentral.Registrar(_registroUnidadMedida.Vista);
         }
 
+        protected override void InicializarEventos() {
+            AgregadorEventos.Suscribir<EventoInventarioModificado>(_manejadorInventario.Manejar);
+            AgregadorEventos.Suscribir<EventoProductoRegistrado>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Suscribir<EventoVentaRegistrada>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Suscribir<EventoVentaAnulada>(_manejadorMovimiento.Manejar);
+        }
+
         public override void Apagar() {
             _estadisticasGenerales?.Dispose();
             _menuInventario?.Dispose();
@@ -124,6 +145,11 @@ namespace aDVanceERP.Modulos.Inventario {
             _registroClasificacion?.Dispose();
             _unidadesMedida?.Dispose();
             _registroUnidadMedida?.Dispose();
+
+            AgregadorEventos.Desuscribir<EventoInventarioModificado>(_manejadorInventario.Manejar);
+            AgregadorEventos.Desuscribir<EventoProductoRegistrado>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Desuscribir<EventoVentaRegistrada>(_manejadorMovimiento.Manejar);
+            AgregadorEventos.Desuscribir<EventoVentaAnulada>(_manejadorMovimiento.Manejar);
         }
     }
 }

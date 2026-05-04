@@ -1,8 +1,7 @@
-﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Venta;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
-using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Presentadores.Comun;
@@ -17,7 +16,6 @@ using System.Globalization;
 namespace aDVanceERP.Modulos.Venta.Presentadores {
     internal class PresentadorRegistroVenta : PresentadorVistaRegistro<IVistaRegistroVenta, Core.Modelos.Modulos.Venta.Venta, RepoVenta, FiltroBusquedaVenta> {
         private bool _buscandoProductos = false;
-        private List<Pago> _pagos = new();
 
         public PresentadorRegistroVenta(IVistaRegistroVenta vista) : base(vista) {
             vista.BuscarProducto += OnBuscarProductos;
@@ -33,10 +31,9 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
         private void OnMostrarVistaRegistroVenta(string obj) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
-            
-            // Carga inicial de datos
+
             CargarDatosComunes();
-            
+
             Vista.Mostrar();
         }
 
@@ -47,13 +44,12 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             if (string.IsNullOrEmpty(obj))
                 return;
 
+            CargarDatosComunes();
+
             var venta = AgregadorEventos.DeserializarPayload<Core.Modelos.Modulos.Venta.Venta>(obj);
 
             if (venta == null)
                 return;
-
-            // Carga inicial de datos
-            CargarDatosComunes();
 
             PopularVistaDesdeEntidad(venta);
 
@@ -68,6 +64,22 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             PopularProductosRapidos();
         }
 
+        public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Venta.Venta venta) {
+            _carrito.Clear();
+
+            // Reconstruir carrito desde los detalles guardados
+            var detalles = RepoDetalleVentaProducto.Instancia
+                .Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString())
+                .resultadosBusqueda
+                .Select(r => r.entidadBase);
+
+            foreach (var detalle in detalles)
+                _carrito[(detalle.IdProducto, detalle.IdPresentacion)] = detalle;
+
+            ActualizarCarritoVenta();
+            ActualizarTotalesVista();
+        }
+
         protected override Core.Modelos.Modulos.Venta.Venta? ObtenerEntidadDesdeVista() {
             var totalBruto = _carrito.Values.Sum(d => d.PrecioVentaUnitario * d.Cantidad);
             var totalDescuento = _carrito.Values.Sum(d => d.PrecioVentaUnitario * d.Cantidad * (d.DescuentoItem / 100));
@@ -78,16 +90,14 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 IdCliente = Vista.Cliente?.Id ?? 0,
                 IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                 IdAlmacen = Vista.AlmacenOrigen?.Id ?? 0,
-                NumeroFacturaTicket = $"V{DateTime.Today:yyyyMMdd}{(RepoVenta.Instancia.Cantidad() + 1):000000}",
+                NumeroFacturaTicket = $"V{DateTime.Today:yyMMddHHmm}{(RepoEstadisticasVenta.Instancia.ObtenerVentasHoy() + 1):0000}",
                 FechaVenta = DateTime.Now,
                 TotalBruto = totalBruto,
                 DescuentoTotal = totalDescuento,
                 ImpuestoTotal = 0m,
                 ImporteTotal = importeTotal,
                 CanalPagoPrincipal = "NA",
-                EstadoVenta = _pagos.Sum(p => p.MontoPagado) >= importeTotal
-                    ? EstadoVentaEnum.Completada
-                    : EstadoVentaEnum.Pendiente,
+                EstadoVenta = EstadoVentaEnum.Pendiente,
                 ObservacionesVenta = Vista.Observaciones,
                 Activo = true
             };
@@ -114,8 +124,11 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
                 repoDetalle.Adicionar(detalle);
 
             AgregadorEventos.Publicar(
-                "VentaRegistrada",
-                AgregadorEventos.SerializarPayload(new object[] { Entidad!, detallesVenta, _pagos })
+                new EventoVentaRegistrada() {
+                    Venta = Entidad!,
+                    Detalles = detallesVenta,
+                    IdAlmacenOrigen = Vista.AlmacenOrigen?.Id ?? 0
+                }
             );
         }
 
@@ -181,21 +194,7 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             return true;
         }
 
-        public override void PopularVistaDesdeEntidad(Core.Modelos.Modulos.Venta.Venta venta) {
-            _carrito.Clear();
 
-            // Reconstruir carrito desde los detalles guardados
-            var detalles = RepoDetalleVentaProducto.Instancia
-                .Buscar(FiltroBusquedaDetalleVenta.PorVenta, venta.Id.ToString())
-                .resultadosBusqueda
-                .Select(r => r.entidadBase);
-
-            foreach (var detalle in detalles)
-                _carrito[(detalle.IdProducto, detalle.IdPresentacion)] = detalle;
-
-            ActualizarCarritoVenta();
-            ActualizarTotalesVista();
-        }
 
         private void OnClienteSeleccionado(string obj) {
             var cliente = AgregadorEventos.DeserializarPayload<Cliente>(obj);

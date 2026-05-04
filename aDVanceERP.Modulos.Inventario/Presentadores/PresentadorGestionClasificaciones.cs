@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -12,10 +13,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorGestionClasificaciones(IVistaGestionClasificaciones vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarClasificacion;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionClasificaciones", OnMostrarVistaGestionClasificaciones);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionClasificacionesProductos>(OnMostrarVistaGestionClasificaciones);
         }
 
-        private void OnMostrarVistaGestionClasificaciones(string obj) {
+        private void OnMostrarVistaGestionClasificaciones(EventoMostrarVistaGestionClasificacionesProductos e) {
             CargarDatosComunes();
             
             Vista.Restaurar();
@@ -29,7 +30,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnRegistrarClasificacion(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroClasificacion", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroClasificacionProducto());
         }
 
         protected override PresentadorTuplaClasificacion ObtenerValoresTupla(ClasificacionProducto entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -45,7 +46,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public override void Dispose() {
             Vista.RegistrarEntidad -= OnRegistrarClasificacion;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionClasificaciones", OnMostrarVistaGestionClasificaciones);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionClasificacionesProductos>(OnMostrarVistaGestionClasificaciones);
 
             base.Dispose();
         }

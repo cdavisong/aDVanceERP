@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -59,7 +59,9 @@ namespace aDVanceERP.Core.Presentadores.Comun {
 
                     Vista.EstadoSeleccion = value;
 
-                    AgregadorEventos.Publicar("CambioSeleccionTuplaEntidad", AgregadorEventos.SerializarPayload(value));
+                    AgregadorEventos.Publicar(new EventoCambioSeleccionTuplaEntidad() { 
+                        EstadoSeleccion = value
+                    });
                 }
                 finally {
                     _cambiandoSeleccion = false;

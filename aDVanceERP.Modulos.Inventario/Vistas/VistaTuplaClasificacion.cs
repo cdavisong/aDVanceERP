@@ -58,8 +58,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
-            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(Id, e); };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { 
+                EditarDatosTupla?.Invoke(sender, e); 
+            };
+            btnEliminar.Click += delegate (object? sender, EventArgs e) { 
+                EliminarDatosTupla?.Invoke(sender, e); 
+            };
         }
 
         public void Mostrar() {

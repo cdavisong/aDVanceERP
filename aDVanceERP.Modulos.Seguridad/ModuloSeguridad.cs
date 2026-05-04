@@ -1,10 +1,12 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Extension.Interfaces.BaseConcreta;
 using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
+using aDVanceERP.Modulos.Seguridad.Manejadores;
 using aDVanceERP.Modulos.Seguridad.Presentadores;
 using aDVanceERP.Modulos.Seguridad.Properties;
 using aDVanceERP.Modulos.Seguridad.Vistas;
@@ -14,12 +16,17 @@ using Guna.UI2.WinForms;
 namespace aDVanceERP.Modulos.Seguridad {
     public sealed class ModuloSeguridad : ModuloExtensionBase {
         private Guna2CircleButton _btnAccesoModulo = new Guna2CircleButton();
+
+        // Presentadores
         private PresentadorMenuSeguridad _menuSeguridad = null!;
-        private PresentadorAutenticacionUsuario _autenticacionUsuario = null!;
-        private PresentadorRegistroUsuario _registroUsuario = null!;
-        private PresentadorAprobacionUsuario _aprobacionUsuario = null!;
+        private PresentadorAutenticacionUsuario _autenticacionCuentaUsuario = null!;
+        private PresentadorRegistroCuentaUsuarioLogin _registroCuentaUsuarioLogin = null!;
+        private PresentadorAprobacionUsuario _aprobacionCuentaUsuario = null!;
         private PresentadorGestionCuentasUsuarios _cuentasUsuarios = null!;
         private PresentadorRegistroCuentaUsuario _registroCuentaUsuario = null!;
+
+        // Manejadores de eventos
+        private ManejadorCuentaUsuario _manejadorCuentaUsuario = null!;
 
         public ModuloSeguridad() {
             Nombre = ModuloSistemaEnum.MOD_SEGURIDAD;
@@ -32,9 +39,9 @@ namespace aDVanceERP.Modulos.Seguridad {
             _btnAccesoModulo.CustomImages.Image = Resources.security_configurationB_24px;
             _btnAccesoModulo.TabIndex = 9;
             _btnAccesoModulo.Click += delegate {
-                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-                AgregadorEventos.Publicar("MostrarVistaMenuSeguridad", string.Empty);
+                AgregadorEventos.Publicar(new EventoCambioModulo());
+                AgregadorEventos.Publicar(new EventoCambioMenu());
+                AgregadorEventos.Publicar(new EventoMostrarVistaMenuSeguridad());
             };
 
             // Menu
@@ -42,9 +49,9 @@ namespace aDVanceERP.Modulos.Seguridad {
 
             // Contenedor de seguridad
             // Autenticación
-            _autenticacionUsuario = new PresentadorAutenticacionUsuario(new VistaAutenticacionUsuario());
-            _registroUsuario = new PresentadorRegistroUsuario(new VistaRegistroUsuario());
-            _aprobacionUsuario = new PresentadorAprobacionUsuario(new VistaAprobacionUsuario());
+            _autenticacionCuentaUsuario = new PresentadorAutenticacionUsuario(new VistaAutenticacionCuentaUsuario());
+            _registroCuentaUsuarioLogin = new PresentadorRegistroCuentaUsuarioLogin(new VistaRegistroCuentaUsuarioLogin());
+            _aprobacionCuentaUsuario = new PresentadorAprobacionUsuario(new VistaAprobacionCuentaUsuario());
 
             // Contenedor de módulos
             // Cuentas de usuario
@@ -52,8 +59,8 @@ namespace aDVanceERP.Modulos.Seguridad {
             _registroCuentaUsuario = new PresentadorRegistroCuentaUsuario(new VistaRegistroCuentaUsuario());
             _registroCuentaUsuario.EntidadRegistradaActualizada += (s, e) => _cuentasUsuarios.ActualizarResultadosBusqueda();
 
-            // Seguridad
-            AgregadorEventos.Suscribir("EventoUsuarioAutenticado", InicializarSeguridadModulo);
+            // Manejadores de eventos
+            _manejadorCuentaUsuario = new ManejadorCuentaUsuario();
 
             base.Inicializar(principal);
         }
@@ -67,29 +74,40 @@ namespace aDVanceERP.Modulos.Seguridad {
 
             // Contenedor de seguridad
             // Registrar vistas de autenticación
-            _principal.Seguridad.Vista.PanelCentral.Registrar(_autenticacionUsuario.Vista);
-            _principal.Seguridad.Vista.PanelCentral.Registrar(_registroUsuario.Vista);
-            _principal.Seguridad.Vista.PanelCentral.Registrar(_aprobacionUsuario.Vista);
+            _principal.Seguridad.Vista.PanelCentral.Registrar(_autenticacionCuentaUsuario.Vista);
+            _principal.Seguridad.Vista.PanelCentral.Registrar(_registroCuentaUsuarioLogin.Vista);
+            _principal.Seguridad.Vista.PanelCentral.Registrar(_aprobacionCuentaUsuario.Vista);
 
             // Contenedor de módulos
             // Registrar vistas de gestión de cuentas de usuario
             _principal.Modulos.Vista.PanelCentral.Registrar(_cuentasUsuarios.Vista);
-            _principal.Modulos.Vista.PanelCentral.Registrar(
-                _registroCuentaUsuario.Vista, 
-                new Point(_principal.Modulos.Vista.PanelCentral.Dimensiones.Width - _registroCuentaUsuario.Vista.Dimensiones.Width, - 10), 
-                _registroCuentaUsuario.Vista.Dimensiones, 
-                TipoRedimensionadoVista.Vertical);
+            _principal.Modulos.Vista.PanelCentral.Registrar(_registroCuentaUsuario.Vista);
             
             // Mostrar la vista de autenticación por defecto
-            _principal.Seguridad.Vista.PanelCentral.Mostrar(nameof(VistaAutenticacionUsuario));
+            _principal.Seguridad.Vista.PanelCentral.Mostrar(nameof(VistaAutenticacionCuentaUsuario));
         }
 
-        private void InicializarSeguridadModulo(string obj) {
+        protected override void InicializarEventos() {
+            AgregadorEventos.Suscribir<EventoCuentaUsuarioRegistrada>(_manejadorCuentaUsuario.Manejar);
+            AgregadorEventos.Suscribir<EventoAprobarCuentaUsuario>(_manejadorCuentaUsuario.Manejar);
+            AgregadorEventos.Suscribir<EventoUsuarioAutenticado>(OnUsuarioAutenticado);
+        }
+
+        private void OnUsuarioAutenticado(EventoUsuarioAutenticado e) {
             _btnAccesoModulo.Visible = ContextoSeguridad.EsAdministrador;
         }
 
         public override void Apagar() {
-            throw new NotImplementedException();
+            _menuSeguridad?.Dispose();
+            _autenticacionCuentaUsuario?.Dispose();
+            _registroCuentaUsuarioLogin?.Dispose();
+            _aprobacionCuentaUsuario?.Dispose();
+            _cuentasUsuarios?.Dispose();
+            _registroCuentaUsuario?.Dispose();
+
+            AgregadorEventos.Desuscribir<EventoCuentaUsuarioRegistrada>(_manejadorCuentaUsuario.Manejar);
+            AgregadorEventos.Desuscribir<EventoAprobarCuentaUsuario>(_manejadorCuentaUsuario.Manejar);
+            AgregadorEventos.Desuscribir<EventoUsuarioAutenticado>(OnUsuarioAutenticado);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace aDVanceERP.Modulos.Inventario.Interfaces {
         UnidadMedida? UnidadMedida { get; set; }
         
         event EventHandler? GestionarPresentaciones;
-        event EventHandler<Almacen>? MovimientoPositivoStock;
-        event EventHandler<Almacen>? MovimientoNegativoStock;
+        event EventHandler? MovimientoCarga;
+        event EventHandler? MovimientoDescarga;
     }
 }

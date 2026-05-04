@@ -1,5 +1,6 @@
 ﻿using aDVanceERP.Core.Documentos.Comun;
-using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -16,12 +17,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void MostrarVistaEdicionAlmacen(object? sender, EventArgs e) {
-            if (sender is not long id)
-                return;
+            var almacen = RepoAlmacen.Instancia.ObtenerPorId(Vista.Id);
 
-            var entidad = RepoAlmacen.Instancia.ObtenerPorId(id);
-
-            AgregadorEventos.Publicar("MostrarVistaEdicionAlmacen", AgregadorEventos.SerializarPayload(entidad));
+            AgregadorEventos.Publicar(new EventoMostrarVistaEdicionAlmacen() {
+                Almacen = almacen!
+            });
         }
 
         private void OnExportarDocumentoInventarioAlmacen(object? sender, (long Id, FormatoDocumento Formato) e) {

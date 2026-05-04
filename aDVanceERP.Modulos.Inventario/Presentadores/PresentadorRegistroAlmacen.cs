@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -9,29 +10,21 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorRegistroAlmacen : PresentadorVistaRegistro<IVistaRegistroAlmacen, Almacen, RepoAlmacen, FiltroBusquedaAlmacen> {
         public PresentadorRegistroAlmacen(IVistaRegistroAlmacen vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroAlmacen>(OnMostrarVistaRegistroAlmacen);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionAlmacen>(OnMostrarVistaEdicionAlmacen);
         }
 
-        private void OnMostrarVistaRegistroAlmacen(string obj) {
+        private void OnMostrarVistaRegistroAlmacen(EventoMostrarVistaRegistroAlmacen e) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
             Vista.Mostrar();
         }
 
-        private void OnMostrarVistaEdicionAlmacen(string obj) {
+        private void OnMostrarVistaEdicionAlmacen(EventoMostrarVistaEdicionAlmacen e) {
             Vista.ModoEdicion = true;
             Vista.Restaurar();
 
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var almacen = AgregadorEventos.DeserializarPayload<Almacen>(obj);
-
-            if (almacen == null)
-                return;
-
-            PopularVistaDesdeEntidad(almacen);
+            PopularVistaDesdeEntidad(e.Almacen);
 
             Vista.Mostrar();
         }
@@ -53,12 +46,14 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 Direccion = Vista.Direccion,
                 Tipo = Vista.Tipo,
                 Estado = true
-            }; 
+            };
         }
 
         protected override async void RegistroEdicionAuxiliar(RepoAlmacen repositorio, long id) {
             if (!Vista.ModoEdicion)
-                AgregadorEventos.Publicar("AlmacenRegistrado", AgregadorEventos.SerializarPayload(Entidad));
+                AgregadorEventos.Publicar(new EventoAlmacenRegistrado() {
+                    Almacen = Entidad!
+                });
         }
 
         protected override bool EntidadCorrecta() {
@@ -82,8 +77,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroAlmacen", OnMostrarVistaRegistroAlmacen);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionAlmacen", OnMostrarVistaEdicionAlmacen);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaRegistroAlmacen>(OnMostrarVistaRegistroAlmacen);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEdicionAlmacen>(OnMostrarVistaEdicionAlmacen);
 
             base.Dispose();
         }

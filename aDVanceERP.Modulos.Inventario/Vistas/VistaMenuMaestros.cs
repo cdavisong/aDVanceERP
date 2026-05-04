@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
@@ -33,11 +34,21 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
     
         public void Inicializar() {
             // Eventos
-            btnProductos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionProductos", string.Empty); };
-            btnAlmacenes.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionAlmacenes", string.Empty); };
-            btnTiposClasificacionesProducto.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionClasificaciones", string.Empty); };
-            btnUnidadesMedida.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionUnidadesMedida", string.Empty); };
-            btnAtras.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuInventario", string.Empty); };
+            btnProductos.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionProductos()); 
+            };
+            btnAlmacenes.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionAlmacenes()); 
+            };
+            btnTiposClasificacionesProducto.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionClasificacionesProductos()); 
+            };
+            btnUnidadesMedida.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionUnidadesMedida()); 
+            };
+            btnAtras.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaMenuInventario()); 
+            };
         }
 
         public void SeleccionarVistaInicial() {

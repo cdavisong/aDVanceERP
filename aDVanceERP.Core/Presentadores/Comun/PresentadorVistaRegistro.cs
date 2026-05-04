@@ -38,7 +38,9 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             return true;
         }
 
-        protected virtual void RegistroEdicionAuxiliar(Re repositorio, long id) { }
+        protected virtual void RegistroEdicionAuxiliar(Re repositorio, long id) { 
+
+        }
 
         protected virtual void OnRegistrarEntidad(object? sender, EventArgs e) {
             RegistrarEditarEntidad(sender, e);

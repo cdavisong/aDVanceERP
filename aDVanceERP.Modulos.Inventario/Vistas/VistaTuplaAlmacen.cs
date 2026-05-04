@@ -72,7 +72,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             set {
                 var (colorFondo, colorFuente) = ObtenerColorEstado(value);
 
-                fieldEstado.Text = value ? "● Activo" : "X Inactivo";
+                fieldEstado.Text = value ? "Activo" : "Inactivo";
                 fieldEstado.DisabledState.BorderColor = colorFondo;
                 fieldEstado.DisabledState.FillColor = colorFondo;
                 fieldEstado.DisabledState.ForeColor = colorFuente;
@@ -86,22 +86,28 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnExportarDocumentoInventario.Click += delegate { btnExportarDocumentoInventario.ContextMenuStrip?.Show(btnExportarDocumentoInventario, new Point(0, 40)); };
-            btnExportarPdf.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.PDF)); };
-            btnExportarXlsx.Click += delegate { ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.Excel)); };
-            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
-            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(Id, e); };
+            btnExportarDocumentoInventario.Click += delegate { 
+                btnExportarDocumentoInventario
+                    .ContextMenuStrip?
+                    .Show(btnExportarDocumentoInventario, new Point(0, 40)); 
+            };
+            btnExportarPdf.Click += delegate { 
+                ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.PDF)); 
+            };
+            btnExportarXlsx.Click += delegate {
+                ExportarDocumentoInventario?.Invoke(this, (Id, FormatoDocumento.Excel)); 
+            };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { 
+                EditarDatosTupla?.Invoke(sender, e); 
+            };
+            btnEliminar.Click += delegate (object? sender, EventArgs e) { 
+                EliminarDatosTupla?.Invoke(sender, e); 
+            };
         }
 
         public void Mostrar() {
             BringToFront();
             Show();
-        }
-
-        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(bool estado) {
-            return estado
-                ? (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50))  // Verde
-                : (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)); // Rojo
         }
 
         public void Restaurar() {
@@ -114,6 +120,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Cerrar() {
             Dispose();
+        }
+
+        private (Color colorFondo, Color colorFuente) ObtenerColorEstado(bool estado) {
+            return estado
+                ? (Color.FromArgb(232, 245, 233), Color.FromArgb(46, 125, 50))  // Verde
+                : (Color.FromArgb(252, 228, 236), Color.FromArgb(198, 40, 40)); // Rojo
         }
     }
 }

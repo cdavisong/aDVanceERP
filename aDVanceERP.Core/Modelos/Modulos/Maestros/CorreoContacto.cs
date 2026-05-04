@@ -1,18 +1,14 @@
 ﻿using aDVanceERP.Core.Modelos.Comun.Interfaces;
 
-namespace aDVanceERP.Core.Modelos.Modulos.Maestros
-{
-    public sealed class CorreoContacto : IEntidadBaseDatos
-    {
-        public CorreoContacto()
-        {
+namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
+    public sealed class CorreoContacto : IEntidadBaseDatos {
+        public CorreoContacto() {
             DireccionCorreo = "N/A";
-            Categoria = CategoriaCorreoContacto.Personal;
+            Categoria = CategoriaCorreoContactoEnum.Personal;
             IdPersona = 0;
         }
 
-        public CorreoContacto(long id, string direccionCorreo, CategoriaCorreoContacto categoria, long idPersona)
-        {
+        public CorreoContacto(long id, string direccionCorreo, CategoriaCorreoContactoEnum categoria, long idPersona) {
             Id = id;
             DireccionCorreo = direccionCorreo;
             Categoria = categoria;
@@ -21,12 +17,11 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
 
         public long Id { get; set; }
         public string DireccionCorreo { get; set; }
-        public CategoriaCorreoContacto Categoria { get; set; }
+        public CategoriaCorreoContactoEnum Categoria { get; set; }
         public long IdPersona { get; set; }
     }
 
-    public enum FiltroBusquedaCorreoContacto
-    {
+    public enum FiltroBusquedaCorreoContacto {
         Todos,
         Id,
         DireccionCorreo,
@@ -34,8 +29,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros
         IdPersona
     }
 
-    public static class UtilesBusquedaCorreoContacto
-    {
+    public static class UtilesBusquedaCorreoContacto {
         public static object[] FiltroBusquedaCorreoContacto = {
             "Todos los correos de contacto",
             "Identificador de BD",

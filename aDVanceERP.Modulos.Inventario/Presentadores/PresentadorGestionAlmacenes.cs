@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -12,10 +13,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorGestionAlmacenes(IVistaGestionAlmacenes vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarAlmacen;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionAlmacenes", OnMostrarVistaGestionAlmacenes);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionAlmacenes>(OnMostrarVistaGestionAlmacenes);
         }
 
-        private void OnMostrarVistaGestionAlmacenes(string obj) {
+        private void OnMostrarVistaGestionAlmacenes(EventoMostrarVistaGestionAlmacenes e) {
             CargarDatosComunes();
 
             Vista.Restaurar();
@@ -25,7 +26,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnRegistrarAlmacen(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroAlmacen", sender?.ToString());
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroAlmacen());
         }
 
         private void CargarDatosComunes() {
@@ -52,7 +53,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public override void Dispose() {
             Vista.RegistrarEntidad -= OnRegistrarAlmacen;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionAlmacenes", OnMostrarVistaGestionAlmacenes);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionAlmacenes>(OnMostrarVistaGestionAlmacenes);
 
             base.Dispose();
         }

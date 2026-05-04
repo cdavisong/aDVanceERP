@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -32,6 +32,15 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             ActualizarResultadosBusqueda();
         }
 
+        private void OnRegistrarVenta(object? sender, EventArgs e) {
+            if (RepoProducto.Instancia.Cantidad() == 0) {
+                CentroNotificaciones.MostrarNotificacion("No es posible registrar una venta manual porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacionEnum.Advertencia);
+                return;
+            }
+
+            AgregadorEventos.Publicar("MostrarVistaRegistroVenta", string.Empty);
+        }
+
         private void CargarDatosComunes() {
             Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaVenta>()]);
         }
@@ -50,15 +59,6 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             base.ActualizarResultadosBusqueda();
         }
 
-        private void OnRegistrarVenta(object? sender, EventArgs e) {
-            if (RepoProducto.Instancia.Cantidad() == 0) {
-                CentroNotificaciones.MostrarNotificacion("No es posible registrar una venta manual porque no hay productos registrados en el sistema. Por favor, registre al menos un producto antes de continuar.", TipoNotificacionEnum.Advertencia);
-                return;
-            }
-
-            AgregadorEventos.Publicar("MostrarVistaRegistroVenta", string.Empty);
-        }
-
         protected override PresentadorTuplaVenta ObtenerValoresTupla(Core.Modelos.Modulos.Venta.Venta entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaVenta(new VistaTuplaVenta(), entidad);
             var cliente = RepoCliente.Instancia.ObtenerPorId(entidad.IdCliente);
@@ -67,8 +67,8 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.Id = entidad.Id;
             presentadorTupla.Vista.NumeroFacturaVenta = entidad.NumeroFacturaTicket ?? "-";
             presentadorTupla.Vista.FechaVenta = entidad.FechaVenta;
-            presentadorTupla.Vista.NombreCliente = string.IsNullOrEmpty(persona?.NombreCompleto) 
-                ? "Anónimo" 
+            presentadorTupla.Vista.NombreCliente = string.IsNullOrEmpty(persona?.NombreCompleto)
+                ? "Anónimo"
                 : persona.NombreCompleto;
             presentadorTupla.Vista.CanalPagoPrincipal = string.IsNullOrEmpty(entidad.CanalPagoPrincipal) || entidad.CanalPagoPrincipal.Equals("N/A")
                 ? CanalPagoEnum.NA
@@ -81,6 +81,14 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.EstadoVenta = entidad.EstadoVenta;
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarVenta;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionVentas", OnMostrarVistaGestionVentas);
+
+            base.Dispose();
         }
     }
 }

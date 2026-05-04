@@ -257,7 +257,11 @@ namespace aDVancePOS.Mobile {
                 MontoMonedaBase = montoBase,
                 TasaCambioAplicada = _monedaSeleccionada.TasaHoy,
                 IdMoneda = _monedaSeleccionada.Id,
-                DetallesMoneda = new List<PagoDetalleMoneda> { detalle }
+                DetallesMoneda = new List<PagoDetalleMoneda> { detalle },
+                DetalleTransferencia = esTransferencia ? new DetalleTransferencia {
+                    NumeroTransaccion = nroTrans,
+                    NumeroConfirmacion = _txtTelefono.Text?.Trim() ?? ""
+                } : null
             });
 
             // Limpiar campos

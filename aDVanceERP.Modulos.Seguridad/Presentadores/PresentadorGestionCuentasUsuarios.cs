@@ -1,10 +1,10 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
-using aDVanceERP.Core.Infraestructura.Globales;
-using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Seguridad;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Repositorios.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Interfaces;
 using aDVanceERP.Modulos.Seguridad.Vistas;
@@ -12,77 +12,49 @@ using aDVanceERP.Modulos.Seguridad.Vistas;
 namespace aDVanceERP.Modulos.Seguridad.Presentadores {
     public class PresentadorGestionCuentasUsuarios : PresentadorVistaGestion<PresentadorTuplaCuentaUsuario, IVistaGestionCuentasUsuarios, IVistaTuplaCuentaUsuario, CuentaUsuario, RepoCuentaUsuario, FiltroBusquedaCuentaUsuario> {
         public PresentadorGestionCuentasUsuarios(IVistaGestionCuentasUsuarios vista) : base(vista) {
-            vista.AprobarSolicitudCuenta += OnAprobarSolicitudCuentaUsuario;
             vista.RegistrarEntidad += OnRegistrarCuentaUsuario;
-            vista.EditarEntidad += OnEditarCuentaUsuario;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionCuentasUsuarios", OnMostrarVistaGestionCuentasUsuarios);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionCuentasUsuarios>(OnMostrarVistaGestionCuentasUsuarios);
         }
 
-        private void OnRegistrarCuentaUsuario(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroCuentaUsuario", string.Empty);
-            Vista.MostrarBtnAprobacionSolicitudCuenta = false;
-        }
-
-        private void OnEditarCuentaUsuario(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionCuentaUsuario", string.Empty);
-            Vista.MostrarBtnAprobacionSolicitudCuenta = false;
-        }
-
-        private void OnMostrarVistaGestionCuentasUsuarios(string obj) {
-            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaCuentaUsuario>()]);
+        private void OnMostrarVistaGestionCuentasUsuarios(EventoMostrarVistaGestionCuentasUsuarios e) {
+            CargarDatosComunes();
+            
             Vista.Restaurar();
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
         }
 
+        private void OnRegistrarCuentaUsuario(object? sender, EventArgs e) {
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroCuentaUsuario());
+        }
+
+        private void CargarDatosComunes() {
+            Vista.CargarFiltrosBusqueda([.. EnumExt.ObtenerNombresDescripciones<FiltroBusquedaCuentaUsuario>()]);
+        }
+
         protected override PresentadorTuplaCuentaUsuario ObtenerValoresTupla(CuentaUsuario entidad, List<IEntidadBaseDatos> entidadesExtra) {
             var presentadorTupla = new PresentadorTuplaCuentaUsuario(new VistaTuplaCuentaUsuario(), entidad);
+            var persona = RepoPersona.Instancia.ObtenerPorId(entidad.IdPersona);
+            var rol = RepoRol.Instancia.ObtenerPorId(entidad.IdRol);
 
-            presentadorTupla.Vista.Id = entidad.Id.ToString();
+            presentadorTupla.Vista.Id = entidad.Id;
+            presentadorTupla.Vista.NombrePersona = persona?.NombreCompleto ?? "N/A";
             presentadorTupla.Vista.NombreUsuario = entidad.Nombre;
-            presentadorTupla.Vista.EstadoCuentaUsuario = entidad.Aprobado ? "Activa" : "Esperando aprobación";
-            presentadorTupla.EntidadSeleccionada += OnCambioSeleccionEntidad;
-            presentadorTupla.EntidadDeseleccionada += OnCambioSeleccionEntidad;
+            presentadorTupla.Vista.NombreRol = rol?.Nombre ?? "N/A";
+            presentadorTupla.Vista.Email = string.IsNullOrEmpty(entidad.Email) ? "N/A" : entidad.Email;
+            presentadorTupla.Vista.Administrador = entidad.Administrador;
+            presentadorTupla.Vista.Aprobado = entidad.Aprobado;
+            presentadorTupla.Vista.Estado = entidad.Estado;
 
             return presentadorTupla;
         }
 
-        private void OnAprobarSolicitudCuentaUsuario(object? sender, EventArgs e) {
-            var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
-
-            if (tuplaSeleccionada == null) {
-                CentroNotificaciones.MostrarNotificacion("No se ha seleccionado ninguna cuenta de usuario para aprobar.", TipoNotificacionEnum.Advertencia);
-                return;
-            }
-
-            tuplaSeleccionada.Entidad.Aprobado = true;
-
-            Repositorio.Editar(tuplaSeleccionada.Entidad);
-            Vista.MostrarBtnAprobacionSolicitudCuenta = false;
-
-            ActualizarResultadosBusqueda();
-
-            CentroNotificaciones.MostrarNotificacion("La cuenta de usuario ha sido aprobada correctamente.", TipoNotificacionEnum.Info);
-        }
-
-        private void OnCambioSeleccionEntidad(object? sender, CuentaUsuario e) {
-            var tuplaSeleccionada = _tuplasEntidades.FirstOrDefault(t => t.EstadoSeleccion);
-
-            if (tuplaSeleccionada != null && !tuplaSeleccionada.Entidad.Aprobado) {
-                Vista.MostrarBtnAprobacionSolicitudCuenta = true;
-            } else {
-                Vista.MostrarBtnAprobacionSolicitudCuenta = false;
-            }
-        }
-
         protected override void Dispose(bool disposing) {
             Vista.RegistrarEntidad -= OnRegistrarCuentaUsuario;
-            Vista.EditarEntidad -= OnEditarCuentaUsuario;
-            Vista.AprobarSolicitudCuenta -= OnAprobarSolicitudCuentaUsuario;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionCuentasUsuarios", OnMostrarVistaGestionCuentasUsuarios);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionCuentasUsuarios>(OnMostrarVistaGestionCuentasUsuarios);
 
             base.Dispose(disposing);
         }

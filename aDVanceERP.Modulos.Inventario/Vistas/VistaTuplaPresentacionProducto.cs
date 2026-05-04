@@ -100,7 +100,7 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
                 var (colorFondo, colorFuente) = ObtenerColorEstado(value);
 
-                fieldEstado.Text = value ? "● Activo" : "X Inactivo";
+                fieldEstado.Text = value ? "Activo" : "Inactivo";
                 fieldEstado.DisabledState.BorderColor = colorFondo;
                 fieldEstado.DisabledState.FillColor = colorFondo;
                 fieldEstado.DisabledState.ForeColor = colorFuente;
@@ -112,8 +112,12 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnEditar.Click += delegate (object? sender, EventArgs e) { EditarDatosTupla?.Invoke(Id, e); };
-            btnEliminar.Click += delegate (object? sender, EventArgs e) { EliminarDatosTupla?.Invoke(this, e); };
+            btnEditar.Click += delegate (object? sender, EventArgs e) { 
+                EditarDatosTupla?.Invoke(sender, e); 
+            };
+            btnEliminar.Click += delegate (object? sender, EventArgs e) { 
+                EliminarDatosTupla?.Invoke(sender, e); 
+            };
         }
 
         public void Mostrar() {

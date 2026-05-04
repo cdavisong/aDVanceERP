@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Modulos.Movil.Interfaces;
 
 namespace aDVanceERP.Modulos.Movil.Vistas {

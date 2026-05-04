@@ -1,6 +1,8 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
@@ -10,7 +12,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnEditarPresentacionProducto(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("EditarPresentacionProducto", AgregadorEventos.SerializarPayload(sender));
+            var presentacionProducto = RepoPresentacionProducto.Instancia.ObtenerPorId(Vista.Id);
+
+            AgregadorEventos.Publicar(new EventoMostrarVistaEdicionPresentacionProducto() {
+                PresentacionProducto = presentacionProducto!
+            });
         }
 
         public override void Dispose() {

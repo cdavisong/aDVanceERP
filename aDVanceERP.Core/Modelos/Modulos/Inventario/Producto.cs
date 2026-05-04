@@ -62,6 +62,12 @@ namespace aDVanceERP.Core.Modelos.Modulos.Inventario {
         public decimal PrecioVentaBase { get; set; }
         public bool Activo { get; set; } = true;
 
+        public decimal ObtenerCostoUnitario() {
+            return Categoria == CategoriaProductoEnum.ProductoTerminado
+                    ? CostoProduccionUnitario
+                    : CostoAdquisicionUnitario;
+        }
+
         public override bool Equals(object? obj) {
             return Equals(obj as Producto);
         }

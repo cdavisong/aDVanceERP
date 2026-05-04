@@ -132,24 +132,24 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         }
 
         public event EventHandler? GestionarPresentaciones;
-        public event EventHandler<Almacen>? MovimientoPositivoStock;
-        public event EventHandler<Almacen>? MovimientoNegativoStock;
+        public event EventHandler? MovimientoCarga;
+        public event EventHandler? MovimientoDescarga;
         public event EventHandler? EditarDatosTupla;
         public event EventHandler? EliminarDatosTupla;
 
         public void Inicializar() {
             // Eventos
-            fieldPresentaciones.Click += delegate {
-                GestionarPresentaciones?.Invoke(new object[] { Id, Almacen }, EventArgs.Empty);
+            fieldPresentaciones.Click += delegate (object? sender, EventArgs e) {
+                GestionarPresentaciones?.Invoke(sender, e);
             };
-            btnMovimientoPositivo.Click += delegate (object? sender, EventArgs e) {
-                MovimientoPositivoStock?.Invoke(Id, Almacen);
+            btnMovimientoCarga.Click += delegate (object? sender, EventArgs e) {
+                MovimientoCarga?.Invoke(sender, e);
             };
-            btnMovimientoNegativo.Click += delegate (object? sender, EventArgs e) {
-                MovimientoNegativoStock?.Invoke(Id, Almacen);
+            btnMovimientoDescarga.Click += delegate (object? sender, EventArgs e) {
+                MovimientoDescarga?.Invoke(sender, e);
             };
             btnEditar.Click += delegate (object? sender, EventArgs e) {
-                EditarDatosTupla?.Invoke(new object[] { Id, Almacen }, e);
+                EditarDatosTupla?.Invoke(sender, e);
             };
             btnEliminar.Click += async delegate (object? sender, EventArgs e) {
                 if (RepoMovimiento.Instancia.Buscar(FiltroBusquedaMovimiento.IdProducto, Id.ToString()).cantidad > 0)

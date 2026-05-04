@@ -1,5 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
-
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Modulos.Seguridad.Interfaces;
 
 namespace aDVanceERP.Modulos.Seguridad.Vistas {
@@ -34,7 +34,9 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnUsuarios.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionCuentasUsuarios", string.Empty); };
+            btnUsuarios.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionCuentasUsuarios()); 
+            };
         }
 
         public void SeleccionarVistaInicial() {

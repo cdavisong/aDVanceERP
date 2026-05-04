@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Excepciones;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
@@ -18,16 +19,16 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             _servicioAutenticacion = ServicioAutenticacion.Instancia;
             _repoRol = RepoRol.Instancia;
 
-            AgregadorEventos.Suscribir("MostrarVistaAutenticacionUsuario", OnMostrarVistaAutenticacionUsuario);
-            AgregadorEventos.Suscribir("EventoAutenticarCuentaUsuario", OnAutenticarCuentaUsuario);
+            AgregadorEventos.Suscribir<EventoMostrarVistaAutenticacionCuentaUsuario>(OnMostrarVistaAutenticacionUsuario);
+            AgregadorEventos.Suscribir<EventoAutenticarCuentaUsuario>(OnAutenticarCuentaUsuario);
         }
 
-        private void OnMostrarVistaAutenticacionUsuario(string obj) {
+        private void OnMostrarVistaAutenticacionUsuario(EventoMostrarVistaAutenticacionCuentaUsuario e) {
             Vista.Restaurar();
             Vista.Mostrar();
         }
 
-        private void OnAutenticarCuentaUsuario(string obj) {
+        private void OnAutenticarCuentaUsuario(EventoAutenticarCuentaUsuario e) {
             if (string.IsNullOrEmpty(Vista.NombreUsuario) || Vista.Password.Length == 0) {
                 CentroNotificaciones.MostrarNotificacion(
                     "Debe especificar un usuario y contraseña para autenticarse en el sistema. Por favor, rellene los campos correctamente.",
@@ -39,9 +40,9 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
             try {
                 using (var repoUsuario = new RepoCuentaUsuario()) {
                     var (cantidad, resultados) = repoUsuario.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario);
-                    var usuario = resultados.FirstOrDefault().entidadBase;
+                    var cuentaUsuario = resultados.FirstOrDefault().entidadBase;
 
-                    if (usuario == null) {
+                    if (cuentaUsuario == null) {
                         CentroNotificaciones.MostrarNotificacion(
                             "El usuario especificado no existe en la base de datos o no se ha registrado aún en el sistema, verifique los datos entrados.",
                             TipoNotificacionEnum.Advertencia);
@@ -50,36 +51,40 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                     }
 
                     // Verificar estado del usuario
-                    if (!usuario.Estado) {
+                    if (!cuentaUsuario.Estado) {
                         CentroNotificaciones.MostrarNotificacion(
                             "La cuenta de usuario está desactivada. Contacte al administrador del sistema.",
                             TipoNotificacionEnum.Advertencia);
                         return;
                     }
 
-                    if (Vista.Password.VerificarPassword(usuario.PasswordHash, usuario.PasswordSalt)) {
+                    if (Vista.Password.VerificarPassword(cuentaUsuario.PasswordHash, cuentaUsuario.PasswordSalt)) {
                         // Obtener rol del usuario
-                        var rol = _repoRol.ObtenerPorId(usuario.IdRol);
+                        var rol = _repoRol.ObtenerPorId(cuentaUsuario.IdRol);
 
-                        if (usuario.Aprobado) {
+                        if (cuentaUsuario.Aprobado) {
                             // Cargar permisos del usuario
-                            var gestorPermisos = _servicioAutenticacion.ObtenerGestorPermisos(usuario.Id);
+                            var gestorPermisos = _servicioAutenticacion.ObtenerGestorPermisos(cuentaUsuario.Id);
 
                             // Establecer contexto de seguridad completo
-                            ContextoSeguridad.UsuarioAutenticado = usuario;
+                            ContextoSeguridad.UsuarioAutenticado = cuentaUsuario;
                             ContextoSeguridad.RolUsuario = rol;
                             ContextoSeguridad.GestorPermisos = gestorPermisos;
 
                             // Iniciar sesión en el sistema estático
-                            SesionUsuario.IniciarSesion(usuario, rol);
+                            SesionUsuario.IniciarSesion(cuentaUsuario, rol);
                             SesionUsuario.EstablecerGestorPermisos(gestorPermisos);
 
                             // Actualizar último acceso
-                            RepoCuentaUsuario.Instancia.ActualizarUltimoAcceso(usuario.Id);
+                            RepoCuentaUsuario.Instancia.ActualizarUltimoAcceso(cuentaUsuario.Id);
 
-                            AgregadorEventos.Publicar("EventoUsuarioAutenticado", AgregadorEventos.SerializarPayload(usuario));
+                            AgregadorEventos.Publicar(new EventoUsuarioAutenticado() {
+                                CuentaUsuario = cuentaUsuario
+                            });
                         } else {
-                            AgregadorEventos.Publicar("MostrarVistaAprobacionUsuario", AgregadorEventos.SerializarPayload(usuario));
+                            AgregadorEventos.Publicar(new EventoMostrarVistaAprobacionCuentaUsuario() {
+                                CuentaUsuario = cuentaUsuario
+                            });
                         }
                     } else {
                         CentroNotificaciones.MostrarNotificacion(
@@ -87,14 +92,14 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                             TipoNotificacionEnum.Advertencia);
                     }
                 }
-            } catch (ExcepcionConexionServidorMySQL e) {
-                CentroNotificaciones.MostrarNotificacion(e.Message, TipoNotificacionEnum.Error);
+            } catch (ExcepcionConexionServidorMySQL ex) {
+                CentroNotificaciones.MostrarNotificacion(ex.Message, TipoNotificacionEnum.Error);
             }
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaAutenticacionUsuario", OnMostrarVistaAutenticacionUsuario);
-            AgregadorEventos.Desuscribir("EventoAutenticarCuentaUsuario", OnAutenticarCuentaUsuario);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaAutenticacionCuentaUsuario>(OnMostrarVistaAutenticacionUsuario);
+            AgregadorEventos.Desuscribir<EventoAutenticarCuentaUsuario>(OnAutenticarCuentaUsuario);
         }
     }
 }

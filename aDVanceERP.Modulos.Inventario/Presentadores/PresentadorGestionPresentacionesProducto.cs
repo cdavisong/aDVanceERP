@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -12,63 +13,47 @@ using aDVanceERP.Modulos.Inventario.Vistas;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorGestionPresentacionesProducto : PresentadorVistaGestion<PresentadorTuplaPresentacionProducto, IVistaGestionPresentacionProducto, IVistaTuplaVentaPresentacion, PresentacionProducto, RepoPresentacionProducto, FiltroBusquedaPresentacionProducto> {
-        private Moneda? _monedaBase;
         private PresentacionProducto? _entidad = null!;
+        private Moneda? _monedaBase;
+        
 
         public PresentadorGestionPresentacionesProducto(IVistaGestionPresentacionProducto vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarPresentacionProducto;
             vista.EditarEntidad += OnEditarPresentacionProducto;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionPresentacionProducto", OnMostrarVistaGestionVistaGestionPresentacionProducto);
-            AgregadorEventos.Suscribir("EditarPresentacionProducto", OnPrepararEdicionPresentacionProducto);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionPresentacionProducto>(OnMostrarVistaGestionVistaGestionPresentacionProducto);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionPresentacionProducto>(OnMostrarVistaEdicionPresentacionProducto);
         }
 
-        private void OnMostrarVistaGestionVistaGestionPresentacionProducto(string obj) {
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var producto = AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString());
-            var almacen = datos[1] != null
-                    ? AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString())
-                    : null;
-
-            if (producto == null)
-                return;
-
-            _entidad = null;
+        private void OnMostrarVistaGestionVistaGestionPresentacionProducto(EventoMostrarVistaGestionPresentacionProducto e) {
+            CargarDatosComunes(e.Producto);
 
             Vista.ModoEdicion = false;
-            Vista.Restaurar();
-
-            CargarDatosComunes();
-
-            Vista.CargarDatosProducto(producto);
+            Vista.Restaurar();            
             Vista.Mostrar();
 
             ActualizarResultadosBusqueda();
         }
 
-        private void OnPrepararEdicionPresentacionProducto(string obj) {
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var id = AgregadorEventos.DeserializarPayload<long>(obj);
-            var entidad = RepoPresentacionProducto.Instancia.ObtenerPorId(id);
-
-            if (entidad == null)
-                return;
-
-            _entidad = entidad;
-
+        private void OnMostrarVistaEdicionPresentacionProducto(EventoMostrarVistaEdicionPresentacionProducto e) {
             Vista.ModoEdicion = true;
 
-            PopularVistaDesdeEntidad(entidad);
+            CargarDatosComunes(e.PresentacionProducto);
+            PopularVistaDesdeEntidad(e.PresentacionProducto);
         }
 
-        private void CargarDatosComunes() {
+        private void CargarDatosComunes(Producto producto = null!) {
+            var monedas = RepoMoneda.Instancia.ObtenerActivas();
+
+            _monedaBase = monedas.FirstOrDefault(m => m.EsBase);
+
+            Vista.CargarDatosProducto(producto);
             Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarMonedas([.. RepoMoneda.Instancia.ObtenerActivas()]);
+            Vista.CargarMonedas([.. monedas]);
+        }
+
+        private void CargarDatosComunes(PresentacionProducto presentacionProducto) {
+            _entidad = presentacionProducto;
         }
 
         protected override PresentadorTuplaPresentacionProducto ObtenerValoresTupla(PresentacionProducto entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -187,8 +172,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.RegistrarEntidad -= OnRegistrarPresentacionProducto;
             Vista.EditarEntidad -= OnEditarPresentacionProducto;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionPresentacionProducto", OnMostrarVistaGestionVistaGestionPresentacionProducto);
-            AgregadorEventos.Desuscribir("EditarPresentacionProducto", OnPrepararEdicionPresentacionProducto);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionPresentacionProducto>(OnMostrarVistaGestionVistaGestionPresentacionProducto);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEdicionPresentacionProducto>(OnMostrarVistaEdicionPresentacionProducto);
 
             base.Dispose();
         }

@@ -71,11 +71,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             }
         }
 
-        public bool MostrarBtnAprobacionSolicitudCuenta {
-            get => btnAprobarSolicitudCuenta.Visible;
-            set => btnAprobarSolicitudCuenta.Visible = value;
-        }
-
         public RepoVistaBase? PanelCentral { get; private set; }
 
         public event EventHandler? AlturaContenedorTuplasModificada;
@@ -90,25 +85,21 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         public event EventHandler? EliminarEntidad;
         public event EventHandler<(FiltroBusquedaCuentaUsuario, string[])>? BuscarEntidades;
 
-        public event EventHandler? AprobarSolicitudCuenta;
-
         public void Inicializar() {
             // Eventos
             fieldFiltroBusqueda.SelectedIndexChanged += OnCambioIndiceFiltroBusqueda;
-            fieldCriterioBusqueda.KeyDown += delegate(object? sender, KeyEventArgs args) {
+            fieldCriterioBusqueda.KeyDown += delegate (object? sender, KeyEventArgs args) {
                 if (args.KeyCode != Keys.Enter)
                     return;
 
-                if (!string.IsNullOrEmpty(CriteriosBusqueda[0]))
-                    BuscarEntidades?.Invoke(sender, (FiltroBusqueda, CriteriosBusqueda));
+                if (CriteriosBusqueda.Length > 0 && !string.IsNullOrEmpty(CriteriosBusqueda[0]))
+                    BuscarEntidades?.Invoke(this, (FiltroBusqueda, CriteriosBusqueda));
                 else SincronizarDatos?.Invoke(sender, args);
 
                 args.SuppressKeyPress = true;
             };
-            btnRegistrar.Click += delegate (object? sender, EventArgs e) { RegistrarEntidad?.Invoke(sender, e); };
-            btnAprobarSolicitudCuenta.Click += delegate (object? sender, EventArgs e) {
-                btnAprobarSolicitudCuenta.Hide();
-                AprobarSolicitudCuenta?.Invoke(sender, e);
+            btnRegistrar.Click += delegate (object? sender, EventArgs e) {
+                RegistrarEntidad?.Invoke(sender, e);
             };
             btnPrimeraPagina.Click += delegate (object? sender, EventArgs e) {
                 PaginaActual = 1;
@@ -134,8 +125,12 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
                 SincronizarDatos?.Invoke(sender, e);
                 HabilitarBotonesPaginacion();
             };
-            btnSincronizarDatos.Click += delegate (object? sender, EventArgs e) { SincronizarDatos?.Invoke(sender, e); };
-            contenedorVistas.Resize += delegate { AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty); };
+            btnSincronizarDatos.Click += delegate (object? sender, EventArgs e) {
+                SincronizarDatos?.Invoke(sender, e);
+            };
+            contenedorVistas.Resize += delegate {
+                AlturaContenedorTuplasModificada?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         private void OnCambioIndiceFiltroBusqueda(object? sender, EventArgs e) {
@@ -145,7 +140,7 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             if (fieldCriterioBusqueda.Visible)
                 fieldCriterioBusqueda.Focus();
 
-            BuscarEntidades?.Invoke(this, (FiltroBusqueda, new[] { string.Empty }));
+            BuscarEntidades?.Invoke(this, (FiltroBusqueda, Array.Empty<string>()));
 
             // Ir a la primera página al cambiar el criterio de búsqueda
             PaginaActual = 1;
@@ -178,7 +173,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
             Habilitada = true;
             PaginaActual = 1;
             PaginasTotales = 1;
-            MostrarBtnAprobacionSolicitudCuenta = false;
 
             if (fieldFiltroBusqueda.Items.Count > 0) {
                 fieldFiltroBusqueda.SelectedIndex = 0;
@@ -187,7 +181,6 @@ namespace aDVanceERP.Modulos.Seguridad.Vistas {
         }
 
         public void Ocultar() {
-            Habilitada = false;
             Hide();
         }
 

@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -9,29 +10,21 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorRegistroClasificacion : PresentadorVistaRegistro<IVistaRegistroClasificacion, ClasificacionProducto, RepoClasificacionProducto, FiltroBusquedaClasificacionProducto> {
         public PresentadorRegistroClasificacion(IVistaRegistroClasificacion vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroClasificacion", OnMostrarVistaRegistroClasificacion);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionClasificacion", OnMostrarVistaEdicionClasificacion);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroClasificacionProducto>(OnMostrarVistaRegistroClasificacion);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionClasificacion>(OnMostrarVistaEdicionClasificacion);
         }
 
-        private void OnMostrarVistaRegistroClasificacion(string obj) {
+        private void OnMostrarVistaRegistroClasificacion(EventoMostrarVistaRegistroClasificacionProducto e) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();        
             Vista.Mostrar();
         }
 
-        private void OnMostrarVistaEdicionClasificacion(string obj) {
+        private void OnMostrarVistaEdicionClasificacion(EventoMostrarVistaEdicionClasificacion e) {
             Vista.ModoEdicion = true;
             Vista.Restaurar();
 
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var clasificacion = AgregadorEventos.DeserializarPayload<ClasificacionProducto>(obj);
-
-            if (clasificacion == null)
-                return;
-
-            PopularVistaDesdeEntidad(clasificacion);
+            PopularVistaDesdeEntidad(e.ClasificacionProducto);
 
             Vista.Mostrar();
         }
@@ -53,7 +46,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         protected override async void RegistroEdicionAuxiliar(RepoClasificacionProducto repositorio, long id) {
             if (!Vista.ModoEdicion)
-                AgregadorEventos.Publicar("ClasificacionProductoRegistrada", AgregadorEventos.SerializarPayload(Entidad));
+                AgregadorEventos.Publicar(new EventoClasificacionProductoRegistrada() {
+                    ClasificacionProducto = Entidad!
+                });
         }
 
         protected override bool EntidadCorrecta() {
@@ -69,8 +64,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroClasificacion", OnMostrarVistaRegistroClasificacion);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionClasificacion", OnMostrarVistaEdicionClasificacion);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroClasificacionProducto>(OnMostrarVistaRegistroClasificacion);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionClasificacion>(OnMostrarVistaEdicionClasificacion);
 
             base.Dispose();
         }

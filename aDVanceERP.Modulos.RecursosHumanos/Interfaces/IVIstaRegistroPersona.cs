@@ -5,7 +5,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Interfaces
 {
     public interface IVIstaRegistroPersona : IVistaRegistro {
         string NombreCompleto { get; set; }
-        TipoDocumento TipoDocumento { get; set; }        
+        TipoDocumentoEnum TipoDocumento { get; set; }        
         string NumeroDocumento { get; set; }
         DateTime FechaRegistro { get; set; }
         string? DireccionPrincipal { get; set; }

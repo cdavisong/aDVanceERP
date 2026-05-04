@@ -4,81 +4,56 @@ using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Modulos.Inventario.Interfaces;
-using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Modelos.Modulos.Venta;
+using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorRegistroMovimiento : PresentadorVistaRegistro<IVistaRegistroMovimiento, Movimiento, RepoMovimiento, FiltroBusquedaMovimiento> {
         public PresentadorRegistroMovimiento(IVistaRegistroMovimiento vista) : base(vista) {
             vista.RegistrarProducto += OnMostrarVistaRegistroProducto;
 
-            AgregadorEventos.Suscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
-            AgregadorEventos.Suscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
-            AgregadorEventos.Suscribir("VentaRegistrada", OnNuevaVentaRegistrada);
-            AgregadorEventos.Suscribir("VentaAnulada", OnVentaAnulada);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroMovimiento>(OnMostrarVistaRegistroMovimiento);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionMovimiento>(OnMostrarVistaEdicionMovimiento);
+            AgregadorEventos.Suscribir<EventoProductoRegistrado>(OnNuevoProductoRegistrado);
         }
 
-        private void OnMostrarVistaRegistroMovimiento(string obj) {
+        private void OnMostrarVistaRegistroMovimiento(EventoMostrarVistaRegistroMovimiento e) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
+            
+            CargarDatosComunes(e.EfectoMovimiento);
 
-            CargarDatosComunes();
-
-            if (!string.IsNullOrEmpty(obj)) {
-                var datosExtra = AgregadorEventos.DeserializarPayload<object[]>(obj);
-                var producto = AgregadorEventos.DeserializarPayload<Producto>(datosExtra[0].ToString());
-                var signoMovimiento = datosExtra[1].ToString();
-
-                if (producto != null)
-                    Vista.Producto = producto;
-
-                if (signoMovimiento == "+" || signoMovimiento == "-") {
-                    var tiposMovimiento = RepoTipoMovimiento.Instancia
-                        .ObtenerTodos()
-                        .Select(r => r.entidadBase)
-                        .Where(tm => tm.Efecto == (signoMovimiento == "+"
-                            ? EfectoMovimientoEnum.Carga
-                            : EfectoMovimientoEnum.Descarga))
-                        .ToArray();
-
-                    Vista.CargarTiposMovimientos(tiposMovimiento);
-
-                    if (tiposMovimiento.Length == 1)
-                        Vista.TipoMovimiento = tiposMovimiento[0];
-                }
-            }
-
+            Vista.Producto = e.Producto;
+            Vista.AlmacenOrigen = e.AlmacenOrigen;
+            Vista.AlmacenDestino = e.AlmacenDestino;
             Vista.Mostrar();
         }
 
-        private void OnMostrarVistaEdicionMovimiento(string obj) {
+        private void OnMostrarVistaEdicionMovimiento(EventoMostrarVistaEdicionMovimiento e) {
             Vista.ModoEdicion = true;
             Vista.Restaurar();
 
-            if (string.IsNullOrEmpty(obj))
-                return;
-
             CargarDatosComunes();
-
-            var movimiento = AgregadorEventos.DeserializarPayload<Movimiento>(obj.ToString());
-
-            if (movimiento == null)
-                return;
-
-            PopularVistaDesdeEntidad(movimiento);
+            PopularVistaDesdeEntidad(e.Movimiento);
 
             Vista.Mostrar();
         }
 
-        private void CargarDatosComunes() {
+        private void CargarDatosComunes(EfectoMovimientoEnum efectoMovimiento = EfectoMovimientoEnum.Ninguno) {
             Vista.CargarProductos([.. RepoProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarTiposMovimientos([.. RepoTipoMovimiento.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
+            Vista.CargarTiposMovimientos(efectoMovimiento == EfectoMovimientoEnum.Ninguno 
+                ? [.. RepoTipoMovimiento.Instancia
+                    .ObtenerTodos()
+                    .Select(r => r.entidadBase)]
+                : [.. RepoTipoMovimiento.Instancia
+                    .ObtenerTodos()
+                    .Select(r => r.entidadBase)
+                    .Where(tm => tm.Efecto == efectoMovimiento)]);
         }
 
         private void OnMostrarVistaRegistroProducto(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroProducto", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroProducto());
         }
 
         public override void PopularVistaDesdeEntidad(Movimiento entidad) {
@@ -139,15 +114,17 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         protected override void RegistroEdicionAuxiliar(RepoMovimiento repoMovimiento, long id) {
-            if (Entidad != null && !Vista.ModoEdicion) {
-                RepoInventario.Instancia.ModificarInventario(
-                    Vista.Producto,
-                    Vista.AlmacenOrigen,
-                    Vista.AlmacenDestino,
-                    Vista.CantidadMovida
-                );
+            if (!Vista.ModoEdicion) {
+                AgregadorEventos.Publicar(new EventoMovimientoRegistrado() {
+                    Movimiento = Entidad!
+                });
 
-                AgregadorEventos.Publicar("MovimientoInventarioRegistrado", AgregadorEventos.SerializarPayload(Entidad));
+                AgregadorEventos.Publicar(new EventoInventarioModificado() {
+                    Producto = Vista.Producto!,
+                    AlmacenOrigen = Vista.AlmacenOrigen!,
+                    AlmacenDestino = Vista.AlmacenDestino!,
+                    Cantidad = Vista.CantidadMovida
+                });
             }
         }
 
@@ -218,180 +195,18 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             return productoOk && tipoMovimientoOk && cantidadOk;
         }
 
-        private void OnNuevoProductoRegistrado(string obj) {
-            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var producto = AgregadorEventos.DeserializarPayload<Producto>(datos[0].ToString());
-            var almacen = AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString());
-            var cantidad = AgregadorEventos.DeserializarPayload<decimal>(datos[2].ToString());
-
-            if (producto == null)
-                return;
-
-            var costoUnitario = producto!.Categoria == CategoriaProductoEnum.ProductoTerminado
-                                    ? producto.CostoProduccionUnitario
-                                    : producto.CostoAdquisicionUnitario;
-
-            var movimiento = new Movimiento() {
-                Id = 0,
-                IdProducto = producto.Id,
-                CostoUnitario = costoUnitario,
-                IdAlmacenOrigen = 0,
-                IdAlmacenDestino = almacen?.Id ?? 0,
-                Estado = EstadoMovimientoEnum.Completado,
-                FechaCreacion = DateTime.Now,
-                SaldoInicial = 0,
-                FechaTermino = DateTime.Now,
-                CantidadMovida = cantidad,
-                SaldoFinal = cantidad,
-                IdTipoMovimiento = RepoTipoMovimiento.Instancia
-                    .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Carga Inicial")
-                    .resultadosBusqueda
-                    .Select(r => r.entidadBase)
-                    .FirstOrDefault()?.Id ?? throw new InvalidOperationException("No se encontró el tipo de movimiento 'Carga Inicial'."),
-                IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                Notas = "Movimiento inicial generado automáticamente al registrar nuevo producto."
-            };
-
-            RepoMovimiento.Instancia.Adicionar(movimiento);
-            RepoInventario.Instancia.ModificarInventario(
-                producto,
-                null,
-                almacen,
-                cantidad
-            );
-
-            // Recargar datos comunes y establecer producto
+        private void OnNuevoProductoRegistrado(EventoProductoRegistrado e) { 
             CargarDatosComunes();
 
-            Vista.Producto = producto;
-        }
-
-        private void OnNuevaVentaRegistrada(string obj) {
-            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var venta = AgregadorEventos.DeserializarPayload<Venta>(datos[0].ToString());
-            var detallesVenta = AgregadorEventos.DeserializarPayload<List<DetalleVentaProducto>>(datos[1].ToString());
-
-            if (venta == null || detallesVenta == null || detallesVenta.Count == 0)
-                return;
-
-            var almacen = RepoAlmacen.Instancia.ObtenerPorId(venta.IdAlmacen);
-
-            if (almacen == null)
-                return;
-
-            var repoProducto = RepoProducto.Instancia;
-            var repoInventario = RepoInventario.Instancia;
-            var repoMovimiento = RepoMovimiento.Instancia;
-            var idTipoMovimientoVenta = RepoTipoMovimiento.Instancia
-                .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Venta")
-                .resultadosBusqueda
-                .Select(r => r.entidadBase)
-                .FirstOrDefault()?.Id ?? throw new InvalidOperationException("No se encontró el tipo de movimiento 'Venta'.");
-
-            foreach (var detalleVenta in detallesVenta) {
-                var producto = repoProducto.ObtenerPorId(detalleVenta.IdProducto);
-
-                if (producto == null)
-                    continue;
-
-                var inventarioProducto = repoInventario
-                    .Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
-                    .resultadosBusqueda
-                    .Select(r => r.entidadBase)
-                    .FirstOrDefault(i => i.IdAlmacen == almacen.Id);
-
-                if (inventarioProducto == null)
-                    continue;
-
-                var costoUnitario = producto.Categoria == CategoriaProductoEnum.ProductoTerminado
-                    ? producto.CostoProduccionUnitario
-                    : producto.CostoAdquisicionUnitario;
-
-                var movimiento = new Movimiento() {
-                    Id = 0,
-                    IdProducto = producto.Id,
-                    CostoUnitario = costoUnitario,
-                    IdAlmacenOrigen = almacen.Id,
-                    IdAlmacenDestino = 0,
-                    Estado = EstadoMovimientoEnum.Completado,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = inventarioProducto.Cantidad,
-                    FechaTermino = DateTime.Now,
-                    CantidadMovida = detalleVenta.Cantidad,
-                    SaldoFinal = inventarioProducto.Cantidad - detalleVenta.Cantidad,
-                    IdTipoMovimiento = idTipoMovimientoVenta,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Descarga automática por venta {venta.NumeroFacturaTicket}."
-                };
-
-                repoMovimiento.Adicionar(movimiento);
-                repoInventario.ModificarInventario(
-                    producto, 
-                    almacen, 
-                    null, 
-                    detalleVenta.Cantidad
-                );
-            }
-        }
-
-        private void OnVentaAnulada(string obj) {
-            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var venta = AgregadorEventos.DeserializarPayload<Venta>(datos[0].ToString());
-            var detallesVenta = AgregadorEventos.DeserializarPayload<List<DetalleVentaProducto>>(datos[1].ToString());
-
-            if (venta == null || detallesVenta == null || detallesVenta.Count == 0)
-                return;
-
-            var almacen = RepoAlmacen.Instancia.ObtenerPorId(venta.IdAlmacen);
-            if (almacen == null) return;
-
-            var repoProducto = RepoProducto.Instancia;
-            var repoInventario = RepoInventario.Instancia;
-            var repoMovimiento = RepoMovimiento.Instancia;
-            var idTipoDevolucion = RepoTipoMovimiento.Instancia
-                .Buscar(FiltroBusquedaTipoMovimiento.Nombre, "Devolución de Venta")
-                .resultadosBusqueda.Select(r => r.entidadBase)
-                .FirstOrDefault()?.Id
-                ?? throw new InvalidOperationException("No se encontró el tipo 'Devolución de Venta'.");
-
-            foreach (var detalle in detallesVenta) {
-                var producto = repoProducto.ObtenerPorId(detalle.IdProducto);
-                if (producto == null) continue;
-
-                var inventario = repoInventario
-                    .Buscar(FiltroBusquedaInventario.IdProducto, producto.Id.ToString())
-                    .resultadosBusqueda.Select(r => r.entidadBase)
-                    .FirstOrDefault(i => i.IdAlmacen == almacen.Id);
-                if (inventario == null) continue;
-
-                var movimiento = new Movimiento {
-                    Id = 0,
-                    IdProducto = producto.Id,
-                    CostoUnitario = detalle.PrecioCompraVigente,
-                    IdAlmacenOrigen = 0,
-                    IdAlmacenDestino = almacen.Id,
-                    Estado = EstadoMovimientoEnum.Completado,
-                    FechaCreacion = DateTime.Now,
-                    SaldoInicial = inventario.Cantidad,
-                    FechaTermino = DateTime.Now,
-                    CantidadMovida = detalle.Cantidad,
-                    SaldoFinal = inventario.Cantidad + detalle.Cantidad,
-                    IdTipoMovimiento = idTipoDevolucion,
-                    IdCuentaUsuario = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
-                    Notas = $"Reversión automática por anulación de venta {venta.NumeroFacturaTicket}."
-                };
-
-                repoMovimiento.Adicionar(movimiento);
-                repoInventario.ModificarInventario(producto, null, almacen, detalle.Cantidad);
-            }
+            Vista.Producto = e.Producto;
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroMovimiento", OnMostrarVistaRegistroMovimiento);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionMovimiento", OnMostrarVistaEdicionMovimiento);
-            AgregadorEventos.Desuscribir("ProductoRegistrado", OnNuevoProductoRegistrado);
-            AgregadorEventos.Desuscribir("VentaRegistrada", OnNuevaVentaRegistrada);
-            AgregadorEventos.Desuscribir("VentaAnulada", OnVentaAnulada);
+            Vista.RegistrarProducto -= OnMostrarVistaRegistroProducto;
+
+            AgregadorEventos.Desuscribir<EventoMostrarVistaRegistroMovimiento>(OnMostrarVistaRegistroMovimiento);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEdicionMovimiento>(OnMostrarVistaEdicionMovimiento);
+            AgregadorEventos.Desuscribir<EventoProductoRegistrado>(OnNuevoProductoRegistrado);
 
             base.Dispose();
         }

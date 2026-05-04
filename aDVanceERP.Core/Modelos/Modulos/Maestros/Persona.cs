@@ -4,13 +4,13 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
     public class Persona : IEntidadBaseDatos {
         public Persona() {
             NombreCompleto = "N/A";
-            TipoDocumento = TipoDocumento.CI;
+            TipoDocumento = TipoDocumentoEnum.CI;
             NumeroDocumento = "N/A";
             FechaRegistro = DateTime.Now;
             Activo = true;
         }
 
-        public Persona(long id, string nombreCompleto, TipoDocumento tipoDocumento, string numeroDocumento, string? direccionPrincipal, DateTime fechaRegistro, bool activo) {
+        public Persona(long id, string nombreCompleto, TipoDocumentoEnum tipoDocumento, string numeroDocumento, string? direccionPrincipal, DateTime fechaRegistro, bool activo) {
             Id = id;
             NombreCompleto = nombreCompleto;
             TipoDocumento = tipoDocumento;
@@ -22,7 +22,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Maestros {
 
         public long Id { get; set; }
         public string NombreCompleto { get; set; }
-        public TipoDocumento TipoDocumento { get; set; }
+        public TipoDocumentoEnum TipoDocumento { get; set; }
         public string NumeroDocumento { get; set; }
         public string? DireccionPrincipal { get; set; }
         public DateTime FechaRegistro { get; set; }

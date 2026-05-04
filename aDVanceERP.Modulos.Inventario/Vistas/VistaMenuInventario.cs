@@ -1,7 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
-using aDVanceERP.Core.Infraestructura.Extensiones.Modulos.Seguridad;
-using aDVanceERP.Core.Infraestructura.Globales;
-
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Vistas {
@@ -37,9 +35,15 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
 
         public void Inicializar() {
             // Eventos
-            btnEstadisticas.Click += delegate { AgregadorEventos.Publicar("MostrarVistaEstadisticasInventario", string.Empty); };
-            btnMovimientos.Click += delegate { AgregadorEventos.Publicar("MostrarVistaGestionMovimientos", string.Empty); };
-            btnMaestros.Click += delegate { AgregadorEventos.Publicar("MostrarVistaMenuMaestrosInventario", string.Empty); };
+            btnEstadisticas.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaEstadisticasInventario()); 
+            };
+            btnMovimientos.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaGestionMovimientos()); 
+            };
+            btnMaestros.Click += delegate { 
+                AgregadorEventos.Publicar(new EventoMostrarVistaMenuMaestrosInventario()); 
+            };
         }
 
         public void SeleccionarVistaInicial() {
@@ -65,7 +69,5 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         public void Cerrar() {
             Dispose();
         }
-
-        
     }
 }

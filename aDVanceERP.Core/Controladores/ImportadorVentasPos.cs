@@ -1,11 +1,14 @@
-using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Movil;
 using aDVanceERP.Core.Infraestructura.Globales;
+using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Caja;
 using aDVanceERP.Core.Modelos.Modulos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Venta;
 using aDVanceERP.Core.Repositorios.Modulos.Caja;
 using aDVanceERP.Core.Repositorios.Modulos.Comun;
+using aDVanceERP.Core.Repositorios.Modulos.Estadisticas;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Core.Repositorios.Modulos.Venta;
 
@@ -31,7 +34,6 @@ namespace aDVanceERP.Core.Controladores {
         /// <summary>Resumen de la operación de importación.</summary>
         public record ResultadoImportacion(
             int VentasImportadas,
-            int VentasDuplicadasOmitidas,
             List<string> Errores);
 
         /// <summary>
@@ -52,10 +54,11 @@ namespace aDVanceERP.Core.Controladores {
             bool eliminarTrasImportar = false) {
 
             int ventasImportadas = 0;
-            int ventasSaltadasDuplicadas = 0;
             var errores = new List<string>();
+            var archivosExitosos = new List<string>();
 
             var repoVenta = RepoVenta.Instancia;
+            var repoEstadisticasVenta = RepoEstadisticasVenta.Instancia;
             var repoAlmacen = RepoAlmacen.Instancia;
             var repoProducto = RepoProducto.Instancia;
             var repoPresentacion = RepoPresentacionProducto.Instancia;
@@ -75,11 +78,14 @@ namespace aDVanceERP.Core.Controladores {
             var opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
             foreach (var archivo in rutasArchivos) {
+                bool archivoTieneErrores = false;
+
                 try {
-                    if (!File.Exists(archivo)) continue;
+                    if (!File.Exists(archivo)) 
+                        continue;
 
                     var root = JsonSerializer.Deserialize<VentasExportacionJson>(File.ReadAllText(archivo), opciones);
-
+                    
                     if (root?.Ventas == null || root.Ventas.Count == 0)
                         continue;
 
@@ -105,7 +111,9 @@ namespace aDVanceERP.Core.Controladores {
                                     break;
                                 }
                             }
-                            if (!productosValidos) continue;
+
+                            if (!productosValidos) 
+                                continue;
 
                             if (ventaExp.Pagos?.Count > 0) {
                                 var totalPagado = ventaExp.Pagos.Sum(p => p.MontoPagado);
@@ -118,22 +126,13 @@ namespace aDVanceERP.Core.Controladores {
                                 }
                             }
 
-                            var existentes = repoVenta
-                                .Buscar(FiltroBusquedaVenta.NumeroFactura, ventaExp.NumeroTicket)
-                                .resultadosBusqueda;
-
-                            if (existentes?.Count > 0) {
-                                ventasSaltadasDuplicadas++;
-                                continue;
-                            }
-
                             var ventaBD = new Venta {
                                 Id = 0,
                                 IdPedido = 0,
                                 IdCliente = ventaExp.IdCliente,
                                 IdEmpleadoVendedor = ContextoSeguridad.UsuarioAutenticado?.Id ?? 0,
                                 IdAlmacen = ventaExp.IdAlmacen,
-                                NumeroFacturaTicket = ventaExp.NumeroTicket,
+                                NumeroFacturaTicket = $"V{DateTime.Today:yyMMddHHmm}{(repoEstadisticasVenta.ObtenerVentasHoy() + 1):0000}",
                                 FechaVenta = ventaExp.FechaVenta,
                                 TotalBruto = ventaExp.TotalBruto,
                                 DescuentoTotal = ventaExp.DescuentoTotal,
@@ -297,29 +296,38 @@ namespace aDVanceERP.Core.Controladores {
                             } catch { /* no crítico */ }
 
                             ventasImportadas++;
-
+                            archivosExitosos.Add(archivo);
                         } catch (Exception innerEx) {
                             errores.Add($"'{Path.GetFileName(archivo)}' " +
                                         $"— venta {ventaExp?.NumeroTicket ?? "<sin ticket>"}: " +
                                         $"{innerEx.Message}");
                         }
                     }
-
                 } catch (Exception exFile) {
                     errores.Add($"Error procesando '{Path.GetFileName(archivo)}': {exFile.Message}");
+                    archivoTieneErrores = true;
                 } finally {
-                    if (eliminarTrasImportar) {
-                        try { File.Delete(archivo); } catch { }
+                    // Solo eliminar si:
+                    // 1. eliminarTrasImportar es true
+                    // 2. Y el archivo no tuvo errores graves
+                    if (eliminarTrasImportar && !archivoTieneErrores) {
+                        try {
+                            File.Delete(archivo);
+                            CentroNotificaciones.MostrarNotificacion(
+                                $"Archivo {Path.GetFileName(archivo)} eliminado después de importar exitosamente.",
+                                TipoNotificacionEnum.Info);
+                        } catch (Exception ex) {
+                            errores.Add($"No se pudo eliminar {Path.GetFileName(archivo)}: {ex.Message}");
+                        }
                     }
                 }
             }
 
             if (ventasImportadas > 0)
-                AgregadorEventos.Publicar("VentasImportadas", string.Empty);
+                AgregadorEventos.Publicar(new EventoVentasPosImportadas());
 
             return new ResultadoImportacion(
                 ventasImportadas,
-                ventasSaltadasDuplicadas,
                 errores);
         }
 

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
@@ -37,7 +37,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             Vista.AlturaContenedorTuplasModificada += OnAlturaContenedorTuplasModificada;
             Vista.SincronizarDatos += OnSincronizarDatos;
 
-            AgregadorEventos.Suscribir("ResultadosBusquedaActualizados", OnResultadosBusquedaActualizados);
+            AgregadorEventos.Suscribir<EventoResultadosBusquedaActualizados<En>>(OnResultadosBusquedaActualizados);
         }
 
         public Re Repositorio => _repositorio;
@@ -95,8 +95,10 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                         foreach (var resultado in datos.resultadosBusqueda)
                             AdicionarTuplaEntidad(resultado.entidadBase, resultado.entidadesExtra);
 
-                        AgregadorEventos.Publicar("ResultadosBusquedaActualizados",
-                            AgregadorEventos.SerializarPayload(datos.resultadosBusqueda));
+                        AgregadorEventos.Publicar(new EventoResultadosBusquedaActualizados<En>() {
+                            Cantidad = datos.cantidad,
+                            Resultados = [.. datos.resultadosBusqueda.Select(r => r.entidadBase)]
+                        });
 
                         _actualizando = false;
                     });
@@ -190,6 +192,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
                 return;
 
             _ultimaAlturaContenedor = alturaActual;
+
             ActualizarResultadosBusqueda();
         }
 
@@ -201,7 +204,7 @@ namespace aDVanceERP.Core.Presentadores.Comun {
             ActualizarResultadosBusqueda();
         }
 
-        private void OnResultadosBusquedaActualizados(string obj) {
+        private void OnResultadosBusquedaActualizados(EventoResultadosBusquedaActualizados<En> e) {
             _cargaDatos.Ocultar();
         }
 

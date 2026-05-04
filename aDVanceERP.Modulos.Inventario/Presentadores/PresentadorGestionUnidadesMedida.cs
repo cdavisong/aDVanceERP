@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Modelos.Comun.Interfaces;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -12,10 +13,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorGestionUnidadesMedida(IVistaGestionUnidadesMedida vista) : base(vista) {
             vista.RegistrarEntidad += OnRegistrarUnidadMedida;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionUnidadesMedida", OnMostrarVistaGestionUnidadesMedida);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionUnidadesMedida>(OnMostrarVistaGestionUnidadesMedida);
         }
 
-        private void OnMostrarVistaGestionUnidadesMedida(string obj) {
+        private void OnMostrarVistaGestionUnidadesMedida(EventoMostrarVistaGestionUnidadesMedida e) {
             CargarDatosComunes();
             
             Vista.Restaurar();
@@ -29,7 +30,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnRegistrarUnidadMedida(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaRegistroUnidadMedida", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroUnidadMedida());
         }
 
         protected override PresentadorTuplaUnidadMedida ObtenerValoresTupla(UnidadMedida entidad, List<IEntidadBaseDatos> entidadesExtra) {
@@ -44,9 +45,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            Vista.RegistrarEntidad -= OnRegistrarUnidadMedida;
+            Vista.RegistrarEntidad += OnRegistrarUnidadMedida;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionUnidadesMedida", OnMostrarVistaGestionUnidadesMedida);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionUnidadesMedida>(OnMostrarVistaGestionUnidadesMedida);
 
             base.Dispose();
         }

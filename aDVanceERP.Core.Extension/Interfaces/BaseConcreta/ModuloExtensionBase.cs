@@ -22,11 +22,14 @@ namespace aDVanceERP.Core.Extension.Interfaces.BaseConcreta {
             _principal = principal;
 
             InicializarVistas();
+            InicializarEventos();
 
             Application.DoEvents();
         }
 
         protected abstract void InicializarVistas();
+
+        protected abstract void InicializarEventos();
 
         public abstract void Apagar();
     }

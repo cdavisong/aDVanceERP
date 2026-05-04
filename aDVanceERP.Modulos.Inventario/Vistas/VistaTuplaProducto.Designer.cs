@@ -47,8 +47,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             fieldFechaUltimoMovimiento = new Label();
             fieldId = new Label();
             btnEditar = new Guna2Button();
-            btnMovimientoNegativo = new Guna2Button();
-            btnMovimientoPositivo = new Guna2Button();
+            btnMovimientoDescarga = new Guna2Button();
+            btnMovimientoCarga = new Guna2Button();
             fieldNombreDescripcion = new Label();
             fieldPrecioVentaBase = new Label();
             fieldCodigo = new Label();
@@ -115,8 +115,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             layoutVista.Controls.Add(fieldFechaUltimoMovimiento, 2, 0);
             layoutVista.Controls.Add(fieldId, 0, 0);
             layoutVista.Controls.Add(btnEditar, 11, 0);
-            layoutVista.Controls.Add(btnMovimientoNegativo, 10, 0);
-            layoutVista.Controls.Add(btnMovimientoPositivo, 9, 0);
+            layoutVista.Controls.Add(btnMovimientoDescarga, 10, 0);
+            layoutVista.Controls.Add(btnMovimientoCarga, 9, 0);
             layoutVista.Controls.Add(fieldNombreDescripcion, 3, 0);
             layoutVista.Controls.Add(fieldPrecioVentaBase, 5, 0);
             layoutVista.Controls.Add(fieldCodigo, 1, 0);
@@ -215,49 +215,49 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
             // 
             // btnMovimientoNegativo
             // 
-            btnMovimientoNegativo.Animated = true;
-            btnMovimientoNegativo.AutoRoundedCorners = true;
-            btnMovimientoNegativo.BorderColor = Color.Gainsboro;
-            btnMovimientoNegativo.BorderRadius = 14;
-            btnMovimientoNegativo.BorderThickness = 1;
-            btnMovimientoNegativo.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
-            btnMovimientoNegativo.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
-            btnMovimientoNegativo.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMovimientoNegativo.CustomizableEdges = customizableEdges15;
-            btnMovimientoNegativo.Dock = DockStyle.Fill;
-            btnMovimientoNegativo.FillColor = Color.White;
-            btnMovimientoNegativo.Font = new Font("Segoe UI", 9.75F);
-            btnMovimientoNegativo.ForeColor = Color.White;
-            btnMovimientoNegativo.HoverState.BorderColor = Color.PeachPuff;
-            btnMovimientoNegativo.HoverState.FillColor = Color.PeachPuff;
-            btnMovimientoNegativo.Location = new Point(1133, 3);
-            btnMovimientoNegativo.Name = "btnMovimientoNegativo";
-            btnMovimientoNegativo.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            btnMovimientoNegativo.Size = new Size(31, 31);
-            btnMovimientoNegativo.TabIndex = 18;
+            btnMovimientoDescarga.Animated = true;
+            btnMovimientoDescarga.AutoRoundedCorners = true;
+            btnMovimientoDescarga.BorderColor = Color.Gainsboro;
+            btnMovimientoDescarga.BorderRadius = 14;
+            btnMovimientoDescarga.BorderThickness = 1;
+            btnMovimientoDescarga.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage1");
+            btnMovimientoDescarga.CustomImages.Image = (Image) resources.GetObject("resource.Image1");
+            btnMovimientoDescarga.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnMovimientoDescarga.CustomizableEdges = customizableEdges15;
+            btnMovimientoDescarga.Dock = DockStyle.Fill;
+            btnMovimientoDescarga.FillColor = Color.White;
+            btnMovimientoDescarga.Font = new Font("Segoe UI", 9.75F);
+            btnMovimientoDescarga.ForeColor = Color.White;
+            btnMovimientoDescarga.HoverState.BorderColor = Color.PeachPuff;
+            btnMovimientoDescarga.HoverState.FillColor = Color.PeachPuff;
+            btnMovimientoDescarga.Location = new Point(1133, 3);
+            btnMovimientoDescarga.Name = "btnMovimientoNegativo";
+            btnMovimientoDescarga.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnMovimientoDescarga.Size = new Size(31, 31);
+            btnMovimientoDescarga.TabIndex = 18;
             // 
             // btnMovimientoPositivo
             // 
-            btnMovimientoPositivo.Animated = true;
-            btnMovimientoPositivo.AutoRoundedCorners = true;
-            btnMovimientoPositivo.BorderColor = Color.Gainsboro;
-            btnMovimientoPositivo.BorderRadius = 14;
-            btnMovimientoPositivo.BorderThickness = 1;
-            btnMovimientoPositivo.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage2");
-            btnMovimientoPositivo.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
-            btnMovimientoPositivo.CustomImages.ImageAlign = HorizontalAlignment.Center;
-            btnMovimientoPositivo.CustomizableEdges = customizableEdges17;
-            btnMovimientoPositivo.Dock = DockStyle.Fill;
-            btnMovimientoPositivo.FillColor = Color.White;
-            btnMovimientoPositivo.Font = new Font("Segoe UI", 9.75F);
-            btnMovimientoPositivo.ForeColor = Color.White;
-            btnMovimientoPositivo.HoverState.BorderColor = Color.PeachPuff;
-            btnMovimientoPositivo.HoverState.FillColor = Color.PeachPuff;
-            btnMovimientoPositivo.Location = new Point(1096, 3);
-            btnMovimientoPositivo.Name = "btnMovimientoPositivo";
-            btnMovimientoPositivo.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnMovimientoPositivo.Size = new Size(31, 31);
-            btnMovimientoPositivo.TabIndex = 19;
+            btnMovimientoCarga.Animated = true;
+            btnMovimientoCarga.AutoRoundedCorners = true;
+            btnMovimientoCarga.BorderColor = Color.Gainsboro;
+            btnMovimientoCarga.BorderRadius = 14;
+            btnMovimientoCarga.BorderThickness = 1;
+            btnMovimientoCarga.CustomImages.HoveredImage = (Image) resources.GetObject("resource.HoveredImage2");
+            btnMovimientoCarga.CustomImages.Image = (Image) resources.GetObject("resource.Image2");
+            btnMovimientoCarga.CustomImages.ImageAlign = HorizontalAlignment.Center;
+            btnMovimientoCarga.CustomizableEdges = customizableEdges17;
+            btnMovimientoCarga.Dock = DockStyle.Fill;
+            btnMovimientoCarga.FillColor = Color.White;
+            btnMovimientoCarga.Font = new Font("Segoe UI", 9.75F);
+            btnMovimientoCarga.ForeColor = Color.White;
+            btnMovimientoCarga.HoverState.BorderColor = Color.PeachPuff;
+            btnMovimientoCarga.HoverState.FillColor = Color.PeachPuff;
+            btnMovimientoCarga.Location = new Point(1096, 3);
+            btnMovimientoCarga.Name = "btnMovimientoPositivo";
+            btnMovimientoCarga.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            btnMovimientoCarga.Size = new Size(31, 31);
+            btnMovimientoCarga.TabIndex = 19;
             // 
             // fieldNombreDescripcion
             // 
@@ -395,8 +395,8 @@ namespace aDVanceERP.Modulos.Inventario.Vistas {
         private Label fieldFechaUltimoMovimiento;
         private Label fieldId;
         private Guna2Button btnEditar;
-        private Guna2Button btnMovimientoNegativo;
-        private Guna2Button btnMovimientoPositivo;
+        private Guna2Button btnMovimientoDescarga;
+        private Guna2Button btnMovimientoCarga;
         private Label fieldNombreDescripcion;
         private Label fieldPrecioVentaBase;
         private Label fieldCodigo;

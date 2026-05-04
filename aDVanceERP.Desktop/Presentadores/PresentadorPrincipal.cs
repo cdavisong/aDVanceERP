@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -39,8 +40,8 @@ namespace aDVanceERP.Desktop.Presentadores {
             ((Form)Vista).Shown += OnVistaPrincipalMostrada;
 
             // Contenedor de seguridad
-            AgregadorEventos.Suscribir("EventoUsuarioAutenticado", OnUsuarioAutenticado);
-            AgregadorEventos.Suscribir("EventoSesionCerrada", OnSesionCerrada);
+            AgregadorEventos.Suscribir<EventoUsuarioAutenticado>(OnUsuarioAutenticado);
+            AgregadorEventos.Suscribir<EventoSesionCerrada>(OnSesionCerrada);
         }
 
         public IVistaPrincipal Vista { get; private set; } = null!;
@@ -54,10 +55,10 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.BarraEstado.OcultarTodos();
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
 
-            AgregadorEventos.Publicar("MostrarVistaContenedorSeguridad", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaContenedorSeguridad());
         }
 
-        private void OnUsuarioAutenticado(string obj) {
+        private void OnUsuarioAutenticado(EventoUsuarioAutenticado e) {
             Vista.ModificarVisibilidadBotonesBarraTitulo(true);
             Vista.PanelCentral.Ocultar(nameof(VistaContenedorSeguridad));
             Vista.PanelCentral.Restaurar(nameof(VistaContenedorModulos));
@@ -66,13 +67,13 @@ namespace aDVanceERP.Desktop.Presentadores {
             Modulos.Vista.ActualizarPortadaInicio($"{Program.Version}-beta", ContextoSeguridad.UsuarioAutenticado?.Nombre ?? "invitado");
         }
 
-        private void OnSesionCerrada(string obj) {
+        private void OnSesionCerrada(EventoSesionCerrada e) {
             Vista.ModificarVisibilidadBotonesBarraTitulo(false);
             Vista.PanelCentral.Ocultar(nameof(VistaContenedorModulos));
             Vista.PanelCentral.Restaurar(nameof(VistaContenedorSeguridad));
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorSeguridad));
 
-            AgregadorEventos.Publicar("MostrarVistaAutenticacionUsuario", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaAutenticacionCuentaUsuario());
         }
 
         public void AdicionarBotonBarraTitulo(Guna2Button btnTitulo) {

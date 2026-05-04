@@ -113,7 +113,7 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Maestros {
             return (new CorreoContacto(
                 id: Convert.ToInt64(lector["id_correo_contacto"]),
                 direccionCorreo: Convert.ToString(lector["direccion_correo"]) ?? string.Empty,
-                categoria: Enum.TryParse<CategoriaCorreoContacto>(Convert.ToString(lector["categoria"] ?? "Otro"), out var categoria) ? categoria : CategoriaCorreoContacto.Otro,
+                categoria: Enum.TryParse<CategoriaCorreoContactoEnum>(Convert.ToString(lector["categoria"] ?? "Otro"), out var categoria) ? categoria : CategoriaCorreoContactoEnum.Otro,
                 idPersona: Convert.ToInt64(lector["id_persona"])
             ), new List<IEntidadBaseDatos>());
         }

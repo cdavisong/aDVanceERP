@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos;
 using aDVanceERP.Core.Infraestructura.Temas;
 using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
@@ -50,18 +51,20 @@ namespace aDVanceERP.Desktop.Vistas {
             btnInicio.PerformClick();
 
             // Eventos
-            AgregadorEventos.Suscribir("MostrarInicio", s => btnInicio.PerformClick());
+            AgregadorEventos.Suscribir<EventoMostrarVistaInicio>(OnMostrarVistaInicio);
 
             panelCentral.Resize += (s, e) => { panelCentral.Refresh(); };
             panelCentral.Paint += (s, e) => {
                 FondosAplicacion.DibujarOndasSuaves(e.Graphics, panelCentral.ClientRectangle, 1.0f);
+
                 DibujarPortadaInicio(e.Graphics, panelCentral.ClientRectangle, _version, _nombreUsuario);
             };
-            //pbPortada.Paint += (s, e) => DibujarPortadaInicio(e.Graphics, pbPortada.ClientRectangle, _version, _nombreUsuario);
-            btnInicio.Click += delegate { PanelCentral.OcultarTodos(); };
+            btnInicio.Click += delegate { 
+                PanelCentral.OcultarTodos(); 
+            };
             btnInicio.Click += (s, e) => {
-                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
+                AgregadorEventos.Publicar(new EventoCambioModulo());
+                AgregadorEventos.Publicar(new EventoCambioMenu());
             };
             btnInicio.MouseEnter += delegate {
                 NombreModulo.Text = "Inicio";
@@ -73,12 +76,16 @@ namespace aDVanceERP.Desktop.Vistas {
                 NombreModulo.Hide();
             };
             btnGestorModulos.Click += (s, e) => {
-                AgregadorEventos.Publicar("EventoCambioModulo", string.Empty);
-                AgregadorEventos.Publicar("EventoCambioMenu", string.Empty);
-                AgregadorEventos.Publicar("MostrarVistaContenedorExtensiones", string.Empty);
+                AgregadorEventos.Publicar(new EventoCambioModulo());
+                AgregadorEventos.Publicar(new EventoCambioMenu());
+                AgregadorEventos.Publicar(new EventoMostrarVistaContenedorExtensiones());
             };
 
-            AgregadorEventos.Suscribir("EventoCambioModulo", OnEventoCambioModulo);
+            AgregadorEventos.Suscribir<EventoCambioModulo>(OnEventoCambioModulo);
+        }
+
+        private void OnMostrarVistaInicio(EventoMostrarVistaInicio inicio) {
+            btnInicio.PerformClick();
         }
 
         public void DibujarPortadaInicio(Graphics g, Rectangle rect, string version, string nombreUsuario) {
@@ -202,7 +209,7 @@ namespace aDVanceERP.Desktop.Vistas {
             panelCentral.Refresh();
         }
 
-        private void OnEventoCambioModulo(string obj) {
+        private void OnEventoCambioModulo(EventoCambioModulo e) {
             Restaurar();
         }
 
@@ -227,7 +234,8 @@ namespace aDVanceERP.Desktop.Vistas {
         }
 
         public void Cerrar() {
-            AgregadorEventos.Desuscribir("EventoCambioModulo", OnEventoCambioModulo);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaInicio>(OnMostrarVistaInicio);
+            AgregadorEventos.Desuscribir<EventoCambioModulo>(OnEventoCambioModulo);
 
             PanelCentral?.CerrarTodos();
         }

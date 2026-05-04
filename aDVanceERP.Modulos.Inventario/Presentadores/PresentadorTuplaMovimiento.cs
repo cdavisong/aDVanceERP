@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
 using aDVanceERP.Modulos.Inventario.Interfaces;
@@ -10,12 +11,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void MostrarVistaEdicionMovimiento(object? sender, EventArgs e) {
-            if (sender is not long id)
-                return;
+           var movimiento = RepoMovimiento.Instancia.ObtenerPorId(Vista.Id);
 
-            var entidad = RepoMovimiento.Instancia.ObtenerPorId(id);
-
-            AgregadorEventos.Publicar("MostrarVistaEdicionMovimiento", AgregadorEventos.SerializarPayload(entidad));
+            AgregadorEventos.Publicar(new EventoMostrarVistaEdicionMovimiento() {
+                Movimiento = movimiento!
+            });
         }
 
         public override void Dispose() {

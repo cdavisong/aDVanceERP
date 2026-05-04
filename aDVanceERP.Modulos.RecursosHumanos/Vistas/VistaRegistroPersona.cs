@@ -62,8 +62,8 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas
             set => fieldNombreCompleto.Text = value;
         }
 
-        public TipoDocumento TipoDocumento {
-            get => (TipoDocumento) fieldTipoDocumento.SelectedIndex;
+        public TipoDocumentoEnum TipoDocumento {
+            get => (TipoDocumentoEnum) fieldTipoDocumento.SelectedIndex;
             set => fieldTipoDocumento.SelectedIndex = (int) value;
         }
 
@@ -255,7 +255,7 @@ namespace aDVanceERP.Modulos.RecursosHumanos.Vistas
 
         public void Restaurar() {
             NombreCompleto = string.Empty;
-            TipoDocumento = TipoDocumento.CI;
+            TipoDocumento = TipoDocumentoEnum.CI;
             NumeroDocumento = string.Empty;
             DireccionPrincipal = string.Empty;
             FechaRegistro = DateTime.Now;

@@ -2,19 +2,16 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="Vistas\VistaAprobacionUsuario.cs">
+    <Compile Update="Vistas\VistaAprobacionCuentaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaAutenticacionUsuario.cs">
+    <Compile Update="Vistas\VistaAutenticacionCuentaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Vistas\VistaRegistroUsuario.cs">
+    <Compile Update="Vistas\VistaRegistroCuentaUsuarioLogin.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaGestionCuentasUsuarios.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Vistas\VistaRegistroCuentaUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Vistas\VistaTuplaCuentaUsuario.cs">

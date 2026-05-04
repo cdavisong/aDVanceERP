@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Estadisticas;
@@ -28,18 +29,18 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             vista.ActualizarEvolucionMovimientos += OnActualizarEvolucionMovimientos;
             vista.ActualizarValorAlmacen += OnActualizarValorAlmacen;
 
-            AgregadorEventos.Suscribir("MostrarVistaEstadisticasInventario", OnMostrarVistaEstadisticasInventario);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEstadisticasInventario>(OnMostrarVistaEstadisticasInventario);
         }
 
-        private void OnMostrarVistaEstadisticasInventario(string obj) {
+        private void OnMostrarVistaEstadisticasInventario(EventoMostrarVistaEstadisticasInventario e) {
             Vista.Restaurar();
 
-            CargarDatos();
+            CargarDatosComunes();
 
             Vista.Mostrar();
         }
 
-        private void CargarDatos() {
+        private void CargarDatosComunes() {
             ResolverSimboloMonedaBase();
             Task.Run(() => _repo.ObtenerMetricas())
                 .ContinueWith(t => {
@@ -68,7 +69,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         private void OnActualizarTodo(object? sender, EventArgs e) {
-            CargarDatos();
+            CargarDatosComunes();
         }
 
         private void OnActualizarEvolucionMovimientos(object? sender, PaintEventArgs e) {
@@ -308,14 +309,16 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaEstadisticasInventario", OnMostrarVistaEstadisticasInventario);
+            Vista.ActualizarTodo -= OnActualizarTodo;
+            Vista.ActualizarEvolucionMovimientos -= OnActualizarEvolucionMovimientos;
+            Vista.ActualizarValorAlmacen -= OnActualizarValorAlmacen;
+
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEstadisticasInventario>(OnMostrarVistaEstadisticasInventario);
 
             Vista.Cerrar();
         }
 
         #region HELPERS:
-
-       
 
         private static void DibujarEstadoVacio(Graphics g, Rectangle rect, string mensaje) {
             using var f = new Font("Segoe UI", 9.5f, FontStyle.Regular);

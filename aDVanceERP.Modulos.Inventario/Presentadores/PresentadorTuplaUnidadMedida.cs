@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -16,7 +17,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             var entidad = RepoUnidadMedida.Instancia.ObtenerPorId(id);
 
-            AgregadorEventos.Publicar("MostrarVistaEdicionUnidadMedida", AgregadorEventos.SerializarPayload(entidad));
+            AgregadorEventos.Publicar(new EventoMostrarVistaEdicionUnidadMedida() { 
+                UnidadMedida = entidad!
+            });
         }
 
         public override void Dispose() {

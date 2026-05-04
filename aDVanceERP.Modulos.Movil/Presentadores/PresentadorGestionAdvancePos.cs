@@ -1,5 +1,5 @@
 using aDVanceERP.Core.Controladores;
-using aDVanceERP.Core.Eventos;
+using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Extension.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -125,7 +125,7 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
             var resultado = _importador.Procesar(
                 archivos,
                 registrarEnCaja: CajaModuloCargado(),
-                eliminarTrasImportar: false);
+                eliminarTrasImportar: true);
 
             MostrarResumenImportacion(resultado);
         }
@@ -234,7 +234,6 @@ namespace aDVanceERP.Modulos.Movil.Presentadores {
         private void MostrarResumenImportacion(ImportadorVentasPos.ResultadoImportacion r) {
             var sb = new StringBuilder();
             sb.AppendLine($"Ventas importadas: {r.VentasImportadas}");
-            sb.AppendLine($"Ventas duplicadas omitidas: {r.VentasDuplicadasOmitidas}");
 
             if (r.Errores.Count > 0) {
                 sb.AppendLine();

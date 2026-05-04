@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
 using aDVanceERP.Core.Presentadores.Comun;
 using aDVanceERP.Core.Repositorios.Modulos.Inventario;
@@ -9,45 +10,63 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         public PresentadorTuplaProducto(IVistaTuplaProducto vista, Producto objeto) : base(vista, objeto) {
             vista.EditarDatosTupla += MostrarVistaEdicionProducto;
             vista.GestionarPresentaciones += MostrarVistaGestionPresentacionProducto;
-            vista.MovimientoPositivoStock += MostrarVistaRegistroMovimientoPos;
-            vista.MovimientoNegativoStock += MostrarVistaRegistroMovimientoNeg;
+            vista.MovimientoCarga += MostrarVistaRegistroMovimientoCarga;
+            vista.MovimientoDescarga += MostrarVistaRegistroMovimientoDescarga;
         }
 
         private void MostrarVistaEdicionProducto(object? sender, EventArgs e) {
-            AgregadorEventos.Publicar("MostrarVistaEdicionProducto", AgregadorEventos.SerializarPayload(sender));
+            var almacen = Vista.Almacen;
+            var producto = RepoProducto.Instancia.ObtenerPorId(Vista.Id);
+            var inventarioProducto = RepoInventario
+                .Instancia
+                .Buscar(FiltroBusquedaInventario.IdProducto, producto?.Id.ToString() ?? "0")
+                .resultadosBusqueda
+                .Select(r => r.entidadBase);
+
+            AgregadorEventos.Publicar(new EventoMostrarVistaEdicionProducto() {
+                Almacen = almacen!,
+                Producto = producto!,
+                Inventario = inventarioProducto
+            });
         }
 
         private void MostrarVistaGestionPresentacionProducto(object? sender, EventArgs e) {
-            if (sender is not object[] datos)
-                return;
+            var almacen = Vista.Almacen;
+            var producto = RepoProducto.Instancia.ObtenerPorId(Vista.Id);
 
-            if (datos[0] is not long id)
-                return;
-
-            var entidad = RepoProducto.Instancia.ObtenerPorId(id);
-
-            AgregadorEventos.Publicar("MostrarVistaGestionPresentacionProducto", AgregadorEventos.SerializarPayload(new object[] { entidad!, datos[1] }));
+            AgregadorEventos.Publicar(new EventoMostrarVistaGestionPresentacionProducto() {
+                Almacen = almacen!,
+                Producto = producto!,
+            });
         }
 
-        private void MostrarVistaRegistroMovimientoPos(object? sender, Almacen almacen) {
-            var nombreAlmacen = sender as string;
-            var objetoPos = new object[] { Entidad, "+" };
+        private void MostrarVistaRegistroMovimientoCarga(object? sender, EventArgs e) {
+            var almacenDestino = Vista.Almacen;
+            var producto = RepoProducto.Instancia.ObtenerPorId(Vista.Id);
 
-            AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", AgregadorEventos.SerializarPayload(objetoPos));
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroMovimiento() {
+                EfectoMovimiento = EfectoMovimientoEnum.Carga,
+                AlmacenDestino = almacenDestino!,
+                Producto = producto!
+            });
         }
 
-        private void MostrarVistaRegistroMovimientoNeg(object? sender, Almacen almacen) {
-            var nombreAlmacen = sender as string;
-            var objetoNeg = new object[] { Entidad, "-" };
+        private void MostrarVistaRegistroMovimientoDescarga(object? sender, EventArgs e) {
+            var almacenOrigen = Vista.Almacen;
+            var producto = RepoProducto.Instancia.ObtenerPorId(Vista.Id);
 
-            AgregadorEventos.Publicar("MostrarVistaRegistroMovimiento", AgregadorEventos.SerializarPayload(objetoNeg));
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroMovimiento() {
+                EfectoMovimiento = EfectoMovimientoEnum.Descarga,
+                AlmacenOrigen = almacenOrigen!,
+                Producto = producto!
+            });
         }
 
         public override void Dispose() {
             Vista.EditarDatosTupla -= MostrarVistaEdicionProducto;
             Vista.GestionarPresentaciones -= MostrarVistaGestionPresentacionProducto;
-            Vista.MovimientoPositivoStock -= MostrarVistaRegistroMovimientoPos;
-            Vista.MovimientoNegativoStock -= MostrarVistaRegistroMovimientoNeg;
+            Vista.MovimientoCarga -= MostrarVistaRegistroMovimientoCarga;
+            Vista.MovimientoDescarga -= MostrarVistaRegistroMovimientoDescarga;
 
             base.Dispose();
         }

@@ -1,4 +1,4 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -78,6 +78,14 @@ namespace aDVanceERP.Modulos.Venta.Presentadores {
             presentadorTupla.Vista.EstadoPago = entidad.EstadoPago;
 
             return presentadorTupla;
+        }
+
+        public override void Dispose() {
+            Vista.RegistrarEntidad -= OnRegistrarPago;
+
+            AgregadorEventos.Desuscribir("MostrarVistaGestionPagosVenta", OnMostrarVistaGestionPagosVenta);
+
+            base.Dispose();
         }
     }
 }

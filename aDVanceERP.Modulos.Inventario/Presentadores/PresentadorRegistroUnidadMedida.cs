@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
 using aDVanceERP.Core.Modelos.Modulos.Inventario;
@@ -9,29 +10,21 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     internal class PresentadorRegistroUnidadMedida : PresentadorVistaRegistro<IVistaRegistroUnidadMedida, UnidadMedida, RepoUnidadMedida, FiltroBusquedaUnidadMedida> {
         public PresentadorRegistroUnidadMedida(IVistaRegistroUnidadMedida vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroUnidadMedida", OnMostrarVistaRegistroUnidadMedida);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionUnidadMedida", OnMostrarVistaEdicionUnidadMedida);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroUnidadMedida>(OnMostrarVistaRegistroUnidadMedida);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionUnidadMedida>(OnMostrarVistaEdicionUnidadMedida);
         }
 
-        private void OnMostrarVistaRegistroUnidadMedida(string obj) {
+        private void OnMostrarVistaRegistroUnidadMedida(EventoMostrarVistaRegistroUnidadMedida e) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();        
             Vista.Mostrar();
         }
 
-        private void OnMostrarVistaEdicionUnidadMedida(string obj) {
+        private void OnMostrarVistaEdicionUnidadMedida(EventoMostrarVistaEdicionUnidadMedida e) {
             Vista.ModoEdicion = true;
             Vista.Restaurar();
 
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            var unidadMedida = AgregadorEventos.DeserializarPayload<UnidadMedida>(obj);
-
-            if (unidadMedida == null)
-                return;
-
-            PopularVistaDesdeEntidad(unidadMedida);
+            PopularVistaDesdeEntidad(e.UnidadMedida);
 
             Vista.Mostrar();
         }
@@ -55,7 +48,9 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         protected override async void RegistroEdicionAuxiliar(RepoUnidadMedida repositorio, long id) {
             if (!Vista.ModoEdicion)
-                AgregadorEventos.Publicar("UnidadMedidaRegistrada", AgregadorEventos.SerializarPayload(Entidad));
+                AgregadorEventos.Publicar(new EventoUnidadMedidaRegistrada() { 
+                    UnidadMedida = Entidad!
+                });
         }
 
         protected override bool EntidadCorrecta() {
@@ -71,8 +66,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroUnidadMedida", OnMostrarVistaRegistroUnidadMedida);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionUnidadMedida", OnMostrarVistaEdicionUnidadMedida);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaRegistroUnidadMedida>(OnMostrarVistaRegistroUnidadMedida);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEdicionUnidadMedida>(OnMostrarVistaEdicionUnidadMedida);
 
             base.Dispose();
         }

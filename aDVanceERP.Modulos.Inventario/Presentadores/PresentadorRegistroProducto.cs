@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Infraestructura.Helpers.Comun;
 using aDVanceERP.Core.Modelos.Comun;
@@ -12,16 +13,15 @@ using aDVanceERP.Modulos.Inventario.Interfaces;
 
 namespace aDVanceERP.Modulos.Inventario.Presentadores {
     public class PresentadorRegistroProducto : PresentadorVistaRegistro<IVistaRegistroProducto, Producto, RepoProducto, FiltroBusquedaProducto> {
-        private Moneda? _monedaBase;
+        private Almacen? _almacen = null!;
+        private Moneda? _monedaBase = null!;
 
         public PresentadorRegistroProducto(IVistaRegistroProducto vista) : base(vista) {
-            AgregadorEventos.Suscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
-            AgregadorEventos.Suscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+            AgregadorEventos.Suscribir<EventoMostrarVistaRegistroProducto>(OnMostrarVistaRegistroProducto);
+            AgregadorEventos.Suscribir<EventoMostrarVistaEdicionProducto>(OnMostrarVistaEdicionProducto);
         }
 
-        public Almacen? Almacen { get; set; }
-
-        private void OnMostrarVistaRegistroProducto(string obj) {
+        private void OnMostrarVistaRegistroProducto(EventoMostrarVistaRegistroProducto e) {
             Vista.ModoEdicion = false;
             Vista.Restaurar();
 
@@ -30,51 +30,29 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.Mostrar();
         }
 
-        private void OnMostrarVistaEdicionProducto(string obj) {
+        private void OnMostrarVistaEdicionProducto(EventoMostrarVistaEdicionProducto e) {
             Vista.ModoEdicion = true;
             Vista.Restaurar();
 
-            if (string.IsNullOrEmpty(obj))
-                return;
-
-            CargarDatosComunes();
-
-            var datos = AgregadorEventos.DeserializarPayload<object[]>(obj);
-            var idProducto = !string.IsNullOrEmpty(datos[1]?.ToString())
-                ? AgregadorEventos.DeserializarPayload<long>(datos[0].ToString())
-                : 0;
-            var producto = RepoProducto.Instancia.ObtenerPorId(idProducto);
-            
-            if (producto == null)
-                return;
-
-            var almacen = !string.IsNullOrEmpty(datos[1]?.ToString())
-                ? AgregadorEventos.DeserializarPayload<Almacen>(datos[1].ToString())
-                : null;
-
-            if (almacen != null)
-                Almacen = almacen;
-           
-            PopularVistaDesdeEntidad(producto);
+            CargarDatosComunes(e.Almacen);
+            PopularVistaDesdeEntidad(e.Producto);
 
             Vista.Mostrar();
         }
 
-        private void CargarDatosComunes() {
+        private void CargarDatosComunes(Almacen almacen = null!) {
             var monedas = RepoMoneda.Instancia.ObtenerActivas();
 
+            _almacen = almacen;
+            _monedaBase = monedas.FirstOrDefault(m => m.EsBase);
+
+            if (_monedaBase != null)
+                Vista.ActualizarSimboloMoneda(_monedaBase.Simbolo);
             Vista.CargarProveedores([.. RepoProveedor.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarUnidadesMedida([.. RepoUnidadMedida.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarClasificaciones([.. RepoClasificacionProducto.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
             Vista.CargarAlmacenes([.. RepoAlmacen.Instancia.ObtenerTodos().Select(r => r.entidadBase)]);
-            Vista.CargarMonedas([.. monedas]);
-
-            // Cachear la moneda base para usar en la conversión
-            _monedaBase = monedas.FirstOrDefault(m => m.EsBase);
-
-            // Símbolo inicial = moneda base
-            if (_monedaBase != null)
-                Vista.ActualizarSimboloMoneda(_monedaBase.Simbolo);
+            Vista.CargarMonedas([.. monedas]);            
         }
 
         public override void PopularVistaDesdeEntidad(Producto entidad) {
@@ -107,18 +85,13 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
             // En edición, el costo almacenado ya está en CUP base.
             // Se muestra en la moneda base y el combo se deja en base.
-            Vista.CostoUnitario = entidad.Categoria == CategoriaProductoEnum.Mercancia
-                                  || entidad.Categoria == CategoriaProductoEnum.MateriaPrima
-                ? entidad.CostoAdquisicionUnitario
-                : entidad.Categoria == CategoriaProductoEnum.ProductoTerminado
-                    ? entidad.CostoProduccionUnitario
-                    : 0m;
+            Vista.CostoUnitario = entidad.ObtenerCostoUnitario();
 
             Vista.MonedaCosto = _monedaBase; // siempre base en edición
             Vista.ImpuestoVentaPorcentaje = entidad.ImpuestoVentaPorcentaje;
             Vista.MargenGananciaDeseado = entidad.MargenGananciaDeseado;
             Vista.PrecioVentaBase = entidad.PrecioVentaBase;
-            Vista.Almacen = Almacen;
+            Vista.Almacen = _almacen;
         }
 
         protected override Producto? ObtenerEntidadDesdeVista() {
@@ -170,7 +143,11 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
 
         protected override async void RegistroEdicionAuxiliar(RepoProducto repositorio, long id) {
             if (!Vista.ModoEdicion)
-                AgregadorEventos.Publicar("ProductoRegistrado", AgregadorEventos.SerializarPayload(new object[] { Entidad!, Vista.Almacen, Vista.CantidadInicial }));
+                AgregadorEventos.Publicar(new EventoProductoRegistrado() {
+                    Producto = Entidad!,
+                    IdAlmacenDestino = Vista.Almacen?.Id ?? 0,
+                    Cantidad = Vista.CantidadInicial
+                });
         }
 
         protected override bool EntidadCorrecta() {
@@ -214,8 +191,8 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
         }
 
         public override void Dispose() {
-            AgregadorEventos.Desuscribir("MostrarVistaRegistroProducto", OnMostrarVistaRegistroProducto);
-            AgregadorEventos.Desuscribir("MostrarVistaEdicionProducto", OnMostrarVistaEdicionProducto);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaRegistroProducto>(OnMostrarVistaRegistroProducto);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaEdicionProducto>(OnMostrarVistaEdicionProducto);
 
             base.Dispose();
         }

@@ -215,7 +215,7 @@ namespace aDVanceERP.Core.Controladores {
         ///   2. Descarga todos los archivos de ventas disponibles
         ///   3. (Opcional) elimina los archivos del dispositivo tras descarga exitosa
         /// </summary>
-        public List<string> FlujoFinDia(string carpetaDestino, bool eliminarDelDispositivo = false) {
+        public List<string> FlujoFinDia(string carpetaDestino, bool eliminarDelDispositivo = true) {
             var descargados = new List<string>();
 
             if (!CheckDeviceConnection(true)) return descargados;

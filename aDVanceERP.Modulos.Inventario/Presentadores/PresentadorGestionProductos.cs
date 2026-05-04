@@ -1,4 +1,5 @@
-﻿using aDVanceERP.Core.Eventos;
+﻿using aDVanceERP.Core.Eventos.Comun;
+using aDVanceERP.Core.Eventos.Modulos.Inventario;
 using aDVanceERP.Core.Infraestructura.Extensiones.Comun;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Modelos.Comun;
@@ -16,10 +17,10 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             vista.RegistrarEntidad += OnRegistrarProducto;
             vista.GenerarCatalogoProductos += OnGenerarCatalogoProductos;
 
-            AgregadorEventos.Suscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
+            AgregadorEventos.Suscribir<EventoMostrarVistaGestionProductos>(OnMostrarVistaGestionProductos);
         }
 
-        private void OnMostrarVistaGestionProductos(string obj) {
+        private void OnMostrarVistaGestionProductos(EventoMostrarVistaGestionProductos e) {
             CargarDatosComunes();
 
             Vista.Restaurar();
@@ -39,7 +40,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
                 return;
             }
 
-            AgregadorEventos.Publicar("MostrarVistaRegistroProducto", string.Empty);
+            AgregadorEventos.Publicar(new EventoMostrarVistaRegistroProducto());
         }
 
         private void OnGenerarCatalogoProductos(object? sender, EventArgs e) {
@@ -85,7 +86,7 @@ namespace aDVanceERP.Modulos.Inventario.Presentadores {
             Vista.RegistrarEntidad -= OnRegistrarProducto;
             Vista.GenerarCatalogoProductos -= OnGenerarCatalogoProductos;
 
-            AgregadorEventos.Desuscribir("MostrarVistaGestionProductos", OnMostrarVistaGestionProductos);
+            AgregadorEventos.Desuscribir<EventoMostrarVistaGestionProductos>(OnMostrarVistaGestionProductos);
 
             base.Dispose();
         }
