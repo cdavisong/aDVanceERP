@@ -6,5 +6,6 @@ namespace aDVanceERP.Core.Eventos.Modulos.Seguridad {
         public CuentaUsuario CuentaUsuario { get; set; } = null!;
         public Persona Persona { get; set; } = null!;
         public CorreoContacto CorreoContacto { get; set; } = null!;
+        public bool RegistroDesdeAdmin { get; set; } = false;
     }
 }

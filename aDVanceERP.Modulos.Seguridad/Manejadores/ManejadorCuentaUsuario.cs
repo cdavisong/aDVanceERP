@@ -34,7 +34,7 @@ namespace aDVanceERP.Modulos.Seguridad.Manejadores {
                         TipoNotificacionEnum.Error);
                 }
             } else if (e.CuentaUsuario.Id > 0) {
-                if (!e.CuentaUsuario.Aprobado) {
+                if (!e.CuentaUsuario.Aprobado && !e.RegistroDesdeAdmin) {
                     CentroNotificaciones.MostrarNotificacion(
                         "Su solicitud de registro ha sido enviada. Espere la aprobación del administrador.",
                         TipoNotificacionEnum.Info);

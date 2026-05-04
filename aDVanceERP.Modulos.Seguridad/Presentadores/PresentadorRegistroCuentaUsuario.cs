@@ -54,8 +54,7 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                 .entidadBase;
 
             Vista.NombreUsuario = entidad.Nombre;
-            Vista.RolUsuario = rol;
-            
+            Vista.RolUsuario = rol;            
             Vista.NombreCompleto = persona?.NombreCompleto ?? string.Empty;
             Vista.TipoDocumento = persona?.TipoDocumento ?? default;
             Vista.NumeroDocumento = persona?.NumeroDocumento ?? string.Empty;
@@ -100,7 +99,8 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
                 AgregadorEventos.Publicar(new EventoCuentaUsuarioRegistrada() {
                     CuentaUsuario = Entidad!,
                     Persona = persona,
-                    CorreoContacto = Vista.CorreoContacto!
+                    CorreoContacto = Vista.CorreoContacto!,
+                    RegistroDesdeAdmin = true
                 });
             }
         }
