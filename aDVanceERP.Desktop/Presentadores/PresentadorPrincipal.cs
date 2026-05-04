@@ -2,6 +2,7 @@
 using aDVanceERP.Core.Eventos.Modulos.Seguridad;
 using aDVanceERP.Core.Infraestructura.Globales;
 using aDVanceERP.Core.Presentadores.Comun.Interfaces;
+using aDVanceERP.Core.Repositorios.Modulos.Maestros;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 using aDVanceERP.Desktop.Vistas;
 
@@ -64,7 +65,12 @@ namespace aDVanceERP.Desktop.Presentadores {
             Vista.PanelCentral.Restaurar(nameof(VistaContenedorModulos));
             Vista.PanelCentral.Mostrar(nameof(VistaContenedorModulos));
 
-            Modulos.Vista.ActualizarPortadaInicio($"{Program.Version}-beta", ContextoSeguridad.UsuarioAutenticado?.Nombre ?? "invitado");
+            var persona = RepoPersona.Instancia.ObtenerPorId(ContextoSeguridad.UsuarioAutenticado?.IdPersona ?? 0);
+            var nombreConApellidos = persona?.NombreCompleto.Split(' ').Length > 0;
+            var nombreUsuario = ContextoSeguridad.UsuarioAutenticado?.Nombre ?? "invitado";
+            var nombrePersona = persona?.NombreCompleto.Split(' ').FirstOrDefault() ?? nombreUsuario;
+
+            Modulos.Vista.ActualizarPortadaInicio($"{Program.Version}-beta", nombrePersona);
         }
 
         private void OnSesionCerrada(EventoSesionCerrada e) {

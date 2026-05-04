@@ -1,8 +1,6 @@
 ﻿using aDVanceERP.Core.Repositorios.Comun;
 using aDVanceERP.Core.Vistas.Comun.Interfaces;
 
-using static Guna.UI2.Native.WinApi;
-
 namespace aDVanceERP.Desktop.Vistas {
     public partial class VistaPrincipal : Form, IVistaPrincipal {
         public VistaPrincipal() {
