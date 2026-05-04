@@ -104,12 +104,19 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                     {consultaComun} 
                     WHERE LOWER(cu.nombre) LIKE LOWER(@nombre);
                 """,
+                FiltroBusquedaCuentaUsuario.Email => $"""
+                    {consultaComun} 
+                    WHERE LOWER(cu.email) LIKE LOWER(@email);
+                """,
                 _ => consultaComun
             };
 
             parametros = filtroBusqueda switch {
                 FiltroBusquedaCuentaUsuario.Nombre => new Dictionary<string, object> {
                     { "@nombre", $"%{critero}%" }
+                },
+                FiltroBusquedaCuentaUsuario.Email => new Dictionary<string, object> {
+                    { "@email", $"%{critero}%" }
                 },
                 _ => new Dictionary<string, object>()
             };
@@ -124,14 +131,14 @@ namespace aDVanceERP.Core.Repositorios.Modulos.Seguridad {
                 Nombre = Convert.ToString(lectorDatos["nombre"]),
                 PasswordHash = Convert.ToString(lectorDatos["password_hash"]),
                 PasswordSalt = Convert.ToString(lectorDatos["password_salt"]),
-                Email = lectorDatos["email"] == DBNull.Value 
-                    ? string.Empty 
+                Email = lectorDatos["email"] == DBNull.Value
+                    ? string.Empty
                     : Convert.ToString(lectorDatos["email"]),
                 IdRol = Convert.ToInt64(lectorDatos["id_rol"]),
                 Administrador = Convert.ToBoolean(lectorDatos["administrador"]),
                 Aprobado = Convert.ToBoolean(lectorDatos["aprobado"]),
                 Estado = Convert.ToBoolean(lectorDatos["estado"]),
-                UltimoAcceso = lectorDatos["ultimo_acceso"] == DBNull.Value 
+                UltimoAcceso = lectorDatos["ultimo_acceso"] == DBNull.Value
                     ? null
                     : Convert.ToDateTime(lectorDatos["ultimo_acceso"])
             }, new List<IEntidadBaseDatos>());

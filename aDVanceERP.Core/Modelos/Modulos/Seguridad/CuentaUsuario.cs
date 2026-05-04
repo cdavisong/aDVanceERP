@@ -17,6 +17,7 @@ namespace aDVanceERP.Core.Modelos.Modulos.Seguridad {
 
     public enum FiltroBusquedaCuentaUsuario {
         Todos,
-        Nombre
+        Nombre,
+        Email
     }
 }

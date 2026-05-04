@@ -39,8 +39,20 @@ namespace aDVanceERP.Modulos.Seguridad.Presentadores {
 
             try {
                 using (var repoUsuario = new RepoCuentaUsuario()) {
-                    var (cantidad, resultados) = repoUsuario.Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario);
-                    var cuentaUsuario = resultados.FirstOrDefault().entidadBase;
+                    var cuentaUsuario = repoUsuario
+                        .Buscar(FiltroBusquedaCuentaUsuario.Nombre, Vista.NombreUsuario)
+                        .resultadosBusqueda
+                        .FirstOrDefault()
+                        .entidadBase;
+
+                    // Verificar por email si no se encontró por nombre de usuario
+                    if (cuentaUsuario == null && Vista.NombreUsuario.Contains('@')) {
+                        cuentaUsuario = repoUsuario
+                            .Buscar(FiltroBusquedaCuentaUsuario.Email, Vista.NombreUsuario)
+                            .resultadosBusqueda
+                            .FirstOrDefault()
+                            .entidadBase;
+                    }
 
                     if (cuentaUsuario == null) {
                         CentroNotificaciones.MostrarNotificacion(
